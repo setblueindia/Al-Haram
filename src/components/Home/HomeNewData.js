@@ -10,11 +10,18 @@ const HomeNewData = () => {
   const [categories, setCategories] = useState([]); 
   const [clickedCategory, setClickedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [store_Id, setstore_Id] = useState(1);
   useEffect(() => {
     // const storeId = 1;
     const category_id = 4;
     CategoryAPI(store_Id, category_id)
+=======
+  useEffect(() => {
+    const storeId = 1;
+    const category_id = 4;
+    CategoryAPI(storeId, category_id)
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
       .then(responseData => {
         if (responseData.status === 1 && responseData.data) {
           const categoryData = responseData.data;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // productsSlice.js
 
 import { createSlice } from '@reduxjs/toolkit';
@@ -24,15 +25,35 @@ const productsSlice = createSlice({
     productsFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+=======
+import { createSlice } from '@reduxjs/toolkit';
+
+const productsSlice = createSlice({
+  name: 'products',
+  initialState: {
+    products: [],
+  },
+  reducers: {
+    setproducts: (state, action) => {
+      state.categories = action.payload;
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     },
   },
 });
 
+<<<<<<< HEAD
 export const { productsStart, productsSuccess, productsFailure } = productsSlice.actions;
+=======
+export const { setproducts } = productsSlice.actions;
+
+
+export const selectproducts = (state) => state.category.categories;
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 
 export default productsSlice.reducer;
 
 
+<<<<<<< HEAD
 
 // import { createSlice } from '@reduxjs/toolkit';
 
@@ -177,3 +198,5 @@ export default productsSlice.reducer;
 // // // export const { ProductsStart, ProductsSuccess, ProductsFailure } = productsSlice.actions;
 // // // export const selectproducts = (state) => state.category.categories;
 // // // export default productsSlice.reducer;
+=======
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c

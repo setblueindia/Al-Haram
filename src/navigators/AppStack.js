@@ -2,9 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Image, View, Text, ScrollView,
   Dimensions,
+<<<<<<< HEAD
   StyleSheet, Animated, Linking, TextInput,  FlatList,ActivityIndicator, 
 } from 'react-native';
 import { createDrawerNavigator} from '@react-navigation/drawer';
+=======
+  StyleSheet, I18nManager, Animated, Linking, TextInput,  FlatList,ActivityIndicator, Alert
+} from 'react-native';
+import {
+  createDrawerNavigator,
+} from '@react-navigation/drawer';
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import Home from '../components/Home/Home';
@@ -24,7 +32,11 @@ import OTPVerification from '../components/OtpScreen/OTPVerification';
 import Categorybanner from '../components/Categorybanner/Categorybanner';
 import { useDispatch, useSelector } from 'react-redux';
 import { CategoryDrawerList } from '../redux/mainStack/mainStackApi';
+<<<<<<< HEAD
 import {drawerListStart, drawerListSuccess,drawerListFailure} from '../redux/DrawerList/drawerListSlice';
+=======
+import { setCategories, selectCategories } from '../redux/DrawerList/DrawerListSlice';
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 import CustomHeader from '../components/CustomHeader/CustomHeader';
 import Products from '../components/Products/Products';
 import AddressBookScreen from '../components/AddressBook/AddressBookScreen'
@@ -37,6 +49,11 @@ import HomeNewData from '../components/Home/HomeNewData';
 import MainProduct from '../components/MainProduct/MainProduct';
 import AddToCart from '../components/AddToCart/AddToCart'
 import ForgotPassword from '../components/Forgot Password/ForgotPassword';
+<<<<<<< HEAD
+=======
+import NumberOfItems from '../components/NumberOfItems/NumberOfItems';
+import Register from '../components/Registor/Registor';
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 import Signup from '../components/Signup/Signup';
 const DrawerNavigator = createDrawerNavigator();
 const TabNavigator = createBottomTabNavigator();
@@ -511,6 +528,7 @@ const Tabs = () => {
 };
 const { width, height } = Dimensions.get('window');
 const DrawerContent = props => {
+<<<<<<< HEAD
   const toggleSubcategoriesVisibility = (categoryId) => {
     // If the clicked category is already visible, hide it; otherwise, show it
     setIsselectedCategoryvisible((prevState) => prevState ? false : true);
@@ -518,6 +536,12 @@ const DrawerContent = props => {
   };
   const [isselectedCategoryvisible, setIsselectedCategoryvisible] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+=======
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+  const [clickedCategory, setClickedCategory] = useState(null);
+  const [store_id, setstore_id] = useState(1)
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userData, setUserData] = useState(null); 
@@ -535,6 +559,7 @@ const DrawerContent = props => {
         console.error('Error retrieving user data from AsyncStorage:', error);
       });
   }, []);
+<<<<<<< HEAD
   const [store_id, setstore_id] = useState(1)
   const dispatch = useDispatch(); 
   useEffect(() => {
@@ -717,6 +742,50 @@ const changeLanguageButtonHandler = async () => {
   }
   changeLanguage(langCode);
 };
+=======
+  
+  useEffect(() => {
+    
+    AsyncStorage.getItem('userData')
+      .then((userData) => {
+        if (userData) {
+          const { firstname, lastname } = JSON.parse(userData);
+          setFirstName(firstname);
+          setLastName(lastname);
+          setUserData({ firstName: firstname, lastName: lastname });
+        }
+      })
+      .catch((error) => {
+        console.error('Error retrieving user data from AsyncStorage:', error);
+      });
+    const storeId = store_id;
+    setLoading(true)
+    CategoryDrawerList(storeId)
+      .then(responseData => {
+        console.log("listdata::", responseData);
+        setLoading(false);
+        dispatch(setCategories(responseData.data));
+        if (responseData.data.length > 0) {
+          setClickedCategory(responseData.data[0]);
+          setChildrenData(responseData.data[0].children_data || []);
+        }
+      })
+      .catch(error => {
+        console.error('Error responseData:111', error);
+      });
+  }, [dispatch]);
+ 
+  const [loading, setLoading] = useState(false);
+  const [isWomenFashionVisible, setIsWomenFashionVisible] = useState(false);
+  const [isSubWomenFashionVisible, setIsSubWomenFashionVisible] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const { t, i18n } = useTranslation();
+  const changeLanguageButtonHandler = () => {
+
+    const langCode = i18n.language === 'en' ? 'ar' : 'en';
+    changeLanguage(langCode);
+  };
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   const [showLanguagesList, setShowLanguagesList] = useState(true);
   const handleInstagramPress = () => {
     const instagramURL = 'https://www.instagram.com/alharamksa/';
@@ -735,6 +804,7 @@ const changeLanguageButtonHandler = async () => {
     setShowLanguagesList(false);
     console.log('Selected Language:', t(lang));
   };
+<<<<<<< HEAD
   const navigation = useNavigation();
   const handleLoginPress = () => {
     navigation.navigate('Login');
@@ -752,11 +822,58 @@ const changeLanguageButtonHandler = async () => {
     }}>
               <View style={{flexDirection:"row",height:height*10/100,}}>
             <Image
+=======
+  useEffect(() => {
+  if (selectedCategory !== null) {
+    setlist(selectedCategory);
+  }
+}, [selectedCategory]);
+  const [childrenData, setChildrenData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isselectedCategoryvisible, setselectedCategoryvisible] = useState(false)
+  const [list, setlist] = useState(null);
+  const navigation = useNavigation();
+  const handleLogin = () => {
+
+    const firstname = 'John'; // Example value
+    const lastname = 'Doe'; // Example value
+    setFirstName(firstname);
+    setLastName(lastname);
+    // Navigate to the login screen
+    navigation.navigate('Login');
+  };
+  
+  const handleLogoutPress = () => {
+    if (firstName && lastName) {
+      AsyncStorage.removeItem('userData')
+        .then(() => {
+          setFirstName('');
+          setLastName('');
+          setUserData(null); 
+          // props.navigation.navigate('Login'); 
+        })
+        .catch((error) => {
+          console.error('Error removing user data from AsyncStorage:', error);
+        });
+    } else {
+      // props.navigation.navigate('Login'); 
+    }
+  };
+  
+  
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={{}}>
+        <View style={{ padding: 20, }}>
+          <View style={{ flexDirection: 'row' }}>
+          <Image
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
               source={
                 userData
                   ? require('../assests/user.png')
                   : require('../assests/userhand.png') 
               }
+<<<<<<< HEAD
               style={{ width: 50, height: 50, tintColor: '#980404',margin:10 }}
             />
              <View style={{ alignSelf: 'center', marginHorizontal:5  }}>
@@ -776,6 +893,24 @@ const changeLanguageButtonHandler = async () => {
 </View>
 </TouchableOpacity>
             </View>
+=======
+              style={{ width: 50, height: 50, tintColor: '#980404' }}
+            />
+    
+            <View style={{ alignSelf: 'center', paddingHorizontal: 10, flex: 1 }}>
+            <Text style={{ color: '#9f0202', fontSize: 18, fontWeight: 'bold' }}>
+  {`${firstName ? firstName : 'Login'} ${lastName ? lastName : ''}`}
+</Text>
+
+            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+
+            <View style={{ alignSelf: 'center' ,padding:5}}>
+            <Feather name="edit" size={20} color="#9f0202" />
+            
+            </View>
+            </TouchableOpacity>
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
           </View>
         </View>
         <View style={{ height: 1, backgroundColor: 'black', margin: 10 }} />
@@ -783,20 +918,336 @@ const changeLanguageButtonHandler = async () => {
       <ScrollView>
         <View style={{ paddingHorizontal: 20 }}>
           <View>
+<<<<<<< HEAD
               <FlatList
               data={categories}
               renderItem={renderCategoryItem}
             /> 
+=======
+            {loading ? (
+             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+             <ActivityIndicator size="large" color="#0000ff" />
+             {/* <Image source={require('../../assests/gif/app_Loader.gif')} style={{ width: 50, height: 50 }} /> */}
+           </View>
+            ) : (
+              <FlatList
+              data={categories.children_data}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => {
+                return (
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        paddingVertical: 10,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => {
+                          console.log("Pressed item id:", item.id);
+                          setSelectedCategory(item.id);
+                          setselectedCategoryvisible(!isselectedCategoryvisible);
+                          // navigation.navigate('Categorybanner');
+                        // Alert.alert("hello")
+                          navigation.navigate('Categorybanner', { categoryId: item.id });
+                        }}
+                      >
+                        <Text
+                          style={{
+                            textTransform: 'uppercase',
+                            color: '#040404',
+                            fontWeight: '600',
+                            letterSpacing: 0.3,
+                            fontSize: 15,
+                          }}
+                        >
+                          {item.name}
+                        
+                        </Text>
+                      </TouchableOpacity>
+                      <View style={{ alignSelf: 'center' }}>
+                        <MaterialIcons
+                        name={
+                          isselectedCategoryvisible
+                            ? 'keyboard-arrow-down'
+                            : 'keyboard-arrow-right'
+                        }
+            
+                          size={25}
+                          color="black"
+                        />
+                      </View>
+                    </View>
+                    {selectedCategory === item.id && (
+              <FlatList
+                data={item.children_data}
+                keyExtractor={(childItem) => childItem.id.toString()}
+                renderItem={({ item: childItem }) => (
+                  <View>
+                    <TouchableOpacity onPress={() => {
+                          // setChildrenData(item.children_data || []);
+                          console.log("Pressed2 item id:", item.id);
+                          setlist(item.id)
+                          
+                        }}>     
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginLeft: 10,
+                            color: '#2D3250',
+                            padding: 10,
+                            fontWeight: '600',
+                            fontSize: 14,
+                          }}
+                        >
+                          {childItem.name}
+                        </Text>
+                        <View style={{ alignSelf: 'center' }}>
+                          <MaterialIcons
+                            name={'keyboard-arrow-right'}
+                            size={25}
+                            color="black"
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                    {childItem.children_data &&
+                      childItem.children_data.map((nestedChild) => (
+                        <TouchableOpacity key={nestedChild.id}>
+                            {list === item.id && (
+                         <View> 
+                             <Text
+                             style={{
+                               marginLeft: 30,
+                               color: '#647D87',
+                               padding: 5,
+                             }}
+                           >
+                             {nestedChild.name}
+                           </Text>
+                           <View
+                             style={{
+                               marginLeft: 30,
+                               color: '#647D87',
+                               padding: 3,
+                               borderBottomWidth: 1,
+                               borderBottomColor: '#BFCFE7',
+                             }}
+                           />
+                         </View>
+                         )}
+                        </TouchableOpacity>
+                      ))}
+                  </View>
+                )}
+              />
+            )} 
+                  </View>
+                );
+              }}
+            /> 
+            )}
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
           </View>
         </View>
       </ScrollView>
       
+<<<<<<< HEAD
       <View style={{ marginBottom: 60 }}>
         <View style={{ paddingHorizontal: 20, padding: 10 }}>
           {(firstName && lastName) ? (
             null
           ) : (
             <TouchableOpacity onPress={handleLoginPress}>
+=======
+      {/* <ScrollView>
+        <View style={{ paddingHorizontal: 20, }}>
+          <View>
+         
+   <FlatList
+              data={categories.children_data}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => {
+                return (
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        paddingVertical: 10,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => {
+                          console.log("Pressed item id:", item.id);
+                          setSelectedCategory(item.id);
+                          setselectedCategoryvisible(!isselectedCategoryvisible);
+                          // navigation.navigate('Categorybanner');
+                        // Alert.alert("hello")
+                          navigation.navigate('Categorybanner', { categoryId: item.id });
+                        }}
+                      >
+                        <Text
+                          style={{
+                            textTransform: 'uppercase',
+                            color: '#040404',
+                            fontWeight: '600',
+                            letterSpacing: 0.3,
+                            fontSize: 15,
+                          }}
+                        >
+                          {item.name}
+                        
+                        </Text>
+                      </TouchableOpacity>
+                      <View style={{ alignSelf: 'center' }}>
+                        <MaterialIcons
+                        name={
+                          isselectedCategoryvisible
+                            ? 'keyboard-arrow-down'
+                            : 'keyboard-arrow-right'
+                        }
+            
+                          size={25}
+                          color="black"
+                        />
+                      </View>
+                    </View>
+                    {selectedCategory === item.id && (
+              <FlatList
+                data={item.children_data}
+                keyExtractor={(childItem) => childItem.id.toString()}
+                renderItem={({ item: childItem }) => (
+                  <View>
+                    <TouchableOpacity onPress={() => {
+                          // setChildrenData(item.children_data || []);
+                          console.log("Pressed2 item id:", item.id);
+                          setlist(item.id)
+                          
+                        }}>     
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginLeft: 10,
+                            color: '#2D3250',
+                            padding: 10,
+                            fontWeight: '600',
+                            fontSize: 14,
+                          }}
+                        >
+                          {childItem.name}
+                        </Text>
+                        <View style={{ alignSelf: 'center' }}>
+                          <MaterialIcons
+                            name={'keyboard-arrow-right'}
+                            size={25}
+                            color="black"
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                    {childItem.children_data &&
+                      childItem.children_data.map((nestedChild) => (
+                        <TouchableOpacity key={nestedChild.id}>
+                            {list === item.id && (
+                         <View> 
+                             <Text
+                             style={{
+                               marginLeft: 30,
+                               color: '#647D87',
+                               padding: 5,
+                             }}
+                           >
+                             {nestedChild.name}
+                           </Text>
+                           <View
+                             style={{
+                               marginLeft: 30,
+                               color: '#647D87',
+                               padding: 3,
+                               borderBottomWidth: 1,
+                               borderBottomColor: '#BFCFE7',
+                             }}
+                           />
+                         </View>
+                         )}
+                        </TouchableOpacity>
+                      ))}
+                  </View>
+                )}
+              />
+            )} 
+                  </View>
+                );
+              }}
+            /> 
+
+          </View>
+        </View>
+
+      </ScrollView> */}
+      <View style={{ marginBottom: 60 }}>
+  <View style={{ paddingHorizontal: 20, padding: 10 }}>
+    {(firstName && lastName) ? (
+    null
+      // <TouchableOpacity onPress={handleLogoutPress}>
+      //   <Text
+      //     style={{
+      //       textTransform: 'uppercase',
+      //       color: '#040404',
+      //       fontWeight: '600',
+      //       fontSize: 15,
+      //     }}>
+      //     {`${t('LOGOUT')} `}
+      //   </Text>
+      // </TouchableOpacity>
+    ) : (
+      <TouchableOpacity onPress={firstName && lastName ? handleLogoutPress : handleLogin}>
+        <Text
+          style={{
+            textTransform: 'uppercase',
+            color: '#040404',
+            fontWeight: '600',
+            fontSize: 15,
+          }}>
+          {t('LOGIN')}
+        </Text>
+      </TouchableOpacity>
+    )}
+   
+  </View>
+  <View style={styles.btns}>
+    <TouchableOpacity
+      style={[
+        styles.btn,
+        selectedLanguage === 'en' ? styles.selectedBtn : null,
+
+      ]}
+      onPress={changeLanguageButtonHandler}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center", }}>
+        <Text style={{ color: 'black', marginRight: 5 }}>{i18n.language === 'ar' ? t('English') : t('عربي')}</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+</View>
+
+      {/* <View style={{ marginBottom: 60 }}>
+        <View style={{ paddingHorizontal: 20, padding: 10 }}>
+        {firstName && lastName ? (
+            <TouchableOpacity onPress={handleLogoutPress}>
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
               <Text
                 style={{
                   textTransform: 'uppercase',
@@ -804,9 +1255,28 @@ const changeLanguageButtonHandler = async () => {
                   fontWeight: '600',
                   fontSize: 15,
                 }}>
+<<<<<<< HEAD
                 {t('LOGIN')}
               </Text>
             </TouchableOpacity>
+=======
+                {t('LOGOUT')}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+            <Text
+              style={{
+                textTransform: 'uppercase',
+                color: '#040404',
+                fontWeight: '600',
+                fontSize: 15,
+              }}>
+            {t('LOGIN')}
+            </Text>
+          </TouchableOpacity>
+            
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
           )}
         </View>
         <View style={styles.btns}>
@@ -823,7 +1293,11 @@ const changeLanguageButtonHandler = async () => {
             </View>
           </TouchableOpacity>
         </View>
+<<<<<<< HEAD
       </View>
+=======
+      </View> */}
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
       <View style={styles.footerContainer}>
         <View style={styles.bottomSection}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -871,21 +1345,39 @@ const changeLanguageButtonHandler = async () => {
 };
 const CustomHeaderleft = ({ clicked, searchPhrase, setSearchPhrase, setCLicked }) => {
   const navigation = useNavigation();
+<<<<<<< HEAD
+=======
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   const handleDrawerOpen = () => {
     navigation.openDrawer();
   };
   const [count, setCount] = useState(0);
   const animatedScale = new Animated.Value(1);
+<<<<<<< HEAD
   const animationRef = useRef(null);
+=======
+
+  const animationRef = useRef(null);
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   const playFireworksAnimation = () => {
     if (animationRef.current) {
       animationRef.current.play();
     }
   };
+<<<<<<< HEAD
+=======
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   const HomeScreen = () => {
     navigation.navigate('Home');
   };
   const [animatedValue] = useState(new Animated.Value(1));
+<<<<<<< HEAD
+=======
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   const handlePress = () => {
     // Add your "crackers effect" animation here
     Animated.sequence([
@@ -1092,6 +1584,10 @@ resizeMode="contain"
     </View>
   );
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 export default function AppContainer() {
   const { i18n } = useTranslation();
   const isLanguageHindi = i18n.language === 'ar';
@@ -1177,10 +1673,105 @@ export default function AppContainer() {
         component={AddToCart}
         options={{ headerTitle: '', headerShown: false }}
       />
+<<<<<<< HEAD
+=======
+      <DrawerNavigator.Screen
+      name="NumberOfItems"
+      component={NumberOfItems}
+      options={{ headerTitle: '', headerShown: false }}
+    />
+    <DrawerNavigator.Screen
+      name="Registor"
+      component={Register}
+      options={{ headerTitle: '', headerShown: false }}
+    />
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     </DrawerNavigator.Navigator>
   );
 }
 
+<<<<<<< HEAD
+=======
+// export default function AppContainer() {
+//   const { i18n } = useTranslation();
+//   const isLanguageHindi = i18n.language === 'ar';
+//   const drawerPosition = isLanguageHindi ? 'right' : 'left';
+//   const navigation = useNavigation();
+//   return (
+//     <DrawerNavigator.Navigator
+//       screenOptions={{
+//         drawerPosition: drawerPosition,
+//       }}
+//       drawerContent={props => <DrawerContent {...props} />}
+//     >
+//       <DrawerNavigator.Screen
+//         name="Tabs"
+//         component={Tabs}
+//         options={{
+//           headerTitle: '',
+//           headerLeft: () => {
+//             if (isLanguageHindi) {
+//               return <CustomHeaderRight />;
+//             } else {
+//               return <CustomHeaderleft />;
+//             }
+//           },
+//         }}
+//       />
+//       <DrawerNavigator.Screen
+//         name="Login"
+//         component={LoginStack}
+//         options={{ headerTitle: '', headerShown: false, }}
+//       />
+//        <DrawerNavigator.Screen
+//         name="Products"
+//         component={Products}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//        <DrawerNavigator.Screen
+//         name="Categorybanner"
+//         component={Categorybanner}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//        <DrawerNavigator.Screen
+//         name="Addresslist"
+//         component={Addresslist}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//          <DrawerNavigator.Screen
+//         name="AddressBookScreen"
+//         component={AddressBookScreen}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//        <DrawerNavigator.Screen
+//         name="WishlistPage"
+//         component={WishlistPage}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//        <DrawerNavigator.Screen
+//         name="EditProfile"
+//         component={EditProfile}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//         <DrawerNavigator.Screen
+//         name="HomeNewData"
+//         component={HomeNewData}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//           <DrawerNavigator.Screen
+//         name="MainProduct"
+//         component={MainProduct}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//       <DrawerNavigator.Screen
+//         name="AddToCart"
+//         component={AddToCart}
+//         options={{headerTitle: '', headerShown: false}}
+//       />
+//     </DrawerNavigator.Navigator>
+//   );
+// }
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,

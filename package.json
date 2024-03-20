@@ -15,9 +15,14 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/blur": "^4.4.0",
     "@react-native-community/checkbox": "^0.5.17",
+<<<<<<< HEAD
     "@react-native-community/cli-doctor": "^12.3.6",
     "@react-native-community/slider": "^4.5.0",
     "@react-native-firebase/app": "^18.9.0",
+=======
+    "@react-native-community/slider": "^4.5.0",
+    "@react-native-firebase/app": "^18.8.0",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     "@react-native-firebase/auth": "^18.8.0",
     "@react-native-google-signin/google-signin": "^11.0.0",
     "@react-native-masked-view/masked-view": "^0.3.1",
@@ -31,7 +36,11 @@
     "i18n-js": "^4.3.2",
     "i18next": "^23.7.11",
     "lodash.memoize": "^4.1.2",
+<<<<<<< HEAD
     "lottie-react-native": "^6.7.0",
+=======
+    "lottie-react-native": "^6.5.1",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     "react": "18.2.0",
     "react-i18n": "^1.0.1",
     "react-i18next": "^14.0.0",

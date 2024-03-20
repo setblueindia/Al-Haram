@@ -12,6 +12,7 @@
     "LATEST PRODUCTS":"أحدث المنتجات",
     "GAMES":"ألعاب",
     "SCHOOL":"مدرسة",
+<<<<<<< HEAD
     "LOGIN":"تسجيل الدخول",
     "View All":"عرض الكل",
     "Wishlist":"قائمة الرغبات",
@@ -36,4 +37,7 @@
     "confirm-password":"تأكيد كلمة المرور",
     "Moblie No":"رقم المحمول",
     "Submit":"يُقدِّم"
+=======
+    "LOGIN":"تسجيل الدخول"
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   }

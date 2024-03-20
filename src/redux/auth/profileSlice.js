@@ -28,4 +28,8 @@ const profileUpdateSlice = createSlice({
 
 export const { profileUpdateStart, profileUpdateSuccess, profileUpdateFailure } = profileUpdateSlice.actions;
 
+<<<<<<< HEAD
 export default profileUpdateSlice.reducer;
+=======
+export default profileUpdateSlice.reducer;
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c

@@ -1,20 +1,34 @@
 {
   "project_info": {
+<<<<<<< HEAD
     "project_number": "934068840595",
     "project_id": "alharam-490f8",
     "storage_bucket": "alharam-490f8.appspot.com"
+=======
+    "project_number": "951802654922",
+    "project_id": "alharam-app",
+    "storage_bucket": "alharam-app.appspot.com"
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   "client": [
     {
       "client_info": {
+<<<<<<< HEAD
         "mobilesdk_app_id": "1:934068840595:android:05bea6af2ce31006e74566",
+=======
+        "mobilesdk_app_id": "1:951802654922:android:ef72d9a0121ea044018433",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
         "android_client_info": {
           "package_name": "com.testapplication"
         }
       },
       "oauth_client": [
         {
+<<<<<<< HEAD
           "client_id": "934068840595-2d52o7m43f7tam0hkk018abm2fen7psc.apps.googleusercontent.com",
+=======
+          "client_id": "951802654922-fijav1al7p5ravga657pfsfe3ttroq6h.apps.googleusercontent.com",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
           "client_type": 1,
           "android_info": {
             "package_name": "com.testapplication",
@@ -22,20 +36,32 @@
           }
         },
         {
+<<<<<<< HEAD
           "client_id": "934068840595-t5vl2tn16tubthfef9ue37d6ki6tj2d6.apps.googleusercontent.com",
+=======
+          "client_id": "951802654922-bunmq3sbguvb47aefeo998o515gnbdgp.apps.googleusercontent.com",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
           "client_type": 3
         }
       ],
       "api_key": [
         {
+<<<<<<< HEAD
           "current_key": "AIzaSyAYKXkjHcoDyZBdoXiCDeeYB11LfqGEOW0"
+=======
+          "current_key": "AIzaSyD185KX1W5KUoxjMmxtVHnolXYWs0c8oH4"
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
+<<<<<<< HEAD
               "client_id": "934068840595-t5vl2tn16tubthfef9ue37d6ki6tj2d6.apps.googleusercontent.com",
+=======
+              "client_id": "951802654922-bunmq3sbguvb47aefeo998o515gnbdgp.apps.googleusercontent.com",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
               "client_type": 3
             }
           ]

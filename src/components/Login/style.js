@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     top: 20,
+<<<<<<< HEAD
     borderRadius: 20, 
     overflow: 'hidden',
   },
@@ -22,15 +23,43 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#fff",
     borderRadius: 40,
+=======
+    borderRadius: 20, // Set the border radius to 20
+    overflow: 'hidden',
+  },
+  header: {
+    height: '100%',
+    //justifyContent: 'center',
+    //alignItems: 'center',
+  },
+  headerred: {
+    height: 170,
+    // backgroundColor:"red"
+    backgroundColor: '#8b0000',
+  },
+  logocontainer: {
+    borderColor: '#d3d3d3', // Set your desired border color
+    borderWidth: 2,
+    backgroundColor: "#fff",
+    borderRadius: 40,
+    // width: "75%",
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     alignSelf: "center",
     marginVertical: 70,
     height: "50%"
   },
   logo: {
     alignItems: 'center',
+<<<<<<< HEAD
     width: 140,
     height: 80,
     marginHorizontal: 20,
+=======
+    width: 140,  // Set the width of the image as needed
+    height: 80,
+    marginHorizontal: 20,
+    
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   container1: {
     flexDirection: 'row',
@@ -40,6 +69,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   input: {
     width: '80%',
     marginBottom: 15,

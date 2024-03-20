@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -46,3 +47,28 @@ const drawerListSlice = createSlice({
 export const { drawerListStart, drawerListSuccess,drawerListFailure} = drawerListSlice.actions;
 
 export default drawerListSlice.reducer;
+=======
+
+import { createSlice } from '@reduxjs/toolkit';
+
+const categorySlice = createSlice({
+  name: 'category',
+  initialState: {
+    categories: [],
+  },
+  reducers: {
+    setCategories: (state, action) => {
+      state.categories = action.payload;
+    },
+  },
+});
+
+export const { setCategories } = categorySlice.actions;
+
+// Define and export your selector
+export const selectCategories = (state) => state.category.categories;
+
+export default categorySlice.reducer;
+
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c

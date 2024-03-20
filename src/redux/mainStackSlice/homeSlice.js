@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// homeSlice.js (Redux slice file)
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   homeData: null,

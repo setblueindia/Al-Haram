@@ -1,10 +1,21 @@
 import { StyleSheet, Dimensions } from 'react-native';
+<<<<<<< HEAD
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   lodercontainer: {
     backgroundColor: "#fff",
     height: height,
     alignItems: "center", paddingVertical: 300
+=======
+
+const { width, height } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  lodercontainer:{
+    backgroundColor: "#fff",
+height:height,
+    alignItems:"center",paddingVertical:300
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   container: {
     backgroundColor: "#fff"
@@ -12,6 +23,13 @@ const styles = StyleSheet.create({
   categories: {
     padding: 10
   },
+<<<<<<< HEAD
+=======
+  topbanner: {
+    // padding: 10,
+ 
+  },
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   screenText: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -39,25 +57,43 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: 'cover',
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   image: {
     width: width * 0.2,
     height: height * 0.1,
     margin: 5,
+<<<<<<< HEAD
     borderRadius: 100 / 3,
   },
   categoryName: {
     marginTop: 5,
     fontSize: 12,
     textAlign: 'center',
+=======
+    borderRadius: 100/3,
+  },
+  categoryName: {
+    marginTop: 5, // spacing between image and text
+    fontSize: 12, // adjust the font size as needed
+    textAlign: 'center', // center the text
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   topBannerImage: {
     width: '100%',
     height: 20,
+<<<<<<< HEAD
+=======
+  
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   sliderImage: {
     width: width,
     height: height * 0.4,
     margin: 5,
+<<<<<<< HEAD
   },
   TopCategoriesText: {
     fontSize: 17,
@@ -65,6 +101,17 @@ const styles = StyleSheet.create({
     color: "#980404",
     padding: 10
   },
+=======
+   
+  },
+  TopCategoriesText:{
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#980404",
+    padding:10
+  },
+ 
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   Topbanner: {
     padding: 10,
   },
@@ -84,26 +131,50 @@ const styles = StyleSheet.create({
     height: 150,
     marginBottom: 10,
   },
+<<<<<<< HEAD
   featuredProducts: {
     padding: 10,
+=======
+ 
+  featuredProducts: {
+    padding: 10,
+    
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   featuredProductsText: {
     fontSize: 17,
     fontWeight: "500",
     color: "#980404",
+<<<<<<< HEAD
     padding: 5
+=======
+    padding:5
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   featuredproductsview: {
     width: width * 35 / 100,
     margin: 5,
+<<<<<<< HEAD
     alignItems: "center",
   },
   featuredProductImage: {
+=======
+    // height: height * 30 / 100,
+    alignItems: "center",
+    
+  },
+  featuredProductImage: {
+    
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     width: width * 35 / 100,
     height: height * 25 / 100,
   },
   featuredname: {
+<<<<<<< HEAD
     width: width * 35 / 100,
+=======
+     width: width * 35 / 100, 
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     textAlign: 'center',
     color: "#4a484a",
     padding: 5,
@@ -111,6 +182,7 @@ const styles = StyleSheet.create({
   featuredprize: {
     textAlign: 'center',
     color: "#980404",
+<<<<<<< HEAD
     fontSize: 12
   },
   specialOffers: {
@@ -134,10 +206,38 @@ const styles = StyleSheet.create({
     height: height * 25 / 100,
   },
   specialOfferName: {
+=======
+    fontSize:12
+  },
+  specialOffers:{
+ paddingHorizontal:10,
+ paddingVertical:5,
+  
+  },
+  specialOffersText:{
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#980404",
+    padding:5
+  },
+  specialOfferView:{
+    width: width * 35 / 100,
+    margin: 5,
+    position: 'relative',
+    // height: height * 35 / 100,
+    alignItems: "center",
+  },
+  specialOfferImage:{
+    width: width * 35 / 100,
+    height: height * 25 / 100,
+  },
+  specialOfferName:{
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     textAlign: 'center',
     color: "#4a484a",
     padding: 5
   },
+<<<<<<< HEAD
   specialOfferPrice: {
     textAlign: 'center',
     color: "#980404",
@@ -147,12 +247,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: "#980404",
     fontSize: 16
+=======
+  specialOfferPrice:{
+    textAlign: 'center',
+    color: "#980404",
+    fontSize:12
+  },
+  specialOffershow:{
+    textAlign: 'center',
+    color: "#980404",
+    fontSize:16
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   },
   specialOfferOverlay: {
     position: 'absolute',
     bottom: 0,
     right: 0,
     width: width * 0.4,
+<<<<<<< HEAD
     height: height * 0.5,
   },
   latestproduct: {
@@ -165,21 +277,46 @@ const styles = StyleSheet.create({
     padding: 5
   },
   latestproductView: {
+=======
+    height: height * 0.5, 
+  },
+  latestproduct:{
+   paddingHorizontal:5,
+  //  backgroundColor:"pink"
+   
+  },
+  latestproductText:{
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#980404",
+    padding:5
+  },
+  latestproductView:{
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     width: width * 35 / 100,
     margin: 5,
     position: 'relative',
     height: height * 35 / 100,
     alignItems: "center",
   },
+<<<<<<< HEAD
   latestproductImage: {
     width: width * 35 / 100,
     height: height * 25 / 100,
   },
   latestproductName: {
+=======
+  latestproductImage:{
+    width: width * 35 / 100,
+    height: height * 25 / 100,
+  },
+  latestproductName:{
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     textAlign: 'center',
     color: "#4a484a",
     padding: 5
   },
+<<<<<<< HEAD
   latestproductPrice: {
     textAlign: 'center',
     color: "#980404",
@@ -281,3 +418,115 @@ const styles = StyleSheet.create({
   },
 });
 export default styles;
+=======
+  latestproductPrice:{
+    textAlign: 'center',
+    color: "#980404",
+    fontSize:12
+  },
+  gamecategory:{
+    paddingHorizontal:10,
+    // paddingVertical:5,
+    //  backgroundColor:"red"
+     },
+     gamecategoryText:{
+       fontSize: 17,
+       fontWeight: "500",
+       color: "#980404",
+       padding:5
+     },
+     gamecategoryTextView:{
+       width: width * 35 / 100,
+       margin: 5,
+       position: 'relative',
+       // height: height * 35 / 100,
+       alignItems: "center",
+     },
+     gamecategoryTextViewImage:{
+       width: width * 35 / 100,
+       height: height * 25 / 100,
+     },
+     gamecategoryName:{
+       textAlign: 'center',
+       color: "#4a484a",
+       padding: 5
+     },
+     gamecategoryPrice:{
+       textAlign: 'center',
+       color: "#980404",
+       fontSize:12
+     },
+     gamecategoryshow:{
+       textAlign: 'center',
+       color: "#980404",
+       fontSize:16
+     },
+     specialOfferOverlay: {
+       position: 'absolute',
+       bottom: 0,
+       right: 0,
+       width: width * 0.4,
+       height: height * 0.5, 
+     },
+     schoolcategory:{
+      paddingHorizontal:10,
+      paddingVertical:5,
+      //  backgroundColor:"green"
+       },
+       schoolcategoryText:{
+         fontSize: 17,
+         fontWeight: "500",
+         color: "#980404",
+         padding:5
+       },
+       schoolcategoryView:{
+         width: width * 35 / 100,
+         margin: 5,
+         position: 'relative',
+         // height: height * 35 / 100,
+         alignItems: "center",
+       },
+       
+       schoolcategoryImage:{
+         width: width * 35 / 100,
+         height: height * 25 / 100,
+       },
+       schoolcategoryName:{
+         textAlign: 'center',
+         color: "#4a484a",
+         padding: 5
+       },
+       schoolcategoryPrice:{
+         textAlign: 'center',
+         color: "#980404",
+         fontSize:12       },
+       schoolcategoryshow:{
+         textAlign: 'center',
+         color: "#980404",
+         fontSize:16
+       },
+       specialOfferOverlay: {
+         position: 'absolute',
+         bottom: 0,
+         right: 0,
+         width: width * 0.4,
+         height: height * 0.5, 
+       },
+       gridBannerGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding:12,
+    // backgroundColor:"red",
+    marginHorizontal:10,
+  },
+  gridBannerImage: {
+    width:width*40/100,
+    height: height*20/100,
+    
+    borderRadius: 8,
+  },
+  
+});
+
+export default styles;
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c

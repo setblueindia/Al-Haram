@@ -2,21 +2,38 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 export const BASE_URL = 'https://alharamstores.com/rest/V1/api/';
 
+<<<<<<< HEAD
 export const loginAPI = async (email,password) => {
   console.log("email",email);
   try {
     const store_id =  await AsyncStorage.getItem('consoleValue');
+=======
+export const loginAPI = async (email,password,store_id) => {
+  console.log("email",email);
+  try {
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     const formData=new FormData();
     formData.append("username", email);
     formData.append("password", password);
     formData.append("store_id", store_id);
     const response = await axios.post(`${BASE_URL}loginUser`, formData, {
       headers: {
+<<<<<<< HEAD
         'Content-Type': 'multipart/form-data',
       },
     });
     const responseData = response.data;
     console.log("response data", responseData);
+=======
+        'Content-Type': 'multipart/form-data', // Use 'multipart/form-data' for FormData
+      },
+    });
+   
+    const responseData = response.data; // Assuming your data is in the response.data property
+
+    console.log("response data", responseData);
+
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
 if (responseData && responseData.data && responseData.data) {
     const {email,token, firstname,lastname,id,mobile}= responseData.data;
   console.log("token-----",token);
@@ -26,9 +43,15 @@ if (responseData && responseData.data && responseData.data) {
   console.log("id1-----",id);
   console.log("mobile1-----",mobile);
   await AsyncStorage.setItem('token', token);
+<<<<<<< HEAD
   await AsyncStorage.setItem('userData', JSON.stringify({email}));
   await AsyncStorage.setItem('userData', JSON.stringify({id}));
   await AsyncStorage.setItem('userData', JSON.stringify({ email, firstname,lastname,id,mobile})); 
+=======
+
+  await AsyncStorage.setItem('userData', JSON.stringify({email,store_id}));
+  await AsyncStorage.setItem('userData', JSON.stringify({ email, store_id, firstname,lastname,id,mobile})); 
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   console.log("email-----",email);
   console.log("firstname-----",firstname);
   console.log("lastname-----",lastname);
@@ -47,9 +70,14 @@ console.error("Login error", error);
 throw error;
 }
 };
+<<<<<<< HEAD
 export const registerAPI = async (firstname,lastname,email,password,otptype,mobile) => {
   try {
     const store_id =  await AsyncStorage.getItem('consoleValue');
+=======
+export const registerAPI = async (firstname,lastname,email,password,otptype,store_id,mobile) => {
+  try {
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     const formData = new FormData();
     formData.append('mobile',mobile);
     formData.append('firstname',firstname);
@@ -78,9 +106,14 @@ export const registerAPI = async (firstname,lastname,email,password,otptype,mobi
     throw error;
   }
 };
+<<<<<<< HEAD
 export const MoblieLoginAPI = async (mobile) => {
   try {
     const store_id =  await AsyncStorage.getItem('consoleValue');
+=======
+export const MoblieLoginAPI = async (store_id,mobile) => {
+  try {
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     const formData = new FormData();
     formData.append('mobile',mobile);
     formData.append('otptype', 'login');
@@ -174,9 +207,14 @@ export const Otpverify = async (mobile, otpcode, otptype) => {
     throw error;
   }
 };
+<<<<<<< HEAD
 export const Resetpass = async (email) => {
   try {
     const store_id =  await AsyncStorage.getItem('consoleValue');
+=======
+export const Resetpass = async (email, store_id) => {
+  try {
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     const formData = new FormData();
     formData.append("email", email);
     formData.append("store_id", store_id);
@@ -194,9 +232,14 @@ export const Resetpass = async (email) => {
     throw error;
   }
 };
+<<<<<<< HEAD
 export const Profileupdate = async (firstname,lastname,customer_id) => {
   try {
     const store_id =  await AsyncStorage.getItem('consoleValue');
+=======
+export const Profileupdate = async (firstname,lastname,customer_id, store_id) => {
+  try {
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     const formData = new FormData();
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
@@ -213,9 +256,14 @@ export const Profileupdate = async (firstname,lastname,customer_id) => {
     throw error;
   }
 };
+<<<<<<< HEAD
 export const Changepassw = async (customer_id,new_password,password) => {
   try {
     const store_id =  await AsyncStorage.getItem('consoleValue');
+=======
+export const Changepassw = async (customer_id,new_password,password, store_id) => {
+  try {
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
     const formData = new FormData();
     formData.append("firstname", customer_id);
     formData.append("lastname", password);

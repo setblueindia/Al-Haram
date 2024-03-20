@@ -12,6 +12,7 @@
     "LATEST PRODUCTS":"Latest Products",
     "GAMES":"Games",
     "SCHOOL":"School",
+<<<<<<< HEAD
     "LOGIN":"LOGIN",
     "View All":"View All",
     "Wishlist":"Wishlist",
@@ -36,4 +37,7 @@
     "confirm-password":"confirm-password",
     "Moblie No":"Moblie No",
     "Submit":"Submit"
+=======
+    "LOGIN":"LOGIN"
+>>>>>>> b4abaf8bbbc138a89f03284b22c271b68253ac7c
   }
