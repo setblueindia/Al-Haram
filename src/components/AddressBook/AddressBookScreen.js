@@ -26,7 +26,6 @@ const AddressBookScreen = () => {
       setLoading(false);
       dispatch(setAddressData(response.data));
       console.log("Response after adding address:", response.data);
-      console.log("response",response);
     } catch (error) {
       setLoading(false);
       setError(error.message);
