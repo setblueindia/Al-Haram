@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "951802654922",
+    "project_id": "alharam-app",
+    "storage_bucket": "alharam-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951802654922:android:ef72d9a0121ea044018433",
+        "android_client_info": {
+          "package_name": "com.testapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951802654922-fijav1al7p5ravga657pfsfe3ttroq6h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.testapplication",
+            "certificate_hash": "c2594b642fdd9e0f2a921f370425bba8e6cac898"
+          }
+        },
+        {
+          "client_id": "951802654922-bunmq3sbguvb47aefeo998o515gnbdgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD185KX1W5KUoxjMmxtVHnolXYWs0c8oH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951802654922-bunmq3sbguvb47aefeo998o515gnbdgp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
