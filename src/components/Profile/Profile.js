@@ -8,9 +8,32 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import NumberOfItems from '../NumberOfItems/NumberOfItems';
+import { useNavigation,useFocusEffect } from '@react-navigation/native';
+import ProfileHeader from '../ProfileHeader/ProfileHeader';
 const Profile  = () => {
+  const fetchUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        const { firstname, lastname } = JSON.parse(userData);
+        // console.log("firstname:",firstname);
+        setFirstName(firstname);
+        setLastName(lastname);
+      }
+    } catch (error) {
+      console.error('Error retrieving user data from AsyncStorage:', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUserData();
+    }, [])
+  );
   const [blink, setBlink] = useState(false);
   const phoneNumber = '8001111422'; 
   const emailAddress = 'support@alharamstores.com'; 
@@ -61,23 +84,27 @@ const Profile  = () => {
       navigation.navigate('Login'); 
     }
   };
-  useEffect(() => {
-    AsyncStorage.getItem('userData')
-      .then((userData) => {
-        if (userData) {
-          const { firstname, lastname,  } = JSON.parse(userData);
-          setFirstName(firstname);
-          setLastName(lastname);
-          // setEmail(userEmail);
-        }
-      })
-      .catch((error) => {
-        console.error('Error retrieving user data from AsyncStorage:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem('userData')
+  //     .then((userData) => {
+  //       if (userData) {
+  //         const { firstname, lastname,  } = JSON.parse(userData);
+  //         setFirstName(firstname);
+  //         setLastName(lastname);
+  //         // setEmail(userEmail);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error retrieving user data from AsyncStorage:', error);
+  //     });
+  // }, []);
   const itemCount = 2; 
+  //
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <ProfileHeader/>
+      </View>
       <ScrollView>
       <View >
       <View style={{  padding: 20, borderBottomColor: 'lightgray',
@@ -140,7 +167,6 @@ const Profile  = () => {
                   </Text>
                   <View >
 
-                  <NumberOfItems itemCount={itemCount} style={{ color: 'green' }}/>
                   </View>
                   {/* <NumberOfItems itemCount={itemCount} /> */}
                 </View>
@@ -252,6 +278,7 @@ const Profile  = () => {
         </View>
         </TouchableOpacity> 
           )}
+          
         <TouchableOpacity    
    >
 
@@ -305,6 +332,7 @@ const Profile  = () => {
     </View>
   </TouchableOpacity>
 )}
+
 
         {/* <TouchableOpacity
   style={{ backgroundColor: isPressed6 ? '#f8f8f8' : '#fff' }}>

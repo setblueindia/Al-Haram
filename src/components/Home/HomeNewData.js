@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CategoryAPI } from '../../redux/mainStack/mainStackApi';
-import { setCategories, selectCategories } from '../../redux/mainStackSlice/categorySlice';
+import { setCategoryList, selectCategoryList} from '../../redux/mainStackSlice/categoryList';
 import { View, Text, SafeAreaView, Pressable, Image, ScrollView, Dimensions, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import styles from './style';
 const { width, height } = Dimensions.get('window');
 const HomeNewData = () => {
+  const categories = useSelector(selectCategoryList);
   const dispatch = useDispatch();
-  const [categories, setCategories] = useState([]); 
+  // const [categories, setCategories] = useState([]); 
   const [clickedCategory, setClickedCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [store_Id, setstore_Id] = useState(1);
   useEffect(() => {
-    const storeId = 1;
-    const category_id = 4;
-    CategoryAPI(storeId, category_id)
+    setLoading(true)
+    CategoryAPI(store_Id)
+    
       .then(responseData => {
         if (responseData.status === 1 && responseData.data) {
           const categoryData = responseData.data;
-
-          dispatch(setCategories(categoryData));
+          dispatch(setCategoryList(categoryData));
           if (categoryData.length > 0) {
             setClickedCategory(categoryData[0]);
           }
-          console.log('API Response Data:', categoryData);
         } else {
           console.error('API Response Error:', responseData.message);
         }
-
         setLoading(false);
       })
       .catch(error => {
@@ -34,6 +33,31 @@ const HomeNewData = () => {
         setLoading(false);
       });
   }, [dispatch]);
+  // useEffect(() => {
+  //   // const storeId = 1;
+  //   const category_id = 4;
+  //   setLoading(true)
+  //   CategoryAPI(store_Id, category_id)
+  //     .then(responseData => {
+  //       if (responseData.status === 1 && responseData.data) {
+  //         const categoryData = responseData.data;
+
+  //         dispatch(setCategories(categoryData));
+  //         if (categoryData.length > 0) {
+  //           setClickedCategory(categoryData[0]);
+  //         }
+  //         console.log('API Response Data:', categoryData);
+  //       } else {
+  //         console.error('API Response Error:', responseData.message);
+  //       }
+
+  //       setLoading(false);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching categories:', error);
+  //       setLoading(false);
+  //     });
+  // }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>

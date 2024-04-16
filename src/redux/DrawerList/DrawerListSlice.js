@@ -1,23 +1,48 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
-const categorySlice = createSlice({
-  name: 'category',
-  initialState: {
-    categories: [],
-  },
+const initialState = {
+  homeData: null,
+  loading: false,
+  error: null,
+};
+const drawerListSlice = createSlice({
+  name: 'mainStack',
+  initialState,
   reducers: {
-    setCategories: (state, action) => {
-      state.categories = action.payload;
+    drawerListStart: state => {
+      state.loading = true;
+      state.error = null; // Reset error state when starting fetching
+    },
+    drawerListSuccess: (state, action) => {
+      state.loading = false;
+      state.drawerList = action.payload;
+    },
+    drawerListFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload; // Store error message instead of entire error object
     },
   },
+  // name: 'home',
+  // initialState,
+  // reducers: {
+  //   drawerListData: (state, action) => {
+  //     state.addresslistData = action.payload;
+  //     state.loading = false;
+  //     state.error = null;
+  //   },
+  //   drawerListError: (state, action) => {
+  //     state.addresslistData = null;
+  //     state.loading = false;
+  //     state.error = action.payload;
+  //   },
+  //   drawerListLoading: (state) => {
+  //     state.addresslistData = null;
+  //     state.loading = true;
+  //     state.error = null;
+  //   },
+  // },
 });
 
-export const { setCategories } = categorySlice.actions;
+export const { drawerListStart, drawerListSuccess,drawerListFailure} = drawerListSlice.actions;
 
-// Define and export your selector
-export const selectCategories = (state) => state.category.categories;
-
-export default categorySlice.reducer;
-
-
+export default drawerListSlice.reducer;

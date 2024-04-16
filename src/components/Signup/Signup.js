@@ -10,82 +10,159 @@ import {
   Dimensions,
   ActivityIndicator,
   ScrollView,
+  KeyboardAvoidingView,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import { registerAPI } from '../../redux/auth/authApi'; 
 import { registrationRequest, registrationSuccess, registrationFailure } from '../../redux/auth/registerSlice'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('window');
 import {useDispatch} from 'react-redux';
+import { useTranslation } from 'react-i18next';
 const Signup = () => {
+  const { t } = useTranslation();
     const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const validateEmail = (email) => {
-    // Use a regular expression for basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-  
-  const validatePassword = (password) => {
-    // Add your password validation logic here
-    // For example, you can check if the password meets certain criteria
-    return password.length >= 6; // Minimum 6 characters for this example
-  };
-  const handleRegistration = async () => {
-    
-      // Validation checks for required fields
-  if (!firstname || !lastname || !email || !mobile || !password || !confirmPassword) {
-    // If any of the required fields are empty, show an alert
-    alert('Please fill in all fields');
-    return;
-  }
-
-    const otptype = "register";
-    const store_id = storeid;
+  const [store_id, setstore_id] = useState("1")
+  const getConsoleValue = async () => {
     try {
-      
-        setLoading(true);
-    
-        // Validate email
-        if (!validateEmail(email)) {
-          setLoading(false);
-          return alert('Invalid email address');
-        }
-    
-        // Validate password
-        if (!validatePassword(password)) {
-          setLoading(false);
-          return alert('Invalid password. Minimum 6 characters required');
-        }
-    
-      dispatch(registrationRequest());
-      const responseData = await registerAPI(firstname, lastname, email, password, otptype, store_id, mobile);
-      dispatch(registrationSuccess(responseData));
-      console.log('Registration successful:', responseData);
-      const OtpVerify ="register"
-  
-      const { message, otp } = responseData;
-      navigation.navigate("OTPVerification", { phoneno: mobile, otpcode: otp,OtpVerify });
-  
+      const consoleValue = await AsyncStorage.getItem('consoleValue');
+      // console.log("language id:", consoleValue);
+      if (consoleValue !== null) {
+        
+        const storeIdFromAsyncStore = parseInt(consoleValue, 10);
+        // Set the store_id state with the value retrieved from AsyncStoragess
+        setstore_id(storeIdFromAsyncStore);
+        // Log the store ID here
+        console.log('Store ID:', storeIdFromAsyncStore);
+      }
     } catch (error) {
-      dispatch(registrationFailure(error.message));
-      console.error('Registration failed:', error);
+      console.error('Error getting console value from AsyncStorage:', error);
     }
   };
-  const emailRef = useRef(null);
-  const [email, setEmail] = useState('');
-  const [firstname, setfirstname] = useState('');
-  const [lastname, setlastname] = useState('');
-  const [mobile, setmobile] = useState('+966');
-  const [password, setpassword] = useState('');
+  useEffect(() => {
+    getConsoleValue();
+  }, []);
+  const validateEmail = (Email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(Email);
+  };
+ 
+  const handleRegistration = async () => {
+    let isValid = true;
+    if (!Firstname) {
+      
+      setFirstnameError('First name is required');
+      isValid = false;
+    } else {
+      setFirstnameError('');
+    }
+
+    if (!Lastname) {
+      setLastnameError('Last name is required');
+      isValid = false;
+    } else {
+      setLastnameError('');
+    }
+
+    if (!Email) {
+      setEmailError('Email is required');
+      isValid = false;
+    } else if (!validateEmail(Email)) {
+      setEmailError('Invalid email format');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+    if (!Mobile) {
+      setMobileError('Mobile number is required');
+      isValid = false;
+    } else if (Mobile.length !== 13) {
+      setMobileError('Mobile number must be 10 digits');
+      isValid = false;
+    } else {
+      setMobileError('');
+    }
+    if (!Password) {
+      setPasswordError('Password is required');
+      isValid = false;
+    } else if (Password.length < 6) {
+      setPasswordError('Password must be at least 6 characters');
+      isValid = false;
+    } else {
+      setPasswordError('');
+    }
+    if (!confirmPassword) {
+      setConfirmPasswordError('Please confirm password');
+      isValid = false;
+    } else if (confirmPassword !== Password) {
+      setConfirmPasswordError('Passwords do not match');
+      isValid = false;
+    } else {
+      setConfirmPasswordError('');
+    }
+    if (isValid) {
+      try {
+        setLoading(true);
+        const firstname = Firstname;
+        const lastname = Lastname;
+        const email = Email;
+        const password = Password;
+        const mobile = Mobile;
+        const otptype = "register";
+        
+        dispatch(registrationRequest());
+        const responseData = await registerAPI(firstname, lastname, email, password, otptype, mobile,store_id);
+        if (!responseData || !responseData.status) {
+          throw new Error('Invalid response from server');
+        }
+        if (responseData.status === 1) {
+          dispatch(registrationSuccess(responseData));
+          console.log('Registration successful:', responseData);
+          console.log("Registration otp:", responseData.otp);
+          const OtpVerify = "register";
+          const { otp } = responseData;
+          const Otpdata= responseData.otp;
+          navigation.navigate('OTPVerification', { phoneno:mobile, otpcode: otp, OtpVerify,Otpdata });
+        } else {
+          throw new Error(responseData.message);
+        }
+      } catch (error) {
+        dispatch(registrationFailure(error.message));
+        console.error('Registration failed:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const [Email, setEmail] = useState('');
+  const [Firstname, setfirstname] = useState('');
+  const [Lastname, setlastname] = useState('');
+  const [Mobile, setmobile] = useState('+96');
+  const [Password, setpassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
-  const [storeid, setstoreid] = useState('1');
   const [loading, setLoading] = useState(false);
+  const [firstnameError, setFirstnameError] = useState('');
+  const [lastnameError, setLastnameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [mobileError, setMobileError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [confirmpasswordVisibility, setconfirmPasswordVisibility] = useState(true);
+  const firstnameRef = useRef(null);
+  const lastnameRef = useRef(null);
+  const emailRef = useRef(null);
+  const mobileRef = useRef(null);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
   return (
-  
       <View>
         <View style={{backgroundColor:"#f8f8f8",width:width,height:height*30/100}}>
         <View style={{ marginHorizontal: 10,margin:10 }}>
@@ -95,35 +172,43 @@ const Signup = () => {
         </View>
           <View style={{alignSelf:"center"}}>
           <Image
-          source={require('../../assests/Logo.png')} // Replace with your splash image path
+          source={require('../../assests/Logo.png')} 
           style={{width:width*65/100,height:height*25/100}}
           resizeMode="contain"
         />
           </View>
         </View>
-        <ScrollView>
-        <View style={{backgroundColor:"#fff",height:height}}>
-        <View style={{alignSelf:"center",width:"90%",borderBottomWidth:1,borderBottomColor:"lightgray",}}>
-          <Text style={{textAlign:"center",fontSize:22,color:"#202020",marginVertical:10}}>Create your Account</Text>
-        </View>
-        <View style={{marginVertical:10}}>
       
 
+      <SafeAreaView 
+       style={{ 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 16,}}>
+ <ScrollView>
+        <View style={{backgroundColor:"#fff"}}>
+        <View style={{alignSelf:"center",width:"90%",borderBottomWidth:1,borderBottomColor:"lightgray",}}>
+          <Text style={{textAlign:"center",fontSize:22,color:"#202020",marginVertical:10}}>{t('Create your Account')}</Text>
+        </View>
+        <View style={{marginVertical:10}}>
         <View style={styles.inputContainer}>
             <Image
               source={require('../../assests/profile.png')}
               style={[styles.icon, {marginLeft: 15,margin:5}]}
             />
             <TextInput
+            ref={firstnameRef}
               style={[styles.input, {color: 'black'}]}
-              placeholder="first name"
-
+              placeholder={t('first name')}
               autoCapitalize="none"
               onChangeText={text => setfirstname(text)}
-              value={firstname}
+              value={Firstname}
               placeholderTextColor={'#cacbcc'}
-            
+              onSubmitEditing={() => lastnameRef.current.focus()}
             />
+          </View>
+          <View style={{bottom:5,marginHorizontal:15}}>
+          {firstnameError ? <Text style={styles.errorText}>*{firstnameError}</Text> : null}
           </View>
           <View style={styles.inputContainer}>
             <Image
@@ -131,13 +216,18 @@ const Signup = () => {
               style={[styles.icon, {marginLeft: 15,margin:5}]}
             />
             <TextInput
+            ref={lastnameRef}
               style={[styles.input, {color: 'black'}]}
-              placeholder="last name"
+              placeholder={t('last name')}
               autoCapitalize="none"
               onChangeText={text => setlastname(text)}
-              value={lastname}
+              value={Lastname}
               placeholderTextColor={'#cacbcc'}
+              onSubmitEditing={() => emailRef.current.focus()}
             />
+          </View>
+          <View style={{bottom:5,marginHorizontal:15}}>
+          {lastnameError ? <Text style={styles.errorText}>*{lastnameError}</Text> : null}
           </View>
           <View style={styles.inputContainer}>
             <Image
@@ -147,13 +237,17 @@ const Signup = () => {
                 <TextInput
               ref={emailRef}
               style={[styles.input, {color: 'black'}]}
-              placeholder="Email"
+              placeholder={t('E-mail')}
               keyboardType="email-address"
               autoCapitalize="none"
               onChangeText={text => setEmail(text)}
-              value={email}
+              value={Email}
               placeholderTextColor={'#cacbcc'}
+              onSubmitEditing={() => mobileRef.current.focus()}
             />
+          </View>
+          <View style={{bottom:5,marginHorizontal:15}}>
+          {emailError ? <Text style={styles.errorText}>*{emailError}</Text> : null}
           </View>
           <View style={styles.inputContainer}>
             <Image
@@ -161,15 +255,20 @@ const Signup = () => {
               style={[styles.icon, {marginLeft: 15,margin:5}]}
             />
              <TextInput
+             ref={mobileRef}
               style={[styles.input, {color: 'black'}]}
-              placeholder="Mobile no"
+              placeholder={t('Moblie No')}
               keyboardType="numeric"
               autoCapitalize="none"
               onChangeText={text => setmobile(text)}
-              value={mobile}
+              value={Mobile}
+              maxLength={13}
               placeholderTextColor={'#cacbcc'}
+              onSubmitEditing={() => passwordRef.current.focus()}
             />
-         
+          </View>
+          <View style={{bottom:5,marginHorizontal:15}}>
+          {mobileError ? <Text style={styles.errorText}>*{mobileError}</Text> : null}
           </View>
           <View style={styles.inputContainer}>
             <Image
@@ -177,34 +276,76 @@ const Signup = () => {
               style={[styles.icon, {marginLeft: 15,margin:5}]}
             />
             <TextInput
-         
+            ref={passwordRef}
               style={[styles.input, {color: 'black'}]}
-              placeholder="Password"
+              placeholder={t('Password')}
               autoCapitalize="none"
               onChangeText={text => setpassword(text)}
-              value={password}
+              value={Password}
+              secureTextEntry={passwordVisibility}
               placeholderTextColor={'#cacbcc'}
-          
+              onSubmitEditing={() => confirmPasswordRef.current.focus()}
             />
+             <TouchableOpacity
+                onPress={() => setPasswordVisibility(!passwordVisibility)}>
+                <Image
+                  source={{
+                    uri: 'https://cdn-icons-png.flaticon.com/128/3257/3257787.png',
+                  }}
+                  style={[
+                    styles.icon,
+                    {
+                      justifyContent: 'flex-end',
+                      margin:5,
+                      tintColor: passwordVisibility ? '#8b0000' : '#9ADE7B',
+                    },
+                  ]}
+                />
+              </TouchableOpacity>
           </View>
+          <View style={{bottom:5,marginHorizontal:15}}>
+         
+          {passwordError ? <Text style={styles.errorText}>*{passwordError}</Text> : null}
+          </View>
+         
            <View style={styles.inputContainer}>
             <Image
               source={require('../../assests/password.png')}
               style={[styles.icon, {marginLeft: 15,margin:5}]}
             />
             <TextInput
-            
+            ref={confirmPasswordRef}
               style={[styles.input, {color: 'black'}]}
-              placeholder="confirmPassword"
+              placeholder={t('confirm-password')}
               autoCapitalize="none"
               onChangeText={text => setconfirmPassword(text)}
               value={confirmPassword}
+              secureTextEntry={confirmpasswordVisibility}
               placeholderTextColor={'#cacbcc'}
+             
             />
-           
+                   <TouchableOpacity
+                onPress={() => setconfirmPasswordVisibility(!confirmpasswordVisibility)}>
+                <Image
+                  source={{
+                    uri: 'https://cdn-icons-png.flaticon.com/128/3257/3257787.png',
+                  }}
+                  style={[
+                    styles.icon,
+                    {
+                      justifyContent: 'flex-end',
+                      margin:5,
+                      tintColor: confirmpasswordVisibility ? '#8b0000' : '#9ADE7B',
+                    },
+                  ]}
+                />
+              </TouchableOpacity>
           </View>
+          <View style={{bottom:5,marginHorizontal:15}}>
+          {confirmPasswordError ? <Text style={styles.errorText}>*{confirmPasswordError}</Text> : null}
+          </View>
+          
           <TouchableOpacity
-     
           style={[styles.signInButton, loading && styles.signInButtonDisabled]}
           disabled={loading}
           onPress={handleRegistration} 
@@ -212,16 +353,19 @@ const Signup = () => {
           {loading ? (
             <ActivityIndicator size="small" color="#fff" />
           ) : (
-            <Text style={styles.signInButtonText}>Submit</Text>
+            <Text style={styles.signInButtonText}>{t('Submit')}</Text>
           )}
         </TouchableOpacity>
      </View>
             </View>
             </ScrollView>
+      </SafeAreaView>
+       
+          
+        
     </View>
   )
 }
-
 export default Signup
 const styles = StyleSheet.create({
   container: {
@@ -229,39 +373,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   signInButtonDisabled: {
-    backgroundColor: '#ccc', // Set a different color for the disabled state
+    backgroundColor: '#ccc', 
   },
   signInButtonDisabled2: {
-    backgroundColor: '#ccc', // Set a different color for the disabled state
+    backgroundColor: '#ccc', 
   },
   buttonContainer: {
     top: 20,
-    borderRadius: 20, // Set the border radius to 20
+    borderRadius: 20, 
     overflow: 'hidden',
   },
   header: {
     height: '100%',
-    //justifyContent: 'center',
-    //alignItems: 'center',
   },
   headerred: {
     height: 170,
-    // backgroundColor:"red"
     backgroundColor: '#8b0000',
   },
   logocontainer: {
-    borderColor: '#d3d3d3', // Set your desired border color
+    borderColor: '#d3d3d3', 
     borderWidth: 2,
     backgroundColor: '#fff',
     borderRadius: 40,
-    // width: "75%",
     alignSelf: 'center',
     marginVertical: 70,
     height: '50%',
   },
   logo: {
     alignItems: 'center',
-    width: 140, // Set the width of the image as needed
+    width: 140, 
     height: 80,
     marginHorizontal: 20,
   },
@@ -305,10 +445,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   googleButton: {
-    backgroundColor: 'red', // You can set your desired color
+    backgroundColor: 'red',
   },
   facebookButton: {
-    backgroundColor: '#1877F2', // Facebook blue color
+    backgroundColor: '#1877F2',
   },
   buttonText: {
     color: 'white',
@@ -336,12 +476,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 17,
   },
-
   icon: {
     width: 20,
-    height: height*20/100,
-   
-
+    height: height*30/100,
   },
   input: {
     flex: 1,
@@ -356,7 +493,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
    borderWidth:1,
    borderRadius:3,
    borderColor:"#d8dad8",
@@ -431,19 +568,9 @@ const styles = StyleSheet.create({
     color: '#454545',
     fontSize: 18,
   },
+  errorText: {
+    color: '#980404',
+    fontSize: 14,
+    // marginTop: 5,
+  },
 });
-
-
-
-// import { View, Text } from 'react-native'
-// import React from 'react'
-
-// const Signup = () => {
-//   return (
-//     <View>
-//       <Text>Signup</Text>
-//     </View>
-//   )
-// }
-
-// export default Signup

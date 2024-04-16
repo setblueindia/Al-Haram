@@ -1,4 +1,3 @@
-// features/city/citySlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 export const citySlice = createSlice({

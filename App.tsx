@@ -10,12 +10,16 @@ import {StyleSheet, View, StatusBar} from 'react-native';
 
 import RootNavigator from './src/navigators/root';
 
+
 const App = () => {
   return (
-    <View style={styles.container}>
+    
+<View style={styles.container}>
       <StatusBar backgroundColor="#1A1924" barStyle={'light-content'} />
       <RootNavigator />
     </View>
+
+    
   );
 };
 

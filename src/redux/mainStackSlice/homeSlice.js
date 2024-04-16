@@ -1,4 +1,3 @@
-// homeSlice.js (Redux slice file)
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   homeData: null,

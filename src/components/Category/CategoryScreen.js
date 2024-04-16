@@ -1,89 +1,112 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CategoryAPI } from '../../redux/mainStack/mainStackApi';
-import { setCategories, selectCategories } from '../../redux/mainStackSlice/categorySlice';
+import { setCategoryList, selectCategoryList} from '../../redux/mainStackSlice/categoryList';
 import { View, Text, SafeAreaView, Pressable, Image, ScrollView, Dimensions, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import styles from './style';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomHeader from '../CustomHeader/CustomHeader';
 const CategoryScreen = () => {
   const dispatch = useDispatch();
-  const categories = useSelector(selectCategories);
+  const categories = useSelector(selectCategoryList);
   const [clickedCategory, setClickedCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [viewMoreClicked, setViewMoreClicked] = useState(false); // Added state for "View more" functionality
-  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [viewMoreClicked, setViewMoreClicked] = useState(false);
+  const [store_id, setstore_id] = useState("1");
+  const [isloading, setisLoading] = useState(false);
+  const imageloder =(value,index)=>{
+    setisLoading(value)
+  }
+  const getConsoleValue = async () => {
+    try {
+      const consoleValue = await AsyncStorage.getItem('consoleValue');
+      console.log("Category store id:", consoleValue);
+      if (consoleValue !== null) {
+        
+        const storeIdFromAsyncStore = parseInt(consoleValue, 10);
+        // Set the store_id state with the value retrieved from AsyncStoragess
+        setstore_id(storeIdFromAsyncStore);
+        // Log the store ID here
+        console.log('Store ID:', storeIdFromAsyncStore);
+      }
+    } catch (error) {
+      console.error('Error getting console value from AsyncStorage:', error);
+    }
+  };
   useEffect(() => {
-    const storeId = 1;
-    const category_id = 4;
-    CategoryAPI(storeId, category_id)
+    getConsoleValue();
+  }, []);
+  useEffect(() => {
+    setLoading(true)
+    CategoryAPI(store_id)
+    
       .then(responseData => {
         if (responseData.status === 1 && responseData.data) {
           const categoryData = responseData.data;
-
-          dispatch(setCategories(categoryData));
-
+          dispatch(setCategoryList(categoryData));
           if (categoryData.length > 0) {
             setClickedCategory(categoryData[0]);
           }
         } else {
           console.error('API Response Error:', responseData.message);
         }
-
         setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
         setLoading(false);
       });
-  }, [dispatch]);
-
+  }, [dispatch,store_id]);
+  const navigation = useNavigation();
   const handleCategoryClick = (item) => {
-    // setClickedCategory(item);
+    if (item.image) {
+      setClickedCategory(item);
     console.log('Clicked category_id:', item.category_id);
     console.log('title:', item.title);
+     
+    } else {
+      navigation.navigate('Products', { number: item.category_id });
+    }
   };
-  const [subItemClicked, setSubItemClicked] = useState(false);
+  const handleImagePress = (subItem) => {
+    navigation.navigate('Products', { number:subItem.category_id }); // Assuming 'number' is the identifier for the product
+  };
   const renderCategoryTitle = ({ item }) => {
     const subCategory = clickedCategory?.sub_category || [];
     const shouldShowViewMore = subCategory.length > 6;
-    const handlePress = () => {
-      console.log("subItem.category_id---",subItem.category_id);
-      // navigation.navigate('Products', { number: subItem.category_id });
-    };
+  
+  
+  
     return (
       <View>
-        <View>
-          <TouchableOpacity onPress={() => handleCategoryClick(item)}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 3,
-                padding: 10,
-                backgroundColor: '#fff',
-              }}>
-              <View>
-                <Text style={[styles.categoryTitle, clickedCategory && clickedCategory.category_id === item.category_id && styles.selectedButton]}>
-                  {item.title}
-                </Text>
-              </View>
-              {clickedCategory && clickedCategory.category_id === item.category_id ? (
-                <View style={{ alignSelf: 'center' }}>
-                </View>
-              ) : (
-                <View style={{ alignSelf: 'center' }}>
-                  <MaterialIcons
-                    name={'keyboard-arrow-right'}
-                    size={25}
-                    color={'black'}
-                  />
-                </View>
-              )}
+        <TouchableOpacity onPress={() => handleCategoryClick(item)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 3,
+              padding: 10,
+              backgroundColor: '#fff',
+            }}>
+            <View>
+              <Text style={[styles.categoryTitle, clickedCategory && clickedCategory.category_id === item.category_id && styles.selectedButton]}>
+                {item.title}
+              </Text>
             </View>
-          </TouchableOpacity>
-        </View>
+            {/* Render the arrow icon only if the item has an image */}
+            {item.image && !(clickedCategory && clickedCategory.category_id === item.category_id) && (
+              <View style={{ alignSelf: 'center' }}>
+                <MaterialIcons
+                  name={'keyboard-arrow-right'}
+                  size={25}
+                  color={'black'}
+                />
+              </View>
+            )}
+          </View>
+        </TouchableOpacity>
         {clickedCategory && clickedCategory.category_id === item.category_id && (
           <View style={{ backgroundColor: "#fff" }}>
             <FlatList
@@ -92,23 +115,34 @@ const CategoryScreen = () => {
               numColumns={3}
               renderItem={({ item: subItem, index }) => (
                 <View style={{ flex: 1, margin: 5, backgroundColor: "#fff" }}>
-                  <TouchableOpacity onPress={handlePress}>
-
-                  <Image source={{ uri: subItem.image }} style={{ flex: 1, aspectRatio: 1, backgroundColor: "#fff" }} />
-                  </TouchableOpacity>
+<TouchableOpacity onPress={() => handleImagePress(subItem)}>
+                <View>
+                {isloading &&
+                          <View style={{justifyContent:"center",alignSelf:"center",borderRadius:1,zIndex:0,width:"100%",position:"absolute",}}>
+                            <ActivityIndicator size="large" color="#9f0202"/>
+                          </View>
+                          }
+                  {<Image 
+                  source={{ uri: subItem.image }} 
+                  style={{ flex: 1, aspectRatio: 1, backgroundColor: "#fff" }} 
+                  onLoadStart={()=>imageloder(true,'onLoadStart')}
+                  onLoadEnd={()=>imageloder(false,'onLoadStart')}
+                  />}
                   <Text style={{ textAlign: 'center', marginTop: 5, color: '#9e0203' }}>{subItem.title}</Text>
                   {shouldShowViewMore && index === 5 && subCategory.length > 1 && !viewMoreClicked && (
-  <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', alignSelf: "center" }}>
-    <TouchableOpacity onPress={() => {
-      setViewMoreClicked(!viewMoreClicked);
-      console.log('Clicked category_id:', clickedCategory?.category_id);
-    }}>
-      <Text style={{ color: '#9e0203', fontSize: 14, borderRadius: 15, backgroundColor: "#fff", width: "70%", textAlign: "center", aspectRatio: 3, padding: 2 }}>
-        View more
-      </Text>
-    </TouchableOpacity>
-  </View>
-)}
+                    <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', alignSelf: "center" }}>
+                      <TouchableOpacity onPress={() => {
+                        setViewMoreClicked(!viewMoreClicked);
+                        console.log('Clicked category_id:', clickedCategory?.category_id);
+                      }}>
+                        <Text style={{ color: '#9e0203', fontSize: 14, borderRadius: 15, backgroundColor: "#fff", width: "70%", textAlign: "center", aspectRatio: 3, padding: 2 }}>
+                          View more
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+</TouchableOpacity>
                 </View>
               )}
             />
@@ -117,14 +151,15 @@ const CategoryScreen = () => {
       </View>
     );
   };
-  
- 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+      <View>
+  <CustomHeader/>
+</View>
       {loading ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 300 }}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          {/* <Image source={require('../../assests/gif/app_Loader.gif')} style={{ width: 50, height: 50 }} /> */}
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 300 ,backgroundColor:"#fff"}}>
+          <ActivityIndicator size="large" color="#9f0202" />
         </View>
       ) : (
         <View>
@@ -135,9 +170,8 @@ const CategoryScreen = () => {
           />
         </View>
       )}
+      </View>
     </SafeAreaView>
   );
 };
-
 export default CategoryScreen;
-

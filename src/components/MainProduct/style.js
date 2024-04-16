@@ -15,25 +15,22 @@ const styles = StyleSheet.create({
   },
   headerred: {
     height: 170,
-    // backgroundColor:"red"
     backgroundColor: '#8b0000',
   },
   logocontainer: {
-    borderColor: '#d3d3d3', // Set your desired border color
+    borderColor: '#d3d3d3', 
     borderWidth: 2,
     backgroundColor: "#fff",
     borderRadius: 40,
-    // width: "75%",
     alignSelf: "center",
     marginVertical: 70,
     height: "50%"
   },
   logo: {
     alignItems: 'center',
-    width: 140,  // Set the width of the image as needed
+    width: 140,  
     height: 80,
     marginHorizontal: 20,
-    
   },
   container1: {
     flexDirection: 'row',
@@ -43,7 +40,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
   },
-
   input: {
     width: '80%',
     marginBottom: 15,
@@ -75,10 +71,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   googleButton: {
-    backgroundColor: 'red', // You can set your desired color
+    backgroundColor: 'red', 
   },
   facebookButton: {
-    backgroundColor: '#1877F2', // Facebook blue color
+    backgroundColor: '#1877F2', 
   },
   buttonText: {
     color: 'white',
@@ -124,9 +120,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1, // Border Bottom Width for the underline
-    borderBottomColor: 'lightgray', // Border Bottom Color
-    // paddingHorizontal: 15,
+    borderBottomWidth: 1, 
+    borderBottomColor: 'lightgray', 
     marginBottom: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,

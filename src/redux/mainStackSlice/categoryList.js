@@ -12,9 +12,6 @@ const categoryListSlice = createSlice({
     },
   },
 });
-
 export const { setCategoryList } = categoryListSlice.actions;
-
 export const selectCategoryList = (state) => state.categoryList.categoryList;
-
 export default categoryListSlice.reducer;

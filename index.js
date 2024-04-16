@@ -11,7 +11,6 @@ import defaultStore from './src/redux/store/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import './src/i18n/i18n.config'
 const {store, persistor} = defaultStore();
-
 const AppRoot = () => {
   return (
     <Provider store={store}>
@@ -21,6 +20,4 @@ const AppRoot = () => {
     </Provider>
   );
 };
-
 AppRegistry.registerComponent(appName, () => gestureHandlerRootHOC(AppRoot));
-

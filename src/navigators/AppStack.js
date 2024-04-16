@@ -2,11 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Image, View, Text, ScrollView,
   Dimensions,
-  StyleSheet, I18nManager, Animated, Linking, TextInput,  FlatList,ActivityIndicator, Alert
+  StyleSheet, Animated, Linking, TextInput, FlatList, ActivityIndicator,
 } from 'react-native';
-import {
-  createDrawerNavigator,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import Home from '../components/Home/Home';
@@ -26,7 +24,7 @@ import OTPVerification from '../components/OtpScreen/OTPVerification';
 import Categorybanner from '../components/Categorybanner/Categorybanner';
 import { useDispatch, useSelector } from 'react-redux';
 import { CategoryDrawerList } from '../redux/mainStack/mainStackApi';
-import { setCategories, selectCategories } from '../redux/DrawerList/DrawerListSlice';
+import { drawerListStart, drawerListSuccess, drawerListFailure } from '../redux/DrawerList/drawerListSlice';
 import CustomHeader from '../components/CustomHeader/CustomHeader';
 import Products from '../components/Products/Products';
 import AddressBookScreen from '../components/AddressBook/AddressBookScreen'
@@ -39,16 +37,18 @@ import HomeNewData from '../components/Home/HomeNewData';
 import MainProduct from '../components/MainProduct/MainProduct';
 import AddToCart from '../components/AddToCart/AddToCart'
 import ForgotPassword from '../components/Forgot Password/ForgotPassword';
-import NumberOfItems from '../components/NumberOfItems/NumberOfItems';
-import Register from '../components/Registor/Registor';
 import Signup from '../components/Signup/Signup';
+import ProfileHeader from '../components/ProfileHeader/ProfileHeader'
+import LeftDrawerContent from '../components/LeftDrawerContent/LeftDrawerContent';
+import RightDrawerContent from '../components/RightDrawerContent/RightDrawerContent';
+
 const DrawerNavigator = createDrawerNavigator();
 const TabNavigator = createBottomTabNavigator();
 const StackNavigator = createStackNavigator();
 const LoginStack = () => (
   <StackNavigator.Navigator
     screenOptions={{
-      headerShown: false, 
+      headerShown: false,
     }}
   >
     <StackNavigator.Screen name="Login" component={Login}
@@ -57,13 +57,13 @@ const LoginStack = () => (
         headerTitle: '',
       }}
     />
-      <StackNavigator.Screen name="Signup" component={Signup}
+    <StackNavigator.Screen name="Signup" component={Signup}
       options={{
         headerShown: false,
         headerTitle: '',
       }}
     />
-      <StackNavigator.Screen name="ForgotPassword" component={ForgotPassword}
+    <StackNavigator.Screen name="ForgotPassword" component={ForgotPassword}
       options={{
         headerShown: false,
         headerTitle: '',
@@ -83,22 +83,24 @@ const LoginStack = () => (
         headerTitle: '',
       }}
     />
-       <StackNavigator.Screen name="AddressBookScreen" component={AddressBookScreen}
+    <StackNavigator.Screen name="AddressBookScreen" component={AddressBookScreen}
       options={{
         headerShown: false,
         headerTitle: '',
       }}
     />
-     <StackNavigator.Screen name="Products" component={Products}
+    <StackNavigator.Screen name="Products" component={Products}
       options={{
         headerShown: false,
         headerTitle: '',
       }}
-    /> 
-   <StackNavigator.Screen name='CustomHeader' component={CustomHeader}/>
+    />
+    <StackNavigator.Screen name='CustomHeader' component={CustomHeader} />
+    <StackNavigator.Screen name='ProfileHeader' component={ProfileHeader} />
   </StackNavigator.Navigator>
 );
 const TabsLeft = ({ focused }) => {
+  
   const { t } = useTranslation();
   const bounceValue = new Animated.Value(1);
   Animated.spring(bounceValue, {
@@ -159,7 +161,7 @@ const TabsLeft = ({ focused }) => {
                   <Icon
                     name="home"
                     size={20}
-                    color={color}  />
+                    color={color} />
                 </Animated.View>
               </Animated.View>
             );
@@ -335,17 +337,17 @@ const TabsRight = () => {
             return (
               <Animated.View
                 style={{
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
               >
                 {focused && (
                   <View
                     style={{
-                      height: 3, 
-                      width: 50, 
+                      height: 3,
+                      width: 50,
                       backgroundColor: '#980404',
-                      marginBottom: 12, 
+                      marginBottom: 12,
                     }}
                   />
                 )}
@@ -355,7 +357,7 @@ const TabsRight = () => {
                   }}
                 >
                   <FontAwesome5
-                    name="user-tie" 
+                    name="user-tie"
                     size={18}
                     color={color}
                   />
@@ -381,17 +383,17 @@ const TabsRight = () => {
             return (
               <Animated.View
                 style={{
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
-              >              
+              >
                 {focused && (
                   <View
                     style={{
-                      height: 3, 
+                      height: 3,
                       width: 50,
-                      backgroundColor: '#980404', 
-                      marginBottom: 10, 
+                      backgroundColor: '#980404',
+                      marginBottom: 10,
                     }}
                   />
                 )}
@@ -401,7 +403,7 @@ const TabsRight = () => {
                   }}
                 >
                   <Icons
-                    name="notifications-on" 
+                    name="notifications-on"
                     size={20}
                     color={color}
                   />
@@ -434,10 +436,10 @@ const TabsRight = () => {
                 {focused && (
                   <View
                     style={{
-                      height: 3, 
-                      width: 50, 
-                      backgroundColor: '#980404', 
-                      marginBottom: 10, 
+                      height: 3,
+                      width: 50,
+                      backgroundColor: '#980404',
+                      marginBottom: 10,
                     }}
                   />
                 )}
@@ -473,8 +475,8 @@ const TabsRight = () => {
             return (
               <Animated.View
                 style={{
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
               >
                 {focused && (
@@ -482,8 +484,8 @@ const TabsRight = () => {
                     style={{
                       height: 3,
                       width: 50,
-                      backgroundColor: '#980404', 
-                      marginBottom: 10, 
+                      backgroundColor: '#980404',
+                      marginBottom: 10,
                     }}
                   />
                 )}
@@ -491,11 +493,11 @@ const TabsRight = () => {
                   style={{
                     transform: [{ scale: bounceValue }],
                     borderRadius: focused ? 10 : 0,
-                    overflow: 'hidden', 
+                    overflow: 'hidden',
                   }}
                 >
                   <Icon
-                    name="home" 
+                    name="home"
                     size={20}
                     color={color}
                   />
@@ -509,588 +511,809 @@ const TabsRight = () => {
   );
 };
 const Tabs = () => {
+  
   const { i18n } = useTranslation();
   const tabBarPosition = i18n.language === 'ar' ? 'right' : 'left';
   return tabBarPosition === 'left' ? <TabsLeft /> : <TabsRight />;
 };
 const { width, height } = Dimensions.get('window');
+// const LeftDrawerContent = ({route}) => {
+//   // const user = route.params?.userData;
+//   // console.log("route params userData:",user);
+//   const toggleSubcategoriesVisibility = (categoryId) => {
+//     // If the clicked category is already visible, hide it; otherwise, show it
+//     setIsselectedCategoryvisible((prevState) => prevState ? false : true);
+//     setSelectedCategoryId(categoryId); // Set the selected category ID
+//   };
+//   const [isselectedCategoryvisible, setIsselectedCategoryvisible] = useState(false);
+//   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+//   const [firstName, setFirstName] = useState('');
+//   const [lastName, setLastName] = useState('');
+//   const [userData, setUserData] = useState(null);
+//   const [store_id, setstore_id] = useState(1)
+//   const [loading, setLoading] = useState(false);
+//   const dispatch = useDispatch();
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true)
+//         AsyncStorage.getItem('userData')
+//           .then((userData) => {
+//             if (userData) {
+//               const { firstname, lastname } = JSON.parse(userData);
+//               setFirstName(firstname);
+//               setLastName(lastname);
+//               setUserData({ firstName: firstname, lastName: lastname });
+//             }
+//           });
+
+//         const response = await CategoryDrawerList(store_id);
+
+//         if (response.data && response.data.children_data) {
+          
+//           setCategories(response.data.children_data);
+//           setLoading(false)
+//           console.log("CategoryDrawerList responce children_data:",response.data.children_data);
+//         }
+//         dispatch(drawerListSuccess(response));
+//         dispatch(drawerListStart(false));
+//       } catch (error) {
+//         dispatch(drawerListFailure(error));
+//       }
+//     };
+//     fetchData();
+//   }, [dispatch]);
+//   const [expandedSubcategory, setExpandedSubcategory] = useState(null);
+//   const toggleSubcategoryVisibility = (subcategoryID) => {
+//     if (expandedSubcategory === subcategoryID) {
+//       setExpandedSubcategory(null);
+//     } else {
+//       setExpandedSubcategory(subcategoryID);
+//     }
+//   };
+//   const renderCategoryItem = ({ item: category }) => {
+//     const handlePress = (categoryId, inBannerSection) => {
+//       console.log(categoryId); 
+//       if (inBannerSection === 1) {
+//         navigation.navigate('Categorybanner', { categoryId });
+//       } else {
+//         navigation.navigate('Products', { number: categoryId });
+//       }
+//     };
+//     return (
+//       <View>
+//         <View key={category.id}>
+//           <View
+//             style={{
+//               flexDirection: 'row',
+//               justifyContent: 'space-between',
+//               paddingVertical: 10,
+//             }}
+//           >
+//             <TouchableOpacity onPress={() => handlePress(category.id,category.in_banner_section)}>
+//               <Text
+//                 style={{
+//                   textTransform: 'uppercase',
+//                   color: '#040404',
+//                   fontWeight: '600',
+//                   letterSpacing: 0.3,
+//                   fontSize: 15,
+//                 }}
+//               >
+//                 {category.name}
+//               </Text>
+//             </TouchableOpacity>
+//             {category.children_data && category.children_data.length > 0 && (
+//               <TouchableOpacity onPress={() => toggleSubcategoriesVisibility(category.id)}>
+//                 <View style={{ alignSelf: 'center' }}>
+//                   <MaterialIcons
+//                     name={isselectedCategoryvisible && selectedCategoryId === category.id ? 'keyboard-arrow-down' : 'keyboard-arrow-right'}
+//                     size={25}
+//                     color="black"
+//                   />
+//                 </View>
+//               </TouchableOpacity>
+//             )}
+//           </View>
+//           <View>
+//             {isselectedCategoryvisible && selectedCategoryId === category.id &&
+//               category.children_data.map(subcategory => (
+//                 <View key={subcategory.id}>
+//                   <TouchableOpacity onPress={() =>
+//                     navigation.navigate('Products', { number: subcategory.id })}
+//                   >
+//                     <View
+//                       style={{
+//                         flexDirection: 'row',
+//                         justifyContent: 'space-between',
+//                       }}
+//                     >
+//                       <Text
+//                         style={{
+//                           marginLeft: 10,
+//                           color: '#2D3250',
+//                           padding: 10,
+//                           fontWeight: '600',
+//                           fontSize: 14,
+//                         }}
+//                       >
+//                         {subcategory.name}
+//                       </Text>
+//                       {subcategory.children_data && subcategory.children_data.length > 0 && (
+//                         <TouchableOpacity onPress={() => {
+//                           toggleSubcategoryVisibility(subcategory.id);
+//                         }}>
+//                           <View style={{ alignSelf: 'center', marginRight: 10 }}>
+//                             <MaterialIcons
+//                               name={expandedSubcategory === subcategory.id ? 'keyboard-arrow-down' : 'keyboard-arrow-right'}
+//                               size={25}
+//                               color="black"
+//                             />
+//                           </View>
+//                         </TouchableOpacity>
+//                       )}
+//                     </View>
+//                   </TouchableOpacity>
+//                   {expandedSubcategory === subcategory.id && subcategory.children_data && subcategory.children_data.length > 0 && subcategory.children_data.map(childData => (
+//                     <TouchableOpacity onPress={() =>
+//                       navigation.navigate('Products', { number: subcategory.id })}
+//                     >
+//                       <View key={childData.id}>
+//                         <Text
+//                           style={{
+//                             marginLeft: 30,
+//                             color: '#647D87',
+//                             padding: 5,
+//                           }}
+//                         >
+//                           {childData.name}
+//                         </Text>
+//                         <View
+//                           style={{
+//                             marginLeft: 30,
+//                             color: '#647D87',
+//                             padding: 3,
+//                             borderBottomWidth: 1,
+//                             borderBottomColor: '#BFCFE7',
+//                           }}
+//                         />
+//                       </View>
+//                     </TouchableOpacity>
+//                   ))}
+//                 </View>
+//               ))
+//             }
+//           </View>
+//         </View>
+//       </View>
+//     );
+//   };
+//   const [categories, setCategories] = useState([]);
+//   const [selectedLanguage, setSelectedLanguage] = useState('en');
+//   const { t, i18n } = useTranslation();
+//   const changeLanguageButtonHandler = async () => {
+//     const langCode = i18n.language === 'en' ? 'ar' : 'en';
+//     let consoleValue;
+//     if (i18n.language === 'en') {
+//       consoleValue = 2;
+//     } else {
+//       consoleValue = 1;
+//     }
+//     try {
+//       await AsyncStorage.setItem('consoleValue', consoleValue.toString());
+//       console.log('Console value set:', consoleValue);
+//     } catch (error) {
+//       console.error('Error setting console value:', error);
+//     }
+//     changeLanguage(langCode);
+//     handleCloseDrawer();
+//   };
+//   const handleCloseDrawer = () => {
+//     navigation.closeDrawer(); 
+//   };
+//   const [showLanguagesList, setShowLanguagesList] = useState(true);
+//   const handleInstagramPress = () => {
+//     const instagramURL = 'https://www.instagram.com/alharamksa/';
+//     Linking.openURL(instagramURL);
+//   };
+//   const handleFacebookPress = () => {
+//     const facebookURL = 'https://www.facebook.com/alharamksa/';
+//     Linking.openURL(facebookURL);
+//   };
+//   const handlechatPress = () => {
+//     const businessesURL = 'https://maroof.sa/businesses/';
+//     Linking.openURL(businessesURL);
+//   };
+//   const changeLanguage = (lang) => {
+//     i18n.changeLanguage(lang);
+//     setShowLanguagesList(false);
+//     console.log('Selected Language:', t(lang));
+//   };
+//   const navigation = useNavigation();
+//   const handleLoginPress = () => {
+//     navigation.navigate('Login');
+//   };
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <View style={{}}>
+//         <View style={{ padding: 10,backgroundColor:"gray" }}>
+//           <View style={{ width: width * 70 / 100, height: height * 10 / 100, flexDirection: "row" }}>
+//             <View style={{ width: width * 55 / 100 }}>
+//               <TouchableOpacity onPress={() => {
+//                 if (!userData) {
+//                   navigation.navigate('Login');
+//                 }
+//               }}>
+//                 <View style={{ flexDirection: "row", height: height * 10 / 100, }}>
+//                   <Image
+//                     source={
+//                       userData
+//                         ? require('../assests/user.png')
+//                         : require('../assests/userhand.png')
+//                     }
+//                     style={{ width: 50, height: 50, tintColor: '#980404', margin: 10 }}
+//                   />
+//                   <View style={{ alignSelf: 'center', marginHorizontal: 5 }}>
+//                     <Text style={{ color: '#9f0202', fontSize: 18, fontWeight: 'bold' }}>
+//                       {`${firstName ? firstName : t('LOGIN')} ${lastName ? lastName : ''}`}
+//                     </Text>
+
+//                   </View>
+//                 </View>
+//               </TouchableOpacity>
+//             </View>
+//             <View style={{ width: width * 15 / 100, marginHorizontal: 10, marginVertical: 10 }}>
+//               <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+
+//                 <View style={{ alignSelf: 'center', }}>
+//                   <Feather name="edit" size={20} color="#9f0202" />
+//                 </View>
+//               </TouchableOpacity>
+//             </View>
+//           </View>
+//         </View>
+//         <View style={{ height: 1, backgroundColor: 'black', margin: 10 }} />
+//       </View>
+//       <ScrollView>
+//         <View >
+//         {loading ? ( 
+//         <View style={{ height:height*50/100, justifyContent: 'center', alignItems: 'center' }}>
+//         <ActivityIndicator size="small" color="#9f0202" />
+//       </View>
+//       ) : ( 
+        
+//         <View style={{ paddingHorizontal: 20 }}>
+//           <FlatList
+//             data={categories}
+//             renderItem={renderCategoryItem}
+//             keyExtractor={(item) => item.id.toString()}
+//           />
+//         </View>
+//       )}
+//         </View>
+//       </ScrollView>
+
+//       <View style={{ marginBottom: 60 }}>
+//         <View style={{ paddingHorizontal: 20, padding: 10 }}>
+//           {(firstName && lastName) ? (
+//             null
+//           ) : (
+//             <TouchableOpacity onPress={handleLoginPress}>
+//               <Text
+//                 style={{
+//                   textTransform: 'uppercase',
+//                   color: '#040404',
+//                   fontWeight: '600',
+//                   fontSize: 15,
+//                 }}>
+//                 {t('LOGIN')}
+//               </Text>
+//             </TouchableOpacity>
+//           )}
+//         </View>
+//         <View style={styles.btns}>
+//           <TouchableOpacity
+//             style={[
+//               styles.btn,
+//               selectedLanguage === 'en' ? styles.selectedBtn : null,
+
+//             ]}
+//             onPress={changeLanguageButtonHandler}
+//           >
+//             <View style={{ flexDirection: "row", alignItems: "center", }}>
+//               <Text style={{ color: 'black', marginRight: 5 }}>{i18n.language === 'ar' ? t('English') : t('عربي')}</Text>
+//             </View>
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//       <View style={styles.footerContainer}>
+//         <View style={styles.bottomSection}>
+//           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+//             <View style={{ flex: 1, height: 1, backgroundColor: 'black', margin: 10 }} />
+//           </View>
+//           <View style={styles.versionInfo}>
+//             <TouchableOpacity onPress={handleInstagramPress}>
+//               <View style={styles.iconContainer}>
+//                 <Image
+//                   source={require('../assests/insta.png')}
+//                   style={styles.whatsappIcon}
+//                 />
+//               </View>
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={handleFacebookPress}>
+//               <View style={styles.iconContainer1}>
+//                 <FontAwesome5Brands
+//                   name="facebook"
+//                   size={28}
+//                   color="#316FF6"
+//                   style={styles.roundedIcon1}
+//                 />
+//               </View>
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={handlechatPress}>
+//               <View style={styles.iconchat}>
+//                 <Image
+//                   source={require('../assests/chatapp.png')}
+//                   style={styles.chatImage}
+//                 />
+//               </View>
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       </View>
+//       <View style={{ marginBottom: 10 }}>
+//         <Text style={{
+//           color: 'black',
+//           textAlign: 'center',
+//           fontSize: 12,
+//         }}>Build : v1.1</Text>
+//       </View>
+//     </View>
+//   );
+// };
+// const RightDrawerContent = props => {
+//   const toggleSubcategoriesVisibility = (categoryId) => {
+//     // If the clicked category is already visible, hide it; otherwise, show it
+//     setIsselectedCategoryvisible((prevState) => prevState ? false : true);
+//     setSelectedCategoryId(categoryId); // Set the selected category ID
+//   };
+//   const [isselectedCategoryvisible, setIsselectedCategoryvisible] = useState(false);
+//   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+//   const [firstName, setFirstName] = useState('');
+//   const [lastName, setLastName] = useState('');
+//   const [userData, setUserData] = useState(null);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+  
+//         const response = await CategoryDrawerList(store_id);
+  
+//         if (response.data && response.data.children_data) {
+//           setCategories(response.data.children_data);
+//           setLoading(false);
+//           console.log("CategoryDrawerList response children_data:", response.data.children_data);
+//         }
+  
+//         dispatch(drawerListSuccess(response));
+//         dispatch(drawerListStart(false));
+//       } catch (error) {
+//         dispatch(drawerListFailure(error));
+//         console.error("Error fetching data:", error);
+//       }
+//     };
+  
+//     fetchData();
+//   }, [dispatch]);
+//   // useEffect(() => {
+//   //   AsyncStorage.getItem('userData')
+//   //     .then((userData) => {
+//   //       if (userData) {
+//   //         const { firstname, lastname } = JSON.parse(userData);
+//   //         setFirstName(firstname);
+//   //         setLastName(lastname);
+//   //         setUserData({ firstName: firstname, lastName: lastname });
+//   //       }
+//   //     })
+//   //     .catch((error) => {
+//   //       console.error('Error retrieving user data from AsyncStorage:', error);
+//   //     });
+//   // }, []);
+//   const [store_id, setstore_id] = useState(2)
+//   const [loading, setLoading] = useState(false);
+//   const dispatch = useDispatch();
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true)
+//         AsyncStorage.getItem('userData')
+//           .then((userData) => {
+//             if (userData) {
+//               const { firstname, lastname } = JSON.parse(userData);
+//               setFirstName(firstname);
+//               setLastName(lastname);
+//               setUserData({ firstName: firstname, lastName: lastname });
+//             }
+//           });
+
+//         const response = await CategoryDrawerList(store_id);
+
+//         if (response.data && response.data.children_data) {
+          
+//           setCategories(response.data.children_data);
+//           setLoading(false)
+//           console.log("CategoryDrawerList responce children_data:",response.data.children_data);
+//         }
+//         dispatch(drawerListSuccess(response));
+//         dispatch(drawerListStart(false));
+//       } catch (error) {
+//         dispatch(drawerListFailure(error));
+//       }
+//     };
+//     fetchData();
+//   }, [dispatch]);
+//   const [expandedSubcategory, setExpandedSubcategory] = useState(null);
+//   const toggleSubcategoryVisibility = (subcategoryID) => {
+//     if (expandedSubcategory === subcategoryID) {
+//       setExpandedSubcategory(null);
+//     } else {
+//       setExpandedSubcategory(subcategoryID);
+//     }
+//   };
+//   const renderCategoryItem = ({ item: category }) => {
+//     const handlePress = (categoryId, inBannerSection) => {
+//       console.log(categoryId);
+//       if (!category.children_data || category.children_data.length === 0) {
+//         navigation.navigate('Products', { number: categoryId });
+//       } else {
+//         if (inBannerSection === 1) {
+//           navigation.navigate('Categorybanner', { categoryId });
+//         } else {
+//           navigation.navigate('Products', { number: categoryId });
+//         }
+//       } 
+//       // if (inBannerSection === 1) {
+//       //   navigation.navigate('Categorybanner', { categoryId });
+//       // } else {
+//       //   navigation.navigate('Products', { number: categoryId });
+//       // }
+//     };
+//     return (
+//       <View>
+//         <View key={category.id}>
+//           <View
+//             style={{
+//               flexDirection: 'row',
+//               justifyContent: 'space-between',
+//               paddingVertical: 10,
+//             }}
+//           >
+//             {category.children_data && category.children_data.length > 0 ? (
+//         <TouchableOpacity onPress={() => toggleSubcategoriesVisibility(category.id)}>
+//           <View style={{ alignSelf: 'center' }}>
+//             <MaterialIcons
+//               name={isselectedCategoryvisible && selectedCategoryId === category.id ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
+//               size={25}
+//               color="black"
+//             />
+//           </View>
+//         </TouchableOpacity>
+//       ) : (
+//         <Text style={{ alignSelf: 'center',color:"#fff" }}>.</Text>
+//       )}
+              
+//             <TouchableOpacity onPress={() => handlePress(category.id,category.in_banner_section)}>
+//               <Text
+//                 style={{
+//                   textTransform: 'uppercase',
+//                   color: '#040404',
+//                   fontWeight: '600',
+//                   letterSpacing: 0.3,
+//                   fontSize: 15,
+//                 }}
+//               >
+//                 {category.name}
+//               </Text>
+//             </TouchableOpacity>
+        
+//           </View>
+//           <View>
+//             {isselectedCategoryvisible && selectedCategoryId === category.id &&
+//               category.children_data.map(subcategory => (
+//                 <View key={subcategory.id}>
+//                   <TouchableOpacity onPress={() =>
+//                     navigation.navigate('Products', { number: subcategory.id })}
+//                   >
+//                     <View
+//                       style={{
+//                         flexDirection: 'row',
+//                         justifyContent: 'space-between',
+//                       }}
+//                     >
+//                       {subcategory.children_data && subcategory.children_data.length > 0 ? (
+//   <TouchableOpacity onPress={() => {
+//     toggleSubcategoryVisibility(subcategory.id);
+//   }}>
+//     <View style={{ alignSelf: 'center', marginRight: 10 }}>
+//       <MaterialIcons
+//         name={expandedSubcategory === subcategory.id ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
+//         size={25}
+//         color="black"
+//       />
+//     </View>
+//   </TouchableOpacity>
+// ) : (
+//   <Text style={{ alignSelf: 'center',color:"#fff" }}>.</Text>
+// )}
+
+//                           {/* {subcategory.children_data && subcategory.children_data.length > 0 && (
+//                         <TouchableOpacity onPress={() => {
+//                           toggleSubcategoryVisibility(subcategory.id);
+//                         }}>
+//                           <View style={{ alignSelf: 'center', marginRight: 10 }}>
+//                             <MaterialIcons
+//                               name={expandedSubcategory === subcategory.id ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
+//                               size={25}
+//                               color="black"
+//                             />
+//                           </View>
+//                         </TouchableOpacity>
+//                       )} */}
+//                       <Text
+//                         style={{
+//                           marginLeft: 10,
+//                           color: '#2D3250',
+//                           padding: 10,
+//                           fontWeight: '600',
+//                           fontSize: 14,
+//                         }}
+//                       >
+//                         {subcategory.name}
+//                       </Text>
+                  
+//                     </View>
+//                   </TouchableOpacity>
+//                   {expandedSubcategory === subcategory.id && subcategory.children_data && subcategory.children_data.length > 0 && subcategory.children_data.map(childData => (
+//                     <TouchableOpacity onPress={() =>
+//                       navigation.navigate('Products', { number: subcategory.id })}
+//                     >
+//                       <View key={childData.id}>
+//                         <Text
+//                           style={{
+//                             marginLeft: 30,
+//                             color: '#647D87',
+//                             padding: 5,
+//                           }}
+//                         >
+//                           {childData.name}
+//                         </Text>
+//                         <View
+//                           style={{
+//                             marginLeft: 30,
+//                             color: '#647D87',
+//                             padding: 3,
+//                             borderBottomWidth: 1,
+//                             borderBottomColor: '#BFCFE7',
+//                           }}
+//                         />
+//                       </View>
+//                     </TouchableOpacity>
+//                   ))}
+//                 </View>
+//               ))
+//             }
+//           </View>
+//         </View>
+//       </View>
+//     );
+//   };
+//   const [categories, setCategories] = useState([]);
+//   const [selectedLanguage, setSelectedLanguage] = useState('en');
+//   const { t, i18n } = useTranslation();
+//   const changeLanguageButtonHandler = async () => {
+//     const langCode = i18n.language === 'en' ? 'ar' : 'en';
+//     let consoleValue;
+//     if (i18n.language === 'en') {
+//       consoleValue = 2;
+//     } else {
+//       consoleValue = 1;
+//     }
+//     try {
+//       await AsyncStorage.setItem('consoleValue', consoleValue.toString());
+//       console.log('Console value set:', consoleValue);
+//     } catch (error) {
+//       console.error('Error setting console value:', error);
+//     }
+//     changeLanguage(langCode);
+//     handleCloseDrawer();
+//   };
+//   const handleCloseDrawer = () => {
+//     navigation.closeDrawer(); 
+//   };
+//   const [showLanguagesList, setShowLanguagesList] = useState(true);
+//   const handleInstagramPress = () => {
+//     const instagramURL = 'https://www.instagram.com/alharamksa/';
+//     Linking.openURL(instagramURL);
+//   };
+//   const handleFacebookPress = () => {
+//     const facebookURL = 'https://www.facebook.com/alharamksa/';
+//     Linking.openURL(facebookURL);
+//   };
+//   const handlechatPress = () => {
+//     const businessesURL = 'https://maroof.sa/businesses/';
+//     Linking.openURL(businessesURL);
+//   };
+//   const changeLanguage = (lang) => {
+//     i18n.changeLanguage(lang);
+//     setShowLanguagesList(false);
+//     console.log('Selected Language:', t(lang));
+//   };
+//   const navigation = useNavigation();
+//   const handleLoginPress = () => {
+//     navigation.navigate('Login');
+//   };
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <View style={{}}>
+//         <View style={{ padding: 10, }}>
+//           <View style={{ width: width * 70 / 100, height: height * 10 / 100, flexDirection: "row" }}>
+//           <View style={{ width: width * 15 / 100, marginHorizontal: 10, marginVertical: 10 }}>
+//               <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+
+//                 <View style={{ alignSelf: 'center', }}>
+//                   <Feather name="edit" size={20} color="#9f0202" />
+//                 </View>
+//               </TouchableOpacity>
+//             </View>
+//             <View style={{ width: width * 55 / 100 }}>
+//               <TouchableOpacity onPress={() => {
+//                 if (!userData) {
+//                   navigation.navigate('Login');
+//                 }
+//               }}>
+//                 <View style={{ flexDirection: "row", height: height * 10 / 100, }}>
+//                 <View style={{ alignSelf: 'center', marginHorizontal: 5 }}>
+//                     <Text style={{ color: '#9f0202', fontSize: 18, fontWeight: 'bold' }}>
+//                       {` ${lastName ? lastName : ''} ${firstName ? firstName : t('LOGIN')}`}
+//                     </Text>
+
+//                   </View>
+//                   <Image
+//                     source={
+//                       userData
+//                         ? require('../assests/user.png')
+//                         : require('../assests/userhand.png')
+//                     }
+//                     style={{ width: 50, height: 50, tintColor: '#980404', margin: 10 }}
+//                   />
+                 
+//                 </View>
+//               </TouchableOpacity>
+//             </View>
+            
+//           </View>
+//         </View>
+//         <View style={{ height: 1, backgroundColor: 'black', margin: 10 }} />
+//       </View>
+//       <ScrollView>
+//         <View >
+//         {loading ? ( 
+//         <View style={{ height:height*50/100, justifyContent: 'center', alignItems: 'center' }}>
+//         <ActivityIndicator size="small" color="#9f0202" />
+//       </View>
+//       ) : ( 
+        
+//         <View style={{ paddingHorizontal: 20 }}>
+//           <FlatList
+//             data={categories}
+//             renderItem={renderCategoryItem}
+//             keyExtractor={(item) => item.id.toString()}
+//           />
+//         </View>
+//       )}
+//         </View>
+//       </ScrollView>
+
+//       <View style={{ marginBottom: 60 }}>
+//         <View style={{ paddingHorizontal: 20, padding: 10 }}>
+//           {(firstName && lastName) ? (
+//             null
+//           ) : (
+//             <TouchableOpacity onPress={handleLoginPress}>
+//               <Text
+//                 style={{
+//                   textTransform: 'uppercase',
+//                   color: '#040404',
+//                   fontWeight: '600',
+//                   fontSize: 15,
+//                 }}>
+//                 {t('LOGIN')}
+//               </Text>
+//             </TouchableOpacity>
+//           )}
+//         </View>
+//         <View style={styles.btns}>
+//           <TouchableOpacity
+//             style={[
+//               styles.btn,
+//               selectedLanguage === 'en' ? styles.selectedBtn : null,
+
+//             ]}
+//             onPress={changeLanguageButtonHandler}
+//           >
+//             <View style={{ flexDirection: "row", alignItems: "center", }}>
+//               <Text style={{ color: 'black', marginRight: 5 }}>{i18n.language === 'ar' ? t('English') : t('عربي')}</Text>
+//             </View>
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//       <View style={styles.footerContainer}>
+//         <View style={styles.bottomSection}>
+//           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+//             <View style={{ flex: 1, height: 1, backgroundColor: 'black', margin: 10 }} />
+//           </View>
+//           <View style={styles.versionInfo}>
+//             <TouchableOpacity onPress={handleInstagramPress}>
+//               <View style={styles.iconContainer}>
+//                 <Image
+//                   source={require('../assests/insta.png')}
+//                   style={styles.whatsappIcon}
+//                 />
+//               </View>
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={handleFacebookPress}>
+//               <View style={styles.iconContainer1}>
+//                 <FontAwesome5Brands
+//                   name="facebook"
+//                   size={28}
+//                   color="#316FF6"
+//                   style={styles.roundedIcon1}
+//                 />
+//               </View>
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={handlechatPress}>
+//               <View style={styles.iconchat}>
+//                 <Image
+//                   source={require('../assests/chatapp.png')}
+//                   style={styles.chatImage}
+//                 />
+//               </View>
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       </View>
+//       <View style={{ marginBottom: 10 }}>
+//         <Text style={{
+//           color: 'black',
+//           textAlign: 'center',
+//           fontSize: 12,
+//         }}>Build : v1.1</Text>
+//       </View>
+//     </View>
+//   );
+// };
+
 const DrawerContent = props => {
-  const dispatch = useDispatch();
-  const categories = useSelector(selectCategories);
-  const [clickedCategory, setClickedCategory] = useState(null);
-  const [store_id, setstore_id] = useState(1)
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [userData, setUserData] = useState(null); 
-  useEffect(() => {
-    AsyncStorage.getItem('userData')
-      .then((userData) => {
-        if (userData) {
-          const { firstname, lastname } = JSON.parse(userData);
-          setFirstName(firstname);
-          setLastName(lastname);
-          setUserData({ firstName: firstname, lastName: lastname });
-        }
-      })
-      .catch((error) => {
-        console.error('Error retrieving user data from AsyncStorage:', error);
-      });
-  }, []);
-  
-  useEffect(() => {
-    
-    AsyncStorage.getItem('userData')
-      .then((userData) => {
-        if (userData) {
-          const { firstname, lastname } = JSON.parse(userData);
-          setFirstName(firstname);
-          setLastName(lastname);
-          setUserData({ firstName: firstname, lastName: lastname });
-        }
-      })
-      .catch((error) => {
-        console.error('Error retrieving user data from AsyncStorage:', error);
-      });
-    const storeId = store_id;
-    setLoading(true)
-    CategoryDrawerList(storeId)
-      .then(responseData => {
-        console.log("listdata::", responseData);
-        setLoading(false);
-        dispatch(setCategories(responseData.data));
-        if (responseData.data.length > 0) {
-          setClickedCategory(responseData.data[0]);
-          setChildrenData(responseData.data[0].children_data || []);
-        }
-      })
-      .catch(error => {
-        console.error('Error responseData:111', error);
-      });
-  }, [dispatch]);
- 
-  const [loading, setLoading] = useState(false);
-  const [isWomenFashionVisible, setIsWomenFashionVisible] = useState(false);
-  const [isSubWomenFashionVisible, setIsSubWomenFashionVisible] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const { t, i18n } = useTranslation();
-  const changeLanguageButtonHandler = () => {
+   const { i18n } = useTranslation();
+  const langCode = i18n.language;
 
-    const langCode = i18n.language === 'en' ? 'ar' : 'en';
-    changeLanguage(langCode);
-  };
-  const [showLanguagesList, setShowLanguagesList] = useState(true);
-  const handleInstagramPress = () => {
-    const instagramURL = 'https://www.instagram.com/alharamksa/';
-    Linking.openURL(instagramURL);
-  };
-  const handleFacebookPress = () => {
-    const facebookURL = 'https://www.facebook.com/alharamksa/';
-    Linking.openURL(facebookURL);
-  };
-  const handlechatPress = () => {
-    const instagramURL = 'https://maroof.sa/businesses/';
-    Linking.openURL(instagramURL);
-  };
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-    setShowLanguagesList(false);
-    console.log('Selected Language:', t(lang));
-  };
-  useEffect(() => {
-  if (selectedCategory !== null) {
-    setlist(selectedCategory);
-  }
-}, [selectedCategory]);
-  const [childrenData, setChildrenData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isselectedCategoryvisible, setselectedCategoryvisible] = useState(false)
-  const [list, setlist] = useState(null);
-  const navigation = useNavigation();
-  const handleLogin = () => {
+  // Define the component to render based on the language code
+  const ContentComponent = langCode === 'en' ? LeftDrawerContent: RightDrawerContent;
 
-    const firstname = 'John'; // Example value
-    const lastname = 'Doe'; // Example value
-    setFirstName(firstname);
-    setLastName(lastname);
-    // Navigate to the login screen
-    navigation.navigate('Login');
-  };
-  
-  const handleLogoutPress = () => {
-    if (firstName && lastName) {
-      AsyncStorage.removeItem('userData')
-        .then(() => {
-          setFirstName('');
-          setLastName('');
-          setUserData(null); 
-          // props.navigation.navigate('Login'); 
-        })
-        .catch((error) => {
-          console.error('Error removing user data from AsyncStorage:', error);
-        });
-    } else {
-      // props.navigation.navigate('Login'); 
-    }
-  };
-  
-  
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={{}}>
-        <View style={{ padding: 20, }}>
-          <View style={{ flexDirection: 'row' }}>
-          <Image
-              source={
-                userData
-                  ? require('../assests/user.png')
-                  : require('../assests/userhand.png') 
-              }
-              style={{ width: 50, height: 50, tintColor: '#980404' }}
-            />
-    
-            <View style={{ alignSelf: 'center', paddingHorizontal: 10, flex: 1 }}>
-            <Text style={{ color: '#9f0202', fontSize: 18, fontWeight: 'bold' }}>
-  {`${firstName ? firstName : 'Login'} ${lastName ? lastName : ''}`}
-</Text>
-
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-
-            <View style={{ alignSelf: 'center' ,padding:5}}>
-            <Feather name="edit" size={20} color="#9f0202" />
-            
-            </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{ height: 1, backgroundColor: 'black', margin: 10 }} />
-      </View>
-      <ScrollView>
-        <View style={{ paddingHorizontal: 20 }}>
-          <View>
-            {loading ? (
-             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-             <ActivityIndicator size="large" color="#0000ff" />
-             {/* <Image source={require('../../assests/gif/app_Loader.gif')} style={{ width: 50, height: 50 }} /> */}
-           </View>
-            ) : (
-              <FlatList
-              data={categories.children_data}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => {
-                return (
-                  <View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: 10,
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => {
-                          console.log("Pressed item id:", item.id);
-                          setSelectedCategory(item.id);
-                          setselectedCategoryvisible(!isselectedCategoryvisible);
-                          // navigation.navigate('Categorybanner');
-                        // Alert.alert("hello")
-                          navigation.navigate('Categorybanner', { categoryId: item.id });
-                        }}
-                      >
-                        <Text
-                          style={{
-                            textTransform: 'uppercase',
-                            color: '#040404',
-                            fontWeight: '600',
-                            letterSpacing: 0.3,
-                            fontSize: 15,
-                          }}
-                        >
-                          {item.name}
-                        
-                        </Text>
-                      </TouchableOpacity>
-                      <View style={{ alignSelf: 'center' }}>
-                        <MaterialIcons
-                        name={
-                          isselectedCategoryvisible
-                            ? 'keyboard-arrow-down'
-                            : 'keyboard-arrow-right'
-                        }
-            
-                          size={25}
-                          color="black"
-                        />
-                      </View>
-                    </View>
-                    {selectedCategory === item.id && (
-              <FlatList
-                data={item.children_data}
-                keyExtractor={(childItem) => childItem.id.toString()}
-                renderItem={({ item: childItem }) => (
-                  <View>
-                    <TouchableOpacity onPress={() => {
-                          // setChildrenData(item.children_data || []);
-                          console.log("Pressed2 item id:", item.id);
-                          setlist(item.id)
-                          
-                        }}>     
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Text
-                          style={{
-                            marginLeft: 10,
-                            color: '#2D3250',
-                            padding: 10,
-                            fontWeight: '600',
-                            fontSize: 14,
-                          }}
-                        >
-                          {childItem.name}
-                        </Text>
-                        <View style={{ alignSelf: 'center' }}>
-                          <MaterialIcons
-                            name={'keyboard-arrow-right'}
-                            size={25}
-                            color="black"
-                          />
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                    {childItem.children_data &&
-                      childItem.children_data.map((nestedChild) => (
-                        <TouchableOpacity key={nestedChild.id}>
-                            {list === item.id && (
-                         <View> 
-                             <Text
-                             style={{
-                               marginLeft: 30,
-                               color: '#647D87',
-                               padding: 5,
-                             }}
-                           >
-                             {nestedChild.name}
-                           </Text>
-                           <View
-                             style={{
-                               marginLeft: 30,
-                               color: '#647D87',
-                               padding: 3,
-                               borderBottomWidth: 1,
-                               borderBottomColor: '#BFCFE7',
-                             }}
-                           />
-                         </View>
-                         )}
-                        </TouchableOpacity>
-                      ))}
-                  </View>
-                )}
-              />
-            )} 
-                  </View>
-                );
-              }}
-            /> 
-            )}
-          </View>
-        </View>
-      </ScrollView>
-      
-      {/* <ScrollView>
-        <View style={{ paddingHorizontal: 20, }}>
-          <View>
-         
-   <FlatList
-              data={categories.children_data}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => {
-                return (
-                  <View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: 10,
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => {
-                          console.log("Pressed item id:", item.id);
-                          setSelectedCategory(item.id);
-                          setselectedCategoryvisible(!isselectedCategoryvisible);
-                          // navigation.navigate('Categorybanner');
-                        // Alert.alert("hello")
-                          navigation.navigate('Categorybanner', { categoryId: item.id });
-                        }}
-                      >
-                        <Text
-                          style={{
-                            textTransform: 'uppercase',
-                            color: '#040404',
-                            fontWeight: '600',
-                            letterSpacing: 0.3,
-                            fontSize: 15,
-                          }}
-                        >
-                          {item.name}
-                        
-                        </Text>
-                      </TouchableOpacity>
-                      <View style={{ alignSelf: 'center' }}>
-                        <MaterialIcons
-                        name={
-                          isselectedCategoryvisible
-                            ? 'keyboard-arrow-down'
-                            : 'keyboard-arrow-right'
-                        }
-            
-                          size={25}
-                          color="black"
-                        />
-                      </View>
-                    </View>
-                    {selectedCategory === item.id && (
-              <FlatList
-                data={item.children_data}
-                keyExtractor={(childItem) => childItem.id.toString()}
-                renderItem={({ item: childItem }) => (
-                  <View>
-                    <TouchableOpacity onPress={() => {
-                          // setChildrenData(item.children_data || []);
-                          console.log("Pressed2 item id:", item.id);
-                          setlist(item.id)
-                          
-                        }}>     
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Text
-                          style={{
-                            marginLeft: 10,
-                            color: '#2D3250',
-                            padding: 10,
-                            fontWeight: '600',
-                            fontSize: 14,
-                          }}
-                        >
-                          {childItem.name}
-                        </Text>
-                        <View style={{ alignSelf: 'center' }}>
-                          <MaterialIcons
-                            name={'keyboard-arrow-right'}
-                            size={25}
-                            color="black"
-                          />
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                    {childItem.children_data &&
-                      childItem.children_data.map((nestedChild) => (
-                        <TouchableOpacity key={nestedChild.id}>
-                            {list === item.id && (
-                         <View> 
-                             <Text
-                             style={{
-                               marginLeft: 30,
-                               color: '#647D87',
-                               padding: 5,
-                             }}
-                           >
-                             {nestedChild.name}
-                           </Text>
-                           <View
-                             style={{
-                               marginLeft: 30,
-                               color: '#647D87',
-                               padding: 3,
-                               borderBottomWidth: 1,
-                               borderBottomColor: '#BFCFE7',
-                             }}
-                           />
-                         </View>
-                         )}
-                        </TouchableOpacity>
-                      ))}
-                  </View>
-                )}
-              />
-            )} 
-                  </View>
-                );
-              }}
-            /> 
-
-          </View>
-        </View>
-
-      </ScrollView> */}
-      <View style={{ marginBottom: 60 }}>
-  <View style={{ paddingHorizontal: 20, padding: 10 }}>
-    {(firstName && lastName) ? (
-    null
-      // <TouchableOpacity onPress={handleLogoutPress}>
-      //   <Text
-      //     style={{
-      //       textTransform: 'uppercase',
-      //       color: '#040404',
-      //       fontWeight: '600',
-      //       fontSize: 15,
-      //     }}>
-      //     {`${t('LOGOUT')} `}
-      //   </Text>
-      // </TouchableOpacity>
-    ) : (
-      <TouchableOpacity onPress={firstName && lastName ? handleLogoutPress : handleLogin}>
-        <Text
-          style={{
-            textTransform: 'uppercase',
-            color: '#040404',
-            fontWeight: '600',
-            fontSize: 15,
-          }}>
-          {t('LOGIN')}
-        </Text>
-      </TouchableOpacity>
-    )}
-   
-  </View>
-  <View style={styles.btns}>
-    <TouchableOpacity
-      style={[
-        styles.btn,
-        selectedLanguage === 'en' ? styles.selectedBtn : null,
-
-      ]}
-      onPress={changeLanguageButtonHandler}
-    >
-      <View style={{ flexDirection: "row", alignItems: "center", }}>
-        <Text style={{ color: 'black', marginRight: 5 }}>{i18n.language === 'ar' ? t('English') : t('عربي')}</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-</View>
-
-      {/* <View style={{ marginBottom: 60 }}>
-        <View style={{ paddingHorizontal: 20, padding: 10 }}>
-        {firstName && lastName ? (
-            <TouchableOpacity onPress={handleLogoutPress}>
-              <Text
-                style={{
-                  textTransform: 'uppercase',
-                  color: '#040404',
-                  fontWeight: '600',
-                  fontSize: 15,
-                }}>
-                {t('LOGOUT')}
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
-            <Text
-              style={{
-                textTransform: 'uppercase',
-                color: '#040404',
-                fontWeight: '600',
-                fontSize: 15,
-              }}>
-            {t('LOGIN')}
-            </Text>
-          </TouchableOpacity>
-            
-          )}
-        </View>
-        <View style={styles.btns}>
-          <TouchableOpacity
-            style={[
-              styles.btn,
-              selectedLanguage === 'en' ? styles.selectedBtn : null,
-
-            ]}
-            onPress={changeLanguageButtonHandler}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center", }}>
-              <Text style={{ color: 'black', marginRight: 5 }}>{i18n.language === 'ar' ? t('English') : t('عربي')}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View> */}
-      <View style={styles.footerContainer}>
-        <View style={styles.bottomSection}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1, height: 1, backgroundColor: 'black', margin: 10 }} />
-          </View>
-          <View style={styles.versionInfo}>
-            <TouchableOpacity onPress={handleInstagramPress}>
-              <View style={styles.iconContainer}>
-                <Image
-                  source={require('../assests/insta.png')}
-                  style={styles.whatsappIcon}
-                />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleFacebookPress}>
-              <View style={styles.iconContainer1}>
-                <FontAwesome5Brands
-                  name="facebook"
-                  size={28}
-                  color="#316FF6"
-                  style={styles.roundedIcon1}
-                />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handlechatPress}>
-              <View style={styles.iconchat}>
-                <Image
-                  source={require('../assests/chatapp.png')}
-                  style={styles.chatImage}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={{ marginBottom: 10 }}>
-        <Text style={{
-          color: 'black',
-          textAlign: 'center',
-          fontSize: 12,
-        }}>Build : v1.1</Text>
-      </View>
-    </View>
-  );
+  // Render the selected component
+  return <ContentComponent {...props} />;
 };
-const CustomHeaderleft = ({ clicked, searchPhrase, setSearchPhrase, setCLicked }) => {
-  const navigation = useNavigation();
 
+const CustomHeaderleft = () => {
+  const navigation = useNavigation();
   const handleDrawerOpen = () => {
     navigation.openDrawer();
   };
-  const [count, setCount] = useState(0);
-  const animatedScale = new Animated.Value(1);
-
-  const animationRef = useRef(null);
-
-  const playFireworksAnimation = () => {
-    if (animationRef.current) {
-      animationRef.current.play();
-    }
-  };
-
   const HomeScreen = () => {
     navigation.navigate('Home');
   };
   const [animatedValue] = useState(new Animated.Value(1));
-
   const handlePress = () => {
-    // Add your "crackers effect" animation here
     Animated.sequence([
       Animated.timing(animatedValue, { toValue: 1.4, duration: 100, useNativeDriver: false }),
       Animated.timing(animatedValue, { toValue: 1, duration: 100, useNativeDriver: false }),
@@ -1100,12 +1323,11 @@ const CustomHeaderleft = ({ clicked, searchPhrase, setSearchPhrase, setCLicked }
   const [counter, setCounter] = useState(0);
   const handlstore = () => {
     setCounter(counter + 1);
-    // Add your start effect animation logic here
     Animated.sequence([
       Animated.timing(scaleValue, {
-        toValue: 1.2, // Scale factor when pressed
+        toValue: 1.2, 
         duration: 100,
-        useNativeDriver: false, // Make sure to set useNativeDriver to false for Android
+        useNativeDriver: false,
       }),
       Animated.timing(scaleValue, {
         toValue: 1,
@@ -1145,6 +1367,7 @@ const CustomHeaderleft = ({ clicked, searchPhrase, setSearchPhrase, setCLicked }
                 name="search"
                 size={30}
                 color="#43766C"
+
               />
             </View>
             <TextInput
@@ -1187,22 +1410,19 @@ const CustomHeaderleft = ({ clicked, searchPhrase, setSearchPhrase, setCLicked }
               />
             </TouchableOpacity>
           </View>
+
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <TouchableOpacity onPress={toggleSearch}>
               <View style={{ padding: 5 }}>
                 <Image
                   source={require('../assests/search..png')}
-                  style={{ width: 25, height: 25, tintColor: '#444444' }}
+                  style={{ width: 25, height: 25, tintColor: 'green' }}
                 />
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={handlePress}>
               <Animated.View style={{ transform: [{ scale: animatedValue }], padding: 5 }}>
-              <Feather name="heart" size={26} color="#444444" />
-                {/* <Image
-                  source={require('../assests/heart.png')}
-                  style={{ width: 25, height: 25, tintColor: '#444444' }}
-                /> */}
+                <Feather name="heart" size={26} color="#444444" />
               </Animated.View>
             </TouchableOpacity>
             <TouchableOpacity onPress={handlstore}>
@@ -1238,7 +1458,8 @@ const CustomHeaderRight = () => {
           <Icon
             name="search1"
             size={25}
-            color="#444444"
+            color="#43766C"
+
           />
         </View>
         <View style={{ padding: 5 }}>
@@ -1284,18 +1505,16 @@ const CustomHeaderRight = () => {
 function SplashScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{alignSelf:"center"}}>
-
-<Image
-source={require('../assests/Logo.png')} // Replace with your splash image path
-style={{width:width*65/100,height:height*25/100}}
-resizeMode="contain"
-/>
-</View>
+      <View style={{ alignSelf: "center" }}>
+        <Image
+          source={require('../assests/Logo.png')}
+          style={{ width: width * 65 / 100, height: height * 25 / 100 }}
+          resizeMode="contain"
+        />
+      </View>
     </View>
   );
 }
-
 export default function AppContainer() {
   const { i18n } = useTranslation();
   const isLanguageHindi = i18n.language === 'ar';
@@ -1305,7 +1524,7 @@ export default function AppContainer() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000); 
+    }, 1000);
   }, []);
   if (isLoading) {
     return <SplashScreen />;
@@ -1320,16 +1539,17 @@ export default function AppContainer() {
       <DrawerNavigator.Screen
         name="Tabs"
         component={Tabs}
-        options={{
-          headerTitle: '',
-          headerLeft: () => {
-            if (isLanguageHindi) {
-              return <CustomHeaderRight />;
-            } else {
-              return <CustomHeaderleft />;
-            }
-          },
-        }}
+        options={{ headerTitle: '', headerShown: false }}
+        // options={{
+        //   headerTitle: '',
+        //   headerLeft: () => {
+        //     if (isLanguageHindi) {
+        //       return <CustomHeaderRight />;
+        //     } else {
+        //       return <CustomHeaderleft />;
+        //     }
+        //   },
+        // }}
       />
       <DrawerNavigator.Screen
         name="Login"
@@ -1381,99 +1601,9 @@ export default function AppContainer() {
         component={AddToCart}
         options={{ headerTitle: '', headerShown: false }}
       />
-      <DrawerNavigator.Screen
-      name="NumberOfItems"
-      component={NumberOfItems}
-      options={{ headerTitle: '', headerShown: false }}
-    />
-    <DrawerNavigator.Screen
-      name="Registor"
-      component={Register}
-      options={{ headerTitle: '', headerShown: false }}
-    />
     </DrawerNavigator.Navigator>
   );
 }
-
-// export default function AppContainer() {
-//   const { i18n } = useTranslation();
-//   const isLanguageHindi = i18n.language === 'ar';
-//   const drawerPosition = isLanguageHindi ? 'right' : 'left';
-//   const navigation = useNavigation();
-//   return (
-//     <DrawerNavigator.Navigator
-//       screenOptions={{
-//         drawerPosition: drawerPosition,
-//       }}
-//       drawerContent={props => <DrawerContent {...props} />}
-//     >
-//       <DrawerNavigator.Screen
-//         name="Tabs"
-//         component={Tabs}
-//         options={{
-//           headerTitle: '',
-//           headerLeft: () => {
-//             if (isLanguageHindi) {
-//               return <CustomHeaderRight />;
-//             } else {
-//               return <CustomHeaderleft />;
-//             }
-//           },
-//         }}
-//       />
-//       <DrawerNavigator.Screen
-//         name="Login"
-//         component={LoginStack}
-//         options={{ headerTitle: '', headerShown: false, }}
-//       />
-//        <DrawerNavigator.Screen
-//         name="Products"
-//         component={Products}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//        <DrawerNavigator.Screen
-//         name="Categorybanner"
-//         component={Categorybanner}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//        <DrawerNavigator.Screen
-//         name="Addresslist"
-//         component={Addresslist}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//          <DrawerNavigator.Screen
-//         name="AddressBookScreen"
-//         component={AddressBookScreen}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//        <DrawerNavigator.Screen
-//         name="WishlistPage"
-//         component={WishlistPage}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//        <DrawerNavigator.Screen
-//         name="EditProfile"
-//         component={EditProfile}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//         <DrawerNavigator.Screen
-//         name="HomeNewData"
-//         component={HomeNewData}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//           <DrawerNavigator.Screen
-//         name="MainProduct"
-//         component={MainProduct}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//       <DrawerNavigator.Screen
-//         name="AddToCart"
-//         component={AddToCart}
-//         options={{headerTitle: '', headerShown: false}}
-//       />
-//     </DrawerNavigator.Navigator>
-//   );
-// }
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
@@ -1522,12 +1652,10 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-
   },
   btn: {
     width: width * 50 / 100,
     height: 50,
-
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -1537,8 +1665,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   selectedBtn: {
-    // backgroundColor: '#980404', // You can set your desired background color
-
   },
   container: {
     flex: 1,
@@ -1551,7 +1677,6 @@ const styles = StyleSheet.create({
   }),
   drawerRouteText: {
     letterSpacing: 0.4,
-    // marginLeft: 10,
     color: 'black',
     fontSize: 15,
     fontWeight: '400'
@@ -1565,7 +1690,6 @@ const styles = StyleSheet.create({
     width: '100%',
     bottom: 0,
   },
-
   logoutContainer: {
     borderTopColor: 'black',
     borderTopWidth: 0.5,
@@ -1584,12 +1708,11 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 0.2,
-    // backgroundColor:"#fff8bd"
   },
   verticalLine: {
-    height: '100%', // Set the height as per your requirement
-    width: 1, // Set the width of the line
-    backgroundColor: 'black', // Set the color of the line
+    height: '100%', 
+    width: 1, 
+    backgroundColor: 'black', 
   },
   copyRightText: {
     fontSize: 12
@@ -1638,22 +1761,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     marginBottom: 10
-
   },
   verticalLine: {
-    // hei: '100%',
     width: '100%',
     backgroundColor: 'red',
     marginHorizontal: 10,
   },
   iconContainer: {
-
-
     marginRight: 10
   },
   iconchat: {
-
-
     marginRight: 10
   },
   roundedIcon: {
@@ -1682,11 +1799,8 @@ const styles = StyleSheet.create({
   },
   searchBar__clicked: {
     padding: 10,
-
     width: "80%",
-
     borderRadius: 15,
-
   },
   input: {
     fontSize: 20,

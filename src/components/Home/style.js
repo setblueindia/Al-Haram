@@ -1,22 +1,16 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
 const { width, height } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
-  lodercontainer:{
+  lodercontainer: {
     backgroundColor: "#fff",
-height:height,
-    alignItems:"center",paddingVertical:300
+    height: height,
+    alignItems: "center", paddingVertical: 300
   },
   container: {
     backgroundColor: "#fff"
   },
   categories: {
     padding: 10
-  },
-  topbanner: {
-    // padding: 10,
- 
   },
   screenText: {
     fontSize: 20,
@@ -45,36 +39,32 @@ height:height,
     height: 50,
     resizeMode: 'cover',
   },
-
   image: {
     width: width * 0.2,
     height: height * 0.1,
     margin: 5,
-    borderRadius: 100/3,
+    borderRadius: 100 / 3,
   },
   categoryName: {
-    marginTop: 5, // spacing between image and text
-    fontSize: 12, // adjust the font size as needed
-    textAlign: 'center', // center the text
+    marginTop: 5,
+    fontSize: 12,
+    textAlign: 'center',
   },
   topBannerImage: {
     width: '100%',
     height: 20,
-  
   },
   sliderImage: {
     width: width,
-    height: height * 0.4,
+    height: height * 0.5,
     margin: 5,
-   
   },
-  TopCategoriesText:{
+  TopCategoriesText: {
     fontSize: 17,
     fontWeight: "500",
     color: "#980404",
-    padding:10
+    padding: 10
   },
- 
   Topbanner: {
     padding: 10,
   },
@@ -94,31 +84,46 @@ height:height,
     height: 150,
     marginBottom: 10,
   },
- 
   featuredProducts: {
     padding: 10,
-    
   },
   featuredProductsText: {
     fontSize: 17,
     fontWeight: "500",
     color: "#980404",
-    padding:5
+    padding: 5
   },
   featuredproductsview: {
     width: width * 35 / 100,
+    
     margin: 5,
-    // height: height * 30 / 100,
     alignItems: "center",
-    
   },
-  featuredProductImage: {
-    
+  loadingIndicator:{
+  zIndex:999
+  },
+  featuredProductImageview: {
     width: width * 35 / 100,
     height: height * 25 / 100,
+    zIndex:0
+  },
+  featuredProductImage: {
+    width: width * 35 / 100,
+    height: height * 25 / 100,
+    
+  },
+  loaderContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)', // optional: semi-transparent background for better visibility
   },
   featuredname: {
-     width: width * 35 / 100, 
+    width: width * 35 / 100,
     textAlign: 'center',
     color: "#4a484a",
     padding: 5,
@@ -126,186 +131,173 @@ height:height,
   featuredprize: {
     textAlign: 'center',
     color: "#980404",
-    fontSize:12
+    fontSize: 12
   },
-  specialOffers:{
- paddingHorizontal:10,
- paddingVertical:5,
-  
+  specialOffers: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
-  specialOffersText:{
+  specialOffersText: {
     fontSize: 17,
     fontWeight: "500",
     color: "#980404",
-    padding:5
+    padding: 5
   },
-  specialOfferView:{
+  specialOfferView: {
     width: width * 35 / 100,
     margin: 5,
     position: 'relative',
-    // height: height * 35 / 100,
     alignItems: "center",
   },
-  specialOfferImage:{
+  specialOfferImage: {
     width: width * 35 / 100,
     height: height * 25 / 100,
   },
-  specialOfferName:{
+  specialOfferName: {
     textAlign: 'center',
     color: "#4a484a",
     padding: 5
   },
-  specialOfferPrice:{
+  specialOfferPrice: {
     textAlign: 'center',
     color: "#980404",
-    fontSize:12
+    fontSize: 12
   },
-  specialOffershow:{
+  specialOffershow: {
     textAlign: 'center',
     color: "#980404",
-    fontSize:16
+    fontSize: 16
   },
   specialOfferOverlay: {
     position: 'absolute',
     bottom: 0,
     right: 0,
     width: width * 0.4,
-    height: height * 0.5, 
+    height: height * 0.5,
   },
-  latestproduct:{
-   paddingHorizontal:5,
-  //  backgroundColor:"pink"
-   
+  latestproduct: {
+    paddingHorizontal: 5,
   },
-  latestproductText:{
+  latestproductText: {
     fontSize: 17,
     fontWeight: "500",
     color: "#980404",
-    padding:5
+    padding: 5
   },
-  latestproductView:{
+  latestproductView: {
     width: width * 35 / 100,
     margin: 5,
     position: 'relative',
     height: height * 35 / 100,
     alignItems: "center",
   },
-  latestproductImage:{
+  latestproductImage: {
     width: width * 35 / 100,
     height: height * 25 / 100,
   },
-  latestproductName:{
+  latestproductName: {
     textAlign: 'center',
     color: "#4a484a",
     padding: 5
   },
-  latestproductPrice:{
+  latestproductPrice: {
     textAlign: 'center',
     color: "#980404",
-    fontSize:12
+    fontSize: 12
   },
-  gamecategory:{
-    paddingHorizontal:10,
-    // paddingVertical:5,
-    //  backgroundColor:"red"
-     },
-     gamecategoryText:{
-       fontSize: 17,
-       fontWeight: "500",
-       color: "#980404",
-       padding:5
-     },
-     gamecategoryTextView:{
-       width: width * 35 / 100,
-       margin: 5,
-       position: 'relative',
-       // height: height * 35 / 100,
-       alignItems: "center",
-     },
-     gamecategoryTextViewImage:{
-       width: width * 35 / 100,
-       height: height * 25 / 100,
-     },
-     gamecategoryName:{
-       textAlign: 'center',
-       color: "#4a484a",
-       padding: 5
-     },
-     gamecategoryPrice:{
-       textAlign: 'center',
-       color: "#980404",
-       fontSize:12
-     },
-     gamecategoryshow:{
-       textAlign: 'center',
-       color: "#980404",
-       fontSize:16
-     },
-     specialOfferOverlay: {
-       position: 'absolute',
-       bottom: 0,
-       right: 0,
-       width: width * 0.4,
-       height: height * 0.5, 
-     },
-     schoolcategory:{
-      paddingHorizontal:10,
-      paddingVertical:5,
-      //  backgroundColor:"green"
-       },
-       schoolcategoryText:{
-         fontSize: 17,
-         fontWeight: "500",
-         color: "#980404",
-         padding:5
-       },
-       schoolcategoryView:{
-         width: width * 35 / 100,
-         margin: 5,
-         position: 'relative',
-         // height: height * 35 / 100,
-         alignItems: "center",
-       },
-       
-       schoolcategoryImage:{
-         width: width * 35 / 100,
-         height: height * 25 / 100,
-       },
-       schoolcategoryName:{
-         textAlign: 'center',
-         color: "#4a484a",
-         padding: 5
-       },
-       schoolcategoryPrice:{
-         textAlign: 'center',
-         color: "#980404",
-         fontSize:12       },
-       schoolcategoryshow:{
-         textAlign: 'center',
-         color: "#980404",
-         fontSize:16
-       },
-       specialOfferOverlay: {
-         position: 'absolute',
-         bottom: 0,
-         right: 0,
-         width: width * 0.4,
-         height: height * 0.5, 
-       },
-       gridBannerGrid: {
+  gamecategory: {
+    paddingHorizontal: 10,
+  },
+  gamecategoryText: {
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#980404",
+    padding: 5
+  },
+  gamecategoryTextView: {
+    width: width * 35 / 100,
+    margin: 5,
+    position: 'relative',
+    alignItems: "center",
+  },
+  gamecategoryTextViewImage: {
+    width: width * 35 / 100,
+    height: height * 25 / 100,
+  },
+  gamecategoryName: {
+    textAlign: 'center',
+    color: "#4a484a",
+    padding: 5
+  },
+  gamecategoryPrice: {
+    textAlign: 'center',
+    color: "#980404",
+    fontSize: 12
+  },
+  gamecategoryshow: {
+    textAlign: 'center',
+    color: "#980404",
+    fontSize: 16
+  },
+  specialOfferOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: width * 0.4,
+    height: height * 0.5,
+  },
+  schoolcategory: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  schoolcategoryText: {
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#980404",
+    padding: 5
+  },
+  schoolcategoryView: {
+    width: width * 35 / 100,
+    margin: 5,
+    position: 'relative',
+    alignItems: "center",
+  },
+  schoolcategoryImage: {
+    width: width * 35 / 100,
+    height: height * 25 / 100,
+  },
+  schoolcategoryName: {
+    textAlign: 'center',
+    color: "#4a484a",
+    padding: 5
+  },
+  schoolcategoryPrice: {
+    textAlign: 'center',
+    color: "#980404",
+    fontSize: 12
+  },
+  schoolcategoryshow: {
+    textAlign: 'center',
+    color: "#980404",
+    fontSize: 16
+  },
+  specialOfferOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: width * 0.4,
+    height: height * 0.5,
+  },
+  gridBannerGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding:12,
-    // backgroundColor:"red",
-    marginHorizontal:10,
+    padding: 12,
+    marginHorizontal: 10,
   },
   gridBannerImage: {
-    width:width*40/100,
-    height: height*20/100,
-    
+    width: width * 40 / 100,
+    height: height * 20 / 100,
     borderRadius: 8,
   },
-  
 });
-
 export default styles;

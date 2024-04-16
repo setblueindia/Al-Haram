@@ -7,114 +7,108 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
-  Dimensions,Alert
+  Dimensions, Alert,ActivityIndicator
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {Resetpass} from '../../redux/auth/authApi';
-import {forgotpassStart,forgotpassSuccess, forgotpassFailure } from '../../redux/auth/forgotpassSlice'; 
-import { useDispatch } from 'react-redux'; 
-const {width, height} = Dimensions.get('window');
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { Resetpass } from '../../redux/auth/authApi';
+import { forgotpassStart, forgotpassSuccess, forgotpassFailure } from '../../redux/auth/forgotpassSlice';
+import { useDispatch } from 'react-redux';
+const { width, height } = Dimensions.get('window');
 const ForgotPassword = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [store_id, setstoreId] = useState('1');
   const [loading, setLoading] = useState(false);
   const emailRef = useRef(null);
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const dispatch = useDispatch(); // Initialize useDispatch hook
+  const dispatch = useDispatch();
   const handleResetPassword = async () => {
-    setLoading(true); // Set loading state to true to indicate loading
-
+    setLoading(true);
     try {
-      // Dispatch resetPassStart action
       dispatch(forgotpassStart());
-
-      // Call your API function here, passing the necessary data (email)
-      const response = await Resetpass(email,store_id);
-
-      // Dispatch resetPassSuccess action with the response data
+      const response = await Resetpass(email);
       dispatch(forgotpassSuccess(response));
-
+      setLoading(false);
       console.log('Reset Password Success:', response);
-      console.log('Reset Password Success:', response.message); // Logging the message
-
-    // Display the message in an alert
-    Alert.alert(
-      'Password Reset Successful',
-      response.message, // Access the message property from the response
-      [
-        {
-          text: 'OK',
-          onPress: () => {
-            navigation.navigate('Login');
+      console.log('Reset Password Success:', response.message);
+      Alert.alert(
+        'Password Reset Successful',
+        response.message,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.navigate('Login');
+            },
           },
-        },
-      ],
-      { cancelable: false }
-    );
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
-      // Dispatch resetPassFailure action with the error message
       dispatch(forgotpassFailure(error.message));
 
       console.error('Reset Password Error:', error);
     } finally {
-      setLoading(false); // Set loading state back to false after API call
+      setLoading(false);
     }
   };
 
   return (
     <View>
       <View>
-        <View style={{backgroundColor:"#F5F5F5",width:width,height:height*35/100}}>
-        <View style={{ marginHorizontal: 10,margin:20 }}>
-          <TouchableOpacity onPress={handleGoBack}>
-            <Ionicons name="arrow-back" size={30} color="black" />
-          </TouchableOpacity>
-        </View>
-          <View style={{alignSelf:"center"}}>
-                <Image
-          source={require('../../assests/Logo.png')} // Replace with your splash image path
-          style={{width:width*65/100,height:height*25/100}}
-          resizeMode="contain"
-        />
+        <View style={{ backgroundColor: "#F5F5F5", width: width, height: height * 35 / 100 }}>
+          <View style={{ marginHorizontal: 10, margin: 20 }}>
+            <TouchableOpacity onPress={handleGoBack}>
+              <Ionicons name="arrow-back" size={30} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={{ alignSelf: "center" }}>
+            <Image
+              source={require('../../assests/Logo.png')}
+              style={{ width: width * 65 / 100, height: height * 25 / 100 }}
+              resizeMode="contain"
+            />
           </View>
         </View>
-        <View style={{alignSelf:"center",width:"90%",borderBottomWidth:1,borderBottomColor:"lightgray"}}>
-          <View style={{alignSelf:"center",width:"90%",}}>
-          <Text style={{textAlign:"center",fontSize:22,color:"#202020"}}>Forgot Password</Text>
-          <View style={{margin:5}}>
-            <Text style={{textAlign:"center",fontSize:16,color:"#707070"}}>Please enter your email address and we will send you password by email immadiatly</Text>
-          </View>
+        <View style={{ alignSelf: "center", width: "90%", borderBottomWidth: 1, borderBottomColor: "lightgray" }}>
+          <View style={{ alignSelf: "center", width: "90%", }}>
+            <Text style={{ textAlign: "center", fontSize: 22, color: "#202020" }}>Forgot Password</Text>
+            <View style={{ margin: 5 }}>
+              <Text style={{ textAlign: "center", fontSize: 16, color: "#707070" }}>Please enter your email address and we will send you password by email immadiatly</Text>
+            </View>
           </View>
         </View>
       </View>
       <View>
         <View style={styles.inputContainer}>
-            <Image
-              source={require('../../assests/iconEmail.png')}
-              style={[styles.icon, {marginLeft: 15,}]}
-            />
-            <TextInput
-              ref={emailRef}
-              style={[styles.input, {color: 'black'}]}
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              onChangeText={text => setEmail(text)}
-              value={email}
-              placeholderTextColor={'#cacbcc'}
-              // onSubmitEditing={() => passwordRef.current.focus()}
-            />
-          </View>
-          <TouchableOpacity
+          <Image
+            source={require('../../assests/iconEmail.png')}
+            style={[styles.icon, { marginLeft: 15, }]}
+          />
+          <TextInput
+            ref={emailRef}
+            style={[styles.input, { color: 'black' }]}
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={text => setEmail(text)}
+            value={email}
+            placeholderTextColor={'#cacbcc'}
+          />
+        </View>
+        <TouchableOpacity
           style={[styles.signInButton, loading && styles.signInButtonDisabled]}
           disabled={loading}
           onPress={handleResetPassword} >
-          <Text style={styles.signInButtonText}>Sign In</Text>
+            {loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text style={styles.signInButtonText}>Send</Text>
+              )}
+          
         </TouchableOpacity>
       </View>
     </View>
@@ -127,14 +121,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   signInButtonDisabled: {
-    backgroundColor: '#ccc', 
+    backgroundColor: '#ccc',
   },
   signInButtonDisabled2: {
     backgroundColor: '#ccc',
   },
   buttonContainer: {
     top: 20,
-    borderRadius: 20, 
+    borderRadius: 20,
     overflow: 'hidden',
   },
   header: {
@@ -145,18 +139,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#8b0000',
   },
   logocontainer: {
-    borderColor: '#d3d3d3', 
+    borderColor: '#d3d3d3',
     borderWidth: 2,
     backgroundColor: '#fff',
     borderRadius: 40,
-    // width: "75%",
     alignSelf: 'center',
     marginVertical: 70,
     height: '50%',
   },
   logo: {
     alignItems: 'center',
-    width: 140, 
+    width: 140,
     height: 80,
     marginHorizontal: 20,
   },
@@ -199,10 +192,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   googleButton: {
-    backgroundColor: 'red', 
+    backgroundColor: 'red',
   },
   facebookButton: {
-    backgroundColor: '#1877F2', 
+    backgroundColor: '#1877F2',
   },
   buttonText: {
     color: 'white',
@@ -232,7 +225,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 20,
-    height: height*20/100,
+    height: height * 20 / 100,
   },
   input: {
     flex: 1,
@@ -240,25 +233,25 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   tabContent: {
-    width:width*95/100,
+    width: width * 95 / 100,
     marginVertical: 10,
-    alignSelf:"center",
+    alignSelf: "center",
   },
   inputContainer: {
     flexDirection: 'row',
-    alignSelf:"center",
+    alignSelf: "center",
     marginBottom: 15,
-   borderWidth:1,
-   borderRadius:3,
-   borderColor:"#d8dad8",
-   width:"90%",
-   marginVertical:20
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: "#d8dad8",
+    width: "90%",
+    marginVertical: 20
   },
   icon: {
     width: 30,
     height: 30,
     marginRight: 10,
-   margin:5
+    margin: 5
   },
   input: {
     flex: 1,
@@ -295,8 +288,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#990107',
 
     paddingVertical: 7,
-    borderRadius:2,
-    alignSelf:"center",
+    borderRadius: 2,
+    alignSelf: "center",
     marginBottom: 20,
     width: '90%',
     marginHorizontal: 10,
@@ -306,25 +299,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F3F3',
 
     paddingVertical: 7,
-    borderRadius:2,
+    borderRadius: 2,
     alignItems: 'center',
     marginBottom: 20,
     width: '95%',
     marginHorizontal: 10,
     marginVertical: 15,
-    borderWidth:1,
-    borderColor:"#129A3C"
+    borderWidth: 1,
+    borderColor: "#129A3C"
   },
   signInButtonText: {
     color: '#fff',
     fontSize: 18,
-    textAlign:"center"
+    textAlign: "center"
   },
   signupButtonText: {
     color: '#454545',
     fontSize: 18,
   },
 });
-
-
-

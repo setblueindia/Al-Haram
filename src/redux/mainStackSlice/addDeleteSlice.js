@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-
 const addressDeleteSlice = createSlice({
   name: 'addressDelete',
   initialState: {
@@ -22,6 +20,5 @@ const addressDeleteSlice = createSlice({
     },
   },
 });
-
 export const { deleteAddressLoading,deleteAddressSuccess,deleteAddressFailure,} = addressDeleteSlice.actions;
 export default addressDeleteSlice.reducer;

@@ -15,9 +15,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 200,
     borderRadius: 3,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // alignSelf: 'center',
   },
   aboutBtnText: {
     color: 'white',
