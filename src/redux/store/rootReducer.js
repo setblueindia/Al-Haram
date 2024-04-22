@@ -25,6 +25,8 @@ import mobileLoginReducer from '../auth/mobileLoginSlice';
 import addressgetReducer from '../mainStackSlice/addressgetSlice';
 import changepassReducer from '../auth/changepassSlice';
 import userReducer from '../UserProvider/UserActions';
+import googleloginReducer from '../auth/googleloginSlice';
+import searchReducer from '../mainStackSlice/searchSlice';
 const rootReducer = combineReducers({
   auth: authReducer,
   login: loginReducer,
@@ -52,6 +54,8 @@ const rootReducer = combineReducers({
   addressgetReducer:addressgetReducer,
   changepassReducer:changepassReducer,
   user: userReducer,
+  googleloginReducer:googleloginReducer,
+  searchReducer:searchReducer
 });
 
 export default rootReducer;

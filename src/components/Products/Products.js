@@ -108,7 +108,7 @@ const Products = () => {
         const sort_action = selectedId === 1 || selectedId === 4 ? 'DESC' : 'ASC';
         const price_from = minValue ? minValue : '';
         const price_to = maxValue ? maxValue : '';
-        const store_id=store_id
+        // const store_id=store_id
         dispatch(productsStart());
         AllCategory(store_id, category_id, PageSize, CurPage, customer_id, color, size, sort_by, sort_action, price_from, price_to)
           .then(response => {

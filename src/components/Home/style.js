@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     alignItems: "center", paddingVertical: 300
   },
   container: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    
   },
   categories: {
     padding: 10
@@ -249,6 +250,7 @@ const styles = StyleSheet.create({
   schoolcategory: {
     paddingHorizontal: 10,
     paddingVertical: 5,
+    marginVertical:20
   },
   schoolcategoryText: {
     fontSize: 17,

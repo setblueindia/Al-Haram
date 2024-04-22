@@ -311,3 +311,71 @@ export const Changepassw = async (customer_id, store_id, password, new_password)
     throw error;
   }
 };
+export const GoogleloginAPI = async (firstname, lastname, email, otptype, auth, store_id) => {
+  try {
+    const formData = new FormData();
+    formData.append('firstname', firstname);
+    formData.append('lastname', lastname);
+    formData.append('email', email);
+    formData.append('otptype', otptype);
+    formData.append('auth', auth);
+    formData.append('store_id', store_id);
+    console.log("Form data:", formData);
+
+    const response = await fetch(`${BASE_URL}mobileOtpRegistrationMethod`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      const errorMessage = errorText || 'Googlelogin failed';
+      console.error("Error response:", errorText);
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    console.log("Googlelogin Response:", responseData);
+    console.log("Googlelogin Full response:", responseData.data); 
+    return responseData;
+  } catch (error) {
+    console.error("Error in Googlelogin API:", error);
+    throw error;
+  }
+};
+
+// export const GoogleloginAPI = async (firstname, lastname, email, otptype,auth,store_id) => {
+//   try {
+//     const formData = new FormData();
+//     formData.append('firstname', firstname);
+//     formData.append('lastname', lastname);
+//     formData.append('email', email);
+//     formData.append('otptype', otptype);
+//     formData.append('auth',auth);
+//     formData.append('store_id', store_id);
+//     console.log("Form data:", formData);
+
+//     const response = await fetch(`${BASE_URL}mobileOtpRegistrationMethod`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//       },
+//       body: formData,
+//     });
+//     if (!response.ok) {
+//       const errorText = await response.text();
+//       const errorMessage = errorText || 'Googlelogin failed';
+//       throw new Error(errorMessage);
+//     }
+//     const responseData = await response.json();
+//     console.log("Googlelogin Response:", responseData);
+//     console.log("Googlelogin Full response:", responseData.data); 
+//     return responseData;
+//   } catch (error) {
+//     console.error("Error in Googlelogin API:", error);
+//     throw error;
+//   }
+// };

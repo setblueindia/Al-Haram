@@ -315,7 +315,15 @@ useEffect(() => {
   //   };
   //   fetchData(); 
   // }, [store_id]);
-
+  const [quantity, setQuantity] = useState(1);
+  const decrementQuantity = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
+  };
+  const incrementQuantity = () => {
+    setQuantity(quantity + 1);
+  };
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -338,7 +346,9 @@ useEffect(() => {
       { cancelable: false }
     );
   };
-
+  const handlePress = () => {
+    navigation.navigate('AddToCart');
+  };
   const RemoveToWishlist = async (productId) => {
     try {
       const userDataString = await AsyncStorage.getItem('userData');
@@ -364,15 +374,21 @@ useEffect(() => {
     const imageSize = width / 2 - 20;
     const textSize = imageSize / 10;
     const textContainerWidth = imageSize;
+
     return (
       <View style={{
-        width: width * 50 / 100,
-        height: height * 25 / 100,
+        
+        padding: 10
+      }}>
+
+      <View style={{
+        width: width * 45 / 100,
+        // height: height * 40 / 100,
         padding: 10
       }}>
         <Image
           source={{ uri: item.image }}
-          style={{ flex: 1 }}
+          style={{ flex: 1, height: height * 30 / 100,  }}
         />
         <View style={{ alignSelf: "center" }}>
           <Text style={{ color: "#202020", fontSize: 15, fontWeight: "500" }} numberOfLines={1}>{item.name}</Text>
@@ -380,7 +396,7 @@ useEffect(() => {
         <TouchableOpacity onPress={() => handleAddToWishlist(item.id, item.name)} style={{
           position: 'absolute',
           top: 10,
-          left: 130,
+          left: 115,
           width: 30,
           height: 30,
           borderRadius: 15,
@@ -398,7 +414,31 @@ useEffect(() => {
               top: 6
             }}
           />
+          
         </TouchableOpacity>
+       
+      </View>
+      <View style={{ justifyContent: "space-between", flexDirection: "row", borderRadius: 16, borderWidth: 1, borderColor: "#B9B9B9",width:width*0.3,alignSelf:"center",margin:10 }}>
+                  <TouchableOpacity onPress={decrementQuantity}>
+                    <View style={{ width: 40, height: 30, }}>
+                      <Image source={require('../../assests/decrement.png')} style={{ width: 32, height: 32 }} />
+                    </View>
+                  </TouchableOpacity>
+                  <View style={{ marginVertical: 5, width: 20, }}>
+                    <Text>{quantity}</Text>
+                  </View>
+                  <TouchableOpacity onPress={incrementQuantity}>
+                    <View >
+                      <Image source={require('../../assests/increment.png')} style={{ width: 32, height: 32 }} />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                    <View style={{ backgroundColor: '#990107', width: width * 0.4, alignItems: 'center', height:35, justifyContent: 'center',alignItems:"center",alignSelf:"center" }}>
+                    <TouchableOpacity onPress={handlePress}>
+                      <Text style={{ fontSize: 17, fontWeight: "700", color: "#F5F5F5" }}>Add to cart</Text>
+                  </TouchableOpacity>
+                    </View>
+                    
       </View>
     );
   };

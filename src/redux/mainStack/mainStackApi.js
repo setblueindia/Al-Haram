@@ -505,3 +505,79 @@ export const fetchProductsApi = async (sku) => {
     return null;
   }
 };
+export const SearchApi  = async (searchTerm) => {
+  try {
+    const defaultStore = 'default';
+
+    const response = await axios.post(
+      `${Graphqrl_URL}graphql`,
+      {
+        query: `
+          query Products($searchTerm: String!) {
+            products(search: $searchTerm, pageSize: 10, currentPage: 1) {
+              total_count
+              items {
+                id
+                name
+                sku
+                thumbnail {
+                  url
+                  label
+                  position
+                  disabled
+                }
+                price {
+                  regularPrice {
+                    amount {
+                      value
+                      currency
+                    }
+                  }
+                }
+              }
+              page_info {
+                page_size
+                current_page
+              }
+            }
+          }
+        `,
+        variables: { searchTerm }
+      },
+      {
+        headers: {
+          Store: defaultStore
+        }
+      }
+    );
+
+    const { items } = response.data.data.products;
+    return items;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+};
+// export const searchApi = async (sku) => {
+//   try {
+
+//     const defaultStore = 'default';
+
+//     const response = await axios.post(
+//       `${Graphqrl_URL}graphql`,
+//       {
+      
+//       },
+//       {
+//         headers: {
+//           Store: defaultStore
+//         }
+//       }
+//     );
+  
+   
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     return null;
+//   }
+// };

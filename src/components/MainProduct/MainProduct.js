@@ -11,6 +11,7 @@ import { AddWishlist } from '../../redux/mainStack/mainStackApi';
 import { addWishlistStart, addWishlistSuccess, addWishlistFailure } from '../../redux/mainStackSlice/addWishlistSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Share } from 'react-native';
+import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const { width, height } = Dimensions.get('window');
 const MainProduct = ({ route }) => {
   const [heartIcon, setHeartIcon] = useState(require('../../assests/iconHeart.png'));
@@ -75,6 +76,13 @@ const MainProduct = ({ route }) => {
           setMinimumPrice(minimum_price.regular_price.value);
         } else {
           console.log('No response or empty response array.');
+        }
+        if (response && response.length>0) {
+          const {configurable_options}= response[0].values;
+          console.log("configurable:");
+          
+        } else {
+          
         }
         setProducts(response);
         setLoading(false);
@@ -192,7 +200,7 @@ const MainProduct = ({ route }) => {
                        
                           <View>
                           <View>
-                          {swatchDataValues && swatchDataValues.length > 0 ? (
+                          {/* {swatchDataValues && swatchDataValues.length > 0 ? (
   <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
     <Text style={{ marginRight: 10, fontSize: 16, color: "#505050" }}>Color:</Text>
     {swatchDataValues.map((value, index) => (
@@ -205,10 +213,10 @@ const MainProduct = ({ route }) => {
   </View>
 ) : (
   <Text>Hello</Text>
-)}
+)} */}
 
 
-                          {/* {swatchDataValues && swatchDataValues.length > 0 && (
+                          {swatchDataValues && swatchDataValues.length > 0 && (
   <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
     <Text style={{ marginRight: 10, fontSize: 16, color: "#505050" }}>Color:</Text>
     {swatchDataValues.map((value, index) => (
@@ -219,7 +227,7 @@ const MainProduct = ({ route }) => {
       </TouchableOpacity>
     ))}
   </View>
-)} */}
+)}
 
        <View>
        <View style={{ flex: 1 }}>

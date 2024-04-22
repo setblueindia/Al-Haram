@@ -9,6 +9,9 @@ import { useNavigation } from '@react-navigation/native';
 import Carousel from 'react-native-snap-carousel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomHeader from '../CustomHeader/CustomHeader';
+import { AddWishlist } from '../../redux/mainStack/mainStackApi';
+import { addWishlistStart, addWishlistSuccess, addWishlistFailure } from '../../redux/mainStackSlice/addWishlistSlice';
+
 const { width, height } = Dimensions.get('window');
 const Home = () => {
   const dispatch = useDispatch();
@@ -31,17 +34,16 @@ const Home = () => {
   const [schoolCategoryProducts, setschoolCategoryProducts] = useState()
   const [initialImageDisplayed, setInitialImageDisplayed] = useState(false);
   const [isloading, setisLoading] = useState(false);
+  const [addedToWishlist, setAddedToWishlist] = useState(false);
+  const [clickedItems, setClickedItems] = useState([]);
   const [store_id, setstore_id] = useState("1")
   const getConsoleValue = async () => {
     try {
       const consoleValue = await AsyncStorage.getItem('consoleValue');
       console.log("language id:", consoleValue);
       if (consoleValue !== null) {
-        
         const storeIdFromAsyncStore = parseInt(consoleValue, 10);
-        // Set the store_id state with the value retrieved from AsyncStoragess
         setstore_id(storeIdFromAsyncStore);
-        // Log the store ID here
         console.log('Store ID:', storeIdFromAsyncStore);
       }
     } catch (error) {
@@ -77,33 +79,6 @@ const Home = () => {
     };
     fetchHomeData();
   }, [dispatch, store_id]);
-  
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const fetchHomeData = async () => {
-  //     try {
-  //       console.log("responce home:",responseData.data.categories);
-  //       const responseData = await homeAPI(store_id);
-  //       dispatch(setHomeData(responseData));
-  //       setCategory(responseData.data.categories);
-  //       settopbanner(responseData.data.top_banner);
-  //       setslider(responseData.data.slider);
-  //       setgridbanner(responseData.data.grid_banner);
-  //       setfeatured_products(responseData.data.featured_products);
-  //       setSpecialOffers(responseData.data.special_offer);
-  //       setLatestProducts(responseData.data.latest_products);
-  //       setGameCategoryProducts(responseData.data.game_category_products);
-  //       setschoolCategoryProducts(responseData.data.school_supplies_category_products);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("home error", error);
-  //       const errorMessage = error.message;
-  //       const statusCode = error.response.status;
-  //       dispatch(setHomeError({ errorMessage, statusCode }));
-  //     }
-  //   };
-  //   fetchHomeData();
-  // }, [dispatch,store_id]);
   useEffect(() => {
     fadeInOut();
   }, []);
@@ -123,10 +98,41 @@ const Home = () => {
     }
     return () => clearInterval(interval);
   }, [initialImageDisplayed]);
- 
-  
-  
-  
+  const handleHeartClick = async (item) => {
+    console.log("Clicked on item with ID:", item.id);
+    try {
+      const userDataString = await AsyncStorage.getItem('userData');
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        const customer_id = userData.id;
+        const productId = item.id;
+        const action = 'true';
+        dispatch(addWishlistStart());
+        const response = await AddWishlist(customer_id, productId, action);
+        console.log("Added Wishlist response: ", response);
+        if (response.message !== "Cannot add product without stock to wishlist") {
+          console.log("message", response.message);
+          setWishlistMessage(response.message);
+          Alert.alert('Wishlist', response.message);
+          setAddedToWishlist(true);
+        }
+      } else {
+        console.log('No user data found in AsyncStorage.');
+        navigation.navigate('Login');
+        return;
+      }
+    } catch (error) {
+      dispatch(addWishlistFailure(error));
+      console.log("Error response: ", error);
+    }
+  };
+  const handlePressed = (item) => {
+    if (clickedItems.includes(item.id)) {
+      setClickedItems(clickedItems.filter(clickedId => clickedId !== item.id));
+    } else {
+      setClickedItems([...clickedItems, item.id]);
+    }
+  };
   const imageloder =(value,index)=>{
     setisLoading(value)
   }
@@ -146,7 +152,6 @@ const Home = () => {
   };
   const handleViewAll = (number) => {
     console.log(`View All pressed for  number: ${number}`);
-    // navigation.navigate('Products');
     navigation.navigate('Products', { number });
   };
   const handlePress = (sku) => {
@@ -162,7 +167,6 @@ const Home = () => {
       <Image key={index} style={styles.sliderImage} source={{ uri: item.image }} />
     </View>
   );
-
   return (
     <View>
     <View>
@@ -178,9 +182,10 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       ) : (
-        <SafeAreaView style={styles.container}>
+        <View>
+
           <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView >
               <FlatList
                 data={Category}
                 horizontal
@@ -189,6 +194,8 @@ const Home = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <TouchableOpacity onPress={() => handleCategoryPress(item.id)}>
+                    <View>
+
                     <Image
                       source={{ uri: item.image }}
                       style={{
@@ -198,6 +205,8 @@ const Home = () => {
                         borderRadius: 100 / 3,
                       }}
                     />
+                 
+                    </View>
                     <Text style={{
                       width: width * 0.2,
                       fontSize: 13,
@@ -219,7 +228,6 @@ const Home = () => {
                     renderItem={renderCarouselItem}
                     sliderWidth={width}
                     itemWidth={width}
-                  
                     autoplay
                     loop
                   />
@@ -232,7 +240,16 @@ const Home = () => {
                 <View style={styles.gridBannerGrid}>
                   {gridbanner.slice(0, 2).map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => navigation.navigate('Categorybanner', { categoryId: item.catId })}>
-                      <Image style={styles.gridBannerImage} source={{ uri: item.image }} />
+                        {isloading &&
+                          <View style={styles.loaderContainer}>
+                            <ActivityIndicator color="#9f0202"/>
+                          </View>
+                          }
+                      <Image 
+                      style={styles.gridBannerImage} 
+                      source={{ uri: item.image }} 
+                      onLoadStart={()=>imageloder(true,'onLoadStart')}
+                      onLoadEnd={()=>imageloder(false,'onLoadStart')} />
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -241,7 +258,16 @@ const Home = () => {
                 <View style={styles.gridBannerGrid}>
                   {gridbanner.slice(2, 4).map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => navigation.navigate('Categorybanner', { categoryId: item.catId })}>
-                      <Image style={styles.gridBannerImage} source={{ uri: item.image }} />
+                      {isloading &&
+                          <View style={styles.loaderContainer}>
+                            <ActivityIndicator color="#9f0202"/>
+                          </View>
+                          }
+                      {<Image 
+                      style={styles.gridBannerImage} 
+                      source={{ uri: item.image }}
+                      onLoadStart={()=>imageloder(true,'onLoadStart')}
+                      onLoadEnd={()=>imageloder(false,'onLoadStart')} />}
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -275,6 +301,46 @@ const Home = () => {
                         onLoadStart={()=>imageloder(true,'onLoadStart')}
                         onLoadEnd={()=>imageloder(false,'onLoadStart')}
                         />}
+                              <View
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                          }}>
+                          <TouchableOpacity
+                            style={{position: 'absolute', top: 5, left: 10}}
+                            onPress={() => {
+                              handleHeartClick(item);
+                              handlePress(item);
+                            }}>
+                            <View
+                              style={{
+                                borderRadius: 15,
+                                backgroundColor: '#fff',
+                                borderColor: '#BFBCBC',
+                                borderWidth: 1,
+                                width: width * 0.08,
+                                height: height * 0.04,
+                              }}>
+                              <Image
+                                source={
+                                  addedToWishlist &&
+                                  clickedItems.includes(item.id)
+                                    ? require('../../assests/selectedHeart.png')
+                                    :require('../../assests/heart.png')
+                                }
+                                style={{
+                                  width: width * 0.05,
+                                  height: height * 0.04,
+                                  resizeMode: 'contain',
+                                  alignSelf: 'center',
+                                }}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                         </View>
                         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.featuredname}>
                           {item.name}{'..'}
@@ -321,6 +387,46 @@ const Home = () => {
                           onLoadStart={()=>imageloder(true,'onLoadStart')}
                           onLoadEnd={()=>imageloder(false,'onLoadStart')}
                           />}
+                                <View
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                          }}>
+                          <TouchableOpacity
+                            style={{position: 'absolute', top: 5, left: 10}}
+                            onPress={() => {
+                              handleHeartClick(item);
+                              handlePress(item);
+                            }}>
+                            <View
+                              style={{
+                                borderRadius: 15,
+                                backgroundColor: '#fff',
+                                borderColor: '#BFBCBC',
+                                borderWidth: 1,
+                                width: width * 0.08,
+                                height: height * 0.04,
+                              }}>
+                              <Image
+                                source={
+                                  addedToWishlist &&
+                                  clickedItems.includes(item.id)
+                                    ? require('../../assests/selectedHeart.png')
+                                     :require('../../assests/heart.png')
+                                }
+                                style={{
+                                  width: width * 0.05,
+                                  height: height * 0.04,
+                                  resizeMode: 'contain',
+                                  alignSelf: 'center',
+                                }}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                           </View>
                           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.specialOfferName}>
                             {item.name}{'..'}
@@ -359,6 +465,46 @@ const Home = () => {
                       onLoadStart={()=>imageloder(true,'onLoadStart')}
                       onLoadEnd={()=>imageloder(false,'onLoadStart')}
                       />}
+                            <View
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                          }}>
+                          <TouchableOpacity
+                            style={{position: 'absolute', top: 5, left: 10}}
+                            onPress={() => {
+                              handleHeartClick(item);
+                              handlePress(item);
+                            }}>
+                            <View
+                              style={{
+                                borderRadius: 15,
+                                backgroundColor: '#fff',
+                                borderColor: '#BFBCBC',
+                                borderWidth: 1,
+                                width: width * 0.08,
+                                height: height * 0.04,
+                              }}>
+                              <Image
+                                source={
+                                  addedToWishlist &&
+                                  clickedItems.includes(item.id)
+                                    ? require('../../assests/selectedHeart.png')
+                                     :require('../../assests/heart.png')
+                                }
+                                style={{
+                                  width: width * 0.05,
+                                  height: height * 0.04,
+                                  resizeMode: 'contain',
+                                  alignSelf: 'center',
+                                }}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       <Text numberOfLines={1} ellipsizeMode="tail" style={styles.latestproductName}>
                         {item.name}{'..'}
@@ -368,28 +514,6 @@ const Home = () => {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                    // <TouchableOpacity onPress={() => handlePress(item.sku)}>
-                    //   <View style={styles.latestproductView}>
-                    //     <View>
-                    //     {isloading &&
-                    //       <View style={{justifyContent:"center",alignSelf:"center",borderRadius:1,zIndex:0,width:width,position:"absolute"}}>
-                    //         <ActivityIndicator color='red'/>
-                    //       </View>
-                    //       }
-                    //     {<Image source={{ uri: item.image }} 
-                    //     style={styles.latestproductImage} 
-                    //     onLoadStart={()=>imageloder(true,'onLoadStart')}
-                    //     onLoadEnd={()=>imageloder(false,'onLoadStart')}
-                    //     />}
-                    //     </View>
-                    //     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.latestproductName}>
-                    //       {item.name}{'..'}
-                    //     </Text>
-                    //     <Text style={styles.latestproductPrice}>
-                    //       SAR {item.price}
-                    //     </Text>
-                    //   </View>
-                    // </TouchableOpacity>
                   )}
                 />
               </View>
@@ -427,6 +551,46 @@ const Home = () => {
                       onLoadStart={()=>imageloder(true,'onLoadStart')}
                       onLoadEnd={()=>imageloder(false,'onLoadStart')}
                       />}
+                            <View
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                          }}>
+                          <TouchableOpacity
+                            style={{position: 'absolute', top: 5, left: 10}}
+                            onPress={() => {
+                              handleHeartClick(item);
+                              handlePress(item);
+                            }}>
+                            <View
+                              style={{
+                                borderRadius: 15,
+                                backgroundColor: '#fff',
+                                borderColor: '#BFBCBC',
+                                borderWidth: 1,
+                                width: width * 0.08,
+                                height: height * 0.04,
+                              }}>
+                              <Image
+                                source={
+                                  addedToWishlist &&
+                                  clickedItems.includes(item.id)
+                                    ? require('../../assests/selectedHeart.png')
+                                    : require('../../assests/heart.png')
+                                }
+                                style={{
+                                  width: width * 0.05,
+                                  height: height * 0.04,
+                                  resizeMode: 'contain',
+                                  alignSelf: 'center',
+                                }}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       <Text numberOfLines={1} ellipsizeMode="tail" style={styles.gamecategoryName}>
                         {item.name}{'..'}
@@ -436,35 +600,12 @@ const Home = () => {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                    // <TouchableOpacity onPress={() => handlePress(item.sku)}>
-                    //   <View style={styles.gamecategoryTextView}>
-                    //     <View>
-                    //     {isloading &&
-                    //       <View style={{justifyContent:"center",alignSelf:"center",borderRadius:1,zIndex:0,width:width,position:"absolute"}}>
-                    //         <ActivityIndicator size="large" color="#9f0202"/>
-                    //       </View>
-                    //       }
-                    //     {<Image 
-                    //     source={{ uri: item.image }} 
-                    //     style={styles.gamecategoryTextViewImage} 
-                    //     onLoadStart={()=>imageloder(true,'onLoadStart')}
-                    //     onLoadEnd={()=>imageloder(false,'onLoadStart')}
-                    //     />}
-                    //     </View>
-                    //     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.gamecategoryName}>
-                    //       {item.name}{'..'}
-                    //     </Text>
-                    //     <Text style={styles.gamecategoryPrice}>
-                    //       SAR {item.price}
-                    //     </Text>
-                    //   </View>
-                    // </TouchableOpacity>
                   )}
                 />
               </View>
-              <View style={styles.gamecategory}>
+              <View style={styles.schoolcategory}>
                 <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                  <Text style={styles.gamecategoryText}>{t('SCHOOL')}</Text>
+                  <Text style={styles.schoolcategoryText}>{t('SCHOOL')}</Text>
                   <TouchableOpacity onPress={() => handleViewAll(297)}>
                     <Text style={{
                       fontSize: 17,
@@ -492,10 +633,50 @@ const Home = () => {
                       {<Image 
                       key={index}
                       source={{ uri: item.image }} 
-                      style={styles.specialOfferImage} 
+                      style={styles.schoolcategoryImage} 
                       onLoadStart={()=>imageloder(true,'onLoadStart')}
                       onLoadEnd={()=>imageloder(false,'onLoadStart')}
                       />}
+                            <View
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                          }}>
+                          <TouchableOpacity
+                            style={{position: 'absolute', top: 5, left: 10}}
+                            onPress={() => {
+                              handleHeartClick(item);
+                              handlePress(item);
+                            }}>
+                            <View
+                              style={{
+                                borderRadius: 15,
+                                backgroundColor: '#fff',
+                                borderColor: '#BFBCBC',
+                                borderWidth: 1,
+                                width: width * 0.08,
+                                height: height * 0.04,
+                              }}>
+                              <Image
+                                source={
+                                  addedToWishlist &&
+                                  clickedItems.includes(item.id)
+                                    ? require('../../assests/selectedHeart.png')
+                                     :require('../../assests/heart.png')
+                                }
+                                style={{
+                                  width: width * 0.05,
+                                  height: height * 0.04,
+                                  resizeMode: 'contain',
+                                  alignSelf: 'center',
+                                }}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       <Text numberOfLines={1} ellipsizeMode="tail" style={styles.specialOfferName}>
                         {item.name}{'..'}
@@ -505,36 +686,16 @@ const Home = () => {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                    // <TouchableOpacity onPress={() => handlePress(item.sku)}>
-                    //   <View style={styles.gamecategoryTextView}>
-                    //     <View>
-                    //     {isloading &&
-                    //       <View style={{justifyContent:"center",alignSelf:"center",borderRadius:1,zIndex:0,width:width,position:"absolute"}}>
-                    //         <ActivityIndicator size="large" color="#9f0202"/>
-                    //       </View>
-                    //       }
-                    //    {
-                    //    <Image source={{ uri: item.image }} 
-                    //     style={styles.gamecategoryTextViewImage} 
-                    //     onLoadStart={()=>imageloder(true,'onLoadStart')}
-                    //     onLoadEnd={()=>imageloder(false,'onLoadStart')}
-                    //     />
-                    //    } 
-                    //     </View>
-                    //     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.gamecategoryName}>
-                    //       {item.name}{'..'}
-                    //     </Text>
-                    //     <Text style={styles.gamecategoryPrice}>
-                    //       SAR {item.price}
-                    //     </Text>
-                    //   </View>
-                    // </TouchableOpacity>
                   )}
                 />
               </View>
+              <View style={{marginVertical:10,padding:40}}>
+                <Text style={{color:"#fff"}}>....</Text>
+              </View>
             </ScrollView>
-          </SafeAreaView>
+         
         </SafeAreaView>
+        </View>
       )}
     </View>
   );

@@ -41,6 +41,7 @@ import Signup from '../components/Signup/Signup';
 import ProfileHeader from '../components/ProfileHeader/ProfileHeader'
 import LeftDrawerContent from '../components/LeftDrawerContent/LeftDrawerContent';
 import RightDrawerContent from '../components/RightDrawerContent/RightDrawerContent';
+import SearchScreen from '../components/SearchScreen/SearchScreen';
 
 const DrawerNavigator = createDrawerNavigator();
 const TabNavigator = createBottomTabNavigator();
@@ -97,6 +98,7 @@ const LoginStack = () => (
     />
     <StackNavigator.Screen name='CustomHeader' component={CustomHeader} />
     <StackNavigator.Screen name='ProfileHeader' component={ProfileHeader} />
+    <StackNavigator.Screen name='SearchScreen' component={SearchScreen} />
   </StackNavigator.Navigator>
 );
 const TabsLeft = ({ focused }) => {
@@ -1599,6 +1601,11 @@ export default function AppContainer() {
       <DrawerNavigator.Screen
         name="AddToCart"
         component={AddToCart}
+        options={{ headerTitle: '', headerShown: false }}
+      />
+      <DrawerNavigator.Screen
+        name="SearchScreen"
+        component={SearchScreen}
         options={{ headerTitle: '', headerShown: false }}
       />
     </DrawerNavigator.Navigator>

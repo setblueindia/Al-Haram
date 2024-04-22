@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "951802654922",
-    "project_id": "alharam-app",
-    "storage_bucket": "alharam-app.appspot.com"
+    "project_number": "755452500393",
+    "project_id": "alharam-42cf7",
+    "storage_bucket": "alharam-42cf7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:951802654922:android:ef72d9a0121ea044018433",
+        "mobilesdk_app_id": "1:755452500393:android:7e0de6b1813e6b5ec40cb8",
         "android_client_info": {
-          "package_name": "com.testapplication"
+          "package_name": "com.alharam"
         }
       },
       "oauth_client": [
         {
-          "client_id": "951802654922-fijav1al7p5ravga657pfsfe3ttroq6h.apps.googleusercontent.com",
+          "client_id": "755452500393-g78089f53esu9tkpbi1ov8q9hsioj2jo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.testapplication",
-            "certificate_hash": "c2594b642fdd9e0f2a921f370425bba8e6cac898"
+            "package_name": "com.alharam",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "951802654922-bunmq3sbguvb47aefeo998o515gnbdgp.apps.googleusercontent.com",
+          "client_id": "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD185KX1W5KUoxjMmxtVHnolXYWs0c8oH4"
+          "current_key": "AIzaSyDpvGOME0gZT92TslqBoUqC9OIrHkQnzwM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "951802654922-bunmq3sbguvb47aefeo998o515gnbdgp.apps.googleusercontent.com",
+              "client_id": "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

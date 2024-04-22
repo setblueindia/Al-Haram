@@ -9,7 +9,7 @@ import {
   Button,
   Dimensions,
   ActivityIndicator,
-  ScrollView,
+  ScrollView
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -25,51 +25,66 @@ import {
 } from '@react-native-google-signin/google-signin';
 import { startLoading, loginSuccess, loginFailure } from '../../redux/auth/mobileLoginSlice'; // adjust the import path as needed
 import { MoblieLoginAPI } from '../../redux/auth/authApi';
-import { setUser, setError } from '../../redux/auth/authSlice';
+import {GoogleloginAPI } from '../../redux/auth/authApi'; // Import the GoogleloginAPI function
+import { googleloginRequest, googleloginSuccess, googleloginFailure } from '../../redux/auth/googleloginSlice'; // Import Redux actions
+import Modal from 'react-native-modal';
+import LottieView from 'lottie-react-native';
 const Login = () => {
   const [userData, setuserData] = useState(null)
-const signIn = async () => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    setuserData(userData)
-  console.log("data==>", userInfo)
-  console.log("getdata==>",user.name)
-  } catch (error) {
-    ToastAndroid.show("Error "+error, ToastAndroid.LONG);
-      console.log("userdata==>",error)
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      console.log("SIGN_IN_CANCELLED==>",error)
-      // user cancelled the login flow
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      console.log("IN_PROGRESS==>",error)
-      // operation (e.g. sign in) is in progress already
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      console.log("PLAY_SERVICES_NOT_AVAILABLE==>",error)
-      // play services not available or outdated
-    } else {
-      console.log("error==>",error)
-    }
-  }
-};
+  const handleGoogleLogin = async (userfirstName,userlastName,userEmail) => {
+    // Dispatch the action to indicate the start of the API request
+    dispatch(googleloginRequest());
 
-useEffect(() => {
-}, []);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+    try {
+      const firstname=userfirstName;
+      const lastname=userlastName;
+      const email=userEmail;
+      const otptype='google';
+      const auth='login';
+      const responseData = await GoogleloginAPI(firstname, lastname, email, otptype, auth, store_id);
+      dispatch(googleloginSuccess(responseData));
+      console.log("googlelogin:",responseData);
+      await AsyncStorage.setItem('userData', JSON.stringify(responseData.data));
+      // await AsyncStorage.setItem('userData', JSON.stringify(responseData.data));
+      // Show congratulatory message in modal
+      setModalVisible(true);
+      setTimeout(() => {
+        setModalVisible(false);
+        navigation.navigate('Tabs');
+      }, 3000);
+      
+    } catch (error) {
+      console.log("googlelogin error:",error);
+      dispatch(googleloginFailure(error.message));
+    }
   };
-  const getdeviceId=()=>{
-    var uniqueId = getUniqueId();
-    setdeviceId(uniqueId);
-  }
-  // useEffect(() => {
-  //   GoogleSignin.configure({
+  useEffect(() => {
+    GoogleSignin.configure({
      
-  //     webClientId: "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
-  //     offlineAccess: true, 
-  //   });
-  // }, []);
+      webClientId: "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
+      offlineAccess: true, 
+    });
+  }, []);
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      // setuserData(userInfo);
+      // console.log("data==>",userInfo)
+      handleGoogleLogin(userInfo.user.givenName, userInfo.user.familyName,userInfo.user.email,);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+       console.log("error SIGN_IN_CANCELLED",error);
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log("error IN_PROGRESS",error);
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log("error PLAY_SERVICES_NOT_AVAILABLE",error);
+      } else {
+        console.log("error some",error);
+      }
+    }
+  };
+
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
@@ -80,7 +95,8 @@ useEffect(() => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [store_id, setstoreId] = useState('1');
   const [loading, setLoading] = useState(false);
-  
+  const [isModalVisible, setModalVisible] = useState(false);
+ 
   const [selectedTab, setSelectedTab] = useState('Sign In With Email');
   const [mobile, setMobileNumber] = useState('966');
   const [otpResponse, setOtpResponse] = useState(null);
@@ -89,6 +105,9 @@ useEffect(() => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const mobileNumberRef = useRef(null);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const MoblieLogin = async () => {
     try {
       dispatch(startLoading());
@@ -149,7 +168,13 @@ useEffect(() => {
         console.log('Login successful:', responseData);
         dispatch(setLogin({ token: responseData.data.token }));
         await AsyncStorage.setItem('userData', JSON.stringify(responseData.data));
-        navigation.navigate('Tabs', { userData: responseData});
+        setModalVisible(true);
+        // navigation.navigate('Tabs', { userData: responseData});
+        setTimeout(() => {
+          setModalVisible(false);
+          navigation.navigate('Tabs');
+        }, 3000);
+      
       } else {
         console.error('Login failed:', responseData.message);
         alert(responseData.message || 'Invalid username or password!');
@@ -247,6 +272,7 @@ useEffect(() => {
             <Text style={styles.signInButtonText}>Sign In</Text>
           )}
         </TouchableOpacity>
+
         <View
             style={{
               flex: 1,
@@ -260,9 +286,12 @@ useEffect(() => {
                
                marginVertical:5
               }}>
-            
-              <TouchableOpacity  onPress=
-            {signIn}>
+            {/* {userData !=null && <Text>{userData.user.name}</Text>}
+            {userData !=null && <Text>{userData.user.email}</Text>} */}
+              <TouchableOpacity  
+              onPress=
+            {signIn}
+            >
                 <View style={{justifyContent:"flex-start",flexDirection:"row", borderRadius:1,borderWidth:1,borderColor:"#959B97",width:width*40/100,height:height* 6/100,alignSelf:"center",paddingHorizontal:10}}>
 <View style={{alignSelf:"center",padding:10}}>
 
@@ -307,6 +336,56 @@ useEffect(() => {
         </TouchableOpacity>
 
         </View>
+       
+       
+        <Modal
+              // isVisible={true}
+              isVisible={isModalVisible}
+              onPress={toggleModal}>
+              <View
+                style={{
+                  flex: 0.6,
+                  display: 'flex',
+                  backgroundColor: 'white',
+                  borderRadius: 5,
+                  height: 20,
+                }}>
+                <View style={{flex: 0.5}}>
+                  <LottieView
+                    style={{
+                      height: '130%',
+                      paddingHorizontal: 30,
+                      textAlign: 'center',
+                    }}
+                    source={require('../../assests/json/AnimationJson.json')}
+                    autoPlay
+                    loop
+                  />
+                </View>
+
+                <View style={{top: 100}}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 22,
+                      color: 'black',
+                      textAlign: 'center',
+                    }}>
+                    𝕔𝕠𝕟𝕘𝕣𝕒𝕥𝕦𝕝𝕒𝕥𝕚𝕠𝕟𝕤
+                  </Text>
+                  <Text
+                    style={{textAlign: 'center', fontSize: 20, color: 'black'}}>
+                    𝐲𝐨𝐮 𝐚𝐫𝐞 𝐒𝐮𝐜𝐜𝐞𝐬𝐟𝐮𝐥𝐥𝐲 𝐥𝐨𝐠𝐞𝐝 𝐢𝐧{' '}
+                  </Text>
+                </View>
+              </View>
+
+              {/* <Button title="Show modal" isVisible={false} onPress={() => {
+          navigation.push('HomeScreen');}}/> */}
+            </Modal>
+        
+        
+        
         </ScrollView>
         
       );

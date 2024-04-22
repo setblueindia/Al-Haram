@@ -1,4 +1,4 @@
-package com.testapplication
+package com.alharam
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
