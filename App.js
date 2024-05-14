@@ -1,30 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-import React from 'react';
-import {StyleSheet, View, StatusBar} from 'react-native';
-
-import RootNavigator from './src/navigators/root';
+import { View, Text, StatusBar } from 'react-native'
+import React from 'react'
+import AppNavigation from './src/navigation/AppNavigation'
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#1A1924" barStyle={'light-content'} />
-      <RootNavigator />
-    </View>
-  );
-};
+    <>
+    <StatusBar backgroundColor="#000000"/>
+  <AppNavigation />
+    </>
+  )
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 0,
-    backgroundColor: '#fff',
-  },
-});
-
-export default App;
+export default App

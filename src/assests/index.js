@@ -1,0 +1,12 @@
+export const logo = require("./images/Splash/logo.png");
+export const google = require("./images/Login/google.png");
+export const Apple = require("./images/Login/Apple.png");
+export const WhiteOutLoginUser = require("./images/Drowe/WhiteOutLoginUser.png");
+export const edit = require("./images/Drowe/edit.png");
+export const insta = require("./images/Drowe/insta.png");
+export const fbimg = require("./images/Drowe/fbimg.png");
+export const chatapp = require("./images/Drowe/chatapp.png");
+export const firstBanner = require("./images/Home/phone1.jpg");
+export const banner2 = require("./images/Home/banner2.png");
+export const NewIcon = require("./images/Home/NewIcon.png");
+export const doneIcon = require("./images/Payment/done.png");
