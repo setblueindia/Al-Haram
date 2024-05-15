@@ -1,4 +1,4 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './product.style'
 import CommanHeader from '../../components/ComanHeader'
@@ -8,10 +8,12 @@ import Filter from "react-native-vector-icons/AntDesign";
 import { ResponsiveSize } from '../../utils/utils'
 import { ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
+import SortFilter from '../../components/SortFilter'
+import SizeFilter from '../../components/SizeFilter'
 
 
 const Product = () => {
-    const { data, navigation, setLike, like, lang , Str} = useProductHook()
+    const { data, navigation, setLike, like, lang, Str, sortFilter, setSortFilter, setSizeFilter, sizeFilter } = useProductHook()
 
     return (
         <View style={styles.mainView}>
@@ -21,7 +23,9 @@ const Product = () => {
                     <View style={styles.filterView}>
                         <View style={styles.filterContainer}>
                             <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                <TouchableOpacity style={styles.comonView}>
+                                <TouchableOpacity
+                                    onPress={() => { setSortFilter(true) }}
+                                    style={styles.comonView}>
                                     <Ionicons name={"filter-circle"} size={ResponsiveSize(35)} style={styles.filterIcon} />
                                     <View style={styles.deviderInner} />
                                     <Text style={styles.filterText}>{Str?.Sort}</Text>
@@ -29,7 +33,9 @@ const Product = () => {
                                 <View style={styles.deviderFilter} />
                                 <View style={styles.bar} />
                                 <View style={styles.deviderFilter} />
-                                <TouchableOpacity style={styles.comonView}>
+                                <TouchableOpacity style={styles.comonView}
+                                    onPress={() => { setSizeFilter(true) }}
+                                >
                                     <Filter name={"filter"} size={ResponsiveSize(35)} style={styles.filterIcon} />
                                     <View style={styles.deviderInner} />
                                     <Text style={styles.filterText}>{Str?.Filter}</Text>
@@ -56,8 +62,8 @@ const Product = () => {
                                         <Image style={styles.image} source={{ uri: "https://beta.alharamstores.com/media/women-E-02.jpg" }} />
                                     </View>
                                     <View style={styles.textView}>
-                                        <Text style={[styles.productName , lang == NUMBER.num0 && {textAlign:'right'}]}>Top</Text>
-                                        <Text style={[styles.priceText ,  lang == NUMBER.num0 && {textAlign:'right'}]}>SAR : {"250"}</Text>
+                                        <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>Top</Text>
+                                        <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>SAR : {"250"}</Text>
                                     </View>
 
                                     <TouchableOpacity
@@ -71,6 +77,16 @@ const Product = () => {
                     />
 
                     <View style={styles.devider}></View>
+                    <View style={{ flex: 1, height: "100%", width: "100%" }}>
+                        <Modal animationType='slide' transparent={true} visible={sortFilter}>
+                            <SortFilter setSortFilter={setSortFilter} lang={lang} />
+                        </Modal>
+                    </View>
+                    <View style={{ flex: 1, height: "100%", width: "100%" }}>
+                        <Modal animationType='slide' transparent={true} visible={sizeFilter}>
+                            <SizeFilter setSizeFilter={setSizeFilter} lang={lang} />
+                        </Modal>
+                    </View>
                 </View>
             </View>
         </View>

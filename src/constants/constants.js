@@ -18,7 +18,8 @@ export const NAVIGATION = {
   ProducDetails: "ProductDetais Screen",
   Shoppingcart: "ShoppingCrat Screen",
   Done: "Done Screen",
-  addaddress: "Addaddress Screen"
+  addaddress: "Addaddress Screen",
+  SerchScreen : "Serch Screen"
 
 };
 export const LOGINStr = {

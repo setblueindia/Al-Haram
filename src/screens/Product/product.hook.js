@@ -6,25 +6,27 @@ import { NUMBER } from "../../constants/constants"
 const useProductHook = () => {
 
   const navigation = useNavigation()
+  const [sortFilter, setSortFilter] = useState(false)
+  const [sizeFilter, setSizeFilter] = useState(false)
   const lang = useSelector(state => state.lang.data)
 
   // console.log("=========> " , lang)
 
-  const [like , setLike] = useState(false)
+  const [like, setLike] = useState(false)
   const Str = lang == NUMBER.num1 ?
-  {
-    Sort:"Sort",
-    Filter:"Filter"
+    {
+      Sort: "Sort",
+      Filter: "Filter"
 
-  }
-  :
-  {
-    Sort:"نوع",
-    Filter:"منقي"
-  }
+    }
+    :
+    {
+      Sort: "نوع",
+      Filter: "منقي"
+    }
 
 
-  const data = [1,2,3,4,5,6] 
+  const data = [1, 2, 3, 4, 5, 6]
 
   return {
     data,
@@ -32,6 +34,10 @@ const useProductHook = () => {
     like,
     lang,
     Str,
+    sizeFilter,
+    setSortFilter,
+    setSizeFilter,
+    sortFilter,
     setLike,
 
   }

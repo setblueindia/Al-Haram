@@ -34,9 +34,9 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
         </View>
 
         <View style={[styles.lastView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <View>
+          <TouchableOpacity onPress={()=>{navigation.navigate(NAVIGATION.SerchScreen)}}>
             {search && <HertIcon name={ICON.search1} size={25} style={styles.menuIcon} />}
-          </View>
+          </TouchableOpacity>
 
           <View>
             {like && <HertIcon name={ICON.hearto} size={25} style={styles.menuIcon} />}

@@ -11,7 +11,8 @@ import Button from '../../components/Button'
 import { ALINE } from '../../constants/style'
 import useAddressHook from './address.hook'
 
-const Addaddress = () => {
+const Addaddress = () => {      
+
   const { navigation, lang , data } = useAddressHook()
 
   return (

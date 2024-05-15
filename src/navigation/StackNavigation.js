@@ -19,6 +19,7 @@ import ProductDetails from '../screens/ProductDetails/ProductDetails';
 import ShoopingCart from '../screens/ShoppingCart/ShoopingCart';
 import Done from '../screens/ShoppingCart/Done';
 import Addaddress from '../screens/AddAdress/Addaddress';
+import SerchScreen from '../screens/SercchScreen/SerchScreen';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -105,6 +106,11 @@ const StackNavigation = () => {
         <Stack.Screen
         name={NAVIGATION.addaddress}
         component={Addaddress}
+        options={{ headerShown: false }}
+      />
+         <Stack.Screen
+        name={NAVIGATION.SerchScreen}
+        component={SerchScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

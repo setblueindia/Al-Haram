@@ -12,29 +12,27 @@ import HomeIcon from 'react-native-vector-icons/dist/AntDesign';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import { COLOR } from '../constants/style';
 import { ResponsiveSize } from '../utils/utils';
+import { useSelector } from 'react-redux';
 
 
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
+  const lang = useSelector(state => state?.lang?.data)
   return (
     <Tab.Navigator
 
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
-        
         tabBarStyle: {
+          // flexDirection: 'row-reverse',
           // height: ResponsiveSize(80),
           // backgroundColor: COLOR.white
         },
-
-
         tabBarIcon: ({ focused, color, size }) => {
           let icon;
-
           if (route.name == NAVIGATION.HomeScreen) {
-
             icon = "home"
             return (
               // <View onPress={() => { console.log("Home") }} style={styles.iconView}>
