@@ -54,8 +54,21 @@ export const Ar = {
   Invalidnumber:"رقم غير صالح",
   Numbercontainsmustbe9digits:"يجب أن يحتوي الرقم على 9 أرقام",
   Passwordandconfirmpasswordmismatch:"كلمة المرور وتأكيد كلمة المرور غير متطابقين",
-  EXPassword:"على سبيل المثال: Abc@1234"
-  
+  EXPassword:"على سبيل المثال: Abc@1234",
+  Sponser:"الراعي",
+  manageWallate : "إدارة المحفظة",
+  addCustomer: "إضافة العميل",
+  addCustomerToGroup: "إضافة عميل إلى المجموعة",
+  tranferAmount : "مبلغ التحويل",
+  CreateAccount: "إنشاء حساب",
+  NickName: "كنية",
+  ConfirmEmailAddress:"أكد عنوانك الإلكتروني",
+  SelectCustomertoaddwalletbalance: "حدد العميل لإضافة رصيد المحفظة",
+  Selectcustomer:"حدد العميل",
+  AmountSAR : "المبلغ (ريال سعودي)" ,
+  addyourremark : "أضف ملاحظتك",
+  Addmoneytocustomerswallet: "إضافة الأموال إلى محفظة العميل",
+
 }
 
 export const En = {
@@ -116,7 +129,19 @@ export const En = {
   Numbercontainsmustbe9digits : "Number contains must be 9 digits",
   Passwordandconfirmpasswordmismatch: "Password and confirm-password mismatch",
   EXPassword : "EX : Abc@1234",
-
+  Sponser : "Sponser",
+  manageWallate: "Manage Wallate",
+  addCustomer: "Add Customer",
+  addCustomerToGroup : "Add Customer To Group",
+  tranferAmount: "Tranfer Amount",
+  CreateAccount : "Create Account",
+  NickName : "Nick Name",
+  ConfirmEmailAddress : "Confirm Email Address",
+  SelectCustomertoaddwalletbalance : "Select Customer to add wallet balance",
+  Selectcustomer : "Select customer",
+  AmountSAR:"Amount (SAR)",
+  addyourremark : "add your remark",
+  Addmoneytocustomerswallet : "Add money to customer's wallet"
   // WishList: 'WishList',
   // MyWallet: 'My Wallet',
   // MyOrder: 'My Order',

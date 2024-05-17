@@ -50,7 +50,7 @@ const Drower = () => {
           ]}>
           <Text style={styles.userNameText}> {userName}</Text>
         </View>
-        <TouchableOpacity style={[styles.editIcon, lang.data == NUMBER.num0 && {left:ResponsiveSize(5)}]}>
+        <TouchableOpacity style={[styles.editIcon, lang.data == NUMBER.num0 && { left: ResponsiveSize(5) }]}>
           <Image style={styles.edit} source={edit} />
         </TouchableOpacity>
 
@@ -69,13 +69,13 @@ const Drower = () => {
         })}
       </ScrollView>
 
-      <View style={styles.LastView}>
+      <View sxtyle={styles.LastView}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate(NAVIGATION.Login);
           }}
           style={styles.loginTextView}>
-          <Text style={styles.loginText}>LOGIN</Text>
+          <Text style={styles.loginText}>{langues?.LOGIN}</Text>
         </TouchableOpacity>
         <View style={styles.btnView}>
           <TouchableOpacity

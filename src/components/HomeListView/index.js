@@ -8,16 +8,25 @@ import { NewIcon } from '../../assests'
 import HertIcon from 'react-native-vector-icons/dist/AntDesign'
 
 
-const HomeListView = ({ data, index, lang }) => {
+const HomeListView = ({ data, sindex, lang }) => {
 
     const [like, setLike] = useState(false)
     const [product, setProducdName] = useState(false)
+    const [pindex, setIndex] = useState()
 
-    const color = index % 2 == 0 ? true : false
+    const color = sindex % 2 == 0 ? true : false
+
+    onPresLike = (index) => {
+        console.log(index)
+
+        console.log("Second ==> ", pindex)
+        setIndex(index),
+            (like && index == pindex) ? setLike(false) : setLike(true)
+    }
 
 
     return (
-        <View style={styles.mainView} key={index}>
+        <View style={styles.mainView} key={sindex}>
 
             <View style={[styles.container, color ? { backgroundColor: "#00000010" } : {}]}>
                 <View style={[styles.headerTextView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -32,23 +41,21 @@ const HomeListView = ({ data, index, lang }) => {
                         data={data?.innerData}
                         horizontal
                         renderItem={({ item, index }) => {
-
+                            // console.log("Items ==== > " , item)
                             return (
-
                                 <TouchableOpacity
                                     activeOpacity={0.5}
                                     style={styles.listView}>
-
                                     <View style={styles.productView}>
-
                                         <View style={styles.imgView}>
                                             <Image style={styles.image} source={item.imge} />
                                         </View>
-
                                         <TouchableOpacity
-                                            onPress={() => { like ? setLike(false) : setLike(true) }}
+                                            onPress={() => {
+                                                onPresLike(index)
+                                            }}
                                             style={styles.likeView}>
-                                            <HertIcon name={like ? ICON.hearto : ICON.heart} size={ResponsiveSize(20)} style={styles.like} />
+                                            <HertIcon name={(like && index == pindex) ? ICON.hearto : ICON.heart} size={ResponsiveSize(20)} style={styles.like} />
                                         </TouchableOpacity>
 
                                         {/* <View style={styles.newIncoView}>

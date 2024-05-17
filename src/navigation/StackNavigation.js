@@ -20,6 +20,7 @@ import ShoopingCart from '../screens/ShoppingCart/ShoopingCart';
 import Done from '../screens/ShoppingCart/Done';
 import Addaddress from '../screens/AddAdress/Addaddress';
 import SerchScreen from '../screens/SercchScreen/SerchScreen';
+import Sponser from '../screens/SponserFlow/Sponser';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -111,6 +112,11 @@ const StackNavigation = () => {
          <Stack.Screen
         name={NAVIGATION.SerchScreen}
         component={SerchScreen}
+        options={{ headerShown: false }}
+      />
+          <Stack.Screen
+        name={NAVIGATION.SponserScreen}
+        component={Sponser}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

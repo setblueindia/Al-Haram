@@ -18,6 +18,7 @@ const useProfileHook = () => {
     { icon: 'hearto', text: PROFILEStr?.Wishlist },
     { icon: 'wallet', text: PROFILEStr?.MyWallet },
     { icon: 'shoppingcart', text: PROFILEStr?.MyOrder },
+    { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
     { icon: 'book', text: PROFILEStr?.AddressBook },
     { icon: 'phone', text: PROFILEStr?.CustomerService },
 
@@ -38,6 +39,9 @@ const useProfileHook = () => {
     }
     if (item == PROFILEStr.MyOrder) {
       navigation.navigate(NAVIGATION.MyOrderSscreen)
+    }
+    if (item == PROFILEStr.Sponser) {
+      navigation.navigate(NAVIGATION.SponserScreen)
     }
   }
 

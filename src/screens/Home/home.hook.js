@@ -42,22 +42,26 @@ const useHomeHook = () => {
         name: lang.data == NUMBER.num1 ? "Featured Products" : "منتجات مميزة",
         innerData: [
           {
+            id : 1,
             name: "Water Gun",
             imge: require('../../assests/images/Home/F1.png'),
             price: "200Rs"
 
           },
           {
+            id : 2,
             name: "Baby Swing",
             imge: require('../../assests/images/Home/F2.png'),
             price: "250Rs"
           },
           {
+            id : 3,
             name: "ball",
             imge: require('../../assests/images/Home/F3.png'),
             price: "100Rs"
           },
           {
+            id : 4,
             name: "Plastic bat",
             imge: require('../../assests/images/Home/F4.png'),
             price: "150Rs"

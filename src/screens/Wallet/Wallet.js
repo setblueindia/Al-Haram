@@ -9,20 +9,20 @@ import CommanHeader from '../../components/ComanHeader/index.js';
 import { ICON, NUMBER, PROFILEStr } from '../../constants/constants.js';
 import { ALINE, COLOR } from '../../constants/style.js';
 
-const Wallet = () => {
+const Wallet = ({Sponser}) => {
 
 
   const { navigation, lang, data , Str} = UseWalletHook()
 
   return (
     <View style={styles.mainView}>
-      <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />
+     {!Sponser && <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
 
       <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
 
-        <View style={styles.mngView}>
+      { !Sponser &&  <View style={styles.mngView}>
           <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet}</Text>
-        </View>
+        </View>}
         <View style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <View style={[styles.walletImg, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
             <AntDesign name={ICON.wallet} color="#202020" size={ResponsiveSize(40)} />

@@ -13,6 +13,9 @@ const useProductHook = () => {
   // console.log("=========> " , lang)
 
   const [like, setLike] = useState(false)
+  
+  const [pIndex, setIndex] = useState('')
+
   const Str = lang == NUMBER.num1 ?
     {
       Sort: "Sort",
@@ -26,7 +29,14 @@ const useProductHook = () => {
     }
 
 
-  const data = [1, 2, 3, 4, 5, 6]
+  const data = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ]
 
   return {
     data,
@@ -39,6 +49,8 @@ const useProductHook = () => {
     setSizeFilter,
     sortFilter,
     setLike,
+    setIndex,
+    pIndex
 
   }
 

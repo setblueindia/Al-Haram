@@ -13,7 +13,7 @@ import { ResponsiveSize } from '../../utils/utils';
 
 
 const Home = () => {
-  const { data, HomeScreeData, lang , Sliderdata} = useHomeHook()
+  const { data, HomeScreeData, lang, Sliderdata } = useHomeHook()
   return (
     <View style={styles.mainView}>
 
@@ -27,34 +27,39 @@ const Home = () => {
             <StoryView data={data} lang={lang} />
           </View>
 
-          <View style={{backgroundColor:"#EAE9E4"}}>
+          <View style={{ backgroundColor: "#EAE9E4" }}>
 
-          <View style={styles.bannerView}>
-            <Image style={styles.bannerImg} source={{ uri: "https://t4.ftcdn.net/jpg/04/96/39/15/360_F_496391566_qkdbKWomcUUpByvdbOqOErHprAUDgdo5.jpg" }} />
-          </View>
+            <View style={styles.bannerView}>
+              <Image style={styles.bannerImg} source={{ uri: "https://t4.ftcdn.net/jpg/04/96/39/15/360_F_496391566_qkdbKWomcUUpByvdbOqOErHprAUDgdo5.jpg" }} />
+            </View>
 
-          <View style={styles.siderView}>
-            <Slider data={Sliderdata} lang={lang} />
-          </View>
+            <View style={styles.siderView}>
+              <Slider data={Sliderdata} lang={lang} />
+            </View>
 
-          <View style={styles.bannerView2}>
-            <Image style={styles.bannerImg} source={banner2} />
-          </View>
+            <View style={styles.bannerView2}>
+              <Image style={styles.bannerImg} source={banner2} />
+            </View>
           </View>
           <View style={styles.topCategories}>
-            <Text style={[styles.topCategoriesText , lang.data == NUMBER.num0 && {textAlign:'right' , marginRight:ResponsiveSize(20)}]}>{lang.data == NUMBER.num1 ? "Top Categories" : "أهم الفئات"}</Text>
+            <Text style={[styles.topCategoriesText, lang.data == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(20) }]}>{lang.data == NUMBER.num1 ? "Top Categories" : "أهم الفئات"}</Text>
             <TopCategories lang={lang} />
           </View>
 
           <View style={styles.bannerView3}>
-            <Image style={styles.bannerImg} source={{uri  : "https://img.freepik.com/free-vector/flat-horizontal-sale-banner-template-with-photo_23-2149000923.jpg"}} />
+            <Image style={styles.bannerImg} source={{ uri: "https://img.freepik.com/free-vector/flat-horizontal-sale-banner-template-with-photo_23-2149000923.jpg" }} />
           </View>
 
           <View style={styles.listView}>
+
             {HomeScreeData?.data?.map((data, index) => {
-              return (<HomeListView lang={lang} data={data} index={index} />)
+              return (
+                <HomeListView lang={lang} data={data} sindex={index} />
+              )
             })}
+
           </View>
+
         </ScrollView>
       </View>
 

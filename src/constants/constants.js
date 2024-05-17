@@ -19,7 +19,8 @@ export const NAVIGATION = {
   Shoppingcart: "ShoppingCrat Screen",
   Done: "Done Screen",
   addaddress: "Addaddress Screen",
-  SerchScreen : "Serch Screen"
+  SerchScreen : "Serch Screen",
+  SponserScreen : "Sponser Screen"
 
 };
 export const LOGINStr = {

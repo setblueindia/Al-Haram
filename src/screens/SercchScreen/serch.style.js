@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
-import { COLOR } from "../../constants/style";
+import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
 
 export const styles = StyleSheet.create({
     mainView: {
@@ -23,5 +23,49 @@ export const styles = StyleSheet.create({
     textInputView:{
         paddingHorizontal:ResponsiveSize(20),
         marginTop:ResponsiveSize(20)
+    },
+    imageView: {
+        height: ResponsiveSize(350),
+        width: ResponsiveSize(270),
+        padding: ResponsiveSize(20),
+        // backgroundColor: COLOR.white,
+        borderColor: COLOR.gray,
+        borderRadius: ResponsiveSize(10),
+        borderWidth: ResponsiveSize(1),
+        margin: ResponsiveSize(10),
+        marginTop: ResponsiveSize(10),
+
+    },
+    image: {
+        height: "100%",
+        width: "100%",
+        resizeMode: 'contain',
+    },
+    textView: {
+        margin: ResponsiveSize(10),
+        paddingHorizontal: ResponsiveSize(20),
+        width: ResponsiveSize(270),
+    },
+    productName: {
+        fontSize: ResponsiveSize(25),
+        fontWeight: FONTWEGHIT.font600,
+
+    },
+    priceText: {
+        color: COLOR.primaray,
+        fontWeight: FONTWEGHIT.font600
+    },
+    likeView:{
+        height:ResponsiveSize(60),
+        width:ResponsiveSize(60),
+        borderRadius:ResponsiveSize(100),
+        position:'absolute',
+        top:ResponsiveSize(20),
+        right:ResponsiveSize(20),
+        borderWidth:ResponsiveSize(1),
+        borderColor:COLOR.gray,
+        // backgroundColor:COLOR.black,
+        justifyContent:ALINE.center,
+        alignItems:ALINE.center
     }
 })

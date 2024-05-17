@@ -13,7 +13,19 @@ import SizeFilter from '../../components/SizeFilter'
 
 
 const Product = () => {
-    const { data, navigation, setLike, like, lang, Str, sortFilter, setSortFilter, setSizeFilter, sizeFilter } = useProductHook()
+    const { data,
+        navigation,
+        setLike,
+        like,
+        lang,
+        Str,
+        sortFilter,
+        setSortFilter,
+        setSizeFilter,
+        sizeFilter,
+        pIndex,
+        setIndex
+    } = useProductHook()
 
     return (
         <View style={styles.mainView}>
@@ -51,7 +63,7 @@ const Product = () => {
                         showsVerticalScrollIndicator={false}
                         numColumns={2}
                         bounces={true}
-                        renderItem={() => {
+                        renderItem={({ items, index }) => {
                             return (
                                 <TouchableOpacity
                                     onPress={() => {
@@ -67,9 +79,13 @@ const Product = () => {
                                     </View>
 
                                     <TouchableOpacity
-                                        onPress={() => { like ? setLike(false) : setLike(true) }}
+
+                                        onPress={() => {
+                                            setIndex(index),
+                                           (like && index == pIndex) ? setLike(false) : setLike(true)
+                                        }}
                                         style={styles.likeView}>
-                                        <Filter name={like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                                        <Filter name={(like && index == pIndex) ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                                     </TouchableOpacity>
                                 </TouchableOpacity>
                             )
