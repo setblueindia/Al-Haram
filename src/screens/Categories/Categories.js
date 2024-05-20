@@ -7,7 +7,7 @@ import CategoriesList from '../../components/CategoriesList'
 import { ResponsiveSize } from '../../utils/utils'
 
 const Categories = () => {
-  const { CategoriesData, navigation , lang } = useCategroiesHook()
+  const { CategoriesData, navigation, lang, setIndex, mainIndex } = useCategroiesHook()
   return (
 
     <View style={styles.mainView}>
@@ -19,8 +19,10 @@ const Categories = () => {
 
         {CategoriesData.map((items, index) => {
           return (
-            <View key={index}>
-              <CategoriesList index={index} data={items} navigation={navigation} name={items.title} lang={lang}/>
+            <View
+            //  onPress={() => { setIndex(index) }}
+              key={index}>
+              <CategoriesList index={index} data={items} navigation={navigation} name={items.title} lang={lang} />
             </View>
 
           )

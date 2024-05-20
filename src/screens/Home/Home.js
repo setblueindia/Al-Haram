@@ -13,7 +13,7 @@ import { ResponsiveSize } from '../../utils/utils';
 
 
 const Home = () => {
-  const { data, HomeScreeData, lang, Sliderdata } = useHomeHook()
+  const { data, HomeScreeData, lang, Sliderdata ,navigation } = useHomeHook()
   return (
     <View style={styles.mainView}>
 
@@ -26,7 +26,6 @@ const Home = () => {
           <View style={styles.storyView}>
             <StoryView data={data} lang={lang} />
           </View>
-
           <View style={{ backgroundColor: "#EAE9E4" }}>
 
             <View style={styles.bannerView}>
@@ -54,7 +53,7 @@ const Home = () => {
 
             {HomeScreeData?.data?.map((data, index) => {
               return (
-                <HomeListView lang={lang} data={data} sindex={index} />
+                <HomeListView navigation={navigation} lang={lang} data={data} sindex={index} />
               )
             })}
 

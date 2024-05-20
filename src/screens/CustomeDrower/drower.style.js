@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   editIcon: {
     position: 'absolute',
     right: ResponsiveSize(10),
-    top: ResponsiveSize(10),
+    top: ResponsiveSize(15),
   },
   edit: {
     height: ResponsiveSize(40),

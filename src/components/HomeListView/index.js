@@ -1,28 +1,40 @@
 import { FlatList, StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styles } from './homeList.style'
-import { ICON, NUMBER } from '../../constants/constants'
+import { ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import { ResponsiveSize } from '../../utils/utils'
 import { NewIcon } from '../../assests'
 import HertIcon from 'react-native-vector-icons/dist/AntDesign'
 
 
-const HomeListView = ({ data, sindex, lang }) => {
+const HomeListView = ({ data, sindex, lang, navigation }) => {
 
     const [like, setLike] = useState(false)
-    const [product, setProducdName] = useState(false)
+    const [product, setProducdName] = useState()
     const [pindex, setIndex] = useState()
+    const [sdata, setData] = useState()
 
     const color = sindex % 2 == 0 ? true : false
 
-    onPresLike = (index) => {
-        console.log(index)
-
-        console.log("Second ==> ", pindex)
-        setIndex(index),
-            (like && index == pindex) ? setLike(false) : setLike(true)
+    const likePress = (id) =>{
+        setData((prevData) =>
+        prevData?.map(
+          (productDetails) => productDetails?.id == id ?
+            { ...productDetails, like: !productDetails?.like } :
+            productDetails
+        )
+      )
     }
+    const updateData = (id) => {
+        const temp = data?.innerData?.map(v => { return { ...v, like: false } })
+        setData(temp)
+    }
+    useEffect(() => {
+        updateData()
+    }, [])
+
+
 
 
     return (
@@ -38,12 +50,13 @@ const HomeListView = ({ data, sindex, lang }) => {
                     <FlatList
                         inverted={lang.data == NUMBER.num0 ? true : false}
                         showsHorizontalScrollIndicator={false}
-                        data={data?.innerData}
+                        data={sdata}
                         horizontal
                         renderItem={({ item, index }) => {
-                            // console.log("Items ==== > " , item)
+                            // console.log("Items ==== > ", item)
                             return (
                                 <TouchableOpacity
+                                    onPress={() => { navigation.navigate(NAVIGATION?.ProducDetails) }}
                                     activeOpacity={0.5}
                                     style={styles.listView}>
                                     <View style={styles.productView}>
@@ -52,10 +65,10 @@ const HomeListView = ({ data, sindex, lang }) => {
                                         </View>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                onPresLike(index)
+                                                likePress(item?.id)
                                             }}
                                             style={styles.likeView}>
-                                            <HertIcon name={(like && index == pindex) ? ICON.hearto : ICON.heart} size={ResponsiveSize(20)} style={styles.like} />
+                                            <HertIcon name={!item?.like ? ICON.hearto : ICON.heart} size={ResponsiveSize(20)} style={styles.like} />
                                         </TouchableOpacity>
 
                                         {/* <View style={styles.newIncoView}>
@@ -65,10 +78,11 @@ const HomeListView = ({ data, sindex, lang }) => {
                                     </View>
 
                                     <View style={[styles.textView]}>
+
                                         <Text style={[styles.ProductName, lang.data == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(15) }]}>
                                             {item?.name}
                                         </Text>
-                                        <Text style={[styles.Price, , lang.data == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(15) }]}>
+                                        <Text style={[styles.Price, lang.data == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(15) }]}>
                                             {item?.price}
                                         </Text>
                                     </View>

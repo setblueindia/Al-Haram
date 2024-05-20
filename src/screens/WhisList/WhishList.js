@@ -9,7 +9,7 @@ import { ResponsiveSize } from '../../utils/utils'
 import { COLOR } from '../../constants/style'
 
 const WhishList = () => {
-  const { navigation, data, like, lang, setLike } = useWhishListHook()
+  const { navigation, data, like, lang, setLike ,likePress } = useWhishListHook()
   return (
     <View style={styles.mainView}>
       <CommanHeader navigation={navigation} lang={lang} />
@@ -32,9 +32,11 @@ const WhishList = () => {
               </View>
 
               <TouchableOpacity
-                onPress={() => { like ? setLike(false) : setLike(true) }}
+                onPress={() => { 
+                  likePress(index)
+               }}
                 style={styles.likeView}>
-                <Filter name={like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
               </TouchableOpacity>
 
             </View>

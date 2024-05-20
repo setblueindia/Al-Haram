@@ -2,11 +2,13 @@ import { Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NUMBER } from '../../constants/constants'
+import { useNavigation } from '@react-navigation/native'
 
 const useHomeHook = () => {
 
   const [storyData, setStoryData] = useState()
   const lang = useSelector(state => state.lang)
+  const navigation = useNavigation()
 
   const data = [
     {
@@ -73,22 +75,26 @@ const useHomeHook = () => {
         name: lang.data == NUMBER.num1 ?  "School" : "مدرسة",
         innerData: [
           {
+            id : 1,
             name: "Water Gun",
             imge: require('../../assests/images/Home/t1.png'),
             price: "200Rs"
 
           },
           {
+            id : 2,
             name: "Baby Swing",
             imge: require('../../assests/images/Home/t2.png'),
             price: "250Rs"
           },
           {
+            id : 3,
             name: "ball",
             imge: require('../../assests/images/Home/t1.png'),
             price: "100Rs"
           },
           {
+            id : 4,
             name: "Plastic bat",
             imge: require('../../assests/images/Home/t2.png'),
             price: "150Rs"
@@ -100,22 +106,26 @@ const useHomeHook = () => {
         name: lang.data == NUMBER.num1 ?   "Latest Product" : "أحدث المنتجات",
         innerData: [
           {
+            id : 1,
             name: "Water Gun",
             imge: require('../../assests/images/Home/phone1.jpg'),
             price: "200Rs"
 
           },
           {
+            id : 2,
             name: "Baby Swing",
             imge: require('../../assests/images/Home/phone2.jpg'),
             price: "250Rs"
           },
           {
+            id : 3,
             name: "ball",
             imge: require('../../assests/images/Home/t1.png'),
             price: "100Rs"
           },
           {
+            id : 4,
             name: "Plastic bat",
             imge: require('../../assests/images/Home/t2.png'),
             price: "150Rs"
@@ -145,7 +155,8 @@ const Sliderdata = [
     data,
     HomeScreeData,
     lang,
-    Sliderdata
+    Sliderdata,
+    navigation
   }
 }
 

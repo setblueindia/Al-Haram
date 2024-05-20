@@ -62,6 +62,8 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
         shadowColor: '#000',
+        // alignItems:'center',
+        // backgroundColor:"#000000"
 
     },
     container: {

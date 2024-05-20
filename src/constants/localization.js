@@ -55,7 +55,7 @@ export const Ar = {
   Numbercontainsmustbe9digits:"يجب أن يحتوي الرقم على 9 أرقام",
   Passwordandconfirmpasswordmismatch:"كلمة المرور وتأكيد كلمة المرور غير متطابقين",
   EXPassword:"على سبيل المثال: Abc@1234",
-  Sponser:"الراعي",
+  Sponser:"راعي",
   manageWallate : "إدارة المحفظة",
   addCustomer: "إضافة العميل",
   addCustomerToGroup: "إضافة عميل إلى المجموعة",
@@ -68,6 +68,9 @@ export const Ar = {
   AmountSAR : "المبلغ (ريال سعودي)" ,
   addyourremark : "أضف ملاحظتك",
   Addmoneytocustomerswallet: "إضافة الأموال إلى محفظة العميل",
+  Send : "يرسل",
+  forgetDes:"الرجاء إدخال عنوان بريدك الإلكتروني وسنرسل لك \n كلمة المرور عبر البريد الإلكتروني \n فورًا"
+
 
 }
 
@@ -129,11 +132,11 @@ export const En = {
   Numbercontainsmustbe9digits : "Number contains must be 9 digits",
   Passwordandconfirmpasswordmismatch: "Password and confirm-password mismatch",
   EXPassword : "EX : Abc@1234",
-  Sponser : "Sponser",
-  manageWallate: "Manage Wallate",
+  Sponser : "sponsor",
+  manageWallate: "Manage wallet",
   addCustomer: "Add Customer",
   addCustomerToGroup : "Add Customer To Group",
-  tranferAmount: "Tranfer Amount",
+  tranferAmount: "transfer amount",
   CreateAccount : "Create Account",
   NickName : "Nick Name",
   ConfirmEmailAddress : "Confirm Email Address",
@@ -141,7 +144,9 @@ export const En = {
   Selectcustomer : "Select customer",
   AmountSAR:"Amount (SAR)",
   addyourremark : "add your remark",
-  Addmoneytocustomerswallet : "Add money to customer's wallet"
+  Addmoneytocustomerswallet : "Add money to customer's wallet",
+  Send : "Send",
+  forgetDes : "Please enter your email address and we \n  will send you password by email \n immadiatly"
   // WishList: 'WishList',
   // MyWallet: 'My Wallet',
   // MyOrder: 'My Order',

@@ -18,12 +18,14 @@ import { ALINE } from '../../constants/style';
 import StatusBarCus from '../../components/CustomStatusBar';
 
 const Drower = () => {
+
   const {
     data,
     navigation,
     langues,
     lang,
     userName,
+    height,
     changeLungues,
     handleInstagramPress,
     handlechatPress,
@@ -31,7 +33,7 @@ const Drower = () => {
   } = useDrowerHook();
 
   return (
-    <ScrollView style={styles.mainView}>
+    <View style={[styles.mainView , {height:height}]}>
 
       <StatusBarCus />
 
@@ -96,7 +98,7 @@ const Drower = () => {
           <Text>Build : v1.1</Text>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

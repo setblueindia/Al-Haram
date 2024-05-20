@@ -52,7 +52,7 @@ const useSingUpHook = ({ lable }) => {
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
       console.log("Singup Respones ==========> ", response?.data)
-      navigation.navigate(NAVIGATION.OTPScreen, { lable: lable });
+      navigation.navigate(NAVIGATION.Login, { lable: lable });
       setLoader(false)
     } else {
       console.log("Singup Respones error ==========> ", response?.data)

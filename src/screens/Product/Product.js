@@ -24,7 +24,8 @@ const Product = () => {
         setSizeFilter,
         sizeFilter,
         pIndex,
-        setIndex
+        setIndex,
+        likePress
     } = useProductHook()
 
     return (
@@ -34,7 +35,9 @@ const Product = () => {
                 <View style={styles.ListVivew}>
                     <View style={styles.filterView}>
                         <View style={styles.filterContainer}>
+
                             <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
                                 <TouchableOpacity
                                     onPress={() => { setSortFilter(true) }}
                                     style={styles.comonView}>
@@ -44,8 +47,11 @@ const Product = () => {
                                 </TouchableOpacity>
                                 <View style={styles.deviderFilter} />
                                 <View style={styles.bar} />
+                                
                                 <View style={styles.deviderFilter} />
-                                <TouchableOpacity style={styles.comonView}
+
+                                <TouchableOpacity
+                                 style={styles.comonView}
                                     onPress={() => { setSizeFilter(true) }}
                                 >
                                     <Filter name={"filter"} size={ResponsiveSize(35)} style={styles.filterIcon} />
@@ -63,7 +69,7 @@ const Product = () => {
                         showsVerticalScrollIndicator={false}
                         numColumns={2}
                         bounces={true}
-                        renderItem={({ items, index }) => {
+                        renderItem={({ item, index }) => {
                             return (
                                 <TouchableOpacity
                                     onPress={() => {
@@ -79,13 +85,13 @@ const Product = () => {
                                     </View>
 
                                     <TouchableOpacity
-
                                         onPress={() => {
-                                            setIndex(index),
-                                           (like && index == pIndex) ? setLike(false) : setLike(true)
+                                            likePress(index)
+                                            // setIndex(item?.id),
+                                        //    (like && index == pIndex) ? setLike(false) : setLike(true)
                                         }}
                                         style={styles.likeView}>
-                                        <Filter name={(like && index == pIndex) ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                                        <Filter name={item?.like? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                                     </TouchableOpacity>
                                 </TouchableOpacity>
                             )

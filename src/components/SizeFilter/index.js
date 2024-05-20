@@ -88,6 +88,22 @@ const SizeFilter = ({ setSizeFilter, lang }) => {
         {
             val1: "exxl",
             val2: "82"
+        },
+        {
+            val1: "exxl",
+            val2: "82"
+        },
+        {
+            val1: "xl",
+            val2: "42"
+        },
+        {
+            val1: "xxl",
+            val2: "52"
+        },
+        {
+            val1: "exxl",
+            val2: "82"
         }
     ]
 

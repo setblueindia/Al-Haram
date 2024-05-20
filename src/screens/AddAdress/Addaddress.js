@@ -33,7 +33,6 @@ const Addaddress = () => {
         <View style={styles.devider} />
         <TextFildCus text={data?.Pincode} add={true} />
         <View style={styles.devider} />
-
         <View style={styles.secondView}>
           <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: 'right' , marginRight:ResponsiveSize(20)}]}>{data?.SaudiArabia}</Text>
           <TextFildCus text={data?.StateProvince} add={true} />

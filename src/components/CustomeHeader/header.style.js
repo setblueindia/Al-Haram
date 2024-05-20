@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
             shadowOpacity: 0.5,
             shadowRadius: 2,
             elevation: 2,
+            // backgroundColor:"red",
+            alignItems:'center'
             // alignSelf: 'stretch'
         } :
 
@@ -25,6 +27,7 @@ export const styles = StyleSheet.create({
                 elevation: ResponsiveSize(10),
                 paddingHorizontal: ResponsiveSize(20),
                 shadowColor: '#000',
+                alignItems:'center'
 
             },
 
@@ -43,14 +46,19 @@ export const styles = StyleSheet.create({
     },
     logView: {
         width: "33%",
-        height: ResponsiveSize(100)
+        height: ResponsiveSize(100),
+        
     },
     container: {
         flexDirection: ALINE.row,
         width: '100%',
-        height: ResponsiveSize(100),
+        height: ResponsiveSize(120),
         alignItems: ALINE.center,
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        // backgroundColor:"green",
+        // alignSelf:'center'
+        // alignItems:'center'
+        
     },
     
     lastView: {

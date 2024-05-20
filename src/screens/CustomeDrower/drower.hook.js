@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
-import {Linking} from 'react-native';
+import {Dimensions, Linking} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addLangCode, updateLangCode} from '../../redux/Slices/LangSlices';
 import {Ar, En} from '../../constants/localization';
@@ -14,6 +14,7 @@ const useDrowerHook = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const height = Dimensions.get("window").height
 
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
@@ -663,6 +664,7 @@ const useDrowerHook = () => {
     navigation,
     langues,
     userName,
+    height,
     changeLungues,
     handleInstagramPress,
     handleFacebookPress,

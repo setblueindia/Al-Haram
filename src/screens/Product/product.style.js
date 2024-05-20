@@ -97,13 +97,17 @@ export const styles = StyleSheet.create({
     comonView:{
         flexDirection:'row',
         alignItems:ALINE.center,
-        justifyContent:ALINE.center
+        justifyContent:ALINE.center,
+        width:"50%",
+
+        
     },
     deviderInner:{
-        width:ResponsiveSize(10)
+        width:ResponsiveSize(10),
+        
     },
     deviderFilter:{
-        width:ResponsiveSize(30)
+        // width:ResponsiveSize(30)
     },
     likeView:{
         height:ResponsiveSize(60),

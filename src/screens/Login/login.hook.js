@@ -87,6 +87,10 @@ const useLoginHook = () => {
     navigation.navigate(NAVIGATION.SinupSceen, { langues: langues });
   };
 
+  const ForgetPassword = () =>{
+    navigation.navigate(NAVIGATION.ForgetPasswor, { langues: langues });
+  }
+
 
   return {
     whiteEmail,
@@ -100,7 +104,8 @@ const useLoginHook = () => {
     setWithEmail,
     onPress,
     SingUpScreen,
-    setShowModal
+    setShowModal,
+    ForgetPassword
   };
 };
 

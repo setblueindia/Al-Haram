@@ -20,7 +20,8 @@ export const NAVIGATION = {
   Done: "Done Screen",
   addaddress: "Addaddress Screen",
   SerchScreen : "Serch Screen",
-  SponserScreen : "Sponser Screen"
+  SponserScreen : "Sponser Screen",
+  ForgetPasswor : "Forget Password"
 
 };
 export const LOGINStr = {

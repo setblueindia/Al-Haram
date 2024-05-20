@@ -9,8 +9,8 @@ import { ResponsiveSize } from '../../utils/utils'
 import { COLOR } from '../../constants/style'
 
 const SerchScreen = () => {
-  const { navigation, lang, setLike, like } = useSerchHook()
-  const data = [1, 2, 3, 4, 5]
+  const { navigation, lang, setLike, like , data , likePress} = useSerchHook()
+
   return (
     <View style={styles.mainView}>
       <CommanHeader navigation={navigation} lang={lang} />
@@ -20,14 +20,15 @@ const SerchScreen = () => {
           placeholder='Search......'
         />
       </View>
-      <View style={{ marginTop: ResponsiveSize(10) }}>
+      <View style={{ marginTop: ResponsiveSize(10) , flex:1}}>
 
         <FlatList
           data={data}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           bounces={true}
-          renderItem={() => {
+          style={{marginBottom:ResponsiveSize(30) }}
+          renderItem={({item ,index}) => {
             return (
               <TouchableOpacity
                 onPress={() => {
@@ -43,9 +44,10 @@ const SerchScreen = () => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => { like ? setLike(false) : setLike(true) }}
+                  onPress={() =>
+                  { likePress(index)}}
                   style={styles.likeView}>
-                  <Filter name={like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                  <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                 </TouchableOpacity>
               </TouchableOpacity>
             )

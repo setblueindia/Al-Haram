@@ -5,29 +5,43 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 
-const CategoriesList = ({ index, data, name, navigation , lang}) => {
+const CategoriesList = ({ index, data, name, navigation, lang }) => {
 
     const [on, setOn] = useState(false)
     const [viewMore, setViewMore] = useState(false)
+    const [aindex, setIndex] = useState()
     const slicedArray = data.sub_category.slice(0, 6);
     const mainData = data?.sub_category
     const count = mainData.length - slicedArray.length
 
 
+    const onPress = (x) => {
+        // console.log("======>", x)
+            setIndex(index),
+            setViewMore(false)
+        // console.log("index ===> , " , aindex)       
+        if (on && x == aindex) {
+            setOn(false)
+        } else {
+            setOn(true)
+        }
+
+    }
+
     return (
         <View>
             <TouchableOpacity
-                onPress={() => { !on && data.title == name ? setOn(true) : setOn(false), setViewMore(false) }}
-                style={[styles.mainView , lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]} key={index}>
+                onPress={() => { onPress(index) }}
+                style={[styles.mainView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]} key={index}>
                 <Text style={styles.title}>{data?.title}</Text>
                 <Icon size={ResponsiveSize(25)} name={!on ? lang == NUMBER.num0 ? ICON.left : ICON.right : ICON.down} />
             </TouchableOpacity>
 
-            {on &&
+            {(on && index == aindex) &&
                 <View style={styles.imageContainer} >
                     <FlatList
                         scrollEnabled={false}
-                        style={{transform: [{ rotate: '0deg'}]}}
+                        style={{ transform: [{ rotate: '0deg' }] }}
                         data={viewMore ? mainData : slicedArray}
                         numColumns={3}
                         keyExtractor={(item, index) => index * Math.random()}
@@ -37,7 +51,7 @@ const CategoriesList = ({ index, data, name, navigation , lang}) => {
                                 <>
                                     <TouchableOpacity
                                         onPress={() => { navigation.navigate(NAVIGATION.ProductScreen) }}
-                                        key={index * Math.random()} style={[styles.imageView ]}>
+                                        key={index * Math.random()} style={[styles.imageView]}>
                                         <Image
                                             style={styles.image}
                                             source={{ uri: item?.image }} />
@@ -49,8 +63,8 @@ const CategoriesList = ({ index, data, name, navigation , lang}) => {
                                             <TouchableOpacity
                                                 onPress={() => { setViewMore(true) }}
                                                 style={styles.btnView}
-                                                >
-                                                <Text style={styles.viewText}>{ " + " + count}</Text>
+                                            >
+                                                <Text style={styles.viewText}>{" + " + count}</Text>
                                             </TouchableOpacity>
 
                                         </View>
@@ -142,7 +156,7 @@ const styles = StyleSheet.create({
     viewText: {
         color: COLOR.white,
         // fontWeight: FONTWEGHIT.font700,
-        fontSize:ResponsiveSize(40),
-        
+        fontSize: ResponsiveSize(40),
+
     }
 })

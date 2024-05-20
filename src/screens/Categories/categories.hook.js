@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { NUMBER } from '../../constants/constants'
@@ -9,6 +9,7 @@ const useCategroiesHook = () => {
 
   const navigation = useNavigation()
   const lang = useSelector(state => state.lang.data)
+  const [mainIndex , setIndex] = useState()
 
   // console.log("Langues =====> ", lang)
 
@@ -322,7 +323,9 @@ const useCategroiesHook = () => {
   return {
     CategoriesData,
     navigation,
-    lang
+    lang,
+    setIndex,
+    mainIndex
   }
 }
 
