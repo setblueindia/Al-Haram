@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet} from 'react-native';
 import React, { useEffect } from 'react';
 import Splash from '../screens/Splash/Splash';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { NAVIGATION } from '../constants/constants';
 import OtpScreen from '../screens/OTPScreen/OtpScreen';
 import SingUp from '../screens/SingUp/SingUp';
-import TabNavigation from './Tab';
 import DrowerNavigation from './DrowerNavigation';
 import Product from '../screens/Product/Product';
 import WhishList from '../screens/WhisList/WhishList';
@@ -22,6 +21,7 @@ import Addaddress from '../screens/AddAdress/Addaddress';
 import SerchScreen from '../screens/SercchScreen/SerchScreen';
 import Sponser from '../screens/SponserFlow/Sponser';
 import Forget from '../screens/ForgetPassword/Forget';
+import EditeProfile from '../screens/EditeProfile/EditeProfile';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -123,6 +123,11 @@ const StackNavigation = () => {
           <Stack.Screen
         name={NAVIGATION?.ForgetPasswor}
         component={Forget}
+        options={{ headerShown: false }}
+      />
+          <Stack.Screen
+        name={NAVIGATION?.EditeProfileScreen}
+        component={EditeProfile}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

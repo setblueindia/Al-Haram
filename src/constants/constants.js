@@ -21,7 +21,8 @@ export const NAVIGATION = {
   addaddress: "Addaddress Screen",
   SerchScreen : "Serch Screen",
   SponserScreen : "Sponser Screen",
-  ForgetPasswor : "Forget Password"
+  ForgetPasswor : "Forget Password",
+  EditeProfileScreen : "Edite Profilrs"
 
 };
 export const LOGINStr = {

@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     },
     text:{
         color:COLOR.white,
-        fontSize:ResponsiveSize(30),
+        fontSize:ResponsiveSize(25),
         fontWeight:'bold'
     }
 })

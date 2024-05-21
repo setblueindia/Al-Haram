@@ -13,3 +13,4 @@ BASE_URL = "https://beta.alharamstores.com"
 
 export const SINUPURL = BASE_URL + "/rest/arabic/V1/api/mobileOtpRegistrationMethod"
 export const LOGINURL = BASE_URL + "/rest/V1/api/loginUser"
+export const OTPVerification =  BASE_URL + "/rest/arabic/V1/api/mobileOtpVerifyCreateMethod"

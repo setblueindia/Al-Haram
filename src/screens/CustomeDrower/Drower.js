@@ -33,7 +33,7 @@ const Drower = () => {
   } = useDrowerHook();
 
   return (
-    <View style={[styles.mainView , {height:height}]}>
+    <View style={[styles.mainView, { height: height }]}>
 
       <StatusBarCus />
 
@@ -52,13 +52,15 @@ const Drower = () => {
           ]}>
           <Text style={styles.userNameText}> {userName}</Text>
         </View>
-        <TouchableOpacity style={[styles.editIcon, lang.data == NUMBER.num0 && { left: ResponsiveSize(5) }]}>
+        <TouchableOpacity
+          onPress={() => { navigation.navigate(NAVIGATION.EditeProfileScreen) }}
+          style={[styles.editIcon, lang.data == NUMBER.num0 && { left: ResponsiveSize(5) }]}>
           <Image style={styles.edit} source={edit} />
         </TouchableOpacity>
 
-        <View style={styles.lineView}>
+        {/* <View style={styles.lineView}>
           <View style={styles.line} />
-        </View>
+        </View> */}
       </View>
 
       <ScrollView style={styles.ScrollView}>
@@ -72,6 +74,7 @@ const Drower = () => {
       </ScrollView>
 
       <View sxtyle={styles.LastView}>
+
         <TouchableOpacity
           onPress={() => {
             navigation.navigate(NAVIGATION.Login);

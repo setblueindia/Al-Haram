@@ -56,7 +56,12 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.white,
     height: ResponsiveSize(700),
     // height: '60%',
+    // elevation: 2,
     elevation: 2,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: '#000',
 
     // marginTop:ResponsiveSize(10)
   },

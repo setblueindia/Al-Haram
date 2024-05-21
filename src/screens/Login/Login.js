@@ -16,7 +16,22 @@ import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
 
 const Login = () => {
-  const { whiteEmail, errorText, showModal,ForgetPassword ,setShowModal, setEmail, setPassword, setWithEmail, onPress, SingUpScreen, loader, langues, lang } =
+  const {
+    whiteEmail,
+    errorText,
+    showModal,
+    ForgetPassword,
+    setShowModal,
+    setEmail,
+    setPassword,
+    setWithEmail,
+    onPress,
+    SingUpScreen,
+    setMobailNumber,
+    loader,
+    langues,
+    lang
+  } =
     useLoginHook();
   return (
     <>
@@ -53,6 +68,8 @@ const Login = () => {
                 <TextFildCus
                   icon={ICON.phoneIcon}
                   text={langues?.Entermobilenumber}
+                  onChange={setMobailNumber}
+
                 />
               )}
 
@@ -86,7 +103,7 @@ const Login = () => {
                     </View>
                   )}
                 </View>
-                <TouchableOpacity onPress={()=>{ForgetPassword()}}>
+                <TouchableOpacity onPress={() => { ForgetPassword() }}>
                   <Text style={styles.forgetText}>{langues?.ForgotPassword}</Text>
                 </TouchableOpacity>
               </View>

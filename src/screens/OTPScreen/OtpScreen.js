@@ -1,14 +1,22 @@
-import {View, Text} from 'react-native';
+import { View, Text, Modal } from 'react-native';
 import React from 'react';
-import {styles} from './otp.style';
+import { styles } from './otp.style';
 import Onbordingheader from '../../components/OnbordingHeader';
-import {OTPStr} from '../../constants/constants';
+import { OTPStr } from '../../constants/constants';
 import OTP from '../../components/OPT/OPT';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
+import useOPTHook from './otp.hook';
+import CusLoader from '../../components/CustomLoader';
+import CusModal from '../../components/CusModal';
 
 const OtpScreen = (props) => {
-  const lable = props.route.params.lable
+  const Mo = props?.route?.params?.mobileNo
+  const { setMainOTP, onPress, loading, showModal, errorText, setShowModal } = useOPTHook({ number: Mo })
+
+  const lable = props?.route?.params?.lable
+
+
   return (
     <View style={styles.mainView}>
       <View style={styles.headerView}>
@@ -25,7 +33,7 @@ const OtpScreen = (props) => {
           </View>
           <View style={styles.line} />
           <View style={styles.otpView}>
-            <OTP />
+            <OTP setMainOTP={setMainOTP} />
           </View>
           <View style={styles.verificationView}>
             <Text style={styles.verificationText}>
@@ -39,11 +47,28 @@ const OtpScreen = (props) => {
           </TouchableOpacity>
 
           <View style={styles.buttonView}>
-            <Button text={lable?.Submit}/>
+            <Button onPress={() => { onPress() }} text={lable?.Submit} />
           </View>
 
         </View>
       </View>
+
+
+      {loading &&
+        <View style={{ position: 'absolute', height: "100%", width: "100%" }}>
+          <CusLoader />
+        </View>
+
+      }
+
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={showModal}
+
+      >
+        <CusModal setModalShow={setShowModal} text={errorText} />
+      </Modal>
     </View>
   );
 };

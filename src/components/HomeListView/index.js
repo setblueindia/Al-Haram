@@ -17,14 +17,14 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
 
     const color = sindex % 2 == 0 ? true : false
 
-    const likePress = (id) =>{
+    const likePress = (id) => {
         setData((prevData) =>
-        prevData?.map(
-          (productDetails) => productDetails?.id == id ?
-            { ...productDetails, like: !productDetails?.like } :
-            productDetails
+            prevData?.map(
+                (productDetails) => productDetails?.id == id ?
+                    { ...productDetails, like: !productDetails?.like } :
+                    productDetails
+            )
         )
-      )
     }
     const updateData = (id) => {
         const temp = data?.innerData?.map(v => { return { ...v, like: false } })
@@ -43,7 +43,10 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
             <View style={[styles.container, color ? { backgroundColor: "#00000010" } : {}]}>
                 <View style={[styles.headerTextView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={styles.headerText}>{data?.name}</Text>
-                    <Text style={styles.viewText}>{lang.data == NUMBER.num1 ? "View All" : "عرض الكل"}</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.viewText}>{lang.data == NUMBER.num1 ? "View All" : "عرض الكل"}</Text>
+                    </TouchableOpacity>
+
 
                 </View>
                 {

@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {TextInput} from 'react-native-gesture-handler';
 import {styles} from './Otp.style';
 import { useSelector } from 'react-redux';
@@ -7,9 +7,9 @@ import { NUMBER } from '../../constants/constants';
 import { ALINE } from '../../constants/style';
 
 
-const OTP = () => {
+const OTP = ({setMainOTP}) => {
 
-  const lang = useSelector(state => state.lang)
+const lang = useSelector(state => state.lang)
 
 
 
@@ -21,10 +21,15 @@ const [text4, setText4] = useState()
  const opt = text1 + text2 + text3 + text4 
 
 
+
   const et1 = useRef();
   const et2 = useRef();
   const et3 = useRef();
   const et4 = useRef();
+
+  useEffect(()=>{
+    setMainOTP(opt)
+  }, [opt])
 
 
   return (

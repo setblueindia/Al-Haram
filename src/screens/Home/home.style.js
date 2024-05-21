@@ -53,6 +53,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal:ResponsiveSize(10),
         borderRadius:ResponsiveSize(10),
         marginVertical:ResponsiveSize(20),
+       
     },
     bannerView3:{
         width : "100%",
@@ -67,7 +68,8 @@ export const styles = StyleSheet.create({
         resizeMode:'cover',
         borderRadius:ResponsiveSize(10),
         backgroundColor:COLOR.white,
-        elevation:10
+        elevation:10,
+
     }
 
 })

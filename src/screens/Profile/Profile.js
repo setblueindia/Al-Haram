@@ -7,7 +7,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { ResponsiveSize } from '../../utils/utils';
 import useProfileHook from './profile.hook';
-import {  NUMBER } from '../../constants/constants';
+import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { ALINE, COLOR } from '../../constants/style';
 import CustomeHeader from '../../components/CustomeHeader';
 
@@ -15,7 +15,7 @@ import CustomeHeader from '../../components/CustomeHeader';
 
 const Profile = () => {
 
-  const { menuItems, setSelectedItems, onPress, lang } = useProfileHook();
+  const { menuItems, setSelectedItems, onPress, lang, navigation, email, name } = useProfileHook();
 
   return (
     <View style={styles.mainView}>
@@ -36,19 +36,21 @@ const Profile = () => {
                 size={ResponsiveSize(120)}
               />
 
-              <SimpleLineIcons
-                name="note"
-                color="#202020"
-                size={ResponsiveSize(35)}
-              />
+              <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.EditeProfileScreen) }}>
+                <SimpleLineIcons
+                  name="note"
+                  color="#202020"
+                  size={ResponsiveSize(35)}
+                />
+              </TouchableOpacity>
 
             </View>
             <View style={styles.userText}>
-              <Text style={[styles.userNameStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>John Deo</Text>
+              <Text style={[styles.userNameStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{name}</Text>
             </View>
 
             <View style={styles.emailText}>
-              <Text style={[styles.textEmail, lang == NUMBER.num0 && { textAlign: 'right' }]}>john@95925262.@gmail.com</Text>
+              <Text style={[styles.textEmail, lang == NUMBER.num0 && { textAlign: 'right' }]}>{email}</Text>
             </View>
 
           </View>

@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
         borderBottomWidth:ResponsiveSize(1),
     },
     text:{
-        fontSize:ResponsiveSize(30),
+        fontSize:ResponsiveSize(25),
         fontWeight:'bold'
     }
 })

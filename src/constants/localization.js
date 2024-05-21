@@ -69,9 +69,11 @@ export const Ar = {
   addyourremark : "أضف ملاحظتك",
   Addmoneytocustomerswallet: "إضافة الأموال إلى محفظة العميل",
   Send : "يرسل",
-  forgetDes:"الرجاء إدخال عنوان بريدك الإلكتروني وسنرسل لك \n كلمة المرور عبر البريد الإلكتروني \n فورًا"
-
-
+  forgetDes:"الرجاء إدخال عنوان بريدك الإلكتروني وسنرسل لك \n كلمة المرور عبر البريد الإلكتروني \n فورًا",
+  EditProfile : "تعديل الملف الشخصي",
+  ChangePassword : "تغيير كلمة المرور",
+  Update : "اخلع",
+  EnterYourOldPassword: "أدخل كلمة المرور القديمة الخاصة بك"
 }
 
 export const En = {
@@ -146,7 +148,11 @@ export const En = {
   addyourremark : "add your remark",
   Addmoneytocustomerswallet : "Add money to customer's wallet",
   Send : "Send",
-  forgetDes : "Please enter your email address and we \n  will send you password by email \n immadiatly"
+  forgetDes : "Please enter your email address and we \n  will send you password by email \n immadiatly",
+  EditProfile : "Edit Profile",
+  ChangePassword : "Change Password",
+  Update: "Update",
+  EnterYourOldPassword : "Enter Your Old Password"
   // WishList: 'WishList',
   // MyWallet: 'My Wallet',
   // MyOrder: 'My Order',

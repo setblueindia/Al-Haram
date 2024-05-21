@@ -1,12 +1,13 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {styles} from './sitch.stye';
-import {LOGINStr, NUMBER} from '../../constants/constants';
-import {ResponsiveSize} from '../../utils/utils';
-import {ALINE, COLOR} from '../../constants/style';
-import {useSelector} from 'react-redux';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { styles } from './sitch.stye';
+import { LOGINStr, NUMBER } from '../../constants/constants';
+import { ResponsiveSize } from '../../utils/utils';
+import { ALINE, COLOR } from '../../constants/style';
+import { useSelector } from 'react-redux';
 
-const SwitchButton = ({setWithEmail, langues}) => {
+const SwitchButton = ({ setWithEmail, langues, profile }) => {
+
   const [selected, setSelected] = useState(true);
   const lang = useSelector(state => state.lang);
 
@@ -14,7 +15,7 @@ const SwitchButton = ({setWithEmail, langues}) => {
     <View
       style={[
         styles.mainView,
-        lang.data == NUMBER.num0 && {flexDirection: ALINE.rowreverse},
+        lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse },
       ]}>
       <TouchableOpacity
         onPress={() => {
@@ -27,8 +28,8 @@ const SwitchButton = ({setWithEmail, langues}) => {
             borderColor: COLOR.primaray,
           },
         ]}>
-        <Text style={[styles.text, selected ? {color: COLOR.primaray} : {color:"#00000080"}]}>
-          {langues?.SignInWithEmail}
+        <Text style={[styles.text, selected ? { color: COLOR.primaray } : { color: "#00000080" }]}>
+          {profile ? langues?.EditProfile : langues?.SignInWithEmail}
         </Text>
       </TouchableOpacity>
 
@@ -43,8 +44,8 @@ const SwitchButton = ({setWithEmail, langues}) => {
             borderColor: COLOR.primaray,
           },
         ]}>
-        <Text style={[styles.text, !selected ? {color: COLOR.primaray} : {color:"#00000080"}]}>
-          {langues?.UseMobileNo}
+        <Text style={[styles.text, !selected ? { color: COLOR.primaray } : { color: "#00000080" }]}>
+          {profile ? langues?.ChangePassword : langues?.UseMobileNo}
         </Text>
       </TouchableOpacity>
     </View>

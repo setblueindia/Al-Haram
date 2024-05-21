@@ -37,7 +37,7 @@ const SingUp = props => {
         <View style={styles.line} />
 
         <View style={styles.containerView}>
-          <TextFildCus onChange={setFirstName} icon={ICON.usersecret} text={lable?.EnteryourFirstname} />
+          <TextFildCus onChange={setFirstName} icon={ICON.usersecret} text={lable?.Enterfirstname} />
           <View style={styles.devider} />
           <TextFildCus onChange={setLastName} icon={ICON.usersecret} text={lable?.Enteryourlastname} />
           <View style={styles.devider} />

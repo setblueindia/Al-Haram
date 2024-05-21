@@ -8,10 +8,18 @@ import { Ar, En } from '../../constants/localization';
 const useProfileHook = () => {
 
   const lang = useSelector(state => state.lang.data)
+  const userData = useSelector(state => state?.userData)
   const navigation = useNavigation();
   const [selectedItems, setSelectedItems] = useState()
-
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
+
+  const email = userData?.data?.email
+  const firstName = userData?.data?.firstname
+  const lastName = userData?.data?.lastname
+  const name = (firstName && lastName) ?  firstName + " " +lastName : "User"
+
+
+
 
   const menuItems = [
 
@@ -52,9 +60,14 @@ const useProfileHook = () => {
   return {
     menuItems,
     lang,
+    email,
+    firstName,
+    lastName,
     setSelectedItems,
     navigation,
     onPress,
+    navigation,
+    name
 
   };
 };

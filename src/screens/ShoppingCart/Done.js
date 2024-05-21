@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
 
     },
     icon: {
+        resizeMode:'contain',
         height: "100%",
         width: "100%",
         resizeMode: ALINE.center

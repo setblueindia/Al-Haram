@@ -11,6 +11,8 @@ export const styles = StyleSheet.create({
     },
     mainVIew: {
         flex: 1,
+        height:"100%",
+        width:"100%",
         backgroundColor: COLOR.white
     },
     productCodeView: {
@@ -95,18 +97,23 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(20),
     },
     counter: {
-        marginLeft: ResponsiveSize(20)
+        marginLeft: ResponsiveSize(20),
+
     },
     btnConatainer: {
         width: "100%",
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
         backgroundColor: "#F8F2F2",
-        marginTop:ResponsiveSize(20),
+        // marginTop:ResponsiveSize(20),
         alignItems:ALINE.center,
         justifyContent:ALINE.spaceBetween,
         paddingHorizontal:ResponsiveSize(20),
         height:ResponsiveSize(120),
+        position:'absolute',
+        bottom:ResponsiveSize(20),
+      
+        
 
     },
     likeBtn: {

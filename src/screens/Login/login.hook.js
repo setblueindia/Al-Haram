@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogIn } from '../../api/axios.api';
+import { userLogIn, userLogInWithNumber } from '../../api/axios.api';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { setUserData } from '../../utils/asyncStorage';
@@ -17,6 +17,7 @@ const useLoginHook = () => {
   const [showModal, setShowModal] = useState(false)
   const [whiteEmail, setWithEmail] = useState(true);
   const [langues, setLangues] = useState();
+  const [moNumber, setMobailNumber] = useState();
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
   const dispatch = useDispatch()
@@ -36,7 +37,7 @@ const useLoginHook = () => {
     const userEmail = email.toLowerCase()
 
     const formData = new FormData();
-  
+
     formData.append('username', userEmail);
     formData.append('password', password);
     formData.append('store_id', lang?.data)
@@ -58,7 +59,7 @@ const useLoginHook = () => {
 
   const useLoginWithEmail = () => {
 
-    if(!email) {
+    if (!email) {
       setErrorText(langues?.Enteremailaddress)
       setShowModal(true)
     }
@@ -66,7 +67,7 @@ const useLoginHook = () => {
       setErrorText(langues?.Invalidemailaddress)
       setShowModal(true)
     }
-   else if(!password) {
+    else if (!password) {
       setErrorText(langues?.Enterpassword)
       setShowModal(true)
     }
@@ -79,15 +80,49 @@ const useLoginHook = () => {
     }
   }
 
+  const mobailLogin = async () => {
+    setLoader(true)
+
+    const formData = new FormData();
+
+    formData.append('mobile', '+966' + moNumber);
+    formData.append('otptype', "login");
+    formData.append('store_id', lang?.data);
+
+    const response = await userLogInWithNumber(formData)
+    if (response?.data?.status == NUMBER.num1) {
+      setLoader(false)
+      console.log("OTP ====> ", response?.data?.otp)
+      navigation.navigate(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber })
+    } else {
+      setLoader(false)
+      setShowModal(true)
+      setErrorText(response?.data?.message)
+      console.log("Response error =====> ", response?.data)
+    }
+  }
+
+  const useLoginWithNumber = () => {
+
+    if (moNumber.length != 9) {
+      setShowModal(true)
+      setErrorText(langues?.Invalidnumber)
+    } else {
+      mobailLogin()
+
+    }
+
+  }
+
   const onPress = async () => {
-    whiteEmail ? useLoginWithEmail() : navigation.navigate(NAVIGATION.OTPScreen, { lable: langues });
+    whiteEmail ? useLoginWithEmail() : useLoginWithNumber();
   };
 
   const SingUpScreen = () => {
     navigation.navigate(NAVIGATION.SinupSceen, { langues: langues });
   };
 
-  const ForgetPassword = () =>{
+  const ForgetPassword = () => {
     navigation.navigate(NAVIGATION.ForgetPasswor, { langues: langues });
   }
 
@@ -105,7 +140,8 @@ const useLoginHook = () => {
     onPress,
     SingUpScreen,
     setShowModal,
-    ForgetPassword
+    ForgetPassword,
+    setMobailNumber
   };
 };
 
