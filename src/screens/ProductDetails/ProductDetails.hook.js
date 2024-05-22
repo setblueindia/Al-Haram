@@ -2,20 +2,45 @@ import { useNavigation } from "@react-navigation/native"
 import { useSelector } from "react-redux"
 import { NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
+import { useState } from "react"
+// import Share from 'react-native-share';
+
+
 
 const useProductDetails = () => {
     const lang = useSelector(state => state.lang)
+    const [sindex, setIndex] = useState(false)
     const navigation = useNavigation()
+    const [like, setLike] = useState(false)
 
     const color = [1, 2, 3, 4]
+
+    const onShare = () => {
+
+        // Share.open(options)
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        //     .catch((err) => {
+        //         err && console.log(err);
+        //     });
+    }
+
+
+    const AddTocart = () =>{
+        
+
+    }
+
+
     const Str = lang?.data == NUMBER.num1 ?
         {
             color: "Color : ",
             Size: "Size :",
             ProductCode: "Product Code :13884",
             MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
-            QNT : "QNT :",
-            Addtocard:"Add to card"
+            QNT: "Qty :",
+            Addtocard: "Add to card"
 
         } :
         {
@@ -23,8 +48,8 @@ const useProductDetails = () => {
             Size: " مقاس :",
             ProductCode: "رمز المنتج :13884",
             MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
-            QNT : "كيو إن تي :",
-            Addtocard  : "اضف الى البطاقة"
+            QNT: "الكمية: ",
+            Addtocard: "اضف الى البطاقة"
         }
 
     const sliderData = [
@@ -41,7 +66,12 @@ const useProductDetails = () => {
         navigation,
         sliderData,
         color,
-        Str
+        Str,
+        setIndex,
+        sindex,
+        setLike,
+        like,
+        onShare
     }
 }
 

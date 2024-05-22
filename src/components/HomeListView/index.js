@@ -43,7 +43,9 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
             <View style={[styles.container, color ? { backgroundColor: "#00000010" } : {}]}>
                 <View style={[styles.headerTextView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={styles.headerText}>{data?.name}</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity 
+                    onPress={()=>{navigation.navigate(NAVIGATION.ProductScreen)}}
+                       >
                         <Text style={styles.viewText}>{lang.data == NUMBER.num1 ? "View All" : "عرض الكل"}</Text>
                     </TouchableOpacity>
 
@@ -56,6 +58,11 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
                         data={sdata}
                         horizontal
                         renderItem={({ item, index }) => {
+
+                            const name = item?.name
+                            const final = name?.length > 10 ? name.substr(0, 10) : name
+                            
+                            console.log("Name ===> ", name)
                             // console.log("Items ==== > ", item)
                             return (
                                 <TouchableOpacity
@@ -83,7 +90,7 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
                                     <View style={[styles.textView]}>
 
                                         <Text style={[styles.ProductName, lang.data == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(15) }]}>
-                                            {item?.name}
+                                            { name.length > 10 ? final + "..."  : final}
                                         </Text>
                                         <Text style={[styles.Price, lang.data == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(15) }]}>
                                             {item?.price}

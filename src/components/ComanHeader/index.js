@@ -6,6 +6,7 @@ import { ResponsiveSize } from '../../utils/utils';
 import StatusBarCus from '../CustomStatusBar';
 import { logo } from '../../assests';
 import { ALINE, COLOR } from '../../constants/style';
+import LottieView from 'lottie-react-native';
 
 const CommanHeader = ({ navigation, lang, name }) => {
     return (
@@ -26,12 +27,24 @@ const CommanHeader = ({ navigation, lang, name }) => {
                 </View>
 
                 <TouchableOpacity
-                onPress={()=>{navigation.navigate(NAVIGATION.Shoppingcart)}}
-                style={{ width: ResponsiveSize(40) }}>
-                    {!name && <Icon style={styles.icon}
-                        name={ICON.shoppingcart}
-                        size={ResponsiveSize(40)}
-                        coloe={COLOR.black} />}
+                    onPress={() => { navigation.navigate(NAVIGATION.Shoppingcart) }}
+                    style={{ width: ResponsiveSize(40) }}>
+                    {!name &&
+                        // <LottieView
+                        //     //   ref={animationRef}
+                        //     source={require('../../assests/Lottianimation/AddToCart.json')}
+                        //     autoPlay loop
+                        //     resizeMode='cover'
+                        //     style={{ height: ResponsiveSize(40), width: ResponsiveSize(40) }}
+                        // />
+
+                        <Icon style={styles.icon}
+                            name={ICON.shoppingcart}
+                            size={ResponsiveSize(40)}
+                            coloe={COLOR.black} />
+
+
+                    }
                 </TouchableOpacity>
             </View>
         </View>

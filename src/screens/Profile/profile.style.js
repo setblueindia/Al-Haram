@@ -9,17 +9,17 @@ export const styles = StyleSheet.create({
   },
   profileView: {
     borderWidth: ResponsiveSize(1),
-    height: ResponsiveSize(250),
+    // height: ResponsiveSize(250),
     borderColor: '#DCDCDC',
   },
   linearView: {
-    width: '100%',
-    height: '100%',
+    // width: '100%',
+    // height: '100%',
     borderBottomWidth: 0.5,
   },
   profileMain: {
     marginTop:ResponsiveSize(20),
-    padding:ResponsiveSize(20)
+    padding:ResponsiveSize(10)
     // marginRight:ResponsiveSize(20)
   },
   profileText: {
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   userNameStyle: {
     color: COLOR.primaray,
-    fontSize:ResponsiveSize(40)
+    fontSize:ResponsiveSize(30)
   },
   emailText: {
     width: '90%',
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     alignSelf: ALINE.center,
   },
   menuText: {
-    fontSize: ResponsiveSize(30),
+    fontSize: ResponsiveSize(25),
     color: COLOR.black,
   },
   textMenu: {

@@ -33,7 +33,7 @@ const Profile = () => {
               <EvilIcons
                 name="user"
                 color="#990107"
-                size={ResponsiveSize(120)}
+                size={ResponsiveSize(100)}
               />
 
               <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.EditeProfileScreen) }}>
@@ -65,12 +65,13 @@ const Profile = () => {
         <TouchableOpacity key={index}
           style={[styles.menuView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}
           onPress={() => { onPress(item?.text) }}>
-          <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
 
+          <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
+            
             <AntDesign
               name={item.icon}
               color="#000000"
-              size={ResponsiveSize(40)}
+              size={ResponsiveSize(35)}
             />
 
 
@@ -83,7 +84,7 @@ const Profile = () => {
           <SimpleLineIcons
             name={lang == NUMBER.num0 ? "arrow-left" : "arrow-right"}
             color={COLOR.black}
-            size={ResponsiveSize(30)}
+            size={ResponsiveSize(20)}
           />
 
         </TouchableOpacity>

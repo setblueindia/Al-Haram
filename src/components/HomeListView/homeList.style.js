@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
     ProductName: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
-        fontWeight: '600',
+        // fontWeight: '600',
         marginLeft: ResponsiveSize(15)
     },
     listView: {
@@ -74,7 +74,8 @@ export const styles = StyleSheet.create({
         marginLeft: ResponsiveSize(15),
         color: COLOR.black,
         marginTop: ResponsiveSize(10),
-        fontSize: ResponsiveSize(25)
+        fontSize: ResponsiveSize(25),
+        fontWeight:FONTWEGHIT.font600
     },
 
     newInco:{

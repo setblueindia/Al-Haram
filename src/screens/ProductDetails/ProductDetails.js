@@ -9,9 +9,10 @@ import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
+import LottieView from 'lottie-react-native'
 
 const ProductDetails = () => {
-    const { lang, navigation, sliderData, color, Str } = useProductDetails()
+    const { lang, navigation, sliderData, color, Str, setIndex, sindex, like, setLike, onShare, AddTocart } = useProductDetails()
     return (
         <View style={styles.mainVIew}>
             <CommanHeader navigation={navigation} lang={lang?.data} />
@@ -53,9 +54,12 @@ const ProductDetails = () => {
                 <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
                     {color.map((items, index) => {
+
                         return (
-                            <TouchableOpacity key={index} style={[styles.sizeContainer]}>
-                                <Text style={styles.sizeText} >Xl</Text>
+                            <TouchableOpacity
+                                onPress={() => { setIndex(index) }}
+                                key={index} style={[styles.sizeContainer, index == sindex && { backgroundColor: COLOR.primaray }]}>
+                                <Text style={[styles.sizeText, index == sindex && { color: COLOR.white }]} >Xl</Text>
                             </TouchableOpacity>
                         )
                     })
@@ -73,21 +77,39 @@ const ProductDetails = () => {
                     </View>
                 </View>
 
-                <View style={{height:ResponsiveSize(200)}}/>
+                <View style={{ height: ResponsiveSize(200) }} />
 
             </ScrollView>
+            {/* <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150) , right:ResponsiveSize(20) }}>
+                <LottieView
+                    //   ref={animationRef}
+                    source={require('../../assests/Lottianimation/AddToCart.json')}
+                    autoPlay loop
+                    resizeMode='cover'
+                    style={{ height: "100%", width: "100%" }}
+                />
+            </View> */}
             <View style={[styles.btnConatainer, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-                <TouchableOpacity style={styles.likeBtn}>
-                    <Icon name={ICON.hearto} size={ResponsiveSize(40)} color={COLOR.primaray} />
+
+                <TouchableOpacity
+                    onPress={() => {
+                        like ? setLike(false) : setLike(true)
+                    }}
+                    style={styles.likeBtn}>
+                    <Icon name={like ? ICON.heart : ICON.hearto} size={ResponsiveSize(40)} color={COLOR.primaray} />
 
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.shareBtn}>
+                <TouchableOpacity
+                    onPress={() => { onShare() }}
+                    style={styles.shareBtn}>
                     <Icon name={"sharealt"} size={ResponsiveSize(40)} color={COLOR.primaray} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.AddToCartBtn}>
+                <TouchableOpacity
+                    onPress={() => { AddTocart() }}
+                    style={styles.AddToCartBtn}>
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>
 

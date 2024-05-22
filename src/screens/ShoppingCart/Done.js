@@ -45,10 +45,6 @@ const Done = (props) => {
                     <Text style={styles.continuesShoppingsText}>{lang == NUMBER.num0 ? "مشاهدة الطلب" : "Continue Shopping"}</Text>
                 </TouchableOpacity>
             </View>
-
-
-
-
         </View>
 
     )
@@ -91,8 +87,6 @@ const styles = StyleSheet.create({
         width: ResponsiveSize(200),
         position: 'absolute',
         bottom: ResponsiveSize(0),
-
-
     },
     icon: {
         resizeMode:'contain',

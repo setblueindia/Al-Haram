@@ -12,6 +12,7 @@ import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 import StatusBarCus from '../CustomStatusBar';
 import { useSelector } from 'react-redux';
 import { ALINE } from '../../constants/style';
+import LottieView from 'lottie-react-native';
 
 const CustomeHeader = ({ search, like, shoppingcart }) => {
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
   return (
     <View style={styles.mainView}>
       <StatusBarCus />
-      
+
       <View style={[styles.container, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
         <View style={styles.menuView}>
           <TouchableOpacity
@@ -35,7 +36,7 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
         </View>
 
         <View style={[styles.lastView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <TouchableOpacity onPress={()=>{navigation.navigate(NAVIGATION.SerchScreen)}}>
+          <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.SerchScreen) }}>
             {search && <HertIcon name={ICON.search1} size={25} style={styles.menuIcon} />}
           </TouchableOpacity>
 
@@ -43,8 +44,20 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
             {like && <HertIcon name={ICON.hearto} size={25} style={styles.menuIcon} />}
           </View>
 
-          <TouchableOpacity onPress={()=>{navigation.navigate(NAVIGATION.Shoppingcart)}}>
-            {shoppingcart && <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />}
+          <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.Shoppingcart) }}>
+            {shoppingcart &&
+              // <LottieView
+              //   //   ref={animationRef}
+              //   source={require('../../assests/Lottianimation/AddToCart.json')}
+              //   autoPlay loop
+              //   resizeMode='cover'
+              //   style={{ height: ResponsiveSize(40), width: ResponsiveSize(40) }}
+              // />
+
+              <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />
+
+
+            }
           </TouchableOpacity>
         </View>
 

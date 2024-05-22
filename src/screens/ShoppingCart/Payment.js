@@ -58,8 +58,8 @@ const Payment = ({data , lang}) => {
         </View>
       </View>
       <View style={[styles.FinaltextView , lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse }]}>
-        <Text style={[styles.leftText, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600 }]}>{data?.OrderTotal}</Text>
-        <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600 }]}>SAR 160</Text>
+        <Text style={[styles.leftText, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600 , fontSize:ResponsiveSize(25)}]}>{data?.OrderTotal}</Text>
+        <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize:ResponsiveSize(25) }]}>SAR 160</Text>
       </View>
     </View>
   )
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   palymentopationText: {
     color: COLOR.black,
-    fontSize: ResponsiveSize(30),
+    fontSize: ResponsiveSize(25),
 
   },
   CODView: {
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     marginRight: ResponsiveSize(10),
   },
   text: {
-    fontSize: ResponsiveSize(25),
+    fontSize: ResponsiveSize(23),
     color: COLOR.black
   },
   lineView: {

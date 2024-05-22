@@ -20,17 +20,17 @@ const Counter = () => {
         <View>
             <View style={styles.container}>
                 <TouchableOpacity
-                    onPress={() => { countProcess(true) }}
+                    onPress={() => { countProcess(false) }}
                     style={styles.innerView}>
-                    <Icon name={ICON.plus} size={ResponsiveSize(30)} color={COLOR.black} />
+                    <Icon name={ICON.minus } size={ResponsiveSize(30)} color={COLOR.black} />
                 </TouchableOpacity>
 
                 <Text style={styles.text}>{count}</Text>
 
                 <TouchableOpacity
-                    onPress={() => { countProcess(false) }}
+                    onPress={() => { countProcess(true) }}
                     style={styles.innerView}>
-                    <Icon name={ICON.minus} size={ResponsiveSize(30)} color={COLOR.black} />
+                    <Icon name={ICON.plus} size={ResponsiveSize(30)} color={COLOR.black} />
                 </TouchableOpacity>
             </View>
         </View>
