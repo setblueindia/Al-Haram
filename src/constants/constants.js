@@ -22,7 +22,11 @@ export const NAVIGATION = {
   SerchScreen : "Serch Screen",
   SponserScreen : "Sponser Screen",
   ForgetPasswor : "Forget Password",
-  EditeProfileScreen : "Edite Profilrs"
+  EditeProfileScreen : "Edite Profilrs",
+  OrderDeatsiScreen : "Order Details Screen",
+  CancelOrder : "CancelOrder Screen",
+  PaymentHistroy : "Payments histrory",
+  paymentDetails : "Payment Details"
 
 };
 export const LOGINStr = {
@@ -87,7 +91,7 @@ export const ASYNCSTORAGE = {
 };
 
 export const NUMBER = {
-  num0: '0',
+  num0: '2',
   num1: '1',
 };
 

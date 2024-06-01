@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Modal, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import Onbordingheader from '../../components/OnbordingHeader'
 import { styles } from './editeProfile.style'
@@ -6,50 +6,89 @@ import SwitchButton from '../../components/SwitchButton'
 import useEditeHook from './editeProfile.hook'
 import TextFildCus from '../../components/TextFildCus'
 import Button from '../../components/Button'
+import CusModal from '../../components/CusModal'
+import CusLoader from '../../components/CustomLoader'
 
 const EditeProfile = () => {
-    const { langues, editeProfile, setWithEmail } = useEditeHook()
+    const { langues,
+        editeProfile,
+        exampal,
+        modalShow,
+        errorText,
+        loadding,
+        setOldPassword,
+        setNewPassword,
+        setModalShow,
+        updatePassword,
+        Update,
+        setErrorText,
+        setFname,
+        setLname,
+        setemail,
+        setNumber,
+        setWithEmail,
+        setConfromPassword
+    } = useEditeHook()
     return (
+        <>
         <View style={styles.mainView}>
             <Onbordingheader />
             <View style={styles.container}>
                 <SwitchButton setWithEmail={setWithEmail} profile={true} langues={langues} />
+
                 {
                     editeProfile && <View style={styles.editeProifileView}>
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enterfirstname} />
+                        <TextFildCus text={langues?.Enterfirstname} onChange={setFname} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enterlastname} />
+                        <TextFildCus text={langues?.Enterlastname} onChange={setLname} />
+                        {/* <View style={styles.devider} />
+                        <TextFildCus text={langues?.Enteremailaddress} onChange={setemail} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enteremailaddress} />
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues.Entermobilenumber} />
+                        <TextFildCus text={langues.Entermobilenumber} onChange={setNumber} /> */}
                         <View style={styles.button}>
-                            <Button text={langues?.Update} />
+                            <Button onPress={Update} text={langues?.Update} />
                         </View>
-
-
                     </View>
                 }
+
                 {
                     !editeProfile &&
                     <View style={styles.chnagePasswordView}>
-
+                        
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.EnterYourOldPassword} />
+                        <TextFildCus text={langues?.EnterYourOldPassword} onChange={setOldPassword} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enteryourpassword} />
+                        <TextFildCus text={langues?.Enteryourpassword} onChange={setNewPassword} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.confirmpassword} />
+                        <TextFildCus text={langues?.confirmpassword} onChange={setConfromPassword}/>
                         <View style={styles.button}>
-                            <Button text={langues?.ChangePassword} />
+                            <Button onPress={updatePassword} text={langues?.ChangePassword} />
                         </View>
 
                     </View>
                 }
 
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={modalShow}
+                >
+                    <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
+                </Modal>
+
+
             </View>
+
+         
         </View>
+           {
+            loadding &&
+            <View style={{ flex: 1, position: 'absolute', height: '100%', width: "100%" }}>
+                <CusLoader />
+            </View>}
+
+            </>
     )
 }
 

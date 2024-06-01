@@ -1,14 +1,20 @@
 import { Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NUMBER } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
+import { HomeApi } from '../../api/axios.api'
 
 const useHomeHook = () => {
 
   const [storyData, setStoryData] = useState()
   const lang = useSelector(state => state.lang)
   const navigation = useNavigation()
+
+
+  useEffect(() => {
+    // getdata()
+  }, [])
 
   const data = [
     {
@@ -41,32 +47,32 @@ const useHomeHook = () => {
   const HomeScreeData = {
     data: [
       Games = {
-        name: lang.data == NUMBER.num1 ? "Featured Products" : "منتجات مميزة",        
+        name: lang.data == NUMBER.num1 ? "Featured Products" : "منتجات مميزة",
         innerData: [
           {
             id: 1,
-            name:lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
+            name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
             imge: require('../../assests/images/Home/F1.png'),
-            price: "200Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
 
           },
           {
             id: 2,
             name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
             imge: require('../../assests/images/Home/F2.png'),
-            price: "250Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
           {
             id: 3,
             name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
             imge: require('../../assests/images/Home/F3.png'),
-            price: "100Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
           {
             id: 4,
             name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
             imge: require('../../assests/images/Home/F4.png'),
-            price: "150Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
 
         ]
@@ -78,26 +84,26 @@ const useHomeHook = () => {
             id: 1,
             name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
             imge: require('../../assests/images/Home/t1.png'),
-            price: "200Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
 
           },
           {
             id: 2,
             name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
             imge: require('../../assests/images/Home/t2.png'),
-            price: "250Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
           {
             id: 3,
             name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
             imge: require('../../assests/images/Home/t1.png'),
-            price: "100Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
           {
             id: 4,
             name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
             imge: require('../../assests/images/Home/t2.png'),
-            price: "150Rs"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
 
         ]
@@ -109,14 +115,14 @@ const useHomeHook = () => {
             id: 1,
             name: lang.data == NUMBER.num1 ? "Mobile phone" : "تليفون محمول",
             imge: require('../../assests/images/Home/phone1.jpg'),
-            price:lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
 
           },
           {
             id: 2,
             name: lang.data == NUMBER.num1 ? "Mobile phone" : "تليفون محمول",
             imge: require('../../assests/images/Home/phone2.jpg'),
-            price:lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
+            price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
           },
           {
             id: 3,
@@ -150,6 +156,21 @@ const useHomeHook = () => {
 
 
 
+  const getdata = async () => {
+
+    const formData = new FormData();
+
+    formData.append("store_id", lang?.data)
+
+    try {
+      const res = await HomeApi(formData)
+      // console.log("Home Data === ", res?.data?.data)
+
+    } catch (error) {
+      // console.log("=============> ", error)
+    }
+
+  }
 
   return {
     data,

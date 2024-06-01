@@ -20,7 +20,7 @@ const Splash = () => {
   };
 
   const setLangues = async () => {
-    const langNum = '0';
+    const langNum = '2';
     try {
       await AsyncStorage.setItem(ASYNCSTORAGE.Langues, langNum);
       dispatch(addLangCode(langNum));

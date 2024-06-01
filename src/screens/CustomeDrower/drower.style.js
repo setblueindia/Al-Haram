@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
 
   profileView: {
     flexDirection: ALINE.row,
-    // justifyContent:ALINE.center,
     alignItems: ALINE.center,
     padding: ResponsiveSize(20),
   },
@@ -61,9 +60,7 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
-    shadowColor: '#000',
-
-    // marginTop:ResponsiveSize(10)
+    shadowColor: COLOR.black,
   },
   loginText: {
     fontSize: ResponsiveSize(30),
@@ -102,4 +99,10 @@ export const styles = StyleSheet.create({
     alignItems: ALINE.center,
     marginTop: ResponsiveSize(20),
   },
+  loaddingView:{
+    flex:1,
+    position:'absolute',
+    height:"100%",
+    width:"100%"
+  }
 });

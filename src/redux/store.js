@@ -1,6 +1,7 @@
 import { configureStore  } from '@reduxjs/toolkit'
 import LangSlices from './Slices/LangSlices';
 import UserDataSlice from './Slices/UserData.slice';
+import  DrawerList  from './Slices/DrawerSlice';
 
 
 
@@ -8,7 +9,8 @@ import UserDataSlice from './Slices/UserData.slice';
 const store = configureStore({
     reducer:{
         lang : LangSlices,
-        userData : UserDataSlice
+        userData : UserDataSlice,
+        Categories : DrawerList
     }
 })
 

@@ -6,12 +6,10 @@ import { NUMBER } from '../../constants/constants'
 
 
 const useCategroiesHook = () => {
-
+const data = useSelector(state => state?.Categories)
   const navigation = useNavigation()
   const lang = useSelector(state => state.lang.data)
   const [mainIndex , setIndex] = useState()
-
-  // console.log("Langues =====> ", lang)
 
   const CategoriesData = [
     {

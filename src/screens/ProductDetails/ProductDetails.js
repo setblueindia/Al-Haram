@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './ProductDetails.style'
@@ -10,9 +10,11 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
+import { Ratting } from '../../assests'
+import ReviewSlider from '../../components/ReviewSlider'
 
 const ProductDetails = () => {
-    const { lang, navigation, sliderData, color, Str, setIndex, sindex, like, setLike, onShare, AddTocart } = useProductDetails()
+    const { lang, navigation, sliderData, color, Str, setIndex, sindex, like, setLike, onShare, AddTocart, showModal, setShowModal } = useProductDetails()
     return (
         <View style={styles.mainVIew}>
             <CommanHeader navigation={navigation} lang={lang?.data} />
@@ -62,9 +64,7 @@ const ProductDetails = () => {
                                 <Text style={[styles.sizeText, index == sindex && { color: COLOR.white }]} >Xl</Text>
                             </TouchableOpacity>
                         )
-                    })
-
-                    }
+                    }) }
                 </View>
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
@@ -77,7 +77,19 @@ const ProductDetails = () => {
                     </View>
                 </View>
 
+                <TouchableOpacity
+                    onPress={() => { setShowModal(true) }}
+                    style={[styles.reviewView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    <Text>{Str?.Reviews}</Text>
+                    <View style={[styles.ratingIconView, lang?.data == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
+                        <Image style={styles.ratingStart} source={Ratting} />
+                    </View>
+
+                </TouchableOpacity>
+
                 <View style={{ height: ResponsiveSize(200) }} />
+
+
 
             </ScrollView>
             {/* <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150) , right:ResponsiveSize(20) }}>
@@ -89,6 +101,8 @@ const ProductDetails = () => {
                     style={{ height: "100%", width: "100%" }}
                 />
             </View> */}
+
+
             <View style={[styles.btnConatainer, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
 
@@ -112,6 +126,15 @@ const ProductDetails = () => {
                     style={styles.AddToCartBtn}>
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>
+
+
+                <Modal
+                    transparent={true}
+                    visible={showModal}
+                    animationType='slide'
+                >
+                    <ReviewSlider lang={lang} setShowModal={setShowModal} />
+                </Modal>
 
             </View>
 

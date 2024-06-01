@@ -6,20 +6,28 @@ import LinearGradient from 'react-native-linear-gradient'
 import { NUMBER } from '../../constants/constants'
 
 const SortFilter = ({ setSortFilter, lang }) => {
+
+    const [productIndex, setProductIndex] = useState()
+
     const data = lang == NUMBER.num1 ? [
 
         { id: 0, name: "Relevance" },
         { id: 1, name: "New Arrivals" },
         { id: 2, name: "Price Low-High" },
         { id: 3, name: "Price High-Low" },
-    ] : 
-    [
-        { id: 0, name: "ملاءمة" },
-        { id: 1, name: "الوافدون الجدد" },
-        { id: 2, name: "السعر منخفض مرتفع" },
-        { id: 3, name: "السعر مرتفع ومنخفض" },
-    ]
+    ] :
+        [
+            { id: 0, name: "ملاءمة" },
+            { id: 1, name: "الوافدون الجدد" },
+            { id: 2, name: "السعر منخفض مرتفع" },
+            { id: 3, name: "السعر مرتفع ومنخفض" },
+        ]
     const [cheack, setCheack] = useState()
+
+
+    const filterOnPress = (index) => {
+        index == productIndex ? setCheack(false) : setCheack(true)
+    }
     return (
         <View style={styles.mainView}>
             <TouchableOpacity onPress={() => { setSortFilter(false) }} style={{ flex: 1, width: "100%" }}>
@@ -38,9 +46,9 @@ const SortFilter = ({ setSortFilter, lang }) => {
                         {data.map((item, index) => {
                             return (
                                 <TouchableOpacity
-                                    onPress={() => { (cheack && item.id == index) ? setCheack(false) : setCheack(true) }}
+                                    onPress={() => { setProductIndex(index), filterOnPress(index) }}
                                     style={[styles.containView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                    <View style={[styles.checkBoxCircal, (cheack && item.id == index) && { backgroundColor: COLOR.primaray }]} />
+                                    <View style={[styles.checkBoxCircal, index == productIndex && { backgroundColor: COLOR.primaray }]} />
                                     <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{item?.name}</Text>
 
                                 </TouchableOpacity>

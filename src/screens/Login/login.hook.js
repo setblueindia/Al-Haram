@@ -27,7 +27,7 @@ const useLoginHook = () => {
   }, [lang]);
 
   const getLang = async () => {
-    const lable = lang.data == '0' ? Ar : En
+    const lable = lang.data == NUMBER?.num0 ? Ar : En
     setLangues(lable)
   };
 

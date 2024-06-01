@@ -22,6 +22,10 @@ import SerchScreen from '../screens/SercchScreen/SerchScreen';
 import Sponser from '../screens/SponserFlow/Sponser';
 import Forget from '../screens/ForgetPassword/Forget';
 import EditeProfile from '../screens/EditeProfile/EditeProfile';
+import OrderDetails from '../screens/ViewOrederDetails/OrderDetails';
+import CancelOrder from '../screens/CancelOrder/CancelOrder';
+import PaymentHistroy from '../screens/Wallet/PaymentHistroy';
+import PaymentDetails from '../screens/Wallet/PaymentDetails';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -128,6 +132,26 @@ const StackNavigation = () => {
           <Stack.Screen
         name={NAVIGATION?.EditeProfileScreen}
         component={EditeProfile}
+        options={{ headerShown: false }}
+      />
+          <Stack.Screen
+        name={NAVIGATION?.OrderDeatsiScreen}
+        component={OrderDetails}
+        options={{ headerShown: false }}
+      />
+        <Stack.Screen
+        name={NAVIGATION?.CancelOrder}
+        component={CancelOrder}
+        options={{ headerShown: false }}
+      />
+         <Stack.Screen
+        name={NAVIGATION?.PaymentHistroy}
+        component={PaymentHistroy}
+        options={{ headerShown: false }}
+      />
+         <Stack.Screen
+        name={NAVIGATION?.paymentDetails}
+        component={PaymentDetails}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -73,7 +73,39 @@ export const Ar = {
   EditProfile : "تعديل الملف الشخصي",
   ChangePassword : "تغيير كلمة المرور",
   Update : "اخلع",
-  EnterYourOldPassword: "أدخل كلمة المرور القديمة الخاصة بك"
+  EnterYourOldPassword: "أدخل كلمة المرور القديمة الخاصة بك",
+  ProductName : "اسم المنتج :",
+  SKU : "رمز التخزين التعريفي :",
+  Price : "سعر :",
+  Qty : "الكمية :",
+  Subtotal : "المجموع الفرعي :",
+  ShippingHandling  : "شحن وتسليم :",
+  SVAT : "سفات (15%) :",
+  Tax: "الضريبة :",
+  GrandTotal : "المجموع الإجمالي :",
+  ShippingAddress: "عنوان الشحن",
+  ShippingMethod: "طريقة الشحن",
+  PaymentMethod: "طريقة الدفع او السداد",
+  ViewOrder : "مشاهدة الطلب",
+  CancelOrder: "الغاء الطلب",
+  CancelReturnsRequest: "إلغاء/إرجاع الطلب",
+  CancelOrderdes : "يؤسفنا معرفة أنك تريد استرداد أموالك. يرجى إعلامك بالخطأ",
+  ReasonForCancelReturn:"سبب الإلغاء/الإرجاع",
+  Wrongsize : "المقاس الخاطئ",
+  Productisopened: "تم فتح المنتج",
+  Yes: "نعم",
+  NO:"لا",
+  SendRequest:"ارسل طلب",
+  Reviews : "التعليقات :",
+  Amount: "كمية",
+  Reference : "مرجع",
+  Status : "حالة",
+  WalletHistory : "تاريخ المحفظة"
+
+
+
+
+
 }
 
 export const En = {
@@ -134,7 +166,7 @@ export const En = {
   Numbercontainsmustbe9digits : "Number contains must be 9 digits",
   Passwordandconfirmpasswordmismatch: "Password and confirm-password mismatch",
   EXPassword : "EX : Abc@1234",
-  Sponser : "sponsor",
+  Sponser : "Sponsor",
   manageWallate: "Manage wallet",
   addCustomer: "Add Customer",
   addCustomerToGroup : "Add Customer To Group",
@@ -152,7 +184,37 @@ export const En = {
   EditProfile : "Edit Profile",
   ChangePassword : "Change Password",
   Update: "Update",
-  EnterYourOldPassword : "Enter Your Old Password"
+  EnterYourOldPassword : "Enter Your Old Password",
+  ProductName : "Product Name :",
+  SKU : "SKU :",
+  Price: "Price :",
+  Qty :"Qty :",
+  Subtotal:"Subtotal :",
+  ShippingHandling : "Shipping & Handling :",
+  SVAT:"SVAT (15%) :",
+  Tax : "Tax :  ",
+  GrandTotal : "Grand Total :",
+  ShippingAddress : "Shipping Address",
+  ShippingMethod : "Shipping Method",
+  PaymentMethod:"Payment Method",
+  ViewOrder:"View Order",
+  CancelOrder : "Cancel Order",
+  CancelReturnsRequest : "Cancel / Returns Request",
+  CancelOrderdes : "We are sorry to know that you want a refund. Please let you know whats’s wrong",
+  ReasonForCancelReturn : "Reason For Cancel/Return",
+  Wrongsize :"Wrong size",
+  Productisopened : "Product is opened",
+  Yes: "Yes",
+  NO : "No",
+  SendRequest : "Send Request",
+  Reviews : "Reviews :",
+  Amount : "Amount",
+  Reference : "Reference",
+  Status : "Status",
+  WalletHistory : "Wallet History"
+
+  
+
   // WishList: 'WishList',
   // MyWallet: 'My Wallet',
   // MyOrder: 'My Order',

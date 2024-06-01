@@ -6,21 +6,21 @@ import { ResponsiveSize } from '../../utils/utils.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import UseWalletHook from './Wallet.hook.js';
 import CommanHeader from '../../components/ComanHeader/index.js';
-import { ICON, NUMBER, PROFILEStr } from '../../constants/constants.js';
+import { ICON, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants.js';
 import { ALINE, COLOR } from '../../constants/style.js';
 
-const Wallet = ({Sponser}) => {
+const Wallet = ({ Sponser }) => {
 
 
-  const { navigation, lang, data , Str} = UseWalletHook()
+  const { navigation, lang, data, Str } = UseWalletHook()
 
   return (
     <View style={styles.mainView}>
-     {!Sponser && <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
+      {!Sponser && <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
 
       <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
 
-      { !Sponser &&  <View style={styles.mngView}>
+        {!Sponser && <View style={styles.mngView}>
           <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet}</Text>
         </View>}
         <View style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -62,6 +62,14 @@ const Wallet = ({Sponser}) => {
         <View style={styles.addAmtView}>
           <TouchableOpacity style={styles.amtBtn}>
             <Text style={styles.amtText}>{data?.AddAmounttoWallet}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.paymentHistroy}>
+          <TouchableOpacity
+            onPress={() => { navigation.navigate(NAVIGATION.PaymentHistroy) }}
+            style={styles.amtBtn}>
+            <Text style={styles.paymentText}>{Str?.WalletHistory}</Text>
           </TouchableOpacity>
         </View>
 

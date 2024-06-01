@@ -13,27 +13,32 @@ const UseMyOrderHook = () => {
     {
       key: 2,
       ProductName  :lang == NUMBER.num1 ? "This product for testing" : "هذا المنتج للاختبار",
-      ProID : "00059826"
+      ProID : "00059826",
+      Compalated :lang == NUMBER.num1 ?  "completed"   : "مكتمل",
     },
     {
       key: 3,
       ProductName  :lang == NUMBER.num1 ? "This product for testing" : "هذا المنتج للاختبار",
-      ProID : "00059826"
+      ProID : "00059826",
+      Compalated :lang == NUMBER.num1 ?  "completed"   : "مكتمل",
     },
     {
       key: 4,
       ProductName  :lang == NUMBER.num1 ? "This product for testing" : "هذا المنتج للاختبار",
-      ProID : "00059826"
+      ProID : "00059826",
+      Compalated :lang == NUMBER.num1 ?  "completed"   : "مكتمل",
     },
     {
       key: 5,
       ProductName  :lang == NUMBER.num1 ? "This product for testing" : "هذا المنتج للاختبار",
-      ProID : "00059826"
+      ProID : "00059826",
+      Compalated :lang == NUMBER.num1 ?  "completed"   : "مكتمل",
     },
     {
       key: 6,
       ProductName  :lang == NUMBER.num1 ? "This product for testing" : "هذا المنتج للاختبار",
-      ProID : "00059826"
+      ProID : "00059826",
+      Compalated :lang == NUMBER.num1 ?  "completed"   : "مكتمل",
     }
   ]
 

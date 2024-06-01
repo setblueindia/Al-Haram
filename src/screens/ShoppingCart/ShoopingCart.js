@@ -65,7 +65,7 @@ const ShoopingCart = () => {
 
                 {
                     index == 2 &&
-                    <View>
+                    <View style={{flex:1}}>
                         <Payment data={shopinfCratData} lang={lang}/>
                     </View>
                 }

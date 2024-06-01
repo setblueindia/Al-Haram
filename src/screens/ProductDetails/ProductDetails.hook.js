@@ -12,6 +12,7 @@ const useProductDetails = () => {
     const [sindex, setIndex] = useState(false)
     const navigation = useNavigation()
     const [like, setLike] = useState(false)
+    const [showModal , setShowModal] = useState(false)
 
     const color = [1, 2, 3, 4]
 
@@ -40,7 +41,8 @@ const useProductDetails = () => {
             ProductCode: "Product Code :13884",
             MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
             QNT: "Qty :",
-            Addtocard: "Add to card"
+            Addtocard: "Add to card",
+            Reviews : "Reviews :"
 
         } :
         {
@@ -49,7 +51,8 @@ const useProductDetails = () => {
             ProductCode: "رمز المنتج :13884",
             MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
             QNT: "الكمية: ",
-            Addtocard: "اضف الى البطاقة"
+            Addtocard: "اضف الى البطاقة",
+            Reviews : "التعليقات :"
         }
 
     const sliderData = [
@@ -67,11 +70,13 @@ const useProductDetails = () => {
         sliderData,
         color,
         Str,
+        showModal,
         setIndex,
         sindex,
         setLike,
         like,
-        onShare
+        onShare,
+        setShowModal
     }
 }
 

@@ -161,5 +161,22 @@ export const styles = StyleSheet.create({
     AddTocardText:{
         color:COLOR.white,
         fontSize:ResponsiveSize(25)
+    },
+    reviewView:{
+     width:"100%",
+     height:ResponsiveSize(100),
+     flexDirection:'row',
+     alignItems:'center',
+     padding:ResponsiveSize(20)
+    },
+    ratingStart:{
+        height:"100%",
+        width:"100%",
+        resizeMode:RESIZEMODE.contain
+    },
+    ratingIconView:{
+        width:ResponsiveSize(200),
+        height:ResponsiveSize(60),
+        marginLeft:ResponsiveSize(20)
     }
 })

@@ -7,7 +7,6 @@ import { ICON, NUMBER } from '../../constants/constants';
 
 const InnerList = ({data, index, land}) => {
   const [innerOn, setInnerOn] = useState(false);
-
   return (
     <View key={index}>
       <TouchableOpacity
@@ -16,7 +15,7 @@ const InnerList = ({data, index, land}) => {
         }}
         style={[styles.innerListView , land.data == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
         <Text style={styles.innerHeaderText}>{data.name}</Text>
-        {data?.children_data && (
+        {data?.children?.length > 0 && (
           <Icon
             style={styles.icon}
             name={innerOn ? ICON.down : land.data == NUMBER.num0 ? ICON.left :  ICON.right}
@@ -26,8 +25,8 @@ const InnerList = ({data, index, land}) => {
       </TouchableOpacity>
 
       {innerOn &&
-        data?.children_data &&
-        data?.children_data?.map((items, index) => {
+        data?.children?.length > 0 &&
+        data?.children?.map((items, index) => {
           return (
             <View key={index}>
               <TouchableOpacity style={styles.lableView }>

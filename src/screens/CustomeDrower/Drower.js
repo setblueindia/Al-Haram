@@ -16,6 +16,7 @@ import { ResponsiveSize } from '../../utils/utils';
 import SocialButtonDra from '../../components/ScoiaButtonDra';
 import { ALINE } from '../../constants/style';
 import StatusBarCus from '../../components/CustomStatusBar';
+import CusLoader from '../../components/CustomLoader';
 
 const Drower = () => {
 
@@ -26,6 +27,8 @@ const Drower = () => {
     lang,
     userName,
     height,
+    loadding,
+    loder,
     changeLungues,
     handleInstagramPress,
     handlechatPress,
@@ -101,6 +104,10 @@ const Drower = () => {
           <Text>Build : v1.1</Text>
         </View>
       </View>
+
+      {loder && <View style={styles.loaddingView}>
+        <CusLoader />
+      </View>}
     </View>
   );
 };

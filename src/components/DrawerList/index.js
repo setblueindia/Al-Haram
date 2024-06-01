@@ -1,14 +1,14 @@
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {styles} from './drawe.style';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { styles } from './drawe.style';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {ALINE, COLOR} from '../../constants/style';
-import {ResponsiveSize} from '../../utils/utils';
+import { ALINE, COLOR } from '../../constants/style';
+import { ResponsiveSize } from '../../utils/utils';
 import InnerList from '../InnerList/InnerList';
-import {useSelector} from 'react-redux';
-import {EXTRASTR, ICON, NUMBER} from '../../constants/constants';
+import { useSelector } from 'react-redux';
+import { EXTRASTR, ICON, NUMBER } from '../../constants/constants';
 
-const DraweList = ({data, name}) => {
+const DraweList = ({ data, name }) => {
   const [on, setOn] = useState(false);
   const land = useSelector(state => state.lang);
 
@@ -19,28 +19,29 @@ const DraweList = ({data, name}) => {
           onPress={() => (on ? setOn(false) : setOn(true))}
           style={[
             styles.mainListView,
-            land.data == NUMBER.num0 && {flexDirection: ALINE.rowreverse},
+            land.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse },
           ]}>
-          <Text style={styles.mainHeaderText}>{data.name}</Text>
-          {data?.children_data && (
+          <Text style={styles.mainHeaderText}>{data?.name}</Text>
+          {data?.children?.length > 0 && (
             <Icon
               color={COLOR.black}
               name={
                 on
                   ? ICON.down
                   : land.data !== NUMBER.num0
-                  ? ICON.right
-                  : ICON.left
+                    ? ICON.right
+                    : ICON.left
               }
               size={20}
             />
           )}
         </TouchableOpacity>
+
         <View style={styles.innerTextView}>
           {on &&
-            data?.children_data &&
-            data?.children_data?.map((items, index) => {
-              return <InnerList key={index} data={items} index={index} land={land}/>;
+           data?.children?.length > 0 &&
+           data?.children?.map((items, index) => {
+              return <InnerList key={index} data={items} index={index} land={land} />;
             })}
         </View>
       </View>

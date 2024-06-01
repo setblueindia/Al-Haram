@@ -18,6 +18,7 @@ const Categories = () => {
       <ScrollView>
 
         {CategoriesData.map((items, index) => {
+        
           return (
             <View
             //  onPress={() => { setIndex(index) }}

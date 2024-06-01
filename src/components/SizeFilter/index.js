@@ -1,11 +1,14 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { COLOR, FONTWEGHIT } from '../../constants/style'
 import Icon from "react-native-vector-icons/Entypo";
 import { NUMBER } from '../../constants/constants';
 
 const SizeFilter = ({ setSizeFilter, lang }) => {
+
+    const [index1, setIndex1] = useState()
+    const [index2, setIndex2] = useState()
     const data = lang == NUMBER.num1 ? [
         {
             name: "Size"
@@ -138,7 +141,9 @@ const SizeFilter = ({ setSizeFilter, lang }) => {
                         {
                             data.map((items, index) => {
                                 return (
-                                    <TouchableOpacity key={index} style={styles.innerFirstView}>
+                                    <TouchableOpacity
+                                        onPress={() => { setIndex2(index) }}
+                                        key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
                                         <Text style={styles.firstViewText}>{items?.name}</Text>
                                     </TouchableOpacity>
                                 )
@@ -148,10 +153,15 @@ const SizeFilter = ({ setSizeFilter, lang }) => {
                     <ScrollView style={styles.secondView}>
                         {secondData?.map((items, index) => {
                             return (
-                                <View key={index} style={[styles.secondInnerView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setIndex1(index)
+                                    }}
+                                    key={index}
+                                    style={[styles.secondInnerView, index == index1 && { backgroundColor: "#FFFFFF" }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                     <Text style={styles.innerText}>{items.val1}</Text>
                                     <Text style={styles.innerText}>{items.val2}</Text>
-                                </View>
+                                </TouchableOpacity>
                             )
                         })}
 

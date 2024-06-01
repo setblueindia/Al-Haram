@@ -67,13 +67,12 @@ const Profile = () => {
           onPress={() => { onPress(item?.text) }}>
 
           <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
-            
+
             <AntDesign
               name={item.icon}
               color="#000000"
               size={ResponsiveSize(35)}
             />
-
 
             <View style={styles.textMenu}>
               <Text style={styles.menuText}>{item.text}</Text>
@@ -82,6 +81,7 @@ const Profile = () => {
           </View>
 
           <SimpleLineIcons
+            style={{ alignSelf: ALINE.center }}
             name={lang == NUMBER.num0 ? "arrow-left" : "arrow-right"}
             color={COLOR.black}
             size={ResponsiveSize(20)}

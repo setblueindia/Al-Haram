@@ -10,3 +10,5 @@ export const firstBanner = require("./images/Home/phone1.jpg");
 export const banner2 = require("./images/Home/banner2.png");
 export const NewIcon = require("./images/Home/NewIcon.png");
 export const doneIcon = require("./images/Payment/done.png");
+export const Shippment = require("./images/Payment/Shippment.png");
+export const Ratting = require("./images/Payment/Ratting.png");

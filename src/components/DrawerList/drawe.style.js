@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   mainHeaderText: {
     color: COLOR.black,
-    fontSize: ResponsiveSize(30),
+    fontSize: ResponsiveSize(25),
     fontWeight: '600',
     
   },
@@ -17,11 +17,12 @@ export const styles = StyleSheet.create({
     justifyContent: ALINE.spaceBetween,
     alignItems: ALINE.center,
     width: '100%',
-    height:ResponsiveSize(70)
+    height:ResponsiveSize(60),
+    marginTop:ResponsiveSize(10)
 
   },
   innerTextView:{
-    marginTop:ResponsiveSize(15)
+    // marginTop:ResponsiveSize(10)
   }
 
 });

@@ -4,25 +4,26 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { logo } from '../../assests'
 
-const CusModal = ({ text , setModalShow , examapleText }) => {
+const CusModal = ({ text, setModalShow, examapleText, notification }) => {
     return (
         <View style={styles.mainView}>
             <View style={styles.container}>
-                
-                {/* <View style={styles.imgView}>
+
+                {notification &&
+                 <View style={styles.imgView}>
                     <Image style={styles.Image} source={logo} />
 
-                </View> */}
+                </View>}
 
-                <Text style={styles.oopsText}>Oops!</Text>
+                {!notification && <Text style={styles.oopsText}>Oops!</Text>}
                 <View style={styles.textView}>
                     <Text style={styles.errorText}>{text}</Text>
-                 {examapleText &&  <Text style={styles.errorText}>{examapleText}</Text>}
+                    {examapleText && <Text style={styles.errorText}>{examapleText}</Text>}
                 </View>
 
                 <TouchableOpacity
-                onPress={()=>{setModalShow(false)}}
-                style={styles.button}>
+                    onPress={() => { setModalShow(false) }}
+                    style={styles.button}>
                     <Text style={styles.buttonText}>OK</Text>
                 </TouchableOpacity>
             </View>
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         backgroundColor: "#00000050",
-    
+
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -65,10 +66,10 @@ const styles = StyleSheet.create({
 
     },
     imgView: {
-        height: ResponsiveSize(150),
+        height: ResponsiveSize(80),
         width: "100%",
         // backgroundColor:COLOR.black,
-        padding: ResponsiveSize(30)
+        padding: ResponsiveSize(10)
     },
     textView: {
         height: ResponsiveSize(130),
@@ -93,15 +94,15 @@ const styles = StyleSheet.create({
         fontSize: ResponsiveSize(30),
         fontWeight: FONTWEGHIT.font400
     },
-    errorText:{
-        color:COLOR.black,
-        fontSize:ResponsiveSize(25),
-        textAlign:ALINE.center
+    errorText: {
+        color: COLOR.black,
+        fontSize: ResponsiveSize(25),
+        textAlign: ALINE.center
     },
-    oopsText:{
-    color:COLOR.primaray,
-    fontWeight:FONTWEGHIT.font700,
-    fontSize:ResponsiveSize(30)
+    oopsText: {
+        color: COLOR.primaray,
+        fontWeight: FONTWEGHIT.font700,
+        fontSize: ResponsiveSize(30)
     }
 
 

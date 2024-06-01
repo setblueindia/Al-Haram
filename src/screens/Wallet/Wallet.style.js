@@ -81,12 +81,26 @@ export const styles = StyleSheet.create({
     backgroundColor: '#990107',
     marginTop: ResponsiveSize(20),
   },
+  paymentHistroy:{
+    alignSelf: ALINE.center,
+    width: '100%',
+    backgroundColor: COLOR.white,
+    borderWidth:ResponsiveSize(1),
+    borderColor:COLOR.liteGreen,
+    marginTop: ResponsiveSize(20),
+  },
+
   amtBtn: {
     padding: ResponsiveSize(14),
     borderRadius: ResponsiveSize(5),
     alignItems: ALINE.center,
   },
   amtText: {
-    color: COLOR.white, fontSize: ResponsiveSize(27)
+    color: COLOR.white, 
+    fontSize: ResponsiveSize(27)
+  },
+  paymentText: {
+    color: COLOR.black, 
+    fontSize: ResponsiveSize(27)
   }
 });

@@ -10,9 +10,9 @@ const CategoriesList = ({ index, data, name, navigation, lang }) => {
     const [on, setOn] = useState(false)
     const [viewMore, setViewMore] = useState(false)
     const [aindex, setIndex] = useState()
-    const slicedArray = data.sub_category.slice(0, 6);
+    const slicedArray = data?.sub_category?.slice(0, 6);
     const mainData = data?.sub_category
-    const count = mainData.length - slicedArray.length
+    const count = mainData?.length - slicedArray?.length
 
 
     const onPress = (x) => {
