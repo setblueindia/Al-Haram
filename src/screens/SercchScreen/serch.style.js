@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     imageView: {
         height: ResponsiveSize(350),
         width: ResponsiveSize(270),
-        padding: ResponsiveSize(20),
+        // padding: ResponsiveSize(20),
         // backgroundColor: COLOR.white,
         borderColor: COLOR.gray,
         borderRadius: ResponsiveSize(10),
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     image: {
         height: "100%",
         width: "100%",
-        resizeMode: 'contain',
+        resizeMode: 'cover',
     },
     textView: {
         margin: ResponsiveSize(10),
@@ -47,8 +47,8 @@ export const styles = StyleSheet.create({
         width: ResponsiveSize(270),
     },
     productName: {
-        fontSize: ResponsiveSize(25),
-        fontWeight: FONTWEGHIT.font600,
+        fontSize: ResponsiveSize(23),
+        fontWeight: FONTWEGHIT.font400,
 
     },
     priceText: {
@@ -67,5 +67,8 @@ export const styles = StyleSheet.create({
         // backgroundColor:COLOR.black,
         justifyContent:ALINE.center,
         alignItems:ALINE.center
+    },
+    priveView:{
+        flexDirection:'row'
     }
 })

@@ -31,6 +31,7 @@ const OrderDetails = () => {
                             <Text style={[styles.reOrderText, lang == NUMBER.num0 && { textAlign: EXTRASTR.left }]}>{data?.Reorder}</Text>
                         </View>
                     </View>
+                    
                     <View style={styles.orderDetails}>
                         <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { justifyContent: 'flex-end' }]}>
                             <Text style={styles.headerText}>{data?.ItemsOrdered}</Text>

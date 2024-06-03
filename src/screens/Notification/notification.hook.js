@@ -12,30 +12,19 @@ const useNotificationHook = () => {
   const [id, setID] = useState()
   const [showModal, setShowModal] = useState(false)
   const [messText, setMesageText] = useState('')
-  const [data, setData] = useState([
-    // {
-    //   id: 1,
-    //   like: false
-    // },
-    // {
-    //   id: 2,
-    //   like: false
-    // },
-    // {
-    //   id: 3,
-    //   like: false
-    // },
-    // {
-    //   id: 4,
-    //   like: false
-    // },
-    // {
-    //   id: 5,
-    //   like: false
-    // },
-  ])
+  const [moreData , setMoreData ] = useState(false)
+  
+  const [currePage , setCurrentPage] = useState(0)
+  const [data, setData] = useState([])
+
+
+  
+  useEffect(() => {
+    GETNotificationAPI()
+  }, [])
 
   const onPress = async (sid) => {
+
     setLoadding(true)
     const dataQurry =
       `  {
@@ -49,8 +38,9 @@ const useNotificationHook = () => {
       setLoadding(false)
       if (response) {
         setShowModal(true)
-        showModal == false && GETNotificationAPI()
+        GETNotificationAPI()
         setLoadding(false)
+   
       }
     } catch (error) {
       console.log("ERRORS ===> ", error)
@@ -59,13 +49,16 @@ const useNotificationHook = () => {
   }
 
   const GETNotificationAPI = async () => {
-    setLoadding(true)
-    const data =
+    console.log("Hello ====> ", )
+    currePage < 1 &&  setLoadding(true)
+    currePage >= 1 && setMoreData(true)
+    const nextPage = currePage + 1
+    const sData =
       ` {
       getNotificationHistoryByCustomerId(
         id : ${userData},
         pageSize: ${10},
-        curPage: ${1}
+        curPage: ${nextPage}
       )
       {
         id
@@ -80,9 +73,12 @@ const useNotificationHook = () => {
     } `
 
     try {
-      const response = await NotificationAIP(data, lang)
+      const response = await NotificationAIP(sData, lang)
       // console.log("RESPONSE ::::::::::: ", response?.data?.data?.getNotificationHistoryByCustomerId)
-      setData(response?.data?.data?.getNotificationHistoryByCustomerId)
+
+      setData([...data,  ...response?.data?.data?.getNotificationHistoryByCustomerId])
+      setCurrentPage(nextPage)
+      setMoreData(false)
       setLoadding(false)
     } catch (error) {
       setLoadding(false)
@@ -91,9 +87,6 @@ const useNotificationHook = () => {
 
   }
 
-  useEffect(() => {
-    GETNotificationAPI()
-  }, [])
 
 
   return {
@@ -105,6 +98,8 @@ const useNotificationHook = () => {
     setShowModal,
     showModal,
     setMesageText,
+    GETNotificationAPI,
+    moreData,
     messText
   }
 }

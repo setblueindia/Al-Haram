@@ -9,10 +9,13 @@ export const styles = StyleSheet.create({
     },
     CustomeHeaderView: {
         width: "100%",
+        height:"100%"
     },
     container: {
         flex: 1,
-        padding: ResponsiveSize(20)
+        padding: ResponsiveSize(20),
+        height:"100%",
+        width:"100%"
     },
     notificationView: {
         width: "100%",
@@ -23,15 +26,17 @@ export const styles = StyleSheet.create({
         shadowColor:COLOR.black,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
-        shadowRadius: 2,
+        shadowRadius: 1,
         padding: ResponsiveSize(20),
         borderRadius: ResponsiveSize(20),
+        borderWidth:ResponsiveSize(2),
+        borderColor:COLOR.gray
     },
     imgView: {
         width: "100%",
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
+        flexDirection:ALINE.row,
+        alignItems:ALINE.center,
+        justifyContent:ALINE.spaceBetween
     },
     img: {
 

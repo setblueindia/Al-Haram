@@ -5,10 +5,14 @@
 // LOCAL
 //    BASE_URL = "https://test.alharamstores.com"
 BASE_URL = "https://beta.alharamstores.com"
-export const GRAFORL = "https://beta.alharamstores.com/graphql"
 
 //    BASE_URL = "https://74fd4dd9be.nxcli.io"
 //    BASE_URL = "https://fairpricecorner.com"
+
+
+// Graph Url 
+// export const GRAFORL = "https://beta.alharamstores.com/graphql"
+export const GRAFORL = "https://alharamstores.com/graphql"
 
 
 

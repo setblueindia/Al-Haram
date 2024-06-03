@@ -6,10 +6,11 @@ import useSerchHook from './serch.hook'
 import Filter from "react-native-vector-icons/AntDesign";
 import { ICON, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
-import { COLOR } from '../../constants/style'
+import { ALINE, COLOR } from '../../constants/style'
+import CusLoader from '../../components/CustomLoader'
 
 const SerchScreen = () => {
-  const { navigation, lang, setLike, like , data , likePress} = useSerchHook()
+  const { navigation, lang, setLike, like, data, isLoadding, likePress, SerchPress } = useSerchHook()
 
   return (
     <View style={styles.mainView}>
@@ -18,17 +19,22 @@ const SerchScreen = () => {
         <TextInput
           style={styles.textInput}
           placeholder='Search......'
+          onChangeText={SerchPress}
         />
       </View>
-      <View style={{ marginTop: ResponsiveSize(10) , flex:1}}>
+      <View style={{ marginTop: ResponsiveSize(10), flex: 1 }}>
 
         <FlatList
           data={data}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           bounces={true}
-          style={{marginBottom:ResponsiveSize(30) }}
-          renderItem={({item ,index}) => {
+          style={{ marginBottom: ResponsiveSize(30) }}
+          renderItem={({ item, index }) => {
+            // console.log("items ==> ", item?.thumbnail?.url)
+            const Name = item?.name.substr(0, 15)
+            const price = item?.price?.regularPrice?.amount?.value
+            const image = item?.thumbnail?.url
             return (
               <TouchableOpacity
                 onPress={() => {
@@ -36,16 +42,20 @@ const SerchScreen = () => {
                 }}
                 style={styles.conntainer}>
                 <View style={styles.imageView}>
-                  <Image style={styles.image} source={{ uri: "https://beta.alharamstores.com/media/women-E-02.jpg" }} />
+                  <Image style={styles.image} source={{ uri: image }} />
                 </View>
                 <View style={styles.textView}>
-                  <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>Top</Text>
-                  <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>SAR : {"250"}</Text>
+                  <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 10 ?  Name + "..." :  Name}</Text>
+
+                  <View style={[styles.priveView, lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
+                  <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' , }]}>{lang == NUMBER.num1 ? "SAR :" : "سار:"}</Text>
+                  <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' , marginRight:ResponsiveSize(10)}]}>{price}</Text>
+                  </View>
+           
                 </View>
 
                 <TouchableOpacity
-                  onPress={() =>
-                  { likePress(index)}}
+                  onPress={() => { likePress(index) }}
                   style={styles.likeView}>
                   <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                 </TouchableOpacity>
@@ -54,6 +64,12 @@ const SerchScreen = () => {
           }}
         />
       </View>
+
+      {isLoadding &&
+        <View style={{position:'absolute' , height:"100%" , width:"100%"}}>
+          <CusLoader />
+        </View>
+      }
 
 
     </View>

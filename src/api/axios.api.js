@@ -46,3 +46,13 @@ export const ReadNotification = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
+
+export const WalletHistoryAPI = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const SerchAPI = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}

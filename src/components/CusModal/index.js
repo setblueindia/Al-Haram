@@ -41,13 +41,14 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         backgroundColor: "#00000050",
-
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding:ResponsiveSize(20)
     },
     container: {
         // height: ResponsiveSize(400),
-        width: ResponsiveSize(500),
+        // width: ResponsiveSize(500),
+        width:"100%",
         backgroundColor: COLOR.white,
         // backgroundColor:COLOR.primaray,
         borderRadius: ResponsiveSize(20),
@@ -75,9 +76,10 @@ const styles = StyleSheet.create({
         height: ResponsiveSize(130),
         width: "100%",
         // backgroundColor: "#00000010",
-        borderRadius: ResponsiveSize(20),
+        // borderRadius: ResponsiveSize(20),
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        // alignContent:'center'
     },
     button: {
         height: ResponsiveSize(60),
@@ -91,13 +93,14 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: COLOR.white,
-        fontSize: ResponsiveSize(30),
+        fontSize: ResponsiveSize(25),
         fontWeight: FONTWEGHIT.font400
     },
     errorText: {
         color: COLOR.black,
-        fontSize: ResponsiveSize(25),
-        textAlign: ALINE.center
+        // fontSize: ResponsiveSize(20),
+        textAlign: ALINE.center,
+        width:"100%"
     },
     oopsText: {
         color: COLOR.primaray,
