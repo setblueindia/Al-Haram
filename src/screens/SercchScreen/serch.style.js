@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         resizeMode: 'cover',
+        borderRadius:ResponsiveSize(10)
     },
     textView: {
         margin: ResponsiveSize(10),

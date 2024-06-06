@@ -7,7 +7,7 @@ import TextFildCus from '../TextFildCus'
 import Button from '../Button'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
 
-const ReviewSlider = ({ setShowModal , lang }) => {
+const ReviewSlider = ({ setShowModal, lang }) => {
     return (
         <View style={styles.mainView}>
             <TouchableOpacity
@@ -15,25 +15,25 @@ const ReviewSlider = ({ setShowModal , lang }) => {
                 style={styles.upperView}>
             </TouchableOpacity>
             <View style={styles.containerView}>
-                <Text style={styles.headerText}>{lang?.data == NUMBER.num0 ? "التعليقات" :"Reviews" }</Text>
+                <Text style={styles.headerText}>{lang?.data == NUMBER.num0 ? "التعليقات" : "Reviews"}</Text>
                 <View style={styles.imageView} >
                     <Image source={Ratting} style={styles.img} />
                 </View>
                 <View style={styles.textInput}>
-                    <TextFildCus text={lang?.data == NUMBER.num0 ?  "أدخل اسمك المستعار" :"Enter your Nickname"} />
+                    <TextFildCus text={lang?.data == NUMBER.num0 ? "أدخل اسمك المستعار" : "Enter your Nickname"} />
                     <View style={{ marginTop: ResponsiveSize(20) }} />
-                    <TextFildCus text={"Summary"} />
+                    <TextFildCus text={lang?.data == NUMBER.num0 ? "ملخص" : "Summary"} />
                 </View>
                 <TextInput
-                    textAlign={lang?.data == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.right}
+                    textAlign={lang?.data == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
                     style={styles.input}
                     multiline={true}
                     underlineColorAndroid='transparent'
-                    placeholder={lang?.data == NUMBER.num0 ? "التعليقات" :'Review'}
+                    placeholder={lang?.data == NUMBER.num0 ? "التعليقات" : 'Review'}
                 />
             </View>
             <View style={styles.btnView}>
-                <Button text={lang?.data == NUMBER.num0 ?  "إرسال المراجعة"  :"SUBMIT REVIEW"} />
+                <Button text={lang?.data == NUMBER.num0 ? "إرسال المراجعة" : "SUBMIT REVIEW"} />
             </View>
 
         </View>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         borderBottomColor: COLOR.primaray,
         borderBottomWidth: 1,
         marginTop: ResponsiveSize(20),
-        paddingHorizontal:ResponsiveSize(20)
+        paddingHorizontal: ResponsiveSize(20)
     },
     btnView: {
         marginTop: ResponsiveSize(20),

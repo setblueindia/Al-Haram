@@ -76,7 +76,8 @@ const useProductDetails = () => {
         setLike,
         like,
         onShare,
-        setShowModal
+        setShowModal,
+        AddTocart
     }
 }
 

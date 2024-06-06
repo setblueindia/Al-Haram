@@ -6,14 +6,13 @@ import { NUMBER } from '../../constants/constants'
 
 
 const useCategroiesHook = () => {
-const data = useSelector(state => state?.Categories)
+  // const data = useSelector(state => state?.Categories)
+  const userData = useSelector(state => state?.userData)
   const navigation = useNavigation()
   const lang = useSelector(state => state.lang.data)
-  const [mainIndex , setIndex] = useState()
-
   const CategoriesData = [
     {
-      title: lang == NUMBER.num1 ? "Women's Fashion":"على الموضة للنساء",
+      title: lang == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
       sub_category: [
         {
           name: "Trousers",
@@ -85,7 +84,7 @@ const data = useSelector(state => state?.Categories)
           title: "Clothing",
           "image": "https://beta.alharamstores.com/media/women-E-03.jpg",
         },
-     
+
       ]
     },
     {
@@ -127,7 +126,7 @@ const data = useSelector(state => state?.Categories)
       ]
     },
     {
-      title:lang == NUMBER.num1 ? "Baby Fashion & Supplies" : "أزياء ومستلزمات الأطفال",
+      title: lang == NUMBER.num1 ? "Baby Fashion & Supplies" : "أزياء ومستلزمات الأطفال",
       sub_category: [
         {
           name: "Trousers",
@@ -165,7 +164,7 @@ const data = useSelector(state => state?.Categories)
       ]
     },
     {
-      title:lang == NUMBER.num1 ? "Home Furnishing" : "تأثيث المنزل",
+      title: lang == NUMBER.num1 ? "Home Furnishing" : "تأثيث المنزل",
       sub_category: [
         {
           name: "Trousers",
@@ -318,12 +317,13 @@ const data = useSelector(state => state?.Categories)
     }
   ]
 
+ 
+
   return {
     CategoriesData,
     navigation,
     lang,
-    setIndex,
-    mainIndex
+    userData,
   }
 }
 

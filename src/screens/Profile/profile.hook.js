@@ -16,10 +16,7 @@ const useProfileHook = () => {
   const email = userData?.data?.email
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
-  const name = (firstName && lastName) ?  firstName + " " +lastName : "User"
-
-
-
+  const name = (firstName && lastName) ? firstName + " " + lastName : "User"
 
   const menuItems = [
 
@@ -31,26 +28,31 @@ const useProfileHook = () => {
     { icon: 'phone', text: PROFILEStr?.CustomerService },
 
   ];
-
   const onPress = (item) => {
-    if (item == PROFILEStr.Wishlist) {
-      navigation.navigate(NAVIGATION.WhishListScreen)
+    if (userData?.data) {
+      if (item == PROFILEStr.Wishlist) {
+        navigation.navigate(NAVIGATION.WhishListScreen)
+      }
+      if (item == PROFILEStr.AddressBook) {
+        navigation.navigate(NAVIGATION.AddressBookScreen)
+      }
+      if (item == PROFILEStr.CustomerService) {
+        navigation.navigate(NAVIGATION.CustomerService)
+      }
+      if (item == PROFILEStr.MyWallet) {
+        navigation.navigate(NAVIGATION.Wallet)
+      }
+      if (item == PROFILEStr.MyOrder) {
+        navigation.navigate(NAVIGATION.MyOrderSscreen)
+      }
+      if (item == PROFILEStr.Sponser) {
+        navigation.navigate(NAVIGATION.SponserScreen)
+      }
+
+    } else {
+      navigation.navigate(NAVIGATION.Login)
     }
-    if (item == PROFILEStr.AddressBook) {
-      navigation.navigate(NAVIGATION.AddressBookScreen)
-    }
-    if (item == PROFILEStr.CustomerService) {
-      navigation.navigate(NAVIGATION.CustomerService)
-    }
-    if (item == PROFILEStr.MyWallet) {
-      navigation.navigate(NAVIGATION.Wallet)
-    }
-    if (item == PROFILEStr.MyOrder) {
-      navigation.navigate(NAVIGATION.MyOrderSscreen)
-    }
-    if (item == PROFILEStr.Sponser) {
-      navigation.navigate(NAVIGATION.SponserScreen)
-    }
+
   }
 
 
@@ -67,7 +69,8 @@ const useProfileHook = () => {
     navigation,
     onPress,
     navigation,
-    name
+    name,
+    userData
 
   };
 };

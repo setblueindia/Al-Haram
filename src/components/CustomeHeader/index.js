@@ -15,6 +15,7 @@ import { ALINE } from '../../constants/style';
 import LottieView from 'lottie-react-native';
 
 const CustomeHeader = ({ search, like, shoppingcart }) => {
+  const userData = useSelector(state => state?.userData)
   const navigation = useNavigation();
   const lang = useSelector(state => state.lang)
   return (
@@ -36,15 +37,28 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
         </View>
 
         <View style={[styles.lastView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.SerchScreen) }}>
+          <TouchableOpacity onPress={() => {
+            // userData?.data ?
+            navigation.navigate(NAVIGATION.SerchScreen)
+            //  : navigation.navigate(NAVIGATION.Login)
+          }
+          }>
             {search && <HertIcon name={ICON.search1} size={25} style={styles.menuIcon} />}
           </TouchableOpacity>
 
-          <View>
+          <TouchableOpacity
+            onPress={() => {
+              userData?.data ? navigation.navigate(NAVIGATION.WhishListScreen) : navigation.navigate(NAVIGATION.Login)
+            }}
+          >
             {like && <HertIcon name={ICON.hearto} size={25} style={styles.menuIcon} />}
-          </View>
+          </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.Shoppingcart) }}>
+          <TouchableOpacity onPress={() => {
+            userData?.data ?
+              navigation.navigate(NAVIGATION.Shoppingcart) :
+              navigation.navigate(NAVIGATION.Login)
+          }}>
             {shoppingcart &&
               // <LottieView
               //   //   ref={animationRef}
@@ -55,13 +69,9 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
               // />
 
               <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />
-
-
             }
           </TouchableOpacity>
         </View>
-
-
       </View>
     </View>
   );

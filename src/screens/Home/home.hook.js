@@ -6,8 +6,6 @@ import { useNavigation } from '@react-navigation/native'
 import { HomeApi } from '../../api/axios.api'
 
 const useHomeHook = () => {
-
-  const [storyData, setStoryData] = useState()
   const lang = useSelector(state => state.lang)
   const navigation = useNavigation()
 
@@ -155,22 +153,6 @@ const useHomeHook = () => {
   ]
 
 
-
-  const getdata = async () => {
-
-    const formData = new FormData();
-
-    formData.append("store_id", lang?.data)
-
-    try {
-      const res = await HomeApi(formData)
-      // console.log("Home Data === ", res?.data?.data)
-
-    } catch (error) {
-      // console.log("=============> ", error)
-    }
-
-  }
 
   return {
     data,

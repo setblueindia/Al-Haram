@@ -17,6 +17,11 @@ const useSerchHook = () => {
   const [like, setLike] = useState(false)
   const [isLoadding, setIsLoadding] = useState(false)
   const [serch, setSerch] = useState('')
+  const [currePage, setCurrentPage] = useState(0)
+  const [moreData, setMoreData] = useState(false)
+  const [serchText , setSerchTex] = useState('')
+
+
 
 
   const likePress = (items) => {
@@ -29,12 +34,16 @@ const useSerchHook = () => {
     )
   }
 
-  const getData = async (text) => {
-    setIsLoadding(true)
+  const getData = async (text, first) => {
+    // currePage < 1 && setIsLoadding(true)
+    // currePage >= 1 && setMoreData(true)
+    console.log("First ======> ",first )
+    first ? setIsLoadding(true) : setMoreData(true)
+    const nextPage = currePage + 1
     const sData =
       `
     {
-      products(search: ${text},pageSize: ${10},currentPage: ${1}) {
+      products(search:${text ? text : serchText},pageSize:${10},currentPage:${first ? 1 : nextPage}) {
         total_count
         items {
           id
@@ -69,10 +78,13 @@ const useSerchHook = () => {
     try {
       const response = await SerchAPI(sData, lang)
       if (response) {
-        setIsLoadding(false)
-        setData(response?.data?.data?.products?.items)
-        console.log("Response ======> ", response?.data?.data?.products?.items)
-
+        console.log("::::::::::::::: ", first)
+        !first ?
+          setData([...data, ...response?.data?.data?.products?.items]) :
+          setData(response?.data?.data?.products?.items)
+          setIsLoadding(false)
+          setMoreData(false)
+        first ? setCurrentPage(1) : setCurrentPage(nextPage)
       }
 
     } catch (error) {
@@ -83,13 +95,14 @@ const useSerchHook = () => {
 
   const onHandalPress = (text) => {
     clearTimeout(timerId);
-   const timerId =  setTimeout(() => {
-      getData(text)
+    const timerId = setTimeout(() => {
+      getData(text, first = true)
     }, 3000)
   }
 
 
   const SerchPress = (text) => {
+    // setSerchTex(text)
     onHandalPress(text)
     setSerch(text)
 
@@ -103,9 +116,12 @@ const useSerchHook = () => {
     like,
     setLike,
     SerchPress,
+    getData,
     data,
     serch,
-    isLoadding
+    isLoadding,
+    moreData,
+    setSerchTex
   }
 }
 

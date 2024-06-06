@@ -1,4 +1,4 @@
-import { Modal, Text, View } from 'react-native'
+import { Modal, ScrollView, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import Onbordingheader from '../../components/OnbordingHeader'
 import { styles } from './editeProfile.style'
@@ -33,7 +33,7 @@ const EditeProfile = () => {
         <>
         <View style={styles.mainView}>
             <Onbordingheader />
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <SwitchButton setWithEmail={setWithEmail} profile={true} langues={langues} />
 
                 {
@@ -78,7 +78,7 @@ const EditeProfile = () => {
                 </Modal>
 
 
-            </View>
+            </ScrollView>
 
          
         </View>

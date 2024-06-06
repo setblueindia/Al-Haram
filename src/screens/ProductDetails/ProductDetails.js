@@ -14,7 +14,20 @@ import { Ratting } from '../../assests'
 import ReviewSlider from '../../components/ReviewSlider'
 
 const ProductDetails = () => {
-    const { lang, navigation, sliderData, color, Str, setIndex, sindex, like, setLike, onShare, AddTocart, showModal, setShowModal } = useProductDetails()
+    const { lang,
+        navigation,
+        sliderData,
+        color,
+        Str,
+        setIndex,
+        sindex,
+        like,
+        setLike,
+        onShare,
+        AddTocart,
+        showModal,
+        setShowModal
+    } = useProductDetails()
     return (
         <View style={styles.mainVIew}>
             <CommanHeader navigation={navigation} lang={lang?.data} />
@@ -64,7 +77,7 @@ const ProductDetails = () => {
                                 <Text style={[styles.sizeText, index == sindex && { color: COLOR.white }]} >Xl</Text>
                             </TouchableOpacity>
                         )
-                    }) }
+                    })}
                 </View>
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />

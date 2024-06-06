@@ -6,7 +6,8 @@ import { useNavigation } from "@react-navigation/native"
 
 const useNotificationHook = () => {
   const lang = useSelector(state => state?.lang?.data)
-  const userData = useSelector(state => state?.userData?.data?.id)
+  const userData = useSelector(state => state?.userData)
+  const [notiFicationID , setNotificationID] = useState(userData?.data?.id)
   const [loadding, setLoadding] = useState(false)
   const navigation = useNavigation()
   const [id, setID] = useState()
@@ -56,7 +57,7 @@ const useNotificationHook = () => {
     const sData =
       ` {
       getNotificationHistoryByCustomerId(
-        id : ${userData},
+        id : ${notiFicationID},
         pageSize: ${10},
         curPage: ${nextPage}
       )
@@ -81,6 +82,7 @@ const useNotificationHook = () => {
       setMoreData(false)
       setLoadding(false)
     } catch (error) {
+      setData(undefined)
       setLoadding(false)
       console.log("RESPONSE ERROR ::::::::::: ", error)
     }
@@ -100,7 +102,8 @@ const useNotificationHook = () => {
     setMesageText,
     GETNotificationAPI,
     moreData,
-    messText
+    messText,
+    userData
   }
 }
 

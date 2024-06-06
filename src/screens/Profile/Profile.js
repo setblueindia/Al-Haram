@@ -15,11 +15,21 @@ import CustomeHeader from '../../components/CustomeHeader';
 
 const Profile = () => {
 
-  const { menuItems, setSelectedItems, onPress, lang, navigation, email, name } = useProfileHook();
+  const { menuItems,
+    setSelectedItems,
+    onPress,
+    lang,
+    navigation,
+    email,
+    name,
+    userData
+  } = useProfileHook();
+
+
 
   return (
     <View style={styles.mainView}>
-      <CustomeHeader shoppingcart={true} />
+      <CustomeHeader shoppingcart={true} userData={userData} />
       <View style={styles.profileView}>
         <LinearGradient
           style={styles.linearView}
@@ -36,7 +46,11 @@ const Profile = () => {
                 size={ResponsiveSize(100)}
               />
 
-              <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.EditeProfileScreen) }}>
+              <TouchableOpacity onPress={() => {
+                userData?.data ?
+                  navigation.navigate(NAVIGATION.EditeProfileScreen) :
+                  navigation.navigate(NAVIGATION.Login)
+              }}>
                 <SimpleLineIcons
                   name="note"
                   color="#202020"

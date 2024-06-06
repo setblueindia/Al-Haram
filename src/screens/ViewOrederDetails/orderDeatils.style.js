@@ -6,10 +6,16 @@ import { EXTRASTR } from "../../constants/constants";
 export const styles = StyleSheet.create({
     mainView: {
         flex: 1,
-        backgroundColor: COLOR.white
+        backgroundColor: COLOR.white,
+        height:"100%",
+        width:"100%"
     },
     containView: {
-        padding: ResponsiveSize(20)
+        padding: ResponsiveSize(20),
+        flex:1,
+        height:"100%",
+        width:"100%",
+        marginBottom:ResponsiveSize(80)
     },
     firstView: {
         // height: ResponsiveSize(500),
