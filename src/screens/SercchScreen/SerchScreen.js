@@ -8,20 +8,20 @@ import { ICON, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
+import FastImage from 'react-native-fast-image'
 
 const SerchScreen = () => {
   const {
     navigation,
     lang,
     moreData,
-    setLike,
-    like,
     data,
     isLoadding,
-    likePress,
+    likeDislike,
     SerchPress,
     getData,
-    setSerchTex
+    setSerchTex,
+    likePress
   } = useSerchHook()
 
   return (
@@ -31,7 +31,7 @@ const SerchScreen = () => {
         <TextInput
           style={styles.textInput}
           placeholder='Search......'
-          onChangeText={(text)=>{SerchPress(text) , setSerchTex(text)}}
+          onChangeText={(text) => { SerchPress(text), setSerchTex(text) }}
         />
       </View>
       <View style={{ marginTop: ResponsiveSize(10), flex: 1 }}>
@@ -42,11 +42,10 @@ const SerchScreen = () => {
           numColumns={2}
           bounces={true}
           style={{ marginBottom: ResponsiveSize(30) }}
-          onEndReached={()=>{
-            data?.length > 0 ? getData() : console.log("Finish.....")
+          onEndReached={() => {
+            data?.length > 0 && getData() 
           }}
           onEndReachedThreshold={0.1}
-          // keyExtractor={(index) => { Math.random() * index }}
           ListFooterComponent={() => {
             return (
               <View style={{
@@ -67,10 +66,11 @@ const SerchScreen = () => {
             )
           }}
           renderItem={({ item, index }) => {
-            // console.log("items ==> ", item?.thumbnail?.url)
+            console.log("items ==> ", item?.like)
             const Name = item?.name.substr(0, 15)
             const price = item?.price?.regularPrice?.amount?.value
             const image = item?.thumbnail?.url
+
             return (
               <TouchableOpacity
                 onPress={() => {
@@ -78,7 +78,7 @@ const SerchScreen = () => {
                 }}
                 style={styles.conntainer}>
                 <View style={styles.imageView}>
-                  <Image style={styles.image} source={{ uri: image }} />
+                  <FastImage style={styles.image} source={{ uri: image }} />
                 </View>
                 <View style={styles.textView}>
                   <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 10 ? Name + "..." : Name}</Text>
@@ -91,7 +91,7 @@ const SerchScreen = () => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => { likePress(index) }}
+                  onPress={() => {likePress(item?.id),  likeDislike(item?.id) }}
                   style={styles.likeView}>
                   <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                 </TouchableOpacity>

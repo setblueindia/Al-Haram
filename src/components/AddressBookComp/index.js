@@ -8,6 +8,11 @@ import { NUMBER } from '../../constants/constants';
 
 const AddressBookComp = ({ data, lang }) => {
 
+    console.log("data ===> ", data?.telephone)
+
+    const name = data?.firstname + " " + data?.lastname
+    const address = data?.address1 + " " + data?.address2 + " " + data?.address3
+
     const [on, setOn] = useState(false)
 
     return (
@@ -18,7 +23,7 @@ const AddressBookComp = ({ data, lang }) => {
                 style={[styles.addressView, on && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
                 <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                     <View style={styles.nameView}>
-                        <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.name}</Text>
+                        <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{name}</Text>
                     </View>
 
                     <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
@@ -36,13 +41,13 @@ const AddressBookComp = ({ data, lang }) => {
                 <View style={[styles.secondView, lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(80) } : { marginRight: ResponsiveSize(80) }]}>
                     <Text
                         style={[styles.innerAddres, lang == NUMBER.num0 && { textAlign: 'right' }]}
-                    >{data?.address}</Text>
+                    >{address}</Text>
                 </View>
 
                 <View style={styles.thirdView}>
                     <Text
                         style={[styles.mobailText, lang == NUMBER.num0 && { textAlign: 'right' }]}
-                    >{data?.number}</Text>
+                    >{data?.telephone}</Text>
                 </View>
 
             </TouchableOpacity>

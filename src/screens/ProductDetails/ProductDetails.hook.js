@@ -1,19 +1,23 @@
 import { useNavigation } from "@react-navigation/native"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { addProduct } from "../../redux/Slices/AddToCartSlice"
 // import Share from 'react-native-share';
 
 
 
 const useProductDetails = () => {
     const lang = useSelector(state => state.lang)
+    const productCountToCart = useSelector(state => state?.AddToCart?.data)
     const [sindex, setIndex] = useState(false)
     const navigation = useNavigation()
     const [like, setLike] = useState(false)
-    const [showModal , setShowModal] = useState(false)
-
+    const [showModal, setShowModal] = useState(false)
+    // const [productCount, setProdcutCount] = useState(productCountToCart)
+    const [showAnimation, setShowAnimation] = useState(false)
+    const dispatch = useDispatch()
     const color = [1, 2, 3, 4]
 
     const onShare = () => {
@@ -27,11 +31,20 @@ const useProductDetails = () => {
         //     });
     }
 
-
-    const AddTocart = () =>{
-        
-
+    const AddTocart = () => {
+        setShowAnimation(true)
+        const count = productCountToCart + 1
+        dispatch(addProduct(count)),
+            addTocartAnimation()
     }
+
+    const addTocartAnimation = () => {
+        setTimeout(() => {
+            setShowAnimation(false)
+        }, 4000);
+    }
+
+
 
 
     const Str = lang?.data == NUMBER.num1 ?
@@ -42,7 +55,7 @@ const useProductDetails = () => {
             MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
             QNT: "Qty :",
             Addtocard: "Add to card",
-            Reviews : "Reviews :"
+            Reviews: "Reviews :"
 
         } :
         {
@@ -52,7 +65,7 @@ const useProductDetails = () => {
             MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
             QNT: "الكمية: ",
             Addtocard: "اضف الى البطاقة",
-            Reviews : "التعليقات :"
+            Reviews: "التعليقات :"
         }
 
     const sliderData = [
@@ -71,6 +84,7 @@ const useProductDetails = () => {
         color,
         Str,
         showModal,
+        showAnimation,
         setIndex,
         sindex,
         setLike,

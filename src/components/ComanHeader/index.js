@@ -5,10 +5,12 @@ import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 import { ResponsiveSize } from '../../utils/utils';
 import StatusBarCus from '../CustomStatusBar';
 import { logo } from '../../assests';
-import { ALINE, COLOR } from '../../constants/style';
+import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style';
 import LottieView from 'lottie-react-native';
+import { useSelector } from 'react-redux';
 
 const CommanHeader = ({ navigation, lang, name }) => {
+    const productCount = useSelector(state => state?.AddToCart.data)
     return (
         <View style={styles.mainView}>
             <StatusBarCus />
@@ -45,6 +47,12 @@ const CommanHeader = ({ navigation, lang, name }) => {
 
 
                     }
+
+                    {productCount > 0 &&
+                        <View style={styles.productCountView}>
+                            <Text style={styles.productText}>{productCount}</Text>
+                        </View>
+                        }
                 </TouchableOpacity>
             </View>
         </View>
@@ -91,5 +99,23 @@ const styles = StyleSheet.create({
     text: {
         color: COLOR.black,
         fontSize: ResponsiveSize(30)
+    },
+    productCountView: {
+        height: ResponsiveSize(30),
+        width: ResponsiveSize(30),
+        backgroundColor: COLOR.primaray,
+        borderRadius: ResponsiveSize(100),
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: ResponsiveSize(-10),
+        right: ResponsiveSize(-10),
+
+
+    },
+    productText: {
+        color: COLOR.white,
+        fontSize: ResponsiveSize(20),
+        fontWeight: FONTWEGHIT.font600
     }
 })

@@ -107,9 +107,13 @@ export const Ar = {
   APPROVED: "موافقة",
   CANCELLED: "ألغيت",
   Action: "فعل",
-  Type:"يكتب",
-  TransactionAt : "قيمة التحويل",
-  TransactionNote :"مذكرة الصفقة"
+  Type: "يكتب",
+  TransactionAt: "قيمة التحويل",
+  TransactionNote: "مذكرة الصفقة",
+  enteraddress1: "أدخل العنوان 1",
+  enteraddress2: "أدخل العنوان 2",
+  enteraddress3: "أدخل العنوان 3",
+  Enterpincode: "أدخل الرمز السري"
 }
 
 export const En = {
@@ -221,10 +225,15 @@ export const En = {
   PENDING: "Pending",
   APPROVED: "Approved",
   CANCELLED: "Cancelled",
-  Action:"Action",
-  Type:"Type",
-  TransactionAt : "Transaction At",
-  TransactionNote : "Transaction Note",
+  Action: "Action",
+  Type: "Type",
+  TransactionAt: "Transaction At",
+  TransactionNote: "Transaction Note",
+  enteraddress1: "enter address 1",
+  enteraddress2: "enter address 1",
+  enteraddress3: "enter address 1",
+  Enterpincode : "Enter pincode"
+
 
 
 

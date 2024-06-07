@@ -18,6 +18,7 @@ const ProductDetails = () => {
         navigation,
         sliderData,
         color,
+        showAnimation,
         Str,
         setIndex,
         sindex,
@@ -105,15 +106,16 @@ const ProductDetails = () => {
 
 
             </ScrollView>
-            {/* <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150) , right:ResponsiveSize(20) }}>
-                <LottieView
-                    //   ref={animationRef}
-                    source={require('../../assests/Lottianimation/AddToCart.json')}
-                    autoPlay loop
-                    resizeMode='cover'
-                    style={{ height: "100%", width: "100%" }}
-                />
-            </View> */}
+            {showAnimation &&
+                <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150), right: ResponsiveSize(20) }}>
+                    <LottieView
+                        //   ref={animationRef}
+                        source={require('../../assests/Lottianimation/AddToCart.json')}
+                        autoPlay loop
+                        resizeMode='cover'
+                        style={{ height: "100%", width: "100%" }}
+                    />
+                </View>}
 
 
             <View style={[styles.btnConatainer, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>

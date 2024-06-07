@@ -1,5 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
-import { ALINE, COLOR } from "../../constants/style";
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
 
 export const styles = StyleSheet.create({
@@ -11,14 +11,12 @@ export const styles = StyleSheet.create({
             backgroundColor: COLOR.white,
             elevation: ResponsiveSize(10),
             paddingHorizontal: ResponsiveSize(20),
-            shadowColor: '#000',
+            shadowColor: COLOR.white,
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.5,
             shadowRadius: 2,
             elevation: 2,
-            // backgroundColor:"red",
-            alignItems:'center'
-            // alignSelf: 'stretch'
+            alignItems:ALINE.center
         } :
 
             {
@@ -26,8 +24,8 @@ export const styles = StyleSheet.create({
                 backgroundColor: COLOR.white,
                 elevation: ResponsiveSize(10),
                 paddingHorizontal: ResponsiveSize(20),
-                shadowColor: '#000',
-                alignItems:'center'
+                shadowColor: COLOR.black,
+                alignItems:ALINE.center
 
             },
 
@@ -42,7 +40,7 @@ export const styles = StyleSheet.create({
     log: {
         height: "100%",
         width: "100%",
-        resizeMode: "contain"
+        resizeMode: RESIZEMODE.contain
     },
     logView: {
         width: "33%",
@@ -54,10 +52,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: ResponsiveSize(120),
         alignItems: ALINE.center,
-        justifyContent:'space-between',
-        // backgroundColor:"green",
-        // alignSelf:'center'
-        // alignItems:'center'
+        justifyContent:ALINE.spaceBetween,
         
     },
     
@@ -67,6 +62,24 @@ export const styles = StyleSheet.create({
         justifyContent: ALINE.spaceBetween,
 
     },
+    productCountView: {
+        height: ResponsiveSize(30),
+        width: ResponsiveSize(30),
+        backgroundColor: COLOR.primaray,
+        borderRadius: ResponsiveSize(100),
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center,
+        position: 'absolute',
+        bottom: ResponsiveSize(-10),
+        right: ResponsiveSize(-10),
+
+
+    },
+    productText: {
+        color: COLOR.white,
+        fontSize: ResponsiveSize(20),
+        fontWeight: FONTWEGHIT.font600
+    }
     
 
 

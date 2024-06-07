@@ -10,46 +10,128 @@ import CheackButton from '../../components/CheackButton'
 import Button from '../../components/Button'
 import { ALINE } from '../../constants/style'
 import useAddressHook from './address.hook'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import CusLoader from '../../components/CustomLoader'
 
-const Addaddress = () => {      
+const Addaddress = () => {
 
-  const { navigation, lang , data } = useAddressHook()
+  const {
+    navigation,
+    lang,
+    data,
+    on,
+    citydata,
+    city,
+    billing,
+    shopping,
+    setShopping,
+    setCity,
+    setFirstName,
+    setOn,
+    getCityData,
+    setStae,
+    setStaeCode,
+    gwtStateData,
+    setlastname,
+    setMNumber,
+    serAddress1,
+    setAddress2,
+    setAddress3,
+    setPinCode,
+    setBilling,
+    addAddress,
+    state,
+    isLoading
+  } = useAddressHook()
 
   return (
     <View style={styles.mainView}>
       <CommanHeader navigation={navigation} name={data.AddAddress} />
       <ScrollView style={styles.conatainer}>
-        <TextFildCus text={data?.FirstName} add={true} />
+        <TextFildCus onChange={setFirstName} text={data?.FirstName} add={true} />
         <View style={styles.devider} />
-        <TextFildCus text={data?.LastName} add={true} />
+        <TextFildCus onChange={setlastname} text={data?.LastName} add={true} />
         <View style={styles.devider} />
-        <TextFildCus text={data?.PhoneNumber} add={true} />
+        <TextFildCus onChange={setMNumber} text={data?.PhoneNumber} add={true} />
         <View style={styles.devider} />
-        <TextFildCus text={data?.Streetaddress} add={true} />
+        <TextFildCus onChange={serAddress1} text={data?.Streetaddress} add={true} />
         <View style={styles.devider} />
-        <TextFildCus text={data?.Addressline1} add={true} />
+        <TextFildCus onChange={setAddress2} text={data?.Addressline1} add={true} />
         <View style={styles.devider} />
-        <TextFildCus text={data?.Addressline2} add={true} />
+        <TextFildCus onChange={setAddress3} text={data?.Addressline2} add={true} />
         <View style={styles.devider} />
-        <TextFildCus text={data?.Pincode} add={true} />
+        <TextFildCus onChange={setPinCode} text={data?.Pincode} add={true} />
         <View style={styles.devider} />
-        <View style={styles.secondView}>
-          <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: 'right' , marginRight:ResponsiveSize(20)}]}>{data?.SaudiArabia}</Text>
-          <TextFildCus text={data?.StateProvince} add={true} />
-          <View style={styles.devider} />
-          <TextFildCus text={data?.City} add={true} />
 
-          <View style={[styles.CheackView , lang == NUMBER.num0 && {flexDirection:ALINE.row} ]}>
-            <CheackButton/>
-            <Text style={[styles.cheackText ,  lang == NUMBER.num0 && {marginRight:ResponsiveSize(20)} ]}>{data?.Useasmydefaultbillingaddress}</Text>
+
+        <View style={styles.secondView}>
+          <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(20) }]}>{data?.SaudiArabia}</Text>
+          <TouchableOpacity
+            style={styles.stateTextView}
+            onPress={() => { gwtStateData() }}
+          >
+            <Text style={styles.stateTextStyle}>{state ? state : data?.StateProvince}</Text>
+          </TouchableOpacity>
+          <View style={styles.devider} />
+          <TouchableOpacity
+            onPress={() => {
+              getCityData()
+            }}
+            style={styles.stateTextView}
+          >
+            <Text style={styles.stateTextStyle}>{city ? city : data?.City}</Text>
+          </TouchableOpacity>
+          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
+            <CheackButton  preVriable={shopping} onPress={setShopping}/>
+            <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.Useasmydefaultbillingaddress}</Text>
+          </View>
+          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
+            <CheackButton preVriable={billing} onPress={setBilling}/>
+            <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.UseasmydefaultShippingaddress}</Text>
           </View>
         </View>
 
         <View style={styles.btnView}>
-          <Button text={lang == NUMBER.num0 ?  "اضف عنوان" : "Add address"}/>
+          <Button onPress={addAddress} text={lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
         </View>
-        <View style={{height:ResponsiveSize(40)}}></View>
+        <View style={{ height: ResponsiveSize(40) }}></View>
       </ScrollView>
+
+
+      {on &&
+        <View style={styles.popView}>
+
+          <View style={styles.listView}>
+            <ScrollView style={styles.ScrollView}>
+
+              {
+                citydata?.map((items, index) => {
+                  return (
+                    <TouchableOpacity onPress={() => { setOn(false), items?.default_name ? setStae(items?.default_name) : setCity(items?.city), setStaeCode(items?.region_id) }} key={index} style={styles.itemsName}>
+                      <Text style={styles.customerName}>{items?.default_name ? items?.default_name : items?.city}</Text>
+                    </TouchableOpacity>
+                  )
+                })
+              }
+
+            </ScrollView>
+
+          </View>
+        </View>
+
+      }
+
+      {isLoading &&
+
+        <View style={{
+          height: "100%",
+          width: "100%",
+          position: 'absolute'
+        }}>
+          <CusLoader />
+
+        </View>
+      }
     </View>
   )
 }

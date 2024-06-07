@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
-import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 
 export const styles = StyleSheet.create({
     mainView:{
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     image: {
         height: "100%",
         width: "100%",
-        resizeMode: 'contain',
+        resizeMode: RESIZEMODE.cover,
         borderRadius: ResponsiveSize(20)
     },
     imageView: {
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     },
 
     productName: {
-        fontSize: ResponsiveSize(25),
+        fontSize: ResponsiveSize(22),
         fontWeight: FONTWEGHIT.font600,
         color:COLOR.black
     },

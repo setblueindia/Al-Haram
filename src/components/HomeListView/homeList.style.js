@@ -34,13 +34,17 @@ export const styles = StyleSheet.create({
     headerTextView: {
         flexDirection: ALINE.row,
         justifyContent: ALINE.spaceBetween,
-        marginBottom:ResponsiveSize(10)
+        // marginBottom:ResponsiveSize(10),
+        padding:ResponsiveSize(10),
+        alignItems:ALINE.center
+        
     
     },
 
     viewText: {
         fontSize: ResponsiveSize(25),
         color: COLOR.primaray,
+       
         
     },
 

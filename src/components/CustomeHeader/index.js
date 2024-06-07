@@ -16,6 +16,7 @@ import LottieView from 'lottie-react-native';
 
 const CustomeHeader = ({ search, like, shoppingcart }) => {
   const userData = useSelector(state => state?.userData)
+  const productCount = useSelector(state => state?.AddToCart.data)
   const navigation = useNavigation();
   const lang = useSelector(state => state.lang)
   return (
@@ -70,6 +71,11 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
 
               <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />
             }
+             {productCount > 0 &&
+                        <View style={styles.productCountView}>
+                            <Text style={styles.productText}>{productCount}</Text>
+                        </View>
+                        }
           </TouchableOpacity>
         </View>
       </View>

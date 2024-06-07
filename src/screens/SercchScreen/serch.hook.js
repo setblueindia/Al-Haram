@@ -1,9 +1,23 @@
 import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { SerchAPI } from "../../api/axios.api"
+import { AddRemoveToWhishLisst, SerchAPI } from "../../api/axios.api"
+import { SHOWTOTS } from "../../utils/utils"
+import { NUMBER } from "../../constants/constants"
 
 const useSerchHook = () => {
+
+  const navigation = useNavigation()
+  const lang = useSelector(state => state?.lang?.data)
+  const userData = useSelector(state => state?.userData)
+  const [like, setLike] = useState(false)
+  const [isLoadding, setIsLoadding] = useState(false)
+  const [serch, setSerch] = useState('')
+  const [currePage, setCurrentPage] = useState(0)
+  const [moreData, setMoreData] = useState(false)
+  const [serchText, setSerchTex] = useState('')
+  const [productId, setProductID] = useState()
+
   const [data, setData] = useState([
     // { id: 0, like: false },
     // { id: 1, like: false },
@@ -12,17 +26,6 @@ const useSerchHook = () => {
     // { id: 4, like: false },
     // { id: 5, like: false }
   ])
-  const navigation = useNavigation()
-  const lang = useSelector(state => state?.lang?.data)
-  const [like, setLike] = useState(false)
-  const [isLoadding, setIsLoadding] = useState(false)
-  const [serch, setSerch] = useState('')
-  const [currePage, setCurrentPage] = useState(0)
-  const [moreData, setMoreData] = useState(false)
-  const [serchText , setSerchTex] = useState('')
-
-
-
 
   const likePress = (items) => {
     setData((prevData) =>
@@ -35,9 +38,6 @@ const useSerchHook = () => {
   }
 
   const getData = async (text, first) => {
-    // currePage < 1 && setIsLoadding(true)
-    // currePage >= 1 && setMoreData(true)
-    console.log("First ======> ",first )
     first ? setIsLoadding(true) : setMoreData(true)
     const nextPage = currePage + 1
     const sData =
@@ -74,22 +74,26 @@ const useSerchHook = () => {
       }
     }
     `
-
     try {
       const response = await SerchAPI(sData, lang)
       if (response) {
-        console.log("::::::::::::::: ", first)
+        response?.data?.data?.products?.items.map((item) => {
+          return item["like"] = false;
+        })
         !first ?
           setData([...data, ...response?.data?.data?.products?.items]) :
           setData(response?.data?.data?.products?.items)
-          setIsLoadding(false)
-          setMoreData(false)
+        setIsLoadding(false)
+        setMoreData(false)
         first ? setCurrentPage(1) : setCurrentPage(nextPage)
+      } else {
+        console.log("INNER SERCH ERROR :::::::::::", response?.data?.data)
       }
 
     } catch (error) {
-      console.log("SERCH ERRROR::::::::::", error)
+      console.log("SERCH ERRROR ::::::::::", error)
       setIsLoadding(false)
+      setMoreData(false)
     }
   }
 
@@ -100,17 +104,33 @@ const useSerchHook = () => {
     }, 3000)
   }
 
-
   const SerchPress = (text) => {
-    // setSerchTex(text)
     onHandalPress(text)
     setSerch(text)
 
   }
 
 
+  const likeDislike = async (id) => {
+
+    const formData = new FormData()
+    formData.append("customer_id", userData?.data?.id)
+    formData.append("productId", id)
+    formData.append("action", "true")
+    try {
+      const response = id && await AddRemoveToWhishLisst(formData)
+      if (response?.data?.status == NUMBER.num1) {
+        console.log("Response ::::::::::::::::::::::::: ", response?.data)
+        SHOWTOTS(response?.data?.message)
+      }
+    } catch (error) {
+      console.log("Like / Dislike ERROR ::::::::::::: ", error)
+    }
+  }
+
+
   return {
-    likePress,
+    likeDislike,
     navigation,
     lang,
     like,
@@ -121,7 +141,9 @@ const useSerchHook = () => {
     serch,
     isLoadding,
     moreData,
-    setSerchTex
+    setSerchTex,
+    setProductID,
+    likePress
   }
 }
 

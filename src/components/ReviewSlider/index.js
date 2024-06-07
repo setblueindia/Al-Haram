@@ -6,6 +6,7 @@ import { Ratting } from '../../assests'
 import TextFildCus from '../TextFildCus'
 import Button from '../Button'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const ReviewSlider = ({ setShowModal, lang }) => {
     return (
@@ -15,6 +16,13 @@ const ReviewSlider = ({ setShowModal, lang }) => {
                 style={styles.upperView}>
             </TouchableOpacity>
             <View style={styles.containerView}>
+                <TouchableOpacity
+                    onPress={() => { setShowModal(false) }}
+                    style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : null }}
+                >
+                    <Icon name={"closecircle"} size={ResponsiveSize(30)} color={COLOR.primaray} />
+
+                </TouchableOpacity>
                 <Text style={styles.headerText}>{lang?.data == NUMBER.num0 ? "التعليقات" : "Reviews"}</Text>
                 <View style={styles.imageView} >
                     <Image source={Ratting} style={styles.img} />
@@ -85,7 +93,7 @@ const styles = StyleSheet.create({
         borderBottomColor: COLOR.primaray,
         borderBottomWidth: 1,
         marginTop: ResponsiveSize(20),
-        paddingHorizontal: ResponsiveSize(20)
+        paddingHorizontal: ResponsiveSize(10)
     },
     btnView: {
         marginTop: ResponsiveSize(20),

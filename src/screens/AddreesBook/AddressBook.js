@@ -8,12 +8,15 @@ import { ResponsiveSize } from '../../utils/utils'
 import { COLOR } from '../../constants/style'
 import useAddressBookHook from './AddressBook.hook'
 import AddressBookComp from '../../components/AddressBookComp'
+import CusLoader from '../../components/CustomLoader'
 
 
 
 const AddressBook = ({ Shooping }) => {
 
-    const { data, navigation, lang, addAddress , Str} = useAddressBookHook()
+    const { data, navigation, lang, addAddress, Str, isLoading } = useAddressBookHook()
+
+
 
     return (
         <View style={styles.mainView}>
@@ -42,6 +45,20 @@ const AddressBook = ({ Shooping }) => {
                     <Text style={styles.btnText}>{lang == NUMBER.num0 ? "+ إضافة عنوان جديد" : "+Add new address"}</Text>
                 </TouchableOpacity>
             </View>
+
+            {
+                isLoading &&
+                <View style={{
+                    height: "100%",
+                    width: "100%",
+                    position: 'absolute'
+                }}>
+                    <CusLoader />
+                </View>
+            }
+
+
+            
 
         </View>
 
