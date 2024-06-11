@@ -9,41 +9,41 @@ export const styles = StyleSheet.create({
     },
     CustomeHeaderView: {
         width: "100%",
-        height:"100%"
+        height: "100%"
     },
     container: {
         flex: 1,
         padding: ResponsiveSize(20),
-        height:"100%",
-        width:"100%"
+        height: "100%",
+        width: "100%"
     },
     notificationView: {
         width: "100%",
         height: ResponsiveSize(150),
         // backgroundColor: COLOR.white,
-        backgroundColor:"#FFF3F4",
+        backgroundColor: "#FFF3F4",
         elevation: 10,
-        shadowColor:COLOR.black,
+        shadowColor: COLOR.black,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 1,
         padding: ResponsiveSize(20),
         borderRadius: ResponsiveSize(20),
-        borderWidth:ResponsiveSize(2),
-        borderColor:COLOR.gray
+        borderWidth: ResponsiveSize(2),
+        borderColor: COLOR.gray
     },
     imgView: {
         width: "100%",
-        flexDirection:ALINE.row,
-        alignItems:ALINE.center,
-        justifyContent:ALINE.spaceBetween
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.spaceBetween
     },
     img: {
 
         height: ResponsiveSize(60),
         width: ResponsiveSize(60),
         // color:COLOR.white,
-        color:COLOR.primaray,
+        color: COLOR.primaray,
         resizeMode: RESIZEMODE.contain,
         // marginLeft : ResponsiveSize(20)
         // borderRadius:ResponsiveSize(100),
@@ -54,12 +54,12 @@ export const styles = StyleSheet.create({
         fontWeight: FONTWEGHIT.font600,
         color: COLOR.black,
         // color:COLOR.white,
-        marginLeft : ResponsiveSize(10)
+        marginLeft: ResponsiveSize(10)
     },
     textView: {
-        flexDirection:ALINE.row,
-        justifyContent:ALINE.spaceBetween,
-        width:"100%",
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
+        width: "100%",
     },
     desShippment: {
         color: "#7A7575",
@@ -78,7 +78,9 @@ export const styles = StyleSheet.create({
         fontSize: ResponsiveSize(18),
         color: "#7A7575",
     },
-    dataView:{
-        alignSelf:ALINE.center
-    }
+    dataView: {
+        alignSelf: ALINE.center
+    },
+   
+
 })

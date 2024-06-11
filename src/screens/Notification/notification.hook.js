@@ -19,7 +19,6 @@ const useNotificationHook = () => {
   const [data, setData] = useState([])
 
 
-
   useEffect(() => {
     GETNotificationAPI()
   }, [])
@@ -27,6 +26,7 @@ const useNotificationHook = () => {
   const onPress = async (sid) => {
 
     setLoadding(true)
+
     const dataQurry =
       `  {
       updateNotificationReadById(id : ${sid}){
@@ -50,7 +50,6 @@ const useNotificationHook = () => {
   }
 
   const GETNotificationAPI = async () => {
-    console.log("Hello ====> ",)
     currePage < 1 && setLoadding(true)
     currePage >= 1 && setMoreData(true)
     const nextPage = currePage + 1
@@ -75,12 +74,20 @@ const useNotificationHook = () => {
 
     try {
       const response = await NotificationAIP(sData, lang)
-      // console.log("RESPONSE ::::::::::: ", response?.data?.data?.getNotificationHistoryByCustomerId)
+      if (response?.status == "200") {
+        setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
+        // console.log(";;;;;;;;;;;;;;;;;;;;;;",response?.data?.data?.getNotificationHistoryByCustomerId)
+        if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
+          setLoadding(false)
+          setLotti(true)
+        } else {
+          setLotti(false)
+        }
 
-      setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
-      setCurrentPage(nextPage)
-      setMoreData(false)
-      if (!response?.data?.data?.getNotificationHistoryByCustomerId || (response?.data?.data?.getNotificationHistoryByCustomerId.length <= 0 && currePage == 1)) {
+
+        setCurrentPage(nextPage)
+        setMoreData(false)
+      } else {
         setLoadding(false)
         setLotti(true)
       }

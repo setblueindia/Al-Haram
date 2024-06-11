@@ -119,17 +119,17 @@ const useAddressHook = () => {
         formData.append("set_is_default_shipping", shopping ? 1 : 0)
         formData.append("store_id", lang)
         const response = await AddressList(formData)
-        if(response?.data?.status){
+        if (response?.data?.status) {
           navigation.navigate(NAVIGATION.AddressBookScreen)
           SHOWTOTS(response?.data?.message)
           setIsLoading(false)
-        }else{
+        } else {
           SHOWTOTS(response?.data?.message)
           setIsLoading(false)
         }
-  
+
       } catch (error) {
-        console.log("ADD ADDRESS ERROR ::::::::::::::::" , error)
+        console.log("ADD ADDRESS ERROR ::::::::::::::::", error)
         setIsLoading(false)
       }
 
@@ -198,8 +198,6 @@ const useAddressHook = () => {
     setBilling,
     setShopping,
     addAddress
-
-
   }
 }
 

@@ -11,6 +11,7 @@ import CusLoader from '../../components/CustomLoader'
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import LottieView from 'lottie-react-native'
 import CusModal from '../../components/CusModal'
+import DataNotFound from '../../components/DataNotFound'
 
 
 const Notification = () => {
@@ -35,7 +36,7 @@ const Notification = () => {
         <View style={styles.container}>
           <FlatList
             data={data}
-            onEndReached={() => { GETNotificationAPI() }}
+            onEndReached={() => { data?.length > 0 && GETNotificationAPI() }}
             onEndReachedThreshold={0.1}
             ListFooterComponent={() => {
               return (
@@ -52,7 +53,7 @@ const Notification = () => {
                       color={COLOR.primaray}
 
                     />
-                    }
+                  }
                 </View>
               )
             }}
@@ -130,44 +131,9 @@ const Notification = () => {
       </View>
 
       {lotti &&
-        <View style={{
-          position: 'absolute'
-          , height: "100%"
-          , width: "100%"
-        }}>
-
-          <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} />
-          <View style={{
-            flex: 1,
-            justifyContent: ALINE.center,
-            alignItems: ALINE.center,
-            height: "100%",
-            width: "100%",
-            // position: 'absolute',
-            backgroundColor: "#00000010",
-            // marginTop:ResponsiveSize(120)
-
-          }}>
-
-            <LottieView
-              source={require('../../assests/Lottianimation/Nonotofication2.json')}
-              autoPlay loop
-              resizeMode={RESIZEMODE.cover}
-              style={{ height: ResponsiveSize(300), width: ResponsiveSize(300) }}
-            />
-            <View style={{
-              height: ResponsiveSize(60),
-              width: ResponsiveSize(300),
-              borderRadius: ResponsiveSize(100),
-              justifyContent: ALINE.center,
-              alignItems: ALINE.center,
-              backgroundColor: "#00000070"
-            }}>
-              <Text style={{ color: COLOR.white, fontSize: ResponsiveSize(25) }}>No Notification Found</Text>
-            </View>
-          </View>
-        </View>
+        <DataNotFound userData={userData} text={"Data Not Found"} />
       }
+      
       {loadding &&
         <View style={{ flex: 1, position: 'absolute', width: "100%" }}>
           <CusLoader />

@@ -10,7 +10,8 @@ const useWhishListHook = () => {
   const [like, setLike] = useState(true)
   const navigation = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
-  const [currentPage , setCurrentPage] = useState(0)
+  const [lotti, setLotti] = useState(false)
+  const [currentPage, setCurrentPage] = useState(0)
 
 
 
@@ -47,16 +48,26 @@ const useWhishListHook = () => {
     try {
       const response = await WhisList(formData)
       if (response?.data?.status == NUMBER.num1) {
+
+        console.log("data  ====> ", response?.data)
         response?.data?.data.map((item) => {
           return item["like"] = true;
         })
         setData(response?.data?.data)
+        if (response?.data?.data?.length <= 0) {
+          setIsLoading(false)
+          setLotti(true)
+        } else {
+          setLotti(false)
+        }
         setIsLoading(false)
       } else {
-        console.log("WHISHLIST INNER EROOR  :::::::::::::::::::::::  ", response?.data)
+        setLotti(true)
+        console.log("WHISHLIST INNER EROOR  :::::::::::::::::::::::  ", response)
         setIsLoading(false)
       }
     } catch (error) {
+      setLotti(true)
       console.log("WHISH LIST ERROR :::::::::::::::::::::; ", error)
       setIsLoading(false)
     }
@@ -91,7 +102,9 @@ const useWhishListHook = () => {
     lang,
     setLike,
     likePress,
+    lotti,
     isLoading,
+    userData,
     dislikePress
   }
 }

@@ -9,9 +9,10 @@ import { ResponsiveSize } from '../../utils/utils'
 import { COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
+import DataNotFound from '../../components/DataNotFound'
 
 const WhishList = () => {
-  const { navigation, data, lang, likePress, isLoading, dislikePress } = useWhishListHook()
+  const { navigation, data, lang, likePress, isLoading, dislikePress, lotti, userData} = useWhishListHook()
 
   return (
     <View style={styles.mainView}>
@@ -49,6 +50,14 @@ const WhishList = () => {
           )
         }}
       />
+      {
+       lotti &&
+
+          <DataNotFound userData={userData} text={"No Data Found"} navigation={navigation} header={true}/>
+
+  
+
+      }
       {isLoading
         &&
         <View style={{ position: 'absolute', height: "100%", width: "100%" }}>
