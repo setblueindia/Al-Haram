@@ -34,7 +34,7 @@ const Home = () => {
             </View>
 
             <View style={styles.siderView}>
-              <Slider data={Sliderdata} lang={lang} />
+              <Slider data={Sliderdata} lang={lang} home={true} />
             </View>
 
             <View style={styles.bannerView2}>

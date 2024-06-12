@@ -3,36 +3,38 @@ import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './silder.style'
 import { NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
+import FastImage from 'react-native-fast-image'
+import { COLOR, RESIZEMODE } from '../../constants/style'
 
-const Slider = ({lang , height , data}) => {
+const Slider = ({lang , height , data , home}) => {
+
+
+
 
     const [activeIndex, setActiveIndex] = useState(0)
     const flatListRef = useRef()
     const windowWidth = Dimensions.get('window').width;
 
 
-    
-
     const handaleScroll = (event) => {
 
-        const scrollPosition = event.nativeEvent.contentOffset.x;
+        const scrollPosition = event?.nativeEvent?.contentOffset.x;
 
         const index = scrollPosition / windowWidth
-        const  floatValue = Math.ceil(index) 
-        // console.log("Index ======> ", floatValue)
+        const  floatValue = Math?.ceil(index) 
         setActiveIndex(floatValue)
 
     }
 
     useEffect(() => {
         let intervel = setInterval(() => {
-            if (activeIndex === data.length - 1) {
-                flatListRef.current.scrollToIndex({
+            if (activeIndex === data?.length - 1) {
+                flatListRef?.current?.scrollToIndex({
                     index: 0,
                     animation: true
                 });
             } else {
-                flatListRef.current.scrollToIndex({
+                flatListRef?.current?.scrollToIndex({
                     index: activeIndex + 1,
                     animation: true
                 });
@@ -51,12 +53,13 @@ const Slider = ({lang , height , data}) => {
 
     return (
         <View style={[styles.mainView , height && {height:height}]}>
-            <FlatList
-                inverted ={lang.data == NUMBER.num0 ? true : false}
+          { data?.length > 0 ?
+           <FlatList
+                inverted ={lang?.data == NUMBER?.num0 ? true : false}
                 horizontal={true}
                 ref={flatListRef}
                 data={data}
-                keyboardDismissMode={(data , index)=> Math.random() * index}
+                // keyboardDismissMode={(data , index)=> Math.random() * index}
                 showsHorizontalScrollIndicator={false}
                 getItemLayout={getIntemLayout}
                 pagingEnabled={true}
@@ -64,16 +67,22 @@ const Slider = ({lang , height , data}) => {
                 renderItem={({ item , index}) => {
 
                     return (
-
-                        <View key={Math.random() * index} style={styles.listView}>
-                            <Image
-                                style={styles.image}
+                     <View key={Math.random() * index} style={styles.listView}>
+                             <Image
+                            //  resizeMode='contain'
+                                style={[styles?.image , home && {resizeMode:RESIZEMODE.cover}]}
                                 source={{ uri: item }}
                             />
-                        </View>
+                        </View> 
                     )
                 }}
-            />
+            /> :
+             <View style={[styles.mainView , {backgroundColor:COLOR.gray}]}>
+
+            </View>
+
+
+            }
 
         </View>
 

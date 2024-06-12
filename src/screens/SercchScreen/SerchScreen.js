@@ -4,7 +4,7 @@ import { styles } from './serch.style'
 import CommanHeader from '../../components/ComanHeader'
 import useSerchHook from './serch.hook'
 import Filter from "react-native-vector-icons/AntDesign";
-import { ICON, NUMBER } from '../../constants/constants'
+import { EXTRASTR, ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
@@ -43,7 +43,7 @@ const SerchScreen = () => {
           bounces={true}
           style={{ marginBottom: ResponsiveSize(30) }}
           onEndReached={() => {
-            data?.length > 0 && getData() 
+            data?.length > 0 && getData()
           }}
           onEndReachedThreshold={0.1}
           ListFooterComponent={() => {
@@ -66,7 +66,6 @@ const SerchScreen = () => {
             )
           }}
           renderItem={({ item, index }) => {
-            console.log("items ==> ", item?.like)
             const Name = item?.name.substr(0, 15)
             const price = item?.price?.regularPrice?.amount?.value
             const image = item?.thumbnail?.url
@@ -74,7 +73,7 @@ const SerchScreen = () => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  // navigation.navigate(NAVIGATION.ProducDetails)
+                  navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku })
                 }}
                 style={styles.conntainer}>
                 <View style={styles.imageView}>
@@ -84,14 +83,14 @@ const SerchScreen = () => {
                   <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 10 ? Name + "..." : Name}</Text>
 
                   <View style={[styles.priveView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right', }]}>{lang == NUMBER.num1 ? "SAR :" : "سار:"}</Text>
-                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(10) }]}>{price}</Text>
+                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, }]}>{lang == NUMBER.num1 ? "SAR :" : "سار:"}</Text>
+                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{price}</Text>
                   </View>
 
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => {likePress(item?.id),  likeDislike(item?.id) }}
+                  onPress={() => { likePress(item?.id), likeDislike(item?.id) }}
                   style={styles.likeView}>
                   <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                 </TouchableOpacity>

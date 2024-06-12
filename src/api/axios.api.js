@@ -96,6 +96,12 @@ export const StateList = async (params) => {
     return res
 }
 
+export const ProductDetalsBySKU = async (params , lang) => {
+    console.log("==========> ",params )
+    const res = await POSTFORMGRAPH(GRAFORL, params , lang)
+    return res
+}
+
 
 
 

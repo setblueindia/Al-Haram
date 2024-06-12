@@ -11,8 +11,8 @@ export const styles = StyleSheet.create({
     },
     mainVIew: {
         flex: 1,
-        height:"100%",
-        width:"100%",
+        height: "100%",
+        width: "100%",
         backgroundColor: COLOR.white
     },
     productCodeView: {
@@ -63,7 +63,21 @@ export const styles = StyleSheet.create({
         marginLeft: ResponsiveSize(10),
         borderRadius: ResponsiveSize(20),
         backgroundColor: COLOR.white,
+        elevation: 10,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        shadowColor: COLOR.black,
+        padding:ResponsiveSize(5)
 
+
+    },
+    innerColorView: {
+        height: "100%",
+        width: "100%",
+        borderRadius: ResponsiveSize(20),
+        // backgroundColor : "#FFFFFF20",
+        // position:'absolute'
     },
     imgIcon: {
         height: "100%",
@@ -75,7 +89,8 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(20),
         marginTop: ResponsiveSize(20),
         flexDirection: ALINE.row,
-        alignItems: ALINE.center
+        alignItems: ALINE.center,
+        // flexWrap : 'wrap'
     },
     sizeContainer: {
         borderRadius: ResponsiveSize(100),
@@ -86,10 +101,13 @@ export const styles = StyleSheet.create({
         width: ResponsiveSize(60),
         alignItems: ALINE.center,
         justifyContent: ALINE.center,
+        // flexWrap : 'wrap'
+
 
     },
     sizeText: {
-        color: COLOR.black
+        color: COLOR.black,
+
     },
     counteView: {
         flexDirection: ALINE.row,
@@ -106,26 +124,26 @@ export const styles = StyleSheet.create({
         alignItems: ALINE.center,
         backgroundColor: "#F8F2F2",
         // marginTop:ResponsiveSize(20),
-        alignItems:ALINE.center,
-        justifyContent:ALINE.spaceBetween,
-        paddingHorizontal:ResponsiveSize(20),
-        height:ResponsiveSize(120),
-        position:'absolute',
-        bottom:ResponsiveSize(20),
-      
-        
+        alignItems: ALINE.center,
+        justifyContent: ALINE.spaceBetween,
+        paddingHorizontal: ResponsiveSize(20),
+        height: ResponsiveSize(120),
+        position: 'absolute',
+        bottom: ResponsiveSize(20),
+
+
 
     },
     likeBtn: {
         height: ResponsiveSize(90),
         width: "18%",
         backgroundColor: COLOR.white,
-        elevation:10,
+        elevation: 10,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
         shadowColor: COLOR.black,
-        borderRadius:ResponsiveSize(20),
+        borderRadius: ResponsiveSize(20),
         alignItems: ALINE.center,
         justifyContent: ALINE.center,
 
@@ -134,49 +152,49 @@ export const styles = StyleSheet.create({
         height: ResponsiveSize(90),
         width: "18%",
         backgroundColor: COLOR.white,
-        marginLeft:ResponsiveSize(10),
-        elevation:10,
+        marginLeft: ResponsiveSize(10),
+        elevation: 10,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
         shadowColor: COLOR.black,
-        borderRadius:ResponsiveSize(20),
-        justifyContent:ALINE.center,
-        alignItems:ALINE.center
+        borderRadius: ResponsiveSize(20),
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
     },
     AddToCartBtn: {
-        width:"55%",
+        width: "55%",
         height: ResponsiveSize(90),
         backgroundColor: COLOR.primaray,
-        marginLeft:ResponsiveSize(10),
-        elevation:10,
+        marginLeft: ResponsiveSize(10),
+        elevation: 10,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
         shadowColor: COLOR.black,
-        borderRadius:ResponsiveSize(20),
-        justifyContent:ALINE.center,
-        alignItems:ALINE.center
+        borderRadius: ResponsiveSize(20),
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
     },
-    AddTocardText:{
-        color:COLOR.white,
-        fontSize:ResponsiveSize(25)
+    AddTocardText: {
+        color: COLOR.white,
+        fontSize: ResponsiveSize(25)
     },
-    reviewView:{
-     width:"100%",
-     height:ResponsiveSize(100),
-     flexDirection:'row',
-     alignItems:'center',
-     padding:ResponsiveSize(20)
+    reviewView: {
+        width: "100%",
+        height: ResponsiveSize(100),
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: ResponsiveSize(20)
     },
-    ratingStart:{
-        height:"100%",
-        width:"100%",
-        resizeMode:RESIZEMODE.contain
+    ratingStart: {
+        height: "100%",
+        width: "100%",
+        resizeMode: RESIZEMODE.contain
     },
-    ratingIconView:{
-        width:ResponsiveSize(200),
-        height:ResponsiveSize(60),
-        marginLeft:ResponsiveSize(20)
+    ratingIconView: {
+        width: ResponsiveSize(200),
+        height: ResponsiveSize(60),
+        marginLeft: ResponsiveSize(20)
     }
 })

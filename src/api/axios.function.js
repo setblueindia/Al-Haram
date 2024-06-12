@@ -44,7 +44,8 @@ export const POSTFORMGRAPH = async (url, params , lang ) => {
     console.log("==============================")
     console.log({
         URL: url,
-        params: params
+        params: params,
+        lang : lang
     })
     console.log("==============================")
 

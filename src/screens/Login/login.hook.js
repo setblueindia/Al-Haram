@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { NAVIGATION, NUMBER } from '../../constants/constants';
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogIn, userLogInWithNumber } from '../../api/axios.api';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
-import { setUserData } from '../../utils/asyncStorage';
+import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
 
 const useLoginHook = () => {
   const [email, setEmail] = useState('')
@@ -17,7 +17,9 @@ const useLoginHook = () => {
   const [showModal, setShowModal] = useState(false)
   const [whiteEmail, setWithEmail] = useState(true);
   const [langues, setLangues] = useState();
+  const [checkBox, setCheckBox] = useState(false)
   const [moNumber, setMobailNumber] = useState();
+  const [rememberMe, setRembemberMe] = useState();
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
   const dispatch = useDispatch()
@@ -25,6 +27,10 @@ const useLoginHook = () => {
   useEffect(() => {
     getLang();
   }, [lang]);
+
+  useEffect(() => {
+    Rembemberme()
+  }, [])
 
   const getLang = async () => {
     const lable = lang.data == NUMBER?.num0 ? Ar : En
@@ -48,6 +54,7 @@ const useLoginHook = () => {
       setUserData(response?.data?.data)
       dispatch(addUserData(response?.data?.data))
       navigation.navigate(NAVIGATION.HomeScreen)
+      RemoveRembember()
       setLoader(false)
     } else {
       setLoader(false)
@@ -126,6 +133,24 @@ const useLoginHook = () => {
     navigation.navigate(NAVIGATION.ForgetPasswor, { langues: langues });
   }
 
+  const Rembemberme = async () => {
+    const getEmail = await AsyncStorage.getItem(ASYNCSTORAGE.Email)
+    const getPassword = await AsyncStorage.getItem(ASYNCSTORAGE.Password)
+    getEmail && setEmail(getEmail)
+    getPassword && setPassword(getPassword)
+    setRembemberMe({ EMAIL: getEmail, PASSWORD: getPassword })
+  }
+
+  const RemoveRembember = () => {
+    if (checkBox) {
+      EmailToLocalStorage(email)
+      PasswordToLocalStorage(password)
+    } else {
+      EmailToLocalStorage("")
+      PasswordToLocalStorage("")
+    }
+
+  }
 
   return {
     whiteEmail,
@@ -134,6 +159,9 @@ const useLoginHook = () => {
     loader,
     showModal,
     errorText,
+    checkBox,
+    rememberMe,
+    setRembemberMe,
     setEmail,
     setPassword,
     setWithEmail,
@@ -141,7 +169,10 @@ const useLoginHook = () => {
     SingUpScreen,
     setShowModal,
     ForgetPassword,
-    setMobailNumber
+    setMobailNumber,
+    setCheckBox,
+
+
   };
 };
 

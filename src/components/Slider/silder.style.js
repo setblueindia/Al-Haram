@@ -9,10 +9,6 @@ export const styles = StyleSheet.create({
         height: ResponsiveSize(400),
         width: windowWidth,
         alignItems:ALINE.center,
-        // marginHorizontal:ResponsiveSize(20)
-        // borderRadius:ResponsiveSize(100),
-        // backgroundColor:"#000000",
-        // padding:ResponsiveSize(20)
     },
     image: {
         height: "100%",
@@ -25,7 +21,8 @@ export const styles = StyleSheet.create({
         width: windowWidth ,
         alignItems:ALINE.center,
         justifyContent:ALINE.center,
-        paddingHorizontal:ResponsiveSize(20)
+        paddingHorizontal:ResponsiveSize(20),
+        borderRadius:ResponsiveSize(20)
     },
     abc :{ 
 

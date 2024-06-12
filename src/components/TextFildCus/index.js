@@ -6,7 +6,7 @@ import { ResponsiveSize } from '../../utils/utils';
 import { useSelector } from 'react-redux';
 import { NUMBER } from '../../constants/constants';
 
-const TextFildCus = ({ text, icon, onChange, number, add }) => {
+const TextFildCus = ({ value, text, icon, onChange, number, add }) => {
 
   const lang = useSelector(state => state.lang);
 
@@ -25,6 +25,7 @@ const TextFildCus = ({ text, icon, onChange, number, add }) => {
       ]}>
       <Icon style={styles.icon} name={icon} size={ResponsiveSize(35)} />
       <TextInput
+        value={value && value}
         keyboardType={number && 'number-pad'}
         textAlign={lang.data == NUMBER.num0 ? 'right' : 'left'}
         style={[styles.textInput, lang.data == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}

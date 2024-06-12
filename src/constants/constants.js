@@ -87,7 +87,9 @@ export const ICON = {
 export const ASYNCSTORAGE = {
   Langues: 'Lang',
   Token: "Token",
-  Userdata: "UserData"
+  Userdata: "UserData",
+  Email : "Email",
+  Password : "Password"
 };
 
 export const NUMBER = {

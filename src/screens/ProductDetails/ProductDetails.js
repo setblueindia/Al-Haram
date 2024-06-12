@@ -7,19 +7,27 @@ import useProductDetails from './ProductDetails.hook'
 import { ResponsiveSize } from '../../utils/utils'
 import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ICON, NUMBER } from '../../constants/constants'
+import Block from 'react-native-vector-icons/Feather';
+import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
 import { Ratting } from '../../assests'
 import ReviewSlider from '../../components/ReviewSlider'
+import CusLoader from '../../components/CustomLoader'
 
-const ProductDetails = () => {
+const ProductDetails = (props) => {
     const { lang,
         navigation,
         sliderData,
         color,
         showAnimation,
         Str,
+        details,
+        defaultColor,
+        defaultSize,
+        avalabeSize,
+        avalabeColor,
+        shoeColor,
         setIndex,
         sindex,
         like,
@@ -27,8 +35,20 @@ const ProductDetails = () => {
         onShare,
         AddTocart,
         showModal,
-        setShowModal
-    } = useProductDetails()
+        isLoading,
+        setSizeShow,
+        sizeShow,
+        setShowModal,
+        colorOnPress,
+        sizeOnPress,
+        setSizeIndex,
+        sizeIndex
+    } = useProductDetails({ props })
+
+
+    // console.log("Deails ::::::::::::: ", details)
+
+
     return (
         <View style={styles.mainVIew}>
             <CommanHeader navigation={navigation} lang={lang?.data} />
@@ -39,15 +59,15 @@ const ProductDetails = () => {
                 </View>
 
                 <View style={styles.productCodeView}>
-                    <Text style={[styles.codeText, lang?.data == lang.data == NUMBER.num0 && { textAlign: 'right' }]}>{Str.ProductCode}</Text>
+                    <Text style={[styles.codeText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{Str.ProductCode + details?.sku}</Text>
                 </View>
 
                 <View style={styles.profuctName}>
-                    <Text style={[styles.profuctNameText, lang?.data == lang.data == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.MensPajamaSetShortTs}</Text>
+                    <Text style={[styles.profuctNameText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name}</Text>
                 </View>
 
                 <View style={styles.PriveView}>
-                    <Text style={[styles.PrizeText, lang?.data == lang.data == NUMBER.num0 && { textAlign: 'right' }]}>SAR 44</Text>
+                    <Text style={[styles.PrizeText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{"SAR " + details?.price_range?.minimum_price?.regular_price?.value}</Text>
                 </View>
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
@@ -55,31 +75,55 @@ const ProductDetails = () => {
 
                 <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
-                    {color.map((items, index) => {
+                    {defaultColor?.values?.map((items, index) => {
+                        const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
                         return (
-                            <TouchableOpacity key={index} style={[styles.colorConatiner]}>
-                                <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} />
-                            </TouchableOpacity>
+                            <View style={{ justifyContent: ALINE.center }}>
+                                <TouchableOpacity
+                                    onPress={(() => { setIndex(index), colorOnPress(items?.value_index), setSizeIndex('')})}
+                                    key={index} style={[styles.colorConatiner,
+                                    index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
+                                    <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
+                                    {!block || !shoeColor &&
+                                        <View style={{
+                                            alignSelf: ALINE.center,
+                                            position: 'absolute',
+                                            height: ResponsiveSize(70),
+                                            width: ResponsiveSize(70),
+                                            backgroundColor: "#00000050",
+                                            borderRadius: ResponsiveSize(20)
+                                        }} />
+                                    }
+                                    {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
+                                </TouchableOpacity>
+                            </View>
                         )
                     })
 
                     }
                 </View>
 
-
-                <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                    <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
-                    {color.map((items, index) => {
-
-                        return (
-                            <TouchableOpacity
-                                onPress={() => { setIndex(index) }}
-                                key={index} style={[styles.sizeContainer, index == sindex && { backgroundColor: COLOR.primaray }]}>
-                                <Text style={[styles.sizeText, index == sindex && { color: COLOR.white }]} >Xl</Text>
-                            </TouchableOpacity>
-                        )
-                    })}
-                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
+                        {defaultSize?.values?.map((items, index) => {
+                            const blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                            return (
+                                <View>
+                                    <TouchableOpacity
+                                        onPress={() => { setIndex(''), sizeOnPress(items?.value_index) , setSizeIndex(index)}}
+                                        key={index} style={[styles.sizeContainer,index == sizeIndex  && { backgroundColor: COLOR.primaray  } , !blcok || !sizeShow && {borderWidth:0}]}>
+                                        <Text style={[styles.sizeText, index == sizeIndex && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
+                                        <View style={{ position: 'absolute', height: "100", width: "100%", justifyContent: 'center', alignItems: 'center' }}>
+                                            {!blcok || !sizeShow &&
+                                                <Block style={{ alignSelf: 'center' }} name={"slash"} size={ResponsiveSize(60)} />}
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        })}
+                    </View>
+                </ScrollView>
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>
@@ -142,7 +186,6 @@ const ProductDetails = () => {
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>
 
-
                 <Modal
                     transparent={true}
                     visible={showModal}
@@ -153,6 +196,12 @@ const ProductDetails = () => {
 
             </View>
 
+            {
+                isLoading &&
+                <View style={{ position: 'absolute', height: "100%", width: "100%" }}>
+                    <CusLoader />
+                </View>
+            }
         </View>
     )
 }

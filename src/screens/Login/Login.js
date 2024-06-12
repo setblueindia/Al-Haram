@@ -20,6 +20,9 @@ const Login = () => {
     whiteEmail,
     errorText,
     showModal,
+    checkBox,
+    rememberMe,
+    setRembemberMe,
     ForgetPassword,
     setShowModal,
     setEmail,
@@ -28,6 +31,7 @@ const Login = () => {
     onPress,
     SingUpScreen,
     setMobailNumber,
+    setCheckBox,
     loader,
     langues,
     lang
@@ -50,6 +54,7 @@ const Login = () => {
               {whiteEmail && (
                 <>
                   <TextFildCus
+                    value={rememberMe?.EMAIL}
                     onChange={setEmail}
                     icon={ICON.emailIcon}
                     text={langues?.Enteryouremail}
@@ -57,6 +62,7 @@ const Login = () => {
                   <View style={styles.devider} />
 
                   <TextFildCus
+                    value={rememberMe?.PASSWORD}
                     onChange={setPassword}
                     icon={ICON.lockIcon}
                     text={langues?.Enteryourpassword}
@@ -89,7 +95,7 @@ const Login = () => {
                           flexDirection: ALINE.rowreverse,
                         },
                       ]}>
-                      <CheackButton />
+                      <CheackButton preVriable={checkBox} onPress={setCheckBox} />
 
                       <Text
                         style={[
