@@ -5,15 +5,16 @@ import { ALINE, COLOR } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON } from '../../constants/constants';
 
-const Counter = () => {
+const Counter = ({ qty, setQnt }) => {
+
 
     const [count, setCount] = useState(0)
 
     const countProcess = (type) => {
         if (type) {
-            setCount(count + 1)
+            setQnt(qty + 1)
         } else {
-            count > 0 && setCount(count - 1)
+            qty > 0 && setQnt(qty - 1)
         }
     }
     return (
@@ -22,10 +23,10 @@ const Counter = () => {
                 <TouchableOpacity
                     onPress={() => { countProcess(false) }}
                     style={styles.innerView}>
-                    <Icon name={ICON.minus } size={ResponsiveSize(30)} color={COLOR.black} />
+                    <Icon name={ICON.minus} size={ResponsiveSize(30)} color={COLOR.black} />
                 </TouchableOpacity>
 
-                <Text style={styles.text}>{count}</Text>
+                <Text style={styles.text}>{qty}</Text>
 
                 <TouchableOpacity
                     onPress={() => { countProcess(true) }}

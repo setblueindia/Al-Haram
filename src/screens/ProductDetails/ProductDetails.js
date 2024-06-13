@@ -42,7 +42,9 @@ const ProductDetails = (props) => {
         colorOnPress,
         sizeOnPress,
         setSizeIndex,
-        sizeIndex
+        sizeIndex,
+        qnt,
+        setQnts
     } = useProductDetails({ props })
 
 
@@ -73,65 +75,71 @@ const ProductDetails = (props) => {
                     <View style={styles.devider} />
                 </View>
 
-                <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                    <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
-                    {defaultColor?.values?.map((items, index) => {
-                        const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
-                        return (
-                            <View style={{ justifyContent: ALINE.center }}>
-                                <TouchableOpacity
-                                    onPress={(() => { setIndex(index), colorOnPress(items?.value_index), setSizeIndex('')})}
-                                    key={index} style={[styles.colorConatiner,
-                                    index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
-                                    <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
-                                    {!block || !shoeColor &&
-                                        <View style={{
-                                            alignSelf: ALINE.center,
-                                            position: 'absolute',
-                                            height: ResponsiveSize(70),
-                                            width: ResponsiveSize(70),
-                                            backgroundColor: "#00000050",
-                                            borderRadius: ResponsiveSize(20)
-                                        }} />
-                                    }
-                                    {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
-                                </TouchableOpacity>
-                            </View>
-                        )
-                    })
-
-                    }
-                </View>
-
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
-                        {defaultSize?.values?.map((items, index) => {
-                            const blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                {defaultColor &&
+                    <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
+                        {defaultColor?.values?.map((items, index) => {
+                            const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
                             return (
-                                <View>
+                                <View style={{ justifyContent: ALINE.center }}>
                                     <TouchableOpacity
-                                        onPress={() => { setIndex(''), sizeOnPress(items?.value_index) , setSizeIndex(index)}}
-                                        key={index} style={[styles.sizeContainer,index == sizeIndex  && { backgroundColor: COLOR.primaray  } , !blcok || !sizeShow && {borderWidth:0}]}>
-                                        <Text style={[styles.sizeText, index == sizeIndex && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
-                                        <View style={{ position: 'absolute', height: "100", width: "100%", justifyContent: 'center', alignItems: 'center' }}>
-                                            {!blcok || !sizeShow &&
-                                                <Block style={{ alignSelf: 'center' }} name={"slash"} size={ResponsiveSize(60)} />}
-                                        </View>
+                                        onPress={(() => { setIndex(index), colorOnPress(items?.value_index) })}
+                                        key={index} style={[styles.colorConatiner,
+                                        index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
+                                        <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
+                                        {!block || !shoeColor &&
+                                            <View style={{
+                                                alignSelf: ALINE.center,
+                                                position: 'absolute',
+                                                height: ResponsiveSize(70),
+                                                width: ResponsiveSize(70),
+                                                backgroundColor: "#00000050",
+                                                borderRadius: ResponsiveSize(20)
+                                            }} />
+                                        }
+                                        {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
                                     </TouchableOpacity>
                                 </View>
                             )
-                        })}
+                        })
+
+                        }
                     </View>
-                </ScrollView>
-                <View style={styles.deviderView}>
-                    <View style={styles.devider} />
-                </View>
+                }
+
+                {defaultSize &&
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                        <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
+                            {defaultSize?.values?.map((items, index) => {
+                                const blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                                return (
+                                    <View>
+                                        <TouchableOpacity
+                                            onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index) }}
+                                            key={index} style={[styles.sizeContainer, index == sizeIndex && { backgroundColor: COLOR.primaray }, !blcok || !sizeShow && { borderWidth: 0 }]}>
+                                            <Text style={[styles.sizeText, index == sizeIndex && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
+                                            <View style={{ position: 'absolute', height: "100", width: "100%", justifyContent: 'center', alignItems: 'center' }}>
+                                                {!blcok || !sizeShow &&
+                                                    <Block style={{ alignSelf: 'center' }} name={"slash"} size={ResponsiveSize(60)} />}
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            })}
+                        </View>
+                    </ScrollView>
+                }
+                {(defaultColor || defaultSize) &&
+                    <View style={styles.deviderView}>
+                        <View style={styles.devider} />
+                    </View>
+                }
 
                 <View style={[styles.counteView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={styles.text}>{Str.QNT}</Text>
                     <View style={[styles.counter, lang?.data == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
-                        <Counter />
+                        <Counter qty={qnt} setQnt={setQnts} />
                     </View>
                 </View>
 

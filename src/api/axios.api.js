@@ -1,6 +1,8 @@
 import {
     AddRemoveToWhishLisstURL,
+    AddToCart,
     AddressListURL,
+    CartListApi,
     CityListURL,
     ForgetPasswordURL,
     GRAFORL,
@@ -10,7 +12,8 @@ import {
     SINUPURL,
     StateListURL,
     UpdateProfileURL,
-    WhishListURL
+    WhishListURL,
+    getCartItemsCount
 } from "../constants/axios.url"
 import { POSTFORM, POSTFORMGRAPH } from "./axios.function"
 
@@ -97,11 +100,23 @@ export const StateList = async (params) => {
 }
 
 export const ProductDetalsBySKU = async (params , lang) => {
-    console.log("==========> ",params )
     const res = await POSTFORMGRAPH(GRAFORL, params , lang)
     return res
 }
 
+export const AddToCartAPI = async (params) => {
+    const res = await POSTFORM(AddToCart, params)
+    return res
+}
+export const CartList = async (params) => {
+    const res = await POSTFORM(CartListApi, params)
+    return res
+}
+
+export const CartListCount = async (params) => {
+    const res = await POSTFORM(getCartItemsCount, params)
+    return res
+}
 
 
 

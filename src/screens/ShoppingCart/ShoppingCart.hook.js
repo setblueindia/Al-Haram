@@ -1,15 +1,19 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { useSelector } from 'react-redux'
+import { CartList } from '../../api/axios.api'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state.lang.data)
   const [index, setIndex] = useState(0)
+  const [data, setData] = useState([])
+  const [isLoadding, setLoadding] = useState(false)
   const navigation = useNavigation()
 
-  const data = [1, 2, 3, 4]
+  // const data = [1, 2, 3, 4]
+  const Token = useSelector(state => state?.userData?.data?.token)
 
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
@@ -90,6 +94,28 @@ const useShoppingcart = () => {
         }]
     }
 
+  useEffect(() => {
+    getData()
+  }, [])
+
+
+  const getData = async () => {
+    setLoadding(true)
+    const formData = new FormData
+    formData.append("store_id", lang)
+    formData.append("token", Token)
+    try {
+      const response = await CartList(formData)
+      if (response.data.status) {
+        setData(response?.data?.data?.items)
+        setLoadding(false)
+        // console.log("Response :::::::::::: ", response?.data?.data?.items)
+      }
+    } catch (error) {
+      console.log("CART LIST ERROR ::::::::::::::::::::::: ", error)
+    }
+  }
+
   const onPress = () => {
     if (index < 2) {
       setIndex(index + 1)
@@ -108,7 +134,8 @@ const useShoppingcart = () => {
     lang,
     shopinfCratData,
     onPress,
-    goBack
+    goBack,
+    isLoadding
 
   }
 }

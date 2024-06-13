@@ -1,32 +1,43 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON, NUMBER } from '../../constants/constants'
+import useShoppingcart from './ShoppingCart.hook'
 
 
 
-const Cart = ({data , lang}) => {
-  
+const Cart = ({ data, lang }) => {
+
+  const [qty, setQnt] = useState(parseInt(data?.qty))
+  const name = data?.name?.substring(0, 20)
+
+
   return (
-    <View style={[styles.container , lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse} ]}>
+    <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
       <View style={styles.ImageView}>
         <Image
           style={styles.Img}
-          source={{ uri: "https://m.media-amazon.com/images/I/715gSUR3r5L._SX679_.jpg" }} />
+          source={{ uri: data?.image }} />
       </View>
       <View style={styles.containerView}>
-        <Text style={styles.titleText}>{data?.produtName}</Text>
-        <Text style={[styles.priceText , lang ==NUMBER.num0 && {textAlign:'right'}]}>SAR 44</Text>
-        <Text style={[styles.colorText , lang ==NUMBER.num0 && {textAlign:'right'}]}>{data?.Color}</Text>
-        <Text style={[styles.colorText , lang ==NUMBER.num0 && {textAlign:'right'}]}>{data?.Size}</Text>
-        <View style={[styles.lastView ,  lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse} ]}>
-          <View style={[styles.qntView , lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse} ]}>
-            <Text style={lang == NUMBER.num0 ? {marginLeft:ResponsiveSize(10)} : {marginRight:ResponsiveSize(10)}}>{data?.QTY}</Text>
-            <Counter />
+        <Text style={styles.titleText}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
+        <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"RAR : " + data?.price}</Text>
+        <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+          {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
+        </Text>
+        <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+          {data?.options[1] && data?.options[1]?.label + " : " + data?.options[1]?.value}
+        </Text>
+
+        <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+          <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+            <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{"QTY :"}</Text>
+            <Counter qty={qty} setQnt={setQnt} />
           </View>
+
           <TouchableOpacity>
             <Icon name={ICON.delete} size={ResponsiveSize(35)} />
           </TouchableOpacity>
@@ -85,7 +96,8 @@ const styles = StyleSheet.create({
     flexDirection: ALINE.row,
     alignItems: ALINE.center,
     justifyContent: ALINE.spaceBetween,
-    marginTop: ResponsiveSize(20)
+    marginTop: ResponsiveSize(20),
+    width: ResponsiveSize(300)
 
   },
   qntView: {

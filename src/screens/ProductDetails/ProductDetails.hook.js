@@ -4,15 +4,17 @@ import { NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { ProductDetalsBySKU } from "../../api/axios.api"
+import { AddToCartAPI, ProductDetalsBySKU } from "../../api/axios.api"
 import { BASE_URL } from "../../constants/axios.url"
+import { SHOWTOTS } from "../../utils/utils"
 // import Share from 'react-native-share';
 
 
 const useProductDetails = (props) => {
   const lang = useSelector(state => state.lang)
+  const userData = useSelector(state => state?.userData?.data)
   const productCountToCart = useSelector(state => state?.AddToCart?.data)
-  const [sindex, setIndex] = useState(false)
+  const [sindex, setIndex] = useState()
   const navigation = useNavigation()
   const [like, setLike] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -20,7 +22,6 @@ const useProductDetails = (props) => {
   const [showAnimation, setShowAnimation] = useState(false)
   const [isLoading, setIsLoading] = useState()
   const dispatch = useDispatch()
-  const color = [1, 2, 3, 4]
   const ProductSKU = props?.props?.route?.params?.SKU
   const [defaultColor, setDefultColor] = useState()
   const [defaultSize, setDefultSize] = useState()
@@ -29,8 +30,10 @@ const useProductDetails = (props) => {
   const [shoeColor, setShowColor] = useState(true)
   const [sizeShow, setSizeShow] = useState(true)
   const [sizeIndex, setSizeIndex] = useState()
-
-
+  const [size, setSize] = useState()
+  const [color, setColor] = useState()
+  const [qnt, setQnts] = useState(0)
+  const [valueIndexOfSize, setValueIndexOfSize] = useState()
   const [sliderData, setSliderData] = useState(
     [
       //     "https://img.freepik.com/premium-photo/plain-white-t-shirt-mockup-photo_398492-234.jpg",
@@ -41,11 +44,9 @@ const useProductDetails = (props) => {
       //     "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg"
     ]
   )
-
   useEffect(() => {
     getData()
   }, [])
-
 
 
   const onShare = () => {
@@ -59,13 +60,39 @@ const useProductDetails = (props) => {
     //     });
   }
 
-  const AddTocart = () => {
-    setShowAnimation(true)
-    const count = productCountToCart + 1
-    dispatch(addProduct(count)),
-      addTocartAnimation()
-  }
 
+
+  const AddTocart = async () => {
+    setIsLoading(true)
+    const formData = new FormData()
+
+    formData.append("store_id", lang?.data)
+    formData.append("sku", ProductSKU)
+    formData.append("qty", qnt)
+    formData.append("token", userData?.token)
+    formData.append("product_type", (avalabeSize || avalabeColor) ? "configurable" : "simple")
+    formData.append("color", color ? color : "")
+    formData.append("size", size ? size : "")
+    formData.append("custom_option", "")
+
+    const response = await AddToCartAPI(formData)
+    try {
+      if (response?.data?.status == NUMBER.num1) {
+        const count = productCountToCart + 1
+        dispatch(addProduct(count)),
+          SHOWTOTS(response?.data?.message)
+        setShowAnimation(false)
+        setIsLoading(false)
+        addTocartAnimation()
+      } else {
+        SHOWTOTS(response?.data?.message)
+        setIsLoading(false)
+      }
+    } catch (error) {
+      console.log("ADD TO CARD BITTON API RESPONSE ERROR :::::::::::::::::::::::: ", error)
+      setIsLoading(false)
+    }
+  }
   const addTocartAnimation = () => {
     setTimeout(() => {
       setShowAnimation(false)
@@ -222,8 +249,10 @@ const useProductDetails = (props) => {
   const colorOnPress = (id) => {
     setShowColor(true)
     setSizeShow(false)
+    setColor(id)
     const temp = []
     const temp2 = []
+    const temp3 = []
     details?.variants?.map((items) => {
       if (items?.attributes[0]?.value_index == id) {
         items?.product?.media_gallery_entries.map((items) => {
@@ -231,16 +260,21 @@ const useProductDetails = (props) => {
           temp2.push(uri)
         })
         const Size = items?.attributes[1]?.label
+        const valueIndexOfSize = items?.attributes[1]?.value_index
         temp.push(Size)
+        temp3.push(valueIndexOfSize)
       }
     })
     setAvalableSize(temp)
     setSliderData(temp2)
+    setValueIndexOfSize(temp3)
+    avalabeColor?.includes(id) && setSizeIndex(), setSize("")
   }
 
   const sizeOnPress = (id) => {
     setShowColor(false)
     setSizeShow(true)
+    setSize(id)
     const temp = []
     details?.variants?.map((items) => {
       if (items?.attributes[1]?.value_index == id) {
@@ -249,9 +283,8 @@ const useProductDetails = (props) => {
       }
     })
     setAvalableColor(temp)
-    // console.log("temp ====> ",temp)
+    valueIndexOfSize?.includes(id) && setIndex()
   }
-
 
   return {
     lang,
@@ -281,7 +314,9 @@ const useProductDetails = (props) => {
     avalabeColor,
     shoeColor,
     setSizeIndex,
-    sizeIndex
+    sizeIndex,
+    setQnts,
+    qnt
   }
 }
 

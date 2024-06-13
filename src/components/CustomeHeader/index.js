@@ -62,20 +62,14 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
           }}>
             {shoppingcart &&
               // <LottieView
-              //   //   ref={animationRef}
-              //   source={require('../../assests/Lottianimation/AddToCart.json')}
-              //   autoPlay loop
-              //   resizeMode='cover'
-              //   style={{ height: ResponsiveSize(40), width: ResponsiveSize(40) }}
-              // />
-
+          
               <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />
             }
-             {productCount > 0 &&
-                        <View style={styles.productCountView}>
-                            <Text style={styles.productText}>{productCount}</Text>
-                        </View>
-                        }
+            {shoppingcart &&(productCount > 0 && shoppingcart) &&
+              <View style={styles.productCountView}>
+                <Text style={styles.productText}>{productCount}</Text>
+              </View>
+            }
           </TouchableOpacity>
         </View>
       </View>

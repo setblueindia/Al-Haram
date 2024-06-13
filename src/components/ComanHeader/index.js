@@ -43,16 +43,12 @@ const CommanHeader = ({ navigation, lang, name }) => {
                         <Icon style={styles.icon}
                             name={ICON.shoppingcart}
                             size={ResponsiveSize(40)}
-                            coloe={COLOR.black} />
-
-
-                    }
-
-                    {productCount > 0 &&
+                            coloe={COLOR.black} />}
+                    {(productCount > 0 && !name)&&
                         <View style={styles.productCountView}>
                             <Text style={styles.productText}>{productCount}</Text>
                         </View>
-                        }
+                    }
                 </TouchableOpacity>
             </View>
         </View>

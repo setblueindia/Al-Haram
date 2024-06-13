@@ -1,6 +1,6 @@
 
 // LIVE
-  export const BASE_URL = "https://alharamstores.com"
+export const BASE_URL = "https://alharamstores.com"
 
 // LOCAL
 //    BASE_URL = "https://test.alharamstores.com"
@@ -24,3 +24,6 @@ export const ForgetPasswordURL = BASE_URL + "/rest/V1/api/resetpass"
 export const AddressListURL = BASE_URL + "/rest/default/V1/api/customerAddressListMethod"
 export const CityListURL = BASE_URL + "/rest/V1/api/stateToCityMethod"
 export const StateListURL = BASE_URL + "/rest/V1/api/countryToStateMethod"
+export const AddToCart = BASE_URL + "/rest/V1/api/addToCartMethod"
+export const CartListApi = BASE_URL + "/rest/V1/api/getCartMethod"
+export const getCartItemsCount = BASE_URL + "/rest/V1/api/cartItemCountMethod"

@@ -11,18 +11,19 @@ import Cart from './Cart';
 import { FlatList } from 'react-native-gesture-handler';
 import Shooping from './Shooping';
 import Payment from './Payment';
+import CusLoader from '../../components/CustomLoader';
 
 
 const ShoopingCart = () => {
 
-    const { goBack, index, onPress, navigation, data  , lang , shopinfCratData} = useShoppingcart()
+    const { goBack, index, onPress, navigation, data, lang, shopinfCratData, isLoadding } = useShoppingcart()
 
     return (
         <View style={styles.mainView}>
 
             <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} />
             <View style={styles.container}>
-                <View style={[ styles.stepView , lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse} ]}>
+                <View style={[styles.stepView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={COLOR.primaray} />
                     <Text style={[styles.text, { color: COLOR.primaray }]}>{shopinfCratData?.cart}</Text>
                     <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
@@ -39,16 +40,15 @@ const ShoopingCart = () => {
                 </View>
 
 
-
                 {index == 0 && <View style={styles.cartView}>
                     <FlatList
                         // style={{ marginBottom: ResponsiveSize(410) }}
                         showsVerticalScrollIndicator={false}
-                        data={shopinfCratData?.data}
+                        data={data}
                         renderItem={({ item, index }) => {
                             return (
                                 <View key={index}>
-                                    <Cart data ={item} lang={lang}/>
+                                    <Cart data={item} lang={lang} />
                                     <View style={{ height: ResponsiveSize(20) }} />
                                 </View>
                             )
@@ -59,14 +59,14 @@ const ShoopingCart = () => {
                 {
                     index == 1 &&
                     <View style={{ flex: 1 }}>
-                        <Shooping data={shopinfCratData} lang={lang}/>
+                        <Shooping data={shopinfCratData} lang={lang} />
                     </View>
                 }
 
                 {
                     index == 2 &&
-                    <View style={{flex:1}}>
-                        <Payment data={shopinfCratData} lang={lang}/>
+                    <View style={{ flex: 1 }}>
+                        <Payment data={shopinfCratData} lang={lang} />
                     </View>
                 }
 
@@ -74,7 +74,7 @@ const ShoopingCart = () => {
             </View>
             <View style={{ height: index == 0 ? ResponsiveSize(170) : ResponsiveSize(80) }}></View>
 
-            <View style={[styles.btn ,  lang == NUMBER.num0 && {flexDirection:ALINE.row} ]}>
+            <View style={[styles.btn, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
                 <View style={[styles.nextProcess, index == 0 && { width: "100%" }]}>
                     <Button
                         onPress={onPress}
@@ -85,9 +85,14 @@ const ShoopingCart = () => {
                 </View>
                 {(index == 1 || index == 2) &&
                     <TouchableOpacity onPress={() => { goBack() }} style={styles.goBackBtn}>
-                        <Icon name={lang == NUMBER.num0? ICON.arrowright :ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR} />
+                        <Icon name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR} />
                     </TouchableOpacity>}
             </View>
+
+            {isLoadding &&
+                <View style={{ position: 'absolute' , width:"100%" , height:"100%" }}>
+                    <CusLoader />
+                </View>}
 
         </View>
     )
