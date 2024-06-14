@@ -14,7 +14,7 @@ import CusLoader from '../../components/CustomLoader'
 
 const AddressBook = ({ Shooping }) => {
 
-    const { data, navigation, lang, addAddress, Str, isLoading } = useAddressBookHook()
+    const { data, navigation, lang, addAddress, Str, isLoading , deleteAdress} = useAddressBookHook()
 
 
 
@@ -27,7 +27,7 @@ const AddressBook = ({ Shooping }) => {
                     data.map((items, index) => {
                         return (
                             <View key={index}>
-                                <AddressBookComp data={items} lang={lang} />
+                                <AddressBookComp deleteAdress={deleteAdress}data={items} lang={lang} />
                             </View>
                         )
                     })

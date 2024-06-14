@@ -27,3 +27,7 @@ export const StateListURL = BASE_URL + "/rest/V1/api/countryToStateMethod"
 export const AddToCart = BASE_URL + "/rest/V1/api/addToCartMethod"
 export const CartListApi = BASE_URL + "/rest/V1/api/getCartMethod"
 export const getCartItemsCount = BASE_URL + "/rest/V1/api/cartItemCountMethod"
+export const deleteCartItems = BASE_URL + "/rest/V1/api/removeCartItemMethod"
+export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDeleteMethod"
+
+

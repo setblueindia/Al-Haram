@@ -16,7 +16,20 @@ import CusLoader from '../../components/CustomLoader';
 
 const ShoopingCart = () => {
 
-    const { goBack, index, onPress, navigation, data, lang, shopinfCratData, isLoadding } = useShoppingcart()
+    const {
+        goBack,
+        index,
+        onPress,
+        navigation,
+        data,
+        lang,
+        shopinfCratData,
+        isLoadding,
+        deleteProduct
+    } = useShoppingcart()
+
+
+    console.log(isLoadding)
 
     return (
         <View style={styles.mainView}>
@@ -40,21 +53,23 @@ const ShoopingCart = () => {
                 </View>
 
 
-                {index == 0 && <View style={styles.cartView}>
-                    <FlatList
-                        // style={{ marginBottom: ResponsiveSize(410) }}
-                        showsVerticalScrollIndicator={false}
-                        data={data}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <View key={index}>
-                                    <Cart data={item} lang={lang} />
-                                    <View style={{ height: ResponsiveSize(20) }} />
-                                </View>
-                            )
-                        }}
-                    />
-                </View>}
+                {index == 0 &&
+                    <View style={styles.cartView}>
+                        {/* {console.log(" lenght ===========> ", data?.length)} */}
+                        <FlatList
+                            // style={{ marginBottom: ResponsiveSize(410) }}
+                            showsVerticalScrollIndicator={false}
+                            data={data}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <View key={index}>
+                                        <Cart data={item} lang={lang} deleteProduct={deleteProduct} />
+                                        <View style={{ height: ResponsiveSize(20) }} />
+                                    </View>
+                                )
+                            }}
+                        />
+                    </View>}
 
                 {
                     index == 1 &&
@@ -90,7 +105,7 @@ const ShoopingCart = () => {
             </View>
 
             {isLoadding &&
-                <View style={{ position: 'absolute' , width:"100%" , height:"100%" }}>
+                <View style={{ position: 'absolute', width: "100%", height: "100%" }}>
                     <CusLoader />
                 </View>}
 

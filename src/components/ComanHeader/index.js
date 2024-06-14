@@ -10,7 +10,7 @@ import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 
 const CommanHeader = ({ navigation, lang, name }) => {
-    const productCount = useSelector(state => state?.AddToCart.data)
+    const productCount = useSelector(state => state?.AddToCart)
     return (
         <View style={styles.mainView}>
             <StatusBarCus />
@@ -32,21 +32,14 @@ const CommanHeader = ({ navigation, lang, name }) => {
                     onPress={() => { navigation.navigate(NAVIGATION.Shoppingcart) }}
                     style={{ width: ResponsiveSize(40) }}>
                     {!name &&
-                        // <LottieView
-                        //     //   ref={animationRef}
-                        //     source={require('../../assests/Lottianimation/AddToCart.json')}
-                        //     autoPlay loop
-                        //     resizeMode='cover'
-                        //     style={{ height: ResponsiveSize(40), width: ResponsiveSize(40) }}
-                        // />
-
                         <Icon style={styles.icon}
                             name={ICON.shoppingcart}
                             size={ResponsiveSize(40)}
                             coloe={COLOR.black} />}
-                    {(productCount > 0 && !name)&&
+                    {
+                        (productCount?.data > 0 && !name) &&
                         <View style={styles.productCountView}>
-                            <Text style={styles.productText}>{productCount}</Text>
+                            <Text style={styles.productText}>{productCount?.data}</Text>
                         </View>
                     }
                 </TouchableOpacity>

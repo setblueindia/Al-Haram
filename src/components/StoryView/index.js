@@ -16,12 +16,12 @@ const StoryView = ({ data , lang }) => {
                 scrollEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 styles={{}}
-                keyboardDismissMode={(data , index)=> Math.random() * index}
+                // keyboardDismissMode={(data , index)=> Math.random() * index}
                 style={styles.FlatList}
                 horizontal
                 renderItem={({ item , index }) => {
                     return (
-                        <View  key={Math.random() * index}  style={styles.listView}>
+                        <View  key={index}  style={styles.listView}>
                             <TouchableOpacity style={styles.storyView}>
                                 <Image style={styles.imge} source={item.img} />
                             </TouchableOpacity>

@@ -11,7 +11,6 @@ export const addToCart = createSlice({
 
     reducers: {
         addProduct(state, action) {
-            console.log("action ======> ",  action?.payload)
             state.data = action.payload;
             // numberOfProduct = action.payload
         },

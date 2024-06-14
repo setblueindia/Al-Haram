@@ -6,9 +6,9 @@ import ICON from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NUMBER } from '../../constants/constants';
 
 
-const AddressBookComp = ({ data, lang }) => {
+const AddressBookComp = ({ data, lang, deleteAdress }) => {
 
-    console.log("data ===> ", data?.telephone)
+    // console.log("data ===> ", data)
 
     const name = data?.firstname + " " + data?.lastname
     const address = data?.address1 + " " + data?.address2 + " " + data?.address3
@@ -31,7 +31,9 @@ const AddressBookComp = ({ data, lang }) => {
                             <ICON name={"square-edit-outline"} size={ResponsiveSize(35)} color={COLOR.primaray} />
                         </TouchableOpacity>
                         <View style={{ width: ResponsiveSize(15) }}></View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={(() => {
+                            deleteAdress(data?.id)
+                        })}>
                             <ICON name={"delete"} size={ResponsiveSize(35)} color={COLOR.primaray} />
                         </TouchableOpacity>
                     </View>

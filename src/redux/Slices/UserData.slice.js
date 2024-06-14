@@ -1,7 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  data:''
+  data: ''
 };
 
 export const userData = createSlice({
@@ -20,6 +20,6 @@ export const userData = createSlice({
   },
 });
 
-export const {addUserData, updateUserData} = userData.actions;
+export const { addUserData, updateUserData } = userData.actions;
 
 export default userData.reducer;

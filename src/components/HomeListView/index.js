@@ -58,6 +58,7 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
                             const final = name?.length > 10 ? name.substr(0, 10) : name
                             return (
                                 <TouchableOpacity
+                                    key={index}
                                     onPress={() => { navigation.navigate(NAVIGATION?.ProducDetails) }}
                                     activeOpacity={0.5}
                                     style={styles.listView}>
@@ -73,9 +74,6 @@ const HomeListView = ({ data, sindex, lang, navigation }) => {
                                             <HertIcon name={!item?.like ? ICON.hearto : ICON.heart} size={ResponsiveSize(20)} style={styles.like} />
                                         </TouchableOpacity>
 
-                                        {/* <View style={styles.newIncoView}>
-                                            <Image style={styles.newInco} source={NewIcon}/>
-                                        </View> */}
 
                                     </View>
 

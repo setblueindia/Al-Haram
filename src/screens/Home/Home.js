@@ -13,7 +13,7 @@ import { ResponsiveSize } from '../../utils/utils';
 
 
 const Home = () => {
-  
+
   const { data, HomeScreeData, lang, Sliderdata, navigation } = useHomeHook()
   return (
     <View style={styles.mainView}>
@@ -54,7 +54,9 @@ const Home = () => {
 
             {HomeScreeData?.data?.map((data, index) => {
               return (
-                <HomeListView navigation={navigation} lang={lang} data={data} sindex={index} />
+                <View key={index}>
+                  <HomeListView navigation={navigation} lang={lang} data={data} sindex={index} />
+                </View>
               )
             })}
 

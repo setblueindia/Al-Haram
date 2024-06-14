@@ -87,7 +87,9 @@ const useSerchHook = () => {
         setMoreData(false)
         first ? setCurrentPage(1) : setCurrentPage(nextPage)
       } else {
-        console.log("INNER SERCH ERROR :::::::::::", response?.data?.data)
+        setIsLoadding(false)
+        setMoreData(false)
+        console.log("INNER SERCH ERROR :::::::::::", response)
       }
 
     } catch (error) {

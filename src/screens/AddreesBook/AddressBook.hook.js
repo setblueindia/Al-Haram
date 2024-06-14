@@ -3,7 +3,8 @@ import { useSelector } from "react-redux"
 import { NAVIGATION, NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
 import { useEffect, useState } from "react"
-import { AddressList } from "../../api/axios.api"
+import { AddressList, DeleteAddress } from "../../api/axios.api"
+import { SHOWTOTS } from "../../utils/utils"
 
 
 const useAddressBookHook = () => {
@@ -38,11 +39,9 @@ const useAddressBookHook = () => {
         ]
     )
 
-
     useEffect(() => {
         getData()
     }, [navigation])
-
 
     const addAddress = () => {
         navigation.navigate(NAVIGATION.addaddress)
@@ -60,11 +59,33 @@ const useAddressBookHook = () => {
             } else {
                 setIsLoading(false)
             }
-
         } catch (error) {
             console.log("ADRESS-LIST ERROR :::::::::::::::::::: ", error)
             setIsLoading(false)
         }
+    }
+
+    const deleteAdress = async (items) => {
+        setIsLoading(true)
+        const formData = new FormData
+        formData.append("customer_id", userData?.id)
+        formData.append("store_id", lang)
+        formData.append("address_id", items)
+        try {
+            const response = await DeleteAddress(formData)
+            if (response?.data?.status == NUMBER.num1) {
+                SHOWTOTS(response?.data?.message)
+                getData()
+            } else {
+                setIsLoading(false)
+                SHOWTOTS(response?.data?.message)
+            }
+        } catch (error) {
+            console.log("DELETE ADDRESS :::::::::::: ", error)
+            setIsLoading(false)
+
+        }
+
     }
     return {
         data,
@@ -72,7 +93,8 @@ const useAddressBookHook = () => {
         lang,
         addAddress,
         Str,
-        isLoading
+        isLoading,
+        deleteAdress
     }
 }
 

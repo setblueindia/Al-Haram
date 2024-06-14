@@ -11,8 +11,6 @@ import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 const useSplshHook = () => {
   const dispatch = useDispatch();
-  const userData = useSelector(state => state?.userData?.data)
-  const lang = useSelector(state => state?.lang?.data)
 
   const setLang = async () => {
     try {
@@ -35,6 +33,7 @@ const useSplshHook = () => {
       const rep = await AsyncStorage.getItem("UserData")
       const response = JSON.parse(rep)
       dispatch(addUserData(response))
+      getData(response?.token)
     } catch (error) {
       console.log("SPLASH SCREEN SET USER ERROR ======> ", error)
     }
@@ -43,18 +42,25 @@ const useSplshHook = () => {
   useEffect(() => {
     setLang()
     setUserData()
-    getData()
   }, []);
 
-  const getData = async () => {
+  const getData = async (token) => {
+    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
     const fromData = new FormData()
-    fromData.append("token", userData?.token)
-    fromData.append("store_id", lang)
+    fromData.append("token", token)
+    fromData.append("store_id", result)
     try {
       const response = await CartListCount(fromData)
-      const count = parseInt(response?.data?.data?.items_qty)
-      dispatch(addProduct(count))
+      if (response?.status == "200") {
+        const count = parseInt(response?.data?.data?.items_qty)
+        count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+      } else {
+        console.log("else respomnse :::::::::::::", response)
+        dispatch(addProduct(0))
+      }
+
     } catch (error) {
+      dispatch(addProduct(0))
     }
   }
 

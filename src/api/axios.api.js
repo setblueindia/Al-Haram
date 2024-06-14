@@ -13,6 +13,8 @@ import {
     StateListURL,
     UpdateProfileURL,
     WhishListURL,
+    deleteAdress,
+    deleteCartItems,
     getCartItemsCount
 } from "../constants/axios.url"
 import { POSTFORM, POSTFORMGRAPH } from "./axios.function"
@@ -117,6 +119,17 @@ export const CartListCount = async (params) => {
     const res = await POSTFORM(getCartItemsCount, params)
     return res
 }
+
+export const DeleteCartItems = async (params) => {
+    const res = await POSTFORM(deleteCartItems, params)
+    return res
+}
+
+export const DeleteAddress = async (params) => {
+    const res = await POSTFORM(deleteAdress, params)
+    return res
+}
+
 
 
 

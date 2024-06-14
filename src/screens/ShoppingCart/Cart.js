@@ -9,11 +9,10 @@ import useShoppingcart from './ShoppingCart.hook'
 
 
 
-const Cart = ({ data, lang }) => {
+const Cart = ({ data, lang, deleteProduct }) => {
 
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const name = data?.name?.substring(0, 20)
-
 
   return (
     <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -37,8 +36,9 @@ const Cart = ({ data, lang }) => {
             <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{"QTY :"}</Text>
             <Counter qty={qty} setQnt={setQnt} />
           </View>
-
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => { deleteProduct(data?.item_id)  }}
+          >
             <Icon name={ICON.delete} size={ResponsiveSize(35)} />
           </TouchableOpacity>
         </View>

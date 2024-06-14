@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { useSelector } from 'react-redux'
-import { CartList } from '../../api/axios.api'
+import { CartList, DeleteCartItems } from '../../api/axios.api'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state.lang.data)
@@ -11,8 +11,6 @@ const useShoppingcart = () => {
   const [data, setData] = useState([])
   const [isLoadding, setLoadding] = useState(false)
   const navigation = useNavigation()
-
-  // const data = [1, 2, 3, 4]
   const Token = useSelector(state => state?.userData?.data?.token)
 
   const shopinfCratData = lang == NUMBER.num0 ? {
@@ -98,24 +96,6 @@ const useShoppingcart = () => {
     getData()
   }, [])
 
-
-  const getData = async () => {
-    setLoadding(true)
-    const formData = new FormData
-    formData.append("store_id", lang)
-    formData.append("token", Token)
-    try {
-      const response = await CartList(formData)
-      if (response.data.status) {
-        setData(response?.data?.data?.items)
-        setLoadding(false)
-        // console.log("Response :::::::::::: ", response?.data?.data?.items)
-      }
-    } catch (error) {
-      console.log("CART LIST ERROR ::::::::::::::::::::::: ", error)
-    }
-  }
-
   const onPress = () => {
     if (index < 2) {
       setIndex(index + 1)
@@ -127,6 +107,44 @@ const useShoppingcart = () => {
     index > 0 && setIndex(index - 1)
   }
 
+
+  const getData = async () => {
+    setIndex(0)
+    setLoadding(true)
+    const formData = new FormData
+    formData.append("store_id", lang)
+    formData.append("token", Token)
+    try {
+      const response = await CartList(formData)
+      if (response.data.status) {
+        setData(response?.data?.data?.items)
+        setLoadding(false)
+      }
+    } catch (error) {
+      console.log("CART LIST ERROR ::::::::::::::::::::::: ", error)
+    }
+  }
+
+
+  const deleteProduct = async (items) => {
+    setLoadding(true)
+    const formData = new FormData
+    formData.append("token", Token)
+    formData.append("item_id", items)
+    try {
+      const response = await DeleteCartItems(formData)
+      if (response?.data?.status == NUMBER.num1) {
+        getData()
+      }else{
+        setLoadding(false)
+      }
+
+    } catch (error) {
+      console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+      setLoadding(true)(false)
+    }
+  }
+
   return {
     index,
     navigation,
@@ -135,7 +153,8 @@ const useShoppingcart = () => {
     shopinfCratData,
     onPress,
     goBack,
-    isLoadding
+    isLoadding,
+    deleteProduct
 
   }
 }

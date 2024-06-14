@@ -14,7 +14,7 @@ const Counter = ({ qty, setQnt }) => {
         if (type) {
             setQnt(qty + 1)
         } else {
-            qty > 0 && setQnt(qty - 1)
+            qty > 1 && setQnt(qty - 1)
         }
     }
     return (

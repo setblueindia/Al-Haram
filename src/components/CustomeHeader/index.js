@@ -16,9 +16,13 @@ import LottieView from 'lottie-react-native';
 
 const CustomeHeader = ({ search, like, shoppingcart }) => {
   const userData = useSelector(state => state?.userData)
-  const productCount = useSelector(state => state?.AddToCart.data)
+  const productCount = useSelector(state => state?.AddToCart?.data)
   const navigation = useNavigation();
   const lang = useSelector(state => state.lang)
+
+
+  // console.log("productCount ====> ",productCount)
+
   return (
     <View style={styles.mainView}>
       <StatusBarCus />
