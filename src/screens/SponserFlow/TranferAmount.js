@@ -59,16 +59,12 @@ const TranferAmount = ({ Str, lang }) => {
                                 )
                             })
                         }
-
-
-
                     </ScrollView>
-
                 </View>
             }
             <View style={styles.devider} />
             <View style={styles.devider} />
-            <TextFildCus text={Str?.AmountSAR} />
+            <TextFildCus number={true} text={Str?.AmountSAR} />
             <View style={styles.devider} />
             <TextFildCus text={Str?.addyourremark} />
             <View style={styles.devider} />

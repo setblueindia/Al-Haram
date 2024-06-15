@@ -1,4 +1,4 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import Splash from '../screens/Splash/Splash';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -29,13 +29,7 @@ import PaymentDetails from '../screens/Wallet/PaymentDetails';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate(NAVIGATION.DrawerNavigation);
-    }, 3000);
-  }, []);
+  // const navigation = useNavigation();
 
   return (
     <Stack.Navigator>
@@ -84,72 +78,72 @@ const StackNavigation = () => {
         component={CustomerService}
         options={{ headerShown: false }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.Wallet}
         component={Wallet}
         options={{ headerShown: false }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.MyOrderSscreen}
         component={MyOrder}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.ProducDetails}
         component={ProductDetails}
         options={{ headerShown: false }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.Shoppingcart}
         component={ShoopingCart}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.Done}
         component={Done}
         options={{ headerShown: false }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.addaddress}
         component={Addaddress}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.SerchScreen}
         component={SerchScreen}
         options={{ headerShown: false }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION.SponserScreen}
         component={Sponser}
         options={{ headerShown: false }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.ForgetPasswor}
         component={Forget}
         options={{ headerShown: false }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.EditeProfileScreen}
         component={EditeProfile}
         options={{ headerShown: false }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.OrderDeatsiScreen}
         component={OrderDetails}
         options={{ headerShown: false }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.CancelOrder}
         component={CancelOrder}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.PaymentHistroy}
         component={PaymentHistroy}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.paymentDetails}
         component={PaymentDetails}
         options={{ headerShown: false }}

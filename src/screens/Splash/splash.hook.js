@@ -4,13 +4,23 @@ import { CartListCount } from '../../api/axios.api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { addLangCode } from '../../redux/Slices/LangSlices';
-import { ASYNCSTORAGE } from '../../constants/constants';
+import { ASYNCSTORAGE, NAVIGATION } from '../../constants/constants';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { AddToCart } from '../../constants/axios.url';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const useSplshHook = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation()
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace(NAVIGATION.DrawerNavigation);
+    }, 3000);
+  }, []);
+
 
   const setLang = async () => {
     try {
@@ -39,10 +49,13 @@ const useSplshHook = () => {
     }
   }
 
+
+
   useEffect(() => {
     setLang()
     setUserData()
   }, []);
+
 
   const getData = async (token) => {
     const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);

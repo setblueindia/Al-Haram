@@ -17,7 +17,7 @@ const AddCustomer = ({ lang, Str }) => {
       <View style={styles.devider} />
       <TextFildCus icon={ICON.emailIcon} text={Str?.Enteryouremail} />
       <View style={styles.devider} />
-      <TextFildCus icon={ICON.phoneIcon} text={Str?.Entermobilenumber} />
+      <TextFildCus icon={ICON.phoneIcon} number={true} text={Str?.Entermobilenumber} />
       <View style={styles.devider} />
       <TextFildCus icon={ICON.lockIcon} text={Str?.Enteryourpassword} />
       <View style={styles.devider} />

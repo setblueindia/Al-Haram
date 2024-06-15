@@ -4,6 +4,7 @@ import TabNavigation from './Tab';
 import Drower from '../screens/CustomeDrower/Drower';
 import {useSelector} from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import AnimTab1 from './Tab';
 
 const DrowerNavigation = () => {
   const lang = useSelector(state => state.lang);
@@ -21,7 +22,7 @@ const DrowerNavigation = () => {
           drawerContent={props => <Drower {...props} />}>
           <Drawer.Screen
             name={NAVIGATION.TabScreen}
-            component={TabNavigation}
+            component={AnimTab1}
             options={{headerShown: false}}
           />
         </Drawer.Navigator>

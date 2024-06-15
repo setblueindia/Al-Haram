@@ -81,7 +81,7 @@ const useSingUpHook = ({ lable }) => {
       setModalShow(true)
       setErrorText(lable?.Invalidemailaddress)
     }
-    else if (!number || number?.length < 9) {
+    else if (!number || number?.length < 9 || number?.length > 9) {
       setModalShow(true)
       setErrorText(lable?.Invalidnumber)
       setExample(lable?.Numbercontainsmustbe9digits)
