@@ -122,7 +122,6 @@ const useSerchHook = () => {
     try {
       const response = id && await AddRemoveToWhishLisst(formData)
       if (response?.data?.status == NUMBER.num1) {
-        console.log("Response ::::::::::::::::::::::::: ", response?.data)
         SHOWTOTS(response?.data?.message)
       }
     } catch (error) {

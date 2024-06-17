@@ -102,6 +102,7 @@ const useLoginHook = () => {
       console.log("OTP ====> ", response?.data?.otp)
       navigation.navigate(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber })
     } else {
+      
       setLoader(false)
       setShowModal(true)
       setErrorText(response?.data?.message)

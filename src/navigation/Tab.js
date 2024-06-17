@@ -14,8 +14,6 @@
 // // import { ResponsiveSize } from '../utils/utils';
 // // import { useSelector } from 'react-redux';
 
-
-
 // // const TabNavigation = () => {
 // //   const Tab = createBottomTabNavigator();
 // //   const lang = useSelector(state => state?.lang?.data)
@@ -103,13 +101,12 @@
 // // });
 
 
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon, { Icons } from '../components/TAB/Icons';
 import * as Animatable from 'react-native-animatable';
-import { COLOR } from '../constants/style';
+import { ALINE, COLOR } from '../constants/style';
 import { NAVIGATION } from '../constants/constants';
 import Home from '../screens/Home/Home';
 import Categories from '../screens/Categories/Categories';
@@ -119,19 +116,45 @@ import { ResponsiveSize } from '../utils/utils';
 
 
 const TabArr = [
-  { route: NAVIGATION.HomeScreen, label: 'Home', type: Icons.Ionicons, activeIcon: 'home', inActiveIcon: 'home', component: Home },
-  { route: NAVIGATION.CategoriesScreen, label: 'Like', type: Icons.MaterialIcons, activeIcon: 'category', inActiveIcon: 'category', component: Categories },
-  { route: NAVIGATION.NotificationScreen, label: 'Search', type: Icons.Ionicons, activeIcon: 'notifications-outline', inActiveIcon: 'notifications-outline', component: Notification },
-  { route: NAVIGATION.ProfileScreen, label: 'Account', type: Icons.FontAwesome, activeIcon: 'user-circle', inActiveIcon: 'user-circle-o', component: Profile },
+  {
+    route: NAVIGATION.HomeScreen,
+    label: 'Home',
+    type: Icons.Ionicons,
+    activeIcon: 'home',
+    inActiveIcon: 'home',
+    component: Home
+  },
+  {
+    route: NAVIGATION.CategoriesScreen,
+    label: 'Like',
+    type: Icons.MaterialIcons,
+    activeIcon: 'category',
+    inActiveIcon: 'category',
+    component: Categories
+  },
+  {
+    route: NAVIGATION.NotificationScreen,
+    label: 'Search',
+    type: Icons.Ionicons,
+    activeIcon: 'notifications-outline',
+    inActiveIcon: 'notifications-outline',
+    component: Notification
+  },
+  {
+    route: NAVIGATION.ProfileScreen,
+    label: 'Account',
+    type: Icons.FontAwesome,
+    activeIcon: 'user-circle',
+    inActiveIcon: 'user-circle-o',
+    component: Profile
+  },
 ];
 
 const Tab = createBottomTabNavigator();
-
 const TabButton = (props) => {
   const { item, onPress, accessibilityState } = props;
   const focused = accessibilityState.selected;
   const viewRef = useRef(null);
-
   useEffect(() => {
     if (focused) {
       viewRef.current.animate({ 0: { scale: .5, rotate: '0deg' }, 1: { scale: 1.2, rotate: '360deg' } });
@@ -189,9 +212,8 @@ export default function AnimTab1() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: ALINE.center,
+    alignItems: ALINE.center,
     height: ResponsiveSize(60),
-
   }
 })

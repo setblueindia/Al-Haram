@@ -1,17 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CartList, DeleteCartItems } from '../../api/axios.api'
+import { addProduct } from '../../redux/Slices/AddToCartSlice'
 
 const useShoppingcart = () => {
-  const lang = useSelector(state => state.lang.data)
+  const lang = useSelector(state => state?.lang?.data)
+  const productNo = useSelector(state => state?.AddToCart?.data)
+  const disPatch =  useDispatch()
   const [index, setIndex] = useState(0)
   const [data, setData] = useState([])
   const [isLoadding, setLoadding] = useState(false)
   const navigation = useNavigation()
   const Token = useSelector(state => state?.userData?.data?.token)
+
+  console.log("============> ", productNo)
 
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
@@ -107,8 +111,7 @@ const useShoppingcart = () => {
     index > 0 && setIndex(index - 1)
   }
 
-
-  const getData = async () => {
+const getData = async () => {
     setIndex(0)
     setLoadding(true)
     const formData = new FormData
@@ -125,7 +128,6 @@ const useShoppingcart = () => {
     }
   }
 
-
   const deleteProduct = async (items) => {
     setLoadding(true)
     const formData = new FormData
@@ -135,13 +137,14 @@ const useShoppingcart = () => {
       const response = await DeleteCartItems(formData)
       if (response?.data?.status == NUMBER.num1) {
         getData()
+        disPatch(addProduct(productNo - 1))
       }else{
         setLoadding(false)
       }
 
     } catch (error) {
       console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
-      setLoadding(true)(false)
+      setLoadding(false)
     }
   }
 

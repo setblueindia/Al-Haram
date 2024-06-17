@@ -29,5 +29,6 @@ export const CartListApi = BASE_URL + "/rest/V1/api/getCartMethod"
 export const getCartItemsCount = BASE_URL + "/rest/V1/api/cartItemCountMethod"
 export const deleteCartItems = BASE_URL + "/rest/V1/api/removeCartItemMethod"
 export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDeleteMethod"
+// export const                "%@/rest/%@/V1/carts/mine"
 
 

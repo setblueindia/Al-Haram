@@ -52,7 +52,7 @@ const Addaddress = () => {
         <View style={styles.devider} />
         <TextFildCus onChange={setlastname} text={data?.LastName} add={true} />
         <View style={styles.devider} />
-        <TextFildCus onChange={setMNumber} text={data?.PhoneNumber} add={true} />
+        <TextFildCus onChange={setMNumber} number={true} text={data?.PhoneNumber} add={true} />
         <View style={styles.devider} />
         <TextFildCus onChange={serAddress1} text={data?.Streetaddress} add={true} />
         <View style={styles.devider} />
@@ -60,7 +60,7 @@ const Addaddress = () => {
         <View style={styles.devider} />
         <TextFildCus onChange={setAddress3} text={data?.Addressline2} add={true} />
         <View style={styles.devider} />
-        <TextFildCus onChange={setPinCode} text={data?.Pincode} add={true} />
+        <TextFildCus onChange={setPinCode} number={true} text={data?.Pincode} add={true} />
         <View style={styles.devider} />
 
 

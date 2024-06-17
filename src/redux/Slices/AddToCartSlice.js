@@ -8,8 +8,10 @@ const initialState = {
 export const addToCart = createSlice({
     name: 'AddToCart',
     initialState,
-
+     
+    
     reducers: {
+        
         addProduct(state, action) {
             state.data = action.payload;
             // numberOfProduct = action.payload
