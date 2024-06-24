@@ -11,6 +11,7 @@ const useSponserHook = () => {
     const [addCustomer, setAddCustomer] = useState(false)
     const [addCustomerToGroup, setAddCustomerToGroup] = useState(false)
     const [tranferAmount, setTranferAmount] = useState(false)
+    const [loader , setloader] = useState(false)
     const [name, setName] = useState()
 
     const Str = lang == NUMBER.num0 ? Ar : En
@@ -50,12 +51,14 @@ const useSponserHook = () => {
         tranferAmount,
         name,
         Str,
+        loader,
         setManageWallate,
         setAddCustomer,
         setAddCustomerToGroup,
         setTranferAmount,
         setName,
-        menuBarOnPress
+        menuBarOnPress,
+        setloader
 
     }
 }

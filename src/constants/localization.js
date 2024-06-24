@@ -113,7 +113,9 @@ export const Ar = {
   enteraddress1: "أدخل العنوان 1",
   enteraddress2: "أدخل العنوان 2",
   enteraddress3: "أدخل العنوان 3",
-  Enterpincode: "أدخل الرمز السري"
+  Enterpincode: "أدخل الرمز السري",
+  emailmismatch:"عدم تطابق البريد الإلكتروني والبريد الإلكتروني المؤكد",
+  enterNickName : "أدخل كنية"
 }
 
 export const En = {
@@ -165,6 +167,7 @@ export const En = {
   Verificationhasbeensendto: "Verification has been send to",
   Resend: "Resend",
   Enteremailaddress: "Enter email address",
+  enterNickName : "Enter Nick Name",
   Invalidemailaddress: "Invalid Email Address",
   Enterpassword: "Enter password",
   Invalidpassword: "Invalid Password",
@@ -173,6 +176,7 @@ export const En = {
   Invalidnumber: "Invalid Number",
   Numbercontainsmustbe9digits: "Number contains must be 9 digits",
   Passwordandconfirmpasswordmismatch: "Password and confirm-password mismatch",
+  emailmismatch : "Email and onfirm-email mismatch",
   EXPassword: "EX : Abc@1234",
   Sponser: "Sponsor",
   manageWallate: "Manage wallet",

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogIn, userLogInWithNumber } from '../../api/axios.api';
+import { ExpireToken, userLogIn, userLogInWithNumber } from '../../api/axios.api';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
@@ -41,21 +41,33 @@ const useLoginHook = () => {
   const emailLogin = async () => {
     setLoader(true)
     const userEmail = email.toLowerCase()
-
     const formData = new FormData();
-
     formData.append('username', userEmail);
     formData.append('password', password);
-    formData.append('store_id', lang?.data)
-
+    formData.append('store_id', lang?.data);
     const response = await userLogIn(formData)
+    
+    if (response?.data?.status == NUMBER?.num1) {
+      const loginStatus = response?.data?.data?.quote_id?.data?.login_status
+      console.log("loginStatus==========> ", loginStatus)
 
-    if (response?.data?.status == NUMBER.num1) {
-      setUserData(response?.data?.data)
-      dispatch(addUserData(response?.data?.data))
-      navigation.navigate(NAVIGATION.HomeScreen)
-      RemoveRembember()
-      setLoader(false)
+      if (loginStatus == "0") {
+        const fromdata = new FormData
+        try {
+          const result = await ExpireToken(fromdata)
+          setLoader(false)
+        } catch (error) {
+          setLoader(false)
+          console.log("Errorrr=====> ", error)
+        }
+      }
+
+        setUserData(response?.data?.data)
+        dispatch(addUserData(response?.data?.data))
+        navigation.navigate(NAVIGATION.HomeScreen)
+        RemoveRembember()
+        setLoader(false)
+
     } else {
       setLoader(false)
       setShowModal(true)
@@ -65,7 +77,6 @@ const useLoginHook = () => {
   }
 
   const useLoginWithEmail = () => {
-
     if (!email) {
       setErrorText(langues?.Enteremailaddress)
       setShowModal(true)
@@ -102,7 +113,6 @@ const useLoginHook = () => {
       console.log("OTP ====> ", response?.data?.otp)
       navigation.navigate(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber })
     } else {
-      
       setLoader(false)
       setShowModal(true)
       setErrorText(response?.data?.message)

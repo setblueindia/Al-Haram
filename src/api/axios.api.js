@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux"
 import {
     AddRemoveToWhishLisstURL,
     AddToCart,
@@ -15,9 +16,12 @@ import {
     WhishListURL,
     deleteAdress,
     deleteCartItems,
+    expireTokenArabic,
+    expireTokenDefault,
     getCartItemsCount
 } from "../constants/axios.url"
-import { POSTFORM, POSTFORMGRAPH } from "./axios.function"
+import { POSTFORM, POSTFORMGRAPH, expireTokenFrom } from "./axios.function"
+import { NUMBER } from "../constants/constants"
 
 export const useSingUp = async (params) => {
     const res = await POSTFORM(SINUPURL, params)
@@ -101,8 +105,8 @@ export const StateList = async (params) => {
     return res
 }
 
-export const ProductDetalsBySKU = async (params , lang) => {
-    const res = await POSTFORMGRAPH(GRAFORL, params , lang)
+export const ProductDetalsBySKU = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
 
@@ -130,6 +134,19 @@ export const DeleteAddress = async (params) => {
     return res
 }
 
+export const ExpireToken = async (params) => {
+    const res = await POSTFORM(expireTokenDefault , params)
+    return res
+}
+export const AddCustomerToSponser = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const AddCustomerToSponserToGroup = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
 
 
 

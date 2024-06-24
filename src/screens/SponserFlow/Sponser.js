@@ -9,9 +9,10 @@ import AddCustomer from './AddCustomer'
 import AddCustomerToGroup from './AddCustomerToGroup'
 import TranferAmount from './TranferAmount'
 import { NUMBER } from '../../constants/constants'
+import CusLoader from '../../components/CustomLoader'
 
 const Sponser = () => {
-    const { lang, navigation, data, name, Str, menuBarOnPress } = useSponserHook()
+    const { lang, navigation, data, name, Str, setloader, loader, menuBarOnPress } = useSponserHook()
     return (
         <View style={styles.mainView} lang={lang}>
             <CommanHeader navigation={navigation} lang={lang} />
@@ -20,7 +21,7 @@ const Sponser = () => {
 
                 <FlatList
                     data={data}
-                    inverted = {lang == NUMBER.num0 ? true : false}
+                    inverted={lang == NUMBER.num0 ? true : false}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item, index }) => {
@@ -43,17 +44,24 @@ const Sponser = () => {
             }
             {name == Str.addCustomer &&
                 <View style={{ flex: 1 }} >
-                    <AddCustomer lang={lang} Str={Str} />
+                    <AddCustomer setloader={setloader} lang={lang} Str={Str} />
                 </View>
             }
-             {name == Str.addCustomerToGroup &&
+            {name == Str.addCustomerToGroup &&
                 <View style={{ flex: 1 }} >
-                    <AddCustomerToGroup lang={lang} Str={Str} />
+                    <AddCustomerToGroup setloader={setloader}  lang={lang} Str={Str} />
                 </View>
             }
-             {name == Str.tranferAmount &&
+            {name == Str.tranferAmount &&
                 <View style={{ flex: 1 }} >
                     <TranferAmount lang={lang} Str={Str} />
+                </View>
+            }
+
+            {
+                loader &&
+                <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
+                    <CusLoader />
                 </View>
             }
         </View>
