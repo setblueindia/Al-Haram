@@ -3,15 +3,19 @@ import React, {useState} from 'react';
 import {ALINE, COLOR} from '../../constants/style';
 import {ResponsiveSize} from '../../utils/utils';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ICON, NUMBER } from '../../constants/constants';
+import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
+import { useNavigation } from '@react-navigation/native';
 
 const InnerList = ({data, index, land}) => {
   const [innerOn, setInnerOn] = useState(false);
+  const navigation = useNavigation()
   return (
     <View key={index}>
       <TouchableOpacity
         onPress={() => {
           innerOn ? setInnerOn(false) : setInnerOn(true);
+          navigation.navigate(NAVIGATION.ProductScreen)
+
         }}
         style={[styles.innerListView , land.data == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
         <Text style={styles.innerHeaderText}>{data.name}</Text>

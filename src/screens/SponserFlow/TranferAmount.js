@@ -1,16 +1,19 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { COLOR } from '../../constants/style'
 import { ResponsiveSize } from '../../utils/utils'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON, NUMBER } from '../../constants/constants';
 import Button from '../../components/Button';
 import TextFildCus from '../../components/TextFildCus';
+import { GetCustomerListToTranfer } from '../../api/axios.api';
+import { useSelector } from 'react-redux';
 
 const TranferAmount = ({ Str, lang }) => {
+    const userID = useSelector(state => state?.userData?.data?.id)
     const [on, setOn] = useState()
     const [text, setText] = useState(Str?.Selectcustomer)
-    const data = [
+    const [data , setData] = useState( [
         {
             name: "John Deo"
         },
@@ -32,7 +35,38 @@ const TranferAmount = ({ Str, lang }) => {
         {
             name: "John Deo"
         },
-    ]
+    ])
+   
+
+  
+    useEffect(()=>{
+        GetCustomerList()
+    },[])
+
+    const GetCustomerList = async () => {
+        const data = `
+        {
+            getCustomerSponsorGroupListById(id : ${userID}, pageSize : ${100}, curPage : ${1}){
+                entity_id
+                reciever_id
+                website_id
+                email
+                nick_name
+                status
+                total
+            }
+        }
+        `
+        try {
+            const response = await GetCustomerListToTranfer(data)
+            console.log("Response ======> ", response?.data?.data?.getCustomerSponsorGroupListById)
+            setData(response?.data?.data?.getCustomerSponsorGroupListById)
+            
+        } catch (error) {
+            console.log("GET CUSTOMER LIST ERROR ::::::::::::::: ", error)
+        }
+
+    }
 
     return (
         <View style={styles.mainView}>
@@ -53,8 +87,8 @@ const TranferAmount = ({ Str, lang }) => {
                         {
                             data.map((items, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => { setText(items.name), setOn(false) }} key={index} style={styles.itemsName}>
-                                        <Text style={styles.customerName}>{items?.name}</Text>
+                                    <TouchableOpacity onPress={() => { setText(items?.nick_name), setOn(false) }} key={index} style={styles.itemsName}>
+                                        <Text style={styles.customerName}>{items?.nick_name}</Text>
                                     </TouchableOpacity>
                                 )
                             })
@@ -113,7 +147,7 @@ const styles = StyleSheet.create({
         fontSize: ResponsiveSize(25)
     },
     listView: {
-        height: ResponsiveSize(500),
+        // height: ResponsiveSize(500),
         width: "100%",
         backgroundColor: COLOR.white,
         marginTop: ResponsiveSize(20),
@@ -128,7 +162,8 @@ const styles = StyleSheet.create({
 
     },
     ScrollView: {
-        height: "100%",
+        // height: "100%",
+        marginBottom:ResponsiveSize(10),
         width: "100%"
     },
     itemsName: {

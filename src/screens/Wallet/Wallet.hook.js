@@ -3,13 +3,41 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
+import { useEffect, useState } from 'react';
+import { GetWallateAmount } from '../../api/axios.api';
 
 const UseWalletHook = () => {
-
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang?.data);
-
+  const userId = useSelector(state => state?.userData?.data?.id)
+  const [amount, setAmount] = useState('')
+  const [isLoadding, setIsLoading] = useState(false)
   const Str = lang == NUMBER.num0 ? Ar : En
+
+  useEffect(() => {
+    getWallteAmount()
+  }, [navigation])
+
+  const getWallteAmount = async () => {
+    const data =
+      `{
+      getWalletRemainingTotal(id : ${userId})
+      }`
+    setIsLoading(true)
+    try {
+      const rep = await GetWallateAmount(data, lang)
+      if (rep) {
+        setAmount(rep?.data?.data?.getWalletRemainingTotal)
+        setIsLoading(false)
+      } else {
+        console.log("ERT AMOUNT INNER ERROR :::::::: ", rep?.data)
+      }
+
+    } catch (error) {
+      console.log("GERT AMOUNT ERROR :::::: ", error)
+      setIsLoading(false)
+    }
+  }
 
   const data = {
     ManageWallet: lang == NUMBER.num1 ? "Manage Wallet" : "إدارة المحفظة",
@@ -22,13 +50,12 @@ const UseWalletHook = () => {
 
 
 
-
-
   return {
     navigation,
     lang,
     data,
-    Str
+    Str,
+    amount
   };
 };
 

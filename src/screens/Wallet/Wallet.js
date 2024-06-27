@@ -12,7 +12,9 @@ import { ALINE, COLOR } from '../../constants/style.js';
 const Wallet = ({ Sponser }) => {
 
 
-  const { navigation, lang, data, Str } = UseWalletHook()
+  const { navigation, lang, data, Str, amount } = UseWalletHook()
+
+
 
   return (
     <View style={styles.mainView}>
@@ -31,7 +33,7 @@ const Wallet = ({ Sponser }) => {
           <View>
             <Text style={[styles.detailText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.WalletDetails}</Text>
             <View>
-              <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>SAR 0</Text>
+              <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SAR " + amount}</Text>
             </View>
             <View>
               <Text style={[styles.balText, , lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.YourWalletBalance}</Text>

@@ -48,11 +48,14 @@ export const styles = StyleSheet.create({
         marginVertical:ResponsiveSize(20),
     },
     bannerView2:{
-        width : "100%",
-        height:ResponsiveSize(30),
+        width : "92%",
+        height:ResponsiveSize(50),
         paddingHorizontal:ResponsiveSize(10),
         borderRadius:ResponsiveSize(10),
         marginVertical:ResponsiveSize(20),
+        backgroundColor:"#FFEBEB",
+        padding:ResponsiveSize(10),
+        alignSelf:'center'
        
     },
     bannerView3:{
@@ -65,9 +68,8 @@ export const styles = StyleSheet.create({
     bannerImg:{
         height:"100%",
         width:"100%",
-        resizeMode:'cover',
+        resizeMode:'contain',
         borderRadius:ResponsiveSize(10),
-        backgroundColor:COLOR.white,
         elevation:10,
 
     }

@@ -12,3 +12,4 @@ export const NewIcon = require("./images/Home/NewIcon.png");
 export const doneIcon = require("./images/Payment/done.png");
 export const Shippment = require("./images/Payment/Shippment.png");
 export const Ratting = require("./images/Payment/Ratting.png");
+export const WomenBanner = require("./images/Home/WomenBanner.png")

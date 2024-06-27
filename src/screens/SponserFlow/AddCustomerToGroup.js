@@ -19,9 +19,7 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
     const [modalShow, setModalShow] = useState(false)
     const [exampal, setExample] = useState('')
     const [errorText, setErrorText] = useState('')
-
     const lable = lang == NUMBER.num1 ? En : Ar
-
     const onPress = () => {
 
         if (!nicName) {
@@ -49,12 +47,13 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
     };
 
     const sendData = async () => {
+        const lowerCaseEmail = email.toLowerCase()
         const data =
             ` mutation{
             addCustomertoSponsorGroup(input:{
               customer_id: "${useData}"
               nickname: "${nicName}"
-              customer_email:"${email}"
+              customer_email:"${lowerCaseEmail}"
           }){
               status
               message

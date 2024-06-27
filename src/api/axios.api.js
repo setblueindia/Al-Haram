@@ -148,5 +148,13 @@ export const AddCustomerToSponserToGroup = async (params, lang) => {
     return res
 }
 
+export const GetCustomerListToTranfer = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
 
+export const GetWallateAmount = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
 

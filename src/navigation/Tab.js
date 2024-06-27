@@ -187,7 +187,7 @@ export default function AnimTab1() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            height: ResponsiveSize(100),
+            height: ResponsiveSize(80),
             justifyContent: 'center',
             alignItems: 'center',
             elevation: 10,

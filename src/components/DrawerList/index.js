@@ -6,17 +6,19 @@ import { ALINE, COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
 import InnerList from '../InnerList/InnerList';
 import { useSelector } from 'react-redux';
-import { EXTRASTR, ICON, NUMBER } from '../../constants/constants';
+import { EXTRASTR, ICON, NAVIGATION, NUMBER } from '../../constants/constants';
+
 
 const DraweList = ({ data, name }) => {
   const [on, setOn] = useState(false);
   const land = useSelector(state => state.lang);
 
+
   return (
     <View>
       <View style={styles.mainView}>
         <TouchableOpacity
-          onPress={() => (on ? setOn(false) : setOn(true))}
+          onPress={() => (on ? setOn(false) : setOn(true) )}
           style={[
             styles.mainListView,
             land.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse },
