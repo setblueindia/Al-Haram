@@ -1,0 +1,80 @@
+{
+    "data": {
+        "categoryList": [
+            {
+                "children_count": "9",
+                "children": [
+                    {
+                        "id": 3,
+                        "level": 2,
+                        "name": "Women's Fashion",
+                        "path": "1/2/3",
+                        "url_path": "women-s-fashion",
+                        "url_key": "women-s-fashion",
+                        "image": "https://test.alharamstores.com/static/version1718967249/frontend/Alothemes/milano6/en_US/Magento_Catalog/images/category/placeholder/image.jpg",
+                        "description": null,
+                        "magic_label": null,
+                        "magic_thumbnail": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                        "magic_image": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                        "children": [
+                            {
+                                "id": 12,
+                                "level": 3,
+                                "name": "Women’s Clothing",
+                                "path": "1/2/3/12",
+                                "url_path": "women-s-fashion/women-s-clothing",
+                                "url_key": "women-s-clothing",
+                                "image": null,
+                                "description": null,
+                                "magic_label": "nesupdaTE",
+                                "magic_thumbnail": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                "magic_image": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                "children": [
+                                    {
+                                        "id": 12,
+                                        "level": 3,
+                                        "name": "Women’s Clothing",
+                                        "path": "1/2/3/12",
+                                        "url_path": "women-s-fashion/women-s-clothing",
+                                        "url_key": "women-s-clothing",
+                                        "image": null,
+                                        "description": null,
+                                        "magic_label": "nesupdaTE",
+                                        "magic_thumbnail": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                        "magic_image": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                    },
+                                    {
+                                        "id": 23,
+                                        "level": 3,
+                                        "name": "Women's Tops",
+                                        "path": "1/2/3/23",
+                                        "url_path": "women-s-fashion/women-s-tops",
+                                        "url_key": "women-s-tops",
+                                        "image": null,
+                                        "description": null,
+                                        "magic_label": null,
+                                        "magic_thumbnail": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                        "magic_image": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                    }
+                                ]
+                            },
+                            {
+                                "id": 23,
+                                "level": 3,
+                                "name": "Women's Tops",
+                                "path": "1/2/3/23",
+                                "url_path": "women-s-fashion/women-s-tops",
+                                "url_key": "women-s-tops",
+                                "image": null,
+                                "description": null,
+                                "magic_label": null,
+                                "magic_thumbnail": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                                "magic_image": "https://test.alharamstores.com/pub/media/wysiwyg/women-E-01.jpg",
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

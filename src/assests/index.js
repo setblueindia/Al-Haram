@@ -13,3 +13,6 @@ export const doneIcon = require("./images/Payment/done.png");
 export const Shippment = require("./images/Payment/Shippment.png");
 export const Ratting = require("./images/Payment/Ratting.png");
 export const WomenBanner = require("./images/Home/WomenBanner.png")
+export const WC1 = require("./images/Home/WC1.png")
+export const Sider1 = require("./images/Home/Sider1.png")
+export const MensBanner = require("./images/Home/MensBanner.jpg")

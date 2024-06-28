@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         width: "100%",
     },
     containerView: {
-        marginBottom: ResponsiveSize(150),
+        marginBottom: ResponsiveSize(200),
         width: "100%",
     },
     siderView:{
@@ -72,6 +72,13 @@ export const styles = StyleSheet.create({
         borderRadius:ResponsiveSize(10),
         elevation:10,
 
+    },
+    cetegoriesBox:{
+        // marginTop:ResponsiveSize(30),
+        // marginBottom:ResponsiveSize(30)
+    },
+    categories:{
+        marginTop:ResponsiveSize(40),
     }
 
 })

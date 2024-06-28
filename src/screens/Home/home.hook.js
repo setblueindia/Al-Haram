@@ -9,7 +9,6 @@ const useHomeHook = () => {
   const lang = useSelector(state => state.lang)
   const navigation = useNavigation()
 
-
   useEffect(() => {
     // getdata()
   }, [])
@@ -18,22 +17,18 @@ const useHomeHook = () => {
     {
       name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
       img: require("../../assests/images/Home/1.png")
-
     },
     {
       name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
       img: require("../../assests/images/Home/2.png")
-
     },
     {
       name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
       img: require("../../assests/images/Home/3.png")
-
     },
     {
       name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
       img: require("../../assests/images/Home/4.png")
-
     },
     {
       name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
@@ -143,6 +138,94 @@ const useHomeHook = () => {
 
   }
 
+  const CetegoriesData = [
+    {
+      name: "Women's Fashion",
+      banner: require("../../assests/images/Home/WomenBanner.png"),
+      data: [
+        {
+          img: require("../../assests/images/Home/WC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/WC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/WC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/WC1.png"),
+          name: "Winter"
+        }
+      ]
+    } ,
+    {
+      name: "Men's Fashion",
+    
+      banner: require("../../assests/images/Home/MensBanner.jpg"),
+      data :
+       [{
+          img: require("../../assests/images/Home/MC.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/MC.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/MC.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/MC.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/MC.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/MC.png"),
+          name: "Winter"
+        }
+      ]
+    } ,
+    {
+      name: "Kid's Fashion",
+    
+      banner: require("../../assests/images/Home/KidsBanner.png"),
+      data :
+       [{
+          img: require("../../assests/images/Home/CC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/CC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/CC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/CC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/CC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/CC1.png"),
+          name: "Winter"
+        }
+      ]
+    } ,
+   
+  ]
+
   const Sliderdata = [
     "https://img.freepik.com/free-photo/medium-shot-smiley-woman-indoors_23-2148875315.jpg",
     "https://st2.depositphotos.com/1518767/6899/i/450/depositphotos_68995953-stock-photo-fashion-designer-using-digital-tablet.jpg",
@@ -154,12 +237,15 @@ const useHomeHook = () => {
 
 
 
+
+
   return {
     data,
     HomeScreeData,
     lang,
     Sliderdata,
-    navigation
+    navigation,
+    CetegoriesData
   }
 }
 
