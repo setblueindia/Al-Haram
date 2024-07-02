@@ -28,8 +28,8 @@ export const AddToCart = BASE_URL + "/rest/V1/api/addToCartMethod"
 export const CartListApi = BASE_URL + "/rest/V1/api/getCartMethod"
 export const getCartItemsCount = BASE_URL + "/rest/V1/api/cartItemCountMethod"
 export const deleteCartItems = BASE_URL + "/rest/V1/api/removeCartItemMethod"
-export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDeleteMethod"
+export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDeleteMethod" 
 export const expireTokenDefault = BASE_URL + "/rest/" + "default" + "/V1/carts/mine"
-export const expireTokenArabic = BASE_URL + "/rest/" + "arabic" + "/V1/carts/mine"
-
+export const ShippingList = BASE_URL + "/rest/V1/api/shippingListMethod" 
+export const StoreShippingURL = BASE_URL + "/rest/V1/api/storePickupMethodlist"
 

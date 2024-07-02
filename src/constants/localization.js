@@ -115,7 +115,9 @@ export const Ar = {
   enteraddress3: "أدخل العنوان 3",
   Enterpincode: "أدخل الرمز السري",
   emailmismatch:"عدم تطابق البريد الإلكتروني والبريد الإلكتروني المؤكد",
-  enterNickName : "أدخل كنية"
+  enterNickName : "أدخل كنية",
+  ShippingMethods:"طرق الشحن",
+  SAR : "سأر"
 }
 
 export const En = {
@@ -236,7 +238,9 @@ export const En = {
   enteraddress1: "enter address 1",
   enteraddress2: "enter address 1",
   enteraddress3: "enter address 1",
-  Enterpincode : "Enter pincode"
+  Enterpincode : "Enter pincode",
+  ShippingMethods : "Shipping Methods",
+  SAR : "SAR"
 
 
 

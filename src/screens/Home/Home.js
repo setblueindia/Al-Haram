@@ -11,6 +11,7 @@ import { banner2, firstBanner } from '../../assests';
 import { NUMBER } from '../../constants/constants';
 import { ResponsiveSize } from '../../utils/utils';
 import CetegoriesBox from '../../components/CetegoriesBox';
+import ProductBox from '../../components/ProductBox';
 
 
 const Home = () => {
@@ -32,26 +33,38 @@ const Home = () => {
               <Image style={styles.bannerImg} source={{ uri: "https://t4.ftcdn.net/jpg/04/96/39/15/360_F_496391566_qkdbKWomcUUpByvdbOqOErHprAUDgdo5.jpg" }} />
             </View> */}
           <View style={styles.bannerView2}>
+            <View style={styles.bannerImage}>
             <Image style={styles.bannerImg} source={banner2} />
+            </View>
+   
           </View>
 
           <View style={styles.siderView}>
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
           <View style={styles.categories}>
+            {
+              CetegoriesData.map((items, index) => {
+                return (
+                  <View key={index} style={styles.cetegoriesBox}>
+                    <CetegoriesBox lang={lang} items={items} index={index} />
+                  </View>
+                )
+              })
+            }
+          </View>
 
           {
-            CetegoriesData.map((items , index) => {
+            HomeScreeData?.data?.map((items , index) => {
               return (
-                <View key={index} style={styles.cetegoriesBox}>
-                  <CetegoriesBox lang={lang} items={items} index={index} />
+                <View style={styles.productView}>
+                  <ProductBox lang={lang} items={items} index={index} />
                 </View>
               )
             })
+
           }
 
-          
-          </View>
 
 
           {/* </View> */}

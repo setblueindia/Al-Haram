@@ -49,7 +49,7 @@ const useWhishListHook = () => {
       const response = await WhisList(formData)
       if (response?.data?.status == NUMBER.num1) {
 
-        console.log("data  ====> ", response?.data)
+        // console.log("data  ====> ", response?.data)
         response?.data?.data.map((item) => {
           return item["like"] = true;
         })

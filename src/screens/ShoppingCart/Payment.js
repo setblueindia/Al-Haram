@@ -2,9 +2,12 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
-import { EXTRASTR, NUMBER } from '../../constants/constants'
+import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import CheackButton from '../../components/CheackButton'
+import MinusIcon from 'react-native-vector-icons/AntDesign';
 
-const Payment = ({ data, lang }) => {
+const Payment = ({ data, lang, showWallet, setShowWallet }) => {
 
   const [COD, setCOD] = useState(false)
   const [credit, setCredit] = useState(false)
@@ -20,6 +23,36 @@ const Payment = ({ data, lang }) => {
 
         <View style={styles.paymentView}>
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: "right" }]}>{data?.PaymentOptions}</Text>
+
+          <View style={styles.walletView}>
+            <CheackButton preVriable={showWallet} onPress={setShowWallet} />
+            <Text style={styles.walletText}>{"Payment By Your Wallet"}</Text>
+          </View>
+
+          {showWallet && <View style={styles.wallateDeatails}>
+            <View style={styles.containerView}>
+              <View style={styles.container}>
+                <Text style={styles.containerText}>{"Payment ToBe Made"}</Text>
+                <View style={styles.priceView}>
+                  <Text style={styles.priceText}>SAR 87</Text>
+                </View>
+              </View>
+              <View style={styles.barView}>
+                <View style={styles.walletLineView}>
+                  <View style={styles.roundView}>
+                  <MinusIcon name={ICON.minus} size={ResponsiveSize(20)} color={COLOR.black} />
+                  </View>
+                </View>
+
+              </View>
+            </View>
+
+          </View>}
+
+          {/* {
+            showWallet &&
+
+          } */}
 
           <TouchableOpacity
             onPress={() => { setCOD(true), setCredit(false) }}
@@ -58,6 +91,8 @@ const Payment = ({ data, lang }) => {
             <Text style={styles.price}>SAR 21</Text>
           </View>
         </View>
+
+
         <View style={[styles.FinaltextView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <Text style={[styles.leftText, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>{data?.OrderTotal}</Text>
           <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>SAR 160</Text>
@@ -210,6 +245,85 @@ const styles = StyleSheet.create({
     color: COLOR.white,
     fontSize: ResponsiveSize(25),
     fontWeight: FONTWEGHIT.font600
+  },
+  walletView: {
+    width: "100%",
+    height: ResponsiveSize(60),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.primaray,
+    marginTop: ResponsiveSize(20),
+    backgroundColor: "#FFEEEE",
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: ResponsiveSize(10),
+    borderTopLeftRadius: ResponsiveSize(10),
+    borderTopRightRadius: ResponsiveSize(10)
+  },
+  walletText: {
+    marginLeft: ResponsiveSize(20)
+  },
+  wallateDeatails: {
+    height: ResponsiveSize(200),
+    width: "100%",
+    backgroundColor: COLOR.white,
+    borderBottomWidth: ResponsiveSize(1),
+    borderLeftWidth: ResponsiveSize(1),
+    borderRightWidth: ResponsiveSize(1),
+    borderColor: COLOR.primaray,
+  },
+  containerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: "100%",
+    padding: ResponsiveSize(20)
+    // backgroundColor:"#000"
+  },
+  container: {
+    width: ResponsiveSize(120),
+    height: "100%"
+    // backgroundColor:"#000"
+  },
+  containerText: {
+    color: "#202020",
+    lineHeight: ResponsiveSize(30)
+  },
+  priceView: {
+    height: ResponsiveSize(40),
+    width: ResponsiveSize(100),
+    backgroundColor: COLOR.primaray,
+    borderRadius: ResponsiveSize(5),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: ResponsiveSize(10)
+  },
+  priceText: {
+    color: COLOR.white
+  },
+  walletLineView: {
+    height: "100%",
+    width: ResponsiveSize(1),
+    backgroundColor: COLOR.primaray
+  },
+  barView: {
+    height: "80%",
+  },
+  roundView:{
+    height:ResponsiveSize(35),
+    width:ResponsiveSize(35),
+    borderRadius:ResponsiveSize(100),
+    borderWidth:ResponsiveSize(1),
+    borderColor:COLOR.primaray,
+    backgroundColor:"#FFEEEE",
+    position:'absolute',
+    alignSelf:'center',
+    top:ResponsiveSize(10),
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  mainusText:{
+    fontSize:ResponsiveSize(30),
+    textAlign:'center',
+
   }
 
 

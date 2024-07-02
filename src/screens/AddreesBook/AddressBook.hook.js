@@ -7,7 +7,7 @@ import { AddressList, DeleteAddress } from "../../api/axios.api"
 import { SHOWTOTS } from "../../utils/utils"
 
 
-const useAddressBookHook = () => {
+const useAddressBookHook = (setAddressCode , setLoadding) => {
     const lang = useSelector(state => state.lang.data)
     const userData = useSelector(state => state.userData.data)
     const navigation = useNavigation()
@@ -38,7 +38,7 @@ const useAddressBookHook = () => {
             // },
         ]
     )
-
+    
     useEffect(() => {
         getData()
     }, [navigation])
@@ -47,24 +47,27 @@ const useAddressBookHook = () => {
         navigation.navigate(NAVIGATION.addaddress)
     }
     const getData = async () => {
-        setIsLoading(true)
+        !setLoadding && setIsLoading(true)
+        setLoadding && setLoadding(true)
         const formData = new FormData
         formData.append("customer_id", userData?.id)
         formData.append("store_id", lang)
         try {
             const res = await AddressList(formData)
+            console.log("Address List ::::::::::::::::::::: ", res?.data)
             if (res?.data?.status == NUMBER.num1) {
                 setData(res?.data?.data)
                 setIsLoading(false)
+                setLoadding &&   setLoadding(false)
             } else {
                 setIsLoading(false)
             }
         } catch (error) {
             console.log("ADRESS-LIST ERROR :::::::::::::::::::: ", error)
             setIsLoading(false)
+            setLoadding &&  setLoadding(false)
         }
     }
-
     const deleteAdress = async (items) => {
         setIsLoading(true)
         const formData = new FormData
@@ -83,9 +86,7 @@ const useAddressBookHook = () => {
         } catch (error) {
             console.log("DELETE ADDRESS :::::::::::: ", error)
             setIsLoading(false)
-
         }
-
     }
     return {
         data,

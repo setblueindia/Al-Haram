@@ -223,6 +223,37 @@ const useHomeHook = () => {
         }
       ]
     } ,
+    {
+      name: "Kid's Fashion",
+    
+      banner: require("../../assests/images/Home/SchoolBanner.png"),
+      data :
+       [{
+          img: require("../../assests/images/Home/SC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/SC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/SC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/SC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/SC1.png"),
+          name: "Winter"
+        },
+        {
+          img: require("../../assests/images/Home/SC1.png"),
+          name: "Winter"
+        }
+      ]
+    } ,
    
   ]
 

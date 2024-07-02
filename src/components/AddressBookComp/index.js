@@ -6,7 +6,7 @@ import ICON from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NUMBER } from '../../constants/constants';
 
 
-const AddressBookComp = ({ data, lang, deleteAdress }) => {
+const AddressBookComp = ({ data, lang, deleteAdress , setAddressCode }) => {
 
     // console.log("data ===> ", data)
 
@@ -18,7 +18,7 @@ const AddressBookComp = ({ data, lang, deleteAdress }) => {
     return (
         <View>
             <TouchableOpacity
-                onPress={() => { on ? setOn(false) : setOn(true) }}
+                onPress={() => { on ? setOn(false) : setOn(true) , setAddressCode(data)}}
 
                 style={[styles.addressView, on && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
                 <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>

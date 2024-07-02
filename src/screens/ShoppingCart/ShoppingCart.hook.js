@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, DeleteCartItems } from '../../api/axios.api'
+import { CartList, DeleteCartItems, getShippingListAxios, getStorePickupMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
+import { ShippingList } from '../../constants/axios.url'
+import { useSharedValue } from 'react-native-reanimated'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
   const productNo = useSelector(state => state?.AddToCart?.data)
-  const disPatch =  useDispatch()
+  const disPatch = useDispatch()
   const [index, setIndex] = useState(0)
   const [data, setData] = useState([])
   const [isLoadding, setLoadding] = useState(false)
   const navigation = useNavigation()
   const Token = useSelector(state => state?.userData?.data?.token)
-
-  console.log("============> ", productNo)
+  const [outOfStock, setOutOfStock] = useState()
+  const [addressCod, setAddressCode] = useState()
+  const [selectAddressList , setSelectAddress] = useState()
+  const [ShhippingData , SetShippingdata] = useState([])
+  const [showModal , setShowModal] = useState(false)
+  const [messages , setMessages] = useState()
+  const [showWallet , setShowWallet] = useState(false)
 
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
@@ -95,14 +102,25 @@ const useShoppingcart = () => {
 
         }]
     }
-
   useEffect(() => {
     getData()
   }, [])
-
+  // console.log("index =======> ", index)
   const onPress = () => {
-    if (index < 2) {
-      setIndex(index + 1)
+    if (index < 3) {
+      if(index == 0) {
+        setIndex(index + 1) 
+      }
+      if(index == 1 &&  !addressCod) {
+        setShowModal(true)
+        setMessages("Please select address")
+      }else{
+        getShipingList()
+        setIndex(index + 1)
+      }
+      if(index == 2){
+        setIndex(index + 1) 
+      }
     } else {
       navigation.navigate(NAVIGATION.Done, { lang: lang })
     }
@@ -110,8 +128,7 @@ const useShoppingcart = () => {
   const goBack = () => {
     index > 0 && setIndex(index - 1)
   }
-
-const getData = async () => {
+  const getData = async () => {
     setIndex(0)
     setLoadding(true)
     const formData = new FormData
@@ -120,7 +137,17 @@ const getData = async () => {
     try {
       const response = await CartList(formData)
       if (response.data.status) {
-        setData(response?.data?.data?.items)
+        const inStockItems = [];
+        const outOfStockItems = [];
+        response?.data?.data?.items.forEach(item => {
+          if (item.isInStock) {
+            inStockItems.push(item);
+          } else {
+            outOfStockItems.push(item);
+          }
+        });
+        setData(inStockItems)
+        setOutOfStock(outOfStockItems)
         setLoadding(false)
       }
     } catch (error) {
@@ -138,7 +165,7 @@ const getData = async () => {
       if (response?.data?.status == NUMBER.num1) {
         getData()
         disPatch(addProduct(productNo - 1))
-      }else{
+      } else {
         setLoadding(false)
       }
 
@@ -148,17 +175,71 @@ const getData = async () => {
     }
   }
 
+  const getShipingList = async () => {
+    setLoadding(true)
+    const formData = new FormData()
+    formData.append("token", Token)
+    formData.append("store_id", lang)
+    formData.append("addressId", addressCod?.id)
+    try {
+      const res = await getShippingListAxios(formData)
+      console.log("Response :::::::::::::::::: ", res?.data?.data)
+      SetShippingdata(res?.data?.data)
+      setLoadding(false)
+
+
+    } catch (error) {
+      console.log("GET SHIPPING LIST ERROR :::: ", error)
+      setLoadding(false)
+    }
+
+  }
+
+  const selectShipping = async () =>{
+    setLoadding(true)
+    const formData = new FormData()
+    formData.append("store_id" , lang)
+   try {
+    const response = await getStorePickupMethod(formData)
+    if(response?.data?.status == NUMBER.num1) {
+      setLoadding(false)
+      setSelectAddress(response?.data?.data)
+      console.log("=============> ", response?.data?.status)
+    }else{
+      console.log("ENNER SELECT LIST ERROR :::::: ", error)
+    }
+  
+
+   } catch (error) {
+    console.log("GET STORE SHIPPING ERROR :::::::::::::: " , error)
+    setLoadding(false)
+
+   }
+}
+
   return {
     index,
     navigation,
     data,
     lang,
     shopinfCratData,
+    outOfStock,
+    ShhippingData,
+    Token,
+    addressCod,
+    selectAddressList,
+    isLoadding,
+    showModal,
+    messages,
+    showWallet,
+    setShowModal,
+    deleteProduct,
+    setAddressCode,
+    selectShipping,
     onPress,
     goBack,
-    isLoadding,
-    deleteProduct
-
+    setLoadding,
+    setShowWallet
   }
 }
 

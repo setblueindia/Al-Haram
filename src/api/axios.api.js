@@ -11,7 +11,9 @@ import {
     LOGINURL,
     OTPVerification,
     SINUPURL,
+    ShippingList,
     StateListURL,
+    StoreShippingURL,
     UpdateProfileURL,
     WhishListURL,
     deleteAdress,
@@ -155,6 +157,16 @@ export const GetCustomerListToTranfer = async (params, lang) => {
 
 export const GetWallateAmount = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const getShippingListAxios = async (params) => {
+    const res = await POSTFORM(ShippingList , params)
+    return res
+}
+
+export const getStorePickupMethod = async (params) => {
+    const res = await POSTFORM(StoreShippingURL , params)
     return res
 }
 
