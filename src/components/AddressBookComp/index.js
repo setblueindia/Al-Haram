@@ -3,31 +3,31 @@ import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR } from '../../constants/style'
 import ICON from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NUMBER } from '../../constants/constants';
+import { NAVIGATION, NUMBER } from '../../constants/constants';
 
 
-const AddressBookComp = ({ data, lang, deleteAdress , setAddressCode }) => {
-
-    // console.log("data ===> ", data)
+const AddressBookComp = ({ data, lang, deleteAdress, setAddressCode, navigation, getData , index}) => {
+    const [on, setOn] = useState(false)
+    const [ aindex , setIndex] = useState()
 
     const name = data?.firstname + " " + data?.lastname
     const address = data?.address1 + " " + data?.address2 + " " + data?.address3
-
-    const [on, setOn] = useState(false)
-
     return (
         <View>
             <TouchableOpacity
-                onPress={() => { on ? setOn(false) : setOn(true) , setAddressCode(data)}}
+                onPress={() => { 
+                    on ? setOn(false) : setOn(true) , setIndex(index)
+                    setAddressCode && setAddressCode(data) }}
 
-                style={[styles.addressView, on && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
+                style={[styles.addressView ,( on && aindex == index) && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
                 <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                     <View style={styles.nameView}>
                         <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{name}</Text>
                     </View>
-
                     <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { navigation.navigate(NAVIGATION.addaddress, { editeData: data, getData: getData }) }}
+                        >
                             <ICON name={"square-edit-outline"} size={ResponsiveSize(35)} color={COLOR.primaray} />
                         </TouchableOpacity>
                         <View style={{ width: ResponsiveSize(15) }}></View>
@@ -37,7 +37,6 @@ const AddressBookComp = ({ data, lang, deleteAdress , setAddressCode }) => {
                             <ICON name={"delete"} size={ResponsiveSize(35)} color={COLOR.primaray} />
                         </TouchableOpacity>
                     </View>
-
                 </View>
 
                 <View style={[styles.secondView, lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(80) } : { marginRight: ResponsiveSize(80) }]}>

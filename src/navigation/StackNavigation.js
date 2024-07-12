@@ -26,6 +26,9 @@ import OrderDetails from '../screens/ViewOrederDetails/OrderDetails';
 import CancelOrder from '../screens/CancelOrder/CancelOrder';
 import PaymentHistroy from '../screens/Wallet/PaymentHistroy';
 import PaymentDetails from '../screens/Wallet/PaymentDetails';
+import TabNavigation from './Tab';
+import AnimTab1 from './Tab';
+import Banner from '../screens/BannerScreen/Banner';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -51,6 +54,11 @@ const StackNavigation = () => {
       <Stack.Screen
         name={NAVIGATION.SinupSceen}
         component={SingUp}
+        options={{ headerShown: false }}
+      />
+          <Stack.Screen
+        name={NAVIGATION?.TabScreen}
+        component={AnimTab1}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -148,6 +156,12 @@ const StackNavigation = () => {
         component={PaymentDetails}
         options={{ headerShown: false }}
       />
+       <Stack.Screen
+        name={NAVIGATION?.bannerScreen}
+        component={Banner}
+        options={{ headerShown: false }}
+      />
+    
     </Stack.Navigator>
   );
 };

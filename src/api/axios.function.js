@@ -17,8 +17,6 @@ export const POSTFORM = async (url, params) => {
         const token = JSON.parse(userData)
         authToken = token?.token
 
-        console.log("authToken ===> ", authToken)
-
         const response = await axios({
             method: 'post',
             url: url,
@@ -36,27 +34,21 @@ export const POSTFORM = async (url, params) => {
 
 }
 
-// export const expireTokenFrom = async (url) => {
-//     console.log("=-=-=-=-=-=-=-=-=-=-=--==--=--= ", url)
-//     try {
-//         const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
-//         const token = JSON.parse(userData)
-//         authToken = token?.token
 
-//         const response = await axios({
-//             method: 'post',
-//             url: url,
-//             headers: {
-//                 'Authorization': 'Bearer' + authToken,
-//                 'Content-Type': 'multipart/form-data'
-//             }
-//         })
-//         return response
-//     } catch (error) {
-//         console.log("Expired ERROR :::: ", error)
-//     }
-// }
+export const POSTJSON  = async (url , params) =>{ 
 
+    console.log(" =======> ", {
+        url : url,
+        params : params
+    })
+    
+    try {
+        const response = await axios.post(url, params);
+        return response
+    } catch (error) { 
+        console.log("MAIN ERROR IN JSON ::::::: " , error)
+    }
+}
 
 export const POSTFORMGRAPH = async (url, params, lang) => {
     console.log("==============================")

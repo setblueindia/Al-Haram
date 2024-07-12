@@ -1,114 +1,82 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
-import { COLOR, FONTWEGHIT } from '../../constants/style'
+import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import Icon from "react-native-vector-icons/Entypo";
 import { NUMBER } from '../../constants/constants';
+// import Slider from '@react-native-community/slider';
+import CustomRangeSlider from '../RangSlider';
 
-const SizeFilter = ({ setSizeFilter, lang }) => {
+
+const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
 
     const [index1, setIndex1] = useState()
     const [index2, setIndex2] = useState()
-    const data = lang == NUMBER.num1 ? [
-        {
-            name: "Size"
-        },
-        {
-            name: "Color"
-        },
-        {
-            name: "Category"
-        },
-        {
-            name: "Price"
-        },
-    ] : [
+    const [slider, setSilder] = useState(false)
+    const [optionData, setOpationData] = useState([])
+    const [cetegories, setCetegouries] = useState('')
+    const [sizeIndex, setSizeIndex] = useState()
+    const [colorIndex, setColorIndex] = useState()
+    const [displayIndex, setDisplayIndex] = useState()
+    const [cetegoriesIndex, setCetegoriesIndex] = useState()
+    const [priceIndex, setPriceIndex] = useState()
+    const [minValue , setMinValue] = useState(0)
+    const [maxValue , setMaxValue] = useState(200)
 
-        {
-            name: "مقاس"
-        },
-        {
-            name: "لون"
-        },
-        {
-            name: "فئة"
-        },
-        {
-            name: "سعر"
-        },
 
-    ]
-
-    const secondData = [
-        {
-            val1: "S",
-            val2: "30"
-        },
-        {
-            val1: "M",
-            val2: "32"
-        },
-        {
-            val1: "xl",
-            val2: "42"
-        },
-        {
-            val1: "xxl",
-            val2: "52"
-        },
-        {
-            val1: "exxl",
-            val2: "82"
-        },
-        {
-            val1: "S",
-            val2: "30"
-        },
-        {
-            val1: "M",
-            val2: "32"
-        },
-        {
-            val1: "xl",
-            val2: "42"
-        },
-        {
-            val1: "xxl",
-            val2: "52"
-        },
-        {
-            val1: "exxl",
-            val2: "82"
-        },
-        {
-            val1: "xl",
-            val2: "42"
-        },
-        {
-            val1: "xxl",
-            val2: "52"
-        },
-        {
-            val1: "exxl",
-            val2: "82"
-        },
-        {
-            val1: "exxl",
-            val2: "82"
-        },
-        {
-            val1: "xl",
-            val2: "42"
-        },
-        {
-            val1: "xxl",
-            val2: "52"
-        },
-        {
-            val1: "exxl",
-            val2: "82"
+    const innderDataOnPress = (cIndex) => {
+        if (cetegories == "size") {
+            setSizeIndex(cIndex)
         }
-    ]
+        if (cetegories == "category_uid") {
+            setCetegoriesIndex(cIndex)
+        }
+        if (cetegories == "color") {
+            setColorIndex(cIndex)
+        }
+        if (cetegories == "display_sale_label") {
+            setDisplayIndex(cIndex)
+        }
+        if (cetegories == "price") {
+            setPriceIndex(cIndex)
+        }
+    }
+
+    const ctegouriesSelection = (index) => {
+        if (cetegories == "size" && index == sizeIndex) {
+            return true
+        } else if (cetegories == "color" && index == colorIndex) {
+            return true
+        } else if (cetegories == "category_uid" && index == cetegoriesIndex) {
+            return true
+        } else if (cetegories == "display_sale_label" && index == displayIndex) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const finalPress = (items) => {
+        if (items == "size") {
+            setSilder(false)
+        }
+        if (items == "category_uid") {
+            setSilder(false)
+        }
+        if (items == "color") {
+            setSilder(false)
+        }
+        if (items == "display_sale_label") {
+            setSilder(false)
+        }
+        if (items == "price") {
+            setSilder(true)
+            // console.log("::::::::::::::::::: " , optionData )
+        }
+    }
+
+    
+
 
     return (
         <View style={styles.mainView}>
@@ -126,7 +94,7 @@ const SizeFilter = ({ setSizeFilter, lang }) => {
                         <Text style={[styles.filterText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{lang == NUMBER.num1 ? "Filter By" : "مصنف بواسطة"}</Text>
                     </View>
 
-                    <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <TouchableOpacity style={styles.clearView}>
                             <Text style={styles.clearText}>{lang == NUMBER.num1 ? "Clear" : "واضح"}</Text>
                         </TouchableOpacity>
@@ -134,41 +102,67 @@ const SizeFilter = ({ setSizeFilter, lang }) => {
                             <Text style={styles.applyText}>{lang == NUMBER.num1 ? "Apply" : "يتقدم"}</Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-                <View style={[styles.containt, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                <View style={[styles.containt, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <View style={styles.firstView}>
                         {
-                            data.map((items, index) => {
+                            filterData?.map((items, index) => {
+
                                 return (
-                                    <TouchableOpacity
-                                        onPress={() => { setIndex2(index) }}
-                                        key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
-                                        <Text style={styles.firstViewText}>{items?.name}</Text>
-                                    </TouchableOpacity>
+                                    <View key={index}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                setOpationData(items?.options),
+                                                    setIndex2(index),
+                                                    setCetegouries(items?.attribute_code)
+                                                finalPress(items?.attribute_code)
+                                            }}
+                                            key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
+                                            <Text style={styles.firstViewText}>{items?.label}</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 )
                             })
                         }
                     </View>
-                    <ScrollView style={styles.secondView}>
-                        {secondData?.map((items, index) => {
-                            return (
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        setIndex1(index)
-                                    }}
-                                    key={index}
-                                    style={[styles.secondInnerView, index == index1 && { backgroundColor: "#FFFFFF" }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                    <Text style={styles.innerText}>{items.val1}</Text>
-                                    <Text style={styles.innerText}>{items.val2}</Text>
-                                </TouchableOpacity>
-                            )
-                        })}
 
-                        <View style={{ height: ResponsiveSize(80) }} />
+                    <ScrollView style={styles.secondView}>
+                        {!slider
+                            && optionData.length > 0 && optionData?.map((items, index) => {
+                                let result = ctegouriesSelection(index)
+                                return (
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            innderDataOnPress(index)
+                                            setIndex1(index)
+                                            result = ctegouriesSelection(index)
+                                        }}
+                                        key={index}
+                                        style={[styles.secondInnerView,
+                                        result && { backgroundColor: COLOR.white },
+                                        lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+
+                                        <Text style={styles.innerText}>{items?.label}</Text>
+                                        <Text style={styles.innerText}>{items?.count}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })}
+
+                        {
+                            slider &&
+                        
+                            <View style={{ width:"100%", height:ResponsiveSize(200), justifyContent:'center' , alignItems:'center' , width:"100%" }}>
+                                
+                                <View style={styles.rangeTex}>
+                                    <Text style={styles.valueText}>{minValue}</Text>
+                                    <Text style={styles.valueText}>{maxValue}</Text>
+                                </View>
+                                <CustomRangeSlider setMinValue={setMinValue}  setMaxValue = {setMaxValue}/>
+                            </View>
+                        }
+                        {/* <View style={{ height: ResponsiveSize(20), backgroundColor: "#F8F2F2" }} /> */}
                     </ScrollView>
                 </View>
-
             </View>
         </View>
     )
@@ -194,16 +188,14 @@ const styles = StyleSheet.create({
         width: "100%",
         borderBottomWidth: ResponsiveSize(1),
         borderColor: "#D5C1C1",
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.spaceBetween,
         paddingHorizontal: ResponsiveSize(30)
     },
     headerTextView: {
-        flexDirection: 'row',
-        // marginLeft:ResponsiveSize(20),
-        // justifyContent:'center',
-        alignItems: 'center',
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
 
     },
     filterText: {
@@ -219,18 +211,18 @@ const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.liteGreen,
         marginRight: ResponsiveSize(10),
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
     },
     btnView: {
-        flexDirection: 'row'
+        flexDirection: ALINE.row
     },
     ApplyView: {
         height: ResponsiveSize(40),
         width: ResponsiveSize(100),
         backgroundColor: COLOR?.primaray,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
     },
     applyText: {
         color: COLOR.white,
@@ -243,40 +235,46 @@ const styles = StyleSheet.create({
         width: ResponsiveSize(250),
     },
     secondView: {
-        // height: ResponsiveSize(750),
         width: ResponsiveSize(340),
-        // backgroundColor:"#00000040",
-        // justifyContent: 'flex-end',
         borderWidth: ResponsiveSize(1),
         borderColor: "#D5C1C1",
-
     },
     containt: {
         width: "100%",
-        flexDirection: "row"
+        flexDirection: ALINE.row
     },
     innerFirstView: {
         height: ResponsiveSize(70),
         borderWidth: ResponsiveSize(1.5),
         borderColor: "#D5C1C1",
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
     secondInnerView: {
         height: ResponsiveSize(70),
         backgroundColor: "#F8F2F2",
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: ResponsiveSize(50)
-        // alignItems: 'center',
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
+        alignItems: ALINE.center,
+        paddingHorizontal: ResponsiveSize(20)
     },
     innerText: {
         color: COLOR.black,
-        fontSize: ResponsiveSize(30)
+        fontSize: ResponsiveSize(26)
     },
     firstViewText: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25)
+    },
+    valueText: {
+        fontSize: ResponsiveSize(25),
+        marginBottom: ResponsiveSize(10),
+        color:COLOR.black
+    },
+    rangeTex: {
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
+        width:"100%",
+        paddingHorizontal:ResponsiveSize(20),
     }
 })

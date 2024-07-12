@@ -5,11 +5,11 @@ import { ResponsiveSize } from '../../utils/utils'
 import AddressBookComp from '../../components/AddressBookComp'
 import { NUMBER } from '../../constants/constants'
 
-const Shooping = ({data , lang , setAddressCode , setLoadding}) => {
+const Shooping = ({data , lang , setAddressCode , setLoadding , setBillingAddress}) => {
   return (
     <View style={styles.mainView}>
       <Text style={[styles.text , lang == NUMBER.num0 && {textAlign:'right' , marginRight:ResponsiveSize(20)}]}>{data?.YourAddreses}</Text>
-      <AddressBook setLoadding={setLoadding} setAddressCode={setAddressCode} Shooping={true} />
+      <AddressBook setBillingAddress={setBillingAddress} setLoadding={setLoadding} setAddressCode={setAddressCode} Shooping={true} />
     </View>
   )
 }

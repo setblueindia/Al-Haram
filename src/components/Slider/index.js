@@ -8,9 +8,6 @@ import { COLOR, RESIZEMODE } from '../../constants/style'
 
 const Slider = ({lang , height , data , home}) => {
 
-
-
-
     const [activeIndex, setActiveIndex] = useState(0)
     const flatListRef = useRef()
     const windowWidth = Dimensions.get('window').width;
@@ -59,7 +56,7 @@ const Slider = ({lang , height , data , home}) => {
                 horizontal={true}
                 ref={flatListRef}
                 data={data}
-                // keyboardDismissMode={(data , index)=> Math.random() * index}
+                keyboardDismissMode={(data , index)=> Math.random() * index}
                 showsHorizontalScrollIndicator={false}
                 getItemLayout={getIntemLayout}
                 pagingEnabled={true}
@@ -67,11 +64,11 @@ const Slider = ({lang , height , data , home}) => {
                 renderItem={({ item , index}) => {
 
                     return (
-                     <View key={Math.random() * index} style={styles.listView}>
+                     <View key={index * 2} style={styles.listView}>
                              <Image
                             //  resizeMode='contain'
                                 style={[styles?.image , home && {resizeMode:RESIZEMODE.cover}]}
-                                source={{ uri: item }}
+                                source={{ uri: item?.image }}
                             />
                         </View> 
                     )

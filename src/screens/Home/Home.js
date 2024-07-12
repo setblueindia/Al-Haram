@@ -17,15 +17,16 @@ import ProductBox from '../../components/ProductBox';
 const Home = () => {
 
   const { data, HomeScreeData, lang, Sliderdata, navigation, CetegoriesData } = useHomeHook()
+
   return (
     <View style={styles.mainView}>
-
+      
       <View style={styles.CustomeHeaderView}>
         <CustomeHeader search={true} like={true} shoppingcart={true} />
         <ScrollView style={styles.containerView}>
 
           <View style={styles.storyView}>
-            <StoryView data={data} lang={lang} />
+            <StoryView CetegoriesData={CetegoriesData}data={data} lang={lang} navigation={navigation} />
           </View>
           {/* <View style={{ backgroundColor: "#EAE9E4" }}> */}
 
@@ -42,12 +43,13 @@ const Home = () => {
           <View style={styles.siderView}>
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
+
           <View style={styles.categories}>
             {
-              CetegoriesData.map((items, index) => {
+              CetegoriesData?.map((items, index) => {
                 return (
                   <View key={index} style={styles.cetegoriesBox}>
-                    <CetegoriesBox lang={lang} items={items} index={index} />
+                {  items?.children.length > 0 &&  <CetegoriesBox navigation={navigation} lang={lang} items={items} index={index} />}
                   </View>
                 )
               })
@@ -55,17 +57,14 @@ const Home = () => {
           </View>
 
           {
-            HomeScreeData?.data?.map((items , index) => {
+            HomeScreeData?.map((items , index) => {
               return (
-                <View style={styles.productView}>
-                  <ProductBox lang={lang} items={items} index={index} />
+                <View key={index} style={styles.productView}>
+                  <ProductBox navigation={navigation} lang={lang} items={items} sindex={index} />
                 </View>
               )
             })
-
           }
-
-
 
           {/* </View> */}
           {/* <View style={styles.topCategories}>
@@ -87,6 +86,8 @@ const Home = () => {
               )
             })}
           </View> */}
+
+          <View style={{height:ResponsiveSize(200)}}/>
         </ScrollView>
       </View>
 

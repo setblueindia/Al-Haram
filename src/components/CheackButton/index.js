@@ -4,13 +4,12 @@ import {styles} from './chexkbutton.style';
 import {COLOR} from '../../constants/style';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
-const CheackButton = ({ onPress , preVriable}) => {
-  const [selected, setSelected] = useState(false);
+const CheackButton = ({ onPress , preVriable , onPress2}) => {
   return (
     <TouchableOpacity
       onPress={() => {
         preVriable ? onPress(false) : onPress(true)
-        // selected ? setSelected(false) : setSelected(true);
+        onPress2 && onPress2()
       }}
       style={[styles.mainView, preVriable && {backgroundColor: COLOR.primaray}]}>
       <Icon style={styles.icon} name="check" size={15} />

@@ -5,6 +5,7 @@ import { NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useEffect, useState } from 'react';
 import { GetWallateAmount } from '../../api/axios.api';
+import { WallateAmount } from '../../utils/asyncStorage';
 
 const UseWalletHook = () => {
   const navigation = useNavigation();
@@ -19,20 +20,18 @@ const UseWalletHook = () => {
   }, [navigation])
 
   const getWallteAmount = async () => {
-    const data =
-      `{
-      getWalletRemainingTotal(id : ${userId})
-      }`
+    const data = `{ getWalletRemainingTotal(id : ${userId}) }`
     setIsLoading(true)
     try {
       const rep = await GetWallateAmount(data, lang)
       if (rep) {
         setAmount(rep?.data?.data?.getWalletRemainingTotal)
+        const strAmount = JSON.stringify(rep?.data?.data?.getWalletRemainingTotal)
+        WallateAmount(strAmount)
         setIsLoading(false)
       } else {
         console.log("ERT AMOUNT INNER ERROR :::::::: ", rep?.data)
       }
-
     } catch (error) {
       console.log("GERT AMOUNT ERROR :::::: ", error)
       setIsLoading(false)

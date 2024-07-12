@@ -37,7 +37,7 @@ const Cart = ({ data, lang, deleteProduct, outOfStock }) => {
             <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{"QTY :"}</Text>
-                <Counter qty={qty} setQnt={setQnt} />
+                <Counter  qty={qty} setQnt={setQnt} />  
               </View>
               <TouchableOpacity
                 onPress={() => { deleteProduct(data?.item_id) }}

@@ -2,13 +2,44 @@ import { useNavigation } from "@react-navigation/native"
 import { useSelector } from "react-redux"
 import { NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
+import { getOrderView } from "../../api/axios.api"
+import { useEffect, useState } from "react"
 
 
-const useOrderDetaisHook = () => {
+const useOrderDetaisHook = (props) => {
+    const [isLoadding , setIsLoadding] = useState(false)
+    const [orderDetailsList , setOrderDeatils] = useState()
     const navigation = useNavigation()
     const lang = useSelector(state => state?.lang?.data)
-
     const lable = lang == NUMBER.num0 ? Ar : En
+    const OId = props?.route?.params?.orderID
+
+    const orderDetails = async () => {
+        setIsLoadding(true)
+        const formData = new FormData()
+        formData.append("order_id" , OId)
+        formData.append("store_id" , lang)
+        formData.append("view_option" , "ordered")
+
+        try {
+            const res = await getOrderView(formData)
+            if(res?.data?.status == 1) {
+                setOrderDeatils(res?.data?.data)
+                setIsLoadding(false)
+            } else{
+                console.log("INNER ORDER DETAILS VIEW ERROR :::::::: ", res?.data)
+                setIsLoadding(false)
+            }
+       
+        } catch (error) {
+            console.log("ORDER DETAILS VIEW ERROR :::::::: ", error)
+            setIsLoadding(false)
+        }
+    }
+
+    useEffect(()=>{
+        orderDetails()
+    },[])
 
     const data = lang == NUMBER.num1 ? {
         oderId: "#000000680",
@@ -51,7 +82,9 @@ const useOrderDetaisHook = () => {
         navigation,
         lang,
         data,
-        lable
+        lable,
+        isLoadding,
+        orderDetailsList
     }
 }
 

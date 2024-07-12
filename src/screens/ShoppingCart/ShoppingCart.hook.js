@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { NAVIGATION, NUMBER } from '../../constants/constants'
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, DeleteCartItems, getShippingListAxios, getStorePickupMethod } from '../../api/axios.api'
+import { CartList, DeleteCartItems, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import { ShippingList } from '../../constants/axios.url'
 import { useSharedValue } from 'react-native-reanimated'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
@@ -17,12 +18,27 @@ const useShoppingcart = () => {
   const navigation = useNavigation()
   const Token = useSelector(state => state?.userData?.data?.token)
   const [outOfStock, setOutOfStock] = useState()
+
+
+  // For Address
   const [addressCod, setAddressCode] = useState()
-  const [selectAddressList , setSelectAddress] = useState()
-  const [ShhippingData , SetShippingdata] = useState([])
-  const [showModal , setShowModal] = useState(false)
-  const [messages , setMessages] = useState()
-  const [showWallet , setShowWallet] = useState(false)
+  const [billingAddress, setBillingAddress] = useState([])
+  const [selectAddressList, setSelectAddress] = useState()
+
+
+
+  const [ShhippingData, SetShippingdata] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [messages, setMessages] = useState()
+  const [showWallet, setShowWallet] = useState(false)
+  const [shippingData, setShippingdata] = useState()
+
+  const [paymentScreenData, setPaymentScreen] = useState()
+  const [selectPayment, setSelectPayment] = useState('')
+
+  const [wallateAmount, setWallateAmount] = useState()
+
+  const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
 
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
@@ -104,30 +120,52 @@ const useShoppingcart = () => {
     }
   useEffect(() => {
     getData()
+    getWallateData()
   }, [])
-  // console.log("index =======> ", index)
+
+  // Payment Check Out-Button
   const onPress = () => {
     if (index < 3) {
-      if(index == 0) {
-        setIndex(index + 1) 
-      }
-      if(index == 1 &&  !addressCod) {
-        setShowModal(true)
-        setMessages("Please select address")
-      }else{
-        getShipingList()
+      if (index == 0) {
         setIndex(index + 1)
       }
-      if(index == 2){
-        setIndex(index + 1) 
+      if (index == 1) {
+        if (!addressCod) {
+          setShowModal(true)
+          setMessages("Please select address")
+        } else {
+          getShipingList()
+          setIndex(index + 1)
+        }
       }
+
+      if (index == 2) {
+        if (!shippingData) {
+          setShowModal(true)
+          setMessages("Please select shipping method")
+        } else {
+          PlaceHolder1()
+        }
+      }
+
     } else {
       navigation.navigate(NAVIGATION.Done, { lang: lang })
     }
   }
+  // Back Button
   const goBack = () => {
+    if (index == 2) {
+      setAddressCode('')
+      setSelectPayment('')
+    }
+    if (index == 3) {
+      setShippingdata('')
+      setSelectPayment('')
+    }
     index > 0 && setIndex(index - 1)
   }
+
+  // Get Cart Items API
   const getData = async () => {
     setIndex(0)
     setLoadding(true)
@@ -151,10 +189,12 @@ const useShoppingcart = () => {
         setLoadding(false)
       }
     } catch (error) {
+      setLoadding(false)
       console.log("CART LIST ERROR ::::::::::::::::::::::: ", error)
     }
   }
 
+  // Delete Cart Product
   const deleteProduct = async (items) => {
     setLoadding(true)
     const formData = new FormData
@@ -175,6 +215,7 @@ const useShoppingcart = () => {
     }
   }
 
+  // Get Shipping Method API-List
   const getShipingList = async () => {
     setLoadding(true)
     const formData = new FormData()
@@ -183,7 +224,6 @@ const useShoppingcart = () => {
     formData.append("addressId", addressCod?.id)
     try {
       const res = await getShippingListAxios(formData)
-      console.log("Response :::::::::::::::::: ", res?.data?.data)
       SetShippingdata(res?.data?.data)
       setLoadding(false)
 
@@ -195,29 +235,177 @@ const useShoppingcart = () => {
 
   }
 
-  const selectShipping = async () =>{
+  // Select Shipping Method API-List 
+  const selectShipping = async () => {
     setLoadding(true)
     const formData = new FormData()
-    formData.append("store_id" , lang)
-   try {
-    const response = await getStorePickupMethod(formData)
-    if(response?.data?.status == NUMBER.num1) {
+    formData.append("store_id", lang)
+    try {
+      const response = await getStorePickupMethod(formData)
+      if (response?.data?.status == NUMBER.num1) {
+        setLoadding(false)
+        setSelectAddress(response?.data?.data)
+        // console.log("=============> ", response?.data?.status)
+      } else {
+        console.log("ENNER SELECT LIST ERROR :::::: ", error)
+      }
+
+
+    } catch (error) {
+      console.log("GET STORE SHIPPING ERROR :::::::::::::: ", error)
       setLoadding(false)
-      setSelectAddress(response?.data?.data)
-      console.log("=============> ", response?.data?.status)
-    }else{
-      console.log("ENNER SELECT LIST ERROR :::::: ", error)
+
     }
-  
+  }
 
-   } catch (error) {
-    console.log("GET STORE SHIPPING ERROR :::::::::::::: " , error)
-    setLoadding(false)
+  // Place Holder API
+  const PlaceHolder1 = async () => {
+    setLoadding(true)
+    const params = {
+      "addressInformation": {
+        "shipping_address": {
+          "id": addressCod?.id,
+          "customer_id": addressCod?.customer_id,
+          "region": addressCod?.region,
+          "region_id": addressCod?.region_id,
+          "country_id": addressCod?.country_id,
+          "street": addressCod?.street,
+          "region_code": addressCod?.region_code,
+          "telephone": addressCod?.telephone,
+          "postcode": addressCod?.postcode,
+          "city": addressCod?.city,
+          "firstname": addressCod?.firstname,
+          "lastname": addressCod?.lastname,
+          "default_shipping": true,
+          "default_billing": addressCod?.default_billing,
+          "region_name": addressCod?.region_name,
+          "country_name": addressCod?.country_name,
+          "address1": addressCod?.address1,
+          "address2": addressCod?.address2,
+          "address3": addressCod?.address3,
+          "city_display": addressCod?.city_display
+        },
+        "billing_address": {
+          "id": billingAddressData?.id,
+          "customer_id": billingAddressData?.customer_id,
+          "region": billingAddressData?.region,
+          "region_id": billingAddressData?.region_id,
+          "country_id": billingAddressData?.country_id,
+          "street": billingAddressData?.street,
+          "region_code": billingAddressData?.region_code,
+          "telephone": billingAddressData?.telephone,
+          "postcode": billingAddressData?.postcode,
+          "city": billingAddressData?.city,
+          "firstname": billingAddressData?.firstname,
+          "lastname": billingAddressData?.lastname,
+          "default_shipping": false,
+          "default_billing": true,
+          "region_name": billingAddressData?.region_name,
+          "country_name": billingAddressData?.country_name,
+          "address1": billingAddressData?.address1,
+          "address2": billingAddressData?.address2,
+          "address3": billingAddressData?.address3,
+          "city_display": billingAddressData?.city_display
+        },
+        "shipping_carrier_code": shippingData?.carrier_code,
+        "shipping_method_code": shippingData?.method_code
+      }, "custom": {
+        "token": Token,
+        "store_id": lang
+      }
+    }
+    try {
+      const response = await getPlaceHolder1(params)
+      if (response?.status == 200) {
+        setIndex(index + 1)
+        // console.log("Response =========> ", response?.data?.data)
+        setPaymentScreen(response?.data?.data)
+        setLoadding(false)
+        getCoupanList()
 
-   }
-}
+      } else {
+        console.log("Inner Place Holder========> ", response?.data)
+        setLoadding(false)
+      }
+
+    } catch (error) {
+      console.log("PLACE-HOLDER 1 ERROR :::::::::::::: ", error)
+      setLoadding(false)
+    }
+
+
+  }
+
+  // get Wallet Amount
+  const getWallateData = async () => {
+    const response = await AsyncStorage.getItem(ASYNCSTORAGE.walletAmount)
+    const amount = parseInt(response)
+    setWallateAmount(amount)
+  }
+
+  // select PaymentMethod
+  const selectPaymentMethod = async (cod) => {
+    setLoadding(true)
+    try {
+      const params = {
+        "paymentMethod": cod,
+        "billing_address": {
+          "id": billingAddressData?.id,
+          "customer_id": billingAddressData?.customer_id,
+          "region": billingAddressData?.region,
+          "region_id": billingAddressData?.region_id,
+          "country_id": billingAddressData?.country_id,
+          "street": billingAddressData?.street,
+          "region_code": billingAddressData?.region_code,
+          "telephone": billingAddressData?.telephone,
+          "postcode": billingAddressData?.postcode,
+          "city": billingAddressData?.city,
+          "firstname": billingAddressData?.firstname,
+          "lastname": billingAddressData?.lastname,
+          "default_shipping": false,
+          "default_billing": true,
+          "region_name": billingAddressData?.region_name,
+          "country_name": billingAddressData?.country_name,
+          "address1": billingAddressData?.address1,
+          "address2": billingAddressData?.address2,
+          "address3": billingAddressData?.address3,
+          "city_display": billingAddressData?.city_display
+        },
+        "custom": {
+          "token": Token,
+          "store_id": lang
+        }
+      }
+      const response = await setPaymentMethod(params)
+      // console.log( "===================",response?.data?.data)
+      setSelectPayment(response?.data?.data)
+      setLoadding(false)
+
+    } catch (error) {
+      console.log("SELECTR PAYMENT ERROR :::::: ", error)
+      setLoadding(false)
+    }
+  }
+
+  // get Coupna List Api 
+  const  getCoupanList = async () =>{
+    const formData = new FormData()
+
+    formData.append("store_id" , lang)
+    formData.append("token" , Token)
+    try {
+   
+      const response = await getCoupan(formData)
+      console.log("Response of  ::::::::::::: ", response)
+    } catch (error) {
+      console.log("COUPAN ERROR ::::::: ", error)
+    }
+  }
+
+
 
   return {
+    selectPaymentMethod,
     index,
     navigation,
     data,
@@ -232,6 +420,8 @@ const useShoppingcart = () => {
     showModal,
     messages,
     showWallet,
+    paymentScreenData,
+    wallateAmount,
     setShowModal,
     deleteProduct,
     setAddressCode,
@@ -239,7 +429,12 @@ const useShoppingcart = () => {
     onPress,
     goBack,
     setLoadding,
-    setShowWallet
+    setShowWallet,
+    setShippingdata,
+    setBillingAddress,
+    getCoupanList,
+    selectPayment,
+    setSelectPayment
   }
 }
 

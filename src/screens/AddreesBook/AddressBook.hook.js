@@ -7,11 +7,13 @@ import { AddressList, DeleteAddress } from "../../api/axios.api"
 import { SHOWTOTS } from "../../utils/utils"
 
 
-const useAddressBookHook = (setAddressCode , setLoadding) => {
+const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) => {
     const lang = useSelector(state => state.lang.data)
     const userData = useSelector(state => state.userData.data)
     const navigation = useNavigation()
     const [isLoading, setIsLoading] = useState(false)
+    const [aindex , setAindex] = useState() 
+    const [resload , setReload] = useState(false)
     const Str = lang == NUMBER.num0 ? Ar : En
     const [data, setData] = useState(
         [
@@ -38,13 +40,12 @@ const useAddressBookHook = (setAddressCode , setLoadding) => {
             // },
         ]
     )
-    
     useEffect(() => {
         getData()
-    }, [navigation])
+    }, [navigation , resload])
 
     const addAddress = () => {
-        navigation.navigate(NAVIGATION.addaddress)
+        navigation.navigate(NAVIGATION.addaddress , {setLoadding : setLoadding , setReload : setReload , getData:getData})
     }
     const getData = async () => {
         !setLoadding && setIsLoading(true)
@@ -54,9 +55,16 @@ const useAddressBookHook = (setAddressCode , setLoadding) => {
         formData.append("store_id", lang)
         try {
             const res = await AddressList(formData)
-            console.log("Address List ::::::::::::::::::::: ", res?.data)
+         
             if (res?.data?.status == NUMBER.num1) {
+                const temp = [];
                 setData(res?.data?.data)
+                res?.data?.data.map((items , index)=>{
+                    if(items?.default_billing){
+                        temp.push(items)
+                    }
+                })
+                setLoadding && setBillingAddress(temp)
                 setIsLoading(false)
                 setLoadding &&   setLoadding(false)
             } else {
@@ -95,7 +103,10 @@ const useAddressBookHook = (setAddressCode , setLoadding) => {
         addAddress,
         Str,
         isLoading,
-        deleteAdress
+        aindex,
+        setAindex,
+        deleteAdress,
+        getData
     }
 }
 

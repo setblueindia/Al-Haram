@@ -8,12 +8,13 @@ export const styles = StyleSheet.create({
         width:ResponsiveSize(30),
        borderWidth:ResponsiveSize(1),
        alignItems:ALINE.center,
-       justifyContent:ALINE.center
+       justifyContent:ALINE.center,
+       backgroundColor:COLOR.white
        
     },
 
     icon:{
-        color:COLOR.white
+        color:COLOR.white,
     }
    
 })

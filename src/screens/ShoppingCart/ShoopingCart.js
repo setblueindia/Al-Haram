@@ -34,12 +34,20 @@ const ShoopingCart = () => {
         showModal,
         messages,
         showWallet,
+        paymentScreenData,
+        wallateAmount,
         setShowWallet,
         selectShipping,
         deleteProduct,
         setAddressCode,
         setLoadding,
         setShowModal,
+        setShippingdata,
+        setBillingAddress,
+        setSelectPayment,
+        getCoupanList,
+        selectPayment,
+        selectPaymentMethod,
         outOfStock
     } = useShoppingcart()
 
@@ -57,9 +65,9 @@ const ShoopingCart = () => {
                     <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 1 || index == 2 ||  index == 3) && { color: COLOR.primaray }]}>{shopinfCratData?.Shipping}</Text>
+                    <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }]}>{shopinfCratData?.Shipping}</Text>
                     {index == 0 && <Text>------</Text>}
-                    {(index == 1 || index == 2 ||index == 3  ) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
+                    {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
                     <Text style={[styles.text, (index == 3) && { color: COLOR.primaray }]}>{shopinfCratData.Payment}</Text>
@@ -71,7 +79,7 @@ const ShoopingCart = () => {
                 {index == 0 &&
                     <View style={styles.cartView}>
                         <View style={{
-                            height:outOfStock?.length > 0 ? "60%" : "100%"
+                            height: outOfStock?.length > 0 ? "60%" : "100%"
                             // height: "60%"
                         }} >
                             <FlatList
@@ -88,9 +96,8 @@ const ShoopingCart = () => {
                             />
                         </View>
 
-
                         {
-                             outOfStock?.length > 0 &&       
+                            outOfStock?.length > 0 &&
 
                             <View style={{
                                 height: "40%",
@@ -122,19 +129,19 @@ const ShoopingCart = () => {
                 {
                     index == 1 &&
                     <View style={{ flex: 1 }}>
-                        <Shooping setLoadding={setLoadding} setAddressCode={setAddressCode} data={shopinfCratData} lang={lang} />
+                        <Shooping setLoadding={setLoadding} setAddressCode={setAddressCode} setBillingAddress={setBillingAddress} data={shopinfCratData} lang={lang} />
                     </View>
                 }
                 {
                     index == 2 &&
                     <View>
-                        <ShipingMethod selectAddressList={selectAddressList} selectShipping={selectShipping}  Token={Token} addressCod={addressCod}  data={ShhippingData}  lang={lang} />
+                        <ShipingMethod setShippingdata={setShippingdata} selectAddressList={selectAddressList} selectShipping={selectShipping} Token={Token} addressCod={addressCod} data={ShhippingData} lang={lang} />
                     </View>
                 }
                 {
                     index == 3 &&
                     <View style={{ flex: 1 }}>
-                        <Payment showWallet={showWallet} setShowWallet={setShowWallet} data={shopinfCratData} lang={lang} />
+                        <Payment setSelectPayment={setSelectPayment} selectPaymentMethod={selectPaymentMethod} selectPayment={selectPayment} wallateAmount={wallateAmount} paymentScreenData={paymentScreenData} showWallet={showWallet} setShowWallet={setShowWallet} data={shopinfCratData} lang={lang} />
                     </View>
                 }
 
@@ -150,7 +157,7 @@ const ShoopingCart = () => {
                         ShoopingCart={true}
                     />
                 </View>
-                {(index == 1 || index == 2 ||index == 3  ) &&
+                {(index == 1 || index == 2 || index == 3) &&
                     <TouchableOpacity onPress={() => { goBack() }} style={styles.goBackBtn}>
                         <Icon name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR} />
                     </TouchableOpacity>}
@@ -161,13 +168,13 @@ const ShoopingCart = () => {
                     <CusLoader />
                 </View>}
 
-                <Modal
-        animationType='slide'
-        transparent={true}
-        visible={showModal}
-      >
-        <CusModal  setModalShow={setShowModal} text={messages} />
-      </Modal>
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={showModal}
+            >
+                <CusModal setModalShow={setShowModal} text={messages} />
+            </Modal>
 
         </View>
     )

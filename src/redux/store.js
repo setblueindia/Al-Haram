@@ -3,6 +3,8 @@ import LangSlices from './Slices/LangSlices';
 import UserDataSlice from './Slices/UserData.slice';
 import  DrawerList  from './Slices/DrawerSlice';
 import AddToCartSlice from './Slices/AddToCartSlice';
+import CetegoriesList from './Slices/CetegoriesList';
+import HomeScreenData from './Slices/HomeScreenData';
 
 
 
@@ -12,7 +14,9 @@ const store = configureStore({
         lang : LangSlices,
         userData : UserDataSlice,
         Categories : DrawerList,
-        AddToCart : AddToCartSlice
+        AddToCart : AddToCartSlice,
+        CetegoriesList : CetegoriesList,
+        HomeScreen : HomeScreenData
     }
 })
 

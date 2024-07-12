@@ -1,17 +1,18 @@
 
 // LIVE
-export const BASE_URL = "https://alharamstores.com"
+// export const BASE_URL = "https://alharamstores.com"
+export const  BASE_URL = "https://test.alharamstores.com"
 
 // LOCAL
 //    BASE_URL = "https://test.alharamstores.com"
-// BASE_URL = "https://beta.alharamstores.com"
+//    BASE_URL = "https://beta.alharamstores.com"
 
-//    BASE_URL = "https://74fd4dd9be.nxcli.io"
-//    BASE_URL = "https://fairpricecorner.com"
 
 // Graph Url 
 // export const GRAFORL = "https://beta.alharamstores.com/graphql"
-export const GRAFORL = "https://alharamstores.com/graphql"
+export const GRAFORL = "https://test.alharamstores.com/graphql"
+// export const GRAFORL = "https://alharamstores.com/graphql"
+
 
 export const SINUPURL = BASE_URL + "/rest/arabic/V1/api/mobileOtpRegistrationMethod"
 export const LOGINURL = BASE_URL + "/rest/V1/api/loginUser"
@@ -32,4 +33,13 @@ export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDele
 export const expireTokenDefault = BASE_URL + "/rest/" + "default" + "/V1/carts/mine"
 export const ShippingList = BASE_URL + "/rest/V1/api/shippingListMethod" 
 export const StoreShippingURL = BASE_URL + "/rest/V1/api/storePickupMethodlist"
+export const selectedShippingListMethodURl = BASE_URL + "/rest/V1/api/selectedShippingListMethod"
+export const SetPaymentMethodURL = BASE_URL + "/rest/V1/api/setPaymentMethod"
+export const OrderList = BASE_URL + "/rest/V1/api/orderListMethod"
+export const OrderView = BASE_URL + "/rest/V1/api/orderViewMethod"
+export const PRODUCTLIST = BASE_URL + "/rest/V1/api/getProductByCateId" 
+export const FilterList = BASE_URL + "/rest/V1/api/getCategoryFilterMethod" 
+export const CoupanListAPI = BASE_URL + "/rest/V1/api/coupenListMethod"
+
+
 

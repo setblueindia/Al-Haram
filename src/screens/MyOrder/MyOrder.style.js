@@ -34,17 +34,17 @@ export const styles = StyleSheet.create({
   },
 
   imgStyle: {
-    width:"100%",
+    width: "100%",
     height: "100%",
-    alignSelf:ALINE.center,
-    resizeMode:'contain'
+    alignSelf: ALINE.center,
+    resizeMode: 'cover'
 
   },
-  imgView:{
+  imgView: {
     width: ResponsiveSize(60),
     height: ResponsiveSize(60),
-    alignSelf:ALINE.center,
-    alignItems:ALINE.center
+    alignSelf: ALINE.center,
+    alignItems: ALINE.center
   },
   prdView: {
     alignSelf: ALINE.center,
@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
   },
   prdText: {
     color: '#202020',
+    width: ResponsiveSize(300)
   },
   mnyView: {
     alignSelf: ALINE.center,
@@ -67,7 +68,7 @@ export const styles = StyleSheet.create({
 
   compalatedView: {
     flexDirection: ALINE.row,
-    alignItems:ALINE.center
+    alignItems: ALINE.center
   },
   dott: {
     height: ResponsiveSize(10),
@@ -75,8 +76,8 @@ export const styles = StyleSheet.create({
     borderRadius: ResponsiveSize(100),
     backgroundColor: "green",
   },
-  compalatedText:{
-    color:"green",
-    marginLeft:ResponsiveSize(10)
+  compalatedText: {
+    color: "green",
+    marginLeft: ResponsiveSize(10)
   }
 });

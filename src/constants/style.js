@@ -11,7 +11,9 @@ export const COLOR = {
     black : "#000000",
     gray : "#CCCCCC",
     liteGreen : "#129A3C",
-    darkGray :"#808080"
+    darkGray :"#808080",
+    liteGray : "#A8A5A5",
+    TextColor : "#403D3D"
 }
 export const FONTWEGHIT = {
     font200 : "200",

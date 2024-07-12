@@ -39,7 +39,6 @@ const Drower = () => {
     <View style={[styles.mainView, { height: height }]}>
 
       <StatusBarCus />
-
       <View
         style={[
           styles.profileView,

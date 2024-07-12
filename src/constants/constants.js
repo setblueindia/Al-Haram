@@ -26,7 +26,8 @@ export const NAVIGATION = {
   OrderDeatsiScreen : "Order Details Screen",
   CancelOrder : "CancelOrder Screen",
   PaymentHistroy : "Payments histrory",
-  paymentDetails : "Payment Details"
+  paymentDetails : "Payment Details",
+  bannerScreen : "Banner Screen"
 
 };
 export const LOGINStr = {
@@ -89,7 +90,8 @@ export const ASYNCSTORAGE = {
   Token: "Token",
   Userdata: "UserData",
   Email : "Email",
-  Password : "Password"
+  Password : "Password",
+  walletAmount : "WalletAmount"
 };
 
 export const NUMBER = {

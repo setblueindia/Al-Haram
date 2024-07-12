@@ -48,9 +48,6 @@ const ProductDetails = (props) => {
     } = useProductDetails({ props })
 
 
-    // console.log("Deails ::::::::::::: ", details)
-
-
     return (
         <View style={styles.mainVIew}>
             <CommanHeader navigation={navigation} lang={lang?.data} />
@@ -65,7 +62,7 @@ const ProductDetails = (props) => {
                 </View>
 
                 <View style={styles.profuctName}>
-                    <Text style={[styles.profuctNameText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name}</Text>
+                    <Text style={[styles.profuctNameText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '' }</Text>
                 </View>
 
                 <View style={styles.PriveView}>
@@ -95,15 +92,14 @@ const ProductDetails = (props) => {
                                                 width: ResponsiveSize(70),
                                                 backgroundColor: "#00000050",
                                                 borderRadius: ResponsiveSize(20)
-                                            }} />
+                                            }} 
+                                            />
                                         }
                                         {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
                                     </TouchableOpacity>
                                 </View>
                             )
-                        })
-
-                        }
+                        })}
                     </View>
                 }
 

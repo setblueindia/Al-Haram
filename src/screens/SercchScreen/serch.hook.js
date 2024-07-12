@@ -77,7 +77,7 @@ const useSerchHook = () => {
     try {
       const response = await SerchAPI(sData, lang)
       if (response) {
-        response?.data?.data?.products?.items.map((item) => {
+        response?.data?.data?.products?.items?.map((item) => {
           return item["like"] = false;
         })
         !first ?
@@ -91,7 +91,6 @@ const useSerchHook = () => {
         setMoreData(false)
         console.log("INNER SERCH ERROR :::::::::::", response)
       }
-
     } catch (error) {
       console.log("SERCH ERRROR ::::::::::", error)
       setIsLoadding(false)

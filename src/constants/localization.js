@@ -117,7 +117,15 @@ export const Ar = {
   emailmismatch:"عدم تطابق البريد الإلكتروني والبريد الإلكتروني المؤكد",
   enterNickName : "أدخل كنية",
   ShippingMethods:"طرق الشحن",
-  SAR : "سأر"
+  SAR : "سأر",
+  PaymentByYourWallet : " الدفع عن طريق محفظتك",
+  PaymentToBeMade:"الدفع ليتم",
+  AmountinYourWallet:"المبلغ في محفظتك",
+  Leftamounttobepaid:"المبلغ المتبقي ليتم دفعه",
+  RemainingWalletAmount:"المبلغ المتبقي في المحفظة",
+  WalletAmount : "مبلغ المحفظة",
+  TotaldueAmount:"إجمالي المبلغ المستحق",
+  BillingAddress:"Billing Address"
 }
 
 export const En = {
@@ -240,7 +248,15 @@ export const En = {
   enteraddress3: "enter address 1",
   Enterpincode : "Enter pincode",
   ShippingMethods : "Shipping Methods",
-  SAR : "SAR"
+  SAR : "SAR",
+  PaymentByYourWallet : "Payment By Your Wallet",
+  PaymentToBeMade : "Payment To Be Made",
+  AmountinYourWallet : "Amount in Your Wallet",
+  Leftamounttobepaid : "Left amount to be paid",
+  RemainingWalletAmount : "Remaining Wallet Amount",
+  WalletAmount : "Wallet Amount",
+  TotaldueAmount:"Total due Amount",
+  BillingAddress: "Billing Address"
 
 
 

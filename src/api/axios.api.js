@@ -5,12 +5,18 @@ import {
     AddressListURL,
     CartListApi,
     CityListURL,
+    CoupanListAPI,
+    FilterList,
     ForgetPasswordURL,
     GRAFORL,
     HOMEURL,
     LOGINURL,
     OTPVerification,
+    OrderList,
+    OrderView,
+    PRODUCTLIST,
     SINUPURL,
+    SetPaymentMethodURL,
     ShippingList,
     StateListURL,
     StoreShippingURL,
@@ -20,9 +26,10 @@ import {
     deleteCartItems,
     expireTokenArabic,
     expireTokenDefault,
-    getCartItemsCount
+    getCartItemsCount,
+    selectedShippingListMethodURl
 } from "../constants/axios.url"
-import { POSTFORM, POSTFORMGRAPH, expireTokenFrom } from "./axios.function"
+import { POSTFORM, POSTFORMGRAPH, POSTJSON, expireTokenFrom } from "./axios.function"
 import { NUMBER } from "../constants/constants"
 
 export const useSingUp = async (params) => {
@@ -170,3 +177,47 @@ export const getStorePickupMethod = async (params) => {
     return res
 }
 
+export const getPlaceHolder1 = async (params) =>{
+    const res = await POSTJSON(selectedShippingListMethodURl , params)
+    return res
+}
+
+export const setPaymentMethod = async (params) =>{
+    const res = await POSTJSON(SetPaymentMethodURL , params)
+    return res
+}
+
+export const getCetergourisList = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const getProductDetails = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const getOrderDetailsList = async (params) => {
+    const res = await POSTFORM(OrderList, params)
+    return res
+}
+
+export const getOrderView = async (params) => {
+    const res = await POSTFORM(OrderView, params)
+    return res
+}
+
+export const getProductList = async (params) => {
+    const res = await POSTFORM(PRODUCTLIST, params)
+    return res
+}
+
+export const getFilterList = async (params, lang) =>{
+    const res = await POSTFORMGRAPH(GRAFORL, params , lang)
+    return res
+}
+
+export const  getCoupan = async (params) =>{
+    const res = await POSTFORM(CoupanListAPI , params)
+    return res
+}

@@ -3,18 +3,25 @@ import React from 'react'
 import { WC1, WomenBanner } from '../../assests'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
-import { NUMBER } from '../../constants/constants'
+import { NAVIGATION, NUMBER } from '../../constants/constants'
+import { BASE_URL } from '../../constants/axios.url'
 
-const CetegoriesBox = ({ items, index, lang }) => {
-    const data = items?.data
+const CetegoriesBox = ({ items, index, lang , navigation}) => {
+    
+    const data = items?.children
+    // console.log(items)
     return (
         <View style={[styles.mainView, index % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
+
             <View style={styles.bannerView}>
-                <Image style={styles.bannerImg} source={items.banner} />
+                <Image style={styles.bannerImg} source={{uri : BASE_URL + items?.mobile_image}} />
             </View>
+
             <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={styles.categoriesName}>{items?.name}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>{navigation.navigate(NAVIGATION.bannerScreen)}}
+                >
                     <Text style={styles.viewText}>{"View All"}</Text>
                 </TouchableOpacity>
             </View>
@@ -28,13 +35,15 @@ const CetegoriesBox = ({ items, index, lang }) => {
             >
                 {
                     data?.map((items, index) => {
+                        const name = items?.name
+                        const finalName = name.substring(0, 10);
                         return (
                             <>
-                                <TouchableOpacity key={index}>
-                                    <View key={index} style={styles.innerCategoriesView}>
-                                        <Image style={styles.storyView} source={items?.img} />
+                                <TouchableOpacity style={{justifyContent:'center' , alignItems:'center'}} >
+                                    <View style={styles.innerCategoriesView}>
+                                        <Image style={styles.storyView} source={{uri : BASE_URL + items?.mobile_thumbnail}} />
                                     </View>
-                                    <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{"Winter"}</Text>
+                                    <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{ items?.name}</Text>
                                 </TouchableOpacity>
 
                                 <View style={{ width: ResponsiveSize(30) }} />
@@ -55,8 +64,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFBEB",
         borderWidth: ResponsiveSize(1),
         borderColor: "#CEB282"
-
-
     },
     bannerView: {
         height: ResponsiveSize(250),
@@ -67,8 +74,8 @@ const styles = StyleSheet.create({
         resizeMode: RESIZEMODE.contain
     },
     textView: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
         paddingHorizontal: ResponsiveSize(10)
 
     },
@@ -81,9 +88,9 @@ const styles = StyleSheet.create({
         color: COLOR.primaray
     },
     subCategories: {
-        flexDirection: 'row',
+        flexDirection: ALINE.row,
         marginTop: ResponsiveSize(30),
-        paddingBottom: ResponsiveSize(30)
+        paddingBottom: ResponsiveSize(10)
     },
     innerCategoriesView: {
         height: ResponsiveSize(130),
@@ -99,9 +106,13 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     cetegoriesText: {
-        textAlign: "center",
+        textAlign: ALINE.center,
         color: COLOR.black,
-        marginTop: ResponsiveSize(20)
+        marginTop: ResponsiveSize(20),
+        width:ResponsiveSize(120),
+        height:ResponsiveSize(80),
+        textAlign:'center',
+    
     }
 
 })

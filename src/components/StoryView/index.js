@@ -1,17 +1,19 @@
 import { FlatList, TouchableOpacity, View, Image, Text } from 'react-native'
 import React from 'react'
 import { styles } from './story.style'
-import { NUMBER } from '../../constants/constants'
+import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE } from '../../constants/style'
+import { BASE_URL } from '../../constants/axios.url'
 
 
-const StoryView = ({ data , lang }) => {
+const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
+
 
     return (
         <View style={[styles.mainView , lang.data == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
 
             <FlatList
-                data={data}
+                data={CetegoriesData}
                 inverted ={lang.data == NUMBER.num0 ?  true :false}
                 scrollEnabled={true}
                 showsHorizontalScrollIndicator={false}
@@ -20,15 +22,16 @@ const StoryView = ({ data , lang }) => {
                 style={styles.FlatList}
                 horizontal
                 renderItem={({ item , index }) => {
+                    
                     return (
-                        <View  key={index}  style={styles.listView}>
-                            <TouchableOpacity style={styles.storyView}>
-                                <Image style={styles.imge} source={item.img} />
+                        <View  key={index + 10}  style={styles.listView}>
+                            <TouchableOpacity 
+                            onPress={()=>{navigation.navigate(NAVIGATION.bannerScreen)}}
+                            style={styles.storyView}>
+                                <Image style={styles.imge} source={{uri : BASE_URL+ item?.mobile_thumbnail}} />
                             </TouchableOpacity>
                             <Text style={styles.text} numberOfLines={2}>{item.name}</Text>
                         </View>
-
-
                     )
                 }}
             />

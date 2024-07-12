@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
 import { EXTRASTR } from "../../constants/constants";
 
@@ -79,6 +79,7 @@ export const styles = StyleSheet.create({
 
     },
     orderDetails: {
+        paddingHorizontal:ResponsiveSize(20)
 
     },
     headerText: {
@@ -88,7 +89,7 @@ export const styles = StyleSheet.create({
     },
     itemsDetaisCommon: {
         // height: ResponsiveSize(80),
-        borderBottomWidth: ResponsiveSize(2),
+        // borderBottomWidth: ResponsiveSize(2),
         width: "100%",
         borderColor: COLOR.gray,
         alignItems: ALINE.center,
@@ -150,9 +151,60 @@ export const styles = StyleSheet.create({
     btnView:{
         width :"100%",
         position:'absolute',
-  
         bottom:ResponsiveSize(20),
         paddingHorizontal:ResponsiveSize(20)
+    },
+    itemsList:{
+        width:"100%",
+        // height:ResponsiveSize(130),
+        // backgroundColor:COLOR.black,
+        borderRadius:ResponsiveSize(20),
+        borderWidth:ResponsiveSize(1),
+        borderColor:COLOR.primaray,
+        flexDirection:'row',
+        padding:ResponsiveSize(10),
+        justifyContent:'space-between',
+        alignItems:'center'
+       
+
+    },
+    imgeView:{
+        height:ResponsiveSize(120),
+        width:ResponsiveSize(100),
+        backgroundColor:COLOR.black,
+        borderRadius:ResponsiveSize(10),
+    },
+    productImg:{
+        height:"100%",
+        width:"100%",
+        resizeMode:RESIZEMODE.cover
+    },
+    firstOne:{
+        flexDirection:ALINE.row
+    },
+    nameView:{
+        padding:ResponsiveSize(5),
+        paddingHorizontal:ResponsiveSize(10),
+    },
+    normalText:{
+       color:COLOR.black
+    },
+    fistPriceTex:{
+        textAlign:ALINE.center,
+        color:COLOR.primaray,
+        fontWeight:FONTWEGHIT.font600,
+        marginRight:ResponsiveSize(20)
+    },
+    orderNameText:{
+        fontSize:ResponsiveSize(23),
+        fontWeight:"500",
+
+     
+    },
+    titleText:{
+        color:COLOR.darkGray,
+        fontWeight:"600",
     }
+
 
 })

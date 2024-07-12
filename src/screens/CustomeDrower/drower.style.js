@@ -3,7 +3,11 @@ import {ResponsiveSize} from '../../utils/utils';
 import {ALINE, COLOR, FONTWEGHIT} from '../../constants/style';
 
 export const styles = StyleSheet.create({
-  mainView: {flex: 1},
+  mainView: {
+    flex: 1,
+    height:"100%",
+    with:"100%"
+  },
 
   profileView: {
     flexDirection: ALINE.row,
@@ -54,8 +58,6 @@ export const styles = StyleSheet.create({
   ScrollView: {
     backgroundColor: COLOR.white,
     height: ResponsiveSize(700),
-    // height: '60%',
-    // elevation: 2,
     elevation: 2,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,

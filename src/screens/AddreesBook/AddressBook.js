@@ -1,41 +1,86 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import CommanHeader from '../../components/ComanHeader'
-import { NUMBER, PROFILEStr } from '../../constants/constants'
+import { EXTRASTR, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants'
 import { styles } from './AddressBook.style'
 import ICON from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ResponsiveSize } from '../../utils/utils'
-import { COLOR } from '../../constants/style'
+import { ALINE, COLOR } from '../../constants/style'
 import useAddressBookHook from './AddressBook.hook'
 import AddressBookComp from '../../components/AddressBookComp'
 import CusLoader from '../../components/CustomLoader'
 
-
-
-const AddressBook = ({ Shooping ,setAddressCode , setLoadding }) => {
-
-    const { data, navigation, lang, addAddress, Str, isLoading , deleteAdress} = useAddressBookHook(setAddressCode , setLoadding)
-
-
+const AddressBook = ({ Shooping, setAddressCode, setLoadding, setBillingAddress }) => {
+    const { data,
+        navigation,
+        lang,
+        addAddress,
+        Str,
+        isLoading,
+        deleteAdress,
+        getData
+    } = useAddressBookHook(setAddressCode, setLoadding, setBillingAddress)
+    const [ aindex , setIndex] = useState()
 
     return (
         <View style={styles.mainView}>
             {!Shooping && <CommanHeader lang={lang} name={Str?.AddressBook} navigation={navigation} />}
             <ScrollView style={styles.container}>
-
                 {
                     data.map((items, index) => {
-                     
+                        const name = items?.firstname + " " + items?.lastname
+                        const address = items?.address1 + " " + items?.address2 + " " + items?.address3
                         return (
                             <View key={index}>
-                                <AddressBookComp setAddressCode={setAddressCode} deleteAdress={deleteAdress}data={items} lang={lang} />
+                                <TouchableOpacity
+                                    onPress={() => {
+                                         setIndex(index)
+                                         setAddressCode && setAddressCode(items)
+                                    }}
+
+                                    style={[styles.addressView, aindex == index && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
+                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                        <View style={styles.nameView}>
+                                            <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
+                                        </View>
+                                        <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <TouchableOpacity
+                                                onPress={() => { navigation.navigate(NAVIGATION.addaddress, { editeData: items, getData: getData }) }}
+                                            >
+                                                <ICON name={"square-edit-outline"} size={ResponsiveSize(35)} color={COLOR.primaray} />
+                                            </TouchableOpacity>
+                                            <View style={{ width: ResponsiveSize(15) }}></View>
+                                            <TouchableOpacity onPress={(() => {
+                                                deleteAdress(items?.id)
+                                            })}>
+                                                <ICON name={"delete"} size={ResponsiveSize(35)} color={COLOR.primaray} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+
+                                    <View style={[styles.secondView, lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(80) } : { marginRight: ResponsiveSize(80) }]}>
+                                        <Text
+                                            style={[styles.innerAddres, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}
+                                        >{address}</Text>
+                                    </View>
+
+                                    <View style={styles.thirdView}>
+                                        <Text
+                                            style={[styles.mobailText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}
+                                        >{items?.telephone}</Text>
+                                    </View>
+
+                                </TouchableOpacity>
+                                <View style={{ height: ResponsiveSize(20) }} />
+                                {/* <AddressBookComp getData={getData} index = {index} navigation={navigation} setAddressCode={setAddressCode} deleteAdress={deleteAdress} data={items} lang={lang} /> */}
                             </View>
                         )
                     })
-
                 }
                 <View style={{ height: ResponsiveSize(150) }}></View>
             </ScrollView>
+
+
 
             <View style={styles.btnView}>
                 <TouchableOpacity
@@ -57,10 +102,6 @@ const AddressBook = ({ Shooping ,setAddressCode , setLoadding }) => {
                     <CusLoader />
                 </View>
             }
-
-
-            
-
         </View>
 
     )

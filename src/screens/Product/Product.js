@@ -10,9 +10,10 @@ import { ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import SortFilter from '../../components/SortFilter'
 import SizeFilter from '../../components/SizeFilter'
+import CusLoader from '../../components/CustomLoader'
 
 
-const Product = () => {
+const Product = (props) => {
     const { data,
         navigation,
         setLike,
@@ -22,11 +23,18 @@ const Product = () => {
         sortFilter,
         setSortFilter,
         setSizeFilter,
+        getFilterData,
+        setActions,
+        setSortBy,
+        getData,
         sizeFilter,
+        isLoadding,
+        lable,
         pIndex,
+        filterData,
         setIndex,
         likePress
-    } = useProductHook()
+    } = useProductHook(props)
 
     return (
         <View style={styles.mainView}>
@@ -47,12 +55,12 @@ const Product = () => {
                                 </TouchableOpacity>
                                 <View style={styles.deviderFilter} />
                                 <View style={styles.bar} />
-                                
+
                                 <View style={styles.deviderFilter} />
 
                                 <TouchableOpacity
-                                 style={styles.comonView}
-                                    onPress={() => { setSizeFilter(true) }}
+                                    style={styles.comonView}
+                                    onPress={() => { getFilterData() }}
                                 >
                                     <Filter name={"filter"} size={ResponsiveSize(35)} style={styles.filterIcon} />
                                     <View style={styles.deviderInner} />
@@ -70,28 +78,29 @@ const Product = () => {
                         numColumns={2}
                         bounces={true}
                         renderItem={({ item, index }) => {
+
+                            const name = item?.name.substring(0, 16)
+
                             return (
                                 <TouchableOpacity
                                     onPress={() => {
-                                        navigation.navigate(NAVIGATION.ProducDetails)
+                                        navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku })
                                     }}
                                     style={styles.conntainer}>
                                     <View style={styles.imageView}>
-                                        <Image style={styles.image} source={{ uri: "https://beta.alharamstores.com/media/women-E-02.jpg" }} />
+                                        <Image style={styles.image} source={{ uri: item?.image }} />
                                     </View>
                                     <View style={styles.textView}>
-                                        <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>Top</Text>
-                                        <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>SAR : {"250"}</Text>
+                                        <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 16 ? name + "..." : item.name}</Text>
+                                        <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price}</Text>
                                     </View>
 
                                     <TouchableOpacity
                                         onPress={() => {
-                                            likePress(index)
-                                            // setIndex(item?.id),
-                                        //    (like && index == pIndex) ? setLike(false) : setLike(true)
+                                            likePress(item?.id)
                                         }}
                                         style={styles.likeView}>
-                                        <Filter name={item?.like? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                                        <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                                     </TouchableOpacity>
                                 </TouchableOpacity>
                             )
@@ -99,18 +108,21 @@ const Product = () => {
                     />
 
                     <View style={styles.devider}></View>
-                    <View style={{ flex: 1, height: "100%", width: "100%" }}>
-                        <Modal animationType='slide' transparent={true} visible={sortFilter}>
-                            <SortFilter setSortFilter={setSortFilter} lang={lang} />
-                        </Modal>
-                    </View>
-                    <View style={{ flex: 1, height: "100%", width: "100%" }}>
-                        <Modal animationType='slide' transparent={true} visible={sizeFilter}>
-                            <SizeFilter setSizeFilter={setSizeFilter} lang={lang} />
-                        </Modal>
-                    </View>
+                    <Modal animationType='slide' transparent={true} visible={sortFilter}>
+                        <SortFilter getData={getData} setActions={setActions} setSortBy={setSortBy} setSortFilter={setSortFilter} lang={lang} />
+                    </Modal>
+
+                    <Modal animationType='slide' transparent={true} visible={sizeFilter}>
+                        <SizeFilter filterData={filterData} setSizeFilter={setSizeFilter} lang={lang} />
+                    </Modal>
                 </View>
             </View>
+
+            {isLoadding &&
+                <View style={{ position: 'absolute', height: "100%", width: "100%" }}>
+                    <CusLoader />
+                </View>
+            }
         </View>
     )
 }

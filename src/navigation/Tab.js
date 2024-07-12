@@ -108,11 +108,12 @@ import Icon, { Icons } from '../components/TAB/Icons';
 import * as Animatable from 'react-native-animatable';
 import { ALINE, COLOR } from '../constants/style';
 import { NAVIGATION } from '../constants/constants';
-import Home from '../screens/Home/Home';
+// import Home from '../screens/Home/Home';
 import Categories from '../screens/Categories/Categories';
 import Notification from '../screens/Notification/Notification';
 import Profile from '../screens/Profile/Profile';
 import { ResponsiveSize } from '../utils/utils';
+import Home from '../screens/Home/Home';
 
 
 const TabArr = [

@@ -5,7 +5,7 @@ import { COLOR, FONTWEGHIT } from '../../constants/style'
 import LinearGradient from 'react-native-linear-gradient'
 import { NUMBER } from '../../constants/constants'
 
-const SortFilter = ({ setSortFilter, lang }) => {
+const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData }) => {
 
     const [productIndex, setProductIndex] = useState()
 
@@ -22,11 +22,40 @@ const SortFilter = ({ setSortFilter, lang }) => {
             { id: 2, name: "السعر منخفض مرتفع" },
             { id: 3, name: "السعر مرتفع ومنخفض" },
         ]
-    const [cheack, setCheack] = useState()
-
 
     const filterOnPress = (index) => {
-        index == productIndex ? setCheack(false) : setCheack(true)
+
+        if (index == 0) {
+            setSortBy("")
+            setActions("DESC")
+            getData()
+            setSortFilter(false)
+            
+        }
+        if (index == 1) {
+            setSortBy("position")
+            setActions("ASC")
+            getData()
+            setSortFilter(false)
+
+        }
+        if (index == 2) {
+            setSortBy("price")
+            setActions("ASC")
+            getData()
+            setSortFilter(false)
+
+        }
+        if (index == 3) {
+            setSortBy("price")
+            setActions("DESC")
+            getData()
+            setSortFilter(false)
+
+        }
+
+
+
     }
     return (
         <View style={styles.mainView}>
@@ -46,11 +75,15 @@ const SortFilter = ({ setSortFilter, lang }) => {
                         {data.map((item, index) => {
                             return (
                                 <TouchableOpacity
-                                    onPress={() => { setProductIndex(index), filterOnPress(index) }}
+                                    onPress={() => {
+                                        setProductIndex(index), filterOnPress(index)
+                                    }}
                                     style={[styles.containView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                    <View style={[styles.checkBoxCircal, index == productIndex && { backgroundColor: COLOR.primaray }]} />
-                                    <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{item?.name}</Text>
+                                    <View style={[styles.checkBoxCircal, { justifyContent: 'center', alignItems: 'center', padding: ResponsiveSize(5) }]}>
+                                        <View style={[styles.checkBoxCircal2, index == productIndex && { backgroundColor: COLOR.primaray }]} />
+                                    </View>
 
+                                    <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{item?.name}</Text>
                                 </TouchableOpacity>
                             )
                         })
@@ -104,7 +137,6 @@ const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.gray,
         flexDirection: 'row',
-        // justifyContent:'center',
         alignItems: 'center',
         paddingHorizontal: ResponsiveSize(20)
 
@@ -117,6 +149,11 @@ const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(2),
 
 
+    },
+    checkBoxCircal2: {
+        height: "100%",
+        width: "100%",
+        borderRadius: ResponsiveSize(100)
     },
     checkText: {
         fontSize: ResponsiveSize(30),

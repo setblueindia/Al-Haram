@@ -1,15 +1,17 @@
 import React from 'react';
-import {EXTRASTR, NAVIGATION, NUMBER} from '../constants/constants';
+import { EXTRASTR, NAVIGATION, NUMBER } from '../constants/constants';
 import TabNavigation from './Tab';
 import Drower from '../screens/CustomeDrower/Drower';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import AnimTab1 from './Tab';
+import { Dimensions, View } from 'react-native';
 
 const DrowerNavigation = () => {
   const lang = useSelector(state => state.lang);
 
   const Drawer = createDrawerNavigator();
+  // const width = Dimensions.get("window").width
 
   return (
     <>
@@ -19,11 +21,12 @@ const DrowerNavigation = () => {
             drawerPosition: 'right',
           }}
           initialRouteName={NAVIGATION.TabScreen}
-          drawerContent={props => <Drower {...props} />}>
+          drawerContent={props => <Drower {...props} />}
+        >
           <Drawer.Screen
             name={NAVIGATION.TabScreen}
             component={AnimTab1}
-            options={{headerShown: false}}
+            options={{ headerShown: false }}
           />
         </Drawer.Navigator>
       )}
@@ -34,11 +37,16 @@ const DrowerNavigation = () => {
             drawerPosition: 'left',
           }}
           initialRouteName={NAVIGATION.TabScreen}
-          drawerContent={props => <Drower {...props} />}>
+          drawerContent={props =>
+
+              <Drower {...props} />
+  
+          }
+        >
           <Drawer.Screen
             name={NAVIGATION.TabScreen}
             component={TabNavigation}
-            options={{headerShown: false}}
+            options={{ headerShown: false }}
           />
         </Drawer.Navigator>
       )}

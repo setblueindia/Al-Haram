@@ -118,7 +118,6 @@ const useEditeHook = () => {
 
     try {
       const rep = await UpdateProfile(formDate)
-      console.log("Respondse ====> ", rep?.data)
 
       if (rep?.data == undefined) {
         setLoadding(false)

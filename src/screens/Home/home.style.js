@@ -8,21 +8,18 @@ import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 export const styles = StyleSheet.create({
     mainView: {
         flex: 1,
-        width: "100%",
         backgroundColor: COLOR.white,
     },
     CustomeHeaderView: {
         width: "100%",
     },
     containerView: {
-         marginBottom: Platform.OS == "ios" ? ResponsiveSize(200) : ResponsiveSize(150),
-        // flex: 1,
+       height:"100%",
         width: "100%",
 
     },
     siderView: {
-        // marginHorizontal:ResponsiveSize(20)
-        // padding: ResponsiveSize(20)
+        flex:1
     },
     storyView: {
         padding: ResponsiveSize(20)
@@ -85,8 +82,7 @@ export const styles = StyleSheet.create({
 
     },
     cetegoriesBox: {
-        // marginTop:ResponsiveSize(30),
-        // marginBottom:ResponsiveSize(30)
+  
     },
     categories: {
         marginTop: ResponsiveSize(40),
@@ -95,7 +91,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         height:"100%",
         width:"100%"
-        // marginBottom:ResponsiveSize(100)
     }
 
 })

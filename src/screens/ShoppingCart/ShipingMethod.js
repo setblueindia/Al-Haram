@@ -8,71 +8,11 @@ import { ShippingList } from '../../constants/axios.url'
 import { getStorePickupMethod } from '../../api/axios.api'
 
 
-const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping , selectAddressList  }) => {
+const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping, selectAddressList, setShippingdata }) => {
     const [selected, setSelected] = useState()
-    const [on , setOn ] = useState()
+    const [on, setOn] = useState()
     const labale = lang == NUMBER.num0 ? Ar : En
 
-
-    const params = {
-        "addressInformation": {
-            "shipping_address": {
-                "id": 597,
-                "customer_id": 970,
-                "region": {
-                    "region_code": "JED",
-                    "region": "Western and Southern Regions",
-                    "region_id": 703
-                },
-                "region_id": 703,
-                "country_id": "SA",
-                "street": [
-                    "near al-haram store"
-                ],
-                "region_code": "JED",
-                "telephone": "823815546",
-                "postcode": "20001",
-                "city": "Jeddah",
-                "firstname": "ashok",
-                "lastname": "devloper",
-                "default_shipping": true,
-                "default_billing": true,
-                "region_name": "Western and Southern Regions",
-                "country_name": "Saudi Arabia",
-                "address1": "near al-haram store",
-                "address2": "",
-                "address3": "",
-                "city_display": "Jeddah"
-            },
-            "billing_address": {
-                "id": addressCod?.id,
-                "customer_id": addressCod?.customer_id,
-                "region": addressCod?.region,
-                "region_id": addressCod?.region_id,
-                "country_id": addressCod?.country_id,
-                "street": addressCod?.street,
-                "region_code": addressCod?.region_code,
-                "telephone": addressCod?.telephone,
-                "postcode": addressCod?.postcode,
-                "city": addressCod?.city,
-                "firstname": addressCod?.firstname,
-                "lastname": addressCod?.lastname,
-                "default_shipping": addressCod?.default_shipping,
-                "default_billing": addressCod?.default_billing,
-                "region_name": addressCod?.region_names,
-                "country_name": addressCod?.country_name,
-                "address1": addressCod?.address1,
-                "address2": addressCod?.address2,
-                "address3": addressCod?.address3,
-                "city_display": addressCod?.city_display
-            },
-            "shipping_carrier_code": "webkularamex",
-            "shipping_method_code": "ONP"
-        }, "custom": {
-            "token": Token,
-            "store_id": lang
-        }
-    }
     return (
         <ScrollView style={{ height: "100%", width: "100%" }}>
             <Text style={styles.headerText}>{labale?.ShippingMethods}</Text>
@@ -82,7 +22,7 @@ const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping , selectA
                         return (
                             <View>
                                 <TouchableOpacity
-                                    onPress={() => { setSelected(index), setOn(item?.carrier_code) , item?.carrier_code == "fmestorepickup" && selectShipping() }}
+                                    onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" && selectShipping() }}
                                     key={index} style={[styles.litsView, selected == index && { backgroundColor: "#FFEEEE" }]} >
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                         <View>
@@ -102,47 +42,45 @@ const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping , selectA
                                     </View>
                                 </TouchableOpacity>
                                 <View style={{ height: ResponsiveSize(20) }} />
-
                             </View>
-
                         )
                     })
                 }
             </View>
 
-          {(selectAddressList?.length > 0  && on == "fmestorepickup" ) &&
-           selectAddressList?.map((items , index)=>{
-            return(
-                <View key={index} style={styles.selectAddressView}>
-                <Text style={styles.headerText}>{"Store Pickup"}</Text>
-                <View style={styles.containBox}>
-                    <View style={[styles.firstView , lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <View>
-                            <View style={styles.circalView} >
-                                <View style={styles.fillCircalView} />
-                            </View>
-                        </View>
-                        <View style={styles.textView}>
-                            <View style={styles.hederTextView}>
-                                <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.store_description}</Text>
-                            </View>
-                            <Text style={[styles.desText, {width:"90%"}, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                                {items?.address}
-                            </Text>
-                            {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
-                        </View>
-                    </View>
+            {(selectAddressList?.length > 0 && on == "fmestorepickup") &&
+                selectAddressList?.map((items, index) => {
+                    return (
+                        <>
+                        <View key={index} style={styles.selectAddressView}>
+                            <Text style={styles.headerText}>{"Store Pickup"}</Text>
+                            <View style={styles.containBox}>
+                                <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    <View>
+                                        <View style={styles.circalView} >
+                                            <View style={styles.fillCircalView} />
+                                        </View>
+                                    </View>
+                                    <View style={styles.textView}>
+                                        <View style={styles.hederTextView}>
+                                            <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.store_description}</Text>
+                                        </View>
+                                        <Text style={[styles.desText, { width: "90%" }, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
+                                            {items?.address}
+                                        </Text>
+                                        {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
+                                    </View>
+                                </View>
 
-                </View>
+                            </View>
 
-            </View>
-            )
-          })
-          
-         
+                        </View>
+
+                        </>
+                    )
+                })
             }
-
-            <View style={{ height: ResponsiveSize(40) }} />
+            <View style={{ height: ResponsiveSize(200) }} />
 
         </ScrollView>
     )
@@ -198,6 +136,7 @@ const styles = StyleSheet.create({
         fontSize: ResponsiveSize(22)
     },
     hederTextView: {
+        width: "90%",
         height: ResponsiveSize(40),
         borderBottomWidth: ResponsiveSize(1),
         borderColor: COLOR.darkGray,
@@ -220,7 +159,7 @@ const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.darkGray,
         backgroundColor: COLOR.white,
-        padding:ResponsiveSize(20),
-        borderRadius:ResponsiveSize(10)
+        padding: ResponsiveSize(20),
+        borderRadius: ResponsiveSize(10)
     }
 })

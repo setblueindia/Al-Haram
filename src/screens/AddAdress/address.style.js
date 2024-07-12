@@ -1,16 +1,15 @@
 import { StyleSheet } from "react-native";
-import { COLOR } from "../../constants/style";
+import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
 
 export const styles = StyleSheet.create({
     mainView: {
         flex: 1,
         backgroundColor: COLOR.white,
-        // padding:ResponsiveSize(20)
     },
     conatainer: {
         backgroundColor: COLOR.white,
-        paddingHorizontal: ResponsiveSize(40),
+        paddingHorizontal: ResponsiveSize(20),
         marginTop: ResponsiveSize(20)
     },
     devider: {
@@ -24,10 +23,10 @@ export const styles = StyleSheet.create({
     },
     secondView: {
         marginTop: ResponsiveSize(20),
-        backgroundColor: "#00000010"
+        backgroundColor: "#F7F7F7"
     },
     CheackView: {
-        flexDirection: 'row',
+        flexDirection: ALINE.row,
         padding: ResponsiveSize(20)
     },
     cheackText: {
@@ -44,42 +43,36 @@ export const styles = StyleSheet.create({
         borderBottomWidth: ResponsiveSize(1),
         borderBottomColor: COLOR.gray,
         height: ResponsiveSize(80),
-        padding: ResponsiveSize(10),
-        // alignItems:'center'
-        justifyContent: 'center'
+        justifyContent: ALINE.center,
+        paddingHorizontal:ResponsiveSize(20)
     },
     stateTextStyle: {
         color: "#00000050"
     },
-
     listView: {
-        height: ResponsiveSize(300),
         width: "100%",
+        height:ResponsiveSize(500),
         backgroundColor: COLOR.white,
-        // marginTop: ResponsiveSize(20),
-        borderRadius: ResponsiveSize(20),
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 10,
-        shadowColor: '#000',
-        justifyContent: 'space-between',
-        paddingHorizontal: ResponsiveSize(20),
-        alignItems:'center'
+        justifyContent: ALINE.spaceBetween,
+        padding: ResponsiveSize(20),
+        alignItems:ALINE.center,
+        borderTopLeftRadius:ResponsiveSize(30),
+        borderTopRightRadius:ResponsiveSize(30)
     },
     popView: {
         height: "100%",
         width: "100%",
         position: 'absolute',
-        paddingHorizontal: ResponsiveSize(20),
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:"#00000030"
+        justifyContent: 'flex-end',
+        alignItems: ALINE.center,
+        backgroundColor:"#00000030",
     },
 
     ScrollView: {
         height: "100%",
-        width: "100%"
+        width: "100%",
+        borderColor:COLOR.liteGray,
+        borderWidth:ResponsiveSize(1)
     },
 
     itemsName: {
@@ -87,12 +80,48 @@ export const styles = StyleSheet.create({
         width: "100%",
         borderBottomWidth: ResponsiveSize(1),
         borderColor: COLOR.gray,
-        justifyContent: 'center'
-        // alignItems:'center'
+        justifyContent: 'center',
+        paddingHorizontal:ResponsiveSize(20)
     },
 
     customerName: {
         fontSize: ResponsiveSize(25),
-        color: "#00000060"
+        color: COLOR.TextColor
     },
+    serchView:{
+        height:ResponsiveSize(80),
+        width:"100%",
+        backgroundColor:"#FFE9E9",
+        borderBottomWidth: ResponsiveSize(1),
+        borderColor: COLOR.gray,
+        paddingHorizontal:ResponsiveSize(20),
+        borderWidth:ResponsiveSize(1),
+        borderColor:COLOR.liteGray
+    },
+    PopBtnView:{
+        flexDirection:'row',
+        width:"100%",
+        padding:ResponsiveSize(20),
+        justifyContent:'space-between',
+        backgroundColor:"#FFE9E9",
+
+    },
+    poppBtn:{
+        height:ResponsiveSize(80),
+        width:ResponsiveSize(230),
+        backgroundColor:COLOR.primaray,
+        alignItems:'center',
+        justifyContent:'center',
+   
+    },
+    cancalText:{
+        color:COLOR.white,
+        fontSize:ResponsiveSize(25),
+        fontWeight:FONTWEGHIT.font600
+    },
+    popTex:{
+        color:COLOR.primaray,
+        fontSize:ResponsiveSize(30),
+        padding:ResponsiveSize(20)
+    }
 })

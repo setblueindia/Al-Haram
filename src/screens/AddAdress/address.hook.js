@@ -6,27 +6,31 @@ import { AddressList, CityList, StateList } from "../../api/axios.api"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
 
-const useAddressHook = () => {
+const useAddressHook = (props) => {
+  const esiteData = props?.route?.params?.editeData
+  const setReload = props.route.params.setReload
   const navigation = useNavigation()
   const lang = useSelector(state => state?.lang?.data)
   const userData = useSelector(state => state?.userData?.data)
   const lable = lang == NUMBER.num0 ? Ar : En
   const [on, setOn] = useState(false)
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setlastname] = useState('')
-  const [mNumaber, setMNumber] = useState('')
-  const [address1, serAddress1] = useState('')
-  const [address2, setAddress2] = useState('')
-  const [address3, setAddress3] = useState('')
-  const [pinCode, setPinCode] = useState('')
+  const [firstName, setFirstName] = useState(esiteData?.firstname ? esiteData?.firstname : '')
+  const [lastName, setlastname] = useState(esiteData?.lastname ? esiteData?.lastname : '')
+  const [mNumaber, setMNumber] = useState(esiteData?.telephone ? esiteData?.telephone : '')
+  const [address1, serAddress1] = useState(esiteData?.address1 ? esiteData?.address1 : '')
+  const [address2, setAddress2] = useState(esiteData?.address2 ? esiteData?.address2 : '')
+  const [address3, setAddress3] = useState(esiteData?.address3 ? esiteData?.address3 : '')
+  const [pinCode, setPinCode] = useState("20001")
   const [isLoading, setIsLoading] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setStae] = useState('')
+  const [city, setCity] = useState(esiteData?.city ? esiteData?.city : '')
+  const [state, setStae] = useState(esiteData?.region_name ? esiteData?.region_name : "")
   const [citydata, setCitydata] = useState([])
-  const [stateCode, setStaeCode] = useState('')
-  const [billing, setBilling] = useState(false)
-  const [shopping, setShopping] = useState(false)
-
+  const [stateCode, setStaeCode] = useState(esiteData?.region_id ? esiteData?.region_id : "")
+  const [billing, setBilling] = useState(esiteData?.default_billing ? esiteData?.default_billing : false)
+  const [shopping, setShopping] = useState(esiteData?.default_shipping ? esiteData?.default_shipping : false)
+  const [popTex, setPopTex] = useState("")
+  const getData = props?.route?.params?.getData
+ 
   const gwtStateData = async () => {
     setIsLoading(true)
     const formData = new FormData
@@ -38,6 +42,7 @@ const useAddressHook = () => {
         setCitydata(rep?.data?.data)
         setOn(true)
         setIsLoading(false)
+        setPopTex("State/Province")
       } else {
         setIsLoading(false)
         SHOWTOTS(ep?.data?.message)
@@ -58,9 +63,10 @@ const useAddressHook = () => {
     try {
       const rep = await CityList(formData)
       if (rep?.data?.status == NUMBER.num1) {
-        console.log("Response =====> ", rep?.data)
         setCitydata(rep?.data?.data)
         setOn(true)
+        setIsLoading(false)
+        setPopTex("City")
         setIsLoading(false)
       } else {
         setIsLoading(false)
@@ -102,8 +108,8 @@ const useAddressHook = () => {
     } else {
 
       try {
-
         const formData = new FormData
+        formData.append("address_id" , esiteData?.id)
         formData.append("customer_id", userData?.id)
         formData.append("firstname", firstName)
         formData.append("lastname", lastName)
@@ -120,21 +126,20 @@ const useAddressHook = () => {
         formData.append("store_id", lang)
         const response = await AddressList(formData)
         if (response?.data?.status) {
-          navigation.navigate(NAVIGATION.AddressBookScreen)
+          navigation.navigate(props.route.params.setLoadding ? navigation.goBack() : NAVIGATION.AddressBookScreen)
+          getData()
           SHOWTOTS(response?.data?.message)
+          setReload(true)
           setIsLoading(false)
         } else {
           SHOWTOTS(response?.data?.message)
           setIsLoading(false)
         }
-
       } catch (error) {
         console.log("ADD ADDRESS ERROR ::::::::::::::::", error)
         setIsLoading(false)
       }
-
     }
-
   }
 
 
@@ -167,7 +172,8 @@ const useAddressHook = () => {
       City: "City",
       SaudiArabia: "Saudi Arabia",
       Useasmydefaultbillingaddress: "Use as my default billing address",
-      UseasmydefaultShippingaddress: "Use as my default Shipping address"
+      UseasmydefaultShippingaddress: "Use as my default Shipping address",
+
     }
 
   return {
@@ -186,6 +192,16 @@ const useAddressHook = () => {
     setStae,
     state,
     isLoading,
+    popTex,
+    firstName,
+    lastName,
+    mNumaber,
+    address1,
+    address2,
+    address3,
+    pinCode,
+    city,
+    state,
     setStaeCode,
     gwtStateData,
     setCity,
