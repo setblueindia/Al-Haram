@@ -1,19 +1,23 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { COLOR } from '../../constants/style'
-import { ResponsiveSize } from '../../utils/utils'
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON, NUMBER } from '../../constants/constants';
 import Button from '../../components/Button';
 import TextFildCus from '../../components/TextFildCus';
-import { GetCustomerListToTranfer } from '../../api/axios.api';
+import { GetCustomerListToTranfer, getTranferAmount } from '../../api/axios.api';
 import { useSelector } from 'react-redux';
+import CusLoader from '../../components/CustomLoader';
 
-const TranferAmount = ({ Str, lang }) => {
+const TranferAmount = ({ Str, lang , setIsLodding }) => {
     const userID = useSelector(state => state?.userData?.data?.id)
     const [on, setOn] = useState()
     const [text, setText] = useState(Str?.Selectcustomer)
-    const [data , setData] = useState( [
+    const [reciverID, setReciverID] = useState()
+    const [remark, setRemark] = useState()
+    const [amount, setAmount] = useState()
+    const [data, setData] = useState([
         {
             name: "John Deo"
         },
@@ -36,12 +40,15 @@ const TranferAmount = ({ Str, lang }) => {
             name: "John Deo"
         },
     ])
-   
 
-  
-    useEffect(()=>{
+    useEffect(() => {
         GetCustomerList()
-    },[])
+    }, [])
+
+    // console.log({
+    //     remark : remark,
+    //     amount: amount
+    // })
 
     const GetCustomerList = async () => {
         const data = `
@@ -59,23 +66,60 @@ const TranferAmount = ({ Str, lang }) => {
         `
         try {
             const response = await GetCustomerListToTranfer(data)
-            console.log("Response ======> ", response?.data?.data?.getCustomerSponsorGroupListById)
+            // console.log("Response ======> ", response?.data?.data)
             setData(response?.data?.data?.getCustomerSponsorGroupListById)
-            
+
         } catch (error) {
             console.log("GET CUSTOMER LIST ERROR ::::::::::::::: ", error)
         }
 
     }
 
+    const onPress= () =>{
+        TranferAmount('') 
+        setRemark('')
+        setReciverID('')
+    }
+
+    const TranferAmount = async () => {
+        setIsLodding(true)
+        const data = `
+        mutation{
+            tranferAmountToCustomerWallet(input:{
+               sender_id: ${userID}
+               sponsor_group: 1
+               reciever_id: ${reciverID}
+               amount: ${amount}
+               walletnote: ${remark}
+           }){
+               status
+               message
+           }
+       }
+        `
+        try {
+
+            const resp = await getTranferAmount(data)
+            // console.log("Response =====> ", resp?.data?.data?.tranferAmountToCustomerWallet)
+            SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message)
+            setIsLodding(false)
+
+
+        } catch (error) {
+            setIsLodding(false)
+
+        }
+    }
+
     return (
+        <>
         <View style={styles.mainView}>
-            <Text style={[styles.firstLine , lang == NUMBER.num0 && {textAlign:'right'}]}>{Str?.SelectCustomertoaddwalletbalance}
+            <Text style={[styles.firstLine, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.SelectCustomertoaddwalletbalance}
             </Text>
             <View style={styles.devider} />
             <TouchableOpacity
                 onPress={() => { on ? setOn(false) : setOn(true) }}
-                style={[styles.customerSelectionView , lang == NUMBER.num0 && {flexDirection:'row-reverse'} ]}>
+                style={[styles.customerSelectionView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                 <Text style={styles.selectCustomer}>{text}</Text>
                 <Icon name={ICON.down} size={ResponsiveSize(30)} />
             </TouchableOpacity>
@@ -86,8 +130,12 @@ const TranferAmount = ({ Str, lang }) => {
 
                         {
                             data.map((items, index) => {
+                                console.log("items ===> ", items)
                                 return (
-                                    <TouchableOpacity onPress={() => { setText(items?.nick_name), setOn(false) }} key={index} style={styles.itemsName}>
+                                    <TouchableOpacity onPress={() => {
+                                        setReciverID(items?.reciever_id)
+                                        setText(items?.nick_name), setOn(false)
+                                    }} key={index} style={styles.itemsName}>
                                         <Text style={styles.customerName}>{items?.nick_name}</Text>
                                     </TouchableOpacity>
                                 )
@@ -98,13 +146,17 @@ const TranferAmount = ({ Str, lang }) => {
             }
             <View style={styles.devider} />
             <View style={styles.devider} />
-            <TextFildCus number={true} text={Str?.AmountSAR} />
+            <TextFildCus onChange={setAmount} number={true} text={Str?.AmountSAR} />
             <View style={styles.devider} />
-            <TextFildCus text={Str?.addyourremark} />
+            <TextFildCus onChange={setRemark} text={Str?.addyourremark} />
             <View style={styles.devider} />
             <View style={styles.devider} />
-            <Button text={Str?.Addmoneytocustomerswallet} />
+            <Button onPress={()=>{onPress()}} text={Str?.Addmoneytocustomerswallet} />
+        
         </View>
+     
+        </>
+        
     )
 }
 
@@ -163,7 +215,7 @@ const styles = StyleSheet.create({
     },
     ScrollView: {
         // height: "100%",
-        marginBottom:ResponsiveSize(10),
+        marginBottom: ResponsiveSize(10),
         width: "100%"
     },
     itemsName: {

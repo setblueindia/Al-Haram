@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
@@ -18,17 +18,17 @@ const Payment = ({
   wallateAmount,
   selectPayment,
   selectPaymentMethod,
-  setSelectPayment
+  coupanListData,
+  setCoupanCode,
+  setActionCode,
+  applyCoupan,
+  remove,
+  setSelectPayment,
+  coupanCode
 }) => {
   const [COD, setCOD] = useState(false)
   const [credit, setCredit] = useState(false)
   const [totalAmount, setTotalAmount] = useState([])
-
-  // console.log("========> ", {
-  //   totalAmount: totalAmount[0],
-  //   wallateAmount: wallateAmount
-  // })
-
   let txtData = selectPayment?.total_segments ? selectPayment?.total_segments : paymentScreenData?.total_segments
   const dueAmount = totalAmount?.length > 0 && wallateAmount > totalAmount[0] ? 0 : totalAmount[0] - wallateAmount
   const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : 0
@@ -56,8 +56,8 @@ const Payment = ({
     <ScrollView style={{ flex: 1 }}>
       <View style={styles.mainView}>
         <View style={styles.delevryView}>
-          <Text numberOfLines={2} style={[styles.delevrydateText , lang == NUMBER.num0 && {textAlign:EXTRASTR.right}]}>{paymentScreenData?.dispatch_note?.label}</Text>
-          <Text numberOfLines={2} style={[styles.delevrydateText , lang == NUMBER.num0 && {textAlign:EXTRASTR.right}]}>{paymentScreenData?.dispatch_note?.date}</Text>
+          <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.label}</Text>
+          <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.date}</Text>
         </View>
 
         <View style={styles.paymentView}>
@@ -107,12 +107,14 @@ const Payment = ({
                   </View>
                 </View>
               </View>
-              <Text style={styles.lastTexrt}>{lable.RemainingWalletAmount+ " :" +  lable?.SAR + " " + RemingAmount}</Text>
+              <Text style={styles.lastTexrt}>{lable.RemainingWalletAmount + " :" + lable?.SAR + " " + RemingAmount}</Text>
 
             </View>
           }
 
-          {totalAmount > wallateAmount && <View>
+          {/* {console.log(' :::::::::::::::: ' , ((totalAmount > wallateAmount) && showWallet  ))} */}
+
+          { <View>
             <TouchableOpacity
               onPress={() => { setCOD(true), setCredit(false), selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code) }}
               style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -142,7 +144,7 @@ const Payment = ({
           {txtData?.map((items, index) => {
             return (
               <View key={index} style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={[styles.leftText,, lang == NUMBER.num0 && {textAlign:'right'}, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
+                <Text style={[styles.leftText, , lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
                 <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{"SAR " + items?.value}</Text>
               </View>
             )
@@ -150,13 +152,13 @@ const Payment = ({
 
           {showWallet &&
             <View style={styles.FinaltextView}>
-              <View style={[styles.commonView , lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
-                <Text style={[styles.leftText,lang == NUMBER.num0 && {textAlign:EXTRASTR.right}, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>{lable?.WalletAmount}</Text>
+              <View style={[styles.commonView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>{lable?.WalletAmount}</Text>
                 <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>{lable?.SAR + " " + WAmount && WAmount}</Text>
               </View>
 
-              <View style={[styles.commonView ,lang == NUMBER.num0 && {flexDirection:ALINE.rowreverse} , {marginTop:ResponsiveSize(10)} ]}>
-                <Text style={[styles.leftText,lang == NUMBER.num0 && {textAlign:EXTRASTR.right}, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }]}>{lable?.TotaldueAmount}</Text>
+              <View style={[styles.commonView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }, { marginTop: ResponsiveSize(10) }]}>
+                <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }]}>{lable?.TotaldueAmount}</Text>
                 <Text style={[styles.price, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }]}>{lable?.SAR + " " + dueAmount && dueAmount}</Text>
               </View>
 
@@ -164,20 +166,68 @@ const Payment = ({
             </View>}
         </View>
 
+        <View style={styles.manulCoupanView}>
+
+     {  !remove &&   <TextInput
+            style={styles.coupnTextInput}
+            placeholder='Enter Coupan Code'
+            textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+            onChangeText={text => setCoupanCode(text)}
+            value={coupanCode}
+          />}
+          
+      { remove &&   <View style={[styles.coupnTextInput , {justifyContent:'center'}]}>
+            <Text>{coupanCode}</Text>
+
+          </View>}
 
 
-        <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "جميع الكوبونات" : "All coupons"}</Text>
-        <View style={[styles.coupanView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <View>
-            <Text style={[styles.coupanName, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{"SPECIAL15"}</Text>
-            <Text style={[styles.coupndes, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? " احصل على خصم 15% على جميع طلبات الدفع المسبق" : "Get 15% off on all prepaid orders"}</Text>
-          </View>
-
-          <TouchableOpacity style={styles.btnView}>
+      {   !remove && <TouchableOpacity
+            onPress={() => {
+              setActionCode(1)
+              applyCoupan(coupanCode , 1)
+            }}
+            style={styles.applyView}>
             <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
+
+       {  remove&& <TouchableOpacity
+            onPress={() => {
+              setActionCode(0) 
+              applyCoupan(coupanCode , 0)
+
+            }}
+            style={styles.applyView}>
+            <Text style={[styles.btnText  ,  {fontSize:ResponsiveSize(21)}]}>{lang == NUMBER.num0 ? "يزيل" : "Remove"}</Text>
+          </TouchableOpacity>}
 
         </View>
+        {!remove &&
+          <View>
+
+            <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "جميع الكوبونات" : "All coupons"}</Text>
+            {coupanListData?.map((item, index) => {
+
+              return (
+                <View
+                  key={index}
+                  style={[styles.coupanView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                  <View>
+                    <Text style={[styles.coupanName, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.coupon}</Text>
+                    <Text style={[styles.coupndes, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.name}</Text>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => { setCoupanCode(item?.coupon), setActionCode(1), applyCoupan(item?.coupon , 1) }}
+                    style={styles.btnView}>
+                    <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
+                  </TouchableOpacity>
+
+                </View>
+
+              )
+            })}
+          </View>}
       </View>
     </ScrollView>
   )
@@ -359,7 +409,7 @@ const styles = StyleSheet.create({
     color: "#202020",
     lineHeight: ResponsiveSize(30),
     textAlign: 'center',
-    height:ResponsiveSize(70)
+    height: ResponsiveSize(70)
   },
   priceView: {
     height: ResponsiveSize(40),
@@ -404,11 +454,35 @@ const styles = StyleSheet.create({
     color: COLOR.primaray,
     marginBottom: ResponsiveSize(20)
   },
-  commonView:{ 
+  commonView: {
     flexDirection: 'row',
-     justifyContent: 'space-between', 
-     width: "100%"
-     }
+    justifyContent: 'space-between',
+    width: "100%"
+  },
+  manulCoupanView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: ResponsiveSize(20),
+  },
+  coupnTextInput: {
+    height: ResponsiveSize(80),
+    width: ResponsiveSize(400),
+    borderRadius: ResponsiveSize(100),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.darkGray,
+    // marginTop: ResponsiveSize(20),
+    paddingHorizontal: ResponsiveSize(20)
+  },
+  applyView: {
+    height: ResponsiveSize(50),
+    width: ResponsiveSize(120),
+    borderRadius: ResponsiveSize(100),
+    backgroundColor: COLOR.primaray,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center'
+  }
 
 
 })

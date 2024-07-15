@@ -5,22 +5,29 @@ import CommanHeader from '../../components/ComanHeader'
 import { NUMBER, PROFILEStr } from '../../constants/constants'
 import { styles } from './customer.style'
 import useCustomerServiceHook from './customer.hook'
+import CusLoader from '../../components/CustomLoader'
 
 const CustomerService = () => {
-    const { TelNUmber, navigation, Emaile, VatNo, CRNumber, lang , name , Str } = useCustomerServiceHook()
+    const { navigation, lang, Str, data, isLoadding } = useCustomerServiceHook()
     return (
 
         <View style={styles.mainView}>
-            <CommanHeader navigation={navigation} name={Str.CustomerService} lang={lang}/>
-            <View style={styles.containerView}>
-                <View style={[styles.container ]}>
-                    <Text style={[styles.nameText , lang == NUMBER.num0 && {textAlign:'right'}]}>{name}</Text>
-                    <Text style={[styles.text , lang == NUMBER.num0 && {textAlign:'right'}]}> {TelNUmber}</Text>
-                    <Text style={[styles.text , lang == NUMBER.num0 && {textAlign:'right'}]}>{Emaile}</Text>
-                    <Text style={[styles.text , lang == NUMBER.num0 && {textAlign:'right'}]}>{VatNo}</Text>
-                    <Text style={[styles.text , lang == NUMBER.num0 && {textAlign:'right'}]}>{CRNumber}</Text>
-                </View>
-            </View>
+            <CommanHeader navigation={navigation} name={Str.CustomerService} lang={lang} />
+            {data &&
+                <View style={styles.containerView}>
+                    <View style={[styles.container]}>
+                        <Text style={[styles.nameText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.address}</Text>
+                        <Text style={[styles.text, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.Tel + " : " + data?.tel}</Text>
+                        <Text style={[styles.text, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.Email + " : " + data?.email}</Text>
+                        <Text style={[styles.text, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.vat + " : " + data?.vat}</Text>
+                        <Text style={[styles.text, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.cr + " : " + data?.cr}</Text>
+                    </View>
+                </View>}
+
+            {isLoadding &&
+                <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
+                    <CusLoader />
+                </View>}
         </View>
 
     )

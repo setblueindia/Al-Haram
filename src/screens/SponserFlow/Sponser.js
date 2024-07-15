@@ -12,7 +12,7 @@ import { NUMBER } from '../../constants/constants'
 import CusLoader from '../../components/CustomLoader'
 
 const Sponser = () => {
-    const { lang, navigation, data, name, Str, setloader, loader, menuBarOnPress } = useSponserHook()
+    const { lang, navigation, data, name, Str, setloader, loader, menuBarOnPress, isLoadding, setIsLodding } = useSponserHook()
     return (
         <View style={styles.mainView} lang={lang}>
             <CommanHeader navigation={navigation} lang={lang} />
@@ -49,12 +49,12 @@ const Sponser = () => {
             }
             {name == Str.addCustomerToGroup &&
                 <View style={{ flex: 1 }} >
-                    <AddCustomerToGroup setloader={setloader}  lang={lang} Str={Str} />
+                    <AddCustomerToGroup setloader={setloader} lang={lang} Str={Str} />
                 </View>
             }
             {name == Str.tranferAmount &&
                 <View style={{ flex: 1 }} >
-                    <TranferAmount lang={lang} Str={Str} />
+                    <TranferAmount setIsLodding={setIsLodding} lang={lang} Str={Str} />
                 </View>
             }
 
@@ -64,6 +64,10 @@ const Sponser = () => {
                     <CusLoader />
                 </View>
             }
+
+            {isLoadding && <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
+                <CusLoader />
+            </View>}
         </View>
     )
 }

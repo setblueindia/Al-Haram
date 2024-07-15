@@ -5,16 +5,17 @@ import { ALINE, COLOR } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ICON } from '../../constants/constants';
 
-const Counter = ({ qty, setQnt }) => {
-
+const Counter = ({ qty, setQnt , id , updateQnty}) => {
 
     const [count, setCount] = useState(0)
 
     const countProcess = (type) => {
         if (type) {
             setQnt(qty + 1)
+            updateQnty(id , qty + 1 , n = true)
         } else {
             qty > 1 && setQnt(qty - 1)
+            updateQnty(id , qty - 1 , n = false)
         }
     }
     return (

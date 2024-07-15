@@ -15,6 +15,7 @@ import {
     OrderList,
     OrderView,
     PRODUCTLIST,
+    RefundOrder,
     SINUPURL,
     SetPaymentMethodURL,
     ShippingList,
@@ -22,12 +23,16 @@ import {
     StoreShippingURL,
     UpdateProfileURL,
     WhishListURL,
+    actionCoupan,
     deleteAdress,
     deleteCartItems,
     expireTokenArabic,
     expireTokenDefault,
     getCartItemsCount,
-    selectedShippingListMethodURl
+    mobailCetegouries,
+    reOrderUrl,
+    selectedShippingListMethodURl,
+    updateCartitems
 } from "../constants/axios.url"
 import { POSTFORM, POSTFORMGRAPH, POSTJSON, expireTokenFrom } from "./axios.function"
 import { NUMBER } from "../constants/constants"
@@ -219,5 +224,35 @@ export const getFilterList = async (params, lang) =>{
 
 export const  getCoupan = async (params) =>{
     const res = await POSTFORM(CoupanListAPI , params)
+    return res
+}
+
+export const  getActonCoupan = async (params) =>{
+    const res = await POSTFORM(actionCoupan , params)
+    return res
+}
+
+export const customerSuppot = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const postUpdateCart = async (params) => {
+    const res = await POSTFORM(updateCartitems , params)
+    return res
+}
+export const getMobaileCetegouries = async (params) => {
+    const res = await POSTFORM(mobailCetegouries , params)
+    return res
+}
+export const postReOrder = async (params) => {
+    const res = await POSTFORM(reOrderUrl , params)
+    return res
+}
+export const postRefundOrder = async (params) => {
+    const res = await POSTFORM(RefundOrder , params)
+    return res
+}
+export const getTranferAmount = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }

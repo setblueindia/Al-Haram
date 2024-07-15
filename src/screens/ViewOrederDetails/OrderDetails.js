@@ -1,17 +1,16 @@
-import { Image, ScrollView, Text, View } from 'react-native'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './orderDeatils.style'
 import useOrderDetaisHook from './OrderDetails.hook'
 import { ALINE, COLOR } from '../../constants/style'
-import { ResponsiveSize } from '../../utils/utils'
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
 import Button from '../../components/Button'
 import CusLoader from '../../components/CustomLoader'
 
 const OrderDetails = (props) => {
-    const { navigation, lang, data, lable, isLoadding, orderDetailsList } = useOrderDetaisHook(props)
-
+    const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
 
     return (
         <View style={styles.mainView}>
@@ -23,22 +22,32 @@ const OrderDetails = (props) => {
                         <View>
                             <Text style={[styles.orderTexrt, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{"#" + orderDetailsList?.increment_id}</Text>
                             <View style={[styles.StatusView, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                                <View style={styles.DottView}></View>
-                                <Text style={[styles.statusText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{data?.Compalated}</Text>
+                                <View style={[styles.DottView,
+                                { backgroundColor: orderDetailsList?.status_display == "pending" ? "#FFC000" : orderDetailsList?.status_display == "canceled" ? 'red' : orderDetailsList?.status_display == "closed" ? 'red' : orderDetailsList?.status_display == "canceled" ? 'red' : "green" }
+                                ]}></View>
+                                <Text style={[styles.statusText,
+                                lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) },
+                                { color: orderDetailsList?.status_display == "pending" ? "#FFC000" : orderDetailsList?.status_display == "closed" ? 'red' : orderDetailsList?.status_display == "canceled" ? 'red' : "green" }
+                                ]}>{orderDetailsList?.status_display}</Text>
                             </View>
                             <Text style={styles.dateTextOrder}>{orderDetailsList?.created_at}</Text>
                         </View>
 
                         <View>
                             <Text style={styles.printText}>{data?.PrintOrder}</Text>
-                            <Text style={[styles.reOrderText, lang == NUMBER.num0 && { textAlign: EXTRASTR.left }]}>{data?.Reorder}</Text>
+                            <TouchableOpacity
+                                onPress={() => { ReOrder() }}
+                            >
+                                <Text style={[styles.reOrderText, lang == NUMBER.num0 && { textAlign: EXTRASTR.left }]}>{data?.Reorder}</Text>
+                            </TouchableOpacity>
+
                         </View>
                     </View>
                     <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { justifyContent: 'flex-end' }]}>
-                            <Text style={styles.headerText}>{data?.ItemsOrdered}</Text>
-                        </View>
+                        <Text style={styles.headerText}>{data?.ItemsOrdered}</Text>
+                    </View>
                     <View style={styles.orderDetails}>
-                     
+
                         {
                             orderDetailsList?.items?.map((items, index) => {
 
@@ -142,35 +151,45 @@ const OrderDetails = (props) => {
                     </View>
                 </View>
 
-            {  
-            orderDetailsList?.billingaddress &&
-              <View style={[styles.secomdView]}>
-                    <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <Text style={[styles.headerText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lable?.BillingAddress} </Text>
+                {
+                    orderDetailsList?.billingaddress &&
+                    <View style={[styles.secomdView]}>
+                        <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            <Text style={[styles.headerText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lable?.BillingAddress} </Text>
+                        </View>
+                        <View style={styles.addressView}>
+                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.region}</Text>
+                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.street[0] + " " + orderDetailsList?.billingaddress?.street[1] + " " + orderDetailsList?.billingaddress?.street[2]}</Text>
+                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.telephone}</Text>
+                        </View>
                     </View>
-                    <View style={styles.addressView}>
-                        <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.region}</Text>
-                        <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.street[0] + " " + orderDetailsList?.billingaddress?.street[1] + " " + orderDetailsList?.billingaddress?.street[2]}</Text>
-                        <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.telephone}</Text>
-                    </View>
-                </View>
                 }
 
-             { orderDetailsList?.payment_method &&
-              <View style={styles.secomdView}>
-                    <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <Text style={styles.headerText}>{lable?.PaymentMethod} </Text>
-                    </View>
-                    <View style={styles.addressView}>
-                        <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.payment_method}</Text>
-                    </View>
-                </View>}
+                {orderDetailsList?.payment_method &&
+                    <View style={styles.secomdView}>
+                        <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            <Text style={styles.headerText}>{lable?.PaymentMethod} </Text>
+                        </View>
+                        <View style={styles.addressView}>
+                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.payment_method}</Text>
+                        </View>
+                    </View>}
 
                 <View style={{ height: ResponsiveSize(60) }} />
+
             </ScrollView>
-            <View style={styles.btnView}>
-                <Button onPress={() => { navigation.navigate(NAVIGATION.CancelOrder) }} text={"Cancel Order"} />
-            </View>
+            {
+                orderDetailsList?.status == 'canceled' &&
+                <View style={styles.btnView}>
+                    <Button onPress={() => {
+                        orderDetailsList?.refund_status == "cancel" ?
+                            navigation.navigate(NAVIGATION.CancelOrder, { orderID: OId })
+                            :
+                            SHOWTOTS("Refund status is" + orderDetailsList?.refund_status)
+                    }} text={"Return Order"} />
+                </View>
+
+            }
 
 
             {

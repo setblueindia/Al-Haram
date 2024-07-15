@@ -36,6 +36,12 @@ const ShoopingCart = () => {
         showWallet,
         paymentScreenData,
         wallateAmount,
+        coupanListData,
+        coupanCode,
+        remove,
+        updateQnty,
+        setActionCode,
+        setCoupanCode,
         setShowWallet,
         selectShipping,
         deleteProduct,
@@ -46,6 +52,7 @@ const ShoopingCart = () => {
         setBillingAddress,
         setSelectPayment,
         getCoupanList,
+        applyCoupan,
         selectPayment,
         selectPaymentMethod,
         outOfStock
@@ -88,7 +95,7 @@ const ShoopingCart = () => {
                                 renderItem={({ item, index }) => {
                                     return (
                                         <View key={index}>
-                                            <Cart outOfStock={false} data={item} lang={lang} deleteProduct={deleteProduct} />
+                                            <Cart updateQnty={updateQnty} outOfStock={false} data={item} lang={lang} deleteProduct={deleteProduct} />
                                             <View style={{ height: ResponsiveSize(20) }} />
                                         </View>
                                     )
@@ -141,7 +148,23 @@ const ShoopingCart = () => {
                 {
                     index == 3 &&
                     <View style={{ flex: 1 }}>
-                        <Payment setSelectPayment={setSelectPayment} selectPaymentMethod={selectPaymentMethod} selectPayment={selectPayment} wallateAmount={wallateAmount} paymentScreenData={paymentScreenData} showWallet={showWallet} setShowWallet={setShowWallet} data={shopinfCratData} lang={lang} />
+                        <Payment
+                            coupanCode={coupanCode}
+                            setCoupanCode={setCoupanCode}
+                            coupanListData={coupanListData}
+                            setSelectPayment={setSelectPayment}
+                            selectPaymentMethod={selectPaymentMethod}
+                            selectPayment={selectPayment}
+                            wallateAmount={wallateAmount}
+                            paymentScreenData={paymentScreenData}
+                            showWallet={showWallet}
+                            setShowWallet={setShowWallet}
+                            setActionCode={setActionCode}
+                            applyCoupan={applyCoupan}
+                            data={shopinfCratData}
+                            lang={lang} 
+                            remove={remove}
+                            />
                     </View>
                 }
 

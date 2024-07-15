@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, DeleteCartItems, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, setPaymentMethod } from '../../api/axios.api'
+import { CartList, DeleteCartItems, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import { ShippingList } from '../../constants/axios.url'
 import { useSharedValue } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SHOWTOTS } from '../../utils/utils'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
@@ -18,6 +19,7 @@ const useShoppingcart = () => {
   const navigation = useNavigation()
   const Token = useSelector(state => state?.userData?.data?.token)
   const [outOfStock, setOutOfStock] = useState()
+  const productCount = useSelector(state => state?.AddToCart?.data)
 
 
   // For Address
@@ -35,8 +37,11 @@ const useShoppingcart = () => {
 
   const [paymentScreenData, setPaymentScreen] = useState()
   const [selectPayment, setSelectPayment] = useState('')
-
   const [wallateAmount, setWallateAmount] = useState()
+  const [coupanListData, setCoupanListData] = useState()
+  const [coupanCode, setCoupanCode] = useState()
+  const [actionCode, setActionCode] = useState()
+  const [remove, setRemove] = useState(false)
 
   const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
 
@@ -388,21 +393,69 @@ const useShoppingcart = () => {
   }
 
   // get Coupna List Api 
-  const  getCoupanList = async () =>{
+  const getCoupanList = async () => {
+    setLoadding(true)
     const formData = new FormData()
-
-    formData.append("store_id" , lang)
-    formData.append("token" , Token)
+    formData.append("store_id", lang)
+    formData.append("token", Token)
     try {
-   
       const response = await getCoupan(formData)
-      console.log("Response of  ::::::::::::: ", response)
+      // console.log("Response of  ::::::::::::: ", response?.data?.data?.coupenList)
+      setCoupanListData(response?.data?.data?.coupenList)
+      setLoadding(false)
+
     } catch (error) {
       console.log("COUPAN ERROR ::::::: ", error)
+      setLoadding(false)
+
     }
   }
 
+  // apply Coupan Api 
+  const applyCoupan = async (coupanID, code) => { 
+    setLoadding(true)
+    const formData = new FormData()
+    formData.append("store_id", lang)
+    formData.append("token", Token)
+    formData.append("action", code)
+    formData.append("coupen_code", coupanID)
+    try {
+      const response = await getActonCoupan(formData)
+      if (response?.data?.status == 1) {
+        setSelectPayment(response?.data?.data)
+        remove ? setRemove(false) : setRemove(true)
+      } else {
+        SHOWTOTS(response?.message)
+      }
+      setLoadding(false)
+    } catch (error) {
+      console.log("COUPAN UPADTE ERROR ::::::::::  ", error)
+      setLoadding(false)
+    }
 
+  }
+
+  // Update Qnty Items 
+
+  const updateQnty = async (id , qty , n) => {
+    setLoadding(true)
+    const formData = new FormData()
+
+    formData.append("store_id", lang)
+    formData.append("item_id", id)
+    formData.append("qty" , qty)
+    formData.append("token" , Token)
+
+    try {
+      const res = await postUpdateCart(formData)
+      setLoadding(false)
+      n && disPatch(addProduct(productCount + 1))
+      !n && disPatch(addProduct(productCount - 1))
+    } catch (error) {
+      console.log("UPDATE QTY ERROR ::::::: ", error)
+      setLoadding(false)
+    }
+  }
 
   return {
     selectPaymentMethod,
@@ -422,6 +475,10 @@ const useShoppingcart = () => {
     showWallet,
     paymentScreenData,
     wallateAmount,
+    coupanListData,
+    coupanCode,
+    remove,
+    setActionCode,
     setShowModal,
     deleteProduct,
     setAddressCode,
@@ -432,7 +489,10 @@ const useShoppingcart = () => {
     setShowWallet,
     setShippingdata,
     setBillingAddress,
+    setCoupanCode,
     getCoupanList,
+    applyCoupan,
+    updateQnty,
     selectPayment,
     setSelectPayment
   }

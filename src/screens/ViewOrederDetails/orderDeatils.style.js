@@ -15,10 +15,8 @@ export const styles = StyleSheet.create({
         flex:1,
         height:"100%",
         width:"100%",
-        marginBottom:ResponsiveSize(80)
     },
     firstView: {
-        // height: ResponsiveSize(500),
         width: "100%",
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.primaray,
@@ -26,7 +24,6 @@ export const styles = StyleSheet.create({
     },
     OrderHeader: {
         width: "100%",
-        // height:ResponsiveSize(100),
         borderBottomWidth: ResponsiveSize(1),
         borderBottomColor: COLOR.primaray,
         backgroundColor: "#FFF3F4",
@@ -35,7 +32,7 @@ export const styles = StyleSheet.create({
         padding: ResponsiveSize(20),
         flexDirection: ALINE.row,
         justifyContent: ALINE.spaceBetween
-        // borderRadius:ResponsiveSize(10)
+
 
     },
     orderTexrt: {

@@ -21,10 +21,10 @@ export const POSTFORM = async (url, params) => {
             method: 'post',
             url: url,
             data: params,
-            headers: {
-                'Authorization': 'Bearer ' + authToken,
-                'Content-Type': 'multipart/form-data'
-            }
+            // headers: {
+            //     'Authorization': 'Bearer ' + authToken,
+            //     'Content-Type': 'multipart/form-data'
+            // }
         });
 
         return response;

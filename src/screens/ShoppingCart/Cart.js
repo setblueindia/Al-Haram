@@ -9,7 +9,9 @@ import useShoppingcart from './ShoppingCart.hook'
 
 
 
-const Cart = ({ data, lang, deleteProduct, outOfStock }) => {
+const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty}) => {
+
+  // console.log("=====DATA======> ", data?.item_id)
 
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const name = data?.name?.substring(0, 20)
@@ -37,7 +39,7 @@ const Cart = ({ data, lang, deleteProduct, outOfStock }) => {
             <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{"QTY :"}</Text>
-                <Counter  qty={qty} setQnt={setQnt} />  
+                <Counter updateQnty={updateQnty} id={data?.item_id} qty={qty} setQnt={setQnt} />  
               </View>
               <TouchableOpacity
                 onPress={() => { deleteProduct(data?.item_id) }}
@@ -53,8 +55,7 @@ const Cart = ({ data, lang, deleteProduct, outOfStock }) => {
             <Image style={styles.imgOut} source={{ uri: data?.image }} />
             <View style={styles.saleView}>
               <Text style={
-                {
-                  color: COLOR.white,
+                { color: COLOR.white,
                   fontWeight: FONTWEGHIT.font700
                 }}>{"SALE"}</Text>
             </View>

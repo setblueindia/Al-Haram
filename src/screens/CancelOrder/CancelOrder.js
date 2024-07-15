@@ -9,9 +9,10 @@ import { ResponsiveSize } from '../../utils/utils'
 import { TextInput } from 'react-native-gesture-handler'
 import Button from '../../components/Button'
 import { ALINE, COLOR } from '../../constants/style'
+import CusLoader from '../../components/CustomLoader'
 
 
-const CancelOrder = () => {
+const CancelOrder = (props) => {
     const {
         navigation,
         showBox,
@@ -22,11 +23,20 @@ const CancelOrder = () => {
         sIndex,
         lang,
         lable,
+        resoneList,
+        selectList,
+        isLoadding,
         setNo,
         setYes,
         setSindex,
         setShowBox,
-    } = useCancelOrderHook()
+        setOpenProduct,
+        setSelectLis,
+        setCustomResone,
+        refundOrderFunction,
+
+    } = useCancelOrderHook(props)
+
     return (
         <View style={styles.mainView}>
             <CommanHeader name={lable?.CancelOrder} navigation={navigation} lang={lang} />
@@ -41,7 +51,7 @@ const CancelOrder = () => {
                         <TouchableOpacity
                             onPress={(() => { showBox ? setShowBox(false) : setShowBox(true) })}
                             style={[styles.selectResoneBtn, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                            <Text style={styles.btnText}>{lable?.Wrongsize}</Text>
+                            <Text style={styles.btnText}>{selectList}</Text>
                             <Icon style={styles.icon} size={ResponsiveSize(30)} name={showBox ? null : ICON.down} />
                         </TouchableOpacity>
                     </View>
@@ -50,12 +60,12 @@ const CancelOrder = () => {
                         <View style={styles.resoneBox}>
                             <ScrollView>
                                 {
-                                    data?.map((items, index) => {
+                                    resoneList?.data?.map((items, index) => {
                                         return (
                                             <TouchableOpacity
-                                                onPress={() => { setShowBox(false) }}
-                                                key={index} style={styles.innerBox}>
-                                                <Text style={[styles.boxText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lable?.Wrongsize}</Text>
+                                                onPress={() => { setShowBox(false) , setSelectLis(items) }}
+                                                key={index} style={[styles.innerBox , index == 2 && {borderBottomWidth:ResponsiveSize(0)}]}>
+                                                <Text style={[styles.boxText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items}</Text>
                                             </TouchableOpacity>
                                         )
                                     })
@@ -66,7 +76,7 @@ const CancelOrder = () => {
 
                     <View style={[styles.cheackBox, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <TouchableOpacity
-                            onPress={() => { setYes(true), setNo(false) }}
+                            onPress={() => { setYes(true), setNo(false) , setOpenProduct(1) }}
                             style={[styles.innerCheackBox, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
                             <View style={styles.cheackBoxButton}>
                                 {yes && <View style={styles.dott} />}
@@ -75,7 +85,7 @@ const CancelOrder = () => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => { setYes(false), setNo(true) }}
+                            onPress={() => { setYes(false), setNo(true) , setOpenProduct(0) }}
                             style={[styles.innerCheackBox, lang == NUMBER.num0 && { marginRight: ResponsiveSize(50) }, { marginLeft: ResponsiveSize(50) }]}>
                             <View style={styles.cheackBoxButton}>
                                 {no && <View style={styles.dott} />}
@@ -87,13 +97,14 @@ const CancelOrder = () => {
 
                     <TextInput
                         textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
-                        placeholder=''
+                        placeholder='Other Reasone'
                         numberOfLines={10}
                         style={styles.selectResoneBtn}
+                        onChangeText={(text)=>{setCustomResone(text)}}
                     />
                 </View>
 
-                <View style={styles.secondView}>
+                {/* <View style={styles.secondView}>
                     {
                         Product.map((items, index) => {
                             return (
@@ -109,11 +120,16 @@ const CancelOrder = () => {
                             )
                         })
                     }
-                </View>
+                </View> */}
             </ScrollView>
             <View style={styles.btnView}>
-                <Button text={lable?.SendRequest} />
+                <Button onPress={()=>{refundOrderFunction()}} text={lable?.SendRequest} />
             </View>
+
+          { isLoadding && <View style={{height:"100%" , width:"100%" , position:'absolute'}}>
+               <CusLoader/>
+
+            </View>}
 
         </View>
     )

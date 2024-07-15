@@ -9,6 +9,7 @@ const useSponserHook = () => {
 
     const [manageWallate, setManageWallate] = useState(false)
     const [addCustomer, setAddCustomer] = useState(false)
+    const [isLoadding, setIsLodding] = useState(false)
     const [addCustomerToGroup, setAddCustomerToGroup] = useState(false)
     const [tranferAmount, setTranferAmount] = useState(false)
     const [loader , setloader] = useState(false)
@@ -52,6 +53,8 @@ const useSponserHook = () => {
         name,
         Str,
         loader,
+        isLoadding,
+        setIsLodding,
         setManageWallate,
         setAddCustomer,
         setAddCustomerToGroup,

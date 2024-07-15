@@ -68,7 +68,6 @@ export const styles = StyleSheet.create({
         color: "#00000070"
     },
     resoneBox: {
-        height: ResponsiveSize(400),
         width: "100%",
         alignSelf: ALINE.center,
         borderWidth: ResponsiveSize(1),
@@ -81,20 +80,16 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 2,
         shadowColor: '#000',
-        // backgroundColor: "#00000010",
     },
     innerBox: {
         height: ResponsiveSize(80),
         borderBottomWidth: ResponsiveSize(1),
-
         padding: ResponsiveSize(20),
         borderBottomColor: "#00000070",
         justifyContent: ALINE.center,
-        // borderRadius:ResponsiveSize(20)
-
     },
     boxText: {
-        color: "#00000090"
+        color: "#00000090",
     },
     cheackBox: {
         marginTop: ResponsiveSize(20),
@@ -105,7 +100,6 @@ export const styles = StyleSheet.create({
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
         alignContent: ALINE.center
-
     },
     cheackBoxButton: {
         height: ResponsiveSize(30),
@@ -154,7 +148,6 @@ export const styles = StyleSheet.create({
         padding:ResponsiveSize(20),
     },
     priceText:{
-        // fontSize:ResponsiveSize(23),
         color:COLOR.primaray,
         fontWeight:FONTWEGHIT.font600
     }

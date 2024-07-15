@@ -8,10 +8,13 @@ import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 import { ALINE } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { BASE_URL } from '../../constants/axios.url'
+import CusLoader from '../../components/CustomLoader'
 const Categories = () => {
-  const { CategoriesData, navigation, lang, userData } = useCategroiesHook()
+  const { CategoriesData, navigation, lang, userData, isLoadding } = useCategroiesHook()
   const [viewMore, setViewMore] = useState(false)
   const [aindex, setIndex] = useState(0)
+
+
 
   return (
 
@@ -20,25 +23,22 @@ const Categories = () => {
         <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} />
         <ScrollView>
           {CategoriesData?.map((items, index) => {
-            const slicedArray = items?.children?.slice(0, 6);
-            const mainData = items?.children
+            const slicedArray = items?.sub_category?.slice(0, 6);
+            const mainData = items?.sub_category
             const count = mainData?.length - slicedArray?.length
-            // console.log("==========> " , items?.id)
-
-
             return (
               <View key={index}>
                 <TouchableOpacity
-                  onPress=  {() => {
-                    items?.children.length > 0 ?
-                    ( setIndex(index), setViewMore(false) ) : navigation.navigate(NAVIGATION.ProductScreen , {cetegoriesId: items?.id})
-                    }}
+                  onPress={() => {
+                    items?.sub_category.length > 0 ?
+                      (setIndex(index), setViewMore(false)) : navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.category_id })
+                  }}
                   style={[styles.opationView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]} key={index}>
-                  <Text style={styles.title}>{items?.name}</Text>
-                  {items?.children.length > 0 && <Icon size={ResponsiveSize(25)} name={index == aindex ? lang == NUMBER.num0 ? ICON.left : ICON.down : ICON.right} />}
+                  <Text style={styles.title}>{items?.title}</Text>
+                  {items?.sub_category.length > 0 && <Icon size={ResponsiveSize(25)} name={index == aindex ? lang == NUMBER.num0 ? ICON.left : ICON.down : ICON.right} />}
                 </TouchableOpacity>
 
-                {(index == aindex && items?.children.length > 0) &&
+                {(index == aindex && items?.sub_category.length > 0) &&
                   <View style={styles.imageContainer} >
                     <FlatList
                       scrollEnabled={false}
@@ -51,11 +51,11 @@ const Categories = () => {
                         return (
                           <>
                             <TouchableOpacity
-                              onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: item?.id }) }}
+                              onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: item?.category_id }) }}
                               key={index * Math.random()} style={[styles.imageView]}>
                               <Image
                                 style={styles.image}
-                                source={{ uri: BASE_URL + item?.mobile_thumbnail }} />
+                                source={{ uri: item?.image }} />
 
                             </TouchableOpacity>
 
@@ -68,7 +68,6 @@ const Categories = () => {
                                 >
                                   <Text style={styles.viewText}>{" + " + count}</Text>
                                 </TouchableOpacity>
-
                               </View>
                             }
                           </>
@@ -81,12 +80,13 @@ const Categories = () => {
               </View>
             )
           })}
-
           <View style={{ height: ResponsiveSize(220) }} />
-
         </ScrollView>
-
       </View>
+      {isLoadding &&
+        <View style={{ height: '100%', width: "100%", position: 'absolute' }}>
+          <CusLoader />
+        </View>}
     </View>
   )
 }

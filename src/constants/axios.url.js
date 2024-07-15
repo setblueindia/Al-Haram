@@ -40,6 +40,13 @@ export const OrderView = BASE_URL + "/rest/V1/api/orderViewMethod"
 export const PRODUCTLIST = BASE_URL + "/rest/V1/api/getProductByCateId" 
 export const FilterList = BASE_URL + "/rest/V1/api/getCategoryFilterMethod" 
 export const CoupanListAPI = BASE_URL + "/rest/V1/api/coupenListMethod"
+export const actionCoupan = BASE_URL + "/rest/V1/api/coupenActionMethod"
+export const getCustomerService = BASE_URL + "/rest/V1/api/countryToStateMethod"
+export const updateCartitems = BASE_URL + "/rest/V1/api/updateCartItemMethod"
+export const mobailCetegouries = BASE_URL + "/rest/V1/api/getMobileCategoriesList"
+export const reOrderUrl = BASE_URL + "/rest/V1/api/orderReorderMethod"
+export const RefundOrder = BASE_URL + "/rest/V1/api/orderRefundMethod"
+
 
 
 

@@ -125,7 +125,10 @@ export const Ar = {
   RemainingWalletAmount:"المبلغ المتبقي في المحفظة",
   WalletAmount : "مبلغ المحفظة",
   TotaldueAmount:"إجمالي المبلغ المستحق",
-  BillingAddress:"Billing Address"
+  BillingAddress:"Billing Address",
+  Tel : "هاتف",
+  vat : "vat",
+  cr : "cr"
 }
 
 export const En = {
@@ -256,7 +259,11 @@ export const En = {
   RemainingWalletAmount : "Remaining Wallet Amount",
   WalletAmount : "Wallet Amount",
   TotaldueAmount:"Total due Amount",
-  BillingAddress: "Billing Address"
+  BillingAddress: "Billing Address",
+  Tel : "Tel",
+  vat : "vat",
+  cr : "cr"
+
 
 
 
