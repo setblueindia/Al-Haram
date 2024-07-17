@@ -3,6 +3,7 @@ import {
     AddRemoveToWhishLisstURL,
     AddToCart,
     AddressListURL,
+    Banner,
     CartListApi,
     CityListURL,
     CoupanListAPI,
@@ -15,6 +16,7 @@ import {
     OrderList,
     OrderView,
     PRODUCTLIST,
+    PlaceHolder1,
     RefundOrder,
     SINUPURL,
     SetPaymentMethodURL,
@@ -254,5 +256,17 @@ export const postRefundOrder = async (params) => {
 }
 export const getTranferAmount = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const getTranferAmountList = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const PlaceeHolder2 = async (params, lang) => {
+    const res = await POSTJSON(PlaceHolder1, params, lang)
+    return res
+}
+export const getBanner = async (params, lang) => {
+    const res = await POSTFORM(Banner, params, lang)
     return res
 }

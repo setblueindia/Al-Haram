@@ -8,9 +8,19 @@ import { ShippingList } from '../../constants/axios.url'
 import { getStorePickupMethod } from '../../api/axios.api'
 
 
-const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping, selectAddressList, setShippingdata }) => {
+const ShipingMethod = ({
+    lang,
+    data,
+    Token,
+    addressCod,
+    selectShipping,
+    selectAddressList,
+    setShippingdata,
+    setStorePickUpData
+}) => {
     const [selected, setSelected] = useState()
     const [on, setOn] = useState()
+    const [sIndex , setSindex] = useState()
     const labale = lang == NUMBER.num0 ? Ar : En
 
     return (
@@ -27,7 +37,7 @@ const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping, selectAd
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                         <View>
                                             <View style={styles.circalView} >
-                                                <View s style={selected == index ? styles.fillCircalView : null} />
+                                                <View s style={selected == index ? styles.fillCircalView2 : null} />
                                             </View>
                                         </View>
                                         <View style={styles.textView}>
@@ -52,29 +62,31 @@ const ShipingMethod = ({ lang, data, Token, addressCod, selectShipping, selectAd
                 selectAddressList?.map((items, index) => {
                     return (
                         <>
-                        <View key={index} style={styles.selectAddressView}>
-                            <Text style={styles.headerText}>{"Store Pickup"}</Text>
-                            <View style={styles.containBox}>
-                                <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                    <View>
-                                        <View style={styles.circalView} >
-                                            <View style={styles.fillCircalView} />
+                            <View key={index} style={styles.selectAddressView}>
+                                <Text style={styles.headerText}>{"Store Pickup"}</Text>
+                                <TouchableOpacity
+                                    onPress={() => { setStorePickUpData(items) , setSindex(index) }}
+                                    style={styles.containBox}>
+                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                        <View>
+                                            <View style={styles.circalView} >
+                                                <View style={[styles.fillCircalView , sIndex == index && {backgroundColor: COLOR.primaray}]} />
+                                            </View>
+                                        </View>
+                                        <View style={styles.textView}>
+                                            <View style={styles.hederTextView}>
+                                                <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.store_description}</Text>
+                                            </View>
+                                            <Text style={[styles.desText, { width: "90%" }, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
+                                                {items?.address}
+                                            </Text>
+                                            {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
                                         </View>
                                     </View>
-                                    <View style={styles.textView}>
-                                        <View style={styles.hederTextView}>
-                                            <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.store_description}</Text>
-                                        </View>
-                                        <Text style={[styles.desText, { width: "90%" }, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                                            {items?.address}
-                                        </Text>
-                                        {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
-                                    </View>
-                                </View>
+
+                                </TouchableOpacity>
 
                             </View>
-
-                        </View>
 
                         </>
                     )
@@ -142,6 +154,12 @@ const styles = StyleSheet.create({
         borderColor: COLOR.darkGray,
     },
     fillCircalView: {
+        height: "100%",
+        width: "100%",
+        // backgroundColor: COLOR.primaray,
+        borderRadius: ResponsiveSize(100)
+    },
+    fillCircalView2:{
         height: "100%",
         width: "100%",
         backgroundColor: COLOR.primaray,

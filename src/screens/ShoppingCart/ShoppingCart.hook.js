@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, DeleteCartItems, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
+import { CartList, DeleteCartItems, PlaceeHolder2, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import { ShippingList } from '../../constants/axios.url'
 import { useSharedValue } from 'react-native-reanimated'
@@ -18,6 +18,7 @@ const useShoppingcart = () => {
   const [isLoadding, setLoadding] = useState(false)
   const navigation = useNavigation()
   const Token = useSelector(state => state?.userData?.data?.token)
+  const userData = useSelector(state => state?.userData)
   const [outOfStock, setOutOfStock] = useState()
   const productCount = useSelector(state => state?.AddToCart?.data)
 
@@ -34,6 +35,8 @@ const useShoppingcart = () => {
   const [messages, setMessages] = useState()
   const [showWallet, setShowWallet] = useState(false)
   const [shippingData, setShippingdata] = useState()
+  const [paymentCode, setPaymentCode] = useState()
+  const [storePickData, setStorePickUpData] = useState('')
 
   const [paymentScreenData, setPaymentScreen] = useState()
   const [selectPayment, setSelectPayment] = useState('')
@@ -42,9 +45,10 @@ const useShoppingcart = () => {
   const [coupanCode, setCoupanCode] = useState()
   const [actionCode, setActionCode] = useState()
   const [remove, setRemove] = useState(false)
+  const [validationn, setValidation] = useState(false)
 
   const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
-
+  const name = userData?.data?.firstname + " " + userData?.data?.lastname
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
     cart: "عربة التسوق",
@@ -128,7 +132,7 @@ const useShoppingcart = () => {
     getWallateData()
   }, [])
 
-  // Payment Check Out-Button
+
   const onPress = () => {
     if (index < 3) {
       if (index == 0) {
@@ -137,24 +141,29 @@ const useShoppingcart = () => {
       if (index == 1) {
         if (!addressCod) {
           setShowModal(true)
-          setMessages("Please select address")
+          setMessages(lang == NUMBER.num1 ? "Please select address" : "الرجاء تحديد العنوان")
         } else {
           getShipingList()
           setIndex(index + 1)
         }
       }
-
       if (index == 2) {
         if (!shippingData) {
           setShowModal(true)
-          setMessages("Please select shipping method")
+          setMessages(lang == NUMBER.num1 ? "Please select shipping method" : "الرجاء تحديد طريقة الشحن")
         } else {
           PlaceHolder1()
         }
       }
-
     } else {
-      navigation.navigate(NAVIGATION.Done, { lang: lang })
+      if(!validationn){
+        setShowModal(true)
+        setMessages( lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
+      }else{
+        PlaceHolder()
+      }
+
+
     }
   }
   // Back Button
@@ -167,6 +176,11 @@ const useShoppingcart = () => {
       setShippingdata('')
       setSelectPayment('')
     }
+    if (index == 4) {
+      setShippingdata('')
+      setSelectPayment('')
+    }
+
     index > 0 && setIndex(index - 1)
   }
 
@@ -350,6 +364,7 @@ const useShoppingcart = () => {
 
   // select PaymentMethod
   const selectPaymentMethod = async (cod) => {
+    setPaymentCode(cod)
     setLoadding(true)
     try {
       const params = {
@@ -412,7 +427,7 @@ const useShoppingcart = () => {
   }
 
   // apply Coupan Api 
-  const applyCoupan = async (coupanID, code) => { 
+  const applyCoupan = async (coupanID, code) => {
     setLoadding(true)
     const formData = new FormData()
     formData.append("store_id", lang)
@@ -437,14 +452,14 @@ const useShoppingcart = () => {
 
   // Update Qnty Items 
 
-  const updateQnty = async (id , qty , n) => {
+  const updateQnty = async (id, qty, n) => {
     setLoadding(true)
     const formData = new FormData()
 
     formData.append("store_id", lang)
     formData.append("item_id", id)
-    formData.append("qty" , qty)
-    formData.append("token" , Token)
+    formData.append("qty", qty)
+    formData.append("token", Token)
 
     try {
       const res = await postUpdateCart(formData)
@@ -454,6 +469,104 @@ const useShoppingcart = () => {
     } catch (error) {
       console.log("UPDATE QTY ERROR ::::::: ", error)
       setLoadding(false)
+    }
+  }
+
+  const validation = (value) => {
+    var validationTotal = 0
+
+    paymentScreenData?.total_segments?.map((items, index) => {
+      if (items?.code == "grand_total") {
+        validationTotal = items?.value
+      }
+    })
+    if (value) {
+      if (wallateAmount < validationTotal) {
+        setValidation(false)
+      } else {
+        setValidation(true)
+      }
+    } else {
+      setValidation(false)
+    }
+
+
+    console.log("Value ====> ",
+      {
+        value: value,
+        validationTotal: validationTotal
+      }
+    )
+  }
+
+  const PlaceHolder = async () => {
+    var shoppingTotal = 0
+    var subTotal = 0
+    var grandTotal = 0
+
+    paymentScreenData?.total_segments?.map((items, index) => {
+      if (items?.code == "grand_total") {
+        grandTotal = items?.value
+      }
+      if (items?.code == 'subtotal') {
+        subTotal = items?.value
+      }
+    })
+
+    selectPayment?.total_segments?.map((items, index) => {
+      if (items?.code == "grand_total") {
+        grandTotal = items?.value
+      }
+      if (items?.code == 'subtotal') {
+        subTotal = items?.value
+      }
+      if (items?.code == "shipping") {
+        shoppingTotal = items?.value
+      }
+
+    })
+
+    const params = {
+      "paymentMethod": paymentCode ? paymentCode : "walletsystem",
+      "billing_address": {
+        "id": billingAddressData?.id,
+        "customer_id": billingAddressData?.customer_id,
+        "region": billingAddressData?.region,
+        "region_id": billingAddressData?.region_id,
+        "country_id": billingAddressData?.country_id,
+        "street": billingAddressData?.street,
+        "region_code": billingAddressData?.region_code,
+        "telephone": billingAddressData?.telephone,
+        "postcode": billingAddressData?.postcode,
+        "city": billingAddressData?.city,
+        "firstname": billingAddressData?.firstname,
+        "lastname": billingAddressData?.lastname,
+        "default_shipping": false,
+        "default_billing": true,
+        "region_name": billingAddressData?.region_name,
+        "country_name": billingAddressData?.country_name,
+        "address1": billingAddressData?.address1,
+        "address2": billingAddressData?.address2,
+        "address3": billingAddressData?.address3,
+        "city_display": billingAddressData?.city_display
+      }, "custom": {
+        "token": Token,
+        "store_id": lang,
+        "email": userData?.data?.email,
+        "name": name,
+        "customer_id": userData?.data?.addresses[0]?.customer_id,
+        "subtotal": subTotal,
+        "shipping": shoppingTotal,
+        "grand_total": grandTotal,
+        "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : ''
+      }
+    }
+    try {
+      const res = await PlaceeHolder2(params)
+      console.log("Finally Response :::::::::::::::: ", res?.data)
+      // navigation.navigate(NAVIGATION.Done, { lang: lang })
+    } catch (error) {
+
     }
   }
 
@@ -478,6 +591,7 @@ const useShoppingcart = () => {
     coupanListData,
     coupanCode,
     remove,
+    validationn,
     setActionCode,
     setShowModal,
     deleteProduct,
@@ -493,8 +607,11 @@ const useShoppingcart = () => {
     getCoupanList,
     applyCoupan,
     updateQnty,
+    setStorePickUpData,
+    validation,
     selectPayment,
-    setSelectPayment
+    setSelectPayment,
+    PlaceHolder
   }
 }
 

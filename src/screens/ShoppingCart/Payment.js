@@ -22,6 +22,9 @@ const Payment = ({
   setCoupanCode,
   setActionCode,
   applyCoupan,
+  validation,
+  validationn,
+  PlaceHolder,
   remove,
   setSelectPayment,
   coupanCode
@@ -34,7 +37,6 @@ const Payment = ({
   const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : 0
   const WAmount = wallateAmount > totalAmount[0] ? wallateAmount - RemingAmount : wallateAmount
   const lable = lang == NUMBER.num0 ? Ar : En
-
 
   const finalAmount = () => {
     const temp = []
@@ -63,8 +65,17 @@ const Payment = ({
         <View style={styles.paymentView}>
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
 
-          <TouchableOpacity onPress={() => { showWallet ? setShowWallet(false) : setShowWallet(true), selectPaymentMethod() }} style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-            <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} />
+          <TouchableOpacity onPress={() => {
+            showWallet ?  setShowWallet(false) : setShowWallet(true),
+            setCOD(false),
+            setCredit(false) ,
+            validation(showWallet),
+            selectPaymentMethod()
+            showWallet ? validation(false) : validation(true)
+          }}
+            style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
+            <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit}/>
             <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
           </TouchableOpacity>
           {
@@ -112,11 +123,15 @@ const Payment = ({
             </View>
           }
 
-          {/* {console.log(' :::::::::::::::: ' , ((totalAmount > wallateAmount) && showWallet  ))} */}
-
-          { <View>
+          {
+          (showWallet && wallateAmount < totalAmount) || (!showWallet)&&
+            <View>
             <TouchableOpacity
-              onPress={() => { setCOD(true), setCredit(false), selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code) }}
+              onPress={() => { 
+                setCOD(true), 
+                setCredit(false), 
+                validation(true)
+                selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code) }}
               style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.fillView, COD &&
               {
@@ -129,7 +144,11 @@ const Payment = ({
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => { setCOD(false), setCredit(true), selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code) }}
+              onPress={() => { 
+                setCOD(false), 
+                setCredit(true),
+                validation(true)
+                 selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code) }}
               style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.fillView, credit &&
               {
@@ -168,37 +187,37 @@ const Payment = ({
 
         <View style={styles.manulCoupanView}>
 
-     {  !remove &&   <TextInput
+          {!remove && <TextInput
             style={styles.coupnTextInput}
             placeholder='Enter Coupan Code'
             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
             onChangeText={text => setCoupanCode(text)}
             value={coupanCode}
           />}
-          
-      { remove &&   <View style={[styles.coupnTextInput , {justifyContent:'center'}]}>
+
+          {remove && <View style={[styles.coupnTextInput, { justifyContent: 'center' }]}>
             <Text>{coupanCode}</Text>
 
           </View>}
 
 
-      {   !remove && <TouchableOpacity
+          {!remove && <TouchableOpacity
             onPress={() => {
               setActionCode(1)
-              applyCoupan(coupanCode , 1)
+              applyCoupan(coupanCode, 1)
             }}
             style={styles.applyView}>
             <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
           </TouchableOpacity>}
 
-       {  remove&& <TouchableOpacity
+          {remove && <TouchableOpacity
             onPress={() => {
-              setActionCode(0) 
-              applyCoupan(coupanCode , 0)
+              setActionCode(0)
+              applyCoupan(coupanCode, 0)
 
             }}
             style={styles.applyView}>
-            <Text style={[styles.btnText  ,  {fontSize:ResponsiveSize(21)}]}>{lang == NUMBER.num0 ? "يزيل" : "Remove"}</Text>
+            <Text style={[styles.btnText, { fontSize: ResponsiveSize(21) }]}>{lang == NUMBER.num0 ? "يزيل" : "Remove"}</Text>
           </TouchableOpacity>}
 
         </View>
@@ -218,7 +237,7 @@ const Payment = ({
                   </View>
 
                   <TouchableOpacity
-                    onPress={() => { setCoupanCode(item?.coupon), setActionCode(1), applyCoupan(item?.coupon , 1) }}
+                    onPress={() => { setCoupanCode(item?.coupon), setActionCode(1), applyCoupan(item?.coupon, 1) }}
                     style={styles.btnView}>
                     <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
                   </TouchableOpacity>

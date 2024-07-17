@@ -39,6 +39,7 @@ const ShoopingCart = () => {
         coupanListData,
         coupanCode,
         remove,
+        validationn,
         updateQnty,
         setActionCode,
         setCoupanCode,
@@ -52,9 +53,12 @@ const ShoopingCart = () => {
         setBillingAddress,
         setSelectPayment,
         getCoupanList,
+        PlaceHolder,
         applyCoupan,
+        validation,
         selectPayment,
         selectPaymentMethod,
+        setStorePickUpData,
         outOfStock
     } = useShoppingcart()
 
@@ -136,13 +140,25 @@ const ShoopingCart = () => {
                 {
                     index == 1 &&
                     <View style={{ flex: 1 }}>
-                        <Shooping setLoadding={setLoadding} setAddressCode={setAddressCode} setBillingAddress={setBillingAddress} data={shopinfCratData} lang={lang} />
+                        <Shooping 
+                        setLoadding={setLoadding} 
+                        setAddressCode={setAddressCode} 
+                        setBillingAddress={setBillingAddress} 
+                    
+                        data={shopinfCratData} lang={lang} />
                     </View>
                 }
                 {
                     index == 2 &&
                     <View>
-                        <ShipingMethod setShippingdata={setShippingdata} selectAddressList={selectAddressList} selectShipping={selectShipping} Token={Token} addressCod={addressCod} data={ShhippingData} lang={lang} />
+                        <ShipingMethod
+                        setShippingdata={setShippingdata} 
+                        selectAddressList={selectAddressList} 
+                        selectShipping={selectShipping} 
+                        Token={Token} 
+                        addressCod={addressCod} 
+                        setStorePickUpData={setStorePickUpData}
+                        data={ShhippingData} lang={lang} />
                     </View>
                 }
                 {
@@ -164,6 +180,9 @@ const ShoopingCart = () => {
                             data={shopinfCratData}
                             lang={lang} 
                             remove={remove}
+                            PlaceHolder={PlaceHolder}
+                            validation={validation}
+                            validationn={validationn}
                             />
                     </View>
                 }

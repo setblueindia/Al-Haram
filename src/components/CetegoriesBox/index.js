@@ -6,21 +6,20 @@ import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { BASE_URL } from '../../constants/axios.url'
 
-const CetegoriesBox = ({ items, index, lang , navigation}) => {
-    
+const CetegoriesBox = ({ items, index, lang, navigation }) => {
+
     const data = items?.children
-    // console.log(items)
+
     return (
         <View style={[styles.mainView, index % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
-
             <View style={styles.bannerView}>
-                <Image style={styles.bannerImg} source={{uri : BASE_URL + items?.mobile_image}} />
+                <Image style={styles.bannerImg} source={{ uri: BASE_URL + items?.mobile_image }} />
             </View>
 
             <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={styles.categoriesName}>{items?.name}</Text>
                 <TouchableOpacity
-                onPress={()=>{navigation.navigate(NAVIGATION.bannerScreen)}}
+                    onPress={() => { navigation.navigate(NAVIGATION.bannerScreen) }}
                 >
                     <Text style={styles.viewText}>{"View All"}</Text>
                 </TouchableOpacity>
@@ -34,16 +33,19 @@ const CetegoriesBox = ({ items, index, lang , navigation}) => {
                 lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
             >
                 {
-                    data?.map((items, index) => {
-                        const name = items?.name
+                    data?.map((sitems, index) => {
+                        const name = sitems?.name
                         const finalName = name.substring(0, 10);
+                        // console.log("finalName ::::::::::::::: ", sitems)
                         return (
                             <>
-                                <TouchableOpacity style={{justifyContent:'center' , alignItems:'center'}} >
+                                <TouchableOpacity
+                                    onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: sitems?.id }) }}
+                                    style={{ justifyContent: 'center', alignItems: 'center' }} >
                                     <View style={styles.innerCategoriesView}>
-                                        <Image style={styles.storyView} source={{uri : BASE_URL + items?.mobile_thumbnail}} />
+                                        <Image style={styles.storyView} source={{ uri: BASE_URL + sitems?.mobile_thumbnail }} />
                                     </View>
-                                    <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{ items?.name}</Text>
+                                    <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{sitems?.name}</Text>
                                 </TouchableOpacity>
 
                                 <View style={{ width: ResponsiveSize(30) }} />
@@ -109,10 +111,10 @@ const styles = StyleSheet.create({
         textAlign: ALINE.center,
         color: COLOR.black,
         marginTop: ResponsiveSize(20),
-        width:ResponsiveSize(120),
-        height:ResponsiveSize(80),
-        textAlign:'center',
-    
+        width: ResponsiveSize(120),
+        height: ResponsiveSize(80),
+        textAlign: 'center',
+
     }
 
 })

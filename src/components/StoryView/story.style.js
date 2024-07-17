@@ -10,6 +10,8 @@ export const styles = StyleSheet.create({
         backgroundColor:COLOR.white,
         justifyContent:ALINE.center,
         alignItems:ALINE.center,    
+        borderWidth:ResponsiveSize(1),
+        borderColor:COLOR.liteGray
     },
     imge: {
         height: "100%",
@@ -19,7 +21,6 @@ export const styles = StyleSheet.create({
     },
     mainView: {
         width: "100%",
-
     },
 
     listView: {

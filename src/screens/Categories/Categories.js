@@ -60,7 +60,7 @@ const Categories = () => {
                             </TouchableOpacity>
 
                             {
-                              !viewMore && index == 5 &&
+                              !viewMore && index == 5 && count > 0 &&
                               <View style={styles.ViewMore}>
                                 <TouchableOpacity
                                   onPress={() => { setViewMore(true) }}

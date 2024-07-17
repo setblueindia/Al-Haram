@@ -46,6 +46,9 @@ export const updateCartitems = BASE_URL + "/rest/V1/api/updateCartItemMethod"
 export const mobailCetegouries = BASE_URL + "/rest/V1/api/getMobileCategoriesList"
 export const reOrderUrl = BASE_URL + "/rest/V1/api/orderReorderMethod"
 export const RefundOrder = BASE_URL + "/rest/V1/api/orderRefundMethod"
+export const PlaceHolder1 = BASE_URL + "/rest/V1/api/orderPlaceMethod"
+export const Banner = BASE_URL + "/rest/V1/api/getCategoryBanner"
+
 
 
 

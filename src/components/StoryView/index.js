@@ -22,11 +22,10 @@ const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
                 style={styles.FlatList}
                 horizontal
                 renderItem={({ item , index }) => {
-                    
                     return (
                         <View  key={index + 10}  style={styles.listView}>
                             <TouchableOpacity 
-                            onPress={()=>{navigation.navigate(NAVIGATION.bannerScreen)}}
+                            onPress={()=>{navigation.navigate(NAVIGATION.bannerScreen , {cetegouriesId : item?.id})}}
                             style={styles.storyView}>
                                 <Image style={styles.imge} source={{uri : BASE_URL+ item?.mobile_thumbnail}} />
                             </TouchableOpacity>
