@@ -32,7 +32,7 @@ const useProductDetails = (props) => {
   const [sizeIndex, setSizeIndex] = useState()
   const [size, setSize] = useState()
   const [color, setColor] = useState()
-  const [qnt, setQnts] = useState(0)
+  const [qnt, setQnts] = useState(1)
   const [valueIndexOfSize, setValueIndexOfSize] = useState()
   const [sliderData, setSliderData] = useState(
     [
@@ -285,6 +285,7 @@ const useProductDetails = (props) => {
     setAvalableColor(temp)
     valueIndexOfSize?.includes(id) && setIndex()
   }
+
 
   return {
     lang,

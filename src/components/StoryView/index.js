@@ -8,7 +8,6 @@ import { BASE_URL } from '../../constants/axios.url'
 
 const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
 
-
     return (
         <View style={[styles.mainView , lang.data == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
 
@@ -17,15 +16,14 @@ const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
                 inverted ={lang.data == NUMBER.num0 ?  true :false}
                 scrollEnabled={true}
                 showsHorizontalScrollIndicator={false}
-                styles={{}}
-                // keyboardDismissMode={(data , index)=> Math.random() * index}
                 style={styles.FlatList}
                 horizontal
                 renderItem={({ item , index }) => {
+                    const temp = item?.children?.length <= 0 ? false : true
                     return (
                         <View  key={index + 10}  style={styles.listView}>
                             <TouchableOpacity 
-                            onPress={()=>{navigation.navigate(NAVIGATION.bannerScreen , {cetegouriesId : item?.id})}}
+                            onPress={()=>{temp ? navigation.navigate(NAVIGATION.bannerScreen , {cetegouriesId : item?.id}) : navigation.navigate(NAVIGATION.ProductScreen , {cetegouriesId : item?.id})}}
                             style={styles.storyView}>
                                 <Image style={styles.imge} source={{uri : BASE_URL+ item?.mobile_thumbnail}} />
                             </TouchableOpacity>

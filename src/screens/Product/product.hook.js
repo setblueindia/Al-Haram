@@ -2,8 +2,9 @@ import { useNavigation } from "@react-navigation/native"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { NUMBER } from "../../constants/constants"
-import { getFilterList, getProductList } from "../../api/axios.api"
+import { AddRemoveToWhishLisst, getFilterList, getProductList } from "../../api/axios.api"
 import { Ar, En } from "../../constants/localization"
+import { SHOWTOTS } from "../../utils/utils"
 
 const useProductHook = (props) => {
 
@@ -52,7 +53,7 @@ const useProductHook = (props) => {
     setData((prevData) =>
       prevData?.map(
         (productDetails) => productDetails?.id == items ?
-          { ...productDetails, like: !productDetails?.like } :
+          { ...productDetails, wishlist: !productDetails?.wishlist } :
           productDetails
       )
     )
@@ -162,11 +163,24 @@ const useProductHook = (props) => {
     }
   }
 
-  // console.log("===========> ", {
-  //   action : action ,
-  //   sortBy : sortBy
-  // })
 
+  const likeDislike = async (id) => {
+    const formData = new FormData()
+    formData.append("customer_id", userData?.id)
+    formData.append("productId", id)
+    formData.append("action", "true")
+    formData.append("store_id" , lang)
+    try {
+      const response = id && await AddRemoveToWhishLisst(formData)
+      if (response?.data?.status == NUMBER.num1) {
+        SHOWTOTS(response?.data?.message)
+      }
+    } catch (error) {
+      console.log("Like / Dislike ERROR ::::::::::::: ", error)
+    }
+  }
+
+  
 
 
   return {
@@ -189,6 +203,7 @@ const useProductHook = (props) => {
     filterData,
     likePress,
     getFilterData,
+    likeDislike,
     getData
 
   }

@@ -7,17 +7,17 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import { NavigationRouteContext } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const ProductBox = ({ navigation, lang, sindex, items }) => {
 
-  // console.log("Items ::::::::::::::::::::::: ", items?.name)
 
   const data = items?.items
   const labale = lang == NUMBER.num0 ? Ar : En
   return (
     <View style={[styles.mainView, sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
       <View style={styles.bannerView}>
-        <Image style={styles.bannerImg} source={{ uri: items?.banner_url }} />
+        <FastImage resizeMode='contain' style={styles.bannerImg} source={{ uri: items?.banner_url }} />
       </View>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -41,7 +41,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
             const name = items?.name
             const finalName = name.substring(0, 15);
             return (
-              <>
+              <View key={index} style={{flexDirection:'row'}}>
                 <TouchableOpacity
                   onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}
                 >
@@ -52,7 +52,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
                   <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{labale.SAR + " " + items?.price}</Text>
                 </TouchableOpacity>
                 <View style={{ width: ResponsiveSize(30) }} />
-              </>
+              </View>
             )
           })
         }
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF0DC",
     borderWidth: ResponsiveSize(1),
     borderColor: "#CEB282"
-
   },
   bannerView: {
     height: ResponsiveSize(250),

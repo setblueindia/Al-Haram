@@ -75,4 +75,24 @@ export const styles = StyleSheet.create({
   selected: {
     backgroundColor: '#E0E0E0', 
   },
+  lanView:{
+    flexDirection: ALINE.row,
+    padding: ResponsiveSize(10),
+    borderBottomWidth: 0.5,
+    justifyContent:'space-around',
+    paddingHorizontal:ResponsiveSize(20),
+    flexDirection:'row',
+  },
+  lngBtn : {
+     height:ResponsiveSize(70),
+     width:ResponsiveSize(200),
+     backgroundColor:COLOR.primaray,
+     borderRadius:ResponsiveSize(20),
+     alignItems:'center',
+     justifyContent:'center'
+  },
+  btnText:{
+    color:COLOR.white,
+    fontSize:ResponsiveSize(25)
+  }
 });

@@ -17,7 +17,6 @@ const Categories = () => {
 
 
   return (
-
     <View style={styles.mainView}>
       <View style={styles.CustomeHeaderView} >
         <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} />

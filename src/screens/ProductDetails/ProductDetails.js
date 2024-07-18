@@ -19,7 +19,6 @@ const ProductDetails = (props) => {
     const { lang,
         navigation,
         sliderData,
-        color,
         showAnimation,
         Str,
         details,
@@ -36,7 +35,6 @@ const ProductDetails = (props) => {
         AddTocart,
         showModal,
         isLoading,
-        setSizeShow,
         sizeShow,
         setShowModal,
         colorOnPress,
@@ -139,7 +137,7 @@ const ProductDetails = (props) => {
                     </View>
                 </View>
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={() => { setShowModal(true) }}
                     style={[styles.reviewView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text>{Str?.Reviews}</Text>
@@ -147,13 +145,14 @@ const ProductDetails = (props) => {
                         <Image style={styles.ratingStart} source={Ratting} />
                     </View>
 
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <View style={{ height: ResponsiveSize(200) }} />
 
 
 
             </ScrollView>
+            
             {showAnimation &&
                 <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150), right: ResponsiveSize(20) }}>
                     <LottieView

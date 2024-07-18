@@ -12,10 +12,10 @@ const Counter = ({ qty, setQnt , id , updateQnty}) => {
     const countProcess = (type) => {
         if (type) {
             setQnt(qty + 1)
-            updateQnty(id , qty + 1 , n = true)
+            updateQnty &&  updateQnty(id , qty + 1 , n = true)
         } else {
             qty > 1 && setQnt(qty - 1)
-            updateQnty(id , qty - 1 , n = false)
+            updateQnty &&   updateQnty(id , qty - 1 , n = false)
         }
     }
     return (

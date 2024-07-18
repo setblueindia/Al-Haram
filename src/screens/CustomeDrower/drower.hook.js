@@ -13,13 +13,12 @@ const useDrowerHook = () => {
   const lang = useSelector(state => state.lang);
   const userData = useSelector(state => state?.userData)
   const loder = useSelector(state => state?.Categories?.loader)
+  const cetegouriesData = useSelector(state => state?.CetegoriesList?.data)
   const [langues, setLangues] = useState();
   const navigation = useNavigation();
   const [data, setData] = useState([])
   const dispatch = useDispatch();
-
   const height = Dimensions.get("window").height
-
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
   const userName = firstName && lastName ? firstName + "  " + lastName : "User"
@@ -93,7 +92,6 @@ const useDrowerHook = () => {
 
   const changeLungues = async () => {
     const num = lang.data == NUMBER.num0 ? NUMBER.num1 : lang.data == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
-
     try {
       await AsyncStorage.setItem('Lang', num);
       dispatch(updateLangCode(num));
@@ -705,6 +703,7 @@ const useDrowerHook = () => {
   //   },
   // ];
 
+  // console.log(":::::::::::::::: ", cetegouriesData?.children)
   return {
     lang,
     data,
@@ -717,6 +716,7 @@ const useDrowerHook = () => {
     handleInstagramPress,
     handleFacebookPress,
     handlechatPress,
+    cetegouriesData
   };
 };
 

@@ -21,7 +21,7 @@ const SerchScreen = () => {
     SerchPress,
     getData,
     setSerchTex,
-    likePress
+    likePress,
   } = useSerchHook()
 
   return (

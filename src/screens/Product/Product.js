@@ -33,6 +33,7 @@ const Product = (props) => {
         pIndex,
         filterData,
         setIndex,
+        likeDislike,
         likePress
     } = useProductHook(props)
 
@@ -78,7 +79,6 @@ const Product = (props) => {
                         numColumns={2}
                         bounces={true}
                         renderItem={({ item, index }) => {
-
                             const name = item?.name.substring(0, 16)
 
                             return (
@@ -98,9 +98,10 @@ const Product = (props) => {
                                     <TouchableOpacity
                                         onPress={() => {
                                             likePress(item?.id)
+                                            likeDislike(item?.id)
                                         }}
                                         style={styles.likeView}>
-                                        <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                                        <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
                                     </TouchableOpacity>
                                 </TouchableOpacity>
                             )

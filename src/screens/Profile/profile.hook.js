@@ -2,8 +2,10 @@ import { Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateLangCode } from '../../redux/Slices/LangSlices';
 
 const useProfileHook = () => {
 
@@ -11,6 +13,9 @@ const useProfileHook = () => {
   const userData = useSelector(state => state?.userData)
   const navigation = useNavigation();
   const [selectedItems, setSelectedItems] = useState()
+  const [arabic , setArabic] = useState(lang == NUMBER.num0 ? true : false)
+  const dispatch = useDispatch();
+
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
 
   const email = userData?.data?.email
@@ -26,6 +31,7 @@ const useProfileHook = () => {
     { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
     { icon: 'book', text: PROFILEStr?.AddressBook },
     { icon: 'phone', text: PROFILEStr?.CustomerService },
+    // { icon: 'phone', text: PROFILEStr?.CustomerService },
 
   ];
   const onPress = (item) => {
@@ -52,12 +58,17 @@ const useProfileHook = () => {
     } else {
       navigation.navigate(NAVIGATION.Login)
     }
-
   }
 
-
-
-
+  const changeLungues = async () => {
+    const num = lang.data == NUMBER.num0 ? NUMBER.num1 : lang.data == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
+    try {
+      await AsyncStorage.setItem('Lang', num);
+      dispatch(updateLangCode(num));
+    } catch (error) {
+      console.log('UPDATE LANGUES ERROR :: ', error);
+    }
+  };
 
   return {
     menuItems,
@@ -66,11 +77,15 @@ const useProfileHook = () => {
     firstName,
     lastName,
     setSelectedItems,
+    changeLungues,
+    setArabic,
     navigation,
     onPress,
     navigation,
     name,
-    userData
+    userData,
+    PROFILEStr,
+    arabic
 
   };
 };

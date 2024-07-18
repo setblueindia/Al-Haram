@@ -22,7 +22,11 @@ const Profile = () => {
     navigation,
     email,
     name,
-    userData
+    userData,
+    arabic,
+    PROFILEStr,
+    setArabic,
+    changeLungues
   } = useProfileHook();
 
 
@@ -103,6 +107,26 @@ const Profile = () => {
 
         </TouchableOpacity>
       ))}
+
+      {console.log(arabic)}
+      <View style={[styles.lanView]}>
+        <TouchableOpacity
+          onPress={() => {
+            setArabic(true),
+            changeLungues()
+          }}
+          style={[styles.lngBtn, !arabic && { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1) }]}>
+          <Text style={[styles.btnText, !arabic && { color: COLOR.black }]}>{"عربي"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setArabic(false),
+            changeLungues()
+          }}
+          style={[styles.lngBtn, arabic && { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1) }]}>
+          <Text style={[styles.btnText, arabic && { color: COLOR.black }]}>{"English"}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
