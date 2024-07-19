@@ -18,7 +18,7 @@ const useSplshHook = () => {
   
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace(NAVIGATION.DrawerNavigation);
+      navigation.replace(NAVIGATION.DrawerNavigation );
     }, 3000);
   }, []);
 

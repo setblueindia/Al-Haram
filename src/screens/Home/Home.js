@@ -15,9 +15,17 @@ import ProductBox from '../../components/ProductBox';
 import CusLoader from '../../components/CustomLoader';
 
 
-const Home = () => {
-
-  const { data, HomeScreeData, lang, Sliderdata, navigation, CetegoriesData } = useHomeHook()
+const Home = (props) => {
+  const {
+    data,
+    HomeScreeData,
+    lang,
+    Sliderdata,
+    navigation,
+    CetegoriesData,
+    loder,
+    isLoadding
+  } = useHomeHook(props)
 
   return (
     <View style={styles.mainView}>
@@ -93,7 +101,7 @@ const Home = () => {
       </View>
 
       {
-        !CetegoriesData &&
+        (!CetegoriesData || isLoadding) &&
         <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
           <CusLoader />
         </View>

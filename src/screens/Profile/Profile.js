@@ -10,6 +10,7 @@ import useProfileHook from './profile.hook';
 import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { ALINE, COLOR } from '../../constants/style';
 import CustomeHeader from '../../components/CustomeHeader';
+import CusLoader from '../../components/CustomLoader';
 
 
 
@@ -18,6 +19,7 @@ const Profile = () => {
   const { menuItems,
     setSelectedItems,
     onPress,
+    // loder,
     lang,
     navigation,
     email,
@@ -108,7 +110,17 @@ const Profile = () => {
         </TouchableOpacity>
       ))}
 
-      {console.log(arabic)}
+
+      <View style={styles.btnView}>
+        <TouchableOpacity
+          onPress={() => {
+            changeLungues();
+          }}
+          style={styles.chnageLangBtnView}>
+          <Text style={styles.btntext}>{PROFILEStr?.ChangeLang}</Text>
+        </TouchableOpacity>
+      </View>
+      {/* {console.log(arabic)}
       <View style={[styles.lanView]}>
         <TouchableOpacity
           onPress={() => {
@@ -126,7 +138,12 @@ const Profile = () => {
           style={[styles.lngBtn, arabic && { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1) }]}>
           <Text style={[styles.btnText, arabic && { color: COLOR.black }]}>{"English"}</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
+{/* 
+      {loder &&
+        <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
+          <CusLoader />
+        </View>} */}
     </View>
   );
 };

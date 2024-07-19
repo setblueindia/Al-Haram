@@ -9,18 +9,14 @@ export const styles = StyleSheet.create({
   },
   profileView: {
     borderWidth: ResponsiveSize(1),
-    // height: ResponsiveSize(250),
     borderColor: '#DCDCDC',
   },
   linearView: {
-    // width: '100%',
-    // height: '100%',
     borderBottomWidth: 0.5,
   },
   profileMain: {
     marginTop:ResponsiveSize(20),
     padding:ResponsiveSize(10)
-    // marginRight:ResponsiveSize(20)
   },
   profileText: {
     flexDirection: ALINE.row,
@@ -28,9 +24,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ResponsiveSize(10),
     
   },
-
   userText: {
-    // marginTop:ResponsiveSize(10),
     width: '90%',
     alignSelf: ALINE.center,
   },
@@ -48,7 +42,6 @@ export const styles = StyleSheet.create({
   },
   menuView: {
     flexDirection: ALINE.row,
-    // paddingHorizontal: ResponsiveSize(10),
     padding: ResponsiveSize(20),
     borderBottomWidth: 0.5,
     justifyContent:ALINE.spaceBetween,
@@ -66,8 +59,6 @@ export const styles = StyleSheet.create({
   },
   textMenu: {
     marginHorizontal:ResponsiveSize(40)
-    // flex: 0.7,
-    // padding: 5,
   },
   textEmail: {
     color: COLOR.black,
@@ -79,20 +70,41 @@ export const styles = StyleSheet.create({
     flexDirection: ALINE.row,
     padding: ResponsiveSize(10),
     borderBottomWidth: 0.5,
-    justifyContent:'space-around',
+    justifyContent:ALINE.spaceBetween,
     paddingHorizontal:ResponsiveSize(20),
-    flexDirection:'row',
+    flexDirection:ALINE.row,
   },
   lngBtn : {
      height:ResponsiveSize(70),
      width:ResponsiveSize(200),
      backgroundColor:COLOR.primaray,
      borderRadius:ResponsiveSize(20),
-     alignItems:'center',
-     justifyContent:'center'
+     alignItems:ALINE.center,
+     justifyContent:ALINE.center
   },
   btnText:{
     color:COLOR.white,
     fontSize:ResponsiveSize(25)
+  },
+  btnView:{
+    width:"100%",
+    justifyContent:ALINE.center,
+    alignItems:ALINE.center,
+    marginTop:ResponsiveSize(100)
+  },
+  chnageLangBtnView:{
+    height:ResponsiveSize(80),
+    width:ResponsiveSize(200),
+    justifyContent:ALINE.center,
+    alignItems:ALINE.center,
+    borderRadius:ResponsiveSize(10),
+    borderColor:'green',
+    borderWidth:ResponsiveSize(2),
+
+  },
+  btntext:{
+    color:COLOR.black,
+    fontSize:ResponsiveSize(30),
+    fontWeight:'600'
   }
 });

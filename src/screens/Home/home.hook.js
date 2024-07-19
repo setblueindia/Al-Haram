@@ -1,291 +1,162 @@
 import { Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NUMBER } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
-import { HomeApi } from '../../api/axios.api'
+import { HomeApi, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
+import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
+import { updateLoader } from '../../redux/Slices/DrawerSlice'
 
-const useHomeHook = () => {
+const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
+  const loder = useSelector(state => state?.Categories?.loader)
+  const [isLoadding, setIsLoadding] = useState(loder)
   const home = useSelector(state => state?.HomeScreen?.data)
   const lang = useSelector(state => state.lang)
   const navigation = useNavigation()
+  const HomeScreeData = home?.product_slider
+  const Sliderdata = home?.banner_slider
+  const dispatch = useDispatch()
+  const isInitialMount = useRef(true)
 
-  // console.log("DATA ==============> ", home)
+  const CetegouriesList = async () => {
+    // dispatch(updateLoader(true))
+    setIsLoadding(true)
+    const params = `
+    {
+      categoryList(filters: {ids: {in: ["2"]}}) {
+        children_count
+        children {
+          id
+          level
+          name
+          path
+          url_path
+          url_key
+          image
+          description
+          mobile_thumbnail
+          mobile_image
+          display_mode
+          children {
+            id
+            level
+            name
+            path
+            url_path
+            url_key
+            image
+            description
+            mobile_thumbnail
+            mobile_image
+            children {
+                id
+                level
+                name
+                path
+                url_path
+                url_key
+                image
+                description
+                mobile_thumbnail
+                mobile_image
+            }
+          }
+        }
+      }
+    }
+    `
+    try {
+      const res = await getCetergourisList(params, lang?.data)
+      if (res?.status == '200') {
+        dispatch(addCetegoriesData(res?.data?.data?.categoryList[0]))
+        setIsLoadding(false)
+        // dispatch(updateLoader(false))
+      }
+
+    } catch (error) {
+      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
+      setIsLoadding(false)
+      // dispatch(updateLoader(false))
+      
+    }
+  }
+
+  const ProductDetails = async (lang) =>{
+    // dispatch(updateLoader(true))
+    setIsLoadding(true)
+    const params = `
+    {
+      getHomePageData(store_id : 1){
+          gdpr
+          whatapps_chat
+          store_id
+          wallet_checkout_enable
+          category_list_page_size
+          banner_slider{
+              image
+              category_id
+          }
+          product_slider{
+              title
+              key
+              is_viewAll
+              view_all_category_id
+              banner_url
+              items{
+                  id
+                  sku
+                  name
+                  price
+                  special_price
+                  image
+                  special_offer
+                  is_new_badge
+              }
+          }
+      }
+  }
+    `
+    try {
+      const res = await getProductDetails(params , lang?.data)
+      if(res?.status == '200' ) {
+        dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
+        setIsLoadding(false)
+        // dispatch(updateLoader(false))
+      }
+  
+    } catch (error) {
+      console.log("CETEGORIERS LIST ERROR ::::::::::::::: " , error)
+      setIsLoadding(false)
+      // dispatch(updateLoader(false))
+    } 
+  }
+
+
+
+  // useEffect(() => {
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false
+  //   } else {
+  //     CetegouriesList()
+  //   }
+  // }, [lang])
 
   useEffect(() => {
-    // getdata()
-  }, [])
-
-  const data = [
-    {
-      name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
-      img: require("../../assests/images/Home/1.png")
-    },
-    {
-      name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
-      img: require("../../assests/images/Home/2.png")
-    },
-    {
-      name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
-      img: require("../../assests/images/Home/3.png")
-    },
-    {
-      name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
-      img: require("../../assests/images/Home/4.png")
-    },
-    {
-      name: lang.data == NUMBER.num1 ? "Women's Fashion" : "على الموضة للنساء",
-      img: require("../../assests/images/Home/5.png")
-
-    },
-  ]
-
-  const HomeScreeData = home?.product_slider
-
-  // console.log("::::::::::::::::::: ")
-  // = {
-  //   data: [
-  //     Games = {
-  //       name: lang.data == NUMBER.num1 ? "Featured Products" : "منتجات مميزة",
-  //       innerData: [
-  //         {
-  //           id: 1,
-  //           name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
-  //           imge: require('../../assests/images/Home/F1.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-
-  //         },
-  //         {
-  //           id: 2,
-  //           name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
-  //           imge: require('../../assests/images/Home/F2.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-  //         {
-  //           id: 3,
-  //           name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
-  //           imge: require('../../assests/images/Home/F3.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-  //         {
-  //           id: 4,
-  //           name: lang.data == NUMBER.num1 ? "Men's Pajama Set Short T-Shirt... " : "طقم بيجامة رجالي تي شيرت قصير...",
-  //           imge: require('../../assests/images/Home/F4.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-
-  //       ]
-  //     },
-  //     Shool = {
-  //       name: lang.data == NUMBER.num1 ? "School" : "مدرسة",
-  //       innerData: [
-  //         {
-  //           id: 1,
-  //           name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
-  //           imge: require('../../assests/images/Home/t1.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-
-  //         },
-  //         {
-  //           id: 2,
-  //           name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
-  //           imge: require('../../assests/images/Home/t2.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-  //         {
-  //           id: 3,
-  //           name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
-  //           imge: require('../../assests/images/Home/t1.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-  //         {
-  //           id: 4,
-  //           name: lang.data == NUMBER.num1 ? "Water Gun" : "مسدس مائي",
-  //           imge: require('../../assests/images/Home/t2.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-
-  //       ]
-  //     },
-  //     LatestProduct = {
-  //       name: lang.data == NUMBER.num1 ? "Latest Product" : "أحدث المنتجات",
-  //       innerData: [
-  //         {
-  //           id: 1,
-  //           name: lang.data == NUMBER.num1 ? "Mobile phone" : "تليفون محمول",
-  //           imge: require('../../assests/images/Home/phone1.jpg'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-
-  //         },
-  //         {
-  //           id: 2,
-  //           name: lang.data == NUMBER.num1 ? "Mobile phone" : "تليفون محمول",
-  //           imge: require('../../assests/images/Home/phone2.jpg'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-  //         {
-  //           id: 3,
-  //           name: lang.data == NUMBER.num1 ? "Mobile phone" : "تليفون محمول",
-  //           imge: require('../../assests/images/Home/t1.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-  //         {
-  //           id: 4,
-  //           name: lang.data == NUMBER.num1 ? "Mobile phone" : "تليفون محمول",
-  //           imge: require('../../assests/images/Home/t2.png'),
-  //           price: lang.data == NUMBER.num1 ? "200Rs" : "SAR 44"
-  //         },
-
-  //       ]
-  //     }
-
-
-  //   ]
-
-  // }
-
-  // const CetegoriesData = [
-  //   {
-  //     name: "Women's Fashion",
-  //     banner: require("../../assests/images/Home/WomenBanner.png"),
-  //     data: [
-  //       {
-  //         img: require("../../assests/images/Home/WC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/WC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/WC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/WC1.png"),
-  //         name: "Winter"
-  //       }
-  //     ]
-  //   } ,
-  //   {
-  //     name: "Men's Fashion",
-    
-  //     banner: require("../../assests/images/Home/MensBanner.jpg"),
-  //     data :
-  //      [{
-  //         img: require("../../assests/images/Home/MC.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/MC.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/MC.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/MC.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/MC.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/MC.png"),
-  //         name: "Winter"
-  //       }
-  //     ]
-  //   } ,
-  //   {
-  //     name: "Kid's Fashion",
-    
-  //     banner: require("../../assests/images/Home/KidsBanner.png"),
-  //     data :
-  //      [{
-  //         img: require("../../assests/images/Home/CC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/CC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/CC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/CC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/CC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/CC1.png"),
-  //         name: "Winter"
-  //       }
-  //     ]
-  //   } ,
-  //   {
-  //     name: "Kid's Fashion",
-    
-  //     banner: require("../../assests/images/Home/SchoolBanner.png"),
-  //     data :
-  //      [{
-  //         img: require("../../assests/images/Home/SC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/SC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/SC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/SC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/SC1.png"),
-  //         name: "Winter"
-  //       },
-  //       {
-  //         img: require("../../assests/images/Home/SC1.png"),
-  //         name: "Winter"
-  //       }
-  //     ]
-  //   } ,
-   
-  // ]
-
-  const Sliderdata = home?.banner_slider
-  
-  // [
-  //   "https://img.freepik.com/free-photo/medium-shot-smiley-woman-indoors_23-2148875315.jpg",
-  //   "https://st2.depositphotos.com/1518767/6899/i/450/depositphotos_68995953-stock-photo-fashion-designer-using-digital-tablet.jpg",
-  //   "https://plus.unsplash.com/premium_photo-1661727339503-b15c728dff40?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbiUyMGRlc2lnbmVyfGVufDB8fDB8fHww",
-  //   "https://plus.unsplash.com/premium_photo-1661741573027-7b95db386a03?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGZhc2hpb24lMjBkZXNpZ25lcnxlbnwwfHwwfHx8MA%3D%3D",
-  //   "https://images.unsplash.com/photo-1626784579980-db39c1a13aa9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhc2hpb24lMjBkZXNpZ25lcnxlbnwwfHwwfHx8MA%3D%3D",
-  //   "https://images.unsplash.com/photo-1573612664822-d7d347da7b80?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGZhc2hpb24lMjBkZXNpZ25lcnxlbnwwfHwwfHx8MA%3D%3D"
-  // ]
-
-
-
+    CetegouriesList()
+    ProductDetails()
+  }, [lang])
 
 
   return {
-    data,
     HomeScreeData,
     lang,
     Sliderdata,
     navigation,
-    CetegoriesData
+    CetegoriesData,
+    loder,
+    isLoadding
   }
 }
 

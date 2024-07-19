@@ -11,9 +11,11 @@ const useProfileHook = () => {
 
   const lang = useSelector(state => state.lang.data)
   const userData = useSelector(state => state?.userData)
+  const loder = useSelector(state => state?.Categories?.loader)
+
   const navigation = useNavigation();
   const [selectedItems, setSelectedItems] = useState()
-  const [arabic , setArabic] = useState(lang == NUMBER.num0 ? true : false)
+  const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
   const dispatch = useDispatch();
 
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
@@ -61,7 +63,9 @@ const useProfileHook = () => {
   }
 
   const changeLungues = async () => {
-    const num = lang.data == NUMBER.num0 ? NUMBER.num1 : lang.data == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
+    console.log("================ Callimg ==================")
+    const num = lang == NUMBER.num0 ? NUMBER.num1 : lang == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
+    console.log("NUMBER ::::::::::::::: ", num)
     try {
       await AsyncStorage.setItem('Lang', num);
       dispatch(updateLangCode(num));
@@ -85,7 +89,8 @@ const useProfileHook = () => {
     name,
     userData,
     PROFILEStr,
-    arabic
+    arabic,
+    loder
 
   };
 };
