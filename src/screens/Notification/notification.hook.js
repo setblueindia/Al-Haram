@@ -24,9 +24,7 @@ const useNotificationHook = () => {
   }, [])
 
   const onPress = async (sid) => {
-
     setLoadding(true)
-
     const dataQurry =
       `  {
       updateNotificationReadById(id : ${sid}){
@@ -77,14 +75,15 @@ const useNotificationHook = () => {
       if (response?.status == "200") {
         setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
         // console.log(";;;;;;;;;;;;;;;;;;;;;;",response?.data?.data?.getNotificationHistoryByCustomerId)
+        response?.data?.data?.getNotificationHistoryByCustomerId?.map((item)=>{
+          // console.log("Items :::::::::::::: ", item)
+        })
         if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
           setLoadding(false)
           setLotti(true)
         } else {
           setLotti(false)
         }
-
-
         setCurrentPage(nextPage)
         setMoreData(false)
       } else {

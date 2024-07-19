@@ -65,10 +65,11 @@ const Slider = ({lang , height , data , home}) => {
 
                     return (
                      <View key={index * 2} style={styles.listView}>
+            
                              <Image
                             //  resizeMode='contain'
                                 style={[styles?.image , home && {resizeMode:RESIZEMODE.cover}]}
-                                source={{ uri: item?.image }}
+                                source={{ uri: item?.image ? item?.image : item}}
                             />
                         </View> 
                     )

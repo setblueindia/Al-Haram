@@ -14,6 +14,7 @@ import Payment from './Payment';
 import CusLoader from '../../components/CustomLoader';
 import ShipingMethod from './ShipingMethod';
 import CusModal from '../../components/CusModal';
+import DataIsNotFound from '../../components/DataNotFound2';
 
 
 const ShoopingCart = () => {
@@ -88,10 +89,10 @@ const ShoopingCart = () => {
 
 
                 {index == 0 &&
+                  data.length > 0 ?
                     <View style={styles.cartView}>
                         <View style={{
                             height: outOfStock?.length > 0 ? "60%" : "100%"
-                            // height: "60%"
                         }} >
                             <FlatList
                                 showsVerticalScrollIndicator={false}
@@ -106,10 +107,8 @@ const ShoopingCart = () => {
                                 }}
                             />
                         </View>
-
                         {
                             outOfStock?.length > 0 &&
-
                             <View style={{
                                 height: "40%",
                                 backgroundColor: "#FFE9E9",
@@ -135,30 +134,34 @@ const ShoopingCart = () => {
                                 />
                             </View>}
 
-                    </View>}
+                    </View>  : !isLoadding?
+                    <View style={{ height: "100%", width: "100%" }}>
+                        <DataIsNotFound color={false} />
+                    </View> : null
+                }
 
                 {
                     index == 1 &&
                     <View style={{ flex: 1 }}>
-                        <Shooping 
-                        setLoadding={setLoadding} 
-                        setAddressCode={setAddressCode} 
-                        setBillingAddress={setBillingAddress} 
-                    
-                        data={shopinfCratData} lang={lang} />
+                        <Shooping
+                            setLoadding={setLoadding}
+                            setAddressCode={setAddressCode}
+                            setBillingAddress={setBillingAddress}
+
+                            data={shopinfCratData} lang={lang} />
                     </View>
                 }
                 {
                     index == 2 &&
                     <View>
                         <ShipingMethod
-                        setShippingdata={setShippingdata} 
-                        selectAddressList={selectAddressList} 
-                        selectShipping={selectShipping} 
-                        Token={Token} 
-                        addressCod={addressCod} 
-                        setStorePickUpData={setStorePickUpData}
-                        data={ShhippingData} lang={lang} />
+                            setShippingdata={setShippingdata}
+                            selectAddressList={selectAddressList}
+                            selectShipping={selectShipping}
+                            Token={Token}
+                            addressCod={addressCod}
+                            setStorePickUpData={setStorePickUpData}
+                            data={ShhippingData} lang={lang} />
                     </View>
                 }
                 {
@@ -178,12 +181,12 @@ const ShoopingCart = () => {
                             setActionCode={setActionCode}
                             applyCoupan={applyCoupan}
                             data={shopinfCratData}
-                            lang={lang} 
+                            lang={lang}
                             remove={remove}
                             PlaceHolder={PlaceHolder}
                             validation={validation}
                             validationn={validationn}
-                            />
+                        />
                     </View>
                 }
 

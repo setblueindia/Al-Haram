@@ -56,7 +56,7 @@ const Addaddress = (props) => {
 
   return (
     <View style={styles.mainView}>
-      <CommanHeader navigation={navigation} name={data.AddAddress} />
+      <CommanHeader navigation={navigation} lang={lang} name={data.AddAddress} />
       <ScrollView style={styles.conatainer}>
         <TextFildCus onChange={setFirstName} value={firstName} text={data?.FirstName} add={true} />
         <View style={styles.devider} />

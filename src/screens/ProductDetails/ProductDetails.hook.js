@@ -5,8 +5,9 @@ import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
 import { AddToCartAPI, ProductDetalsBySKU } from "../../api/axios.api"
-import { BASE_URL } from "../../constants/axios.url"
+import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
+import { Ar, En } from "../../constants/localization"
 // import Share from 'react-native-share';
 
 
@@ -34,6 +35,7 @@ const useProductDetails = (props) => {
   const [color, setColor] = useState()
   const [qnt, setQnts] = useState(1)
   const [valueIndexOfSize, setValueIndexOfSize] = useState()
+  const label = lang?.data == NUMBER.num0 ? Ar : En
   const [sliderData, setSliderData] = useState(
     [
       //     "https://img.freepik.com/premium-photo/plain-white-t-shirt-mockup-photo_398492-234.jpg",
@@ -228,7 +230,8 @@ const useProductDetails = (props) => {
         setDetails(response?.data?.data?.products?.items[0])
         const temp = [];
         response?.data?.data?.products?.items[0]?.media_gallery_entries?.map((items) => {
-          const uri = BASE_URL + "/pub/media/catalog/product/" + items?.file
+          const uri = imageURL + "/pub/media/catalog/product/" + items?.file
+          // console.log("File Path :::::::", uri)
           temp.push(uri)
         })
         setSliderData(temp)
@@ -300,6 +303,7 @@ const useProductDetails = (props) => {
     sizeShow,
     setIndex,
     sindex,
+    label,
     setLike,
     like,
     onShare,

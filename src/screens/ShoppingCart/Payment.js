@@ -164,7 +164,7 @@ const Payment = ({
             return (
               <View key={index} style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={[styles.leftText, , lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
-                <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{"SAR " + items?.value}</Text>
+                <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{lable?.SAR + " " + items?.value}</Text>
               </View>
             )
           })}
@@ -185,11 +185,11 @@ const Payment = ({
             </View>}
         </View>
 
-        <View style={styles.manulCoupanView}>
+        <View style={[styles.manulCoupanView ,lang == NUMBER.num0 && {flexDirection:'row-reverse'}]}>
 
           {!remove && <TextInput
             style={styles.coupnTextInput}
-            placeholder='Enter Coupan Code'
+            placeholder={lable?.EnterCoupanCode}
             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
             onChangeText={text => setCoupanCode(text)}
             value={coupanCode}
@@ -197,11 +197,11 @@ const Payment = ({
 
           {remove && <View style={[styles.coupnTextInput, { justifyContent: 'center' }]}>
             <Text>{coupanCode}</Text>
-
           </View>}
 
 
-          {!remove && <TouchableOpacity
+          {!remove &&
+           <TouchableOpacity
             onPress={() => {
               setActionCode(1)
               applyCoupan(coupanCode, 1)
@@ -241,9 +241,7 @@ const Payment = ({
                     style={styles.btnView}>
                     <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
                   </TouchableOpacity>
-
                 </View>
-
               )
             })}
           </View>}
@@ -272,7 +270,6 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     lineHeight: ResponsiveSize(30),
     color: COLOR.primaray
-
   },
   paymentView: {
     width: "100%",
@@ -285,7 +282,6 @@ const styles = StyleSheet.create({
   palymentopationText: {
     color: COLOR.black,
     fontSize: ResponsiveSize(25),
-
   },
   CODView: {
     flexDirection: ALINE.row,

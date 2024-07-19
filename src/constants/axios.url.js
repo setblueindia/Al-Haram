@@ -1,7 +1,9 @@
 
 // LIVE
 // export const BASE_URL = "https://alharamstores.com"
-export const  BASE_URL = "https://test.alharamstores.com"
+// export const  BASE_URL = "https://test.alharamstores.com"
+export const  BASE_URL = "https://beta.alharamstores.com"
+export const imageURL = "https://alharamstores.com"
 
 // LOCAL
 //    BASE_URL = "https://test.alharamstores.com"
@@ -9,8 +11,8 @@ export const  BASE_URL = "https://test.alharamstores.com"
 
 
 // Graph Url 
-// export const GRAFORL = "https://beta.alharamstores.com/graphql"
-export const GRAFORL = "https://test.alharamstores.com/graphql"
+export const GRAFORL = "https://beta.alharamstores.com/graphql"
+// export const GRAFORL = "https://test.alharamstores.com/graphql"
 // export const GRAFORL = "https://alharamstores.com/graphql"
 
 

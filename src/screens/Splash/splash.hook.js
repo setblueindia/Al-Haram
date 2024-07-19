@@ -138,9 +138,10 @@ const useSplshHook = () => {
   }
 
   const ProductDetails = async (lang) =>{
+console.log("::::::::::::==========::::::::::::::", lang)
     const params = `
     {
-      getHomePageData(store_id : 1){
+      getHomePageData(store_id : ${lang}){
           gdpr
           whatapps_chat
           store_id

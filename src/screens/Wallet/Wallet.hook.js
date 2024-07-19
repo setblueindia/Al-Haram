@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { GetWallateAmount } from '../../api/axios.api';
 import { WallateAmount } from '../../utils/asyncStorage';
 
-const UseWalletHook = () => {
+const UseWalletHook = (setloader) => {
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang?.data);
   const userId = useSelector(state => state?.userData?.data?.id)
@@ -17,24 +17,28 @@ const UseWalletHook = () => {
 
   useEffect(() => {
     getWallteAmount()
-  }, [navigation])
+  }, [])
 
   const getWallteAmount = async () => {
     const data = `{ getWalletRemainingTotal(id : ${userId}) }`
-    setIsLoading(true)
+
+    setloader ? setloader(true) : setIsLoading(true)
     try {
       const rep = await GetWallateAmount(data, lang)
       if (rep) {
         setAmount(rep?.data?.data?.getWalletRemainingTotal)
         const strAmount = JSON.stringify(rep?.data?.data?.getWalletRemainingTotal)
         WallateAmount(strAmount)
-        setIsLoading(false)
+        setloader ? setloader(false) : setIsLoading(false)
+
       } else {
         console.log("ERT AMOUNT INNER ERROR :::::::: ", rep?.data)
       }
     } catch (error) {
       console.log("GERT AMOUNT ERROR :::::: ", error)
-      setIsLoading(false)
+
+      setloader ? setloader(false) : setIsLoading(false)
+
     }
   }
 
@@ -46,15 +50,14 @@ const UseWalletHook = () => {
     EnterAmount: lang == NUMBER.num1 ? "Enter Amount" : "أدخل المبلغ",
     AddAmounttoWallet: lang == NUMBER.num1 ? "Add Amount to Wallet" : "إضافة مبلغ إلى المحفظة"
   }
-
-
-
+  
   return {
     navigation,
     lang,
     data,
     Str,
-    amount
+    amount,
+    isLoadding
   };
 };
 

@@ -10,6 +10,7 @@ import { COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import DataNotFound from '../../components/DataNotFound'
+import DataIsNotFound from '../../components/DataNotFound2'
 
 const WhishList = () => {
   const { navigation, data, lang, likePress, isLoading, dislikePress, lotti, userData} = useWhishListHook()
@@ -53,7 +54,7 @@ const WhishList = () => {
       {
        lotti &&
 
-          <DataNotFound userData={userData} text={"No Data Found"} navigation={navigation} header={true}/>
+          <DataIsNotFound color={true} navigation={navigation} header={true}/>
 
   
 

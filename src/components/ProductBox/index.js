@@ -8,16 +8,19 @@ import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import { NavigationRouteContext } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
+import { BASE_URL } from '../../constants/axios.url'
 
 const ProductBox = ({ navigation, lang, sindex, items }) => {
 
 
   const data = items?.items
   const labale = lang == NUMBER.num0 ? Ar : En
+
+  // console.log("banner " ,  BASE_URL + items?.banner_url )
   return (
     <View style={[styles.mainView, sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
       <View style={styles.bannerView}>
-        <FastImage resizeMode='contain' style={styles.bannerImg} source={{ uri: items?.banner_url }} />
+        <FastImage resizeMode='contain' style={styles.bannerImg} source={{ uri:  items?.banner_url }} />
       </View>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>

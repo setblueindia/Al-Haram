@@ -161,15 +161,18 @@ import { COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
 import { logo } from '../../assests';
 import { NAVIGATION } from '../../constants/constants';
+import { useSelector } from 'react-redux';
 
 const Drower = () => {
   const { navigation, cetegouriesData } = useDrowerHook();
+  const lang = useSelector(state => state?.lang?.data)
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
   const [subData, setSubData] = useState([])
   const [childData, setChildData] = useState([])
   const [sindex, setIndex] = useState()
   const [topIndex, setTopIndex] = useState()
   const [on, setOn] = useState(false)
+  
 
   const handleCategoryClick = (index) => {
     setSelectedCategoryIndex(selectedCategoryIndex === index ? null : index);
@@ -182,7 +185,7 @@ const Drower = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.mainView}>
-      <CommanHeader navigation={navigation} />
+      <CommanHeader navigation={navigation} lang={lang} />
       <View style={styles.containerView}>
         {groupedCategories.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.row}>

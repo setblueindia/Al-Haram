@@ -42,6 +42,7 @@ const ProductDetails = (props) => {
         setSizeIndex,
         sizeIndex,
         qnt,
+        label,
         setQnts
     } = useProductDetails({ props })
 
@@ -55,21 +56,22 @@ const ProductDetails = (props) => {
                     <Slider data={sliderData} height={ResponsiveSize(450)} lang={lang} />
                 </View>
 
-                <View style={styles.productCodeView}>
-                    <Text style={[styles.codeText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{Str.ProductCode + details?.sku}</Text>
+                <View style={[styles.productCodeView ]}>
+                    <Text style={[styles.codeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{Str.ProductCode + details?.sku}</Text>
                 </View>
 
                 <View style={styles.profuctName}>
-                    <Text style={[styles.profuctNameText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '' }</Text>
+                    <Text style={[styles.profuctNameText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '' }</Text>
                 </View>
 
                 <View style={styles.PriveView}>
-                    <Text style={[styles.PrizeText, lang?.data == lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{"SAR " + details?.price_range?.minimum_price?.regular_price?.value}</Text>
+                    <Text style={[styles.PrizeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right , marginRight:ResponsiveSize(10)}]}>{label?.SAR +" "+ details?.price_range?.minimum_price?.regular_price?.value}</Text>
                 </View>
+                
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>
-
+                
                 {defaultColor &&
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>

@@ -32,9 +32,8 @@ export const styles = StyleSheet.create({
         padding: ResponsiveSize(20),
         flexDirection: ALINE.row,
         justifyContent: ALINE.spaceBetween
-
-
     },
+
     orderTexrt: {
         fontSize: ResponsiveSize(25),
         color: COLOR.black,
@@ -73,11 +72,9 @@ export const styles = StyleSheet.create({
         color: "#00000070",
         fontWeight: FONTWEGHIT.font600,
         textAlign: EXTRASTR.right
-
     },
     orderDetails: {
         paddingHorizontal:ResponsiveSize(20)
-
     },
     headerText: {
         color: COLOR.black,
@@ -85,8 +82,6 @@ export const styles = StyleSheet.create({
         fontWeight: FONTWEGHIT.font600,
     },
     itemsDetaisCommon: {
-        // height: ResponsiveSize(80),
-        // borderBottomWidth: ResponsiveSize(2),
         width: "100%",
         borderColor: COLOR.gray,
         alignItems: ALINE.center,
@@ -168,7 +163,7 @@ export const styles = StyleSheet.create({
     imgeView:{
         height:ResponsiveSize(120),
         width:ResponsiveSize(100),
-        backgroundColor:COLOR.black,
+        // backgroundColor:COLOR.black,
         borderRadius:ResponsiveSize(10),
     },
     productImg:{
@@ -195,9 +190,8 @@ export const styles = StyleSheet.create({
     orderNameText:{
         fontSize:ResponsiveSize(23),
         fontWeight:"500",
-
-     
     },
+
     titleText:{
         color:COLOR.darkGray,
         fontWeight:"600",

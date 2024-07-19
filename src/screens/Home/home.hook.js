@@ -83,12 +83,12 @@ const useHomeHook = (props) => {
     }
   }
 
-  const ProductDetails = async (lang) =>{
+  const ProductDetails = async () =>{
     // dispatch(updateLoader(true))
     setIsLoadding(true)
     const params = `
     {
-      getHomePageData(store_id : 1){
+      getHomePageData(store_id : ${lang?.data}){
           gdpr
           whatapps_chat
           store_id

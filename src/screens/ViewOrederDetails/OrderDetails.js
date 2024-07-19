@@ -11,6 +11,9 @@ import CusLoader from '../../components/CustomLoader'
 
 const OrderDetails = (props) => {
     const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
+    
+
+
 
     return (
         <View style={styles.mainView}>
@@ -38,7 +41,7 @@ const OrderDetails = (props) => {
                             <TouchableOpacity
                                 onPress={() => { ReOrder() }}
                             >
-                                <Text style={[styles.reOrderText, lang == NUMBER.num0 && { textAlign: EXTRASTR.left }]}>{data?.Reorder}</Text>
+                                <Text style={[styles.reOrderText, lang == NUMBER.num0 && { textAlign: EXTRASTR?.left }]}>{data?.Reorder}</Text>
                             </TouchableOpacity>
 
                         </View>
@@ -49,30 +52,36 @@ const OrderDetails = (props) => {
                     <View style={styles.orderDetails}>
 
                         {
+                          orderDetailsList?.items.length > 0 &&
                             orderDetailsList?.items?.map((items, index) => {
 
+                                // console.log("Items :::::::::" , items?.color)
                                 return (
                                     <View key={index}>
-                                        <View style={styles.itemsList}>
-                                            <View style={styles.firstOne}>
+                                        <View style={[styles.itemsList, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                            <View style={[styles.firstOne, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                                 <View style={styles.imgeView}>
                                                     <Image style={styles.productImg} source={{ uri: items?.image }} />
                                                 </View>
+
                                                 <View style={styles.nameView}>
                                                     <Text style={styles.orderNameText} >{items?.name}</Text>
-                                                    <View style={{ flexDirection: 'row', marginTop: ResponsiveSize(5) }}>
-                                                        <Text style={styles.titleText}>{"Color : "}</Text>
+
+                                                 { items?.color &&
+                                                   <View style={[{ flexDirection: 'row', marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                        <Text style={styles.titleText}>{lable?.color + " "}</Text>
                                                         <Text style={styles.normalText}>{items?.color[0]?.label}</Text>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={styles.titleText} >{"Size : "}</Text>
+                                                    </View>}
+                                               { items?.size &&
+                                                  <View style={[{ flexDirection: 'row' } , lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                        <Text style={styles.titleText} >{lable?.Qty}</Text>
                                                         <Text style={styles.normalText}>{items?.size[0]?.label}</Text>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={styles.titleText} >{"Qnt : "}</Text>
+                                                    </View>}
+                                                    <View style={[{ flexDirection: 'row' } , lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                        <Text style={styles.titleText} >{lable?.Qty + " "}</Text>
                                                         <Text style={styles.normalText}>{items?.qty_ordered}</Text>
                                                     </View>
-
+                                                    
                                                 </View>
                                             </View>
 
@@ -84,30 +93,7 @@ const OrderDetails = (props) => {
                             })
                         }
 
-                        {/* <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                            <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(250) }]}>{lable?.ProductName}</Text>
-                            <Text style={styles.rightText}>{data?.TESTNavyBlue}</Text>
-                        </View>
 
-                        <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                            <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(250) }]}>{lable?.SKU}</Text>
-                            <Text style={styles.rightText}>{data?.TESTNBlue}</Text>
-                        </View>
-
-                        <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                            <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(250) }]}>{lable?.Price}</Text>
-                            <Text style={styles.rightText}>SAR 192</Text>
-                        </View>
-
-                        <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                            <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(250) }]}>{lable?.Qty}</Text>
-                            <Text style={styles.rightText}>{data?.Product}</Text>
-                        </View>
-
-                        <View style={[styles.itemsDetaisCommon, { borderBottomWidth: 0 }, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                            <Text style={[styles.subTotalText, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(250) }]}>{lable?.Subtotal}</Text>
-                            <Text style={[styles.rightText, { color: COLOR.primaray, fontSize: ResponsiveSize(25) }]}>{"SAR 192"}</Text>
-                        </View> */}
                     </View>
                 </View>
 

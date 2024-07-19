@@ -17,7 +17,9 @@ export const styles = StyleSheet.create({
     },
     productCodeView: {
         marginTop: ResponsiveSize(40),
-        paddingHorizontal: ResponsiveSize(20)
+        // width:"100%",
+        paddingHorizontal: ResponsiveSize(20),
+
     },
     codeText: {
         color: "#554D4D",

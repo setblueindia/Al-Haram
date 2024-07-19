@@ -22,7 +22,6 @@ const useOrderDetaisHook = (props) => {
         formData.append("order_id", OId)
         formData.append("store_id", lang)
         formData.append("view_option", "ordered")
-
         try {
             const res = await getOrderView(formData)
             if (res?.data?.status == 1) {

@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import TextFildCus from '../../components/TextFildCus';
 import { GetCustomerListToTranfer, getTranferAmount, getTranferAmountList } from '../../api/axios.api';
 import { useSelector } from 'react-redux';
-import CusLoader from '../../components/CustomLoader';
+import { Ar, En } from '../../constants/localization';
 
 const TranferAmount = ({ Str, lang, setIsLodding }) => {
     const userID = useSelector(state => state?.userData?.data?.id)
@@ -18,6 +18,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
     const [remark, setRemark] = useState()
     const [amount, setAmount] = useState()
     const [transactionList, setTransactionList] = useState()
+    const lable = lang == NUMBER.num0 ? Ar : En
     const [data, setData] = useState([
         {
             name: "John Deo"
@@ -47,7 +48,6 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
         TranfetList()
     }, [])
 
-
     const GetCustomerList = async () => {
         setIsLodding(true)
         const data = `
@@ -68,13 +68,10 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
             setData(response?.data?.data?.getCustomerSponsorGroupListById)
             setIsLodding(false)
 
-
         } catch (error) {
             console.log("GET CUSTOMER LIST ERROR ::::::::::::::: ", error)
             setIsLodding(false)
-
         }
-
     }
 
     const onPress = () => {
@@ -149,18 +146,17 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 </TouchableOpacity>
 
                 {on &&
+                
                     <View style={styles.listView}>
                         <ScrollView style={styles.ScrollView}>
-
                             {
                                 data.map((items, index) => {
-                     
                                     return (
                                         <TouchableOpacity onPress={() => {
                                             setReciverID(items?.reciever_id)
                                             setText(items?.nick_name), setOn(false)
                                         }} key={index} style={styles.itemsName}>
-                                            <Text style={styles.customerName}>{items?.nick_name}</Text>
+                                            <Text style={[styles.customerName , lang == NUMBER.num0 && {textAlign:'right'}]}>{items?.nick_name}</Text>
                                         </TouchableOpacity>
                                     )
                                 })
@@ -179,23 +175,23 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
 
                 <ScrollView style={styles.tranferAmountListView} >
                     {transactionList?.map((items, index) => {
-                        console.log("Items : ", items)
+                        // console.log("Items : ", items)
                         return (
-                            <View key={index} style={styles.innerContainer}>
-                                <View style={styles.conatainVIew}>
-                                    <Text style={styles.titleText}>{"Name :"}</Text>
+                            <View key={index} style={[styles.innerContainer]}>
+                                <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse'  }]}>
+                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{ lable.Name + " :"}</Text>
                                     <Text style={styles.valueText}>{items?.nick_name}</Text>
                                 </View>
-                                <View style={styles.conatainVIew}>
-                                    <Text style={styles.titleText}>{"Email :"}</Text>
+                                <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{lable.Email +  " :"}</Text>
                                     <Text style={styles.valueText}>{items?.email}</Text>
                                 </View>
-                                <View style={styles.conatainVIew}>
-                                    <Text style={styles.titleText}>{"Amount: :"}</Text>
+                                <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{lable?.Amount + " :"}</Text>
                                     <Text style={styles.valueText}>{items?.amount}</Text>
                                 </View>
-                                <View style={styles.conatainVIew}>
-                                    <Text style={styles.titleText}>{"Note: "}</Text>
+                                <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{lable?.Note + " :"}</Text>
                                     <Text style={styles.valueText}>{items?.note}</Text>
                                 </View>
                             </View>
@@ -204,6 +200,10 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
 
                     <View style={{ height: ResponsiveSize(50) }} />
                 </ScrollView>
+{/* 
+              {  <View>
+
+                </View>} */}
 
             </View>
 
@@ -304,7 +304,8 @@ const styles = StyleSheet.create({
     titleText: {
         color: COLOR.black,
         fontFamily: ResponsiveSize(25),
-        fontWeight: '600'
+        fontWeight: '600',
+        width:ResponsiveSize(180)
     },
     valueText: {
         color: COLOR.darkGray,

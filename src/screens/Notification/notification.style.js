@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
     notificationView: {
         width: "100%",
         height: ResponsiveSize(150),
-        // backgroundColor: COLOR.white,
         backgroundColor: "#FFF3F4",
         elevation: 10,
         shadowColor: COLOR.black,

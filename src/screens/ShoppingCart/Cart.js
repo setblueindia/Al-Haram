@@ -6,15 +6,16 @@ import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import useShoppingcart from './ShoppingCart.hook'
+import { Ar, En } from '../../constants/localization'
 
 
 
 const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty}) => {
 
-  // console.log("=====DATA======> ", data?.item_id)
 
   const [qty, setQnt] = useState(parseInt(data?.qty))
-  const name = data?.name?.substring(0, 20)
+  const name = data?.name?.substring(0, 20) 
+  const lable = lang == NUMBER.num1 ? En : Ar
 
   return (
 
@@ -26,9 +27,9 @@ const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty}) => {
               style={styles.Img}
               source={{ uri: data?.image }} />
           </View>
-          <View style={styles.containerView}>
-            <Text style={styles.titleText}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
-            <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"RAR : " + data?.price}</Text>
+          <View style={[styles.containerView , lang == NUMBER.num0 &&  {marginRight:ResponsiveSize(20)}]}>
+            <Text style={[styles.titleText , lang == NUMBER.num0 &&  {textAlign:EXTRASTR.right}]}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
+            <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR +  ": " + data?.price}</Text>
             <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
               {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
             </Text>

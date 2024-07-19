@@ -39,7 +39,7 @@ const Sponser = () => {
             </View>
             {(!name || name == Str.manageWallate) &&
                 <View style={{ flex: 1 }} >
-                    <Wallet Sponser={true} />
+                    <Wallet setloader={setloader}  Sponser={true} />
                 </View>
             }
             {name == Str.addCustomer &&

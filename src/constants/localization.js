@@ -127,13 +127,16 @@ export const Ar = {
   WalletAmount : "مبلغ المحفظة",
   TotaldueAmount:"إجمالي المبلغ المستحق",
   BillingAddress:"Billing Address",
+  EnterCoupanCode : "أدخل رمز الكأس",
   Tel : "هاتف",
   vat : "vat",
-  cr : "cr"
+  cr : "cr",
+  color: "لون :",
+  Name : "اسم",
+  Note:"ملحوظة"
 }
 
 export const En = {
-
   hello: 'Hello',
   Home: 'Home',
   Category: 'Category',
@@ -262,18 +265,12 @@ export const En = {
   WalletAmount : "Wallet Amount",
   TotaldueAmount:"Total due Amount",
   BillingAddress: "Billing Address",
+  EnterCoupanCode : "Enter Coupan Code",
   Tel : "Tel",
   vat : "vat",
-  cr : "cr"
+  cr : "cr",
+  color : "color :",
+  Name : "اسم",
+  Note : "Note"
 
-
-
-
-
-
-  // WishList: 'WishList',
-  // MyWallet: 'My Wallet',
-  // MyOrder: 'My Order',
-  // AddressBook: 'Address Book',
-  // CustomerService: 'Customer Service'
 };

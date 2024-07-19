@@ -8,12 +8,12 @@ import UseWalletHook from './Wallet.hook.js';
 import CommanHeader from '../../components/ComanHeader/index.js';
 import { ICON, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants.js';
 import { ALINE, COLOR } from '../../constants/style.js';
+import CusLoader from '../../components/CustomLoader/index.js';
 
-const Wallet = ({ Sponser }) => {
+const Wallet = ({ Sponser , setloader }) => {
 
 
-  const { navigation, lang, data, Str, amount } = UseWalletHook()
-
+  const { navigation, lang, data, Str, amount, isLoadding } = UseWalletHook(setloader)
 
 
   return (
@@ -23,7 +23,7 @@ const Wallet = ({ Sponser }) => {
       <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
 
         {!Sponser && <View style={styles.mngView}>
-          <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet}</Text>
+          <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet ? data?.ManageWallet :"0"}</Text>
         </View>}
         <View style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <View style={[styles.walletImg, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -33,7 +33,7 @@ const Wallet = ({ Sponser }) => {
           <View>
             <Text style={[styles.detailText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.WalletDetails}</Text>
             <View>
-              <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SAR " + amount}</Text>
+              <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.SAR + " " + amount}</Text>
             </View>
             <View>
               <Text style={[styles.balText, , lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.YourWalletBalance}</Text>
@@ -76,6 +76,11 @@ const Wallet = ({ Sponser }) => {
         </View>
 
       </View>
+      {isLoadding &&
+        <View style={{ height: "100%", width: "100%" , position:'absolute' }}>
+          <CusLoader />
+        </View>
+      }
     </View>
   );
 };
