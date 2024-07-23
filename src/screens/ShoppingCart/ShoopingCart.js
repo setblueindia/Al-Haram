@@ -89,7 +89,7 @@ const ShoopingCart = () => {
 
 
                 {index == 0 &&
-                  data.length > 0 ?
+                    data.length > 0 ?
                     <View style={styles.cartView}>
                         <View style={{
                             height: outOfStock?.length > 0 ? "60%" : "100%"
@@ -134,10 +134,12 @@ const ShoopingCart = () => {
                                 />
                             </View>}
 
-                    </View>  : !isLoadding?
-                    <View style={{ height: "100%", width: "100%" }}>
-                        <DataIsNotFound color={false} />
-                    </View> : null
+                    </View>
+                    : (!isLoadding && index == 0) ?
+                        <View style={{ height: "100%", width: "100%" }}>
+                            <DataIsNotFound color={false} />
+                        </View>
+                        : null
                 }
 
                 {
@@ -194,15 +196,18 @@ const ShoopingCart = () => {
             <View style={{ height: index == 0 ? ResponsiveSize(170) : ResponsiveSize(80) }}></View>
 
             <View style={[styles.btn, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
-                <View style={[styles.nextProcess, index == 0 && { width: "100%" }]}>
-                    <Button
-                        onPress={onPress}
-                        text={shopinfCratData?.ProceedtoCheckout}
-                        color="#009834"
-                        ShoopingCart={true}
-                    />
-                </View>
+                {(!isLoadding && data.length > 0) &&
+                    <View style={[styles.nextProcess, index == 0 && { width: "100%" }]}>
+                        <Button
+                            onPress={onPress}
+                            text={shopinfCratData?.ProceedtoCheckout}
+                            color="#009834"
+                            ShoopingCart={true}
+                        />
+                    </View>}
                 {(index == 1 || index == 2 || index == 3) &&
+
+                    (!isLoadding && data.length > 0) &&
                     <TouchableOpacity onPress={() => { goBack() }} style={styles.goBackBtn}>
                         <Icon name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR} />
                     </TouchableOpacity>}

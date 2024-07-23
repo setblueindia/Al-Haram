@@ -10,8 +10,8 @@ const CheackButton = ({ onPress , preVriable , onPress2 , setCOD , setCredit}) =
       onPress={() => {
         preVriable ? onPress(false) : onPress(true)
         onPress2 && onPress2(),
-        setCOD(false),
-        setCredit(false)
+        setCOD &&  setCOD(false),
+        setCredit &&  setCredit(false)
       }}
       style={[styles.mainView, preVriable && {backgroundColor: COLOR.primaray}]}>
       <Icon style={styles.icon} name="check" size={15} />

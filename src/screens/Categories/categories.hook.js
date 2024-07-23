@@ -15,7 +15,6 @@ const useCategroiesHook = () => {
   const navigation = useNavigation()
   const lang = useSelector(state => state.lang.data)
 
-
   // console.log("=============> ", CategoriesData)
   // const CategoriesData = [
   //   {
@@ -323,14 +322,12 @@ const useCategroiesHook = () => {
   //     ]
   //   }
   // ]
-
   const getOrderDetails = async () => {
     const formData = new FormData()
     formData.append("store_id", lang)
     setIsLoadding(true)
     try {
       const rep = await getMobaileCetegouries(formData)
-
       if (rep?.data?.status == 1) {
         setCategoriesData(rep?.data?.data)
         setIsLoadding(false)
@@ -339,13 +336,21 @@ const useCategroiesHook = () => {
       }
     } catch (error) {
       setIsLoadding(false)
-      console.log("ORDER DETAILS ERROR :::::::::::::::::: ", error)
+      console.log('API Error:', error);
+        if (error.response) {
+            console.log('Response Error:', error.response.data);
+        } else if (error.request) {
+            console.log('Request Error:', error.request);
+        } else {
+            console.log('Other Error:', error.message);
+        }
 
     }
   }
 
 
   useEffect(() => {
+    console.log("CALLING :::::::::::::", )
     getOrderDetails()
   }, [])
 

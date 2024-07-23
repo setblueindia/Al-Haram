@@ -45,9 +45,9 @@ const SingUp = props => {
           <View style={styles.devider} />
           <TextFildCus number={true} onChange={setNumber} icon={ICON.phoneIcon} text={lable?.Entermobilenumber} />
           <View style={styles.devider} />
-          <TextFildCus onChange={setPassword} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
+          <TextFildCus onChange={setPassword} password={true} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
           <View style={styles.devider} />
-          <TextFildCus onChange={setConPassword} icon={ICON.lockIcon} text={lable?.confirmpassword} />
+          <TextFildCus onChange={setConPassword} password={true}  icon={ICON.lockIcon} text={lable?.confirmpassword} />
         </View>
 
         <View style={styles.devider} />

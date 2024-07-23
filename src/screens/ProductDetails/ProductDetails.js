@@ -8,7 +8,7 @@ import { ResponsiveSize } from '../../utils/utils'
 import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
 import Block from 'react-native-vector-icons/Feather';
-import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
+import { EXTRASTR, ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
 import { Ratting } from '../../assests'
@@ -43,6 +43,7 @@ const ProductDetails = (props) => {
         sizeIndex,
         qnt,
         label,
+        userData,
         setQnts
     } = useProductDetails({ props })
 
@@ -57,15 +58,17 @@ const ProductDetails = (props) => {
                 </View>
 
                 <View style={[styles.productCodeView ]}>
-                    <Text style={[styles.codeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{Str.ProductCode + details?.sku}</Text>
+                    <Text style={[styles.codeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
+                        {details?.sku ? Str.ProductCode + details?.sku : " "}
+                        </Text>
                 </View>
 
                 <View style={styles.profuctName}>
-                    <Text style={[styles.profuctNameText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '' }</Text>
+                    <Text style={[styles.profuctNameText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '   ' }</Text>
                 </View>
 
                 <View style={styles.PriveView}>
-                    <Text style={[styles.PrizeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right , marginRight:ResponsiveSize(10)}]}>{label?.SAR +" "+ details?.price_range?.minimum_price?.regular_price?.value}</Text>
+                    <Text style={[styles.PrizeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right , marginRight:ResponsiveSize(10)}]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR +" "+ details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
                 </View>
                 
                 <View style={styles.deviderView}>
@@ -186,7 +189,7 @@ const ProductDetails = (props) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => { AddTocart() }}
+                    onPress={() => { userData ? AddTocart()  : navigation.navigate(NAVIGATION.Login)}}
                     style={styles.AddToCartBtn}>
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>

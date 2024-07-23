@@ -49,12 +49,13 @@ const useLoginHook = () => {
     
     if (response?.data?.status == NUMBER?.num1) {
       const loginStatus = response?.data?.data?.quote_id?.data?.login_status
-      console.log("loginStatus==========> ", loginStatus)
+      // console.log("loginStatus==========> ", loginStatus)
 
       if (loginStatus == "0") {
         const fromdata = new FormData
         try {
           const result = await ExpireToken(fromdata)
+          // console.log("======>" , result)
           setLoader(false)
         } catch (error) {
           setLoader(false)

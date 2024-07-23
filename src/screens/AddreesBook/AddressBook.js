@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { EXTRASTR, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants'
@@ -9,18 +9,27 @@ import { ALINE, COLOR } from '../../constants/style'
 import useAddressBookHook from './AddressBook.hook'
 import AddressBookComp from '../../components/AddressBookComp'
 import CusLoader from '../../components/CustomLoader'
+import DeleteBox from '../../components/DeleteBox'
 
-const AddressBook = ({ Shooping, setAddressCode, setLoadding, setBillingAddress }) => {
+const AddressBook = ({
+    Shooping,
+    setAddressCode,
+    setLoadding,
+    setBillingAddress
+}) => {
     const { data,
         navigation,
         lang,
         addAddress,
         Str,
         isLoading,
+        deletePopp,
+        setDetetePopp,
         deleteAdress,
-        getData
+        getData,
+        setdeteteId
     } = useAddressBookHook(setAddressCode, setLoadding, setBillingAddress)
-    const [ aindex , setIndex] = useState()
+    const [aindex, setIndex] = useState()
 
     return (
         <View style={styles.mainView}>
@@ -34,11 +43,10 @@ const AddressBook = ({ Shooping, setAddressCode, setLoadding, setBillingAddress 
                             <View key={index}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                         setIndex(index)
-                                         setAddressCode && setAddressCode(items)
+                                        setIndex(index)
+                                        setAddressCode && setAddressCode(items)
                                     }}
-
-                                    style={[styles.addressView, aindex == index && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
+                                    style={[styles.addressView, (aindex == index && setLoadding) && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                         <View style={styles.nameView}>
                                             <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
@@ -51,7 +59,9 @@ const AddressBook = ({ Shooping, setAddressCode, setLoadding, setBillingAddress 
                                             </TouchableOpacity>
                                             <View style={{ width: ResponsiveSize(15) }}></View>
                                             <TouchableOpacity onPress={(() => {
-                                                deleteAdress(items?.id)
+                                                // deleteAdress(items?.id),
+                                                setdeteteId(items?.id)
+                                                setDetetePopp(true)
                                             })}>
                                                 <ICON name={"delete"} size={ResponsiveSize(35)} color={COLOR.primaray} />
                                             </TouchableOpacity>
@@ -101,6 +111,17 @@ const AddressBook = ({ Shooping, setAddressCode, setLoadding, setBillingAddress 
                 }}>
                     <CusLoader />
                 </View>
+            }
+
+            {
+                deletePopp &&
+                <Modal
+                    visible={deletePopp}
+                    animationType='slide'
+                    transparent
+                >
+                    <DeleteBox noPress={()=>{setDetetePopp(false)}}  yesPress={()=>{setDetetePopp(false) , deleteAdress()}} lang={lang}/>
+                </Modal>
             }
         </View>
 

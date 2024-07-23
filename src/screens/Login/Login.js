@@ -62,6 +62,7 @@ const Login = () => {
                   <View style={styles.devider} />
 
                   <TextFildCus
+                    password={true}
                     value={rememberMe?.PASSWORD}
                     onChange={setPassword}
                     icon={ICON.lockIcon}

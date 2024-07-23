@@ -160,7 +160,7 @@ import { BASE_URL } from '../../constants/axios.url';
 import { COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
 import { logo } from '../../assests';
-import { NAVIGATION } from '../../constants/constants';
+import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { useSelector } from 'react-redux';
 
 const Drower = () => {
@@ -172,7 +172,7 @@ const Drower = () => {
   const [sindex, setIndex] = useState()
   const [topIndex, setTopIndex] = useState()
   const [on, setOn] = useState(false)
-  
+
 
   const handleCategoryClick = (index) => {
     setSelectedCategoryIndex(selectedCategoryIndex === index ? null : index);
@@ -184,9 +184,9 @@ const Drower = () => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.mainView}>
+    <View showsVerticalScrollIndicator={false} style={styles.mainView}>
       <CommanHeader navigation={navigation} lang={lang} />
-      <View style={styles.containerView}>
+      <ScrollView style={styles.containerView}>
         {groupedCategories.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.row}>
             {row.map((items, index) => {
@@ -201,7 +201,7 @@ const Drower = () => {
                       setChildData([]),
                       setIndex(-1)
                     setTopIndex(actualIndex)
-                    items?.children?.length <= 0 &&  navigation.navigate(NAVIGATION.ProductScreen , {cetegoriesId : items?.id})
+                    items?.children?.length <= 0 && navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.id })
                     on && topIndex == actualIndex ? setOn(false) : setOn(true)
                   }}
                 >
@@ -222,11 +222,14 @@ const Drower = () => {
 
                     <TouchableOpacity
                       onPress={() => {
-                         setChildData(subItem?.children), 
-                         setIndex(subIndex)
-                         subItem?.children?.length <= 0 && navigation.navigate(NAVIGATION.ProductScreen ,  { cetegoriesId: subItem?.id })
-                         }}
-                      key={subIndex} style={[styles.subCategoryItem, subIndex == sindex && { backgroundColor: "#FFF9DF" }]}>
+                        setChildData(subItem?.children),
+                          setIndex(subIndex)
+                        subItem?.children?.length <= 0 && navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: subItem?.id })
+                      }}
+                      key={subIndex}
+                      style={[styles.subCategoryItem,
+                      lang == NUMBER.num0 && { flexDirection: 'row-reverse' },
+                      subIndex == sindex && { backgroundColor: "#FFF9DF" }]}>
                       <View style={styles.subImageView}>
                         <Image source={subItem?.mobile_thumbnail ? { uri: BASE_URL + subItem?.mobile_thumbnail } : logo} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
                       </View>
@@ -242,8 +245,11 @@ const Drower = () => {
                                 { cetegoriesId: childItem?.id })
                             }
                             }
-                            style={styles.childView} key={childIndex} >
-                            <Text style={styles.chaildNameText}>{childItem?.name}</Text>
+                            style={[styles.childView ]}
+                             key={childIndex}
+                             
+                             >
+                            <Text style={[styles.chaildNameText ,  lang == NUMBER.num0 && {textAlign:'right'}]}>{childItem?.name}</Text>
                           </TouchableOpacity>
                         )
                       })
@@ -254,11 +260,10 @@ const Drower = () => {
             )}
           </View>
         ))}
-      </View>
-      <View style={{ flex: 1, height: ResponsiveSize(200) }}>
+        <View style={{ flex: 1, height: ResponsiveSize(200) }}></View>
+      </ScrollView>
 
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 

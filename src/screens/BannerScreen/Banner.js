@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ALINE, COLOR } from '../../constants/style'
 import CustomeHeader from '../../components/CustomeHeader'
@@ -10,6 +10,7 @@ import { getBanner } from '../../api/axios.api'
 import { useSelector } from 'react-redux'
 import { NAVIGATION } from '../../constants/constants'
 import CusLoader from '../../components/CustomLoader'
+import FastImage from 'react-native-fast-image'
 
 const Banner = (props) => {
     const navigation = useNavigation()
@@ -17,6 +18,8 @@ const Banner = (props) => {
     const [data, setData] = useState([])
     const [dataLength, setDataLength] = useState()
     const [isloadding, setIsLoadding] = useState(false)
+    const [imageLoader, setImageLoader] = useState(false)
+
 
     useEffect(() => {
         getData()
@@ -38,7 +41,6 @@ const Banner = (props) => {
             } else {
                 setIsLoadding(false)
             }
-
 
 
         } catch (error) {
@@ -65,15 +67,31 @@ const Banner = (props) => {
                                 {
                                     width: "100%", height: ResponsiveSize(400),
                                     borderWidth: ResponsiveSize(0),
-                                    justifyContent:  ALINE.center,
+                                    justifyContent: ALINE.center,
                                     alignItems: ALINE.center,
-                                    alignSelf:  ALINE.center,
+                                    alignSelf: ALINE.center,
                                     marginLeft: ResponsiveSize(0),
                                     marginRight: ResponsiveSize(0)
                                 }
                                 ]}>
-                                <Image style={[styles.img,
-                                ]} source={{ uri: items?.image }} />
+                                <FastImage
+                                resizeMode='contain'
+                                    style={[styles.img]} source={{ uri: items?.image }}
+                                    onLoadStart={() => { setImageLoader(true) }}
+                                    onLoadEnd={() => { setImageLoader(false) }}
+                                />
+
+                                {imageLoader &&
+                                    <View style={{
+                                        height: "100%",
+                                        width: "100%",
+                                        position: 'absolute',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        alignSelf: 'center'
+                                    }}>
+                                        <ActivityIndicator size='small' color={COLOR.primaray} />
+                                    </View>}
                             </TouchableOpacity>
                         )
                     })}

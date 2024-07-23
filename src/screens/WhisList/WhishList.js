@@ -13,12 +13,12 @@ import DataNotFound from '../../components/DataNotFound'
 import DataIsNotFound from '../../components/DataNotFound2'
 
 const WhishList = () => {
-  const { navigation, data, lang, likePress, isLoading, dislikePress, lotti, userData} = useWhishListHook()
+  const { navigation, data, lang, likePress, isLoading, dislikePress, lotti, userData } = useWhishListHook()
 
   return (
     <View style={styles.mainView}>
       <CommanHeader navigation={navigation} lang={lang} />
-      <FlatList
+      {data.length > 0 ? <FlatList
         data={data}
         style={styles.flatList}
         showsVerticalScrollIndicator={false}
@@ -50,15 +50,13 @@ const WhishList = () => {
 
           )
         }}
-      />
-      {
-       lotti &&
+      /> : !isLoading ?
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <DataIsNotFound />
+        </View>
 
-          <DataIsNotFound color={true} navigation={navigation} header={true}/>
+        : null}
 
-  
-
-      }
       {isLoading
         &&
         <View style={{ position: 'absolute', height: "100%", width: "100%" }}>

@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { WC1, WomenBanner } from '../../assests'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
@@ -15,12 +15,31 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
 
   const data = items?.items
   const labale = lang == NUMBER.num0 ? Ar : En
+  const [imageLoader, setImageLoader] = useState(false)
+
 
   // console.log("banner " ,  BASE_URL + items?.banner_url )
   return (
     <View style={[styles.mainView, sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
       <View style={styles.bannerView}>
-        <FastImage resizeMode='contain' style={styles.bannerImg} source={{ uri:  items?.banner_url }} />
+        <FastImage
+          resizeMode='contain'
+          style={styles.bannerImg}
+          onLoadStart={() => { setImageLoader(true) }}
+          onLoadEnd={() => { setImageLoader(false) }}
+          source={{ uri: items?.banner_url }} />
+
+        {imageLoader &&
+          <View style={{
+            height: "100%",
+            width: "100%",
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center'
+          }}>
+            <ActivityIndicator size='small' color={COLOR.primaray} />
+          </View>}
       </View>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -44,7 +63,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
             const name = items?.name
             const finalName = name.substring(0, 15);
             return (
-              <View key={index} style={{flexDirection:'row'}}>
+              <View key={index} style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
                   onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}
                 >

@@ -10,6 +10,7 @@ import { Ar, En } from '../../constants/localization'
 import { WalletHistoryAPI } from '../../api/axios.api'
 import CusLoader from '../../components/CustomLoader'
 import LottieView from 'lottie-react-native'
+import DataIsNotFound from '../../components/DataNotFound2'
 
 const PaymentHistroy = (props) => {
     const lang = useSelector(state => state?.lang?.data)
@@ -18,7 +19,7 @@ const PaymentHistroy = (props) => {
     const navigation = useNavigation()
     const [data, setData] = useState([])
     const [loadding, setLoadding] = useState(false)
-    const [moreData , setMoreData ] = useState(false)
+    const [moreData, setMoreData] = useState(false)
     const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
@@ -26,9 +27,9 @@ const PaymentHistroy = (props) => {
     }, [])
 
     const getData = async () => {
-        currentPage < 1 &&  setLoadding(true)
+        currentPage < 1 && setLoadding(true)
         currentPage >= 1 && setMoreData(true)
-        
+
         const nextpage = currentPage + 1
         const sData =
             `
@@ -93,25 +94,25 @@ const PaymentHistroy = (props) => {
                     )
                 })} */}
 
-                <FlatList
+                {data?.length > 0 ? <FlatList
                     data={data}
-                    onEndReached={ () => {getData() , console.log("Hello")} }
+                    onEndReached={() => { getData(), console.log("Hello") }}
                     onEndReachedThreshold={0.1}
-                    ListFooterComponent={()=>{
-                        return(
+                    ListFooterComponent={() => {
+                        return (
                             <View style={{
-                                width:"100%",
-                                height:ResponsiveSize(100),
-                                justifyContent:'center',
-                                alignItems:'center'
+                                width: "100%",
+                                height: ResponsiveSize(100),
+                                justifyContent: 'center',
+                                alignItems: 'center'
                             }}>
-                                { 
-                                moreData &&
-                                <ActivityIndicator
-                                size={"large"}
-                                color={COLOR.primaray}
-                                
-                                />}
+                                {
+                                    moreData &&
+                                    <ActivityIndicator
+                                        size={"large"}
+                                        color={COLOR.primaray}
+
+                                    />}
 
                             </View>
                         )
@@ -124,9 +125,10 @@ const PaymentHistroy = (props) => {
                                     onPress={() => { navigation.navigate(NAVIGATION.paymentDetails, { lable: item?.entity_id, refID: item?.reference, amount: item?.curr_amount, status: status }) }}
                                     style={styles.container} >
                                     <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right,
+                                        <Text style={[styles.leftText, lang == NUMBER.num0 && {
+                                            textAlign: EXTRASTR.right,
                                             marginRight: ResponsiveSize(40)
-                                             }]}>{lable?.Reference + " :"}</Text>
+                                        }]}>{lable?.Reference + " :"}</Text>
                                         <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{item?.reference}</Text>
                                     </View>
 
@@ -144,10 +146,12 @@ const PaymentHistroy = (props) => {
                             </View>
                         )
                     }}
-                />
-
-
-            </View>
+                /> : !loadding ?
+                    <View style={{ flex: 1 }}>
+                        <DataIsNotFound />
+                    </View>
+                    : null}
+               </View>
 
             {loadding &&
                 <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     containerView: {
         flex: 1,
         padding: ResponsiveSize(20),
-    
+
     },
     container: {
         width: "100%",

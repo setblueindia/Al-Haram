@@ -59,9 +59,9 @@ const EditeProfile = () => {
                         <View style={styles.devider} />
                         <TextFildCus text={langues?.EnterYourOldPassword} onChange={setOldPassword} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enteryourpassword} onChange={setNewPassword} />
+                        <TextFildCus text={langues?.Enteryourpassword} password={true}  onChange={setNewPassword} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.confirmpassword} onChange={setConfromPassword}/>
+                        <TextFildCus text={langues?.confirmpassword} password={true}  onChange={setConfromPassword}/>
                         <View style={styles.button}>
                             <Button onPress={updatePassword} text={langues?.ChangePassword} />
                         </View>

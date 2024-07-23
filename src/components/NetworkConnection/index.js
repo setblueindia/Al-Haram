@@ -6,29 +6,34 @@ import LottieView from 'lottie-react-native';
 import CustomeHeader from '../CustomeHeader';
 import CommanHeader from '../ComanHeader';
 
-const DataIsNotFound = ({userData, text, navigation, header , color}) => {
+const NetworkConnection = ({userData, text, navigation, header, color}) => {
   return (
     <View style={styles.lottiMainView}>
-   { color &&  <View>
-      {header ? (
-        <CommanHeader navigation={navigation} />
-      ) : (
-        <CustomeHeader
-          search={true}
-          like={true}
-          shoppingcart={true}
-          userData={userData}
-        /> 
+      {color && (
+        <View>
+          {header ? (
+            <CommanHeader navigation={navigation} />
+          ) : (
+            <CustomeHeader
+              search={true}
+              like={true}
+              shoppingcart={true}
+              userData={userData}
+            />
+          )}
+        </View>
       )}
-      </View>}
       <View style={styles.lottiView}>
         <Image
-          source={require('../../assests/images/Home/datanot.png')}
+          source={require('../../assests/images/Home/network.png')}
           style={styles.image}
           resizeMode={RESIZEMODE.contain}
         />
         <View>
-          <Text style={styles.dataError}>Data not Found</Text>
+          <Text style={styles.dataError}>
+            Check your {'\n'}
+            internet connection
+          </Text>
         </View>
         <View style={styles.lottiTextView}>
           <Text style={styles.errorText}>
@@ -42,14 +47,14 @@ const DataIsNotFound = ({userData, text, navigation, header , color}) => {
   );
 };
 
-export default DataIsNotFound;
+export default NetworkConnection;
 
 const styles = StyleSheet.create({
   lottiMainView: {
     position: 'absolute',
     height: '100%',
     width: '100%',
-    backgroundColor:COLOR.white
+    backgroundColor: COLOR.white,
   },
   lottiView: {
     flex: 1,
@@ -57,7 +62,6 @@ const styles = StyleSheet.create({
     alignItems: ALINE.center,
     height: '100%',
     width: '100%',
-    // backgroundColor: '#00000010',
   },
   lottiTextView: {
     height: ResponsiveSize(60),
@@ -70,19 +74,20 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#6E6969',
     fontWeight: 'regular',
-    textAlign: 'center',
+    textAlign: ALINE.center,
   },
   dataError: {
     color: '#990107',
     fontSize: ResponsiveSize(40),
     fontWeight: 'bold',
+    textAlign: ALINE.center,
   },
   centeredText: {
-    textAlign: 'center',
+    textAlign: ALINE.center,
   },
   image: {
     height: ResponsiveSize(420),
     width: ResponsiveSize(420),
-    resizeMode:'contain'
+    resizeMode: ALINE.center,
   },
 });

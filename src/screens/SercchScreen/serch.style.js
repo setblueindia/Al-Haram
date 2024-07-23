@@ -27,19 +27,16 @@ export const styles = StyleSheet.create({
     imageView: {
         height: ResponsiveSize(350),
         width: ResponsiveSize(270),
-        // padding: ResponsiveSize(20),
-        // backgroundColor: COLOR.white,
         borderColor: COLOR.gray,
         borderRadius: ResponsiveSize(10),
         borderWidth: ResponsiveSize(1),
         margin: ResponsiveSize(10),
         marginTop: ResponsiveSize(10),
-
     },
     image: {
         height: "100%",
         width: "100%",
-        resizeMode: 'cover',
+        resizeMode: 'contain',
         borderRadius:ResponsiveSize(10)
     },
     textView: {

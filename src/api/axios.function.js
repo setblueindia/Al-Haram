@@ -21,15 +21,23 @@ export const POSTFORM = async (url, params) => {
             method: 'post',
             url: url,
             data: params,
-            // headers: {
-            //     'Authorization': 'Bearer ' + authToken,
-            //     'Content-Type': 'multipart/form-data'
-            // }
+            headers: {
+                // 'Authorization': 'Bearer ' + authToken,
+                'Content-Type': 'multipart/form-data'
+            }
         });
 
         return response;
     } catch (error) {
-        console.log("ERROR ::::::: ", error)
+        // console.log("ERROR ::::::: ", error)
+        if (error.response) {
+            console.log('Response Error:', error.response.data);
+        } else if (error.request) {
+            console.log('Request Error:', error.request);
+        } else {
+            console.log('Other Error:', error.message);
+        }
+        
     }
 
 }

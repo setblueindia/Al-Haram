@@ -108,7 +108,7 @@ const useProductDetails = (props) => {
       Size: "Size :",
       ProductCode: "Product Code : ",
       MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
-      QNT: "Qty :",
+      QNT: "QTY :",
       Addtocard: "Add to card",
       Reviews: "Reviews :"
 
@@ -321,7 +321,8 @@ const useProductDetails = (props) => {
     setSizeIndex,
     sizeIndex,
     setQnts,
-    qnt
+    qnt,
+    userData
   }
 }
 

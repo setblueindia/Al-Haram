@@ -35,12 +35,12 @@ const ShipingMethod = ({
                                     onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" && selectShipping() }}
                                     key={index} style={[styles.litsView, selected == index && { backgroundColor: "#FFEEEE" }]} >
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <View>
+                                        <View >
                                             <View style={styles.circalView} >
                                                 <View s style={selected == index ? styles.fillCircalView2 : null} />
                                             </View>
                                         </View>
-                                        <View style={styles.textView}>
+                                        <View style={[styles.textView , {width:"100%"}]}>
                                             <View style={[styles.hederTextView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
                                                 <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.carrier_title}</Text>
                                             </View>

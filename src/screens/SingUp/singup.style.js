@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
        elevation:3
     },
     containerView:{
-        padding:ResponsiveSize(20),
+        // padding:ResponsiveSize(20),
         marginTop:ResponsiveSize(20),
     },
     devider :{

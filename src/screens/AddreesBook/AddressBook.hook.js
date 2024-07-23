@@ -14,6 +14,8 @@ const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) =>
     const [isLoading, setIsLoading] = useState(false)
     const [aindex , setAindex] = useState() 
     const [resload , setReload] = useState(false)
+    const [deletePopp , setDetetePopp] = useState(false)
+    const [deleteId , setdeteteId] = useState() 
     const Str = lang == NUMBER.num0 ? Ar : En
     const [data, setData] = useState(
         [
@@ -81,7 +83,7 @@ const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) =>
         const formData = new FormData
         formData.append("customer_id", userData?.id)
         formData.append("store_id", lang)
-        formData.append("address_id", items)
+        formData.append("address_id", deleteId)
         try {
             const response = await DeleteAddress(formData)
             if (response?.data?.status == NUMBER.num1) {
@@ -106,7 +108,10 @@ const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) =>
         aindex,
         setAindex,
         deleteAdress,
-        getData
+        getData,
+        setDetetePopp,
+        deletePopp,
+        setdeteteId
     }
 }
 

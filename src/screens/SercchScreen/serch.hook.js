@@ -77,14 +77,15 @@ const useSerchHook = () => {
     try {
       const response = await SerchAPI(sData, lang)
       if (response) {
+        // console.log(":::::::::",response?.data?.data?.products?.items )
         response?.data?.data?.products?.items?.map((item) => {
           return item["like"] = false;
         })
         !first ?
           setData([...data, ...response?.data?.data?.products?.items]) :
           setData(response?.data?.data?.products?.items)
-        setIsLoadding(false)
-        setMoreData(false)
+          setIsLoadding(false)
+          setMoreData(false)
         first ? setCurrentPage(1) : setCurrentPage(nextPage)
       } else {
         setIsLoadding(false)
@@ -110,7 +111,6 @@ const useSerchHook = () => {
     setSerch(text)
 
   }
-
 
   const likeDislike = async (id) => {
 

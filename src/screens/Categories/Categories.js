@@ -9,6 +9,7 @@ import { ALINE } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { BASE_URL } from '../../constants/axios.url'
 import CusLoader from '../../components/CustomLoader'
+import FastImage from 'react-native-fast-image'
 const Categories = () => {
   const { CategoriesData, navigation, lang, userData, isLoadding } = useCategroiesHook()
   const [viewMore, setViewMore] = useState(false)
@@ -52,10 +53,10 @@ const Categories = () => {
                             <TouchableOpacity
                               onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: item?.category_id }) }}
                               key={index * Math.random()} style={[styles.imageView]}>
-                              <Image
+                              <FastImage
+                                resizeMode='contain'
                                 style={styles.image}
                                 source={{ uri: item?.image }} />
-
                             </TouchableOpacity>
 
                             {

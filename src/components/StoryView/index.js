@@ -1,12 +1,15 @@
-import { FlatList, TouchableOpacity, View, Image, Text } from 'react-native'
-import React from 'react'
+import { FlatList, TouchableOpacity, View, Image, Text, ActivityIndicator } from 'react-native'
+import React, { useState } from 'react'
 import { styles } from './story.style'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
-import { ALINE } from '../../constants/style'
+import { ALINE, COLOR } from '../../constants/style'
 import { BASE_URL } from '../../constants/axios.url'
+import FastImage from 'react-native-fast-image'
 
 
 const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
+    const [imageLoader, setImageLoader] = useState(false)
+
 
     return (
         <View style={[styles.mainView , lang.data == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
@@ -25,7 +28,21 @@ const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
                             <TouchableOpacity 
                             onPress={()=>{temp ? navigation.navigate(NAVIGATION.bannerScreen , {cetegouriesId : item?.id}) : navigation.navigate(NAVIGATION.ProductScreen , {cetegouriesId : item?.id})}}
                             style={styles.storyView}>
-                                <Image style={styles.imge} source={{uri : BASE_URL+ item?.mobile_thumbnail}} />
+                                <FastImage 
+                                   onLoadStart={() => { setImageLoader(true) }}
+                                   onLoadEnd={() => { setImageLoader(false) }}
+                                style={styles.imge} source={{uri : BASE_URL+ item?.mobile_thumbnail}} />
+                                  {imageLoader &&
+                                    <View style={{
+                                        height: "100%",
+                                        width: "100%",
+                                        position: 'absolute',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        alignSelf: 'center'
+                                    }}>
+                                        <ActivityIndicator size='small' color={COLOR.primaray} />
+                                    </View>}
                             </TouchableOpacity>
                             <Text style={styles.text} numberOfLines={2}>{item.name}</Text>
                         </View>

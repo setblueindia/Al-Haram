@@ -27,8 +27,6 @@ const useEditeHook = () => {
   const langues = lang == NUMBER.num0 ? Ar : En
   const dispatch = useDispatch()
 
-
-
   const data = {
     email: userData?.data?.email,
     mobile: userData?.data?.mobile,
@@ -65,9 +63,8 @@ const useEditeHook = () => {
         dispatch(addUserData(data))
         setLoadding(false)
       } else {
-
+        setLoadding(false)
       }
-
     } catch (error) {
       console.log("=======> ", error)
       setLoadding(false)
@@ -76,12 +73,10 @@ const useEditeHook = () => {
 
 
   const Update = () => {
-
     if (!fName) {
       setModalShow(true)
       setErrorText(langues?.Enterfirstname)
     }
-
     else if (!lName) {
       setModalShow(true)
       setErrorText(langues?.Enterlastname)
@@ -110,15 +105,12 @@ const useEditeHook = () => {
   const onPressUpate = async () => {
     setLoadding(true)
     const formDate = new FormData()
-    // formDate.append("email", userData?.data?.email)
     formDate.append("password", oldPassword)
     formDate.append("new_password", newPassword)
     formDate.append("store_id", lang)
     formDate.append("customer_id", customerID)
-
     try {
       const rep = await UpdateProfile(formDate)
-
       if (rep?.data == undefined) {
         setLoadding(false)
         setModalShow(true)
@@ -127,9 +119,7 @@ const useEditeHook = () => {
         setModalShow(true)
         setErrorText(rep?.data?.message)
         setLoadding(false)
-
       }
-
     } catch (error) {
       console.log("Response Err0r ===========> ", error)
       setLoadding(false)

@@ -133,7 +133,8 @@ export const Ar = {
   cr : "cr",
   color: "لون :",
   Name : "اسم",
-  Note:"ملحوظة"
+  Note:"ملحوظة",
+  AreYousureyouwantdelete : "هل أنت متأكد أنك تريد الحذف؟"
 }
 
 export const En = {
@@ -210,7 +211,7 @@ export const En = {
   addyourremark: "add your remark",
   Addmoneytocustomerswallet: "Add money to customer's wallet",
   Send: "Send",
-  forgetDes: "Please enter your email address and we \n  will send you password by email \n immadiatly",
+  forgetDes: "Please enter your email address and we \n  will send you password by email \n immediately",
   EditProfile: "Edit Profile",
   ChangePassword: "Change Password",
   Update: "Update",
@@ -271,6 +272,7 @@ export const En = {
   cr : "cr",
   color : "color :",
   Name : "اسم",
-  Note : "Note"
+  Note : "Note",
+  AreYousureyouwantdelete  : "Are You sure you want delete ?"
 
 };
