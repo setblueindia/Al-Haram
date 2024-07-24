@@ -29,6 +29,8 @@ import PaymentDetails from '../screens/Wallet/PaymentDetails';
 import TabNavigation from './Tab';
 import AnimTab1 from './Tab';
 import Banner from '../screens/BannerScreen/Banner';
+import PaymentScreen from '../screens/YourWay/payment';
+import ResponseScreen from '../screens/YourWay/response';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -159,6 +161,16 @@ const StackNavigation = () => {
        <Stack.Screen
         name={NAVIGATION?.bannerScreen}
         component={Banner}
+        options={{ headerShown: false }}
+      />
+         <Stack.Screen
+        name={NAVIGATION?.PaymentScreen}
+        component={PaymentScreen}
+        options={{ headerShown: false }}
+      />
+         <Stack.Screen
+        name={NAVIGATION?.ResponseScreen}
+        component={ResponseScreen}
         options={{ headerShown: false }}
       />
     

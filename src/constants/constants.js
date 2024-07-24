@@ -27,7 +27,9 @@ export const NAVIGATION = {
   CancelOrder : "CancelOrder Screen",
   PaymentHistroy : "Payments histrory",
   paymentDetails : "Payment Details",
-  bannerScreen : "Banner Screen"
+  bannerScreen : "Banner Screen",
+  PaymentScreen : "PaymentScreen",
+  ResponseScreen : "ResponseScreen"
 
 };
 export const LOGINStr = {

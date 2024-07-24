@@ -216,7 +216,8 @@ const ShoopingCart = () => {
             {isLoadding &&
                 <View style={{ position: 'absolute', width: "100%", height: "100%" }}>
                     <CusLoader />
-                </View>}
+                </View>
+            }
 
             <Modal
                 animationType='slide'

@@ -52,19 +52,19 @@ const AddressBook = ({
                                             <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
                                         </View>
                                         <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            <TouchableOpacity
+                                           { !setLoadding && <TouchableOpacity
                                                 onPress={() => { navigation.navigate(NAVIGATION.addaddress, { editeData: items, getData: getData }) }}
                                             >
                                                 <ICON name={"square-edit-outline"} size={ResponsiveSize(35)} color={COLOR.primaray} />
-                                            </TouchableOpacity>
+                                            </TouchableOpacity>}
                                             <View style={{ width: ResponsiveSize(15) }}></View>
-                                            <TouchableOpacity onPress={(() => {
+                                       { !setLoadding &&    <TouchableOpacity onPress={(() => {
                                                 // deleteAdress(items?.id),
                                                 setdeteteId(items?.id)
                                                 setDetetePopp(true)
                                             })}>
                                                 <ICON name={"delete"} size={ResponsiveSize(35)} color={COLOR.primaray} />
-                                            </TouchableOpacity>
+                                            </TouchableOpacity>}
                                         </View>
                                     </View>
 

@@ -8,6 +8,7 @@ import { ShippingList } from '../../constants/axios.url'
 import { useSharedValue } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
+import { config } from '../YourWay/config'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
@@ -46,6 +47,29 @@ const useShoppingcart = () => {
   const [actionCode, setActionCode] = useState()
   const [remove, setRemove] = useState(false)
   const [validationn, setValidation] = useState(false)
+
+  const [formData, setFormData] = useState({
+    country: 'IN',
+    first_name: 'John',
+    last_name: 'Doe',
+    address: '101 ABC Street',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    zip: '700001',
+    phone_number: '9001010101',
+    customerEmail: 'test@test.com',
+    udf2: config.responseUrl,
+    udf3: 'en',
+    trackid: '',
+    tranid: '',
+    currency: 'SAR',
+    amount: '1.00',
+    action: 1,
+    tokenOperation: 'A',
+    cardToken: '',
+    maskCardNum: '',
+    tokenizationType: 0,
+  });
 
   const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
   const name = userData?.data?.firstname + " " + userData?.data?.lastname
@@ -563,12 +587,51 @@ const useShoppingcart = () => {
     }
     try {
       const res = await PlaceeHolder2(params)
-      console.log("Finally Response :::::::::::::::: ", res?.data)
-      // navigation.navigate(NAVIGATION.Done, { lang: lang })
+      // console.log("Finally Response :::::::::::::::: ", res?.data?.data)
+      if(paymentCode == "magveg" ){
+        navigation.navigate(NAVIGATION.PaymentScreen, {
+          request: {
+            country: formData?.country,
+            first_name: formData?.first_name,
+            last_name: formData?.last_name,
+            address: formData?.address,
+            city: formData?.city,
+            state: formData?.state,
+            zip: formData?.zip,
+            phone_number: formData?.phone_number,
+            customerEmail: formData?.customerEmail,
+            udf2: formData?.udf2,
+            udf3: formData?.udf3,
+            trackid: formData?.trackid,
+            tranid: formData?.tranid,
+            currency: formData?.currency,
+            amount: formData?.amount,
+            action: formData?.action,
+            tokenOperation: formData?.tokenOperation,
+            cardToken: formData?.cardToken,
+            maskCardNum: formData?.maskCardNum,
+            tokenizationType: formData?.tokenizationType,
+          },
+          callBack: onProcessPayment,
+        });
+      }else{
+        navigation.navigate(NAVIGATION.Done, { lang: lang })
+      }
     } catch (error) {
 
     }
   }
+
+  const onProcessPayment = responseData => {
+    if (responseData.status == 'success') {
+      navigation.navigate(NAVIGATION.ResponseScreen, {
+        response: responseData.data,
+      });
+    } else {
+      // showMessage({message: responseData.error, type: 'danger'});
+      console.log("message ::::::::::::::::" , responseData.error )
+    }
+  };
 
   return {
     selectPaymentMethod,
