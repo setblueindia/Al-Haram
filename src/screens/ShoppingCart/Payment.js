@@ -34,7 +34,7 @@ const Payment = ({
   const [totalAmount, setTotalAmount] = useState([])
   let txtData = selectPayment?.total_segments ? selectPayment?.total_segments : paymentScreenData?.total_segments
   const dueAmount = totalAmount?.length > 0 && wallateAmount > totalAmount[0] ? 0 : totalAmount[0] - wallateAmount
-  const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : 0
+  const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : totalAmount
   const WAmount = wallateAmount > totalAmount[0] ? wallateAmount - RemingAmount : wallateAmount
   const lable = lang == NUMBER.num0 ? Ar : En
 
@@ -65,19 +65,19 @@ const Payment = ({
         <View style={styles.paymentView}>
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
 
-          <TouchableOpacity onPress={() => {
-            showWallet ?  setShowWallet(false) : setShowWallet(true),
-            setCOD(false),
-            setCredit(false) ,
-            validation(showWallet),
-            selectPaymentMethod()
+          {wallateAmount > 0 && <TouchableOpacity onPress={() => {
+            showWallet ? setShowWallet(false) : setShowWallet(true),
+              setCOD(false),
+              setCredit(false),
+              validation(showWallet),
+              selectPaymentMethod()
             showWallet ? validation(false) : validation(true)
           }}
             style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-            <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit}/>
+            <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit} />
             <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
           {
             showWallet &&
             <View style={styles.wallateDeatails}>
@@ -124,40 +124,42 @@ const Payment = ({
           }
 
           {
-          (showWallet && wallateAmount < totalAmount) || (!showWallet)&&
+            (showWallet && wallateAmount < totalAmount) || (!showWallet) &&
             <View>
-            <TouchableOpacity
-              onPress={() => { 
-                setCOD(true), 
-                setCredit(false), 
-                validation(true)
-                selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code) }}
-              style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-              <View style={[styles.fillView, COD &&
-              {
-                backgroundColor: COLOR.primaray,
-                borderColor: COLOR.primaray,
-              }]}>
+              <TouchableOpacity
+                onPress={() => {
+                  setCOD(true),
+                    setCredit(false),
+                    validation(true)
+                  selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code)
+                }}
+                style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                <View style={[styles.fillView, COD &&
+                {
+                  backgroundColor: COLOR.primaray,
+                  borderColor: COLOR.primaray,
+                }]}>
 
-              </View>
-              <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>
-            </TouchableOpacity>
+                </View>
+                <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => { 
-                setCOD(false), 
-                setCredit(true),
-                validation(true)
-                 selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code) }}
-              style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-              <View style={[styles.fillView, credit &&
-              {
-                backgroundColor: COLOR.primaray,
-                borderColor: COLOR.primaray,
-              }]}></View>
-              <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>
-            </TouchableOpacity>
-          </View>}
+              <TouchableOpacity
+                onPress={() => {
+                  setCOD(false),
+                    setCredit(true),
+                    validation(true)
+                  selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code)
+                }}
+                style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                <View style={[styles.fillView, credit &&
+                {
+                  backgroundColor: COLOR.primaray,
+                  borderColor: COLOR.primaray,
+                }]}></View>
+                <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>
+              </TouchableOpacity>
+            </View>}
 
           <View style={styles.lineView} />
           {txtData?.map((items, index) => {
@@ -185,7 +187,7 @@ const Payment = ({
             </View>}
         </View>
 
-        <View style={[styles.manulCoupanView ,lang == NUMBER.num0 && {flexDirection:'row-reverse'}]}>
+        <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
           {!remove && <TextInput
             style={styles.coupnTextInput}
@@ -201,14 +203,14 @@ const Payment = ({
 
 
           {!remove &&
-           <TouchableOpacity
-            onPress={() => {
-              setActionCode(1)
-              applyCoupan(coupanCode, 1)
-            }}
-            style={styles.applyView}>
-            <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
-          </TouchableOpacity>}
+            <TouchableOpacity
+              onPress={() => {
+                setActionCode(1)
+                applyCoupan(coupanCode, 1)
+              }}
+              style={styles.applyView}>
+              <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
+            </TouchableOpacity>}
 
           {remove && <TouchableOpacity
             onPress={() => {

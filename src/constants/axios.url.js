@@ -9,7 +9,6 @@ export const imageURL = "https://alharamstores.com"
 //    BASE_URL = "https://test.alharamstores.com"
 //    BASE_URL = "https://beta.alharamstores.com"
 
-
 // Graph Url 
 export const GRAFORL = "https://beta.alharamstores.com/graphql"
 // export const GRAFORL = "https://test.alharamstores.com/graphql"

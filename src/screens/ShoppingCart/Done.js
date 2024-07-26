@@ -11,8 +11,9 @@ import { useNavigation } from '@react-navigation/native';
 
 const Done = (props) => {
     const navigation = useNavigation()
-
     const lang = props?.route?.params?.lang
+    const result = props?.route?.params?.response
+    // console.log("DONE RESPONSE ::::::::", result)
 
     return (
 

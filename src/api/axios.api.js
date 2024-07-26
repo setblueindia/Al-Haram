@@ -36,7 +36,7 @@ import {
     selectedShippingListMethodURl,
     updateCartitems
 } from "../constants/axios.url"
-import { POSTFORM, POSTFORMGRAPH, POSTJSON, expireTokenFrom } from "./axios.function"
+import { POSTFORM, POSTFORM2, POSTFORMGRAPH, POSTJSON, expireTokenFrom } from "./axios.function"
 import { NUMBER } from "../constants/constants"
 
 export const useSingUp = async (params) => {
@@ -149,7 +149,7 @@ export const DeleteAddress = async (params) => {
 }
 
 export const ExpireToken = async (params) => {
-    const res = await POSTFORM(expireTokenDefault , params)
+    const res = await POSTFORM2(expireTokenDefault , params)
     return res
 }
 export const AddCustomerToSponser = async (params, lang) => {
@@ -266,5 +266,13 @@ export const PlaceeHolder2 = async (params, lang) => {
 }
 export const getBanner = async (params, lang) => {
     const res = await POSTFORM(Banner, params, lang)
+    return res
+}
+export const postBeforUrWay = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const postAfterUrWay = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }

@@ -42,6 +42,44 @@ export const POSTFORM = async (url, params) => {
 
 }
 
+export const POSTFORM2 = async (url, params) => {
+
+    console.log("==============================")
+    console.log({
+        URL: url,
+        params: params ? params?._parts : ""
+    })
+    console.log("==============================")
+
+    try {
+        const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
+        const token = JSON.parse(userData)
+        authToken = token?.token
+
+        const response = await axios({
+            method: 'post',
+            url: url,
+            data: params,
+            headers: {
+                'Authorization': 'Bearer ' + authToken,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return response;
+    } catch (error) {
+        // console.log("ERROR ::::::: ", error)
+        if (error.response) {
+            console.log('Response Error:', error.response.data);
+        } else if (error.request) {
+            console.log('Request Error:', error.request);
+        } else {
+            console.log('Other Error:', error.message);
+        }
+        
+    }
+
+}
 
 export const POSTJSON  = async (url , params) =>{ 
 

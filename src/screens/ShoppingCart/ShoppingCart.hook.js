@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, DeleteCartItems, PlaceeHolder2, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
+import { CartList, DeleteCartItems, ExpireToken, PlaceeHolder2, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import { ShippingList } from '../../constants/axios.url'
 import { useSharedValue } from 'react-native-reanimated'
@@ -60,7 +60,7 @@ const useShoppingcart = () => {
     customerEmail: 'test@test.com',
     udf2: config.responseUrl,
     udf3: 'en',
-    trackid: '',
+    trackid: "000000682",
     tranid: '',
     currency: 'SAR',
     amount: '1.00',
@@ -69,6 +69,7 @@ const useShoppingcart = () => {
     cardToken: '',
     maskCardNum: '',
     tokenizationType: 0,
+    done : true
   });
 
   const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
@@ -180,10 +181,10 @@ const useShoppingcart = () => {
         }
       }
     } else {
-      if(!validationn){
+      if (!validationn) {
         setShowModal(true)
-        setMessages( lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      }else{
+        setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
+      } else {
         PlaceHolder()
       }
 
@@ -361,7 +362,6 @@ const useShoppingcart = () => {
       const response = await getPlaceHolder1(params)
       if (response?.status == 200) {
         setIndex(index + 1)
-        // console.log("Response =========> ", response?.data?.data)
         setPaymentScreen(response?.data?.data)
         setLoadding(false)
         getCoupanList()
@@ -506,11 +506,11 @@ const useShoppingcart = () => {
     })
     if (value) {
       if (wallateAmount < validationTotal) {
-        setValidation(false)
+        setValidation(true)
       } else {
         setValidation(true)
       }
-    } else {
+    } else { 
       setValidation(false)
     }
 
@@ -524,9 +524,12 @@ const useShoppingcart = () => {
   }
 
   const PlaceHolder = async () => {
+    setLoadding(true)
     var shoppingTotal = 0
     var subTotal = 0
     var grandTotal = 0
+
+    const fromdata = new FormData()
 
     paymentScreenData?.total_segments?.map((items, index) => {
       if (items?.code == "grand_total") {
@@ -587,49 +590,87 @@ const useShoppingcart = () => {
     }
     try {
       const res = await PlaceeHolder2(params)
-      // console.log("Finally Response :::::::::::::::: ", res?.data?.data)
-      if(paymentCode == "magveg" ){
-        navigation.navigate(NAVIGATION.PaymentScreen, {
-          request: {
-            country: formData?.country,
-            first_name: formData?.first_name,
-            last_name: formData?.last_name,
-            address: formData?.address,
-            city: formData?.city,
-            state: formData?.state,
-            zip: formData?.zip,
-            phone_number: formData?.phone_number,
-            customerEmail: formData?.customerEmail,
-            udf2: formData?.udf2,
-            udf3: formData?.udf3,
-            trackid: formData?.trackid,
-            tranid: formData?.tranid,
-            currency: formData?.currency,
-            amount: formData?.amount,
-            action: formData?.action,
-            tokenOperation: formData?.tokenOperation,
-            cardToken: formData?.cardToken,
-            maskCardNum: formData?.maskCardNum,
-            tokenizationType: formData?.tokenizationType,
-          },
-          callBack: onProcessPayment,
-        });
+
+    
+      if (res?.status == '200') {
+        const online_payment = res?.data?.data?.online_payment
+        setLoadding(false)
+        if (paymentCode == "magveg") {
+          // console.log( "request:" , {
+          //   country: formData?.country,
+          //   first_name: userData?.data?.firstname,
+          //   last_name: userData?.data?.lastname,
+          //   address: online_payment?.addresses,
+          //   // city: addressCod?.city,
+          //   // state: fromdata,
+          //   zip: online_payment?.postcode,
+          //   phone_number: userData?.data?.mobile,
+          //   customerEmail: online_payment?.email,
+          //   udf2: formData.udf2,
+          //   udf3: formData.udf3,
+          //   trackid: online_payment?.order_id,
+          //   tranid: formData?.tranid,
+          //   currency: online_payment?.currency,
+          //   amount: online_payment?.amount,
+          //   action: online_payment?.action_code,
+          //   tokenOperation: formData?.tokenOperation,
+          //   cardToken: online_payment?.cardToken,
+          //   maskCardNum: formData?.maskCardNum,
+          //   tokenizationType: online_payment?.tokenizationType,
+
+          // },)
+          navigation.navigate(NAVIGATION.PaymentScreen, {
+            request: {
+              country: formData?.country,
+              first_name: userData?.data?.firstname,
+              last_name: userData?.data?.lastname,
+              address: online_payment?.addresses,
+              city: addressCod?.city,
+              // state: fromdata,
+              zip: online_payment?.postcode,
+              phone_number: userData?.data?.mobile,
+              customerEmail: online_payment?.email,
+              udf2: formData.udf2,
+              udf3: formData.udf3,
+              trackid: online_payment?.order_id,
+              tranid: formData?.tranid,
+              currency: online_payment?.currency,
+              amount: online_payment?.amount,
+              action: online_payment?.action_code,
+              tokenOperation: formData?.tokenOperation,
+              cardToken: online_payment?.cardToken,
+              maskCardNum: formData?.maskCardNum,
+              tokenizationType: online_payment?.tokenizationType,
+            },
+            callBack: onProcessPayment,
+          });
+          const result = await ExpireToken(fromdata)
+          setLoadding(false)
+        } else {
+          navigation.navigate(NAVIGATION.Done, { lang: lang })
+          setLoadding(false)
+        }
+
       }else{
-        navigation.navigate(NAVIGATION.Done, { lang: lang })
+        setLoadding(false)
       }
+
     } catch (error) {
+      console.log("Place Holder API ERROR ======> ", error)
+      setLoadding(false)
 
     }
   }
 
-  const onProcessPayment = responseData => {
+  const onProcessPayment = (responseData) => {
+    console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)
     if (responseData.status == 'success') {
       navigation.navigate(NAVIGATION.ResponseScreen, {
         response: responseData.data,
       });
     } else {
       // showMessage({message: responseData.error, type: 'danger'});
-      console.log("message ::::::::::::::::" , responseData.error )
+      console.log("message ::::::::::::::::", { message: responseData.error, type: "danger" })
     }
   };
 

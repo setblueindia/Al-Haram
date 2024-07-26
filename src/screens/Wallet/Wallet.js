@@ -10,16 +10,13 @@ import { ICON, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants.
 import { ALINE, COLOR } from '../../constants/style.js';
 import CusLoader from '../../components/CustomLoader/index.js';
 
-const Wallet = ({ Sponser , setloader }) => {
-
-
-  const { navigation, lang, data, Str, amount, isLoadding } = UseWalletHook(setloader)
-
+const Wallet = ({ Sponser , setloader ,  route }) => {
+  const { navigation, lang, data, Str, amount, isLoadding , getAdreesList , setAddAmount} = UseWalletHook(setloader ,route )
 
   return (
     <View style={styles.mainView}>
-      {!Sponser && <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
-
+      {!Sponser &&
+       <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
       <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
 
         {!Sponser && <View style={styles.mngView}>
@@ -58,11 +55,14 @@ const Wallet = ({ Sponser , setloader }) => {
               placeholder={data?.EnterAmount}
               underlineColorAndroid="transparent"
               keyboardType="numeric"
+              onChangeText={(tex)=>{setAddAmount(tex)}}
             />
           </View>
         </View>
         <View style={styles.addAmtView}>
-          <TouchableOpacity style={styles.amtBtn}>
+          <TouchableOpacity
+             onPress={()=>{getAdreesList()}}
+             style={styles.amtBtn}>
             <Text style={styles.amtText}>{data?.AddAmounttoWallet}</Text>
           </TouchableOpacity>
         </View>
