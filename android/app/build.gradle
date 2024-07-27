@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-// apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 
 
 /**
@@ -117,8 +117,9 @@ android {
 }
 
 dependencies {
-    // The version of react-native is set by the React Native Gradle 
-    
+     implementation platform('com.google.firebase:firebase-bom:31.1.0')
+     implementation 'com.google.firebase:firebase-messaging'
+      implementation 'com.google.firebase:firebase-analytics'// The version of react-native is set by the React Native Gradle 
       implementation 'com.facebook.fresco:animated-gif:2.5.0'
       implementation("com.facebook.react:react-android")
       implementation project(':react-native-vector-icons')
