@@ -32,6 +32,7 @@ const Login = () => {
     SingUpScreen,
     setMobailNumber,
     setCheckBox,
+    handleGoogleSignIn,
     loader,
     langues,
     lang
@@ -125,7 +126,7 @@ const Login = () => {
               </View>
               <View style={styles.devider} />
               <View style={styles.socialButton}>
-                <SocialButton icon={google} text={LOGINStr.Google} />
+                <SocialButton onPress={()=>{handleGoogleSignIn()}} icon={google} text={LOGINStr.Google} />
                 <SocialButton icon={Apple} text={LOGINStr.Apple} />
               </View>
 

@@ -8,6 +8,9 @@ import { ExpireToken, userLogIn, userLogInWithNumber } from '../../api/axios.api
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
+import { signInWithGoogle } from '../../firebase/firebaseConfig';
+import { Alert } from 'react-native';
+
 
 const useLoginHook = () => {
   const [email, setEmail] = useState('')
@@ -37,7 +40,6 @@ const useLoginHook = () => {
     setLangues(lable)
   };
 
-
   const emailLogin = async () => {
     setLoader(true)
     const userEmail = email.toLowerCase()
@@ -49,13 +51,10 @@ const useLoginHook = () => {
     
     if (response?.data?.status == NUMBER?.num1) {
       const loginStatus = response?.data?.data?.quote_id?.data?.login_status
-      // console.log("loginStatus==========> ", loginStatus)
-
       if (loginStatus == "0") {
         const fromdata = new FormData
         try {
           const result = await ExpireToken(fromdata)
-          // console.log("======>" , result)
           setLoader(false)
         } catch (error) {
           setLoader(false)
@@ -128,7 +127,6 @@ const useLoginHook = () => {
       setErrorText(langues?.Invalidnumber)
     } else {
       mobailLogin()
-
     }
 
   }
@@ -164,6 +162,17 @@ const useLoginHook = () => {
 
   }
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const userCredential = await signInWithGoogle();
+      console.log('User signed in with Google:', userCredential.user);
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+      Alert.alert('Error', 'Something went wrong. Please try again.');
+    }
+  }
+
+
   return {
     whiteEmail,
     langues,
@@ -183,6 +192,7 @@ const useLoginHook = () => {
     ForgetPassword,
     setMobailNumber,
     setCheckBox,
+    handleGoogleSignIn
 
 
   };

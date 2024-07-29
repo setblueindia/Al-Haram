@@ -5,10 +5,9 @@ import NetworkConnection from './src/components/NetworkConnection';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
 
-
 const App = () => {
   const [isConnected, setIsConnected] = useState(true);
-  
+
   useEffect(() => {
     const checkPermission = async () => {
       const authStatus = await messaging().requestPermission();
@@ -27,9 +26,6 @@ const App = () => {
     checkPermission();
   }, []);
 
-
-
-
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       setIsConnected(state.isConnected);
@@ -38,6 +34,35 @@ const App = () => {
     return () => {
       unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log('Notification caused app to open from background state:', remoteMessage.notification);
+      // Handle the notification data and navigate to specific screen if needed
+    });
+
+    messaging().getInitialNotification().then(remoteMessage => {
+      if (remoteMessage) {
+        console.log('Notification caused app to open from quit state:', remoteMessage.notification);
+        // Handle the notification data and navigate to specific screen if needed
+      }
+    });
+
+    return () => {
+      unsubscribeOnMessage();
+      unsubscribeOnNotificationOpenedApp();
+    };
+  }, []);
+
+  useEffect(() => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
   }, []);
 
   return (

@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "37790863939",
-    "project_id": "al-haram-react",
-    "storage_bucket": "al-haram-react.appspot.com"
+    "project_number": "755452500393",
+    "project_id": "alharam-42cf7",
+    "storage_bucket": "alharam-42cf7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:37790863939:android:92ba00fc1f9bd1122d3af6",
+        "mobilesdk_app_id": "1:755452500393:android:7e0de6b1813e6b5ec40cb8",
         "android_client_info": {
           "package_name": "com.alharam"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "755452500393-ihsa4lftskbssq3ic5ngvjnce2s78ro9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alharam",
+            "certificate_hash": "c2594b642fdd9e0f2a921f370425bba8e6cac898"
+          }
+        },
+        {
+          "client_id": "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBTBkf4aDOI_l7c3zU7xoFszFVJrBTtuuI"
+          "current_key": "AIzaSyDpvGOME0gZT92TslqBoUqC9OIrHkQnzwM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
