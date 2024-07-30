@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth';
 
 GoogleSignin.configure({
       webClientId:
-      "755452500393-bmfnlsr7oj4u5l64hpg4gfoerv2tn0j7.apps.googleusercontent.com",
+      "382026286760-gd40r8prv9gpfhk844hdj8ij7iobr27m.apps.googleusercontent.com",
       offlineAccess: true,
     });
 

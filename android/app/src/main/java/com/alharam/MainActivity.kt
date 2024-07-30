@@ -1,4 +1,4 @@
-package com.alharam
+package com.v2ideas.alharam
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

@@ -1,4 +1,4 @@
-package com.alharam
+package com.v2ideas.alharam
 
 import android.app.Application
 import com.facebook.react.PackageList
