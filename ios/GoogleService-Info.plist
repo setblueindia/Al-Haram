@@ -2,18 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>382026286760-5qtevvtdqhkl6ulh2rss0dj9lkrrds7e.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.382026286760-5qtevvtdqhkl6ulh2rss0dj9lkrrds7e</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>382026286760-gsola3ced7ldcnpsu04mucphr4qb33gc.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDaNGsTAtlkP-W1DG640vp7RZPu4ORqKxg</string>
+	<string>AIzaSyCUqT0CqQq6d96tyyNv46OiyEebvcQv8q4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>37790863939</string>
+	<string>382026286760</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.AlHaram</string>
+	<string>com.alharam.alharamapp</string>
 	<key>PROJECT_ID</key>
-	<string>al-haram-react</string>
+	<string>alharamstores-951b9</string>
 	<key>STORAGE_BUCKET</key>
-	<string>al-haram-react.appspot.com</string>
+	<string>alharamstores-951b9.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:37790863939:ios:a963c6d6c73614ff2d3af6</string>
+	<string>1:382026286760:ios:bb2833b463b1e0cbf7249d</string>
 </dict>
 </plist>
