@@ -28,7 +28,7 @@ const ShipingMethod = ({
             <Text style={styles.headerText}>{labale?.ShippingMethods}</Text>
             <View style={styles.mainView}>
                 {
-                    data?.map((item, index) => {
+                data?.length > 0 &&  data?.map((item, index) => {
                         return (
                             <View>
                                 <TouchableOpacity
@@ -37,7 +37,7 @@ const ShipingMethod = ({
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                         <View >
                                             <View style={styles.circalView} >
-                                                <View s style={selected == index ? styles.fillCircalView2 : null} />
+                                                <View style={selected == index ? styles.fillCircalView2 : null} />
                                             </View>
                                         </View>
                                         <View style={[styles.textView , {width:"100%"}]}>

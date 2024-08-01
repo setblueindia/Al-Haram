@@ -31,6 +31,7 @@ import AnimTab1 from './Tab';
 import Banner from '../screens/BannerScreen/Banner';
 import PaymentScreen from '../screens/YourWay/payment';
 import ResponseScreen from '../screens/YourWay/response';
+import Home from '../screens/Home/Home';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -171,6 +172,11 @@ const StackNavigation = () => {
          <Stack.Screen
         name={NAVIGATION?.ResponseScreen}
         component={ResponseScreen}
+        options={{ headerShown: false }}
+      />
+         <Stack.Screen
+        name={NAVIGATION?.HomeScreen}
+        component={Home}
         options={{ headerShown: false }}
       />
     

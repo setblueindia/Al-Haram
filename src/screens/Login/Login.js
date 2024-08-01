@@ -1,4 +1,4 @@
-import { Image, Text, View, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { Image, Text, View, TouchableOpacity, ScrollView, Modal, SafeAreaView } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './login.style';
 import Onbordingheader from '../../components/OnbordingHeader';
@@ -14,6 +14,7 @@ import { ALINE, COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
 import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Login = () => {
   const {
@@ -39,9 +40,9 @@ const Login = () => {
   } =
     useLoginHook();
   return (
-    <>
+    <SafeAreaView style={{flex:1}}>
 
-      <ScrollView style={[styles.mainView, loader && {}]}>
+      <KeyboardAwareScrollView style={[styles.mainView, loader && {}]}>
         <View style={styles.headerView}>
           <Onbordingheader />
         </View>
@@ -55,6 +56,7 @@ const Login = () => {
               {whiteEmail && (
                 <>
                   <TextFildCus
+                     password={false}
                     value={rememberMe?.EMAIL}
                     onChange={setEmail}
                     icon={ICON.emailIcon}
@@ -68,6 +70,7 @@ const Login = () => {
                     onChange={setPassword}
                     icon={ICON.lockIcon}
                     text={langues?.Enteryourpassword}
+                  
                   />
                 </>
               )}
@@ -146,7 +149,7 @@ const Login = () => {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
       {loader &&
         <View style={styles.loadder}>
@@ -161,7 +164,7 @@ const Login = () => {
       >
         <CusModal setModalShow={setShowModal} text={errorText} />
       </Modal>
-    </>
+    </SafeAreaView>
   );
 };
 

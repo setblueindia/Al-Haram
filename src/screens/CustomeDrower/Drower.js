@@ -231,7 +231,7 @@ const Drower = () => {
                       lang == NUMBER.num0 && { flexDirection: 'row-reverse' },
                       subIndex == sindex && { backgroundColor: "#FFF9DF" }]}>
                       <View style={styles.subImageView}>
-                        <Image source={subItem?.mobile_thumbnail ? { uri: BASE_URL + subItem?.mobile_thumbnail } : logo} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
+                        <Image source={ subItem?.mobile_circle_thumbnail ? { uri: BASE_URL + subItem?.mobile_circle_thumbnail  } : logo} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
                       </View>
                       <Text style={styles.text}>{subItem?.name}</Text>
                     </TouchableOpacity>

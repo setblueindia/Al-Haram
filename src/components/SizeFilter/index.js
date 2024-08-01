@@ -20,8 +20,36 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
     const [displayIndex, setDisplayIndex] = useState()
     const [cetegoriesIndex, setCetegoriesIndex] = useState()
     const [priceIndex, setPriceIndex] = useState()
-    const [minValue , setMinValue] = useState(0)
-    const [maxValue , setMaxValue] = useState(200)
+    const [minValue, setMinValue] = useState(0)
+    const [maxValue, setMaxValue] = useState(200)
+    const [unselect , SetUnselect] = useState(false) 
+
+
+    useEffect(() => {
+        filterData?.map((item) => {
+            console.log("Itesms ::::::::::: ", item?.attribute_code)
+            if (item?.attribute_code == "price") {
+                setOpationData(item?.options)
+                setIndex2(0)
+                setSilder(true)
+            }
+        })
+    }, [])
+
+
+    const onClear = () => {
+        filterData?.map((item) => {
+            console.log("Itesms ::::::::::: ", item?.attribute_code)
+            if (item?.attribute_code == "price") {
+                setOpationData(item?.options)
+                setIndex2(0)
+                setSilder(true)
+                SetUnselect(true)
+            }
+        })
+        
+    }
+
 
 
     const innderDataOnPress = (cIndex) => {
@@ -43,6 +71,7 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
     }
 
     const ctegouriesSelection = (index) => {
+       
         if (cetegories == "size" && index == sizeIndex) {
             return true
         } else if (cetegories == "color" && index == colorIndex) {
@@ -75,7 +104,7 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
         }
     }
 
-    
+
 
 
     return (
@@ -95,7 +124,9 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                     </View>
 
                     <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <TouchableOpacity style={styles.clearView}>
+                        <TouchableOpacity 
+                        onPress={()=>{onClear()}}
+                        style={styles.clearView}>
                             <Text style={styles.clearText}>{lang == NUMBER.num1 ? "Clear" : "واضح"}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.ApplyView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
@@ -135,11 +166,12 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                                         onPress={() => {
                                             innderDataOnPress(index)
                                             setIndex1(index)
+                                            SetUnselect(false)
                                             result = ctegouriesSelection(index)
                                         }}
                                         key={index}
                                         style={[styles.secondInnerView,
-                                        result && { backgroundColor: COLOR.white },
+                                        (result && !unselect)&& { backgroundColor: COLOR.white },
                                         lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
                                         <Text style={styles.innerText}>{items?.label}</Text>
@@ -150,17 +182,16 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
 
                         {
                             slider &&
-                        
-                            <View style={{ width:"100%", height:ResponsiveSize(200), justifyContent:'center' , alignItems:'center' , width:"100%" }}>
-                                
+
+                            <View style={{ width: "100%", height: ResponsiveSize(200), justifyContent: 'center', alignItems: 'center', width: "100%" }}>
+
                                 <View style={styles.rangeTex}>
                                     <Text style={styles.valueText}>{minValue}</Text>
                                     <Text style={styles.valueText}>{maxValue}</Text>
                                 </View>
-                                <CustomRangeSlider setMinValue={setMinValue}  setMaxValue = {setMaxValue}/>
+                                <CustomRangeSlider setMinValue={setMinValue} setMaxValue={setMaxValue} />
                             </View>
                         }
-                        {/* <View style={{ height: ResponsiveSize(20), backgroundColor: "#F8F2F2" }} /> */}
                     </ScrollView>
                 </View>
             </View>
@@ -269,12 +300,12 @@ const styles = StyleSheet.create({
     valueText: {
         fontSize: ResponsiveSize(25),
         marginBottom: ResponsiveSize(10),
-        color:COLOR.black
+        color: COLOR.black
     },
     rangeTex: {
         flexDirection: ALINE.row,
         justifyContent: ALINE.spaceBetween,
-        width:"100%",
-        paddingHorizontal:ResponsiveSize(20),
+        width: "100%",
+        paddingHorizontal: ResponsiveSize(20),
     }
 })

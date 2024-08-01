@@ -52,12 +52,6 @@ const useSerchHook = () => {
           media_gallery_entries {
             file
           }
-          thumbnail {
-            url
-            label
-            position
-            disabled
-          }
           price {
             regularPrice {
               amount {

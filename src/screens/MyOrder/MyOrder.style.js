@@ -12,7 +12,8 @@ export const styles = StyleSheet.create({
     marginTop: ResponsiveSize(20),
     flex: 1,
     width: "100%",
-    height: "100%"
+    height: "100%",
+    // marginBottom:ResponsiveSize(50)
   },
   listView: {
     backgroundColor: COLOR.white,

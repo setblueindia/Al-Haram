@@ -4,7 +4,7 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { logo } from '../../assests'
 
-const CusModal = ({ text, setModalShow, examapleText, notification }) => {
+const CusModal = ({ text, setModalShow, examapleText, notification , GETNotificationAPI }) => {
     return (
         <View style={styles.mainView}>
             <View style={styles.container}>
@@ -22,7 +22,7 @@ const CusModal = ({ text, setModalShow, examapleText, notification }) => {
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => { setModalShow(false) }}
+                    onPress={() => { setModalShow(false) , GETNotificationAPI && GETNotificationAPI()}}
                     style={styles.button}>
                     <Text style={styles.buttonText}>OK</Text>
                 </TouchableOpacity>

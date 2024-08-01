@@ -4,6 +4,7 @@ import AppNavigation from './src/navigation/AppNavigation';
 import NetworkConnection from './src/components/NetworkConnection';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
+import { FCMTokenStor } from './src/utils/asyncStorage';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(true);
@@ -18,6 +19,7 @@ const App = () => {
       if (enabled) {
         console.log('Authorization status:', authStatus);
         const token = await messaging().getToken();
+        FCMTokenStor(token)
         console.log('FCM Token:', token);
       } else {
         Alert.alert('Permission Denied', 'You need to grant notification permissions to receive notifications.');
@@ -37,8 +39,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    const unsubscribeOnMessage = messaging().onMessage( remoteMessage => {
+      console.log('Notification caused app to open from background state:', remoteMessage.notification?.body);
+      Alert.alert('Notification arrived!', remoteMessage.notification?.body);
     });
 
     const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {

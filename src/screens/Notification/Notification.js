@@ -4,14 +4,11 @@ import { styles } from './notification.style'
 import CustomeHeader from '../../components/CustomeHeader'
 import { ALINE, COLOR, RESIZEMODE } from '../../constants/style'
 import { ResponsiveSize } from '../../utils/utils'
-import { Shippment } from '../../assests'
 import useNotificationHook from './notification.hook'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
 import CusLoader from '../../components/CustomLoader'
 import Icon from 'react-native-vector-icons/dist/Ionicons';
-import LottieView from 'lottie-react-native'
 import CusModal from '../../components/CusModal'
-import DataNotFound from '../../components/DataNotFound'
 import DataIsNotFound from '../../components/DataNotFound2'
 
 
@@ -38,6 +35,7 @@ const Notification = () => {
             data={data}
             onEndReached={() => { data?.length > 0 && GETNotificationAPI() }}
             onEndReachedThreshold={0.1}
+            showsVerticalScrollIndicator={false}
             ListFooterComponent={() => {
               return (
                 <View style={{
@@ -75,7 +73,8 @@ const Notification = () => {
                     }}
                     style={[styles.notificationView, lang == NUMBER.num0 &&
                       { },
-                    { backgroundColor: item.notification_view == NUMBER.num1 ? COLOR.white : "#FFF3F4" }]}
+                    // { backgroundColor: item.notification_view == NUMBER.num1 ? COLOR.white : "#FFF3F4" }
+                  ]}
                   >
 
                     <View style={[styles.imgView, lang == NUMBER.num0 &&
@@ -142,7 +141,7 @@ const Notification = () => {
         transparent={true}
         visible={showModal}
       >
-        <CusModal setModalShow={setShowModal} text={messText} notification={true} />
+        <CusModal setModalShow={setShowModal} GETNotificationAPI ={GETNotificationAPI}text={messText} notification={true} />
       </Modal>
     </View>
   )

@@ -100,7 +100,8 @@ export const styles = StyleSheet.create({
         borderColor: COLOR.primaray,
         marginLeft: ResponsiveSize(20),
         height: ResponsiveSize(60),
-        width: ResponsiveSize(60),
+        paddingHorizontal:ResponsiveSize(30),
+        // width: ResponsiveSize(60),
         alignItems: ALINE.center,
         justifyContent: ALINE.center,
         // flexWrap : 'wrap'
@@ -109,6 +110,7 @@ export const styles = StyleSheet.create({
     },
     sizeText: {
         color: COLOR.black,
+        // width:"100%"
 
     },
     counteView: {

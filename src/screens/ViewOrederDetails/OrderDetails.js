@@ -12,9 +12,6 @@ import CusLoader from '../../components/CustomLoader'
 const OrderDetails = (props) => {
     const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
     
-
-
-
     return (
         <View style={styles.mainView}>
             <CommanHeader name={lable?.ViewOrder} navigation={navigation} lang={lang} />
@@ -50,12 +47,10 @@ const OrderDetails = (props) => {
                         <Text style={styles.headerText}>{data?.ItemsOrdered}</Text>
                     </View>
                     <View style={styles.orderDetails}>
-
                         {
                           orderDetailsList?.items.length > 0 &&
                             orderDetailsList?.items?.map((items, index) => {
 
-                                // console.log("Items :::::::::" , items?.color)
                                 return (
                                     <View key={index}>
                                         <View style={[styles.itemsList, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>

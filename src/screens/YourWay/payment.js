@@ -71,7 +71,7 @@ class PaymentScreen extends React.Component {
     }, 500);
 
     this.props.route.params.request.done ?
-       navigation.navigate(NAVIGATION.Done, {response: data})
+       navigation.navigate(NAVIGATION.Done, {response: data , orderId : this.props.route?.params?.request?.trackid , responseID : this.props.route?.params?.request?.responseId})
      : navigation.navigate(NAVIGATION.Wallet, {response: data})
   };
 

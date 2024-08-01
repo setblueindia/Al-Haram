@@ -26,8 +26,9 @@ const WhishList = () => {
         renderItem={({ item, index }) => {
           const Name = item?.name.substr(0, 15)
           return (
-            <View key={index}>
+            <View style={{}} key={index}>
               <TouchableOpacity
+                onPress={()=>{navigation.navigate(NAVIGATION.ProducDetails , { SKU: item?.sku })}}
                 style={styles.imageView}>
                 {item?.image ? <FastImage style={styles.image} source={{ uri: item?.image }} /> : <View style={[styles.imageView, { backgroundColor: COLOR.black }]} />}
               </TouchableOpacity>
@@ -45,9 +46,7 @@ const WhishList = () => {
                 style={styles.likeView}>
                 <Filter name={item?.like ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
               </TouchableOpacity>
-
             </View>
-
           )
         }}
       /> : !isLoading ?

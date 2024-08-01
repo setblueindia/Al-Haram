@@ -24,13 +24,10 @@ const useSingUpHook = ({ lable }) => {
 
 
   const SINUP = async () => {
-
-
     setLoader(true)
 
     const userEmail = email.toLowerCase()
     const formData = new FormData();
-
     formData.append('mobile', '+966' + number);
     formData.append('firstname', firstName);
     formData.append('lastname', lastName);
@@ -38,16 +35,6 @@ const useSingUpHook = ({ lable }) => {
     formData.append('password', password);
     formData.append('otptype', 'register');
     formData.append('store_id', langNumber?.data);
-
-    console.log({
-      number: number,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      langNumber: langNumber?.data
-    })
-
 
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {

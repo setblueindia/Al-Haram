@@ -5,7 +5,7 @@
 	<key>CLIENT_ID</key>
 	<string>382026286760-5qtevvtdqhkl6ulh2rss0dj9lkrrds7e.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.382026286760-5qtevvtdqhkl6ulh2rss0dj9lkrrds7e</string>
+	<string>c</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>382026286760-gsola3ced7ldcnpsu04mucphr4qb33gc.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -21,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>alharamstores-951b9.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:382026286760:ios:bb2833b463b1e0cbf7249d</string>
 </dict>

@@ -1,53 +1,104 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import LottieView from 'lottie-react-native';
 import { ResponsiveSize } from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
 import { doneIcon } from '../../assests';
 import Button from '../../components/Button';
-import { NAVIGATION, NUMBER } from '../../constants/constants';
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ExpireToken, SendNotifiction, StatusUpadate } from '../../api/axios.api';
 
 
 const Done = (props) => {
     const navigation = useNavigation()
-    const lang = props?.route?.params?.lang
+    const userData = useSelector(state => state.userData.data)
+    const lang = useSelector(state => state.lang.data)
     const result = props?.route?.params?.response
-    // console.log("DONE RESPONSE ::::::::", result)
+    const OrderID = props?.route?.params?.orderId
+    const responseID = props?.route?.params?.responseID
+
+    const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n We will send you order confirmation with details and tracking information.` : `رقم طلبك: ${OrderID}. \n سوف نرسل لك تأكيد الطلب مع تفاصيل ومعلومات التعقب.`
+    const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
+
+    const senNotiFication = async () => {
+        const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
+        const data =
+         `mutation{
+            orderPushNotificationSentToCustomer(input:{
+            customer_id: ${userData?.id}
+            notification_type: "order"
+            order_id: "${OrderID}"
+            store:${lang}
+            device_id: "${FCMToken}"
+        }){
+            status
+            message
+        }
+     }
+  `
+       try {
+            const rep = await SendNotifiction(data, lang)
+            updateOrderStatus()
+        } catch (error) {
+            console.log("SEND NOTIFICATION ERROR :::::::::::: ", error)
+        }
+    }
+
+    const updateOrderStatus = async () => {
+        const fromdata = new FormData
+        const sfromdata = new FormData
+        fromdata.append("order_id", responseID)
+        fromdata.append("status", result?.data?.status == "Successful" ? "success" : "fail")
+        fromdata.append("message", " ")
+        fromdata.append("urway_trans_id", result?.data?.tranid)
+        try {
+            const response = await StatusUpadate(fromdata)
+            const result = await ExpireToken(sfromdata)
+        } catch (error) {
+            console.log("UPDATE STATUS ERROR :::::::::::::", error)
+        }
+    }
+
+    useEffect(() => {
+        senNotiFication()
+    }, [])
+
 
     return (
-
         <View style={styles.mainView}>
-            <View style={styles.lottiView}>
-                <LottieView
-                    //   ref={animationRef}
-                    source={require('../../assests/Lottianimation/Done.json')}
-                    autoPlay loop
-                    resizeMode='cover'
-                    style={{ height: "100%", width: "100%" }}
-                />
-                <View style={styles.thumIcon}>
-                    <Image style={styles.icon} source={doneIcon} />
+            {
+                result?.data?.status == "Successful" &&
+                <View style={styles.lottiView}>
+                    <LottieView
+                        //   ref={animationRef}
+                        source={require('../../assests/Lottianimation/Done.json')}
+                        autoPlay loop
+                        resizeMode='cover'
+                        style={{ height: "100%", width: "100%" }}
+                    />
+                    <View style={styles.thumIcon}>
+                        <Image style={styles.icon} source={doneIcon} />
+                    </View>
                 </View>
-            </View>
-
+            }
             <View style={styles.textView}>
-                <Text style={styles.congrationText}>{lang == NUMBER.num0 ? "تهنئة" : "Congratulation"}</Text>
-                <Text style={styles.SecondView}>{lang == NUMBER.num0 ? "رقم طلبك : 000078338" : "Your Order Number : 000078338"}</Text>
-                <Text style={styles.lastText}>{lang == NUMBER.num0 ? "سوف نرسل لك تأكيد الطلب مع التفاصيل ومعلومات التتبع" : "We will send you order confirmation with details and tracking information"}</Text>
+                <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? lang == NUMBER.num0 ? "تهنئة" : "Congratulation" : "Ooops...."}</Text>
+                <Text style={styles.lastText}>{lang == NUMBER.num1 ? Order_Success : SOMETHING_WRONG}</Text>
             </View>
-
 
             <View style={styles.btnView}>
-                <Button text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />
+                <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate(NAVIGATION.HomeScreen) }}
+                    onPress={() => {navigation.replace(NAVIGATION.HomeScreen) }}
                     style={styles.btnContinues}>
                     <Text style={styles.continuesShoppingsText}>{lang == NUMBER.num0 ? "مشاهدة الطلب" : "Continue Shopping"}</Text>
                 </TouchableOpacity>
             </View>
-        </View>
 
+        </View>
     )
 }
 
@@ -59,10 +110,8 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: ALINE.center,
         alignItems: ALINE.center
-        // backgroundColor:"#000000"
     },
     mainView: {
-        // justifyContent: 'center',
         alignItems: ALINE.center,
         flex: 1,
     },
@@ -90,13 +139,12 @@ const styles = StyleSheet.create({
         bottom: ResponsiveSize(0),
     },
     icon: {
-        resizeMode:'contain',
+        resizeMode: 'contain',
         height: "100%",
         width: "100%",
         resizeMode: ALINE.center
     },
     btnView: {
-
         width: "100%",
         paddingHorizontal: ResponsiveSize(20),
         marginTop: ResponsiveSize(20)

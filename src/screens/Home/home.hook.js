@@ -1,15 +1,17 @@
-import { Text, View } from 'react-native'
+import { Platform, Text, View } from 'react-native'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NUMBER } from '../../constants/constants'
+import { ASYNCSTORAGE, NUMBER } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
-import { HomeApi, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { ExpireToken, HomeApi, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import { updateLoader } from '../../redux/Slices/DrawerSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
+  const userData = useSelector(state => state.userData.data)
   const loder = useSelector(state => state?.Categories?.loader)
   const [isLoadding, setIsLoadding] = useState(loder)
   const home = useSelector(state => state?.HomeScreen?.data)
@@ -49,6 +51,7 @@ const useHomeHook = (props) => {
             image
             description
             mobile_thumbnail
+            mobile_circle_thumbnail
             mobile_image
             children {
                 id
@@ -79,11 +82,11 @@ const useHomeHook = (props) => {
       console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
       setIsLoadding(false)
       // dispatch(updateLoader(false))
-      
+
     }
   }
 
-  const ProductDetails = async () =>{
+  const ProductDetails = async () => {
     // dispatch(updateLoader(true))
     setIsLoadding(true)
     const params = `
@@ -119,21 +122,49 @@ const useHomeHook = (props) => {
   }
     `
     try {
-      const res = await getProductDetails(params , lang?.data)
-      if(res?.status == '200' ) {
+      const res = await getProductDetails(params, lang?.data)
+      if (res?.status == '200') {
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
         setIsLoadding(false)
         // dispatch(updateLoader(false))
       }
-  
+
     } catch (error) {
-      console.log("CETEGORIERS LIST ERROR ::::::::::::::: " , error)
+      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
       setIsLoadding(false)
       // dispatch(updateLoader(false))
-    } 
+    }
   }
 
+  useEffect(() => {
+    SaveToken()
+  }, [])
 
+  const SaveToken = async () => {
+    const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
+    const data = `
+mutation{
+  pushNotificationDeviceTokenSave(input:{
+     device_id: "${token}"
+     customer_id: ${userData?.id}
+     email: "${userData?.email}"
+     device_type: ${Platform.OS == "ios" ? "ios" : "android"}
+ }){
+     status
+     message
+ }
+}
+    `
+    try {
+
+      const resp = userData && await Storetoken(data, lang?.data)
+      console.log("SAVE TOKEN RESPONSE :::::: ", resp?.data?.data)
+
+    } catch (error) {
+      console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
+    }
+
+  }
 
   // useEffect(() => {
   //   if (isInitialMount.current) {
@@ -148,6 +179,15 @@ const useHomeHook = (props) => {
     ProductDetails()
   }, [lang])
 
+  const TokenExpired = async () => {
+    const fromdata = new FormData()
+    const result = await ExpireToken(fromdata)
+    console.log("Token expired response :::::::", result?.data)
+  }
+
+  useEffect(() => {
+    TokenExpired()
+  }, [])
 
   return {
     HomeScreeData,

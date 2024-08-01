@@ -58,7 +58,9 @@ const Home = (props) => {
               CetegoriesData?.map((items, index) => {
                 return (
                   <View key={index} style={styles.cetegoriesBox}>
-                    {items?.children.length > 0 && <CetegoriesBox navigation={navigation} lang={lang} items={items} index={index} />}
+                    {items?.children.length > 0 &&
+                     <CetegoriesBox navigation={navigation} lang={lang} items={items} index={index} />
+                     }
                   </View>
                 )
               })

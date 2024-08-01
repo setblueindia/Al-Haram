@@ -7,7 +7,6 @@ import { Ar, En } from "../../constants/localization"
 import { SHOWTOTS } from "../../utils/utils"
 
 const useProductHook = (props) => {
-
   const navigation = useNavigation()
   const [sortFilter, setSortFilter] = useState(false)
   const [sizeFilter, setSizeFilter] = useState(false)
@@ -17,18 +16,10 @@ const useProductHook = (props) => {
   const [filterData, setFilterData] = useState('')
   const [sortBy , setSortBy] = useState()
   const [action , setActions] = useState('')
+  const [currePage, setCurrentPage] = useState(0)
+  const [moreData, setMoreData] = useState(false)
   const lable = lang == NUMBER.num1 ? En : Ar
-  const [data, setData] = useState([
-    // { id: 0, like: false },
-    // { id: 1, like: false },
-    // { id: 2, like: false },
-    // { id: 3, like: false },
-    // { id: 4, like: false },
-    // { id: 5, like: false }
-  ])
-// console.log(props?.route?.params?.cetegoriesId)
-
-
+  const [data, setData] = useState([])
   useEffect(() => {
     getData()
   }, [])
@@ -48,7 +39,6 @@ const useProductHook = (props) => {
       Filter: "منقي"
     }
 
-
   const likePress = (items) => {
     setData((prevData) =>
       prevData?.map(
@@ -59,14 +49,16 @@ const useProductHook = (props) => {
     )
   }
 
-
   const getData = async () => {
-    setIsLoadding(true)
+    currePage < 1 && setIsLoadding(true)
+    currePage >= 1 && setMoreData(true)
+    const nextPage = currePage + 1 
+
     const formData = new FormData
     formData.append("category_id", props?.route?.params?.cetegoriesId)
     formData.append("store_id", lang)
     formData.append("PageSize", 10)
-    formData.append("CurPage", 1)
+    formData.append("CurPage", nextPage)
     formData.append("customer_id", userData?.id)
     formData.append("color", '')
     formData.append("size", '')
@@ -78,18 +70,23 @@ const useProductHook = (props) => {
     try {
       const res = await getProductList(formData)
       if (res?.status == '200') {
-        setData(res?.data?.data)
+        setData([...data , ...res?.data?.data])
+        // setData(res?.data?.data)
         setIsLoadding(false)
+        setMoreData(false)
+        setCurrentPage(nextPage)
         setSortBy(''),
         setActions('')
       } else {
         setIsLoadding(false)
+        setMoreData(false)
         setSortBy('')
         setActions('')
       }
     } catch (error) {
       console.log("GET PRODUCT ERROR :::::::::: ", error)
       setIsLoadding(false)
+      setMoreData(false)
       setSortBy('')
       setActions('')
 
@@ -192,6 +189,7 @@ const useProductHook = (props) => {
     sizeFilter,
     isLoadding,
     lable,
+    userData,
     setSortBy,
     setSortFilter,
     setSizeFilter,
@@ -199,12 +197,14 @@ const useProductHook = (props) => {
     sortFilter,
     setLike,
     setIndex,
+    getData,
     pIndex,
     filterData,
     likePress,
     getFilterData,
     likeDislike,
-    getData
+    getData,
+    moreData
 
   }
 

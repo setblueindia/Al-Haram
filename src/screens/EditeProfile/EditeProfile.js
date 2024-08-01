@@ -59,7 +59,7 @@ const EditeProfile = () => {
                         <View style={styles.devider} />
                         <TextFildCus text={langues?.EnterYourOldPassword} onChange={setOldPassword} />
                         <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enteryourpassword} password={true}  onChange={setNewPassword} />
+                        <TextFildCus text={langues?.Enteryournewpassword} password={true}  onChange={setNewPassword} />
                         <View style={styles.devider} />
                         <TextFildCus text={langues?.confirmpassword} password={true}  onChange={setConfromPassword}/>
                         <View style={styles.button}>
@@ -74,7 +74,7 @@ const EditeProfile = () => {
                     transparent={true}
                     visible={modalShow}
                 >
-                    <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
+                    <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} notification={false}/>
                 </Modal>
 
 

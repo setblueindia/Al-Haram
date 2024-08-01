@@ -7,7 +7,7 @@ import useProductDetails from './ProductDetails.hook'
 import { ResponsiveSize } from '../../utils/utils'
 import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
-import Block from 'react-native-vector-icons/Feather';
+import Block from 'react-native-vector-icons/FontAwesome6';
 import { EXTRASTR, ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
@@ -37,9 +37,11 @@ const ProductDetails = (props) => {
         isLoading,
         sizeShow,
         setShowModal,
+        setSizeShow,
         colorOnPress,
         sizeOnPress,
         setSizeIndex,
+        likeDislike,
         sizeIndex,
         qnt,
         label,
@@ -51,30 +53,29 @@ const ProductDetails = (props) => {
     return (
         <View style={styles.mainVIew}>
             <CommanHeader navigation={navigation} lang={lang?.data} />
-
             <ScrollView style={{ flex: 1 }} >
                 <View style={styles.silderBox}>
                     <Slider data={sliderData} height={ResponsiveSize(450)} lang={lang} />
                 </View>
 
-                <View style={[styles.productCodeView ]}>
-                    <Text style={[styles.codeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
+                <View style={[styles.productCodeView]}>
+                    <Text style={[styles.codeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
                         {details?.sku ? Str.ProductCode + details?.sku : " "}
-                        </Text>
+                    </Text>
                 </View>
 
                 <View style={styles.profuctName}>
-                    <Text style={[styles.profuctNameText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '   ' }</Text>
+                    <Text style={[styles.profuctNameText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{details?.name ? details?.name : '   '}</Text>
                 </View>
 
                 <View style={styles.PriveView}>
-                    <Text style={[styles.PrizeText,  lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right , marginRight:ResponsiveSize(10)}]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR +" "+ details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
+                    <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
                 </View>
-                
+
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>
-                
+
                 {defaultColor &&
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
@@ -95,7 +96,7 @@ const ProductDetails = (props) => {
                                                 width: ResponsiveSize(70),
                                                 backgroundColor: "#00000050",
                                                 borderRadius: ResponsiveSize(20)
-                                            }} 
+                                            }}
                                             />
                                         }
                                         {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
@@ -105,24 +106,39 @@ const ProductDetails = (props) => {
                         })}
                     </View>
                 }
-
                 {defaultSize &&
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                             <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
                             {defaultSize?.values?.map((items, index) => {
-                                const blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                               var  blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
                                 return (
                                     <View>
                                         <TouchableOpacity
                                             onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index) }}
-                                            key={index} style={[styles.sizeContainer, index == sizeIndex && { backgroundColor: COLOR.primaray }, !blcok || !sizeShow && { borderWidth: 0 }]}>
+                                            key={index}
+                                            style={[styles.sizeContainer,
+                                            index == sizeIndex && { backgroundColor: COLOR.primaray },
+                                                 !blcok || !sizeShow && { }
+                                            ]}
+                                        >
                                             <Text style={[styles.sizeText, index == sizeIndex && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
-                                            <View style={{ position: 'absolute', height: "100", width: "100%", justifyContent: 'center', alignItems: 'center' }}>
-                                                {!blcok || !sizeShow &&
-                                                    <Block style={{ alignSelf: 'center' }} name={"slash"} size={ResponsiveSize(60)} />}
-                                            </View>
                                         </TouchableOpacity>
+
+                                        {!blcok || !sizeShow &&
+                                                 <TouchableOpacity
+                                                 onPress={()=>{sizeOnPress(items?.value_index), setSizeIndex(index), setSizeShow(true) , blcok = true}}
+                                                 style={{
+                                                        position: 'absolute',
+                                                        flex:1,
+                                                        height : "100%",
+                                                        width:"100%",
+                                                        left:ResponsiveSize(10)
+                                                    }}>
+
+                                                   <Block style={{ alignSelf:'center'}} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
+                                                </TouchableOpacity>
+                                            }
                                     </View>
                                 )
                             })}
@@ -141,23 +157,9 @@ const ProductDetails = (props) => {
                         <Counter qty={qnt} setQnt={setQnts} />
                     </View>
                 </View>
-
-                {/* <TouchableOpacity
-                    onPress={() => { setShowModal(true) }}
-                    style={[styles.reviewView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                    <Text>{Str?.Reviews}</Text>
-                    <View style={[styles.ratingIconView, lang?.data == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
-                        <Image style={styles.ratingStart} source={Ratting} />
-                    </View>
-
-                </TouchableOpacity> */}
-
                 <View style={{ height: ResponsiveSize(200) }} />
-
-
-
             </ScrollView>
-            
+
             {showAnimation &&
                 <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150), right: ResponsiveSize(20) }}>
                     <LottieView
@@ -172,10 +174,15 @@ const ProductDetails = (props) => {
 
             <View style={[styles.btnConatainer, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-
                 <TouchableOpacity
                     onPress={() => {
-                        like ? setLike(false) : setLike(true)
+                        if (userData) {
+                            like ? setLike(false) : setLike(true)
+                            likeDislike(details?.configurable_options[0]?.id)
+                        } else {
+                            navigation.navigate(NAVIGATION.Login)
+                        }
+
                     }}
                     style={styles.likeBtn}>
                     <Icon name={like ? ICON.heart : ICON.hearto} size={ResponsiveSize(40)} color={COLOR.primaray} />
@@ -189,7 +196,7 @@ const ProductDetails = (props) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => { userData ? AddTocart()  : navigation.navigate(NAVIGATION.Login)}}
+                    onPress={() => { userData ? AddTocart() : navigation.navigate(NAVIGATION.Login) }}
                     style={styles.AddToCartBtn}>
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>

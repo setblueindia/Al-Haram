@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native"
 import { useSelector } from "react-redux"
 import { NAVIGATION, NUMBER } from "../../constants/constants"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AddressList, CityList, StateList } from "../../api/axios.api"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
@@ -29,54 +29,95 @@ const useAddressHook = (props) => {
   const [billing, setBilling] = useState(esiteData?.default_billing ? esiteData?.default_billing : false)
   const [shopping, setShopping] = useState(esiteData?.default_shipping ? esiteData?.default_shipping : false)
   const [popTex, setPopTex] = useState("")
+
+  const [serchText , setSerchText] = useState()
+  const [cities , setCities] = useState([])
+  const [sates , setStates] = useState([])
+  const [ mixCity , setMixCity] = useState()
   const getData = props?.route?.params?.getData
- 
-  const gwtStateData = async () => {
-    setIsLoading(true)
+
+  // console.log("Response CittyData  :::::::::::::: " , citydata) 
+
+
+  useEffect(()=>{
+    const button = false;
+    gwtStateData(button)
+  } , [])
+
+  const searchState = (query) => {
+    const queryLower = query?.toLowerCase();
+    const filterData =  mixCity ? sates : cities
+    return filterData.filter(city => {
+        const nameLower = mixCity ? city?.default_name?.toLowerCase() : city?.city?.toLowerCase();  
+        return queryLower.split('').some(letter => nameLower.includes(letter));
+    });
+};
+
+  useEffect(()=>{
+    const result = searchState(serchText);
+    setCitydata(result.length <= 0 ? sates :result)
+  }, [serchText])
+
+  const gwtStateData = async (button) => {
+    button && setOn(true)
+    button && setPopTex("State/Province")
+    sates && setCitydata(sates)
+    // setIsLoading(true)
     const formData = new FormData
     formData.append("country_code", "sa")
     formData.append("store_id", lang)
-    try {
-      const rep = await StateList(formData)
-      if (rep?.data?.status == NUMBER.num1) {
-        setCitydata(rep?.data?.data)
-        setOn(true)
+    if(!button) {
+      try {
+        const rep = await StateList(formData)
+        if (rep?.data?.status == NUMBER.num1) {
+          !sates &&  setCitydata(rep?.data?.data)
+          setStates(rep?.data?.data)
+          setIsLoading(false)
+        } else {
+          setIsLoading(false)
+          SHOWTOTS(ep?.data?.message)
+        }
+  
+      } catch (error) {
+        console.log("GET STATE DATA ERROR :::::::::::::::: ", error)
         setIsLoading(false)
-        setPopTex("State/Province")
-      } else {
-        setIsLoading(false)
-        SHOWTOTS(ep?.data?.message)
       }
-
-    } catch (error) {
-      console.log("GET STATE DATA ERROR :::::::::::::::: ", error)
-      setIsLoading(false)
     }
+   
   }
 
-  const getCityData = async () => {
-    setIsLoading(true)
-    !stateCode && SHOWTOTS("FIRST SELECT STATE")
-    const formData = new FormData
-    formData.append("state_code", stateCode)
-    formData.append("store_id", lang)
-    try {
-      const rep = await CityList(formData)
-      if (rep?.data?.status == NUMBER.num1) {
-        setCitydata(rep?.data?.data)
-        setOn(true)
+  const getCityData = async (code) => {
+    // console.log("code :::::::::::: " , code)
+    !code &&   setPopTex("City")
+    !code &&   setOn(true)
+    cities && setCitydata(cities)
+    if(code) {
+      setIsLoading(true)
+      const formData = new FormData
+      formData.append("state_code", code)
+      formData.append("store_id", lang)
+      try {
+        const rep = await CityList(formData)
+        if (rep?.data?.status == NUMBER.num1) {
+          !cities && setCitydata(rep?.data?.data)
+          setCities(rep?.data?.data)
+          // setOn(true)
+          setIsLoading(false)
+          // setPopTex("City")
+          setIsLoading(false)
+        } else {
+          setIsLoading(false)
+          SHOWTOTS(ep?.data?.message)
+        }
+  
+      } catch (error) {
+        console.log("GET CITY DATA ERROR :::::::::::::::: ", error)
         setIsLoading(false)
-        setPopTex("City")
-        setIsLoading(false)
-      } else {
-        setIsLoading(false)
-        SHOWTOTS(ep?.data?.message)
       }
-
-    } catch (error) {
-      console.log("GET CITY DATA ERROR :::::::::::::::: ", error)
-      setIsLoading(false)
+    } else{
+      !stateCode && SHOWTOTS("FIRST SELECT STATE")
     }
+    
   }
 
   const addAddress = async () => {
@@ -201,6 +242,10 @@ const useAddressHook = (props) => {
     pinCode,
     city,
     state,
+    sates,
+    cities,
+    serchText,
+    setSerchText,
     setStaeCode,
     gwtStateData,
     setCity,
@@ -212,7 +257,8 @@ const useAddressHook = (props) => {
     setPinCode,
     setBilling,
     setShopping,
-    addAddress
+    addAddress,
+    setMixCity
   }
 }
 

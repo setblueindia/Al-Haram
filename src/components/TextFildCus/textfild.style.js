@@ -20,7 +20,11 @@ export const styles = StyleSheet.create({
       
     },
     icon:{
-
         color:COLOR.primaray
+    },
+    countryCodeText:{
+        color:COLOR.black,
+        marginLeft:ResponsiveSize(20)
+
     }
 })

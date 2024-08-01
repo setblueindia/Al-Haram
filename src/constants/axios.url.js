@@ -49,6 +49,7 @@ export const reOrderUrl = BASE_URL + "/rest/V1/api/orderReorderMethod"
 export const RefundOrder = BASE_URL + "/rest/V1/api/orderRefundMethod"
 export const PlaceHolder1 = BASE_URL + "/rest/V1/api/orderPlaceMethod"
 export const Banner = BASE_URL + "/rest/V1/api/getCategoryBanner"
+export const StatusUpadateURL = BASE_URL + "/rest/V1/api/orderStatusUpdateMethod"
 
 
 

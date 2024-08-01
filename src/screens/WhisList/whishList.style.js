@@ -5,7 +5,8 @@ import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 export const styles = StyleSheet.create({
     mainView: {
         flex: 1,
-        backgroundColor: COLOR.white
+        backgroundColor: COLOR.white,
+        width:"100%"
     },
     image: {
         height: "100%",
@@ -15,7 +16,9 @@ export const styles = StyleSheet.create({
     },
     imageView: {
         height: ResponsiveSize(350),
-        width: ResponsiveSize(260),
+        // flex:1,
+        // width:"40%",
+        width: ResponsiveSize(275),
         padding: ResponsiveSize(20),
         backgroundColor: COLOR.white,
         borderColor: COLOR.gray,

@@ -4,10 +4,12 @@ import { NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { AddToCartAPI, ProductDetalsBySKU } from "../../api/axios.api"
+import { AddRemoveToWhishLisst, AddToCartAPI, ProductDetalsBySKU } from "../../api/axios.api"
 import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
+import Share from 'react-native-share';
+import { Alert } from "react-native"
 // import Share from 'react-native-share';
 
 
@@ -51,16 +53,19 @@ const useProductDetails = (props) => {
   }, [])
 
 
-  const onShare = () => {
+  const onShare = async () => {
+    const shareOptions = {
+      title: 'Share via',
+      message: 'Check out this content!',
+      url: 'https://beta.alharamstores.com/',
+    };
 
-    // Share.open(options)
-    //     .then((res) => {
-    //         console.log(res);
-    //     })
-    //     .catch((err) => {
-    //         err && console.log(err);
-    //     });
-  }
+    try {
+      await Share.open(shareOptions);
+    } catch (error) {
+      // Alert.alert('Error', error.message);
+    }
+  } 
 
 
 
@@ -95,6 +100,7 @@ const useProductDetails = (props) => {
       setIsLoading(false)
     }
   }
+
   const addTocartAnimation = () => {
     setTimeout(() => {
       setShowAnimation(false)
@@ -259,7 +265,7 @@ const useProductDetails = (props) => {
     details?.variants?.map((items) => {
       if (items?.attributes[0]?.value_index == id) {
         items?.product?.media_gallery_entries.map((items) => {
-          const uri = BASE_URL + "/pub/media/catalog/product/" + items?.file
+          const uri = imageURL + "/pub/media/catalog/product/" + items?.file
           temp2.push(uri)
         })
         const Size = items?.attributes[1]?.label
@@ -290,6 +296,23 @@ const useProductDetails = (props) => {
   }
 
 
+  const likeDislike = async (id) => {
+
+    const formData = new FormData()
+    formData.append("customer_id", userData?.id)
+    formData.append("productId", id)
+    formData.append("action",like ? false : "true")
+    try {
+      const response = id && await AddRemoveToWhishLisst(formData)
+      if (response?.data?.status == NUMBER.num1) {
+        SHOWTOTS(response?.data?.message)
+      }
+    } catch (error) {
+      console.log("Like / Dislike ERROR ::::::::::::: ", error)
+    }
+  }
+
+
   return {
     lang,
     navigation,
@@ -301,6 +324,7 @@ const useProductDetails = (props) => {
     details,
     isLoading,
     sizeShow,
+    userData,
     setIndex,
     sindex,
     label,
@@ -319,10 +343,10 @@ const useProductDetails = (props) => {
     avalabeColor,
     shoeColor,
     setSizeIndex,
+    likeDislike,
     sizeIndex,
     setQnts,
     qnt,
-    userData
   }
 }
 

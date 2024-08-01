@@ -93,7 +93,8 @@ export const ASYNCSTORAGE = {
   Userdata: "UserData",
   Email : "Email",
   Password : "Password",
-  walletAmount : "WalletAmount"
+  walletAmount : "WalletAmount",
+  FCMToken : "FCMToken"
 };
 
 export const NUMBER = {

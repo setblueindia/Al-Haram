@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
-import { ExpireToken, userLogIn, userLogInWithNumber } from '../../api/axios.api';
+import { ExpireToken, useSingUp, userLogIn, userLogInWithNumber } from '../../api/axios.api';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
@@ -23,6 +23,8 @@ const useLoginHook = () => {
   const [checkBox, setCheckBox] = useState(false)
   const [moNumber, setMobailNumber] = useState();
   const [rememberMe, setRembemberMe] = useState();
+
+
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
   const dispatch = useDispatch()
@@ -55,13 +57,13 @@ const useLoginHook = () => {
         const fromdata = new FormData
         try {
           const result = await ExpireToken(fromdata)
+          console.log("EXPIRE TOKEN ::::::::::::::: " , result)
           setLoader(false)
         } catch (error) {
           setLoader(false)
           console.log("Errorrr=====> ", error)
         }
       }
-
         setUserData(response?.data?.data)
         dispatch(addUserData(response?.data?.data))
         navigation.navigate(NAVIGATION.HomeScreen)
@@ -165,13 +167,50 @@ const useLoginHook = () => {
   const handleGoogleSignIn = async () => {
     try {
       const userCredential = await signInWithGoogle();
-      console.log('User signed in with Google:', userCredential.user);
+      const fullName = userCredential.user?.displayName
+      const mail = userCredential?.user?.email
+      const uid = userCredential?.user?.uid
+      const nameParts = fullName.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.slice(1).join(' '); 
+
+      SINUP(mail , firstName , lastName , uid)
+
     } catch (error) {
       console.error('Error signing in with Google:', error);
       Alert.alert('Error', 'Something went wrong. Please try again.');
     }
   }
 
+
+  const SINUP = async (mail , firstName , lastName , uid) => {
+    const fromdata = new FormData()
+    setLoader(true)
+
+    // const userEmail = email.toLowerCase()
+    const formData = new FormData();
+    formData.append('firstname', firstName);
+    formData.append('lastname', lastName);
+    formData.append('email', mail);
+    formData.append('otptype', 'google');
+    formData.append('store_id', lang?.data);
+    formData.append('auth', uid);
+
+    const response = await useSingUp(formData)
+    console.log("::::::::::::" , response)
+    if (response?.data?.status == NUMBER.num1) {
+      const result = await ExpireToken(fromdata)
+      console.log("TOKEN EXPRIE API RES ::::::: " , result)
+      navigation.navigate(NAVIGATION.HomeScreen)
+      dispatch(addUserData(response?.data?.data))
+      setLoader(false)
+    } else {
+      console.log("Singup Respones error ==========> ", response?.data)
+      setShowModal(true)
+      setErrorText(response?.data?.message)
+      setLoader(false)
+    }
+  }
 
   return {
     whiteEmail,

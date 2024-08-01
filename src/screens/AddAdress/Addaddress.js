@@ -4,7 +4,7 @@ import CommanHeader from '../../components/ComanHeader'
 import useAddressBookHook from '../AddreesBook/AddressBook.hook'
 import TextFildCus from '../../components/TextFildCus'
 import { styles } from './address.style'
-import { NUMBER } from '../../constants/constants'
+import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import CheackButton from '../../components/CheackButton'
 import Button from '../../components/Button'
@@ -33,6 +33,9 @@ const Addaddress = (props) => {
     address2,
     address3,
     pinCode,
+    serchText,
+    cities,
+    sates,
     setShopping,
     setCity,
     setFirstName,
@@ -49,6 +52,8 @@ const Addaddress = (props) => {
     setPinCode,
     setBilling,
     addAddress,
+    setSerchText,
+    setMixCity,
     state,
     isLoading
   } = useAddressHook(props)
@@ -62,7 +67,7 @@ const Addaddress = (props) => {
         <View style={styles.devider} />
         <TextFildCus onChange={setlastname} value={lastName} text={data?.LastName} add={true} />
         <View style={styles.devider} />
-        <TextFildCus onChange={setMNumber} value={mNumaber} number={true} text={data?.PhoneNumber} add={true} />
+        <TextFildCus onChange={setMNumber} countryText={"+966"} value={mNumaber} number={true} text={data?.PhoneNumber} add={true} />
         <View style={styles.devider} />
         <TextFildCus onChange={serAddress1} value={address1} text={data?.Streetaddress} add={true} />
         <View style={styles.devider} />
@@ -73,10 +78,14 @@ const Addaddress = (props) => {
         <TextFildCus onChange={setPinCode} value={pinCode} number={true} text={data?.Pincode} add={true} />
         <View style={styles.devider} />
         <View style={styles.secondView}>
-          <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(20) }]}>{data?.SaudiArabia}</Text>
+          <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }]}>{data?.SaudiArabia}</Text>
           <TouchableOpacity
             style={styles.stateTextView}
-            onPress={() => { gwtStateData() }}
+            onPress={() => {
+              const button = true
+              gwtStateData(button)
+              setMixCity(true)
+            }}
           >
             <Text style={styles.stateTextStyle}>{state ? state : data?.StateProvince}</Text>
           </TouchableOpacity>
@@ -84,6 +93,8 @@ const Addaddress = (props) => {
           <TouchableOpacity
             onPress={() => {
               getCityData()
+              setMixCity(false)
+
             }}
             style={styles.stateTextView}
           >
@@ -115,7 +126,9 @@ const Addaddress = (props) => {
             <TextInput
               style={styles.serchView}
               placeholder='Search'
+              value={serchText}
               placeholderTextColor={COLOR.liteGray}
+              onChangeText={(text)=>{setSerchText(text)}}
 
             />
             <ScrollView style={styles.ScrollView}>
@@ -123,8 +136,15 @@ const Addaddress = (props) => {
               {
                 citydata?.map((items, index) => {
                   return (
-                    <TouchableOpacity onPress={() => { setOn(false), items?.default_name ? setStae(items?.default_name) : setCity(items?.city), setStaeCode(items?.region_id) }} key={index} style={styles.itemsName}>
-                      <Text style={styles.customerName}>{ items?.default_name ? items?.default_name : items?.city}</Text>
+                    <TouchableOpacity onPress={() => {
+                      setOn(false),
+                        items?.default_name ? setStae(items?.default_name) :
+                          setCity(items?.city),
+                          setStaeCode(items?.region_id)
+                          items?.default_name && getCityData(items?.region_id)
+                    }}
+                      key={index} style={styles.itemsName}>
+                      <Text style={styles.customerName}>{items?.default_name ? items?.default_name : items?.city}</Text>
                     </TouchableOpacity>
                   )
                 })
@@ -139,7 +159,9 @@ const Addaddress = (props) => {
               style={styles.poppBtn}>
               <Text style={styles.cancalText}>{"Cancel"}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
+            <TouchableOpacity
+            onPress={()=>{setSerchText("")}}
+            style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
               <Text style={[styles.cancalText, { color: COLOR.black }]}>{"clear"}</Text>
             </TouchableOpacity>
 

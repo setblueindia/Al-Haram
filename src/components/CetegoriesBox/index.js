@@ -20,7 +20,8 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                 <Text style={styles.categoriesName}>{items?.name}</Text>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate(NAVIGATION.bannerScreen , {cetegouriesId : items?.id}) }}
+                        navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })
+                    }}
                 >
                     <Text style={styles.viewText}>{"View All"}</Text>
                 </TouchableOpacity>
@@ -37,16 +38,17 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                     data?.map((sitems, index) => {
                         const name = sitems?.name
                         const finalName = name.substring(0, 10);
-              
+                        //   console.log("::::::::::" , sitems)
                         return (
                             <>
                                 <TouchableOpacity
-                                    onPress={() => { 
-                                        navigation.navigate(NAVIGATION.ProductScreen, 
-                                            { cetegoriesId: sitems?.id }) }}
+                                    onPress={() => {
+                                        navigation.navigate(NAVIGATION.ProductScreen,
+                                            { cetegoriesId: sitems?.id })
+                                    }}
                                     style={{ justifyContent: 'center', alignItems: 'center' }} >
                                     <View style={styles.innerCategoriesView}>
-                                        <Image style={styles.storyView} source={{ uri: BASE_URL + sitems?.mobile_thumbnail }} />
+                                        <Image style={styles.storyView} source={{ uri: BASE_URL + sitems?.mobile_circle_thumbnail }} />
                                     </View>
                                     <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{sitems?.name}</Text>
                                 </TouchableOpacity>

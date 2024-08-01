@@ -34,10 +34,12 @@ const useNotificationHook = () => {
     }`
     try {
       const response = await ReadNotification(dataQurry, lang)
+      console.log("Notification Response ::::::: " , response)
       setLoadding(false)
       if (response) {
+        const read = true
         setShowModal(true)
-        GETNotificationAPI()
+        GETNotificationAPI(read)
         setLoadding(false)
 
       }
@@ -47,10 +49,10 @@ const useNotificationHook = () => {
     }
   }
 
-  const GETNotificationAPI = async () => {
+  const GETNotificationAPI = async (read) => {
     currePage < 1 && setLoadding(true)
     currePage >= 1 && setMoreData(true)
-    const nextPage = currePage + 1
+    const nextPage =  currePage + 1 
     const sData =
       ` {
       getNotificationHistoryByCustomerId(
@@ -73,7 +75,8 @@ const useNotificationHook = () => {
     try {
       const response = await NotificationAIP(sData, lang)
       if (response?.status == "200") {
-        setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
+        console.log("Response :::::::::::: " , response?.data)
+       setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId]) 
         // console.log(";;;;;;;;;;;;;;;;;;;;;;",response?.data?.data?.getNotificationHistoryByCustomerId)
         response?.data?.data?.getNotificationHistoryByCustomerId?.map((item)=>{
           // console.log("Items :::::::::::::: ", item)
@@ -116,7 +119,8 @@ const useNotificationHook = () => {
     messText,
     userData,
     lotti,
-    setLotti
+    setLotti,
+    
   }
 }
 

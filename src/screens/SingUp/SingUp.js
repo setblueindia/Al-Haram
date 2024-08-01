@@ -9,6 +9,7 @@ import useSingUpHook from './singhup.hook';
 import { ResponsiveSize } from '../../utils/utils';
 import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const SingUp = props => {
 
@@ -28,7 +29,7 @@ const SingUp = props => {
   } = useSingUpHook({ lable });
 
   return (
-    <ScrollView style={styles.mainView}>
+    <KeyboardAwareScrollView style={styles.mainView}>
       <View style={styles.headerView}>
         <Onbordingheader />
       </View>
@@ -43,7 +44,7 @@ const SingUp = props => {
           <View style={styles.devider} />
           <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={lable?.Enteryouremail} />
           <View style={styles.devider} />
-          <TextFildCus number={true} onChange={setNumber} icon={ICON.phoneIcon} text={lable?.Entermobilenumber} />
+          <TextFildCus number={true} onChange={setNumber}   countryText={"+966"} icon={ICON.phoneIcon} text={lable?.Entermobilenumber} />
           <View style={styles.devider} />
           <TextFildCus onChange={setPassword} password={true} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
           <View style={styles.devider} />
@@ -68,7 +69,7 @@ const SingUp = props => {
         <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
       </Modal>
       <View style={{ height: ResponsiveSize(60) }} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 

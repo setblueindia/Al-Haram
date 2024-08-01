@@ -1,4 +1,13 @@
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import React from 'react'
 import { styles } from './serch.style'
 import CommanHeader from '../../components/ComanHeader'
@@ -9,6 +18,7 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
+import { BASE_URL, imageURL } from '../../constants/axios.url'
 
 const SerchScreen = () => {
   const {
@@ -66,10 +76,10 @@ const SerchScreen = () => {
             )
           }}
           renderItem={({ item, index }) => {
+
             const Name = item?.name.substr(0, 15)
             const price = item?.price?.regularPrice?.amount?.value
-            const image = item?.thumbnail?.url
-
+            const image = imageURL + "/pub/media/catalog/product/" + item?.media_gallery_entries[0]?.file
             return (
               <TouchableOpacity
                 onPress={() => {

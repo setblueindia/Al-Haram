@@ -134,7 +134,8 @@ export const Ar = {
   color: "لون :",
   Name : "اسم",
   Note:"ملحوظة",
-  AreYousureyouwantdelete : "هل أنت متأكد أنك تريد الحذف؟"
+  AreYousureyouwantdelete : "هل أنت متأكد أنك تريد الحذف؟",
+  Enteryournewpassword : "أدخل كلمة المرور الجديدة"
 }
 
 export const En = {
@@ -172,13 +173,14 @@ export const En = {
   CreateyourAccount: 'Create your Account',
   firstname: 'first name',
   lastname: 'last name',
-  confirmpassword: 'confirm-password',
+  confirmpassword: 'Confirm-password',
   MoblieNo: 'Moblie No',
   Submit: 'Submit',
   ChangeLang: 'عربي',
   Arabic : "عربي",
   Enteryouremail: "Enter your email",
   Enteryourpassword: "Enter your password",
+  Enteryournewpassword: "Enter your new password",
   Entermobilenumber: "Enter mobile number",
   EnteryourFirstname: "Enter your Firstname",
   Enteryourlastname: "Enter your last name",
@@ -215,7 +217,7 @@ export const En = {
   EditProfile: "Edit Profile",
   ChangePassword: "Change Password",
   Update: "Update",
-  EnterYourOldPassword: "Enter Your Old Password",
+  EnterYourOldPassword: "Enter your old password",
   ProductName: "Product Name :",
   SKU: "SKU :",
   Price: "Price :",
@@ -260,7 +262,7 @@ export const En = {
   SAR : "SAR",
   PaymentByYourWallet : "Payment By Your Wallet",
   PaymentToBeMade : "Payment To Be Made",
-  AmountinYourWallet : "Amount in Your Wallet",
+  AmountinYourWallet : "Amount in your Wallet",
   Leftamounttobepaid : "Left amount to be paid",
   RemainingWalletAmount : "Remaining Wallet Amount",
   WalletAmount : "Wallet Amount",
@@ -273,6 +275,6 @@ export const En = {
   color : "color :",
   Name : "اسم",
   Note : "Note",
-  AreYousureyouwantdelete  : "Are You sure you want delete ?"
+  AreYousureyouwantdelete  : "Are you sure you want delete ?"
 
 };

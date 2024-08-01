@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
 import { useState } from "react"
-import { emaileRegxp, passwordRegxp } from "../../utils/utils"
+import { SHOWTOTS, emaileRegxp, passwordRegxp } from "../../utils/utils"
 import { UpdateProfile } from "../../api/axios.api"
 import { addUserData } from "../../redux/Slices/UserData.slice"
 import { setUserData } from "../../utils/asyncStorage"
@@ -56,14 +56,16 @@ const useEditeHook = () => {
     formDate.append("customer_id", customerID)
     try {
       const rep = await UpdateProfile(formDate)
+      console.log("Response :::::::; " , rep?.data)
       if (rep?.data?.status) {
         setModalShow(true)
-        setErrorText(rep?.data?.message)
+        SHOWTOTS(rep?.data?.message)
         setUserData(data)
         dispatch(addUserData(data))
         setLoadding(false)
       } else {
         setLoadding(false)
+        SHOWTOTS(rep?.data?.message)
       }
     } catch (error) {
       console.log("=======> ", error)
@@ -81,7 +83,7 @@ const useEditeHook = () => {
       setModalShow(true)
       setErrorText(langues?.Enterlastname)
     }
-    if (email) {
+    else if (email) {
       setErrorText(langues?.Enteremailaddress)
       setModalShow(true)
     }
@@ -101,7 +103,6 @@ const useEditeHook = () => {
 
   }
 
-
   const onPressUpate = async () => {
     setLoadding(true)
     const formDate = new FormData()
@@ -113,11 +114,11 @@ const useEditeHook = () => {
       const rep = await UpdateProfile(formDate)
       if (rep?.data == undefined) {
         setLoadding(false)
-        setModalShow(true)
-        setErrorText(lang == NUMBER.num1 ? "The password doesn't match this account. Verify the password and try again." : "كلمة المرور لا تتطابق مع هذا الحساب. تحقق من كلمة المرور وحاول مرة أخرى.")
+        // setModalShow(true)
+        SHOWTOTS(lang == NUMBER.num1 ? "The password doesn't match this account. Verify the password and try again." : "كلمة المرور لا تتطابق مع هذا الحساب. تحقق من كلمة المرور وحاول مرة أخرى.")
       } else {
-        setModalShow(true)
-        setErrorText(rep?.data?.message)
+        // setModalShow(true)
+        SHOWTOTS(rep?.data?.message)
         setLoadding(false)
       }
     } catch (error) {

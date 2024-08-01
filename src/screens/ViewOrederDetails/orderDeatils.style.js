@@ -120,7 +120,8 @@ export const styles = StyleSheet.create({
 
     },
     secondTitleText: {
-        color: "#00000070"
+        color: "#00000070",
+        width:ResponsiveSize(350)
     },
     secondPriceText: {
         color: COLOR.black,
@@ -188,7 +189,8 @@ export const styles = StyleSheet.create({
         marginRight:ResponsiveSize(20)
     },
     orderNameText:{
-        fontSize:ResponsiveSize(23),
+        width:ResponsiveSize(250),
+        fontSize:ResponsiveSize(20),
         fontWeight:"500",
     },
 

@@ -14,9 +14,7 @@ const useSponserHook = () => {
     const [tranferAmount, setTranferAmount] = useState(false)
     const [loader , setloader] = useState(false)
     const [name, setName] = useState()
-
     const Str = lang == NUMBER.num0 ? Ar : En
-
     const navigation = useNavigation()
 
     const data = [
@@ -42,7 +40,6 @@ const useSponserHook = () => {
         setName(Str.manageWallate)
     }, [])
     return {
-
         lang,
         navigation,
         data,

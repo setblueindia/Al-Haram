@@ -22,6 +22,7 @@ import {
     SetPaymentMethodURL,
     ShippingList,
     StateListURL,
+    StatusUpadateURL,
     StoreShippingURL,
     UpdateProfileURL,
     WhishListURL,
@@ -274,5 +275,19 @@ export const postBeforUrWay = async (params, lang) => {
 }
 export const postAfterUrWay = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const Storetoken = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const SendNotifiction = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const StatusUpadate = async (params) => {
+    const res = await POSTFORM(StatusUpadateURL , params)
     return res
 }

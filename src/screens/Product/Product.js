@@ -33,8 +33,11 @@ const Product = (props) => {
         isLoadding,
         lable,
         filterData,
+        userData,
         likeDislike,
-        likePress
+        likePress,
+        moreData
+
     } = useProductHook(props)
     const [imageLoader, setImageLoader] = useState(false)
 
@@ -79,8 +82,29 @@ const Product = (props) => {
                             <FlatList
                                 data={data}
                                 showsVerticalScrollIndicator={false}
+                                onEndReached={() => { data?.length > 0 &&  getData()}}
                                 numColumns={2}
                                 bounces={true}
+                                ListFooterComponent={()=>{
+                                    return(
+
+                                        <View style={{
+                                            width: "100%",
+                                            height: ResponsiveSize(100),
+                                            justifyContent: ALINE.center,
+                                            alignItems: ALINE.center
+                                          }}>
+                                            {
+                                              moreData &&
+                                              <ActivityIndicator
+                                                size={"large"}
+                                                color={COLOR.primaray}
+                          
+                                              />
+                                            }
+                                          </View>
+                                    )
+                                }}
                                 renderItem={({ item, index }) => {
                                     const name = item?.name.substring(0, 16)
 
@@ -117,8 +141,12 @@ const Product = (props) => {
 
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    likePress(item?.id)
-                                                    likeDislike(item?.id)
+                                                    if(userData) {
+                                                        likePress(item?.id)
+                                                        likeDislike(item?.id)
+                                                    }else{
+                                                        navigation.navigate(NAVIGATION.Login)
+                                                    }
                                                 }}
                                                 style={styles.likeView}>
                                                 <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />

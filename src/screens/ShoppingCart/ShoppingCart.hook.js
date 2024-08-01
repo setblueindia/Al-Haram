@@ -20,7 +20,7 @@ const useShoppingcart = () => {
   const navigation = useNavigation()
   const Token = useSelector(state => state?.userData?.data?.token)
   const userData = useSelector(state => state?.userData)
-  const [outOfStock, setOutOfStock] = useState()
+  const [outOfStock, setOutOfStock] = useState([])
   const productCount = useSelector(state => state?.AddToCart?.data)
 
 
@@ -162,6 +162,7 @@ const useShoppingcart = () => {
     if (index < 3) {
       if (index == 0) {
         setIndex(index + 1)
+        RemoveCart()
       }
       if (index == 1) {
         if (!addressCod) {
@@ -252,7 +253,27 @@ const useShoppingcart = () => {
       } else {
         setLoadding(false)
       }
+    } catch (error) {
+      console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+      setLoadding(false)
+    }
+  }
 
+  // remove out fo stock product from cart
+  const RemoveCart = async (items) => {
+    setLoadding(true)
+    const formData = new FormData
+    formData.append("token", Token)
+    formData.append("item_id", outOfStock)
+    try {
+      const response = await DeleteCartItems(formData)
+      if (response?.data?.status == NUMBER.num1) {
+        setLoadding(false)
+        // getData()
+        // disPatch(addProduct(productNo - 1))
+      } else {
+        setLoadding(false)
+      }
     } catch (error) {
       console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
       setLoadding(false)
@@ -590,35 +611,10 @@ const useShoppingcart = () => {
     }
     try {
       const res = await PlaceeHolder2(params)
-
-    
       if (res?.status == '200') {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
         if (paymentCode == "magveg") {
-          // console.log( "request:" , {
-          //   country: formData?.country,
-          //   first_name: userData?.data?.firstname,
-          //   last_name: userData?.data?.lastname,
-          //   address: online_payment?.addresses,
-          //   // city: addressCod?.city,
-          //   // state: fromdata,
-          //   zip: online_payment?.postcode,
-          //   phone_number: userData?.data?.mobile,
-          //   customerEmail: online_payment?.email,
-          //   udf2: formData.udf2,
-          //   udf3: formData.udf3,
-          //   trackid: online_payment?.order_id,
-          //   tranid: formData?.tranid,
-          //   currency: online_payment?.currency,
-          //   amount: online_payment?.amount,
-          //   action: online_payment?.action_code,
-          //   tokenOperation: formData?.tokenOperation,
-          //   cardToken: online_payment?.cardToken,
-          //   maskCardNum: formData?.maskCardNum,
-          //   tokenizationType: online_payment?.tokenizationType,
-
-          // },)
           navigation.navigate(NAVIGATION.PaymentScreen, {
             request: {
               country: formData?.country,
@@ -641,20 +637,22 @@ const useShoppingcart = () => {
               cardToken: online_payment?.cardToken,
               maskCardNum: formData?.maskCardNum,
               tokenizationType: online_payment?.tokenizationType,
+              done : true,
+              responseId : res?.data?.data?.respon_id
             },
             callBack: onProcessPayment,
           });
+          setIndex(0)
           const result = await ExpireToken(fromdata)
           setLoadding(false)
         } else {
           navigation.navigate(NAVIGATION.Done, { lang: lang })
           setLoadding(false)
+          setIndex(0)
         }
-
       }else{
         setLoadding(false)
       }
-
     } catch (error) {
       console.log("Place Holder API ERROR ======> ", error)
       setLoadding(false)

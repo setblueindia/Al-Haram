@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
@@ -7,18 +7,18 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import useShoppingcart from './ShoppingCart.hook'
 import { Ar, En } from '../../constants/localization'
+import DeleteBox from '../../components/DeleteBox'
 
 
 
-const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty}) => {
-
+  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty }) => {
 
   const [qty, setQnt] = useState(parseInt(data?.qty))
+  const [deletePopp , setDeletePopp] = useState(false)
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar
 
   return (
-
     <View>
       {!outOfStock ?
         <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -43,8 +43,7 @@ const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty}) => {
                 <Counter updateQnty={updateQnty} id={data?.item_id} qty={qty} setQnt={setQnt} />  
               </View>
               <TouchableOpacity
-                onPress={() => { deleteProduct(data?.item_id) }}
-              >
+                onPress={() => {setDeletePopp(true)}}>
                 <Icon name={ICON.delete} size={ResponsiveSize(35)} />
               </TouchableOpacity>
             </View>
@@ -67,14 +66,22 @@ const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty}) => {
             <Text style={[styles.darkText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{"SAR 48"}</Text>
 
             <View style={styles.barView} />
-
+            
             <Text style={[styles.darkText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>This product for stock testing</Text>
             <Text style={[styles.normalText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>Other color or sizes are available</Text>
           </View>
-
         </View>
       }
-
+        {
+                deletePopp &&
+                <Modal
+                    visible={deletePopp}
+                    animationType='slide'
+                    transparent
+                >
+                    <DeleteBox noPress={()=>{setDeletePopp(false)}}  yesPress={()=>{setDeletePopp(false) , deleteProduct(data?.item_id) }} lang={lang}/>
+                </Modal>
+            }
     </View>
 
   )

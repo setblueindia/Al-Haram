@@ -15,3 +15,7 @@ export const PasswordToLocalStorage = async (data) => {
 export const WallateAmount = async (data) => {
     await AsyncStorage.setItem(ASYNCSTORAGE?.walletAmount, data)
 }
+
+export const FCMTokenStor = async (data) => {
+    await AsyncStorage.setItem(ASYNCSTORAGE?.FCMToken, data)
+}

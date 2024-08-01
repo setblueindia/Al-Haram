@@ -75,9 +75,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
     }
 
     const onPress = () => {
-        TranferAmount('')
-        setRemark('')
-        setReciverID('')
+        TranferAmount()
     }
 
     const TranferAmount = async () => {
@@ -98,12 +96,12 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
         `
         try {
 
-            const resp = await getTranferAmount(data)
+            const resp = await getTranferAmount(data , lang)
             // console.log("Response =====> ", resp?.data?.data?.tranferAmountToCustomerWallet)
             SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message)
             setIsLodding(false)
-
-
+            setRemark('')
+            setReciverID('')
         } catch (error) {
             setIsLodding(false)
 
@@ -166,9 +164,15 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 }
                 <View style={styles.devider} />
                 <View style={styles.devider} />
-                <TextFildCus onChange={setAmount} number={true} text={Str?.AmountSAR} />
+                <TextFildCus
+                 onChange={setAmount} 
+                 number={true} 
+                 text={lable?.AmountSAR}
+                  />
                 <View style={styles.devider} />
-                <TextFildCus onChange={setRemark} text={Str?.addyourremark} />
+                <TextFildCus
+                  onChange={setRemark}
+                  text={lable?.addyourremark} />
                 <View style={styles.devider} />
                 <View style={styles.devider} />
                 <Button onPress={() => { onPress() }} text={Str?.Addmoneytocustomerswallet} />

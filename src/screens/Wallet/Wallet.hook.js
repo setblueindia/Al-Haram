@@ -86,7 +86,6 @@ const UseWalletHook = (setloader, route) => {
 
   const beforeUrwayPayment = async (address) => {
     setIsLoading(true)
-    console.log("Adress ::::::::::::::", address)
     const data = `
      mutation{
        placeOrder(input:{
@@ -114,64 +113,50 @@ const UseWalletHook = (setloader, route) => {
      }
    }
 `
-    try {
-      const resp = await postBeforUrWay(data, lang)
-      const orderID = resp?.data?.data?.placeOrder?.order_id
-      setOId(orderID)
-      orderID &&
-        navigation.navigate(NAVIGATION.PaymentScreen, {
-          request: {
-            country: address?.country_id,
-            first_name: userData?.firstname,
-            last_name: userData?.lastname,
-            address: address?.address1 + " " + address?.address2,
-            city: address?.city,
-            // state: fromdata,
-            zip: address?.postcode,
-            phone_number: address?.telephone,
-            customerEmail: userData?.email,
-            udf2: config.responseUrl,
-            udf3: 'en',
-            trackid: orderID,
-            tranid: "",
-            currency: "SAR",
-            amount: addAmount,
-            action: 1,
-            tokenOperation: "A",
-            cardToken: "",
-            maskCardNum: "",
-            tokenizationType: 0,
-            done: false
-          },
-          callBack: onProcessPayment,
-        });
-      // console.log("request ::::::::::  ", {
-      //   country: address?.country_id,
-      //   first_name: userData?.firstname,
-      //   last_name: userData?.lastname,
-      //   address: address?.address1 + " " + address?.address2,
-      //   city: address?.city,
-      //   // state: fromdata,
-      //   zip: address?.postcode,
-      //   phone_number: address?.telephone,
-      //   customerEmail: userData?.email,
-      //   udf2: config.responseUrl,
-      //   udf3: 'en',
-      //   trackid: orderID,
-      //   tranid: "",
-      //   currency: "SAR",
-      //   amount: amount,
-      //   action: 1,
-      //   tokenOperation: "A",
-      //   cardToken: "",
-      //   maskCardNum: "",
-      //   tokenizationType: 0,
-      // },)
-      setIsLoading(false)
-    } catch (error) {
-      console.log("ADD AMOUNT WALLATE ERROR ::::::::::::::::::: ")
-      setIsLoading(false)
-    }
+
+if(addAmount) {
+  try {
+    const resp = await postBeforUrWay(data, lang)
+    const orderID = resp?.data?.data?.placeOrder?.order_id
+    setOId(orderID)
+    orderID &&
+      navigation.navigate(NAVIGATION.PaymentScreen, {
+        request: {
+          country: address?.country_id,
+          first_name: userData?.firstname,
+          last_name: userData?.lastname,
+          address: address?.address1 + " " + address?.address2,
+          city: address?.city,
+          // state: fromdata,
+          zip: address?.postcode,
+          phone_number: address?.telephone,
+          customerEmail: userData?.email,
+          udf2: config.responseUrl,
+          udf3: 'en',
+          trackid: orderID,
+          tranid: "",
+          currency: "SAR",
+          amount: addAmount,
+          action: 1,
+          tokenOperation: "A",
+          cardToken: "",
+          maskCardNum: "",
+          tokenizationType: 0,
+          done: false
+        },
+        callBack: onProcessPayment,
+      });
+    setIsLoading(false)
+  } catch (error) {
+    console.log("ADD AMOUNT WALLATE ERROR ::::::::::::::::::: ")
+    setIsLoading(false)
+  }
+} else{
+  setIsLoading(false)
+  SHOWTOTS("Please add amount")
+
+}
+    
   }
 
   const onProcessPayment = (responseData) => {

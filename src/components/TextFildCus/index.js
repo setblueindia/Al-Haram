@@ -8,10 +8,10 @@ import { useSelector } from 'react-redux';
 import { NUMBER } from '../../constants/constants';
 import { COLOR } from '../../constants/style';
 
-const TextFildCus = ({ value, text, icon, onChange, number, add, password }) => {
+const TextFildCus = ({ value, text, icon, onChange, number, add, password , countryText}) => {
 
   const lang = useSelector(state => state.lang);
-  const [passwordProtect, setPasswordProtec] = useState(false)
+  const [passwordProtect, setPasswordProtec] = useState(password)
 
   return (
     <View
@@ -29,6 +29,7 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password }) => 
       <View style={[{ flexDirection: 'row', alignItems: 'center' } , lang?.data == NUMBER.num0 && {flexDirection:'row-reverse'} ]}>
         <View style={[{ flexDirection: 'row', alignItems: 'center', flex: 1 } , lang?.data == NUMBER.num0 && {flexDirection:'row-reverse'} ]}>
           <Icon style={styles.icon} name={icon} size={ResponsiveSize(35)} />
+          {countryText && <Text style={styles.countryCodeText}>{countryText}</Text>}
           <TextInput
             value={value && value}
             keyboardType={number && 'number-pad'}
@@ -36,7 +37,7 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password }) => 
             style={[styles.textInput, lang.data == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}
             placeholder={text}
             onChangeText={(text) => onChange && onChange(text)}
-            secureTextEntry={password ? passwordProtect ? false : true : null}
+            secureTextEntry={ passwordProtect ? true : false }
           />
         </View>
 
@@ -46,7 +47,7 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password }) => 
             onPress={() => {
                passwordProtect ? setPasswordProtec(false) : setPasswordProtec(true) }}
           >
-            <Password color={COLOR.primaray} size={ResponsiveSize(40)} name={passwordProtect ? "eye" : "eye-with-line"} />
+            <Password color={COLOR.primaray} size={ResponsiveSize(40)} name={!passwordProtect ? "eye" : "eye-with-line"} />
           </TouchableOpacity>}
 
       </View>
