@@ -32,10 +32,13 @@ export const POSTFORM = async (url, params) => {
         // console.log("ERROR ::::::: ", error)
         if (error.response) {
             console.log('Response Error:', error.response.data);
+            return error
         } else if (error.request) {
             console.log('Request Error:', error.request);
+            return error
         } else {
             console.log('Other Error:', error.message);
+            return error
         }
         
     }
@@ -68,7 +71,6 @@ export const POSTFORM2 = async (url, params) => {
 
         return response;
     } catch (error) {
-        // console.log("ERROR ::::::: ", error)
         if (error.response) {
             console.log('Response Error:', error.response.data);
         } else if (error.request) {

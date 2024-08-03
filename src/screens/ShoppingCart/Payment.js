@@ -34,7 +34,7 @@ const Payment = ({
   const [totalAmount, setTotalAmount] = useState([])
   let txtData = selectPayment?.total_segments ? selectPayment?.total_segments : paymentScreenData?.total_segments
   const dueAmount = totalAmount?.length > 0 && wallateAmount > totalAmount[0] ? 0 : totalAmount[0] - wallateAmount
-  const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : totalAmount
+  const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : 0
   const WAmount = wallateAmount > totalAmount[0] ? wallateAmount - RemingAmount : wallateAmount
   const lable = lang == NUMBER.num0 ? Ar : En
 
@@ -124,7 +124,7 @@ const Payment = ({
           }
 
           {
-            (showWallet && wallateAmount < totalAmount) || (!showWallet) &&
+           ( (showWallet && wallateAmount < totalAmount) || (!showWallet)) &&
             <View>
               <TouchableOpacity
                 onPress={() => {

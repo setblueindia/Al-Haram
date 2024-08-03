@@ -3,13 +3,14 @@ import React, { useEffect } from 'react'
 import LottieView from 'lottie-react-native';
 import { ResponsiveSize } from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
-import { doneIcon } from '../../assests';
+import { ErrorIcon, ErrorImg, doneIcon } from '../../assests';
 import Button from '../../components/Button';
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ExpireToken, SendNotifiction, StatusUpadate } from '../../api/axios.api';
+import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 
 const Done = (props) => {
@@ -19,6 +20,9 @@ const Done = (props) => {
     const result = props?.route?.params?.response
     const OrderID = props?.route?.params?.orderId
     const responseID = props?.route?.params?.responseID
+    const  disPatch = useDispatch()
+
+    console.log("props ::::::::::::: " , props?.route?.params?.responseID)
 
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n We will send you order confirmation with details and tracking information.` : `رقم طلبك: ${OrderID}. \n سوف نرسل لك تأكيد الطلب مع تفاصيل ومعلومات التعقب.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
@@ -64,16 +68,29 @@ const Done = (props) => {
 
     useEffect(() => {
         senNotiFication()
+        disPatch(addProduct(0))
     }, [])
 
 
     return (
         <View style={styles.mainView}>
             {
-                result?.data?.status == "Successful" &&
+                result?.data &&
                 <View style={styles.lottiView}>
+                   { result?.data?.status == "Successful" && 
+                   <LottieView
+                        source={require('../../assests/Lottianimation/Done.json')}
+                        autoPlay loop
+                        resizeMode='cover'
+                        style={{ height: "100%", width: "100%" }}
+                    />}
+                    <View style={styles.thumIcon}>
+                        <Image style={styles.icon} source={result?.data?.status == "Successful" ?  doneIcon : ErrorIcon} />
+                    </View>
+                </View>
+            }
+            <View style={styles.lottiView}>
                     <LottieView
-                        //   ref={animationRef}
                         source={require('../../assests/Lottianimation/Done.json')}
                         autoPlay loop
                         resizeMode='cover'
@@ -83,9 +100,8 @@ const Done = (props) => {
                         <Image style={styles.icon} source={doneIcon} />
                     </View>
                 </View>
-            }
             <View style={styles.textView}>
-                <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? lang == NUMBER.num0 ? "تهنئة" : "Congratulation" : "Ooops...."}</Text>
+                <Text style={styles.congrationText}>{lang == NUMBER.num0 ? "تهنئة" : "Congratulation"}</Text>
                 <Text style={styles.lastText}>{lang == NUMBER.num1 ? Order_Success : SOMETHING_WRONG}</Text>
             </View>
 

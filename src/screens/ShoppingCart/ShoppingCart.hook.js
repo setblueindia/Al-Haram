@@ -651,7 +651,11 @@ const useShoppingcart = () => {
           const result = await ExpireToken(fromdata)
           setLoadding(false)
         } else {
-          navigation.navigate(NAVIGATION.Done, { lang: lang })
+          navigation.navigate(NAVIGATION.Done, { 
+            lang: lang , 
+            responseID : res?.data?.data?.respon_id , 
+            orderId : online_payment?.order_id
+          })
           setLoadding(false)
           setIndex(0)
         }

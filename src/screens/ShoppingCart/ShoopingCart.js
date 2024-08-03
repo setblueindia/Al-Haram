@@ -196,6 +196,7 @@ const ShoopingCart = () => {
             <View style={{ height: index == 0 ? ResponsiveSize(170) : ResponsiveSize(80) }}></View>
 
             <View style={[styles.btn, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
+
                 {(!isLoadding && data.length > 0) &&
                     <View style={[styles.nextProcess, index == 0 && { width: "100%" }]}>
                         <Button
@@ -205,8 +206,8 @@ const ShoopingCart = () => {
                             ShoopingCart={true}
                         />
                     </View>}
-                {(index == 1 || index == 2 || index == 3) &&
 
+                {(index == 1 || index == 2 || index == 3) &&
                     (!isLoadding && data.length > 0) &&
                     <TouchableOpacity onPress={() => { goBack() }} style={styles.goBackBtn}>
                         <Icon name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR} />

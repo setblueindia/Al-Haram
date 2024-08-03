@@ -197,15 +197,16 @@ const useLoginHook = () => {
     formData.append('auth', uid);
 
     const response = await useSingUp(formData)
-    console.log("::::::::::::" , response)
+    console.log("::::::::::::" , response?.data?.data)
     if (response?.data?.status == NUMBER.num1) {
       const result = await ExpireToken(fromdata)
       console.log("TOKEN EXPRIE API RES ::::::: " , result)
-      navigation.navigate(NAVIGATION.HomeScreen)
+      navigation.navigate(NAVIGATION.DrawerNavigation)
       dispatch(addUserData(response?.data?.data))
+      setUserData(response?.data?.data)
       setLoader(false)
     } else {
-      console.log("Singup Respones error ==========> ", response?.data)
+      console.log("Singup Respones error ::::::; ==========> ", response)
       setShowModal(true)
       setErrorText(response?.data?.message)
       setLoader(false)

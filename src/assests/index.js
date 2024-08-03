@@ -10,6 +10,7 @@ export const firstBanner = require("./images/Home/phone1.jpg");
 export const banner2 = require("./images/Home/banner2.png");
 export const NewIcon = require("./images/Home/NewIcon.png");
 export const doneIcon = require("./images/Payment/done.png");
+export const ErrorIcon = require("./images/Payment/ErrorIcon.png");
 export const Shippment = require("./images/Payment/Shippment.png");
 export const Ratting = require("./images/Payment/Ratting.png");
 export const WomenBanner = require("./images/Home/WomenBanner.png")
@@ -18,3 +19,5 @@ export const Sider1 = require("./images/Home/Sider1.png")
 export const MensBanner = require("./images/Home/MensBanner.jpg")
 export const ShopBug = require("./images/Common/ShoppingBag.jpg")
 export const  bannecrSC= require("./images/Common/bannecrSC.png")
+
+// export const  ErrorImg = require("./images/Payment/ErrorImg.png")
