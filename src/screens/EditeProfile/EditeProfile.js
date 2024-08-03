@@ -16,6 +16,9 @@ const EditeProfile = () => {
         modalShow,
         errorText,
         loadding,
+        newPassword,
+        oldPassword,
+        confromPassword,
         setOldPassword,
         setNewPassword,
         setModalShow,
@@ -31,64 +34,75 @@ const EditeProfile = () => {
     } = useEditeHook()
     return (
         <>
-        <View style={styles.mainView}>
-            <Onbordingheader />
-            <ScrollView style={styles.container}>
-                <SwitchButton setWithEmail={setWithEmail} profile={true} langues={langues} />
+            <View style={styles.mainView}>
+                <Onbordingheader />
+                <ScrollView style={styles.container}>
+                    <SwitchButton setWithEmail={setWithEmail} profile={true} langues={langues} />
 
-                {
-                    editeProfile && <View style={styles.editeProifileView}>
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enterfirstname} onChange={setFname} />
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enterlastname} onChange={setLname} />
-                        {/* <View style={styles.devider} />
+                    {
+                        editeProfile && <View style={styles.editeProifileView}>
+                            <View style={styles.devider} />
+                            <TextFildCus text={langues?.Enterfirstname} onChange={setFname} />
+                            <View style={styles.devider} />
+                            <TextFildCus text={langues?.Enterlastname} onChange={setLname} />
+                            {/* <View style={styles.devider} />
                         <TextFildCus text={langues?.Enteremailaddress} onChange={setemail} />
                         <View style={styles.devider} />
                         <TextFildCus text={langues.Entermobilenumber} onChange={setNumber} /> */}
-                        <View style={styles.button}>
-                            <Button onPress={Update} text={langues?.Update} />
+                            <View style={styles.button}>
+                                <Button onPress={Update} text={langues?.Update} />
+                            </View>
                         </View>
-                    </View>
-                }
+                    }
 
-                {
-                    !editeProfile &&
-                    <View style={styles.chnagePasswordView}>
-                        
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues?.EnterYourOldPassword} onChange={setOldPassword} />
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enteryournewpassword} password={true}  onChange={setNewPassword} />
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues?.confirmpassword} password={true}  onChange={setConfromPassword}/>
-                        <View style={styles.button}>
-                            <Button onPress={updatePassword} text={langues?.ChangePassword} />
+                    {
+                        !editeProfile &&
+                        <View style={styles.chnagePasswordView}>
+
+                            <View style={styles.devider} />
+                            <TextFildCus
+                                value={oldPassword}
+                                text={langues?.EnterYourOldPassword}
+                                onChange={setOldPassword} />
+                            <View style={styles.devider} />
+                            <TextFildCus
+                                value={newPassword}
+                                text={langues?.Enteryournewpassword}
+                                password={true}
+                                onChange={setNewPassword} />
+                            <View style={styles.devider} />
+                            <TextFildCus
+                                value={confromPassword}
+                                text={langues?.confirmpassword}
+                                password={true}
+                                onChange={setConfromPassword} />
+                            <View style={styles.button}>
+                                <Button onPress={updatePassword} text={langues?.ChangePassword} />
+                            </View>
+
                         </View>
+                    }
 
-                    </View>
-                }
-
-                <Modal
-                    animationType='slide'
-                    transparent={true}
-                    visible={modalShow}
-                >
-                    <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} notification={false}/>
-                </Modal>
+                    <Modal
+                        animationType='slide'
+                        transparent={true}
+                        visible={modalShow}
+                    >
+                        <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} notification={false} />
+                    </Modal>
 
 
-            </ScrollView>
+                </ScrollView>
 
-         
-        </View>
-           {
-            loadding &&
-            <View style={{ flex: 1, position: 'absolute', height: '100%', width: "100%" }}>
-                <CusLoader />
-            </View>}
 
-            </>
+            </View>
+            {
+                loadding &&
+                <View style={{ flex: 1, position: 'absolute', height: '100%', width: "100%" }}>
+                    <CusLoader />
+                </View>}
+
+        </>
     )
 }
 

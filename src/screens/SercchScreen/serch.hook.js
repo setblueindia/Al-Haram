@@ -18,6 +18,7 @@ const useSerchHook = () => {
   const [serchText, setSerchTex] = useState('')
   const [productId, setProductID] = useState()
 
+
   const [data, setData] = useState([
     // { id: 0, like: false },
     // { id: 1, like: false },
@@ -94,10 +95,12 @@ const useSerchHook = () => {
   }
 
   const onHandalPress = (text) => {
-    clearTimeout(timerId);
-    const timerId = setTimeout(() => {
-      getData(text, first = true)
-    }, 3000)
+    if(serchText?.length >= 3) {
+      clearTimeout(timerId);
+      const timerId = setTimeout(() => {
+        getData(text, first = true)
+      }, 2000)
+    }
   }
 
   const SerchPress = (text) => {
@@ -134,6 +137,7 @@ const useSerchHook = () => {
     data,
     serch,
     isLoadding,
+    serchText,
     moreData,
     setSerchTex,
     setProductID,

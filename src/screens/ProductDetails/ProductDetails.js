@@ -95,9 +95,12 @@ const ProductDetails = (props) => {
                                                 height: ResponsiveSize(70),
                                                 width: ResponsiveSize(70),
                                                 backgroundColor: "#00000050",
+                                                // top:ResponsiveSize(5),
                                                 borderRadius: ResponsiveSize(20)
                                             }}
-                                            />
+                                            >
+                                                    <Block style={{ alignSelf:'center' , top:ResponsiveSize(5)}} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
+                                            </View>
                                         }
                                         {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
                                     </TouchableOpacity>
@@ -173,16 +176,14 @@ const ProductDetails = (props) => {
 
 
             <View style={[styles.btnConatainer, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
                 <TouchableOpacity
                     onPress={() => {
                         if (userData) {
                             like ? setLike(false) : setLike(true)
-                            likeDislike(details?.configurable_options[0]?.id)
+                            likeDislike(details?.id)
                         } else {
                             navigation.navigate(NAVIGATION.Login)
                         }
-
                     }}
                     style={styles.likeBtn}>
                     <Icon name={like ? ICON.heart : ICON.hearto} size={ResponsiveSize(40)} color={COLOR.primaray} />

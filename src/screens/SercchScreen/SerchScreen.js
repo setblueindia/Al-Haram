@@ -19,6 +19,7 @@ import { ALINE, COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import { BASE_URL, imageURL } from '../../constants/axios.url'
+import DataIsNotFound from '../../components/DataNotFound2'
 
 const SerchScreen = () => {
   const {
@@ -27,6 +28,7 @@ const SerchScreen = () => {
     moreData,
     data,
     isLoadding,
+    serchText,
     likeDislike,
     SerchPress,
     getData,
@@ -115,6 +117,12 @@ const SerchScreen = () => {
           <CusLoader />
         </View>
       }
+
+
+      {/* {
+      (serchText?.length > 0 && data.length <= 0 && !isLoadding) &&
+      <DataIsNotFound/>
+      } */}
 
 
     </View>

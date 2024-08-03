@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     mainView: {
-        height: ResponsiveSize(400),
+        height: ResponsiveSize(500),
         width: windowWidth,
         alignItems:ALINE.center,
     },

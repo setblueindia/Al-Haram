@@ -67,7 +67,10 @@ const Product = (props) => {
 
                                         <TouchableOpacity
                                             style={styles.comonView}
-                                            onPress={() => { getFilterData() }}
+                                            onPress={() => { 
+                                                // getFilterData()e
+                                                   setSizeFilter(true)
+                                             }}
                                         >
                                             <Filter name={"filter"} size={ResponsiveSize(35)} style={styles.filterIcon} />
                                             <View style={styles.deviderInner} />
@@ -107,7 +110,7 @@ const Product = (props) => {
                                 }}
                                 renderItem={({ item, index }) => {
                                     const name = item?.name.substring(0, 16)
-
+                             
                                     return (
                                         <TouchableOpacity
                                             onPress={() => {
@@ -143,7 +146,7 @@ const Product = (props) => {
                                                 onPress={() => {
                                                     if(userData) {
                                                         likePress(item?.id)
-                                                        likeDislike(item?.id)
+                                                        likeDislike(item?.id , item?.wishlist)
                                                     }else{
                                                         navigation.navigate(NAVIGATION.Login)
                                                     }

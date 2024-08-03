@@ -18,8 +18,11 @@ import DeleteBox from '../../components/DeleteBox'
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar
 
+  // console.log("Data :::::: " , data)
+
   return (
     <View>
+
       {!outOfStock ?
         <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <View style={styles.ImageView}>
@@ -32,7 +35,7 @@ import DeleteBox from '../../components/DeleteBox'
             <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR +  ": " + data?.price}</Text>
             <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
               {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
-            </Text>
+            </Text>  
             <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
               {data?.options[1] && data?.options[1]?.label + " : " + data?.options[1]?.value}
             </Text>

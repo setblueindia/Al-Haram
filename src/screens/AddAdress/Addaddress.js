@@ -129,10 +129,8 @@ const Addaddress = (props) => {
               value={serchText}
               placeholderTextColor={COLOR.liteGray}
               onChangeText={(text)=>{setSerchText(text)}}
-
             />
             <ScrollView style={styles.ScrollView}>
-
               {
                 citydata?.map((items, index) => {
                   return (

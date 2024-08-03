@@ -32,6 +32,7 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password , coun
           {countryText && <Text style={styles.countryCodeText}>{countryText}</Text>}
           <TextInput
             value={value && value}
+            placeholderTextColor={COLOR.darkGray}
             keyboardType={number && 'number-pad'}
             textAlign={lang.data == NUMBER.num0 ? 'right' : 'left'}
             style={[styles.textInput, lang.data == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}

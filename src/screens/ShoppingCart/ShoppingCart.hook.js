@@ -270,6 +270,7 @@ const useShoppingcart = () => {
       if (response?.data?.status == NUMBER.num1) {
         setLoadding(false)
         // getData()
+        // getData()
         // disPatch(addProduct(productNo - 1))
       } else {
         setLoadding(false)
@@ -498,6 +499,7 @@ const useShoppingcart = () => {
   // Update Qnty Items 
 
   const updateQnty = async (id, qty, n) => {
+ 
     setLoadding(true)
     const formData = new FormData()
 
@@ -509,6 +511,7 @@ const useShoppingcart = () => {
     try {
       const res = await postUpdateCart(formData)
       setLoadding(false)
+      getData()
       n && disPatch(addProduct(productCount + 1))
       !n && disPatch(addProduct(productCount - 1))
     } catch (error) {
@@ -643,6 +646,8 @@ const useShoppingcart = () => {
             callBack: onProcessPayment,
           });
           setIndex(0)
+          setData([])
+          disPatch(addProduct(0))
           const result = await ExpireToken(fromdata)
           setLoadding(false)
         } else {

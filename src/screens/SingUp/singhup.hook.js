@@ -36,6 +36,7 @@ const useSingUpHook = ({ lable }) => {
     formData.append('otptype', 'register');
     formData.append('store_id', langNumber?.data);
 
+
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
       console.log("Singup Respones ==========> ", response?.data)

@@ -14,20 +14,23 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
 
 
   const data = items?.items
-  const labale = lang == NUMBER.num0 ? Ar : En
+  const labale = lang?.data == NUMBER.num0 ? Ar : En
   const [imageLoader, setImageLoader] = useState(false)
 
+  // console.log(":::::::::::::::::::::::" , items?.banner_url)
 
-  // console.log("banner " ,  BASE_URL + items?.banner_url )
   return (
-    <View style={[styles.mainView, sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
+    <View style={[
+      styles.mainView,
+       sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
+       ]}>
       <View style={styles.bannerView}>
         <FastImage
           resizeMode='contain'
           style={styles.bannerImg}
           onLoadStart={() => { setImageLoader(true) }}
           onLoadEnd={() => { setImageLoader(false) }}
-          source={{ uri: items?.banner_url }} />
+          source={{ uri:items?.banner_url && items?.banner_url }} />
 
         {imageLoader &&
           <View style={{
@@ -48,7 +51,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
           <TouchableOpacity
             onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}
           >
-            <Text style={styles.viewText}>{"View All"}</Text>
+            <Text style={styles.viewText}>{labale.ViewAll}</Text>
           </TouchableOpacity>}
       </View>
       <ScrollView

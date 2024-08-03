@@ -5,8 +5,11 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { BASE_URL } from '../../constants/axios.url'
+import { Ar, En } from '../../constants/localization'
 
 const CetegoriesBox = ({ items, index, lang, navigation }) => {
+
+    const lable = lang == NUMBER.num1 ? En : Ar
 
     const data = items?.children
 
@@ -15,15 +18,13 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
             <View style={styles.bannerView}>
                 <Image style={styles.bannerImg} source={{ uri: BASE_URL + items?.mobile_image }} />
             </View>
-
             <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={styles.categoriesName}>{items?.name}</Text>
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })
-                    }}
-                >
-                    <Text style={styles.viewText}>{"View All"}</Text>
+                    }}>
+                    <Text style={styles.viewText}>{lable.ViewAll}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -35,7 +36,7 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                 lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
             >
                 {
-                    data?.map((sitems, index) => {
+                 data?.map((sitems, index) => {
                         const name = sitems?.name
                         const finalName = name.substring(0, 10);
                         //   console.log("::::::::::" , sitems)

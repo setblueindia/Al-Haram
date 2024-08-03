@@ -62,14 +62,11 @@ const Slider = ({lang , height , data , home}) => {
                 pagingEnabled={true}
                 onScroll={handaleScroll}
                 renderItem={({ item , index}) => {
- 
-                    // console.log("::::::::::" item?.image)
                     return (
                      <View key={index * 2} style={styles.listView}>
-            
                              <Image
-                            //  resizeMode='contain'
-                                style={[styles?.image , home && {resizeMode:RESIZEMODE.cover}]}
+                                // resizeMode='contain'
+                                style={[styles?.image , home && {resizeMode:RESIZEMODE.stretch}]}
                                 source={{ uri: item?.image ? item?.image : item}}
                             />
                         </View> 

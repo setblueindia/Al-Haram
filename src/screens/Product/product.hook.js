@@ -22,6 +22,7 @@ const useProductHook = (props) => {
   const [data, setData] = useState([])
   useEffect(() => {
     getData()
+    getFilterData()
   }, [])
 
   const [like, setLike] = useState(false)
@@ -94,7 +95,7 @@ const useProductHook = (props) => {
   }
 
   const getFilterData = async () => {
-    setIsLoadding(true)
+    // setIsLoadding(true)
   const params = `
   {
     products(
@@ -145,27 +146,25 @@ const useProductHook = (props) => {
   `
     try {
       const res = await getFilterList(params , lang)
-      // console.log("Response :::::::::::::::::: ", res?.data?.data?.products?.aggregations)
       if (res?.status == 200) {
         setFilterData(res?.data?.data?.products?.aggregations)
-        setSizeFilter(true)
-        setIsLoadding(false)
+        // setSizeFilter(true)
+        // setIsLoadding(false)
       } else {
-        setIsLoadding(false)
+        // setIsLoadding(false)
       }
     } catch (error) {
       console.log("GER FILTER ERROR :::::::;:::: ", error)
-      setIsLoadding(false)
-
+      // setIsLoadding(false)
     }
   }
 
-
-  const likeDislike = async (id) => {
+  const likeDislike = async (id  , wishlist) => {
+  
     const formData = new FormData()
     formData.append("customer_id", userData?.id)
     formData.append("productId", id)
-    formData.append("action", "true")
+    formData.append("action", wishlist == true ? "false" : "true")
     formData.append("store_id" , lang)
     try {
       const response = id && await AddRemoveToWhishLisst(formData)
@@ -176,10 +175,7 @@ const useProductHook = (props) => {
       console.log("Like / Dislike ERROR ::::::::::::: ", error)
     }
   }
-
   
-
-
   return {
     data,
     navigation,
