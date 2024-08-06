@@ -5,11 +5,12 @@ import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpireToken, useSingUp, userLogIn, userLogInWithNumber } from '../../api/axios.api';
-import { emaileRegxp, passwordRegxp } from '../../utils/utils';
+import { SHOWTOTS, emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
 import { signInWithGoogle } from '../../firebase/firebaseConfig';
 import { Alert } from 'react-native';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 
 const useLoginHook = () => {
@@ -50,7 +51,7 @@ const useLoginHook = () => {
     formData.append('password', password);
     formData.append('store_id', lang?.data);
     const response = await userLogIn(formData)
-    
+
     if (response?.data?.status == NUMBER?.num1) {
       const loginStatus = response?.data?.data?.quote_id?.data?.login_status
       if (loginStatus == "0") {
@@ -66,7 +67,7 @@ const useLoginHook = () => {
       }
         setUserData(response?.data?.data)
         dispatch(addUserData(response?.data?.data))
-        navigation.navigate(NAVIGATION.HomeScreen)
+        navigation.navigate(NAVIGATION.DrawerNavigation)
         RemoveRembember()
         setLoader(false)
 
@@ -99,7 +100,6 @@ const useLoginHook = () => {
       emailLogin()
     }
   }
-
   const mobailLogin = async () => {
     setLoader(true)
 
@@ -123,7 +123,6 @@ const useLoginHook = () => {
   }
 
   const useLoginWithNumber = () => {
-
     if (moNumber.length != 9) {
       setShowModal(true)
       setErrorText(langues?.Invalidnumber)
@@ -174,7 +173,7 @@ const useLoginHook = () => {
       const firstName = nameParts[0];
       const lastName = nameParts.slice(1).join(' '); 
 
-      SINUP(mail , firstName , lastName , uid)
+      SINUP(mail , firstName , lastName , uid , type = "google")
 
     } catch (error) {
       console.error('Error signing in with Google:', error);
@@ -183,18 +182,18 @@ const useLoginHook = () => {
   }
 
 
-  const SINUP = async (mail , firstName , lastName , uid) => {
+  const SINUP = async (mail , firstName , lastName , uid , type) => {
     const fromdata = new FormData()
     setLoader(true)
 
     // const userEmail = email.toLowerCase()
     const formData = new FormData();
-    formData.append('firstname', firstName);
-    formData.append('lastname', lastName);
-    formData.append('email', mail);
-    formData.append('otptype', 'google');
+    formData.append('firstname', firstName ? firstName : " ") ;
+    formData.append('lastname', lastName ? lastName : "");
+    formData.append('email', mail ?  mail : mail);
+    formData.append('otptype', type);
     formData.append('store_id', lang?.data);
-    formData.append('auth', uid);
+    formData.append('auth', uid ? uid : " ");
 
     const response = await useSingUp(formData)
     console.log("::::::::::::" , response?.data?.data)
@@ -212,6 +211,30 @@ const useLoginHook = () => {
       setLoader(false)
     }
   }
+  async function onAppleButtonPress() {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      // Note: it appears putting FULL_NAME first is important, see issue #293
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+ 
+    console.log("All Data :::::::: " , appleAuthRequestResponse)
+  const mail = appleAuthRequestResponse?.email
+  const uid = appleAuthRequestResponse?.authorizationCode
+  const firstName = appleAuthRequestResponse?.fullName?.givenName
+  const lastName = appleAuthRequestResponse?.fullName?.familyName
+
+  console.log("APPLE DATA email  ::::::::" , {
+    mail : mail,
+    uid : uid ,
+    firstName : firstName,
+    lastName : lastName
+  }) 
+  SINUP(mail , firstName , lastName , uid , type = "apple")
+  }
+
+  
 
   return {
     whiteEmail,
@@ -232,7 +255,8 @@ const useLoginHook = () => {
     ForgetPassword,
     setMobailNumber,
     setCheckBox,
-    handleGoogleSignIn
+    handleGoogleSignIn,
+    onAppleButtonPress
 
 
   };

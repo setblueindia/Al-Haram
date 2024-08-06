@@ -104,11 +104,10 @@ const Done = (props) => {
                 <Text style={styles.congrationText}>{lang == NUMBER.num0 ? "تهنئة" : "Congratulation"}</Text>
                 <Text style={styles.lastText}>{lang == NUMBER.num1 ? Order_Success : SOMETHING_WRONG}</Text>
             </View>
-
             <View style={styles.btnView}>
                 <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />
                 <TouchableOpacity
-                    onPress={() => {navigation.replace(NAVIGATION.HomeScreen) }}
+                    onPress={() => {navigation.replace(NAVIGATION.DrawerNavigation) }}
                     style={styles.btnContinues}>
                     <Text style={styles.continuesShoppingsText}>{lang == NUMBER.num0 ? "مشاهدة الطلب" : "Continue Shopping"}</Text>
                 </TouchableOpacity>

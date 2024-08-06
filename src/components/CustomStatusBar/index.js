@@ -8,9 +8,7 @@ const StatusBarCus = ({backgroundColor}) => {
     const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? insets.top : StatusBar.currentHeight;
   return (
     <View style={{height : STATUSBAR_HEIGHT , width:"100%"}}>
-         
-        <StatusBar translucent backgroundColor={COLOR.black} barStyle=  "default"/>
-   
+        <StatusBar  translucent backgroundColor={COLOR.white} barStyle = "dark-content"   />
     </View>
   )
 }

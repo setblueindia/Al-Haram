@@ -4,12 +4,8 @@ import {styles} from './splash.style';
 import {logo} from '../../assests';
 import useSplshHook from './splash.hook';
 
-
 const Splash = () => {
-
-  const {
-    
-  } = useSplshHook()
+const {} = useSplshHook()
   return (
     <View style={styles.mainView}>
       <View style={styles.imageView}>

@@ -17,15 +17,17 @@ const useSplshHook = () => {
   const navigation = useNavigation()
   
   useEffect(() => {
+    setUserData()
     setTimeout(() => {
       navigation.replace(NAVIGATION.DrawerNavigation );
+      setLang()
     }, 3000);
   }, []);
 
-  useEffect(() => {
-    setLang()
-    setUserData()
-  }, []);
+  // useEffect(() => {
+  //   setLang()
+  //   setUserData()
+  // }, []);
 
   const setLang = async () => {
     try {
@@ -55,6 +57,7 @@ const useSplshHook = () => {
       const response = JSON.parse(rep)
       dispatch(addUserData(response))
       getData(response?.token)
+      // setLang()
     } catch (error) {
       console.log("SPLASH SCREEN SET USER ERROR ======> ", error)
     }

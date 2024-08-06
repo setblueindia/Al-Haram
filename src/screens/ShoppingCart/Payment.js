@@ -23,10 +23,12 @@ const Payment = ({
   setActionCode,
   applyCoupan,
   validation,
+  setEtrx,
   validationn,
   PlaceHolder,
   remove,
   setSelectPayment,
+  setSelectPayemrntMethod,
   coupanCode
 }) => {
   const [COD, setCOD] = useState(false)
@@ -47,12 +49,14 @@ const Payment = ({
       }
     })
     setTotalAmount(temp)
+    setEtrx(temp)
   }
 
   useEffect(() => {
     finalAmount()
   }, [txtData])
 
+  // console.log("wallateAmount ::::: " , wallateAmount)
 
   return (
     <ScrollView style={{ flex: 1 }}>
@@ -65,19 +69,21 @@ const Payment = ({
         <View style={styles.paymentView}>
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
 
-          {wallateAmount > 0 && <TouchableOpacity onPress={() => {
-            showWallet ? setShowWallet(false) : setShowWallet(true),
-              setCOD(false),
-              setCredit(false),
-              validation(showWallet),
-              selectPaymentMethod()
-            showWallet ? validation(false) : validation(true)
-          }}
-            style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+          {wallateAmount > 0 &&
+            <TouchableOpacity onPress={() => {
+              showWallet ? setShowWallet(false) : setShowWallet(true),
+                setCOD(false)
+                setCredit(false)
+                validation(showWallet)
+                selectPaymentMethod()
+                setSelectPayemrntMethod("Wallet")
+                showWallet ? validation(false) : validation(true)
+            }}
+              style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-            <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit} />
-            <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
-          </TouchableOpacity>}
+              <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit} />
+              <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
+            </TouchableOpacity>}
           {
             showWallet &&
             <View style={styles.wallateDeatails}>
@@ -124,13 +130,14 @@ const Payment = ({
           }
 
           {
-           ( (showWallet && wallateAmount < totalAmount) || (!showWallet)) &&
+            ((showWallet && wallateAmount < totalAmount) || (!showWallet)) &&
             <View>
               <TouchableOpacity
                 onPress={() => {
-                  setCOD(true),
-                    setCredit(false),
-                    validation(true)
+                  setCOD(true)
+                  setCredit(false)
+                  validation(true)
+                  setSelectPayemrntMethod("COD")
                   selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code)
                 }}
                 style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -146,10 +153,11 @@ const Payment = ({
 
               <TouchableOpacity
                 onPress={() => {
-                  setCOD(false),
-                    setCredit(true),
-                    validation(true)
+                  setCOD(false)
+                  setCredit(true)
+                  validation(true)
                   selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code)
+                  setSelectPayemrntMethod("Cradite")
                 }}
                 style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <View style={[styles.fillView, credit &&

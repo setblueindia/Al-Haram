@@ -5,8 +5,11 @@ import {ALINE, COLOR, RESIZEMODE} from '../../constants/style';
 import LottieView from 'lottie-react-native';
 import CustomeHeader from '../CustomeHeader';
 import CommanHeader from '../ComanHeader';
+import { useSelector } from 'react-redux';
+import { NUMBER } from '../../constants/constants';
 
 const DataIsNotFound = ({userData, text, navigation, header , color}) => {
+  const lang = useSelector(state => state.lang.data)
   return (
     <View style={styles.lottiMainView}>
    { color &&  <View>
@@ -28,13 +31,11 @@ const DataIsNotFound = ({userData, text, navigation, header , color}) => {
           resizeMode={RESIZEMODE.contain}
         />
         <View>
-          <Text style={styles.dataError}>Data not Found</Text>
+          <Text style={styles.dataError}>{lang == NUMBER.num1 ? "Data not Found" : "لم يتم العثور على بيانات"}</Text>
         </View>
         <View style={styles.lottiTextView}>
-          <Text style={styles.errorText}>
-            Something went wrong.
-            {'\n'}
-            <Text style={styles.centeredText}>Please try again</Text>
+          <Text style={styles.errorText}>{lang == NUMBER.num1 ? "Something went wrong. '\n' Please try again" : "هناك خطأ ما. '\n' الرجاء المحاولة مرة أخرى"}
+            {/* <Text style={styles.centeredText}>Please try again</Text> */}
           </Text>
         </View>
       </View>

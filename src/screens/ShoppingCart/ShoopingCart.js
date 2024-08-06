@@ -57,6 +57,8 @@ const ShoopingCart = () => {
         PlaceHolder,
         applyCoupan,
         validation,
+        setEtrx,
+        setSelectPayemrntMethod,
         selectPayment,
         selectPaymentMethod,
         setStorePickUpData,
@@ -188,6 +190,8 @@ const ShoopingCart = () => {
                             PlaceHolder={PlaceHolder}
                             validation={validation}
                             validationn={validationn}
+                            setEtrx={setEtrx}
+                            setSelectPayemrntMethod={setSelectPayemrntMethod}
                         />
                     </View>
                 }

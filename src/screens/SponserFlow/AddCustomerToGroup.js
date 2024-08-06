@@ -62,6 +62,7 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
         setloader(true)
         try {
             const rep = await AddCustomerToSponserToGroup(data, lang)
+            console.log("Sponser data ::::::::::::" , rep?.data)
             if (rep) {
                 setloader(false)
                 SHOWTOTS(rep?.data?.data?.addCustomertoSponsorGroup?.message)

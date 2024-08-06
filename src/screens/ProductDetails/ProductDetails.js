@@ -110,7 +110,7 @@ const ProductDetails = (props) => {
                     </View>
                 }
                 {defaultSize &&
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={ lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>
                         <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                             <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
                             {defaultSize?.values?.map((items, index) => {

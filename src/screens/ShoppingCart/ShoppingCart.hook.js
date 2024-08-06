@@ -48,6 +48,9 @@ const useShoppingcart = () => {
   const [remove, setRemove] = useState(false)
   const [validationn, setValidation] = useState(false)
 
+  const [ extra , setEtrx] = useState()
+  const [ selectPayemrntMethod , setSelectPayemrntMethod] = useState()
+
   const [formData, setFormData] = useState({
     country: 'IN',
     first_name: 'John',
@@ -74,6 +77,7 @@ const useShoppingcart = () => {
 
   const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
   const name = userData?.data?.firstname + " " + userData?.data?.lastname
+
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
     cart: "عربة التسوق",
@@ -185,7 +189,9 @@ const useShoppingcart = () => {
       if (!validationn) {
         setShowModal(true)
         setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      } else {
+      } else if(validationn && wallateAmount < extra && selectPayemrntMethod == "Wallet") {
+        setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
+      }else {
         PlaceHolder()
       }
 
@@ -499,28 +505,34 @@ const useShoppingcart = () => {
   // Update Qnty Items 
 
   const updateQnty = async (id, qty, n) => {
- 
     setLoadding(true)
     const formData = new FormData()
-
     formData.append("store_id", lang)
     formData.append("item_id", id)
     formData.append("qty", qty)
     formData.append("token", Token)
-
     try {
       const res = await postUpdateCart(formData)
-      setLoadding(false)
-      getData()
-      n && disPatch(addProduct(productCount + 1))
-      !n && disPatch(addProduct(productCount - 1))
+      if(res?.data?.status == NUMBER.num1) {
+        setLoadding(false)
+        getData()
+        SHOWTOTS(res?.data?.message)
+        n && disPatch(addProduct(productCount + 1))
+        !n && disPatch(addProduct(productCount - 1))
+      }else{
+        setLoadding(false)
+        SHOWTOTS(res?.data?.message)
+      }
     } catch (error) {
       console.log("UPDATE QTY ERROR ::::::: ", error)
       setLoadding(false)
+      
     }
   }
 
   const validation = (value) => {
+
+    console.log("value ::::::::::: " , value)
     var validationTotal = 0
 
     paymentScreenData?.total_segments?.map((items, index) => {
@@ -711,6 +723,7 @@ const useShoppingcart = () => {
     onPress,
     goBack,
     setLoadding,
+    setEtrx,
     setShowWallet,
     setShippingdata,
     setBillingAddress,
@@ -722,7 +735,8 @@ const useShoppingcart = () => {
     validation,
     selectPayment,
     setSelectPayment,
-    PlaceHolder
+    PlaceHolder,
+    setSelectPayemrntMethod
   }
 }
 

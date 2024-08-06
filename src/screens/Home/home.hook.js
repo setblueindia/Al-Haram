@@ -135,7 +135,6 @@ const useHomeHook = (props) => {
       // dispatch(updateLoader(false))
     }
   }
-
   useEffect(() => {
     SaveToken()
   }, [])

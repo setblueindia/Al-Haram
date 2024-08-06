@@ -1,4 +1,4 @@
-import { Image, Text, View, TouchableOpacity, ScrollView, Modal, SafeAreaView } from 'react-native';
+import { Image, Text, View, TouchableOpacity, ScrollView, Modal, SafeAreaView, Platform } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './login.style';
 import Onbordingheader from '../../components/OnbordingHeader';
@@ -34,15 +34,15 @@ const Login = () => {
     setMobailNumber,
     setCheckBox,
     handleGoogleSignIn,
+    onAppleButtonPress,
     loader,
     langues,
     lang
   } =
     useLoginHook();
   return (
-    <SafeAreaView style={{flex:1}}>
-
-      <KeyboardAwareScrollView style={[styles.mainView, loader && {}]}>
+    <View style={{flex:1, backgroundColor:COLOR.white}}>
+      <KeyboardAwareScrollView style={[styles.mainView]}>
         <View style={styles.headerView}>
           <Onbordingheader />
         </View>
@@ -130,13 +130,14 @@ const Login = () => {
               <View style={styles.devider} />
               <View style={styles.socialButton}>
                 <SocialButton onPress={()=>{handleGoogleSignIn()}} icon={google} text={LOGINStr.Google} />
-                <SocialButton icon={Apple} text={LOGINStr.Apple} />
+             { Platform.OS == 'ios' && 
+            <SocialButton   onPress={()=>{onAppleButtonPress()}} icon={Apple}  text={LOGINStr.Apple} />}
               </View>
 
               <View style={styles.devider} />
 
               <View style={styles.newCustomer}>
-                <View style={styles.row}></View>
+                 <View style={styles.row}></View>
                 <Text style={styles.text}>{langues?.NewCustomer}</Text>
                 <View style={styles.row}></View>
               </View>
@@ -164,7 +165,7 @@ const Login = () => {
       >
         <CusModal setModalShow={setShowModal} text={errorText} />
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 

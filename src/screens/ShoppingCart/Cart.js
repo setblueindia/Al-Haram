@@ -18,11 +18,8 @@ import DeleteBox from '../../components/DeleteBox'
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar
 
-  // console.log("Data :::::: " , data)
-
   return (
     <View>
-
       {!outOfStock ?
         <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <View style={styles.ImageView}>
@@ -39,10 +36,9 @@ import DeleteBox from '../../components/DeleteBox'
             <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
               {data?.options[1] && data?.options[1]?.label + " : " + data?.options[1]?.value}
             </Text>
-
             <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{"QTY :"}</Text>
+                <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{lable?.Qty}</Text>
                 <Counter updateQnty={updateQnty} id={data?.item_id} qty={qty} setQnt={setQnt} />  
               </View>
               <TouchableOpacity

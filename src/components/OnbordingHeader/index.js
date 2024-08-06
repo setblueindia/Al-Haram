@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import {styles} from './header.stye';
+// import {styles} from './header.stye';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {ResponsiveSize} from '../../utils/utils';
 import {useNavigation} from '@react-navigation/native';
@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {ICON, NUMBER} from '../../constants/constants';
 import {ALINE} from '../../constants/style';
 import StatusBarCus from '../CustomStatusBar';
+import { styles } from './header.stye';
 
 const Onbordingheader = () => {
   const lang = useSelector(state => state.lang);

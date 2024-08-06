@@ -20,9 +20,6 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
   const navigation = useNavigation();
   const lang = useSelector(state => state.lang)
 
-
-  // console.log("productCount ====> ",productCount)
-
   return (
     <View style={styles.mainView}>
       <StatusBarCus />

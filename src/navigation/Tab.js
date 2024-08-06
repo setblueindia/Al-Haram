@@ -107,13 +107,14 @@ import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from
 import Icon, { Icons } from '../components/TAB/Icons';
 import * as Animatable from 'react-native-animatable';
 import { ALINE, COLOR } from '../constants/style';
-import { NAVIGATION } from '../constants/constants';
+import { NAVIGATION, NUMBER } from '../constants/constants';
 // import Home from '../screens/Home/Home';
 import Categories from '../screens/Categories/Categories';
 import Notification from '../screens/Notification/Notification';
 import Profile from '../screens/Profile/Profile';
 import { ResponsiveSize } from '../utils/utils';
 import Home from '../screens/Home/Home';
+import { useSelector } from 'react-redux';
 
 
 const TabArr = [
@@ -151,6 +152,42 @@ const TabArr = [
   },
 ];
 
+
+const TabArr2 = [
+  {
+    route: NAVIGATION.ProfileScreen,
+    label: 'Account',
+    type: Icons.FontAwesome,
+    activeIcon: 'user-circle',
+    inActiveIcon: 'user-circle-o',
+    component: Profile
+  },
+  {
+    route: NAVIGATION.NotificationScreen,
+    label: 'Search',
+    type: Icons.Ionicons,
+    activeIcon: 'notifications-outline',
+    inActiveIcon: 'notifications-outline',
+    component: Notification
+  },
+  {
+    route: NAVIGATION.CategoriesScreen,
+    label: 'Like',
+    type: Icons.MaterialIcons,
+    activeIcon: 'category',
+    inActiveIcon: 'category',
+    component: Categories
+  },
+  {
+    route: NAVIGATION.HomeScreen,
+    label: 'Home',
+    type: Icons.Ionicons,
+    activeIcon: 'home',
+    inActiveIcon: 'home',
+    component: Home
+  },
+];
+
 const Tab = createBottomTabNavigator();
 const TabButton = (props) => {
   const { item, onPress, accessibilityState } = props;
@@ -182,6 +219,9 @@ const TabButton = (props) => {
 }
 
 export default function AnimTab1() {
+  const lang = useSelector(state => state.lang.data)
+  const Data = lang == NUMBER.num1 ? TabArr : TabArr2
+
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
@@ -195,7 +235,8 @@ export default function AnimTab1() {
           }
         }}
       >
-        {TabArr.map((item, index) => {
+        {
+        Data.map((item, index) => {
           return (
             <Tab.Screen key={index} name={item.route} component={item.component}
               options={{

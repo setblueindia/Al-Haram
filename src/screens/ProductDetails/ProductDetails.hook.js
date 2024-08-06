@@ -52,6 +52,9 @@ const useProductDetails = (props) => {
     getData()
   }, [])
 
+  useEffect(()=>{
+    setQnts(1)
+  }, [navigation])
 
   const onShare = async () => {
     const shareOptions = {
@@ -66,8 +69,6 @@ const useProductDetails = (props) => {
       // Alert.alert('Error', error.message);
     }
   } 
-
-
 
   const AddTocart = async () => {
     setIsLoading(true)
@@ -107,7 +108,6 @@ const useProductDetails = (props) => {
     }, 4000);
   }
 
-
   const Str = lang?.data == NUMBER.num1 ?
     {
       color: "Color : ",
@@ -128,7 +128,6 @@ const useProductDetails = (props) => {
       Addtocard: "اضف الى البطاقة",
       Reviews: "التعليقات :"
     }
-
 
   const getData = async () => {
     setIsLoading(true)

@@ -27,7 +27,8 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
 
     useEffect(() => {
         filterData?.map((item) => {
-            console.log("Itesms ::::::::::: ", item?.attribute_code)
+
+            // console.log(":::::::::::::::::::;" , item?.options)
             if (item?.attribute_code == "price") {
                 setOpationData(item?.options)
                 setIndex2(0)
@@ -39,7 +40,6 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
 
     const onClear = () => {
         filterData?.map((item) => {
-            console.log("Itesms ::::::::::: ", item?.attribute_code)
             if (item?.attribute_code == "price") {
                 setOpationData(item?.options)
                 setIndex2(0)
@@ -139,6 +139,8 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                         {
                             filterData?.map((items, index) => {
 
+                                // console.log("Options :::::::::::: ", items?.label)
+
                                 return (
                                     <View key={index}>
                                         <TouchableOpacity
@@ -173,7 +175,6 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                                         style={[styles.secondInnerView,
                                         (result && !unselect)&& { backgroundColor: COLOR.white },
                                         lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-
                                         <Text style={styles.innerText}>{items?.label}</Text>
                                         <Text style={styles.innerText}>{items?.count}</Text>
                                     </TouchableOpacity>

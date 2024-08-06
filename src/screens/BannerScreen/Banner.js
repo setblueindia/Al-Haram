@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { NAVIGATION } from '../../constants/constants'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
+import DataIsNotFound from '../../components/DataNotFound2'
 
 const Banner = (props) => {
     const navigation = useNavigation()
@@ -35,13 +36,14 @@ const Banner = (props) => {
 
             if (response?.data?.status == 1) {
                 setData(response?.data?.data)
+
                 const lengthOfData = response?.data?.data?.length
                 setDataLength(lengthOfData)
                 setIsLoadding(false)
             } else {
                 setIsLoadding(false)
+                console.log("Banner Data ERROR:::::::: ", response?.data)
             }
-
 
         } catch (error) {
             console.log("BANNER ERROR :::::::: ", error)
@@ -54,7 +56,9 @@ const Banner = (props) => {
         <View style={styles.mainView}>
             <CommanHeader navigation={navigation} />
             <ScrollView>
+
                 <View style={styles.containerView}>
+
                     {data?.map((items, index) => {
                         const temp = dataLength % 3 == 0 ? true : false
                         const result = dataLength - 1
@@ -75,7 +79,7 @@ const Banner = (props) => {
                                 }
                                 ]}>
                                 <FastImage
-                                resizeMode='contain'
+                                    resizeMode='contain'
                                     style={[styles.img]} source={{ uri: items?.image }}
                                     onLoadStart={() => { setImageLoader(true) }}
                                     onLoadEnd={() => { setImageLoader(false) }}
@@ -93,16 +97,26 @@ const Banner = (props) => {
                                         <ActivityIndicator size='small' color={COLOR.primaray} />
                                     </View>}
                             </TouchableOpacity>
+
                         )
                     })}
 
                 </View>
-            </ScrollView>
 
+            </ScrollView>
+{/* {console.log(":::::::::::::::::::::" , (data.length == 0))} */}
             {isloadding &&
                 <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
                     <CusLoader />
                 </View>}
+
+            {
+                (!isloadding && data.length == 0) &&
+                <View style={{ height: "100%", width: "100%" , position:'absolute', alignSelf:'center' , backgroundColor:"#000"}}>
+                    <DataIsNotFound header={true} color={true} navigation={navigation} />
+                </View>
+
+            }
 
         </View>
     )

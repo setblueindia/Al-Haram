@@ -17,8 +17,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
   const labale = lang?.data == NUMBER.num0 ? Ar : En
   const [imageLoader, setImageLoader] = useState(false)
 
-  // console.log(":::::::::::::::::::::::" , items?.banner_url)
-
+ 
   return (
     <View style={[
       styles.mainView,
@@ -63,6 +62,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
       >
         {
           data?.map((items, index) => {
+            // console.log(":::::::::::::::::::::::" , items)
             const name = items?.name
             const finalName = name.substring(0, 15);
             return (

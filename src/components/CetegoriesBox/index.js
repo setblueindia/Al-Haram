@@ -9,7 +9,7 @@ import { Ar, En } from '../../constants/localization'
 
 const CetegoriesBox = ({ items, index, lang, navigation }) => {
 
-    const lable = lang == NUMBER.num1 ? En : Ar
+    const lable = lang?.data == NUMBER.num1 ? En : Ar
 
     const data = items?.children
 
