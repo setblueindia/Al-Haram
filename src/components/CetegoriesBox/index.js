@@ -39,7 +39,6 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                  data?.map((sitems, index) => {
                         const name = sitems?.name
                         const finalName = name.substring(0, 10);
-                        //   console.log("::::::::::" , sitems)
                         return (
                             <>
                                 <TouchableOpacity

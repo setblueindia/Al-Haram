@@ -65,7 +65,7 @@ const MyOrder = () => {
 
           </View>
           : !isLoadding ?
-            <DataIsNotFound navigation={navigation} color={true} header={true} /> : null
+            <DataIsNotFound navigation={navigation}/> : null
         }
 
       </View>

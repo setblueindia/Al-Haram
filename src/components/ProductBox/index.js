@@ -62,7 +62,6 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
       >
         {
           data?.map((items, index) => {
-            // console.log(":::::::::::::::::::::::" , items)
             const name = items?.name
             const finalName = name.substring(0, 15);
             return (

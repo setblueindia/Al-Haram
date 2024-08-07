@@ -467,7 +467,6 @@ const useShoppingcart = () => {
     formData.append("token", Token)
     try {
       const response = await getCoupan(formData)
-      // console.log("Response of  ::::::::::::: ", response?.data?.data?.coupenList)
       setCoupanListData(response?.data?.data?.coupenList)
       setLoadding(false)
 
@@ -492,7 +491,8 @@ const useShoppingcart = () => {
         setSelectPayment(response?.data?.data)
         remove ? setRemove(false) : setRemove(true)
       } else {
-        SHOWTOTS(response?.message)
+        SHOWTOTS(response?.data?.message)
+        setLoadding(false)
       }
       setLoadding(false)
     } catch (error) {
@@ -501,8 +501,6 @@ const useShoppingcart = () => {
     }
 
   }
-
-  // Update Qnty Items 
 
   const updateQnty = async (id, qty, n) => {
     setLoadding(true)

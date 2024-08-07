@@ -36,9 +36,6 @@ const useAddressHook = (props) => {
   const [ mixCity , setMixCity] = useState()
   const getData = props?.route?.params?.getData
 
-  // console.log("Response CittyData  :::::::::::::: " , citydata) 
-
-
   useEffect(()=>{
     const button = false;
     gwtStateData(button)
@@ -62,7 +59,6 @@ const useAddressHook = (props) => {
     button && setOn(true)
     button && setPopTex("State/Province")
     sates && setCitydata(sates)
-    // setIsLoading(true)
     const formData = new FormData
     formData.append("country_code", "sa")
     formData.append("store_id", lang)
@@ -87,7 +83,7 @@ const useAddressHook = (props) => {
   }
 
   const getCityData = async (code) => {
-    // console.log("code :::::::::::: " , code)
+
     !code &&   setPopTex("City")
     !code &&   setOn(true)
     cities && setCitydata(cities)
@@ -101,9 +97,7 @@ const useAddressHook = (props) => {
         if (rep?.data?.status == NUMBER.num1) {
           !cities && setCitydata(rep?.data?.data)
           setCities(rep?.data?.data)
-          // setOn(true)
           setIsLoading(false)
-          // setPopTex("City")
           setIsLoading(false)
         } else {
           setIsLoading(false)

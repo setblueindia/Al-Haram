@@ -23,6 +23,8 @@ export const styles = StyleSheet.create({
     },
     text:{
         fontSize:ResponsiveSize(25),
-        fontWeight:'bold'
+        fontWeight:'bold',
+        width:"100%",
+        textAlign:'center'
     }
 })

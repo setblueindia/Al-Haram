@@ -34,9 +34,8 @@ const SingUp = props => {
         <Onbordingheader />
       </View>
       <View style={styles.container}>
-        <Text style={styles.createYouraccont}>{lable?.CreateyourAccount}</Text>
+        <Text style={styles.createYouraccont}>{ lable?.CreateyourAccount}</Text>
         <View style={styles.line} />
-
         <View style={styles.containerView}>
           <TextFildCus onChange={setFirstName} icon={ICON.usersecret} text={lable?.Enterfirstname} />
           <View style={styles.devider} />

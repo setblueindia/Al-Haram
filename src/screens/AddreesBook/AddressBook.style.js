@@ -7,20 +7,16 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLOR.white
     },
-
     container: {
         padding:ResponsiveSize(20),
     },
-
     btnView:{
         width:"100%",
         height:ResponsiveSize(80),
         position:'absolute',
         bottom:ResponsiveSize(50),
         paddingHorizontal:ResponsiveSize(30),
-        // flex:1
     },
-
     btn:{
         height:"100%",
         width:"100%",
@@ -29,12 +25,12 @@ export const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:COLOR.white
-        // backgroundColor:'green'
     },
-
     btnText:{
         color:COLOR.black,
-        fontSize:ResponsiveSize(25)
+        fontSize:ResponsiveSize(25),
+        width:"100%",
+        textAlign:'center'
     },
     addressView: {
         width: "100%",
@@ -52,7 +48,6 @@ export const styles = StyleSheet.create({
         borderBottomWidth: ResponsiveSize(1),
         width: "80%",
         borderColor: "#00000050"
-
     },
     iconView: {
         flexDirection: ALINE.row
@@ -63,9 +58,7 @@ export const styles = StyleSheet.create({
         fontSize: ResponsiveSize(30)
     },
     secondView: {
-        // width: ResponsiveSize(400),
         marginTop: ResponsiveSize(20),
-        // marginRight:ResponsiveSize(80)
     },
     innerAddres: {
         lineHeight: ResponsiveSize(40),
@@ -74,7 +67,6 @@ export const styles = StyleSheet.create({
         fontSize: ResponsiveSize(22)
     },
     thirdView: {
-
     },
     mobailText: {
         color: COLOR.black

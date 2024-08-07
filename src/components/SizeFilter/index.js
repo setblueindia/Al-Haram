@@ -27,8 +27,6 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
 
     useEffect(() => {
         filterData?.map((item) => {
-
-            // console.log(":::::::::::::::::::;" , item?.options)
             if (item?.attribute_code == "price") {
                 setOpationData(item?.options)
                 setIndex2(0)
@@ -100,7 +98,6 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
         }
         if (items == "price") {
             setSilder(true)
-            // console.log("::::::::::::::::::: " , optionData )
         }
     }
 
@@ -138,9 +135,6 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                     <View style={styles.firstView}>
                         {
                             filterData?.map((items, index) => {
-
-                                // console.log("Options :::::::::::: ", items?.label)
-
                                 return (
                                     <View key={index}>
                                         <TouchableOpacity

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {ResponsiveSize} from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
 
@@ -30,7 +30,8 @@ export const styles = StyleSheet.create({
   },
   userNameStyle: {
     color: COLOR.primaray,
-    fontSize:ResponsiveSize(30)
+    fontSize:ResponsiveSize(30),
+    // flex:1
   },
   emailText: {
     width: '90%',
@@ -56,9 +57,12 @@ export const styles = StyleSheet.create({
   menuText: {
     fontSize: ResponsiveSize(25),
     color: COLOR.black,
+    
   },
   textMenu: {
-    marginHorizontal:ResponsiveSize(40)
+    marginHorizontal:ResponsiveSize(40),
+    flex: Platform.OS == 'android' && 1,
+
   },
   textEmail: {
     color: COLOR.black,

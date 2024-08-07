@@ -19,7 +19,11 @@ export const styles = StyleSheet.create({
     createYouraccont:{
         fontSize:ResponsiveSize(35),
         color:COLOR.black,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        flex:1,
+        width:ResponsiveSize(400),
+        // backgroundColor:"#000",
+        textAlign:'center'
     },
     line:{
        marginTop:ResponsiveSize(20),

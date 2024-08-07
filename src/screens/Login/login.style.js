@@ -39,6 +39,8 @@ export const styles = StyleSheet.create({
   cheackButtonView: {
     flexDirection: ALINE.row,
     justifyContent: ALINE.spaceBetween,
+    // backgroundColor:"#000"
+
   },
   rememerView: {
     flexDirection: ALINE.row,
@@ -51,6 +53,8 @@ export const styles = StyleSheet.create({
     color: COLOR.primaray,
     fontSize: ResponsiveSize(25),
     fontWeight: 'bold',
+    textAlign:'right'
+    
   },
   socialButton: {
     flexDirection: ALINE.row,
@@ -68,6 +72,8 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: ResponsiveSize(25),
+    flex:1,
+    textAlign:'center'
   },
   checkReam:{
     flexDirection:ALINE.row

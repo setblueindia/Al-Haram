@@ -87,7 +87,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: COLOR.black,
-        fontSize: ResponsiveSize(30)
+        fontSize: ResponsiveSize(30),
+        width:ResponsiveSize(300),
+        // flex:1,
+        textAlign:'center'
     },
     productCountView: {
         height: ResponsiveSize(30),

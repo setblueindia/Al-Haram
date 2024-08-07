@@ -102,9 +102,7 @@ const Banner = (props) => {
                     })}
 
                 </View>
-
             </ScrollView>
-{/* {console.log(":::::::::::::::::::::" , (data.length == 0))} */}
             {isloadding &&
                 <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
                     <CusLoader />
@@ -143,7 +141,6 @@ const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderRadius: ResponsiveSize(20),
         borderColor: "#FFEEEE"
-        // paddingHorizontal:ResponsiveSize(10)
     },
     img: {
         height: "100%",

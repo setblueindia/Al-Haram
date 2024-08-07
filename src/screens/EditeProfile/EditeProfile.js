@@ -45,10 +45,6 @@ const EditeProfile = () => {
                             <TextFildCus text={langues?.Enterfirstname} onChange={setFname} />
                             <View style={styles.devider} />
                             <TextFildCus text={langues?.Enterlastname} onChange={setLname} />
-                            {/* <View style={styles.devider} />
-                        <TextFildCus text={langues?.Enteremailaddress} onChange={setemail} />
-                        <View style={styles.devider} />
-                        <TextFildCus text={langues.Entermobilenumber} onChange={setNumber} /> */}
                             <View style={styles.button}>
                                 <Button onPress={Update} text={langues?.Update} />
                             </View>

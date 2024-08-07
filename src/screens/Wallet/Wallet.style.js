@@ -97,10 +97,15 @@ export const styles = StyleSheet.create({
   },
   amtText: {
     color: COLOR.white, 
-    fontSize: ResponsiveSize(27)
+    fontSize: ResponsiveSize(27),
+    width:"100%",
+    textAlign:'center'
+    // flex:1
   },
   paymentText: {
     color: COLOR.black, 
-    fontSize: ResponsiveSize(27)
+    fontSize: ResponsiveSize(27),
+    width:"100%",
+    textAlign:'center'
   }
 });

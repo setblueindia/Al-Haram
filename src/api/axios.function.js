@@ -22,14 +22,12 @@ export const POSTFORM = async (url, params) => {
             url: url,
             data: params,
             headers: {
-                // 'Authorization': 'Bearer ' + authToken,
                 'Content-Type': 'multipart/form-data'
             }
         });
 
         return response;
     } catch (error) {
-        // console.log("ERROR ::::::: ", error)
         if (error.response) {
             console.log('Response Error:', error.response.data);
             return error
@@ -130,32 +128,5 @@ export const POSTFORMGRAPH = async (url, params, lang) => {
 
 }
 
-
-// export const ExpiredFROM = async (url) => {
-//     console.log("==============================")
-//     console.log({
-//         URL: url,
-//     })
-//     console.log("==============================")
-//     try {
-//         const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
-//         const token = JSON.parse(userData)
-//         authToken = token?.token
-
-//         const response = await axios({
-//             method: 'post',
-//             url: url,
-//             headers: {
-//                 'Authorization': 'Bearer ' + authToken,
-//                 'Content-Type': 'application/json',
-//             }
-//         });
-
-//         return response;
-//     } catch (error) {
-//         console.log("ERROR ::::::: ", error)
-//     }
-
-// }
 
 

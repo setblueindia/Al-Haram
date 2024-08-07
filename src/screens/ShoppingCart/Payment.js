@@ -56,8 +56,6 @@ const Payment = ({
     finalAmount()
   }, [txtData])
 
-  // console.log("wallateAmount ::::: " , wallateAmount)
-
   return (
     <ScrollView style={{ flex: 1 }}>
       <View style={styles.mainView}>
@@ -73,11 +71,11 @@ const Payment = ({
             <TouchableOpacity onPress={() => {
               showWallet ? setShowWallet(false) : setShowWallet(true),
                 setCOD(false)
-                setCredit(false)
-                validation(showWallet)
-                selectPaymentMethod()
-                setSelectPayemrntMethod("Wallet")
-                showWallet ? validation(false) : validation(true)
+              setCredit(false)
+              validation(showWallet)
+              selectPaymentMethod()
+              setSelectPayemrntMethod("Wallet")
+              showWallet ? validation(false) : validation(true)
             }}
               style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
@@ -202,19 +200,18 @@ const Payment = ({
             placeholder={lable?.EnterCoupanCode}
             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
             onChangeText={text => setCoupanCode(text)}
-            value={coupanCode}
+            value={coupanCode ? coupanCode : " "}
           />}
 
           {remove && <View style={[styles.coupnTextInput, { justifyContent: 'center' }]}>
-            <Text>{coupanCode}</Text>
-          </View>}
-
-
+            <Text>{coupanCode ? coupanCode : " "}</Text>
+          </View>
+          }
           {!remove &&
             <TouchableOpacity
               onPress={() => {
                 setActionCode(1)
-                applyCoupan(coupanCode, 1)
+                coupanCode &&  applyCoupan(coupanCode, 1)
               }}
               style={styles.applyView}>
               <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
@@ -234,26 +231,33 @@ const Payment = ({
         {!remove &&
           <View>
 
-            <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "جميع الكوبونات" : "All coupons"}</Text>
-            {coupanListData?.map((item, index) => {
+            {coupanListData?.length > 0 &&
+              <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "جميع الكوبونات" : "All coupons"}</Text>}
+            {
+              coupanListData?.length > 0 &&
+              coupanListData?.map((item, index) => {
 
-              return (
-                <View
-                  key={index}
-                  style={[styles.coupanView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                  <View>
-                    <Text style={[styles.coupanName, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.coupon}</Text>
-                    <Text style={[styles.coupndes, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.name}</Text>
+                return (
+                  <View
+                    key={index}
+                    style={[styles.coupanView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    <View>
+                      <Text style={[styles.coupanName, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.coupon}</Text>
+                      <Text style={[styles.coupndes, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.name}</Text>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCoupanCode(item?.coupon)
+                        setActionCode(1)
+                        applyCoupan(item?.coupon, 1)
+                      }}
+                      style={styles.btnView}>
+                      <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
+                    </TouchableOpacity>
                   </View>
-
-                  <TouchableOpacity
-                    onPress={() => { setCoupanCode(item?.coupon), setActionCode(1), applyCoupan(item?.coupon, 1) }}
-                    style={styles.btnView}>
-                    <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
-                  </TouchableOpacity>
-                </View>
-              )
-            })}
+                )
+              })}
           </View>}
       </View>
     </ScrollView>

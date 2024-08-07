@@ -8,11 +8,14 @@ export const styles = StyleSheet.create({
         height:ResponsiveSize(80),
         backgroundColor:COLOR.primaray,
         alignItems: ALINE.center,
-        justifyContent : ALINE.center
+        justifyContent : ALINE.center,
+      
     },
     text:{
         color:COLOR.white,
         fontSize:ResponsiveSize(25),
-        fontWeight:'bold'
+        fontWeight:'bold',
+        width:ResponsiveSize(300),
+        textAlign:'center'
     }
 })

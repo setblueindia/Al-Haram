@@ -17,31 +17,7 @@ const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) =>
     const [deletePopp , setDetetePopp] = useState(false)
     const [deleteId , setdeteteId] = useState() 
     const Str = lang == NUMBER.num0 ? Ar : En
-    const [data, setData] = useState(
-        [
-            // {
-            //     name: lang == NUMBER.num1 ? "John Deo" : "جون ديو",
-            //     address: lang == NUMBER.num1 ? "Ring Rd, Maan Darwaja, Aanjada Nagar, Athwa Gate, Surat, Gujarat 395002" : "الطريق الدائري، معان درواجا، أنجادا نجار، بوابة أثوا، سورات، جوجارات 395002",
-            //     number: "+97112-345-6789"
-
-            // },
-            // {
-            //     name: lang == NUMBER.num1 ? "John Deo" : "جون ديو",
-            //     address: lang == NUMBER.num1 ? "Ring Rd, Maan Darwaja, Aanjada Nagar, Athwa Gate, Surat, Gujarat 395002" : "الطريق الدائري، معان درواجا، أنجادا نجار، بوابة أثوا، سورات، جوجارات 395002",
-            //     number: "+97112-345-6789"
-            // },
-            // {
-            //     name: lang == NUMBER.num1 ? "John Deo" : "جون ديو",
-            //     address: lang == NUMBER.num1 ? "Ring Rd, Maan Darwaja, Aanjada Nagar, Athwa Gate, Surat, Gujarat 395002" : "الطريق الدائري، معان درواجا، أنجادا نجار، بوابة أثوا، سورات، جوجارات 395002",
-            //     number: "+97112-345-6789"
-            // },
-            // {
-            //     name: lang == NUMBER.num1 ? "John Deo" : "جون ديو",
-            //     address: lang == NUMBER.num1 ? "Ring Rd, Maan Darwaja, Aanjada Nagar, Athwa Gate, Surat, Gujarat 395002" : "الطريق الدائري، معان درواجا، أنجادا نجار، بوابة أثوا، سورات، جوجارات 395002",
-            //     number: "+97112-345-6789"
-            // },
-        ]
-    )
+    const [data, setData] = useState([])
     useEffect(() => {
         getData()
     }, [navigation , resload])

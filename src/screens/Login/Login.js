@@ -114,8 +114,8 @@ const Login = () => {
                     </View>
                   )}
                 </View>
-                <TouchableOpacity onPress={() => { ForgetPassword() }}>
-                  <Text style={styles.forgetText}>{langues?.ForgotPassword}</Text>
+                <TouchableOpacity style={{ flex:1}} onPress={() => { ForgetPassword() }}>
+                  <Text  style={[styles.forgetText , lang?.data == NUMBER.num0 && {textAlign:'left'}]}>{langues?.ForgotPassword}</Text>
                 </TouchableOpacity>
               </View>
 

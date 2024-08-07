@@ -169,7 +169,6 @@ const Addaddress = (props) => {
       }
 
       {isLoading &&
-
         <View style={{
           height: "100%",
           width: "100%",
