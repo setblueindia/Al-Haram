@@ -72,13 +72,13 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: ResponsiveSize(-10),
         right: ResponsiveSize(-10),
-
-
     },
     productText: {
         color: COLOR.white,
         fontSize: ResponsiveSize(20),
-        fontWeight: FONTWEGHIT.font600
+        fontWeight: FONTWEGHIT.font600,
+        width:"100%",
+        textAlign:'center'
     }
     
 

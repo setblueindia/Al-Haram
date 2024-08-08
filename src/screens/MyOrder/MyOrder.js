@@ -52,7 +52,7 @@ const MyOrder = () => {
 
                       </View>
                       <View style={styles.mnyView}>
-                        <Text style={{ color: COLOR.primaray, fontWeight: "600" }}>{Str.SAR + " " + item?.order_total}</Text>
+                        <Text style={{ color: COLOR.primaray, fontWeight: "600" , width:ResponsiveSize(100)}}>{Str.SAR + " " + item?.order_total}</Text>
                       </View>
                     </TouchableOpacity>
 

@@ -17,35 +17,12 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
     const [reciverID, setReciverID] = useState()
     const [remark, setRemark] = useState()
     const [amount, setAmount] = useState()
-    const [transactionList, setTransactionList] = useState()
+    const [transactionList, setTransactionList] = useState([])
     const lable = lang == NUMBER.num0 ? Ar : En
-    const [data, setData] = useState([
-        {
-            name: "John Deo"
-        },
-        {
-            name: "John Deo"
-        },
-        {
-            name: "John Deo"
-        },
-        {
-            name: "John Deo"
-        },
-        {
-            name: "John Deo"
-        },
-        {
-            name: "John Deo"
-        },
-        {
-            name: "John Deo"
-        },
-    ])
+    const [data, setData] = useState([])
 
     useEffect(() => {
         GetCustomerList()
-        TranfetList()
     }, [])
 
     const GetCustomerList = async () => {
@@ -65,22 +42,23 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
         `
         try {
             const response = await GetCustomerListToTranfer(data, lang)
-            setData(response?.data?.data?.getCustomerSponsorGroupListById)
-            setIsLodding(false)
-
+            if(response?.data){
+                response?.data?.data?.getCustomerSponsorGroupListById ? setData(response?.data?.data?.getCustomerSponsorGroupListById) : setData([])
+                TranfetList()
+                setIsLodding(false)
+            }else{
+                setIsLodding(false)
+            }
+      
         } catch (error) {
             console.log("GET CUSTOMER LIST ERROR ::::::::::::::: ", error)
             setIsLodding(false)
         }
     }
 
-    const onPress = () => {
-        TranferAmount()
-    }
-
     const TranferAmount = async () => {
         setIsLodding(true)
-        const data = `
+        const sdata = `
         mutation{
             tranferAmountToCustomerWallet(input:{
                sender_id: ${userID}
@@ -95,9 +73,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
        }
         `
         try {
-
-            const resp = await getTranferAmount(data , lang)
-            // console.log("Response =====> ", resp?.data?.data?.tranferAmountToCustomerWallet)
+            const resp = await getTranferAmount(sdata, lang)
             SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message)
             setIsLodding(false)
             setRemark('')
@@ -109,7 +85,8 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
     }
 
     const TranfetList = async () => {
-        const data = `
+        setIsLodding(true)
+        const tdata = `
         {
             getTransactionListBySenderId(sender_id : ${userID}, pageSize:${10}, curPage:${1}){
                 payee_id
@@ -122,11 +99,21 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
         }
         `
         try {
-            const res = await getTranferAmountList(data, lang)
-            // console.log("Response ======> ", res?.data?.data?.getTransactionListBySenderId)
-            setTransactionList(res?.data?.data?.getTransactionListBySenderId)
+            const res = await getTranferAmountList(tdata, lang)
+            console.log("Respnse :::::::::::::: " , res?.data?.data?.getTransactionListBySenderId)
+            if (res?.data?.data) {
+                const tempData = res?.data?.data?.getTransactionListBySenderId
+                setTransactionList(tempData ? tempData : [])
+                // res?.data?.data?.getTransactionListBySenderId ? setTransactionList(res?.data?.data?.getTransactionListBySenderId) : setTransactionList([])
+                setIsLodding(false)
+            } else {
+                setIsLodding(false)
+            }
+
         } catch (error) {
             console.log("GET TRANFER LIST ERROR :::::::::::: ", error)
+            setIsLodding(false)
+
         }
     }
 
@@ -144,17 +131,18 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 </TouchableOpacity>
 
                 {on &&
-                
+
                     <View style={styles.listView}>
                         <ScrollView style={styles.ScrollView}>
                             {
+                              data?.length > 0 &&
                                 data.map((items, index) => {
                                     return (
                                         <TouchableOpacity onPress={() => {
                                             setReciverID(items?.reciever_id)
                                             setText(items?.nick_name), setOn(false)
                                         }} key={index} style={styles.itemsName}>
-                                            <Text style={[styles.customerName , lang == NUMBER.num0 && {textAlign:'right'}]}>{items?.nick_name}</Text>
+                                            <Text style={[styles.customerName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{items?.nick_name}</Text>
                                         </TouchableOpacity>
                                     )
                                 })
@@ -165,38 +153,40 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 <View style={styles.devider} />
                 <View style={styles.devider} />
                 <TextFildCus
-                 onChange={setAmount} 
-                 number={true} 
-                 text={lable?.AmountSAR}
-                  />
+                    onChange={setAmount}
+                    number={true}
+                    text={lable?.AmountSAR}
+                />
                 <View style={styles.devider} />
                 <TextFildCus
-                  onChange={setRemark}
-                  text={lable?.addyourremark} />
+                    onChange={setRemark}
+                    text={lable?.addyourremark} />
                 <View style={styles.devider} />
                 <View style={styles.devider} />
-                <Button onPress={() => { onPress() }} text={Str?.Addmoneytocustomerswallet} />
+                <Button onPress={() => { TranferAmount() }} text={Str?.Addmoneytocustomerswallet} />
 
                 <ScrollView style={styles.tranferAmountListView} >
-                    {transactionList?.map((items, index) => {
-                        // console.log("Items : ", items)
+                    {transactionList?.length > 0  &&
+                      transactionList?.map((sitems, sindex) => {
+                        console.log("Items ::::::::::::: " , sitems)
                         return (
-                            <View key={index} style={[styles.innerContainer]}>
-                                <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse'  }]}>
-                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{ lable.Name + " :"}</Text>
-                                    <Text style={styles.valueText}>{items?.nick_name}</Text>
+                       
+                            <View key={sindex} style={[styles.innerContainer]}>
+                                <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                    <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.Name + " :"}</Text>
+                                    <Text style={styles.valueText}>{sitems?.nick_name}</Text>
                                 </View>
                                 <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{lable.Email +  " :"}</Text>
-                                    <Text style={styles.valueText}>{items?.email}</Text>
+                                    <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.Email + " :"}</Text>
+                                    <Text style={styles.valueText}>{sitems?.email}</Text>
                                 </View>
                                 <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{lable?.Amount + " :"}</Text>
-                                    <Text style={styles.valueText}>{items?.amount}</Text>
+                                    <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.Amount + " :"}</Text>
+                                    <Text style={styles.valueText}>{sitems?.amount}</Text>
                                 </View>
                                 <View style={[styles.conatainVIew, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                    <Text style={[styles.titleText , lang == NUMBER.num0 && {textAlign:'right'}]}>{lable?.Note + " :"}</Text>
-                                    <Text style={styles.valueText}>{items?.note}</Text>
+                                    <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.Note + " :"}</Text>
+                                    <Text style={styles.valueText}>{sitems?.note}</Text>
                                 </View>
                             </View>
                         )
@@ -204,10 +194,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
 
                     <View style={{ height: ResponsiveSize(50) }} />
                 </ScrollView>
-{/* 
-              {  <View>
-
-                </View>} */}
+            
 
             </View>
 
@@ -307,9 +294,9 @@ const styles = StyleSheet.create({
     },
     titleText: {
         color: COLOR.black,
-        fontFamily: ResponsiveSize(25),
+        fontSize: ResponsiveSize(25),
         fontWeight: '600',
-        width:ResponsiveSize(180)
+        width: ResponsiveSize(180)
     },
     valueText: {
         color: COLOR.darkGray,

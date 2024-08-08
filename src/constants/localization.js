@@ -273,7 +273,7 @@ export const En = {
   vat : "vat",
   cr : "cr",
   color : "color :",
-  Name : "اسم",
+  Name : "Name",
   Note : "Note",
   AreYousureyouwantdelete  : "Are you sure you want delete ?"
 

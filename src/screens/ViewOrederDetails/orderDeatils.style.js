@@ -65,6 +65,8 @@ export const styles = StyleSheet.create({
     printText: {
         color: COLOR.primaray,
         fontWeight: FONTWEGHIT.font600,
+        width:ResponsiveSize(150),
+        textAlign:'right'
 
     },
     reOrderText: {
@@ -126,7 +128,9 @@ export const styles = StyleSheet.create({
     secondPriceText: {
         color: COLOR.black,
         fontSize: ResponsiveSize(20),
-        fontWeight: FONTWEGHIT.font600
+        fontWeight: FONTWEGHIT.font600,
+        flex:1,
+        textAlign:'right'
     },
     addresstext: {
 

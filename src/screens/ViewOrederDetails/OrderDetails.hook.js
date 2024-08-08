@@ -44,7 +44,6 @@ const useOrderDetaisHook = (props) => {
         fromData.append("store_id", lang)
         fromData.append("token", userData?.token)
         fromData.append("order_id", OId)
-
         try {
             const response = await postReOrder(fromData)
             if (response?.data?.data) {
@@ -57,7 +56,6 @@ const useOrderDetaisHook = (props) => {
                 SHOWTOTS(response?.data?.message)
                 setIsLoadding(false)
             }
-
         } catch (error) {
             console.log("RE ORDER ERROR ::::::::::: ", error)
             setIsLoadding(false)
@@ -85,8 +83,6 @@ const useOrderDetaisHook = (props) => {
         shipping2: "Estimated Shipment Delivery",
         shippingDate: "Date : 28 Mar - 04 Apr",
         AramexCOD: "Aramex COD"
-
-
     } : {
         oderId: "#000000680",
         Compalated: "مكتمل",

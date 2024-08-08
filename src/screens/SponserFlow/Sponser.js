@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     },
     topMenuBar: {
         width: "100%",
-        height: ResponsiveSize(80),
+        // height: ResponsiveSize(80),
         backgroundColor: "#00000010",
         // elevation: 10,
         // paddingHorizontal: ResponsiveSize(20),
@@ -96,15 +96,18 @@ const styles = StyleSheet.create({
     herderTexrView: {
         justifyContent: 'center',
         alignItems: 'center',
-
+        // flex:1
         // width:ResponsiveSize(300)
 
     },
     topMenuText: {
-        fontSize: ResponsiveSize(25),
+        fontSize: ResponsiveSize(20),
         // marginLeft:ResponsiveSize(30),
         paddingHorizontal: ResponsiveSize(20),
         paddingVertical: ResponsiveSize(20),
+        width:ResponsiveSize(200),
+        // width:"100%"
+        textAlign:'center'
         // color: COLOR.primaray,
         // borderBottomWidth:ResponsiveSize(2),
     },

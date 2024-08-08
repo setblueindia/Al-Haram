@@ -179,13 +179,11 @@ console.log("::::::::::::==========::::::::::::::", lang)
       if(res?.status == '200' ) {
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
       }
-  
     } catch (error) {
       console.log("CETEGORIERS LIST ERROR ::::::::::::::: " , error)
     } 
   }
 
-  
   return {
 
   }

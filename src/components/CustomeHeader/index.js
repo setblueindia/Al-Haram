@@ -62,7 +62,6 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
               navigation.navigate(NAVIGATION.Login)
           }}>
             {shoppingcart &&
-              // <LottieView
           
               <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />
             }

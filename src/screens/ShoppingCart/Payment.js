@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
@@ -8,6 +8,7 @@ import CheackButton from '../../components/CheackButton'
 import MinusIcon from 'react-native-vector-icons/AntDesign';
 import { Ar, En } from '../../constants/localization'
 import { setPaymentMethod } from '../../api/axios.api'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const Payment = ({
   data,
@@ -57,7 +58,7 @@ const Payment = ({
   }, [txtData])
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <KeyboardAwareScrollView style={{ flex: 1 }}>
       <View style={styles.mainView}>
         <View style={styles.delevryView}>
           <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.label}</Text>
@@ -259,8 +260,9 @@ const Payment = ({
                 )
               })}
           </View>}
-      </View>
-    </ScrollView>
+      </View><View style={{height:ResponsiveSize(200)}}/>
+
+    </KeyboardAwareScrollView>
   )
 }
 
