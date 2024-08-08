@@ -24,7 +24,7 @@ const CusModal = ({ text, setModalShow, examapleText, notification , GETNotifica
                 <TouchableOpacity
                     onPress={() => { setModalShow(false) , GETNotificationAPI && GETNotificationAPI()}}
                     style={styles.button}>
-                    <Text style={styles.buttonText}>OK</Text>
+                    <Text style={styles.buttonText}>{"OK"}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -94,7 +94,9 @@ const styles = StyleSheet.create({
     buttonText: {
         color: COLOR.white,
         fontSize: ResponsiveSize(25),
-        fontWeight: FONTWEGHIT.font400
+        fontWeight: FONTWEGHIT.font400,
+        width:"100%",
+        textAlign:'center'
     },
     errorText: {
         color: COLOR.black,

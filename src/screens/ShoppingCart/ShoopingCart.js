@@ -74,21 +74,20 @@ const ShoopingCart = () => {
             <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} />
             <View style={styles.container}>
                 <View style={[styles.stepView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={COLOR.primaray} />
-                    <Text style={[styles.text, { color: COLOR.primaray }]}>{shopinfCratData?.cart}</Text>
+                    <Text style={[styles.text, { color: COLOR.primaray , width:ResponsiveSize(50) }]}>{shopinfCratData?.cart}</Text>
                     <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }]}>{shopinfCratData?.Shipping}</Text>
+                    <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray } , { width:ResponsiveSize(90)}]}>{shopinfCratData?.Shipping}</Text>
                     {index == 0 && <Text>------</Text>}
                     {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 3) && { color: COLOR.primaray }]}>{shopinfCratData.Payment}</Text>
+                    <Text style={[styles.text, (index == 3) && { color: COLOR.primaray } , { width:ResponsiveSize(90)}]}>{shopinfCratData.Payment}</Text>
                     {(index == 0 || index == 1 || index == 2) && <Text>------</Text>}
-
                 </View>
-
 
                 {index == 0 &&
                     data.length > 0 ?
@@ -245,7 +244,7 @@ const styles = StyleSheet.create({
     },
     stepView: {
         flexDirection: ALINE.row,
-        justifyContent: ALINE.spaceBetween,
+        justifyContent:"space-around",
         width: "100%",
         padding: ResponsiveSize(20),
         alignItems: ALINE.center,

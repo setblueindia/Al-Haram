@@ -20,9 +20,7 @@ const Done = (props) => {
     const result = props?.route?.params?.response
     const OrderID = props?.route?.params?.orderId
     const responseID = props?.route?.params?.responseID
-    const  disPatch = useDispatch()
-
-    console.log("props ::::::::::::: " , props?.route?.params?.responseID)
+    const disPatch = useDispatch()
 
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n We will send you order confirmation with details and tracking information.` : `رقم طلبك: ${OrderID}. \n سوف نرسل لك تأكيد الطلب مع تفاصيل ومعلومات التعقب.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
@@ -30,7 +28,7 @@ const Done = (props) => {
     const senNotiFication = async () => {
         const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
         const data =
-         `mutation{
+            `mutation{
             orderPushNotificationSentToCustomer(input:{
             customer_id: ${userData?.id}
             notification_type: "order"
@@ -43,7 +41,7 @@ const Done = (props) => {
         }
      }
   `
-       try {
+        try {
             const rep = await SendNotifiction(data, lang)
             updateOrderStatus()
         } catch (error) {
@@ -77,29 +75,33 @@ const Done = (props) => {
             {
                 result?.data &&
                 <View style={styles.lottiView}>
-                   { result?.data?.status == "Successful" && 
-                   <LottieView
-                        source={require('../../assests/Lottianimation/Done.json')}
-                        autoPlay loop
-                        resizeMode='cover'
-                        style={{ height: "100%", width: "100%" }}
-                    />}
+                    {result?.data?.status == "Successful" &&
+                        <LottieView
+                            source={require('../../assests/Lottianimation/Done.json')}
+                            autoPlay loop
+                            resizeMode='cover'
+                            style={{ height: "100%", width: "100%" }}
+                        />}
                     <View style={styles.thumIcon}>
-                        <Image style={styles.icon} source={result?.data?.status == "Successful" ?  doneIcon : ErrorIcon} />
+                        <Image style={styles.icon} source={result?.data?.status == "Successful" ? doneIcon : ErrorIcon} />
                     </View>
                 </View>
             }
-            <View style={styles.lottiView}>
-                    <LottieView
-                        source={require('../../assests/Lottianimation/Done.json')}
-                        autoPlay loop
-                        resizeMode='cover'
-                        style={{ height: "100%", width: "100%" }}
-                    />
-                    <View style={styles.thumIcon}>
-                        <Image style={styles.icon} source={doneIcon} />
-                    </View>
+
+
+
+       {   !result?.data &&   <View style={styles.lottiView}>
+                <LottieView
+                    source={require('../../assests/Lottianimation/Done.json')}
+                    autoPlay loop
+                    resizeMode='cover'
+                    style={{ height: "100%", width: "100%" }}
+                />
+                <View style={styles.thumIcon}>
+                    <Image style={styles.icon} source={doneIcon} />
                 </View>
+            </View>}
+
             <View style={styles.textView}>
                 <Text style={styles.congrationText}>{lang == NUMBER.num0 ? "تهنئة" : "Congratulation"}</Text>
                 <Text style={styles.lastText}>{lang == NUMBER.num1 ? Order_Success : SOMETHING_WRONG}</Text>
@@ -107,7 +109,7 @@ const Done = (props) => {
             <View style={styles.btnView}>
                 <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />
                 <TouchableOpacity
-                    onPress={() => {navigation.replace(NAVIGATION.DrawerNavigation) }}
+                    onPress={() => { navigation.replace(NAVIGATION.DrawerNavigation) }}
                     style={styles.btnContinues}>
                     <Text style={styles.continuesShoppingsText}>{lang == NUMBER.num0 ? "مشاهدة الطلب" : "Continue Shopping"}</Text>
                 </TouchableOpacity>
@@ -141,7 +143,10 @@ const styles = StyleSheet.create({
     },
     congrationText: {
         fontSize: ResponsiveSize(60),
-        color: COLOR.black
+        color: COLOR.black,
+        width:ResponsiveSize(600),
+        // flex:1
+        textAlign:'center'
     },
     lastText: {
         color: "#00000080",
@@ -175,6 +180,9 @@ const styles = StyleSheet.create({
     },
     continuesShoppingsText: {
         color: COLOR.black,
-        fontSize: ResponsiveSize(25)
+        fontSize: ResponsiveSize(25),
+        width:"100%",
+        textAlign:'center'
+        // flex:1
     }
 })

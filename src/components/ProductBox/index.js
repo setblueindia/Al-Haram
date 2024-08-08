@@ -50,7 +50,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
           <TouchableOpacity
             onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}
           >
-            <Text style={styles.viewText}>{labale.ViewAll}</Text>
+            <Text style={[styles.viewText , lang.data == NUMBER.num0 &&  {textAlign:'left'}]}>{labale.ViewAll}</Text>
           </TouchableOpacity>}
       </View>
       <ScrollView
@@ -66,9 +66,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
             const finalName = name.substring(0, 15);
             return (
               <View key={index} style={{ flexDirection: 'row' }}>
-                <TouchableOpacity
-                  onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}
-                >
+                <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
                   <View style={styles.innerCategoriesView}>
                     <Image style={styles.storyView} source={{ uri: items?.image }} />
                   </View>
@@ -110,10 +108,13 @@ const styles = StyleSheet.create({
   categoriesName: {
     color: COLOR.black,
     fontSize: ResponsiveSize(25),
-    fontWeight: FONTWEGHIT.font600
+    fontWeight: FONTWEGHIT.font600,
+    width:ResponsiveSize(400)
   },
   viewText: {
-    color: COLOR.primaray
+    color: COLOR.primaray,
+    width:ResponsiveSize(100),
+    textAlign:'right'
   },
   subCategories: {
     flexDirection: 'row',

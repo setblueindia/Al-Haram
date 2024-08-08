@@ -88,21 +88,19 @@ const ProductDetails = (props) => {
                                         key={index} style={[styles.colorConatiner,
                                         index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
                                         <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
-                                        {!block || !shoeColor &&
+                                        {(!block && !shoeColor) &&
                                             <View style={{
                                                 alignSelf: ALINE.center,
                                                 position: 'absolute',
                                                 height: ResponsiveSize(70),
                                                 width: ResponsiveSize(70),
                                                 backgroundColor: "#00000050",
-                                                // top:ResponsiveSize(5),
                                                 borderRadius: ResponsiveSize(20)
                                             }}
                                             >
                                                     <Block style={{ alignSelf:'center' , top:ResponsiveSize(5)}} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
                                             </View>
                                         }
-                                        {/* <Image style={styles.imgIcon} source={{ uri: "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg" }} /> */}
                                     </TouchableOpacity>
                                 </View>
                             )
@@ -128,7 +126,7 @@ const ProductDetails = (props) => {
                                             <Text style={[styles.sizeText, index == sizeIndex && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
                                         </TouchableOpacity>
 
-                                        {!blcok || !sizeShow &&
+                                        {(!blcok && !sizeShow )&&
                                                  <TouchableOpacity
                                                  onPress={()=>{sizeOnPress(items?.value_index), setSizeIndex(index), setSizeShow(true) , blcok = true}}
                                                  style={{

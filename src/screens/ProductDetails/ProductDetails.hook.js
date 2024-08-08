@@ -269,6 +269,8 @@ const useProductDetails = (props) => {
         })
         const Size = items?.attributes[1]?.label
         const valueIndexOfSize = items?.attributes[1]?.value_index
+        
+        console.log("Size :::::::: " ,Size )
         temp.push(Size)
         temp3.push(valueIndexOfSize)
       }

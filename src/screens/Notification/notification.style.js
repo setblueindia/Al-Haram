@@ -19,10 +19,10 @@ export const styles = StyleSheet.create({
     },
     notificationView: {
         width: "100%",
-        height: ResponsiveSize(150),
+        // height: ResponsiveSize(150),
         // backgroundColor: "#FFF3F4",
         backgroundColor:COLOR.white,
-        elevation: 10,
+        // elevation: 10,
         shadowColor: COLOR.black,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
@@ -53,8 +53,8 @@ export const styles = StyleSheet.create({
         fontSize: ResponsiveSize(30),
         fontWeight: FONTWEGHIT.font600,
         color: COLOR.black,
-        // color:COLOR.white,
-        marginLeft: ResponsiveSize(10)
+        marginLeft: ResponsiveSize(10),
+        width:ResponsiveSize(300)
     },
     textView: {
         flexDirection: ALINE.row,
@@ -63,7 +63,6 @@ export const styles = StyleSheet.create({
     },
     desShippment: {
         color: "#7A7575",
-        // color:COLOR.white,
         lineHeight: ResponsiveSize(30),
         fontSize: ResponsiveSize(18)
     },
@@ -77,6 +76,9 @@ export const styles = StyleSheet.create({
     dateText: {
         fontSize: ResponsiveSize(18),
         color: "#7A7575",
+        width:ResponsiveSize(200),
+        // backgroundColor:'red'
+        // textAlign:'right'
     },
     dataView: {
         alignSelf: ALINE.center

@@ -12,18 +12,7 @@ const useWhishListHook = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [lotti, setLotti] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
-
-
-
-  const [data, setData] = useState([
-    // { id: 0, like: true },
-    // { id: 1, like: true },
-    // { id: 2, like: true },
-    // { id: 3, like: true },
-    // { id: 4, like: true },
-    // { id: 5, like: true }
-  ])
-
+  const [data, setData] = useState([])
 
   useEffect(() => {
     getData()
@@ -41,15 +30,12 @@ const useWhishListHook = () => {
 
   const getData = async () => {
     setIsLoading(true)
-    // const nextPage = currentPage + 1
     const formData = new FormData()
     formData.append("customer_id", userData?.id)
     formData.append("store_id", lang)
     try {
       const response = await WhisList(formData)
       if (response?.data?.status == NUMBER.num1) {
-
-        // console.log("data  ====> ", response?.data)
         response?.data?.data.map((item) => {
           return item["like"] = true;
         })
@@ -63,12 +49,12 @@ const useWhishListHook = () => {
         setIsLoading(false)
       } else {
         setLotti(true)
-        console.log("WHISHLIST INNER EROOR  :::::::::::::::::::::::  ", response)
+        console.log("WHISHLIST INNER EROOR  ::::::::::::::::  ", response)
         setIsLoading(false)
       }
     } catch (error) {
       setLotti(true)
-      console.log("WHISH LIST ERROR :::::::::::::::::::::; ", error)
+      console.log("WHISH LIST ERROR ::::::::::::::: ", error)
       setIsLoading(false)
     }
   }
@@ -94,8 +80,7 @@ const useWhishListHook = () => {
     }
   }
 
-
-  return {
+ return {
     navigation,
     data,
     like,

@@ -35,7 +35,6 @@ const DataIsNotFound = ({userData, text, navigation, header , color}) => {
         </View>
         <View style={styles.lottiTextView}>
           <Text style={styles.errorText}>{lang == NUMBER.num1 ? "Something went wrong. \n Please try again" : "هناك خطأ ما. \n الرجاء المحاولة مرة أخرى"}
-            {/* <Text style={styles.centeredText}>Please try again</Text> */}
           </Text>
         </View>
       </View>
@@ -71,22 +70,22 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#6E6969',
     fontWeight: 'regular',
-    textAlign: 'center',
+    textAlign: ALINE.center,
+    width:"100%"
   },
   dataError: {
     color: '#990107',
     fontSize: ResponsiveSize(40),
     fontWeight: 'bold',
-    // flex:1
     width:ResponsiveSize(400),
-    textAlign:'center'
+    textAlign:ALINE.center
   },
   centeredText: {
-    textAlign: 'center',
+    textAlign: ALINE.center,
   },
   image: {
     height: ResponsiveSize(420),
     width: ResponsiveSize(420),
-    resizeMode:'contain'
+    resizeMode: RESIZEMODE.contain
   },
 });

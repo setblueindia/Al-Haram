@@ -44,12 +44,10 @@ const Notification = () => {
                   justifyContent: ALINE.center,
                   alignItems: ALINE.center
                 }}>
-                  {
-                    moreData &&
+                  {moreData &&
                     <ActivityIndicator
                       size={"large"}
                       color={COLOR.primaray}
-
                     />
                   }
                 </View>
@@ -57,11 +55,11 @@ const Notification = () => {
             }}
 
             renderItem={({ item, index }) => {
-
               const parts = item?.creation_time?.split(' ');
               const datePart = parts[0];
               const timePart = parts[1];
               const mes = item?.message?.substr(0, 100)
+
               return (
                 <View key={Math.random() * index}>
                   <TouchableOpacity
@@ -73,10 +71,8 @@ const Notification = () => {
                     }}
                     style={[styles.notificationView, lang == NUMBER.num0 &&
                       { },
-                    // { backgroundColor: item.notification_view == NUMBER.num1 ? COLOR.white : "#FFF3F4" }
                   ]}
                   >
-
                     <View style={[styles.imgView, lang == NUMBER.num0 &&
                     {
                       flexDirection:'row-reverse'
@@ -84,8 +80,8 @@ const Notification = () => {
                     >
                       <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center } , lang == NUMBER.num0 && {flexDirection:'row-reverse'}]}>
                         <Icon name={"notifications-circle-sharp"} size={ResponsiveSize(50)} color={COLOR.primaray} />
-                        <Text style={[styles.shippmentText, lang == NUMBER.num0 && { marginRight:ResponsiveSize(10)}]}>{
-                          item?.type
+                        <Text style={[styles.shippmentText, lang == NUMBER.num0 && { marginRight:ResponsiveSize(10) , textAlign:'right'}]}>{
+                          item?.type 
                         }
                         </Text>
                       </View>
@@ -94,27 +90,20 @@ const Notification = () => {
                         <View style={[styles.barView, lang == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]} />
                         <View style={styles.dataView}>
                           <Text style={[styles.dateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                            {
-                              datePart
-                            }
+                            {  datePart  }
                           </Text>
                           <Text style={[styles.dateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                            {
-                              timePart
-                            }
+                            { timePart}
                           </Text>
                         </View>
                       </View>
                     </View>
-
 
                     <View style={[styles.textView, lang == NUMBER.num0 && {}]}>
                       <Text numberOfLines={2} style={[styles.desShippment, lang == NUMBER.num0 && {textAlign:'right'}]}>{
                       
                         item?.message?.length > 100 ? mes + " ..." : mes
                       }</Text>
-
-
                     </View>
                   </TouchableOpacity>
                   <View style={{ height: ResponsiveSize(20) }} />
@@ -122,11 +111,8 @@ const Notification = () => {
               )
             }}
           />
-
         </View>
-
       </View>
-
       {lotti &&
       <DataIsNotFound/>
         // <DataNotFound userData={userData} text={"Data Not Found"} />

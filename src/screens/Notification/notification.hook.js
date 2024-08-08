@@ -18,7 +18,6 @@ const useNotificationHook = () => {
   const [currePage, setCurrentPage] = useState(0)
   const [data, setData] = useState([])
 
-
   useEffect(() => {
     GETNotificationAPI()
   }, [])
@@ -41,14 +40,12 @@ const useNotificationHook = () => {
         setShowModal(true)
         GETNotificationAPI(read)
         setLoadding(false)
-
       }
     } catch (error) {
       console.log("ERRORS ===> ", error)
       setLoadding(false)
     }
   }
-
   const GETNotificationAPI = async (read) => {
     currePage < 1 && setLoadding(true)
     currePage >= 1 && setMoreData(true)
@@ -77,9 +74,7 @@ const useNotificationHook = () => {
       if (response?.status == "200") {
         console.log("Response :::::::::::: " , response?.data)
        setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId]) 
-        // console.log(";;;;;;;;;;;;;;;;;;;;;;",response?.data?.data?.getNotificationHistoryByCustomerId)
         response?.data?.data?.getNotificationHistoryByCustomerId?.map((item)=>{
-          // console.log("Items :::::::::::::: ", item)
         })
         if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
           setLoadding(false)
@@ -103,8 +98,6 @@ const useNotificationHook = () => {
 
   }
 
-
-
   return {
     data,
     lang,
@@ -120,7 +113,6 @@ const useNotificationHook = () => {
     userData,
     lotti,
     setLotti,
-    
   }
 }
 

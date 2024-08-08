@@ -24,7 +24,7 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                     onPress={() => {
                         navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })
                     }}>
-                    <Text style={styles.viewText}>{lable.ViewAll}</Text>
+                    <Text style={[styles.viewText , lang.data == NUMBER.num0 &&  { textAlign:'left'}]}>{lable.ViewAll}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -89,10 +89,15 @@ const styles = StyleSheet.create({
     categoriesName: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
-        fontWeight: FONTWEGHIT.font600
+        fontWeight: FONTWEGHIT.font600,
+        // backgroundColor:"red",
+        width:ResponsiveSize(400)
     },
     viewText: {
-        color: COLOR.primaray
+        color: COLOR.primaray,
+    //    backgroundColor:COLOR.black,
+       width:ResponsiveSize(100),
+       textAlign:'right'
     },
     subCategories: {
         flexDirection: ALINE.row,

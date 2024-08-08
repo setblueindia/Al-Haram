@@ -137,13 +137,8 @@ const ResponseScreen = ({ route, navigation }) => {
   const [maskedno, setMaskedno] = useState('');
   const [amount, setAmount] = useState('');
 
-
-
-  console.log("::::::::::::::::::::", route.params?.response)
-
   useEffect(() => {
     const responseData = route.params?.response || {};
-    console.log('Response Data:', responseData);
 
     setType(responseData.type || 'success');
     setTranid(responseData.tranid || '');

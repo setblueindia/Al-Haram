@@ -21,14 +21,14 @@ export const styles = StyleSheet.create({
         alignItems: ALINE.center,
         justifyContent: ALINE.spaceBetween,
         backgroundColor: COLOR.white,
-
     },
     devider: {
         height: ResponsiveSize(20)
     },
     title: {
         color: COLOR.black,
-        fontSize: ResponsiveSize(25)
+        fontSize: ResponsiveSize(25),
+        width:ResponsiveSize(400)
     },
     imageView: {
 
@@ -77,7 +77,6 @@ export const styles = StyleSheet.create({
     },
     viewText: {
         color: COLOR.white,
-        // fontWeight: FONTWEGHIT.font700,
         fontSize: ResponsiveSize(40),
 
     },

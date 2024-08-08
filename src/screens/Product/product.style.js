@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
     },
     conntainer: {
         width:"50%",
-  
     },
     imageView: {
         height: ResponsiveSize(350),
@@ -67,6 +66,7 @@ export const styles = StyleSheet.create({
       height:ResponsiveSize(50),
       paddingHorizontal:ResponsiveSize(20),
       marginTop:ResponsiveSize(20),
+    //   backgroundColor:'red'
      
     },
     filterContainer:{
@@ -77,19 +77,23 @@ export const styles = StyleSheet.create({
         borderRadius:ResponsiveSize(10),
         borderColor:"#00000050",
         justifyContent:ALINE.center,
-        alignItems:ALINE.center
+        alignItems:ALINE.center,
     },
     firstView:{
         flexDirection:'row',
         justifyContent:ALINE.center,
-        alignItems:ALINE.center
+        alignItems:ALINE.center,
     },
     filterIcon:{
         color:COLOR.black,
+        paddingHorizontal:ResponsiveSize(20)
       
     },
     filterText:{
-        color:COLOR.black
+        color:COLOR.black,
+        width:"100%",
+        textAlign:'center',
+        position:'absolute'
     },
     bar:{
         width:ResponsiveSize(2),
@@ -99,7 +103,7 @@ export const styles = StyleSheet.create({
     comonView:{
         flexDirection:'row',
         alignItems:ALINE.center,
-        justifyContent:ALINE.center,
+        // justifyContent:ALINE.spaceBetween,
         width:"50%",        
     },
     deviderInner:{

@@ -52,7 +52,9 @@ export const styles = StyleSheet.create({
         color: COLOR.primaray
     },
     text: {
-        color: "#505050"
+        color: "#505050",
+        // flex:1
+        // width:"100%"
     },
     colorView: {
         paddingHorizontal: ResponsiveSize(20),
@@ -70,7 +72,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 2,
         shadowColor: COLOR.black,
-        padding:ResponsiveSize(5)
+        padding: ResponsiveSize(5)
 
 
     },
@@ -101,18 +103,15 @@ export const styles = StyleSheet.create({
         marginLeft: ResponsiveSize(20),
         height: ResponsiveSize(60),
         paddingHorizontal:ResponsiveSize(30),
-        // width: ResponsiveSize(60),
-        alignItems: ALINE.center,
-        justifyContent: ALINE.center,
-        // flexWrap : 'wrap'
-
+        alignItems:'center',
+        justifyContent:'center',
 
     },
     sizeText: {
         color: COLOR.black,
-        // width:"100%"
-
+        // textAlign:'center'
     },
+
     counteView: {
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
@@ -182,7 +181,9 @@ export const styles = StyleSheet.create({
     },
     AddTocardText: {
         color: COLOR.white,
-        fontSize: ResponsiveSize(25)
+        fontSize: ResponsiveSize(25),
+       width:"100%",
+       textAlign:'center'
     },
     reviewView: {
         width: "100%",

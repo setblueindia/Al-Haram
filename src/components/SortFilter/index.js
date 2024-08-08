@@ -63,7 +63,7 @@ const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData }) =>
 
             </TouchableOpacity>
             <View style={styles.container}>
-                <Text style={styles.title}>{lang == NUMBER.num1 ? "Sort By" : "ترتيب حسب"}</Text>
+                <Text style={[styles.title , lang == NUMBER.num0 &&  {textAlign:'right'}]}>{lang == NUMBER.num1 ? "Sort By" : "ترتيب حسب"}</Text>
 
                 <View style={styles.boxView}>
 
@@ -83,7 +83,7 @@ const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData }) =>
                                         <View style={[styles.checkBoxCircal2, index == productIndex && { backgroundColor: COLOR.primaray }]} />
                                     </View>
 
-                                    <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{item?.name}</Text>
+                                    <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) , textAlign:'right'}]}>{item?.name}</Text>
                                 </TouchableOpacity>
                             )
                         })
@@ -157,7 +157,9 @@ const styles = StyleSheet.create({
     },
     checkText: {
         fontSize: ResponsiveSize(30),
-        marginLeft: ResponsiveSize(30)
+        marginLeft: ResponsiveSize(30),
+        flex:1
+    
     }
 
 })

@@ -14,9 +14,6 @@ const Categories = () => {
   const { CategoriesData, navigation, lang, userData, isLoadding } = useCategroiesHook()
   const [viewMore, setViewMore] = useState(false)
   const [aindex, setIndex] = useState(0)
-
-
-
   return (
     <View style={styles.mainView}>
       <View style={styles.CustomeHeaderView} >
@@ -30,7 +27,7 @@ const Categories = () => {
               <View key={index}>
                 <TouchableOpacity
                   onPress={() => {
-                    items?.sub_category.length > 0 ?
+                    items?.sub_category?.length > 0 ?
                       (setIndex(index), setViewMore(false)) : navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.category_id })
                   }}
                   style={[styles.opationView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]} key={index}>
