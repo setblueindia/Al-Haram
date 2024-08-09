@@ -69,16 +69,21 @@ export const styles = StyleSheet.create({
 
   compalatedView: {
     flexDirection: ALINE.row,
-    alignItems: ALINE.center
+    alignItems: ALINE.center,
+    justifyContent:'center'
   },
   dott: {
     height: ResponsiveSize(10),
     width: ResponsiveSize(10),
     borderRadius: ResponsiveSize(100),
     backgroundColor: "green",
+    marginTop:ResponsiveSize(5)
   },
   compalatedText: {
     color: "green",
-    marginLeft: ResponsiveSize(10)
+    marginLeft: ResponsiveSize(10),
+    flex:1,
+    textAlign:'left',
+    // backgroundColor:"#000"
   }
 });

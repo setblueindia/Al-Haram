@@ -56,17 +56,15 @@ export const POSTFORM2 = async (url, params) => {
         const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
         const token = JSON.parse(userData)
         authToken = token?.token
-
         const response = await axios({
             method: 'post',
             url: url,
-            data: params,
+            data: " ",
             headers: {
                 'Authorization': 'Bearer ' + authToken,
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }
         });
-
         return response;
     } catch (error) {
         if (error.response) {

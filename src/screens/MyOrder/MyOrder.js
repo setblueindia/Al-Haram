@@ -47,7 +47,7 @@ const MyOrder = () => {
 
                         <View style={[styles.compalatedView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                           <View style={[styles.dott, { backgroundColor: item?.status_display == "pending" ? "#FFC000" : item?.status_display == "canceled" ? 'red' : item?.status_display == "closed" ? 'red' : item?.status_display == "canceled" ? 'red' : "green" }]}></View>
-                          <Text style={[styles.compalatedText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }, { color: item?.status_display == "pending" ? "#FFC000" : item?.status_display == "closed" ? 'red' : item?.status_display == "canceled" ? 'red' : "green" }]}>{item?.status_display}</Text>
+                          <Text style={[styles.compalatedText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) , textAlign:'right'}, { color: item?.status_display == "pending" ? "#FFC000" : item?.status_display == "closed" ? 'red' : item?.status_display == "canceled" ? 'red' : "green" }]}>{item?.status_display}</Text>
                         </View>
 
                       </View>

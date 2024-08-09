@@ -37,19 +37,22 @@ export const styles = StyleSheet.create({
     orderTexrt: {
         fontSize: ResponsiveSize(25),
         color: COLOR.black,
-        fontWeight: FONTWEGHIT.font600
+        fontWeight: FONTWEGHIT.font600,
+        // backgroundColor:"red",
+
+        
     },
     DottView: {
         height: ResponsiveSize(10),
         width: ResponsiveSize(10),
         borderRadius: ResponsiveSize(100),
         backgroundColor: "green",
-
-
     },
     statusText: {
         color: "green",
-        marginLeft: ResponsiveSize(10)
+        marginLeft: ResponsiveSize(10),
+        flex:1,
+        textAlign:'left'
     },
     StatusView: {
         flexDirection: ALINE.row,
@@ -190,7 +193,9 @@ export const styles = StyleSheet.create({
         textAlign:ALINE.center,
         color:COLOR.primaray,
         fontWeight:FONTWEGHIT.font600,
-        marginRight:ResponsiveSize(20)
+        marginRight:ResponsiveSize(20),
+        flex:1,
+        textAlign:'right'
     },
     orderNameText:{
         width:ResponsiveSize(250),

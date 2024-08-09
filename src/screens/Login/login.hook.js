@@ -70,7 +70,6 @@ const useLoginHook = () => {
         navigation.navigate(NAVIGATION.DrawerNavigation)
         RemoveRembember()
         setLoader(false)
-
     } else {
       setLoader(false)
       setShowModal(true)
@@ -78,7 +77,6 @@ const useLoginHook = () => {
       console.log("Response error =====> ", response?.data)
     }
   }
-
   const useLoginWithEmail = () => {
     if (!email) {
       setErrorText(langues?.Enteremailaddress)
@@ -92,10 +90,10 @@ const useLoginHook = () => {
       setErrorText(langues?.Enterpassword)
       setShowModal(true)
     }
-    else if (!passwordRegxp.test(password)) {
-      setShowModal(true)
-      setErrorText(langues?.Invalidpassword)
-    }
+    // else if (!passwordRegxp.test(password)) {
+    //   setShowModal(true)
+    //   setErrorText(langues?.Invalidpassword)
+    // }
     else {
       emailLogin()
     }
@@ -164,20 +162,29 @@ const useLoginHook = () => {
   }
 
   const handleGoogleSignIn = async () => {
+
     try {
+
       const userCredential = await signInWithGoogle();
-      const fullName = userCredential.user?.displayName
+
+      // console.log("userCredential ::::::: " , userCredential)
+      
+      const regex = /^[A-Za-z0-9 ]*$/
+      const fullName = userCredential?.user?.displayName
       const mail = userCredential?.user?.email
       const uid = userCredential?.user?.uid
-      const nameParts = fullName.split(' ');
+      const nameParts = fullName?.split(' ');
       const firstName = nameParts[0];
-      const lastName = nameParts.slice(1).join(' '); 
+      const lastnameText = nameParts?.slice(1)?.join(' '); 
+      const testLastName = regex.test(lastnameText);
+      const lastName = testLastName ? lastName : " "
 
-      SINUP(mail , firstName , lastName , uid , type = "google")
+       SINUP(mail , firstName , lastName , uid , type = "google")
+
 
     } catch (error) {
-      console.error('Error signing in with Google:', error);
-      Alert.alert('Error', 'Something went wrong. Please try again.');
+      console.error('Error signing in with Google:', error.code, error.message, error);
+      Alert.alert('Error', `Error Code: ${error.code}\nMessage: ${error.message}`);
     }
   }
 
@@ -196,7 +203,7 @@ const useLoginHook = () => {
     formData.append('auth', uid ? uid : " ");
 
     const response = await useSingUp(formData)
-    console.log("::::::::::::" , response?.data?.data)
+    console.log("::::::::::::" , response?.data)
     if (response?.data?.status == NUMBER.num1) {
       const result = await ExpireToken(fromdata)
       console.log("TOKEN EXPRIE API RES ::::::: " , result)

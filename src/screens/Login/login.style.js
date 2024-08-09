@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
   },
   rememverText: {
     marginLeft: ResponsiveSize(20),
+    color:COLOR.darkGray
   },
   forgetText: {
     color: COLOR.primaray,

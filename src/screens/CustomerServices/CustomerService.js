@@ -10,10 +10,9 @@ import CusLoader from '../../components/CustomLoader'
 const CustomerService = () => {
     const { navigation, lang, Str, data, isLoadding } = useCustomerServiceHook()
     return (
-
         <View style={styles.mainView}>
             <CommanHeader navigation={navigation} name={Str.CustomerService} lang={lang} />
-            {data &&
+            {data?.address &&
                 <View style={styles.containerView}>
                     <View style={[styles.container]}>
                         <Text style={[styles.nameText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.address}</Text>

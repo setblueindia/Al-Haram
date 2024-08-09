@@ -3,6 +3,7 @@ import {
     AddRemoveToWhishLisstURL,
     AddToCart,
     AddressListURL,
+    BASE_URL,
     Banner,
     CartListApi,
     CityListURL,
@@ -149,7 +150,9 @@ export const DeleteAddress = async (params) => {
     return res
 }
 
-export const ExpireToken = async (params) => {
+export const ExpireToken = async (params , lang) => {
+    const addKeyWord = lang == NUMBER.num0 ? "arabic"   : "default" 
+    const makeURL = BASE_URL +  "/rest/" +addKeyWord+ "/V1/carts/mine"
     const res = await POSTFORM2(expireTokenDefault , params)
     return res
 }

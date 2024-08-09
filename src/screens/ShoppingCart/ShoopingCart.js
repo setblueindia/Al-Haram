@@ -142,7 +142,7 @@ const ShoopingCart = () => {
                         </View>
                         : null
                 }
-
+                
                 {
                     index == 1 &&
                     <View style={{ flex: 1 }}>

@@ -180,13 +180,13 @@ mutation{
 
   const TokenExpired = async () => {
     const fromdata = new FormData()
-    const result = await ExpireToken(fromdata)
+    const result = await ExpireToken(fromdata , lang?.data)
     console.log("Token expired response :::::::", result?.data)
   }
 
   useEffect(() => {
     TokenExpired()
-  }, [])
+  }, [navigation])
 
   return {
     HomeScreeData,

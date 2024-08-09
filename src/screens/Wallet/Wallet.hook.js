@@ -33,12 +33,10 @@ const UseWalletHook = (setloader, route) => {
     try {
       const rep = await GetWallateAmount(data, lang)
       if (rep) {
-        setAmount(rep?.data?.data?.getWalletRemainingTotal)
-        const strAmount = JSON.stringify(rep?.data?.data?.getWalletRemainingTotal)
-        console.log("AMOUNT ::::::::::", strAmount)
+        setAmount(rep?.data?.data?.getWalletRemainingTotal ? rep?.data?.data?.getWalletRemainingTotal : 0)
+        const strAmount = JSON.stringify(rep?.data?.data?.getWalletRemainingTotal ? rep?.data?.data?.getWalletRemainingTotal : 0)
         WallateAmount(strAmount)
         setloader ? setloader(false) : setIsLoading(false)
-
       } else {
         console.log("ERT AMOUNT INNER ERROR :::::::: ", rep?.data)
       }
@@ -116,7 +114,7 @@ const UseWalletHook = (setloader, route) => {
 
 if(addAmount) {
   try {
-    const resp = await postBeforUrWay(data, lang)
+      const resp = await postBeforUrWay(data, lang)
     const orderID = resp?.data?.data?.placeOrder?.order_id
     setOId(orderID)
     orderID &&
@@ -127,7 +125,6 @@ if(addAmount) {
           last_name: userData?.lastname,
           address: address?.address1 + " " + address?.address2,
           city: address?.city,
-          // state: fromdata,
           zip: address?.postcode,
           phone_number: address?.telephone,
           customerEmail: userData?.email,
@@ -166,7 +163,6 @@ if(addAmount) {
         response: responseData.data,
       });
     } else {
-      // showMessage({message: responseData.error, type: 'danger'});
       console.log("message ::::::::::::::::", { message: responseData.error, type: "danger" })
     }
   };
@@ -191,20 +187,12 @@ if(addAmount) {
 
     try {
       const res = await postAfterUrWay(data, lang)
-      // console.log("Response :::::::::::;", res?.data?.data?.onlinePaymentAfterOrderUpdate?.message)
       const message = res?.data?.data?.onlinePaymentAfterOrderUpdate?.message
       const messTost = message.toString()
-      // console.log("Response ::::::::::: >>>>>>>>> ", messTost)
-      // console.log("state =========>" , res?.data?.data)
-      // if(res?.data?.data?.status){
       getWallteAmount()
-      SHOWTOTS(messTost)
+      SHOWTOTS(messTost ? messTost : " ")
       setIsLoading(false)
       setAddAmount(" ")
-      // }else{
-      //   console.log("AFTER URWAY PAYMENT INNER ERROR ::::::: ", res?.data )
-      //   setIsLoading(false)
-      // }
     } catch (error) {
       console.log("AFTER URWAY PAYMENT ERROR ::::::: ", error)
       setIsLoading(false)

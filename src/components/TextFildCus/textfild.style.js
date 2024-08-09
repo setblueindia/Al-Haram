@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
    
         width:"100%",
         height:ResponsiveSize(80),
-        marginLeft:ResponsiveSize(10)
+        marginLeft:ResponsiveSize(10),
+        color:COLOR.black
       
     },
     icon:{

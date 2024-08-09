@@ -12,8 +12,7 @@ const useCustomerServiceHook = () => {
     const [isLoadding , setIsLoadding] = useState()
     const lang = useSelector(state => state.lang.data)
     const Str = lang == NUMBER.num0 ? Ar : En
-
-
+    
     const getData = async () => {
         setIsLoadding(true)
         const data = `
@@ -34,7 +33,6 @@ const useCustomerServiceHook = () => {
                 setData(res?.data?.data?.customerServiceForMobileApp)
                 setIsLoadding(false)
             }else{
-                SHOWTOTS()
                 setIsLoadding(false)
             }
         } catch (error) {

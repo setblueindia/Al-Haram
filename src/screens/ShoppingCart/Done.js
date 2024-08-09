@@ -24,6 +24,8 @@ const Done = (props) => {
 
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n We will send you order confirmation with details and tracking information.` : `رقم طلبك: ${OrderID}. \n سوف نرسل لك تأكيد الطلب مع تفاصيل ومعلومات التعقب.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
+    const oppss = lang == NUMBER.num1 ?  "OOOOps..." : "خطأ ....."
+    const Congratulation = lang == NUMBER.num1 ? "Congratulation" : "تهنئة"
 
     const senNotiFication = async () => {
         const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
@@ -103,8 +105,8 @@ const Done = (props) => {
             </View>}
 
             <View style={styles.textView}>
-                <Text style={styles.congrationText}>{lang == NUMBER.num0 ? "تهنئة" : "Congratulation"}</Text>
-                <Text style={styles.lastText}>{lang == NUMBER.num1 ? Order_Success : SOMETHING_WRONG}</Text>
+                <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>
+                <Text style={styles.lastText}>{result?.data?.status == "Successful"  ? Order_Success : SOMETHING_WRONG}</Text>
             </View>
             <View style={styles.btnView}>
                 <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />

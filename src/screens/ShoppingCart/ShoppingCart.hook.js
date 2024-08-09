@@ -627,6 +627,7 @@ const useShoppingcart = () => {
       if (res?.status == '200') {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
+        
         if (paymentCode == "magveg") {
           navigation.navigate(NAVIGATION.PaymentScreen, {
             request: {
@@ -678,7 +679,6 @@ const useShoppingcart = () => {
 
     }
   }
-
   const onProcessPayment = (responseData) => {
     console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)
     if (responseData.status == 'success') {
@@ -686,7 +686,7 @@ const useShoppingcart = () => {
         response: responseData.data,
       });
     } else {
-      // showMessage({message: responseData.error, type: 'danger'});
+      showMessage({message: responseData.error, type: 'danger'});
       console.log("message ::::::::::::::::", { message: responseData.error, type: "danger" })
     }
   };
