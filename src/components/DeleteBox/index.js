@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        fontSize:ResponsiveSize(22)
+        fontSize:ResponsiveSize(22),
+        color:COLOR.black
     },
     btnContainer: {
         flexDirection: 'row',
@@ -64,6 +65,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     btnText:{
-        color:COLOR.white
+        color:COLOR.white,
+        width:"100%",
+        textAlign:'center'
     }
 })

@@ -7,25 +7,27 @@ import { AddressList, DeleteAddress } from "../../api/axios.api"
 import { SHOWTOTS } from "../../utils/utils"
 
 
-const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) => {
+const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
     const lang = useSelector(state => state.lang.data)
     const userData = useSelector(state => state.userData.data)
     const navigation = useNavigation()
     const [isLoading, setIsLoading] = useState(false)
-    const [aindex , setAindex] = useState() 
-    const [resload , setReload] = useState(false)
-    const [deletePopp , setDetetePopp] = useState(false)
-    const [deleteId , setdeteteId] = useState() 
+    const [aindex, setAindex] = useState()
+    const [resload, setReload] = useState(false)
+    const [deletePopp, setDetetePopp] = useState(false)
+    const [deleteId, setdeteteId] = useState()
     const Str = lang == NUMBER.num0 ? Ar : En
     const [data, setData] = useState([])
     useEffect(() => {
         getData()
-    }, [navigation , resload])
+    }, [navigation, resload])
 
     const addAddress = () => {
-        navigation.navigate(NAVIGATION.addaddress , {setLoadding : setLoadding , setReload : setReload , getData:getData})
+        navigation.navigate(NAVIGATION.addaddress, { setLoadding: setLoadding, setReload: setReload, getData: getData })
     }
     const getData = async () => {
+        // console.log("")
+          console.log("FUCTION CALLING ::::::::::" ,)
         !setLoadding && setIsLoading(true)
         setLoadding && setLoadding(true)
         const formData = new FormData
@@ -33,25 +35,30 @@ const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) =>
         formData.append("store_id", lang)
         try {
             const res = await AddressList(formData)
-         
             if (res?.data?.status == NUMBER.num1) {
                 const temp = [];
                 setData(res?.data?.data)
-                res?.data?.data.map((items , index)=>{
-                    if(items?.default_billing){
+                res?.data?.data.map((items, index) => {
+                    if (items?.default_billing) {
                         temp.push(items)
                     }
                 })
+                if (res?.data?.data.length <= 0) {
+                    navigation.navigate(NAVIGATION.addaddress)
+                    setIsLoading(false)
+                    setLoadding && setLoadding(false)
+                }
                 setLoadding && setBillingAddress(temp)
                 setIsLoading(false)
-                setLoadding &&   setLoadding(false)
+                setLoadding && setLoadding(false)
             } else {
-                setIsLoading(false)
+      
+
             }
         } catch (error) {
             console.log("ADRESS-LIST ERROR :::::::::::::::::::: ", error)
             setIsLoading(false)
-            setLoadding &&  setLoadding(false)
+            setLoadding && setLoadding(false)
         }
     }
     const deleteAdress = async (items) => {
@@ -87,6 +94,7 @@ const useAddressBookHook = (setAddressCode , setLoadding , setBillingAddress) =>
         getData,
         setDetetePopp,
         deletePopp,
+        setLoadding,
         setdeteteId
     }
 }

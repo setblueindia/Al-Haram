@@ -8,7 +8,7 @@ import { Ar, En } from "../../constants/localization"
 
 const useAddressHook = (props) => {
   const esiteData = props?.route?.params?.editeData
-  const setReload = props.route.params.setReload
+  const setReload = props?.route?.params?.setReload
   const navigation = useNavigation()
   const lang = useSelector(state => state?.lang?.data)
   const userData = useSelector(state => state?.userData?.data)
@@ -29,30 +29,31 @@ const useAddressHook = (props) => {
   const [billing, setBilling] = useState(esiteData?.default_billing ? esiteData?.default_billing : false)
   const [shopping, setShopping] = useState(esiteData?.default_shipping ? esiteData?.default_shipping : false)
   const [popTex, setPopTex] = useState("")
-
-  const [serchText , setSerchText] = useState()
-  const [cities , setCities] = useState([])
-  const [sates , setStates] = useState([])
-  const [ mixCity , setMixCity] = useState()
+  const [serchText, setSerchText] = useState()
+  const [cities, setCities] = useState([])
+  const [sates, setStates] = useState([])
+  const [mixCity, setMixCity] = useState()
   const getData = props?.route?.params?.getData
+  const temp =  props?.route?.params?.setLoadding
+  
 
-  useEffect(()=>{
+  useEffect(() => {
     const button = false;
     gwtStateData(button)
-  } , [])
+  }, [])
 
   const searchState = (query) => {
     const queryLower = query?.toLowerCase();
-    const filterData =  mixCity ? sates : cities
-    return filterData.filter(city => {
-        const nameLower = mixCity ? city?.default_name?.toLowerCase() : city?.city?.toLowerCase();  
-        return queryLower.split('').some(letter => nameLower.includes(letter));
+    const filterData = mixCity ? sates : cities
+    return filterData?.filter(city => {
+      const nameLower = mixCity ? city?.default_name?.toLowerCase() : city?.city?.toLowerCase();
+      return queryLower?.split('').some(letter => nameLower?.includes(letter));
     });
-};
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     const result = searchState(serchText);
-    setCitydata(result.length <= 0 ? sates :result)
+    setCitydata(result.length <= 0 ? sates : result)
   }, [serchText])
 
   const gwtStateData = async (button) => {
@@ -62,32 +63,32 @@ const useAddressHook = (props) => {
     const formData = new FormData
     formData.append("country_code", "sa")
     formData.append("store_id", lang)
-    if(!button) {
+    if (!button) {
       try {
         const rep = await StateList(formData)
         if (rep?.data?.status == NUMBER.num1) {
-          !sates &&  setCitydata(rep?.data?.data)
+          !sates && setCitydata(rep?.data?.data)
           setStates(rep?.data?.data)
           setIsLoading(false)
         } else {
           setIsLoading(false)
           SHOWTOTS(ep?.data?.message)
         }
-  
+
       } catch (error) {
         console.log("GET STATE DATA ERROR :::::::::::::::: ", error)
         setIsLoading(false)
       }
     }
-   
+
   }
 
-  const getCityData = async (code) => {
-
-    !code &&   setPopTex("City")
-    !code &&   setOn(true)
+  const getCityData = async (code , open) => {
+    console.log("code :::::::" , code)
+    state && setOn(true)
+    !code && setPopTex("City")
     cities && setCitydata(cities)
-    if(code) {
+    if (code) {
       setIsLoading(true)
       const formData = new FormData
       formData.append("state_code", code)
@@ -97,21 +98,22 @@ const useAddressHook = (props) => {
         if (rep?.data?.status == NUMBER.num1) {
           !cities && setCitydata(rep?.data?.data)
           setCities(rep?.data?.data)
+          // !code && setOn(true)
           setIsLoading(false)
           setIsLoading(false)
         } else {
           setIsLoading(false)
           SHOWTOTS(ep?.data?.message)
         }
-  
+
       } catch (error) {
         console.log("GET CITY DATA ERROR :::::::::::::::: ", error)
         setIsLoading(false)
       }
-    } else{
+    } else {
       !stateCode && SHOWTOTS("FIRST SELECT STATE")
     }
-    
+
   }
 
   const addAddress = async () => {
@@ -144,7 +146,7 @@ const useAddressHook = (props) => {
 
       try {
         const formData = new FormData
-        formData.append("address_id" , esiteData?.id)
+        formData.append("address_id", esiteData?.id)
         formData.append("customer_id", userData?.id)
         formData.append("firstname", firstName)
         formData.append("lastname", lastName)
@@ -161,13 +163,13 @@ const useAddressHook = (props) => {
         formData.append("store_id", lang)
         const response = await AddressList(formData)
         if (response?.data?.status) {
-          navigation.navigate(props.route.params.setLoadding ? navigation.goBack() : NAVIGATION.AddressBookScreen)
           getData()
-          SHOWTOTS(response?.data?.message)
-          setReload(true)
+          SHOWTOTS(response?.data?.message ? response?.data?.message : "")
+          setReload && setReload(true)
+          props?.route?.params?.setLoadding ?  navigation.goBack() : navigation.navigate( NAVIGATION.AddressBookScreen)
           setIsLoading(false)
         } else {
-          SHOWTOTS(response?.data?.message)
+          SHOWTOTS(response?.data?.message ? response?.data?.message : "")
           setIsLoading(false)
         }
       } catch (error) {
@@ -176,9 +178,9 @@ const useAddressHook = (props) => {
       }
     }
   }
-
   const data = lang == NUMBER.num0 ?
     {
+      EditAddress : "عنوان التحرير",
       AddAddress: "اضف عنوان",
       FirstName: "الاسم الأول",
       LastName: "اسم العائلة",
@@ -195,6 +197,7 @@ const useAddressHook = (props) => {
     } :
     {
       AddAddress: "Add Address",
+      EditAddress : "Edit Address",
       FirstName: "First Name",
       LastName: "Last  Name",
       PhoneNumber: "Phone Number",
@@ -239,6 +242,8 @@ const useAddressHook = (props) => {
     sates,
     cities,
     serchText,
+    temp,
+    esiteData,
     setSerchText,
     setStaeCode,
     gwtStateData,

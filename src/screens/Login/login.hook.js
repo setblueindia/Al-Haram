@@ -166,8 +166,6 @@ const useLoginHook = () => {
     try {
 
       const userCredential = await signInWithGoogle();
-
-      // console.log("userCredential ::::::: " , userCredential)
       
       const regex = /^[A-Za-z0-9 ]*$/
       const fullName = userCredential?.user?.displayName
@@ -180,7 +178,6 @@ const useLoginHook = () => {
       const lastName = testLastName ? lastName : " "
 
        SINUP(mail , firstName , lastName , uid , type = "google")
-
 
     } catch (error) {
       console.error('Error signing in with Google:', error.code, error.message, error);

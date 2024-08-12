@@ -25,6 +25,12 @@ const useProductHook = (props) => {
     getFilterData()
   }, [])
 
+
+  console.log("=============" , {
+    action : action,
+    sortBy : sortBy
+  })
+
   const [like, setLike] = useState(false)
   const [pIndex, setIndex] = useState('')
 
@@ -50,10 +56,13 @@ const useProductHook = (props) => {
     )
   }
 
-  const getData = async () => {
+  const getData = async (fdata) => {
+
+    console.log("Fdata :::::::: " , fdata)
     currePage < 1 && setIsLoadding(true)
+    fdata && setIsLoadding(true)
     currePage >= 1 && setMoreData(true)
-    const nextPage = currePage + 1 
+    const nextPage = fdata ?  1 : currePage + 1 
 
     const formData = new FormData
     formData.append("category_id", props?.route?.params?.cetegoriesId)
@@ -66,18 +75,16 @@ const useProductHook = (props) => {
     formData.append("price_from", '')
     formData.append("price_to", '')
     formData.append("search", '')
-    formData.append("sort_by", sortBy ? sortBy : '')
-    formData.append("sort_action", action ? action : '')
+    formData.append("sort_by", fdata ? fdata?.sortby : sortBy)
+    formData.append("sort_action", fdata  ? fdata?.action : action)
     try {
       const res = await getProductList(formData)
       if (res?.status == '200') {
-        setData([...data , ...res?.data?.data])
+        fdata ?  setData(res?.data?.data) : setData([...data , ...res?.data?.data])
         // setData(res?.data?.data)
         setIsLoadding(false)
         setMoreData(false)
         setCurrentPage(nextPage)
-        setSortBy(''),
-        setActions('')
       } else {
         setIsLoadding(false)
         setMoreData(false)
@@ -93,6 +100,54 @@ const useProductHook = (props) => {
 
     }
   }
+
+  // const getSortFilterData = async () => {
+  //   currePage < 1 && setIsLoadding(true)
+  //   currePage >= 1 && setMoreData(true)
+  //   const nextPage = currePage + 1 
+
+  //   const formData = new FormData
+  //   formData.append("category_id", props?.route?.params?.cetegoriesId)
+  //   formData.append("store_id", lang)
+  //   formData.append("PageSize", 10)
+  //   formData.append("CurPage", nextPage)
+  //   formData.append("customer_id", userData?.id)
+  //   formData.append("color", '')
+  //   formData.append("size", '')
+  //   formData.append("price_from", '')
+  //   formData.append("price_to", '')
+  //   formData.append("search", '')
+  //   formData.append("sort_by", sortBy ? sortBy : '')
+  //   formData.append("sort_action", action ? action : '')
+  //   try {
+  //     const res = await getProductList(formData)
+  //     if (res?.status == '200') {
+  //       setData([...data , ...res?.data?.data])
+  //       // setData(res?.data?.data)
+  //       setIsLoadding(false)
+  //       setMoreData(false)
+  //       setCurrentPage(nextPage)
+  //       setSortBy(''),
+  //       setActions('')
+  //     } else {
+  //       setIsLoadding(false)
+  //       setMoreData(false)
+  //       setSortBy('')
+  //       setActions('')
+  //     }
+  //   } catch (error) {
+  //     console.log("GET PRODUCT ERROR :::::::::: ", error)
+  //     setIsLoadding(false)
+  //     setMoreData(false)
+  //     setSortBy('')
+  //     setActions('')
+
+  //   }
+  // }
+
+  
+
+  
 
   const getFilterData = async () => {
     // setIsLoadding(true)

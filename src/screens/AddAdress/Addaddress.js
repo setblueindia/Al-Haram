@@ -1,7 +1,6 @@
 import { Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
-import useAddressBookHook from '../AddreesBook/AddressBook.hook'
 import TextFildCus from '../../components/TextFildCus'
 import { styles } from './address.style'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
@@ -13,6 +12,7 @@ import useAddressHook from './address.hook'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CusLoader from '../../components/CustomLoader'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const Addaddress = (props) => {
 
@@ -34,6 +34,8 @@ const Addaddress = (props) => {
     address3,
     pinCode,
     serchText,
+    esiteData,
+    temp,
     cities,
     sates,
     setShopping,
@@ -61,8 +63,8 @@ const Addaddress = (props) => {
 
   return (
     <View style={styles.mainView}>
-      <CommanHeader navigation={navigation} lang={lang} name={data.AddAddress} />
-      <ScrollView style={styles.conatainer}>
+      <CommanHeader navigation={navigation} lang={lang} name={esiteData ? data?.EditAddress : data.AddAddress} />
+      <KeyboardAwareScrollView style={styles.conatainer}>
         <TextFildCus onChange={setFirstName} value={firstName} text={data?.FirstName} add={true} />
         <View style={styles.devider} />
         <TextFildCus onChange={setlastname} value={lastName} text={data?.LastName} add={true} />
@@ -94,7 +96,6 @@ const Addaddress = (props) => {
             onPress={() => {
               getCityData()
               setMixCity(false)
-
             }}
             style={styles.stateTextView}
           >
@@ -109,15 +110,13 @@ const Addaddress = (props) => {
             <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.UseasmydefaultShippingaddress}</Text>
           </View>
         </View>
-
         <View style={styles.btnView}>
-          <Button onPress={addAddress} text={lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
+          <Button onPress={addAddress} text={ esiteData ?  data?.EditAddress  : lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
         </View>
         <View style={{ height: ResponsiveSize(40) }}>
 
         </View>
-      </ScrollView>
-
+      </KeyboardAwareScrollView>
 
       {on &&
         <View style={[styles.popView]}>
@@ -128,7 +127,7 @@ const Addaddress = (props) => {
               placeholder='Search'
               value={serchText}
               placeholderTextColor={COLOR.liteGray}
-              onChangeText={(text)=>{setSerchText(text)}}
+              onChangeText={(text) => { setSerchText(text) }}
             />
             <ScrollView style={styles.ScrollView}>
               {
@@ -138,8 +137,8 @@ const Addaddress = (props) => {
                       setOn(false),
                         items?.default_name ? setStae(items?.default_name) :
                           setCity(items?.city),
-                          setStaeCode(items?.region_id)
-                          items?.default_name && getCityData(items?.region_id)
+                        setStaeCode(items?.region_id)
+                      items?.default_name && getCityData(items?.region_id)
                     }}
                       key={index} style={styles.itemsName}>
                       <Text style={styles.customerName}>{items?.default_name ? items?.default_name : items?.city}</Text>
@@ -158,8 +157,8 @@ const Addaddress = (props) => {
               <Text style={styles.cancalText}>{"Cancel"}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={()=>{setSerchText("")}}
-            style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
+              onPress={() => { setSerchText("") }}
+              style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
               <Text style={[styles.cancalText, { color: COLOR.black }]}>{"clear"}</Text>
             </TouchableOpacity>
 

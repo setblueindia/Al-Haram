@@ -80,12 +80,14 @@ const ProductDetails = (props) => {
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
                         {defaultColor?.values?.map((items, index) => {
+                            console.log("Image :::::" , items)
                             const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
                             return (
                                 <View style={{ justifyContent: ALINE.center }}>
                                     <TouchableOpacity
                                         onPress={(() => { setIndex(index), colorOnPress(items?.value_index) })}
-                                        key={index} style={[styles.colorConatiner,
+                                        key={index}
+                                        style={[styles.colorConatiner,
                                         index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
                                         <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
                                         {(!block && !shoeColor) &&
@@ -96,8 +98,7 @@ const ProductDetails = (props) => {
                                                 width: ResponsiveSize(70),
                                                 backgroundColor: "#00000050",
                                                 borderRadius: ResponsiveSize(20)
-                                            }}
-                                            >
+                                            }}>
                                                     <Block style={{ alignSelf:'center' , top:ResponsiveSize(5)}} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
                                             </View>
                                         }
@@ -151,7 +152,6 @@ const ProductDetails = (props) => {
                         <View style={styles.devider} />
                     </View>
                 }
-
                 <View style={[styles.counteView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={styles.text}>{Str.QNT}</Text>
                     <View style={[styles.counter, lang?.data == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
@@ -164,15 +164,12 @@ const ProductDetails = (props) => {
             {showAnimation &&
                 <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150), right: ResponsiveSize(20) }}>
                     <LottieView
-                        //   ref={animationRef}
                         source={require('../../assests/Lottianimation/AddToCart.json')}
                         autoPlay loop
                         resizeMode='cover'
                         style={{ height: "100%", width: "100%" }}
                     />
                 </View>}
-
-
             <View style={[styles.btnConatainer, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <TouchableOpacity
                     onPress={() => {

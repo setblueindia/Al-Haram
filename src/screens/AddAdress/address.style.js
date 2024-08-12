@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
 
     customerName: {
         fontSize: ResponsiveSize(25),
-        color: COLOR.TextColor
+        color: COLOR.darkGray
     },
     serchView:{
         height:ResponsiveSize(80),
@@ -122,6 +122,8 @@ export const styles = StyleSheet.create({
     popTex:{
         color:COLOR.primaray,
         fontSize:ResponsiveSize(30),
-        padding:ResponsiveSize(20)
+        padding:ResponsiveSize(20),
+        width:"100%",
+        textAlign:'center'
     }
 })

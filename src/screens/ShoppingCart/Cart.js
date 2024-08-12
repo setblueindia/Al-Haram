@@ -11,9 +11,12 @@ import DeleteBox from '../../components/DeleteBox'
 
 
 
-  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty }) => {
-
+  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty ,
+    //  setQnt ,
+      // qty
+    }) => {
   const [qty, setQnt] = useState(parseInt(data?.qty))
+  
   const [deletePopp , setDeletePopp] = useState(false)
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar

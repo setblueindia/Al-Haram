@@ -5,7 +5,7 @@ import { COLOR, FONTWEGHIT } from '../../constants/style'
 import LinearGradient from 'react-native-linear-gradient'
 import { NUMBER } from '../../constants/constants'
 
-const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData }) => {
+const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData  }) => {
 
     const [productIndex, setProductIndex] = useState()
 
@@ -25,31 +25,55 @@ const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData }) =>
 
     const filterOnPress = (index) => {
 
+     
+
         if (index == 0) {
+            console.log("index:::::::::::" , index)
             setSortBy("")
             setActions("DESC")
-            getData()
+            // getFilterData()
+            const fdata = {
+                sortby : "",
+                action : "DESC"
+            }
+            getData(fdata)
             setSortFilter(false)
             
         }
         if (index == 1) {
+            console.log("index:::::::::::" , index)
             setSortBy("position")
             setActions("ASC")
-            getData()
+            const fdata = {
+                sortby : "position",
+                action : "ASC"
+
+            }
+            getData(fdata)
             setSortFilter(false)
 
         }
         if (index == 2) {
             setSortBy("price")
             setActions("ASC")
-            getData()
+            const fdata = {
+                sortby : "price",
+                action : "ASC"
+
+            }
+            getData(fdata)
             setSortFilter(false)
 
         }
         if (index == 3) {
             setSortBy("price")
             setActions("DESC")
-            getData()
+            const fdata = {
+                sortby : "price",
+                action : "DESC"
+
+            }
+            getData(fdata)
             setSortFilter(false)
 
         }
@@ -129,7 +153,6 @@ const styles = StyleSheet.create({
         width: "100%",
         borderWidth: ResponsiveSize(0.5),
         borderColor: COLOR.gray,
-
     },
     containView: {
         height: ResponsiveSize(80),
@@ -139,7 +162,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: ResponsiveSize(20)
-
     },
     checkBoxCircal: {
         height: ResponsiveSize(30),
@@ -147,8 +169,6 @@ const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(100),
         borderColor: COLOR.primaray,
         borderWidth: ResponsiveSize(2),
-
-
     },
     checkBoxCircal2: {
         height: "100%",
@@ -158,8 +178,8 @@ const styles = StyleSheet.create({
     checkText: {
         fontSize: ResponsiveSize(30),
         marginLeft: ResponsiveSize(30),
-        flex:1
-    
+        flex:1,
+        color:COLOR.darkGray
     }
 
 })

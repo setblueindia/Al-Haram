@@ -48,9 +48,7 @@ const Product = (props) => {
                         <View style={styles.ListVivew}>
                             <View style={styles.filterView}>
                                 <View style={styles.filterContainer}>
-
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
                                         <TouchableOpacity
                                             onPress={() => { setSortFilter(true) }}
                                             style={styles.comonView}>
@@ -71,12 +69,9 @@ const Product = (props) => {
                                             <View style={styles.deviderInner} />
                                             <Text style={styles.filterText}>{Str?.Filter}</Text>
                                         </TouchableOpacity>
-
                                     </View>
-
                                 </View>
                             </View>
-
                             <FlatList
                                 data={data}
                                 showsVerticalScrollIndicator={false}
@@ -104,7 +99,7 @@ const Product = (props) => {
                                     )
                                 }}
                                 renderItem={({ item, index }) => {
-                                    const name = item?.name.substring(0, 16)
+                                    const name = item?.name?.substring(0, 16)
                                     return (
                                         <TouchableOpacity
                                             onPress={() => {
@@ -155,7 +150,7 @@ const Product = (props) => {
 
                             <View style={styles.devider}></View>
                             <Modal animationType='slide' transparent={true} visible={sortFilter}>
-                                <SortFilter getData={getData} setActions={setActions} setSortBy={setSortBy} setSortFilter={setSortFilter} lang={lang} />
+                                <SortFilter getData={getData} setActions={setActions} setSortBy={setSortBy} setSortFilter={setSortFilter} lang={lang}/>
                             </Modal>
 
                             <Modal animationType='slide' transparent={true} visible={sizeFilter}>

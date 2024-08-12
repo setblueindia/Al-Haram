@@ -50,7 +50,8 @@ const Wallet = ({ Sponser , setloader ,  route }) => {
               style={{ paddingHorizontal: ResponsiveSize(10) }}
             />
             <TextInput
-              style={{ flex: 1 }}
+              style={{ flex: 1 , color:COLOR.black }}
+              placeholderTextColor={COLOR.darkGray}
               textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
               placeholder={data?.EnterAmount}
               underlineColorAndroid="transparent"

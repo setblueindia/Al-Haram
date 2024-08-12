@@ -17,7 +17,7 @@ import CusModal from '../../components/CusModal';
 import DataIsNotFound from '../../components/DataNotFound2';
 
 
-const ShoopingCart = () => {
+const ShoopingCart = (props) => {
 
     const {
         goBack,
@@ -81,12 +81,12 @@ const ShoopingCart = () => {
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
                     <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray } , { width:ResponsiveSize(90)}]}>{shopinfCratData?.Shipping}</Text>
-                    {index == 0 && <Text>------</Text>}
+                    {index == 0 && <Text style={{color:COLOR.darkGray}}>------</Text>}
                     {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
                     <Text style={[styles.text, (index == 3) && { color: COLOR.primaray } , { width:ResponsiveSize(90)}]}>{shopinfCratData.Payment}</Text>
-                    {(index == 0 || index == 1 || index == 2) && <Text>------</Text>}
+                    {(index == 0 || index == 1 || index == 2) && <Text style={{color:COLOR.darkGray}}>------</Text>}
                 </View>
 
                 {index == 0 &&
@@ -213,7 +213,7 @@ const ShoopingCart = () => {
                 {(index == 1 || index == 2 || index == 3) &&
                     (!isLoadding && data.length > 0) &&
                     <TouchableOpacity onPress={() => { goBack() }} style={styles.goBackBtn}>
-                        <Icon name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR} />
+                        <Icon name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft} size={ResponsiveSize(40)} color={COLOR.black} />
                     </TouchableOpacity>}
             </View>
 

@@ -15,7 +15,7 @@ const AddressBook = ({
     Shooping,
     setAddressCode,
     setLoadding,
-    setBillingAddress
+    setBillingAddress,
 }) => {
     const { data,
         navigation,
@@ -52,13 +52,13 @@ const AddressBook = ({
                                             <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
                                         </View>
                                         <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                           { !setLoadding && <TouchableOpacity
+                                            {!setLoadding && <TouchableOpacity
                                                 onPress={() => { navigation.navigate(NAVIGATION.addaddress, { editeData: items, getData: getData }) }}
                                             >
                                                 <ICON name={"square-edit-outline"} size={ResponsiveSize(35)} color={COLOR.primaray} />
                                             </TouchableOpacity>}
                                             <View style={{ width: ResponsiveSize(15) }}></View>
-                                       { !setLoadding &&    <TouchableOpacity onPress={(() => {
+                                            {!setLoadding && <TouchableOpacity onPress={(() => {
                                                 // deleteAdress(items?.id),
                                                 setdeteteId(items?.id)
                                                 setDetetePopp(true)
@@ -91,16 +91,15 @@ const AddressBook = ({
             </ScrollView>
 
 
-
-            <View style={styles.btnView}>
-                <TouchableOpacity
-                    onPress={() => {
-                        addAddress()
-                    }}
-                    style={styles.btn}>
-                    <Text style={styles.btnText}>{lang == NUMBER.num0 ? "+ إضافة عنوان جديد" : "+Add new address"}</Text>
-                </TouchableOpacity>
-            </View>
+                <View style={styles.btnView}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            addAddress()
+                        }}
+                        style={styles.btn}>
+                        <Text style={styles.btnText}>{lang == NUMBER.num0 ? "+ إضافة عنوان جديد" : "+Add new address"}</Text>
+                    </TouchableOpacity>
+                </View>
 
             {
                 isLoading &&
@@ -120,7 +119,7 @@ const AddressBook = ({
                     animationType='slide'
                     transparent
                 >
-                    <DeleteBox noPress={()=>{setDetetePopp(false)}}  yesPress={()=>{setDetetePopp(false) , deleteAdress()}} lang={lang}/>
+                    <DeleteBox noPress={() => { setDetetePopp(false) }} yesPress={() => { setDetetePopp(false), deleteAdress() }} lang={lang} />
                 </Modal>
             }
         </View>

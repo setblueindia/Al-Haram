@@ -9,8 +9,6 @@ import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
 import Share from 'react-native-share';
-import { Alert } from "react-native"
-// import Share from 'react-native-share';
 
 
 const useProductDetails = (props) => {
@@ -269,8 +267,6 @@ const useProductDetails = (props) => {
         })
         const Size = items?.attributes[1]?.label
         const valueIndexOfSize = items?.attributes[1]?.value_index
-        
-        console.log("Size :::::::: " ,Size )
         temp.push(Size)
         temp3.push(valueIndexOfSize)
       }
@@ -293,7 +289,8 @@ const useProductDetails = (props) => {
       }
     })
     setAvalableColor(temp)
-    valueIndexOfSize?.includes(id) && setIndex()
+    valueIndexOfSize?.includes(id) 
+    // && setIndex()
   }
 
 

@@ -9,10 +9,17 @@ const Counter = ({ qty, setQnt , id , updateQnty}) => {
 
     const [count, setCount] = useState(0)
 
-    const countProcess = (type) => {
+    const countProcess = async (type) => {
         if (type) {
-            setQnt(qty + 1)
-            updateQnty &&  updateQnty(id , qty + 1 , n = true)
+            if(updateQnty) {
+                const res = await updateQnty(id , qty + 1 , n = true)
+                res && setQnt(qty + 1)
+            }else{
+                setQnt(qty + 1)
+            }
+            
+            // updateQnty &&  updateQnty(id , qty + 1 , n = true)
+            // console.log("Response :::::" , res)
         } else {
             qty > 1 && setQnt(qty - 1)
             updateQnty &&   updateQnty(id , qty - 1 , n = false)

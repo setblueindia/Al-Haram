@@ -16,9 +16,7 @@ const Sponser = () => {
     return (
         <View style={styles.mainView} lang={lang}>
             <CommanHeader navigation={navigation} lang={lang} />
-
-            <View style={styles.topMenuBar}>
-
+              <View style={styles.topMenuBar}>
                 <FlatList
                     data={data}
                     inverted={lang == NUMBER.num0 ? true : false}
@@ -32,7 +30,6 @@ const Sponser = () => {
                                 <Text style={[styles.topMenuText, item.name == name && { color: COLOR.primaray }]}>{item?.name}</Text>
                                 {item.name == name && <View style={styles.lineView} />}
                             </TouchableOpacity>
-
                         )
                     }}
                 />
@@ -57,7 +54,6 @@ const Sponser = () => {
                     <TranferAmount setIsLodding={setIsLodding} lang={lang} Str={Str} />
                 </View>
             }
-
             {
                 loader &&
                 <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
@@ -81,42 +77,23 @@ const styles = StyleSheet.create({
     },
     topMenuBar: {
         width: "100%",
-        // height: ResponsiveSize(80),
         backgroundColor: "#00000010",
-        // elevation: 10,
-        // paddingHorizontal: ResponsiveSize(20),
-        // justifyContent: 'space-between',
-        // shadowOffset: { width: 0, height: 1 },
-        // shadowOpacity: 0.5,
-        // shadowRadius: 2,
-        // //  elevation: 2,
-        // shadowColor: '#000',
-
     },
     herderTexrView: {
         justifyContent: 'center',
         alignItems: 'center',
-        // flex:1
-        // width:ResponsiveSize(300)
-
     },
     topMenuText: {
         fontSize: ResponsiveSize(20),
-        // marginLeft:ResponsiveSize(30),
         paddingHorizontal: ResponsiveSize(20),
         paddingVertical: ResponsiveSize(20),
         width:ResponsiveSize(200),
-        // width:"100%"
-        textAlign:'center'
-        // color: COLOR.primaray,
-        // borderBottomWidth:ResponsiveSize(2),
+        textAlign:'center',
+        color:COLOR.black
     },
     lineView: {
-        // width:ResponsiveSize(200),
         width: "90%",
         borderWidth: ResponsiveSize(2),
         borderColor: COLOR.primaray
-        // marginTop:ResponsiveSize(30)
-        // justifyContent:'flex-end'
     }
 })

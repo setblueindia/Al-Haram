@@ -22,6 +22,7 @@ const useShoppingcart = () => {
   const userData = useSelector(state => state?.userData)
   const [outOfStock, setOutOfStock] = useState([])
   const productCount = useSelector(state => state?.AddToCart?.data)
+  const [qty, setQnt] = useState(parseInt(data?.qty))
 
 
   // For Address
@@ -517,9 +518,12 @@ const useShoppingcart = () => {
         SHOWTOTS(res?.data?.message)
         n && disPatch(addProduct(productCount + 1))
         !n && disPatch(addProduct(productCount - 1))
+        return true
       }else{
         setLoadding(false)
         SHOWTOTS(res?.data?.message)
+        return false
+        // disPatch(addProduct(productCount - 1))
       }
     } catch (error) {
       console.log("UPDATE QTY ERROR ::::::: ", error)
@@ -627,7 +631,6 @@ const useShoppingcart = () => {
       if (res?.status == '200') {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
-        
         if (paymentCode == "magveg") {
           navigation.navigate(NAVIGATION.PaymentScreen, {
             request: {
@@ -713,7 +716,9 @@ const useShoppingcart = () => {
     coupanCode,
     remove,
     validationn,
+    qty,
     setActionCode,
+    setQnt,
     setShowModal,
     deleteProduct,
     setAddressCode,

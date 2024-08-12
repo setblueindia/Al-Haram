@@ -80,6 +80,7 @@ const Login = () => {
                   icon={ICON.phoneIcon}
                   text={langues?.Entermobilenumber}
                   onChange={setMobailNumber}
+                  countryText={"+966"} 
                 />
               )}
 

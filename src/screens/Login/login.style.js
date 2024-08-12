@@ -74,7 +74,8 @@ export const styles = StyleSheet.create({
   text: {
     fontSize: ResponsiveSize(25),
     flex:1,
-    textAlign:'center'
+    textAlign:'center',
+    color:COLOR.liteGray
   },
   checkReam:{
     flexDirection:ALINE.row
