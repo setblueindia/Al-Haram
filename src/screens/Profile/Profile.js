@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import React from 'react';
 import { styles } from './profile.style';
 import LinearGradient from 'react-native-linear-gradient';
@@ -34,7 +34,7 @@ const Profile = () => {
 
 
   return (
-    <View style={styles.mainView}>
+    <ScrollView style={styles.mainView}>
       <CustomeHeader shoppingcart={true} userData={userData} />
       <View style={styles.profileView}>
         <LinearGradient
@@ -120,31 +120,8 @@ const Profile = () => {
           <Text style={styles.btntext}>{PROFILEStr?.ChangeLang}</Text>
         </TouchableOpacity>
       </View>
-      {/* {console.log(arabic)}
-      <View style={[styles.lanView]}>
-        <TouchableOpacity
-          onPress={() => {
-            setArabic(true),
-            changeLungues()
-          }}
-          style={[styles.lngBtn, !arabic && { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1) }]}>
-          <Text style={[styles.btnText, !arabic && { color: COLOR.black }]}>{"عربي"}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setArabic(false),
-            changeLungues()
-          }}
-          style={[styles.lngBtn, arabic && { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1) }]}>
-          <Text style={[styles.btnText, arabic && { color: COLOR.black }]}>{"English"}</Text>
-        </TouchableOpacity>
-      </View> */}
-{/* 
-      {loder &&
-        <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
-          <CusLoader />
-        </View>} */}
-    </View>
+ 
+    </ScrollView>
   );
 };
 export default Profile;

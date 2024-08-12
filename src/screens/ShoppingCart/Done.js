@@ -74,6 +74,8 @@ const Done = (props) => {
 
     return (
         <View style={styles.mainView}>
+
+
             {
                 result?.data &&
                 <View style={styles.lottiView}>
@@ -90,9 +92,7 @@ const Done = (props) => {
                 </View>
             }
 
-
-
-       {   !result?.data &&   <View style={styles.lottiView}>
+       { !result?.data &&   <View style={styles.lottiView}>
                 <LottieView
                     source={require('../../assests/Lottianimation/Done.json')}
                     autoPlay loop
@@ -105,8 +105,13 @@ const Done = (props) => {
             </View>}
 
             <View style={styles.textView}>
-                <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>
-                <Text style={styles.lastText}>{result?.data?.status == "Successful"  ? Order_Success : SOMETHING_WRONG}</Text>
+
+               {result?.data && <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>}
+               {!result?.data &&  <Text style={styles.congrationText}>{Congratulation}</Text>}
+
+               {result?.data &&  <Text style={styles.lastText}>{result?.data?.status == "Successful"  ? Order_Success : SOMETHING_WRONG}</Text>}
+               {!result?.data &&  <Text style={styles.lastText}>{Order_Success}</Text>}
+
             </View>
             <View style={styles.btnView}>
                 <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />

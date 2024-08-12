@@ -35,6 +35,7 @@ const useProductDetails = (props) => {
   const [color, setColor] = useState()
   const [qnt, setQnts] = useState(1)
   const [valueIndexOfSize, setValueIndexOfSize] = useState()
+  const  [imagesArry , setImageArry] = useState()
   const label = lang?.data == NUMBER.num0 ? Ar : En
   const [sliderData, setSliderData] = useState(
     [
@@ -113,7 +114,7 @@ const useProductDetails = (props) => {
       ProductCode: "Product Code : ",
       MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
       QNT: "QTY :",
-      Addtocard: "Add to card",
+      Addtocard: "Add to cart",
       Reviews: "Reviews :"
 
     } :
@@ -228,16 +229,16 @@ const useProductDetails = (props) => {
                 `
     try {
       const response = await ProductDetalsBySKU(data, lang?.data)
-      // console.log("response :::::: ", response?.data?.data?.products?.items[0]?.configurable_options[0])
+      console.log("response :::::: ", response?.data?.data?.products?.items[0]?.variants )
       if (response?.status == '200') {
         setDetails(response?.data?.data?.products?.items[0])
         const temp = [];
         response?.data?.data?.products?.items[0]?.media_gallery_entries?.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
-          // console.log("File Path :::::::", uri)
           temp.push(uri)
         })
         setSliderData(temp)
+        const tempVariant = response?.data?.data?.products?.items[0]?.variants
         setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[0])
         setDefultSize(response?.data?.data?.products?.items[0]?.configurable_options[1])
         setIsLoading(false)
@@ -309,6 +310,9 @@ const useProductDetails = (props) => {
       console.log("Like / Dislike ERROR ::::::::::::: ", error)
     }
   }
+
+
+
 
 
   return {

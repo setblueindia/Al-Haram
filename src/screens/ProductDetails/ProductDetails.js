@@ -80,7 +80,6 @@ const ProductDetails = (props) => {
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
                         {defaultColor?.values?.map((items, index) => {
-                            console.log("Image :::::" , items)
                             const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
                             return (
                                 <View style={{ justifyContent: ALINE.center }}>
