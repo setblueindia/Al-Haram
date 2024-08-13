@@ -5,7 +5,7 @@ import CommanHeader from '../../components/ComanHeader/index.js';
 import UseMyOrderHook from './MyOrder.hook.js';
 import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants.js';
 import { ALINE, COLOR } from '../../constants/style.js';
-import { ResponsiveSize } from '../../utils/utils.js';
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils.js';
 import CusLoader from '../../components/CustomLoader/index.js';
 import { ShopBug } from '../../assests/index.js';
 import DataIsNotFound from '../../components/DataNotFound2/index.js';
@@ -27,7 +27,8 @@ const MyOrder = () => {
                 return (
                   <TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => { navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id }) }}
+                      onPress={() => {
+                        item?.name == "Wallet Amount" ?  SHOWTOTS("Wallet Order status is in " + item?.status_display)  : navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id }) }}
                       style={[styles.listView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
                       <View style={styles.imgView}>

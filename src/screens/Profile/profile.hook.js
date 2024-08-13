@@ -63,7 +63,6 @@ const useProfileHook = () => {
   }
 
   const changeLungues = async () => {
-    console.log("================ Callimg ==================")
     const num = lang == NUMBER.num0 ? NUMBER.num1 : lang == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
     console.log("NUMBER ::::::::::::::: ", num)
     try {

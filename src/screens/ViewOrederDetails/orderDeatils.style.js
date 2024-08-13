@@ -201,6 +201,7 @@ export const styles = StyleSheet.create({
         width:ResponsiveSize(250),
         fontSize:ResponsiveSize(20),
         fontWeight:"500",
+        color:COLOR.black
     },
 
     titleText:{

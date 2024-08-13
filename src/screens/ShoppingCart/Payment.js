@@ -418,7 +418,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: ResponsiveSize(10)
   },
   walletText: {
-    marginLeft: ResponsiveSize(20)
+    marginLeft: ResponsiveSize(20),
+    color:COLOR.black
   },
   wallateDeatails: {
     width: "100%",
@@ -508,7 +509,8 @@ const styles = StyleSheet.create({
     borderWidth: ResponsiveSize(1),
     borderColor: COLOR.darkGray,
     // marginTop: ResponsiveSize(20),
-    paddingHorizontal: ResponsiveSize(20)
+    paddingHorizontal: ResponsiveSize(20),
+    color:COLOR.black
   },
   applyView: {
     height: ResponsiveSize(50),

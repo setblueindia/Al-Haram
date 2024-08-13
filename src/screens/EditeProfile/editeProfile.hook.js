@@ -56,9 +56,8 @@ const useEditeHook = () => {
     formDate.append("customer_id", customerID)
     try {
       const rep = await UpdateProfile(formDate)
-      console.log("Response :::::::; " , rep?.data?.message)
-      if (rep?.status == NUMBER.num1) {
-        setModalShow(true)
+      if (rep?.data?.status == NUMBER.num1) {
+        // setModalShow(true)
         SHOWTOTS(rep?.data?.message)
         setUserData(data)
         dispatch(addUserData(data))
@@ -115,11 +114,9 @@ const useEditeHook = () => {
     try {
       const rep = await UpdateProfile(formDate)
       if (rep?.data == undefined) {
-        // setModalShow(true)
         setLoadding(false)
         SHOWTOTS(lang == NUMBER.num1 ? "The password doesn't match this account. Verify the password and try again." : "كلمة المرور لا تتطابق مع هذا الحساب. تحقق من كلمة المرور وحاول مرة أخرى.")
       } else {
-        // setModalShow(true)
         SHOWTOTS(rep?.data?.message)
         setOldPassword(""),
         setNewPassword("")

@@ -81,6 +81,7 @@ const Login = () => {
                   text={langues?.Entermobilenumber}
                   onChange={setMobailNumber}
                   countryText={"+966"} 
+                  number={true}
                 />
               )}
 
@@ -131,7 +132,7 @@ const Login = () => {
               <View style={styles.socialButton}>
                 <SocialButton onPress={()=>{handleGoogleSignIn()}} icon={google} text={LOGINStr.Google} />
              { Platform.OS == 'ios' && 
-            <SocialButton   onPress={()=>{onAppleButtonPress()}} icon={Apple}  text={LOGINStr.Apple} />}
+               <SocialButton   onPress={()=>{onAppleButtonPress()}} icon={Apple}  text={LOGINStr.Apple} />}
               </View>
 
               <View style={styles.devider} />

@@ -56,7 +56,7 @@ const useSplshHook = () => {
       const rep = await AsyncStorage.getItem("UserData")
       const response = JSON.parse(rep)
       dispatch(addUserData(response))
-      getData(response?.token)
+      // getData(response?.token)
       // setLang()
     } catch (error) {
       console.log("SPLASH SCREEN SET USER ERROR ======> ", error)
@@ -141,7 +141,6 @@ const useSplshHook = () => {
   }
 
   const ProductDetails = async (lang) =>{
-console.log("::::::::::::==========::::::::::::::", lang)
     const params = `
     {
       getHomePageData(store_id : ${lang}){

@@ -163,7 +163,7 @@ const useAddressHook = (props) => {
         formData.append("store_id", lang)
         const response = await AddressList(formData)
         if (response?.data?.status) {
-          getData()
+          getData &&  getData()
           SHOWTOTS(response?.data?.message ? response?.data?.message : "")
           setReload && setReload(true)
           props?.route?.params?.setLoadding ?  navigation.goBack() : navigation.navigate( NAVIGATION.AddressBookScreen)

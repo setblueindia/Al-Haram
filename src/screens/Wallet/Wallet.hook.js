@@ -9,6 +9,7 @@ import { WallateAmount } from '../../utils/asyncStorage';
 import { config } from '../YourWay/config';
 import { SHOWTOTS } from '../../utils/utils';
 
+
 const UseWalletHook = (setloader, route) => {
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang?.data);
@@ -28,7 +29,6 @@ const UseWalletHook = (setloader, route) => {
 
   const getWallteAmount = async () => {
     const data = `{ getWalletRemainingTotal(id : ${userData?.id}) }`
-
     setloader ? setloader(true) : setIsLoading(true)
     try {
       const rep = await GetWallateAmount(data, lang)
@@ -57,7 +57,6 @@ const UseWalletHook = (setloader, route) => {
     AddAmounttoWallet: lang == NUMBER.num1 ? "Add Amount to Wallet" : "إضافة مبلغ إلى المحفظة"
   }
 
-
   const getAdreesList = async () => {
     setIsLoading(true)
     const formData = new FormData
@@ -83,26 +82,28 @@ const UseWalletHook = (setloader, route) => {
   }
 
   const beforeUrwayPayment = async (address) => {
+    
+    console.log("getPassword ::::::::" , address?.region?.region_id)
     setIsLoading(true)
     const data = `
      mutation{
        placeOrder(input:{
-       customer_id: "${userData?.id}"
+       customer_id: ${userData?.id}
        currency_id: "SAR"
        email: "${userData?.email}"
-       store_id: "${lang}"
-       wallet_amount: "${amount}"
+       store_id: ${lang}
+       wallet_amount: ${addAmount}
        billing_address: {
            firstname: "${address?.firstname}"
            lastname: "${address?.lastname}"
            street: "${address?.street}"
            city: "${address?.city}"
            country_id:"${address?.country_id}"
-           region: "${address?.region}"
+           region: "${address?.region?.region_id ? address?.region?.region_id :address?.region?.region}"
            postcode: "${address?.postcode}"
            telephone: "${address?.telephone}"
            fax: "0"
-           save_in_address_book: "1"
+           save_in_address_book: 0
        }
        }){
       order_id
@@ -111,10 +112,10 @@ const UseWalletHook = (setloader, route) => {
      }
    }
 `
-
 if(addAmount) {
   try {
-      const resp = await postBeforUrWay(data, lang)
+     const resp = await postBeforUrWay(data, lang)
+    console.log("resp ::::::::::" , resp?.data)
     const orderID = resp?.data?.data?.placeOrder?.order_id
     setOId(orderID)
     orderID &&
@@ -151,10 +152,7 @@ if(addAmount) {
 } else{
   setIsLoading(false)
   SHOWTOTS("Please add amount")
-
-}
-    
-  }
+} }
 
   const onProcessPayment = (responseData) => {
     console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)
@@ -170,7 +168,7 @@ if(addAmount) {
   const afterUrWay = async (adata) => {
     setIsLoading(true)
     const data =
-      `
+  `
       mutation{
       onlinePaymentAfterOrderUpdate(input:{
           order_id: ${oID}
@@ -184,7 +182,6 @@ if(addAmount) {
       }
     }
 `
-
     try {
       const res = await postAfterUrWay(data, lang)
       const message = res?.data?.data?.onlinePaymentAfterOrderUpdate?.message
@@ -199,7 +196,7 @@ if(addAmount) {
     }
   }
 
-  // console.log("Route :::::::::::1 ", route?.params)
+
   useEffect(() => {
     route?.params?.response?.data && afterUrWay(route?.params?.response?.data)
   }, [route])

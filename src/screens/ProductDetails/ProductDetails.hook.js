@@ -4,7 +4,7 @@ import { NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { AddRemoveToWhishLisst, AddToCartAPI, ProductDetalsBySKU } from "../../api/axios.api"
+import { AddRemoveToWhishLisst, AddToCartAPI, ExpireToken, ProductDetalsBySKU } from "../../api/axios.api"
 import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
@@ -311,6 +311,19 @@ const useProductDetails = (props) => {
     }
   }
 
+  const TokenExpire = async () =>{
+    const fromdata = new FormData()
+    try {
+      const result = await ExpireToken(fromdata)
+      console.log("Token Expire :::::" , result?.data)
+    } catch (error) {
+      console.log(" Token Error:::::::" , error)
+    }
+  }
+
+  useEffect(()=>{
+    TokenExpire()
+  },[])
 
 
 

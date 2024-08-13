@@ -46,7 +46,7 @@ import DeleteBox from '../../components/DeleteBox'
               </View>
               <TouchableOpacity
                 onPress={() => {setDeletePopp(true)}}>
-                <Icon name={ICON.delete} size={ResponsiveSize(35)} />
+                <Icon name={ICON.delete} color={COLOR.black} size={ResponsiveSize(35)} />
               </TouchableOpacity>
             </View>
           </View>

@@ -3,11 +3,12 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE, NUMBER } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
-import { ExpireToken, HomeApi, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { CartListCount, ExpireToken, HomeApi, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import { updateLoader } from '../../redux/Slices/DrawerSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { addProduct } from '../../redux/Slices/AddToCartSlice'
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
@@ -157,7 +158,6 @@ mutation{
     try {
 
       const resp = userData && await Storetoken(data, lang?.data)
-      console.log("SAVE TOKEN RESPONSE :::::: ", resp?.data?.data)
 
     } catch (error) {
       console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
@@ -165,13 +165,28 @@ mutation{
 
   }
 
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false
-  //   } else {
-  //     CetegouriesList()
-  //   }
-  // }, [lang])
+  const getData = async () => {
+    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
+    const fromData = new FormData()
+    fromData.append("token", userData?.token)
+    fromData.append("store_id", result)
+    try {
+      const response = await CartListCount(fromData)
+      if (response?.status == "200") {
+        const count = parseInt(response?.data?.data?.items_qty)
+        count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+      } else {
+        console.log("else respomnse :::::::::::::", response)
+        dispatch(addProduct(0))
+      }
+    } catch (error) {
+      dispatch(addProduct(0))
+    }
+  }
+
+  useEffect(()=>{
+    getData()
+  }, [navigation])
 
   useEffect(() => {
     CetegouriesList()
@@ -181,7 +196,7 @@ mutation{
   const TokenExpired = async () => {
     const fromdata = new FormData()
     const result = await ExpireToken(fromdata , lang?.data)
-    console.log("Token expired response :::::::", result?.data)
+    console.log("Token Expire :::::::", result?.data)
   }
 
   useEffect(() => {

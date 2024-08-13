@@ -9,6 +9,7 @@ import { useSharedValue } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
 import { config } from '../YourWay/config'
+import { Platform } from 'react-native'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
@@ -49,8 +50,8 @@ const useShoppingcart = () => {
   const [remove, setRemove] = useState(false)
   const [validationn, setValidation] = useState(false)
 
-  const [ extra , setEtrx] = useState()
-  const [ selectPayemrntMethod , setSelectPayemrntMethod] = useState()
+  const [extra, setEtrx] = useState()
+  const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -73,7 +74,7 @@ const useShoppingcart = () => {
     cardToken: '',
     maskCardNum: '',
     tokenizationType: 0,
-    done : true
+    done: true
   });
 
   const billingAddressData = billingAddress.length > 0 ? billingAddress[0] : addressCod
@@ -190,9 +191,9 @@ const useShoppingcart = () => {
       if (!validationn) {
         setShowModal(true)
         setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      } else if(validationn && wallateAmount < extra && selectPayemrntMethod == "Wallet") {
+      } else if (validationn && wallateAmount < extra && selectPayemrntMethod == "Wallet") {
         setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      }else {
+      } else {
         PlaceHolder()
       }
 
@@ -331,7 +332,8 @@ const useShoppingcart = () => {
     }
   }
 
-  // Place Holder API
+
+ 
   const PlaceHolder1 = async () => {
     setLoadding(true)
     const params = {
@@ -382,7 +384,8 @@ const useShoppingcart = () => {
         },
         "shipping_carrier_code": shippingData?.carrier_code,
         "shipping_method_code": shippingData?.method_code
-      }, "custom": {
+      },
+       "custom": {
         "token": Token,
         "store_id": lang
       }
@@ -512,29 +515,28 @@ const useShoppingcart = () => {
     formData.append("token", Token)
     try {
       const res = await postUpdateCart(formData)
-      if(res?.data?.status == NUMBER.num1) {
+      if (res?.data?.status == NUMBER.num1) {
         setLoadding(false)
         getData()
         SHOWTOTS(res?.data?.message)
         n && disPatch(addProduct(productCount + 1))
         !n && disPatch(addProduct(productCount - 1))
         return true
-      }else{
+      } else {
         setLoadding(false)
         SHOWTOTS(res?.data?.message)
         return false
-        // disPatch(addProduct(productCount - 1))
       }
     } catch (error) {
       console.log("UPDATE QTY ERROR ::::::: ", error)
       setLoadding(false)
-      
+
     }
   }
 
   const validation = (value) => {
 
-    console.log("value ::::::::::: " , value)
+    console.log("value ::::::::::: ", value)
     var validationTotal = 0
 
     paymentScreenData?.total_segments?.map((items, index) => {
@@ -548,7 +550,7 @@ const useShoppingcart = () => {
       } else {
         setValidation(true)
       }
-    } else { 
+    } else {
       setValidation(false)
     }
 
@@ -561,6 +563,7 @@ const useShoppingcart = () => {
     )
   }
 
+  console.log("userData?.data?.addresses[0]?.customer_id," , userData?.data?.id)
   const PlaceHolder = async () => {
     setLoadding(true)
     var shoppingTotal = 0
@@ -614,21 +617,25 @@ const useShoppingcart = () => {
         "address2": billingAddressData?.address2,
         "address3": billingAddressData?.address3,
         "city_display": billingAddressData?.city_display
-      }, "custom": {
+      },
+       "custom": {
         "token": Token,
         "store_id": lang,
         "email": userData?.data?.email,
         "name": name,
-        "customer_id": userData?.data?.addresses[0]?.customer_id,
+        "customer_id": userData?.data?.id,
         "subtotal": subTotal,
         "shipping": shoppingTotal,
         "grand_total": grandTotal,
-        "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : ''
+        "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
+        "wallet_amount" : 0,
+        "device_type" : Platform.OS == 'ios' ? "react_ios" : "react_android",
+        "device_version" : 0.1
       }
     }
     try {
       const res = await PlaceeHolder2(params)
-      if (res?.status == '200') {
+      if (res?.data?.status == NUMBER.num1) {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
         if (paymentCode == "magveg") {
@@ -639,7 +646,6 @@ const useShoppingcart = () => {
               last_name: userData?.data?.lastname,
               address: online_payment?.addresses,
               city: addressCod?.city,
-              // state: fromdata,
               zip: online_payment?.postcode,
               phone_number: userData?.data?.mobile,
               customerEmail: online_payment?.email,
@@ -654,8 +660,8 @@ const useShoppingcart = () => {
               cardToken: online_payment?.cardToken,
               maskCardNum: formData?.maskCardNum,
               tokenizationType: online_payment?.tokenizationType,
-              done : true,
-              responseId : res?.data?.data?.respon_id
+              done: true,
+              responseId: res?.data?.data?.respon_id
             },
             callBack: onProcessPayment,
           });
@@ -665,16 +671,17 @@ const useShoppingcart = () => {
           const result = await ExpireToken(fromdata)
           setLoadding(false)
         } else {
-          navigation.navigate(NAVIGATION.Done, { 
-            lang: lang , 
-            responseID : res?.data?.data?.respon_id , 
-            orderId : online_payment?.order_id
-          })
           setLoadding(false)
+          navigation.navigate(NAVIGATION.Done, {
+            lang: lang,
+            responseID: res?.data?.data?.respon_id,
+            orderId: online_payment?.order_id
+          })
           setIndex(0)
         }
-      }else{
+      } else {
         setLoadding(false)
+        console.log("PlaceOrder Inner error ::::::::: ", res?.data)
       }
     } catch (error) {
       console.log("Place Holder API ERROR ======> ", error)
@@ -689,7 +696,7 @@ const useShoppingcart = () => {
         response: responseData.data,
       });
     } else {
-      showMessage({message: responseData.error, type: 'danger'});
+      showMessage({ message: responseData.error, type: 'danger' });
       console.log("message ::::::::::::::::", { message: responseData.error, type: "danger" })
     }
   };

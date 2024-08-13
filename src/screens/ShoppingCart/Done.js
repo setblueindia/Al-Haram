@@ -24,13 +24,13 @@ const Done = (props) => {
 
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n We will send you order confirmation with details and tracking information.` : `رقم طلبك: ${OrderID}. \n سوف نرسل لك تأكيد الطلب مع تفاصيل ومعلومات التعقب.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
-    const oppss = lang == NUMBER.num1 ?  "OOOOps..." : "خطأ ....."
+    const oppss = lang == NUMBER.num1 ? "OOOOps..." : "خطأ ....."
     const Congratulation = lang == NUMBER.num1 ? "Congratulation" : "تهنئة"
 
     const senNotiFication = async () => {
         const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
         const data =
-            `mutation{
+        `mutation{
             orderPushNotificationSentToCustomer(input:{
             customer_id: ${userData?.id}
             notification_type: "order"
@@ -45,7 +45,7 @@ const Done = (props) => {
   `
         try {
             const rep = await SendNotifiction(data, lang)
-            updateOrderStatus()
+            // updateOrderStatus()
         } catch (error) {
             console.log("SEND NOTIFICATION ERROR :::::::::::: ", error)
         }
@@ -66,10 +66,25 @@ const Done = (props) => {
         }
     }
 
+    const tokenExpire = async () => {
+        const fromdata = new FormData()
+        try {
+            const result = await ExpireToken(fromdata)
+            console.log("Token ::::::: ", result?.data)
+
+        } catch (error) {
+            console.log("Token Error :::::::::: ", error)
+        }
+    }
+
+    console.log(":::::::::::::::::::" , responseID )
+
     useEffect(() => {
+        tokenExpire()
         senNotiFication()
         disPatch(addProduct(0))
-    }, [])
+        result?.data?.tranid && updateOrderStatus()
+    }, [result?.data?.tranid])
 
 
     return (
@@ -92,7 +107,7 @@ const Done = (props) => {
                 </View>
             }
 
-       { !result?.data &&   <View style={styles.lottiView}>
+            {!result?.data && <View style={styles.lottiView}>
                 <LottieView
                     source={require('../../assests/Lottianimation/Done.json')}
                     autoPlay loop
@@ -106,11 +121,11 @@ const Done = (props) => {
 
             <View style={styles.textView}>
 
-               {result?.data && <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>}
-               {!result?.data &&  <Text style={styles.congrationText}>{Congratulation}</Text>}
+                {result?.data && <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>}
+                {!result?.data && <Text style={styles.congrationText}>{Congratulation}</Text>}
 
-               {result?.data &&  <Text style={styles.lastText}>{result?.data?.status == "Successful"  ? Order_Success : SOMETHING_WRONG}</Text>}
-               {!result?.data &&  <Text style={styles.lastText}>{Order_Success}</Text>}
+                {result?.data && <Text style={styles.lastText}>{result?.data?.status == "Successful" ? Order_Success : SOMETHING_WRONG}</Text>}
+                {!result?.data && <Text style={styles.lastText}>{Order_Success}</Text>}
 
             </View>
             <View style={styles.btnView}>
@@ -151,9 +166,9 @@ const styles = StyleSheet.create({
     congrationText: {
         fontSize: ResponsiveSize(60),
         color: COLOR.black,
-        width:ResponsiveSize(600),
+        width: ResponsiveSize(600),
         // flex:1
-        textAlign:'center'
+        textAlign: 'center'
     },
     lastText: {
         color: "#00000080",
@@ -188,8 +203,8 @@ const styles = StyleSheet.create({
     continuesShoppingsText: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
-        width:"100%",
-        textAlign:'center'
+        width: "100%",
+        textAlign: 'center'
         // flex:1
     }
 })

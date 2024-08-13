@@ -74,7 +74,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
         `
         try {
             const resp = await getTranferAmount(sdata, lang)
-            SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message)
+            SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message ? resp?.data?.data?.tranferAmountToCustomerWallet?.message : [])
             setIsLodding(false)
             setRemark('')
             setReciverID('')

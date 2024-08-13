@@ -24,13 +24,7 @@ const useProductHook = (props) => {
     getData()
     getFilterData()
   }, [])
-
-
-  console.log("=============" , {
-    action : action,
-    sortBy : sortBy
-  })
-
+  
   const [like, setLike] = useState(false)
   const [pIndex, setIndex] = useState('')
 
@@ -57,8 +51,6 @@ const useProductHook = (props) => {
   }
 
   const getData = async (fdata) => {
-
-    console.log("Fdata :::::::: " , fdata)
     currePage < 1 && setIsLoadding(true)
     fdata && setIsLoadding(true)
     currePage >= 1 && setMoreData(true)
