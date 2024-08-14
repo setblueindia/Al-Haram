@@ -14,17 +14,20 @@ const useProductHook = (props) => {
   const userData = useSelector(state => state.userData.data)
   const [isLoadding, setIsLoadding] = useState(false)
   const [filterData, setFilterData] = useState('')
-  const [sortBy , setSortBy] = useState()
-  const [action , setActions] = useState('')
+  const [sortBy, setSortBy] = useState()
+  const [action, setActions] = useState('')
   const [currePage, setCurrentPage] = useState(0)
   const [moreData, setMoreData] = useState(false)
   const lable = lang == NUMBER.num1 ? En : Ar
   const [data, setData] = useState([])
+
+
   useEffect(() => {
-    getData()
-    getFilterData()
+    // getData()
+    // getFilterData()
+    setProductData()
   }, [])
-  
+
   const [like, setLike] = useState(false)
   const [pIndex, setIndex] = useState('')
 
@@ -54,7 +57,7 @@ const useProductHook = (props) => {
     currePage < 1 && setIsLoadding(true)
     fdata && setIsLoadding(true)
     currePage >= 1 && setMoreData(true)
-    const nextPage = fdata ?  1 : currePage + 1 
+    const nextPage = fdata ? 1 : currePage + 1
 
     const formData = new FormData
     formData.append("category_id", props?.route?.params?.cetegoriesId)
@@ -68,11 +71,11 @@ const useProductHook = (props) => {
     formData.append("price_to", '')
     formData.append("search", '')
     formData.append("sort_by", fdata ? fdata?.sortby : sortBy)
-    formData.append("sort_action", fdata  ? fdata?.action : action)
+    formData.append("sort_action", fdata ? fdata?.action : action)
     try {
       const res = await getProductList(formData)
       if (res?.status == '200') {
-        fdata ?  setData(res?.data?.data) : setData([...data , ...res?.data?.data])
+        fdata ? setData(res?.data?.data) : setData([...data, ...res?.data?.data])
         // setData(res?.data?.data)
         setIsLoadding(false)
         setMoreData(false)
@@ -137,13 +140,8 @@ const useProductHook = (props) => {
   //   }
   // }
 
-  
-
-  
-
   const getFilterData = async () => {
-    // setIsLoadding(true)
-  const params = `
+    const params = `
   {
     products(
       filter: {
@@ -192,7 +190,7 @@ const useProductHook = (props) => {
   
   `
     try {
-      const res = await getFilterList(params , lang)
+      const res = await getFilterList(params, lang)
       if (res?.status == 200) {
         setFilterData(res?.data?.data?.products?.aggregations)
         // setSizeFilter(true)
@@ -206,13 +204,13 @@ const useProductHook = (props) => {
     }
   }
 
-  const likeDislike = async (id  , wishlist) => {
-  
+  const likeDislike = async (id, wishlist) => {
+
     const formData = new FormData()
     formData.append("customer_id", userData?.id)
     formData.append("productId", id)
     formData.append("action", wishlist == true ? "false" : "true")
-    formData.append("store_id" , lang)
+    formData.append("store_id", lang)
     try {
       const response = id && await AddRemoveToWhishLisst(formData)
       if (response?.data?.status == NUMBER.num1) {
@@ -222,7 +220,97 @@ const useProductHook = (props) => {
       console.log("Like / Dislike ERROR ::::::::::::: ", error)
     }
   }
-  
+
+  // new product-data
+  const setProductData = async (fdata) => {
+    const ab = true
+    const qutes = "\""
+    const colorStr = !ab ? "color: { eq: " + qutes + 54656 + qutes + " }," : ""
+    const sizeStr = !ab ? "size: { eq: " + qutes + 54656 + qutes + " }," : ""
+    const priceFilter = !ab ? "price: { from: " + qutes + 20 + qutes + ", to: " + qutes + 20 + qutes + " }," : ""
+
+    currePage < 1 && setIsLoadding(true)
+    fdata && setIsLoadding(true)
+    currePage >= 1 && setMoreData(true)
+    const nextPage = fdata ? 1 : currePage + 1
+
+    const data =
+      `
+  {
+    products(
+      filter: {
+        category_id: { eq: "${props?.route?.params?.cetegoriesId}" },
+        ${colorStr}
+        ${sizeStr}
+        ${priceFilter}
+      }
+      pageSize: 10
+      currentPage: 1
+    ) {
+      aggregations {
+        attribute_code
+        count
+        label
+        options {
+          count
+          label
+          value
+        }
+      }
+      items {
+        id
+        name
+        sku
+        small_image {
+          url
+        }
+        price {
+          regularPrice {
+            amount {
+              value
+              currency
+            }
+          }
+        }
+        special_price
+        display_sale_label
+        display_new_label
+      }
+      page_info {
+        current_page
+        page_size
+        total_pages
+      }
+      total_count
+    }
+  }
+  `
+    try {
+      const res = await getFilterList(data, lang)
+      if (res?.data?.data) {
+        setFilterData(res?.data?.data?.products?.aggregations)
+        setData(res?.data?.data?.products?.items)
+        setIsLoadding(false)
+        setMoreData(false)
+        setCurrentPage(nextPage)
+      } else {
+        console.log("INNER PRODUCT ERROR ::::::::::", res?.data?.data)
+        setIsLoadding(false)
+        setMoreData(false)
+        setSortBy('')
+        setActions('')
+      }
+    } catch (error) {
+      console.log("GET PRODUCT ERROE :::::::: ", error)
+      setIsLoadding(false)
+      setMoreData(false)
+      setSortBy('')
+      setActions('')
+    }
+  }
+
+
+
   return {
     data,
     navigation,
@@ -241,12 +329,12 @@ const useProductHook = (props) => {
     setLike,
     setIndex,
     getData,
+    setProductData,
     pIndex,
     filterData,
     likePress,
     getFilterData,
     likeDislike,
-    getData,
     moreData
 
   }

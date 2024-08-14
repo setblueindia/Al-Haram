@@ -9,6 +9,7 @@ import TextFildCus from '../../components/TextFildCus';
 import { GetCustomerListToTranfer, getTranferAmount, getTranferAmountList } from '../../api/axios.api';
 import { useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const TranferAmount = ({ Str, lang, setIsLodding }) => {
     const userID = useSelector(state => state?.userData?.data?.id)
@@ -73,11 +74,30 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
        }
         `
         try {
-            const resp = await getTranferAmount(sdata, lang)
-            SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message ? resp?.data?.data?.tranferAmountToCustomerWallet?.message : [])
-            setIsLodding(false)
-            setRemark('')
-            setReciverID('')
+            if(reciverID) {
+                if(amount) {
+                    if(remark) {
+                        const resp = await getTranferAmount(sdata, lang)
+                        console.log("Response :::::::" , resp?.data)
+                        SHOWTOTS(resp?.data?.data?.tranferAmountToCustomerWallet?.message ? resp?.data?.data?.tranferAmountToCustomerWallet?.message : [])
+                        setIsLodding(false)
+                        setRemark('')
+                        setReciverID('')
+                        GetCustomerList()
+                    } else{
+                        SHOWTOTS("Add Remark")
+                    setIsLodding(false)
+                    }
+                } else{
+                    SHOWTOTS("Add Amount")
+                    setIsLodding(false)
+                }
+            } else {
+                SHOWTOTS("Select User")
+                setIsLodding(false)
+            }
+           
+          
         } catch (error) {
             setIsLodding(false)
 
@@ -100,7 +120,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
         `
         try {
             const res = await getTranferAmountList(tdata, lang)
-            console.log("Respnse :::::::::::::: " , res?.data?.data?.getTransactionListBySenderId)
+
             if (res?.data?.data) {
                 const tempData = res?.data?.data?.getTransactionListBySenderId
                 setTransactionList(tempData ? tempData : [])
@@ -119,7 +139,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
 
     return (
         <>
-            <View style={styles.mainView}>
+            <KeyboardAwareScrollView style={styles.mainView}>
                 <Text style={[styles.firstLine, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.SelectCustomertoaddwalletbalance}
                 </Text>
                 <View style={styles.devider} />
@@ -131,7 +151,6 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 </TouchableOpacity>
 
                 {on &&
-
                     <View style={styles.listView}>
                         <ScrollView style={styles.ScrollView}>
                             {
@@ -168,7 +187,6 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 <ScrollView style={styles.tranferAmountListView} >
                     {transactionList?.length > 0  &&
                       transactionList?.map((sitems, sindex) => {
-                        console.log("Items ::::::::::::: " , sitems)
                         return (
                        
                             <View key={sindex} style={[styles.innerContainer]}>
@@ -196,10 +214,7 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 </ScrollView>
             
 
-            </View>
-
-
-
+            </KeyboardAwareScrollView>
         </>
 
     )

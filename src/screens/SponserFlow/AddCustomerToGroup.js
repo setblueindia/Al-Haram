@@ -9,9 +9,10 @@ import CusModal from '../../components/CusModal'
 import { Ar, En } from '../../constants/localization'
 import { useSelector } from 'react-redux'
 import { AddCustomerToSponserToGroup } from '../../api/axios.api'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const AddCustomerToGroup = ({ Str, lang, setloader }) => {
-
+    
     const useData = useSelector(state => state.userData?.data?.id)
     const [nicName, setNicName] = useState()
     const [email, setEmail] = useState()
@@ -77,7 +78,7 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
     }
 
     return (
-        <View style={styles.mainVie}>
+        <KeyboardAwareScrollView style={styles.mainVie}>
             <TextFildCus onChange={setNicName} icon={ICON.usersecret} text={Str?.NickName} />
             <View style={styles.devider} />
             <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={Str?.Enteremailaddress} />
@@ -95,7 +96,9 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
             >
                 <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
             </Modal>
-        </View>
+
+            <View style={{height:ResponsiveSize(100)}}/>
+        </KeyboardAwareScrollView>
     )
 }
 

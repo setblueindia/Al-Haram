@@ -10,6 +10,7 @@ import { AddCustomerToSponser } from '../../api/axios.api'
 import { Ar, En } from '../../constants/localization'
 import CusLoader from '../../components/CustomLoader'
 import CusModal from '../../components/CusModal'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const AddCustomer = ({ lang, Str, setloader }) => {
 
@@ -107,7 +108,7 @@ const AddCustomer = ({ lang, Str, setloader }) => {
 
   return (
     <>
-      <View style={styles.mainVie}>
+      <KeyboardAwareScrollView style={styles.mainVie}>
         <TextFildCus icon={ICON.usersecret} onChange={setFilstName} text={Str?.EnteryourFirstname} />
         <View style={styles.devider} />
         <TextFildCus icon={ICON.usersecret} onChange={setLastName} text={Str?.Enteryourlastname} />
@@ -116,9 +117,9 @@ const AddCustomer = ({ lang, Str, setloader }) => {
         <View style={styles.devider} />
         <TextFildCus icon={ICON.phoneIcon} onChange={setMobailNo} number={true} text={Str?.Entermobilenumber} />
         <View style={styles.devider} />
-        <TextFildCus icon={ICON.lockIcon} onChange={setPassword} text={Str?.Enteryourpassword} />
+        <TextFildCus icon={ICON.lockIcon} password={true} onChange={setPassword} text={Str?.Enteryourpassword} />
         <View style={styles.devider} />
-        <TextFildCus icon={ICON.lockIcon} onChange={setConfirmPassword} text={Str?.confirmpassword} />
+        <TextFildCus icon={ICON.lockIcon} password={true} onChange={setConfirmPassword} text={Str?.confirmpassword} />
         <View style={styles.devider} />
         <View style={styles.devider} />
         <View>
@@ -133,7 +134,9 @@ const AddCustomer = ({ lang, Str, setloader }) => {
         >
           <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
         </Modal>
-      </View>
+
+        <View style={{height:ResponsiveSize(100)}}/>
+      </KeyboardAwareScrollView>
 
     </>
   )

@@ -84,8 +84,8 @@ const useAddressHook = (props) => {
   }
 
   const getCityData = async (code , open) => {
-    console.log("code :::::::" , code)
-    state && setOn(true)
+
+    (state && !code )&& setOn(true)
     !code && setPopTex("City")
     cities && setCitydata(cities)
     if (code) {

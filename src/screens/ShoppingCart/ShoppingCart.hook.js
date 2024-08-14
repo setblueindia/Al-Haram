@@ -36,7 +36,7 @@ const useShoppingcart = () => {
   const [ShhippingData, SetShippingdata] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [messages, setMessages] = useState()
-  const [showWallet, setShowWallet] = useState(false)
+  // const [showWallet, setShowWallet] = useState(false)
   const [shippingData, setShippingdata] = useState()
   const [paymentCode, setPaymentCode] = useState()
   const [storePickData, setStorePickUpData] = useState('')
@@ -52,6 +52,7 @@ const useShoppingcart = () => {
 
   const [extra, setEtrx] = useState()
   const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
+  const [walletAmount  , setWalletAmount] = useState()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -163,7 +164,6 @@ const useShoppingcart = () => {
     getWallateData()
   }, [])
 
-
   const onPress = () => {
     if (index < 3) {
       if (index == 0) {
@@ -195,6 +195,8 @@ const useShoppingcart = () => {
         setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
       } else {
         PlaceHolder()
+        setOutOfStock([])
+        setData([])
       }
 
 
@@ -332,8 +334,6 @@ const useShoppingcart = () => {
     }
   }
 
-
- 
   const PlaceHolder1 = async () => {
     setLoadding(true)
     const params = {
@@ -536,7 +536,6 @@ const useShoppingcart = () => {
 
   const validation = (value) => {
 
-    console.log("value ::::::::::: ", value)
     var validationTotal = 0
 
     paymentScreenData?.total_segments?.map((items, index) => {
@@ -563,7 +562,8 @@ const useShoppingcart = () => {
     )
   }
 
-  console.log("userData?.data?.addresses[0]?.customer_id," , userData?.data?.id)
+  console.log("WALLET-AMOUNT ::::::::: " , walletAmount)
+
   const PlaceHolder = async () => {
     setLoadding(true)
     var shoppingTotal = 0
@@ -593,6 +593,8 @@ const useShoppingcart = () => {
       }
 
     })
+
+  
 
     const params = {
       "paymentMethod": paymentCode ? paymentCode : "walletsystem",
@@ -628,7 +630,7 @@ const useShoppingcart = () => {
         "shipping": shoppingTotal,
         "grand_total": grandTotal,
         "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
-        "wallet_amount" : 0,
+        "wallet_amount" : walletAmount,
         "device_type" : Platform.OS == 'ios' ? "react_ios" : "react_android",
         "device_version" : 0.1
       }
@@ -716,7 +718,7 @@ const useShoppingcart = () => {
     isLoadding,
     showModal,
     messages,
-    showWallet,
+    // showWallet,
     paymentScreenData,
     wallateAmount,
     coupanListData,
@@ -734,7 +736,7 @@ const useShoppingcart = () => {
     goBack,
     setLoadding,
     setEtrx,
-    setShowWallet,
+    // setShowWallet,
     setShippingdata,
     setBillingAddress,
     setCoupanCode,
@@ -746,7 +748,8 @@ const useShoppingcart = () => {
     selectPayment,
     setSelectPayment,
     PlaceHolder,
-    setSelectPayemrntMethod
+    setSelectPayemrntMethod,
+    setWalletAmount
   }
 }
 

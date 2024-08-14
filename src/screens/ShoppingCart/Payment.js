@@ -13,8 +13,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 const Payment = ({
   data,
   lang,
-  showWallet,
-  setShowWallet,
+  // showWallet,
+  // setShowWallet,
   paymentScreenData,
   wallateAmount,
   selectPayment,
@@ -25,13 +25,12 @@ const Payment = ({
   applyCoupan,
   validation,
   setEtrx,
-  validationn,
-  PlaceHolder,
   remove,
-  setSelectPayment,
   setSelectPayemrntMethod,
-  coupanCode
+  coupanCode,
+  setWalletAmount
 }) => {
+  const [showWallet, setShowWallet] = useState(false)
   const [COD, setCOD] = useState(false)
   const [credit, setCredit] = useState(false)
   const [totalAmount, setTotalAmount] = useState([])
@@ -53,6 +52,14 @@ const Payment = ({
     setEtrx(temp)
   }
 
+  const walletPress = async () =>{
+    selectPaymentMethod()
+    setSelectPayemrntMethod("Wallet")
+    setCOD(false)
+    setCredit(false)
+    setWalletAmount(WAmount)
+  }
+
   useEffect(() => {
     finalAmount()
   }, [txtData])
@@ -69,15 +76,11 @@ const Payment = ({
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
 
           {wallateAmount > 0 &&
-            <TouchableOpacity onPress={() => {
-              showWallet ? setShowWallet(false) : setShowWallet(true),
-                setCOD(false)
-              setCredit(false)
-              validation(showWallet)
-              selectPaymentMethod()
-              setSelectPayemrntMethod("Wallet")
+            <TouchableOpacity
+            onPress={() => {
+              showWallet ? setShowWallet(false) : setShowWallet(true)
               showWallet ? validation(false) : validation(true)
-            }}
+              walletPress()}}
               style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
               <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit} />

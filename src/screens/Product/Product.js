@@ -109,7 +109,7 @@ const Product = (props) => {
                                             <View style={styles.imageView}>
                                                 <FastImage
                                                     style={styles.image}
-                                                    source={{ uri: item?.image }}
+                                                    source={{ uri: item?.small_image?.url }}
                                                     onLoadStart={() => { setImageLoader(true) }}
                                                     onLoadEnd={() => { setImageLoader(false) }}
                                                 />
@@ -128,7 +128,7 @@ const Product = (props) => {
 
                                             <View style={styles.textView}>
                                                 <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 16 ? name + "..." : item.name}</Text>
-                                                <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price}</Text>
+                                                <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price?.regularPrice?.amount?.value}</Text>
                                             </View>
 
                                             <TouchableOpacity

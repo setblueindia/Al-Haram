@@ -34,7 +34,7 @@ const ShoopingCart = (props) => {
         selectAddressList,
         showModal,
         messages,
-        showWallet,
+        // showWallet,
         paymentScreenData,
         wallateAmount,
         coupanListData,
@@ -44,7 +44,7 @@ const ShoopingCart = (props) => {
         updateQnty,
         setActionCode,
         setCoupanCode,
-        setShowWallet,
+        // setShowWallet,
         selectShipping,
         deleteProduct,
         setAddressCode,
@@ -53,6 +53,7 @@ const ShoopingCart = (props) => {
         setShippingdata,
         setBillingAddress,
         setSelectPayment,
+        setWalletAmount,
         getCoupanList,
         PlaceHolder,
         applyCoupan,
@@ -179,8 +180,8 @@ const ShoopingCart = (props) => {
                             selectPayment={selectPayment}
                             wallateAmount={wallateAmount}
                             paymentScreenData={paymentScreenData}
-                            showWallet={showWallet}
-                            setShowWallet={setShowWallet}
+                            // showWallet={showWallet}
+                            // setShowWallet={setShowWallet}
                             setActionCode={setActionCode}
                             applyCoupan={applyCoupan}
                             data={shopinfCratData}
@@ -191,6 +192,7 @@ const ShoopingCart = (props) => {
                             validationn={validationn}
                             setEtrx={setEtrx}
                             setSelectPayemrntMethod={setSelectPayemrntMethod}
+                            setWalletAmount={setWalletAmount}
                         />
                     </View>
                 }
