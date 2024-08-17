@@ -77,8 +77,6 @@ const Done = (props) => {
         }
     }
 
-    console.log(":::::::::::::::::::" , responseID )
-
     useEffect(() => {
         tokenExpire()
         senNotiFication()

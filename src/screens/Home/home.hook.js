@@ -142,49 +142,57 @@ const useHomeHook = (props) => {
 
   const SaveToken = async () => {
     const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
-    const data = `
-mutation{
-  pushNotificationDeviceTokenSave(input:{
-     device_id: "${token}"
-     customer_id: ${userData?.id}
-     email: "${userData?.email}"
-     device_type: ${Platform.OS == "ios" ? "ios" : "android"}
- }){
-     status
-     message
- }
-}
-    `
-    try {
+    if(token) {
+      const storyViewdata = `
+      mutation{
+        pushNotificationDeviceTokenSave(input:{
+           device_id: "${token}"
+           customer_id: ${userData?.id}
+           email: "${userData?.email}"
+           device_type: ${Platform.OS == "ios" ? "ios" : "android"}
+       }){
+           status
+           message
+       }
+      }
+          `
+          try {
+            const resp = userData && await Storetoken(sdata, lang?.data)
+            console.log("FCM SAVE TOKEN :::::", resp?.data)
+          } catch (error) {
+            console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
+          }
 
-      const resp = userData && await Storetoken(data, lang?.data)
-
-    } catch (error) {
-      console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
     }
+
 
   }
 
   const getData = async () => {
-    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
-    const fromData = new FormData()
-    fromData.append("token", userData?.token)
-    fromData.append("store_id", result)
-    try {
-      const response = await CartListCount(fromData)
-      if (response?.status == "200") {
-        const count = parseInt(response?.data?.data?.items_qty)
-        count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
-      } else {
-        console.log("else respomnse :::::::::::::", response)
+    if (userData?.token) {
+      const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
+      const fromData = new FormData()
+      fromData.append("token", userData?.token)
+      fromData.append("store_id", result)
+      try {
+        const response = await CartListCount(fromData)
+        if (response?.status == "200") {
+          const count = parseInt(response?.data?.data?.items_qty)
+          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+        } else {
+          console.log("else respomnse :::::::::::::", response)
+          dispatch(addProduct(0))
+        }
+      } catch (error) {
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      dispatch(addProduct(0))
+    } else {
+      console.log(" :::::::::::: Token not recive ::::::::::::: ")
     }
+
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getData()
   }, [navigation])
 
@@ -194,9 +202,11 @@ mutation{
   }, [lang])
 
   const TokenExpired = async () => {
-    const fromdata = new FormData()
-    const result = await ExpireToken(fromdata , lang?.data)
-    console.log("Token Expire :::::::", result?.data)
+    if(userData) {
+      const fromdata = new FormData()
+      const result = await ExpireToken(fromdata, lang?.data)
+      console.log("Token Expire :::::::", result?.data)
+    }
   }
 
   useEffect(() => {

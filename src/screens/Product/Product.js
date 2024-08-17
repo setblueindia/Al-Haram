@@ -23,17 +23,23 @@ const Product = (props) => {
         sortFilter,
         setSortFilter,
         setSizeFilter,
-        getFilterData,
         setActions,
         setSortBy,
-        getData,
         sizeFilter,
         isLoadding,
+        sortBy,
         lable,
         filterData,
         userData,
+        price,
+        size,
+        color,
         likeDislike,
         likePress,
+        setColor,
+        setPrice,
+        setSize,
+        setProductData,
         moreData
 
     } = useProductHook(props)
@@ -63,7 +69,7 @@ const Product = (props) => {
 
                                         <TouchableOpacity
                                             style={styles.comonView}
-                                            onPress={() => {setSizeFilter(true)}}
+                                            onPress={() => { setSizeFilter(true) }}
                                         >
                                             <Filter name={"filter"} size={ResponsiveSize(35)} style={styles.filterIcon} />
                                             <View style={styles.deviderInner} />
@@ -75,27 +81,27 @@ const Product = (props) => {
                             <FlatList
                                 data={data}
                                 showsVerticalScrollIndicator={false}
-                                onEndReached={() => { data?.length > 0 &&  getData()}}
+                                onEndReached={() => { data?.length > 0 && setProductData() }}
                                 numColumns={2}
                                 bounces={true}
-                                ListFooterComponent={()=>{
-                                    return(
+                                ListFooterComponent={() => {
+                                    return (
 
                                         <View style={{
                                             width: "100%",
                                             height: ResponsiveSize(100),
                                             justifyContent: ALINE.center,
                                             alignItems: ALINE.center
-                                          }}>
+                                        }}>
                                             {
-                                              moreData &&
-                                              <ActivityIndicator
-                                                size={"large"}
-                                                color={COLOR.primaray}
-                          
-                                              />
+                                                moreData &&
+                                                <ActivityIndicator
+                                                    size={"large"}
+                                                    color={COLOR.primaray}
+
+                                                />
                                             }
-                                          </View>
+                                        </View>
                                     )
                                 }}
                                 renderItem={({ item, index }) => {
@@ -105,7 +111,7 @@ const Product = (props) => {
                                             onPress={() => {
                                                 navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku })
                                             }}
-                                            style={styles.conntainer}>
+                                            style={[styles.conntainer , data?.length == 1 &&{width:ResponsiveSize(300) }]}>
                                             <View style={styles.imageView}>
                                                 <FastImage
                                                     style={styles.image}
@@ -133,10 +139,10 @@ const Product = (props) => {
 
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    if(userData) {
+                                                    if (userData) {
                                                         likePress(item?.id)
-                                                        likeDislike(item?.id , item?.wishlist)
-                                                    }else{
+                                                        likeDislike(item?.id, item?.wishlist)
+                                                    } else {
                                                         navigation.navigate(NAVIGATION.Login)
                                                     }
                                                 }}
@@ -147,14 +153,32 @@ const Product = (props) => {
                                     )
                                 }}
                             />
-
                             <View style={styles.devider}></View>
                             <Modal animationType='slide' transparent={true} visible={sortFilter}>
-                                <SortFilter getData={getData} setActions={setActions} setSortBy={setSortBy} setSortFilter={setSortFilter} lang={lang}/>
+                                <SortFilter
+                                    setActions={setActions}
+                                    setSortBy={setSortBy}
+                                    setSortFilter={setSortFilter}
+                                    lang={lang}
+                                    setProductData={setProductData}
+                                    sortBy={sortBy}
+                                  
+                                />
                             </Modal>
 
                             <Modal animationType='slide' transparent={true} visible={sizeFilter}>
-                                <SizeFilter filterData={filterData} setSizeFilter={setSizeFilter} lang={lang} />
+                                <SizeFilter
+                                 filterData={filterData}
+                                  setSizeFilter={setSizeFilter} 
+                                  lang={lang} 
+                                  setColor={setColor}
+                                  setSize={setSize}
+                                  setPrice={setPrice}
+                                  setProductData={setProductData}
+                                  price={price}
+                                  size={size}
+                                  color={color}
+                                  />
                             </Modal>
                         </View>
                         : !isLoadding ? <DataIsNotFound /> : null}

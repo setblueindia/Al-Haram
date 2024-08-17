@@ -5,22 +5,27 @@ import { COLOR, FONTWEGHIT } from '../../constants/style'
 import LinearGradient from 'react-native-linear-gradient'
 import { NUMBER } from '../../constants/constants'
 
-const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData  }) => {
+const SortFilter = ({
+    setSortFilter,
+     lang,
+     setSortBy, 
+     setActions , 
+     setProductData,
+     sortBy
+      }) => {
 
     const [productIndex, setProductIndex] = useState()
 
     const data = lang == NUMBER.num1 ? [
 
         { id: 0, name: "Relevance" },
-        { id: 1, name: "New Arrivals" },
-        { id: 2, name: "Price Low-High" },
-        { id: 3, name: "Price High-Low" },
+        { id: 1, name: "Price Low-High" },
+        { id: 2, name: "Price High-Low" },
     ] :
         [
             { id: 0, name: "ملاءمة" },
-            { id: 1, name: "الوافدون الجدد" },
-            { id: 2, name: "السعر منخفض مرتفع" },
-            { id: 3, name: "السعر مرتفع ومنخفض" },
+            { id: 1, name: "السعر منخفض مرتفع" },
+            { id: 2, name: "السعر مرتفع ومنخفض" },
         ]
 
     const filterOnPress = (index) => {
@@ -28,58 +33,35 @@ const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData  }) =
      
 
         if (index == 0) {
-            console.log("index:::::::::::" , index)
-            setSortBy("")
-            setActions("DESC")
-            // getFilterData()
+            setSortBy(0)
+            setActions("relevance")
             const fdata = {
-                sortby : "",
-                action : "DESC"
+               data : "relevance"
             }
-            getData(fdata)
+            setProductData(fdata)
             setSortFilter(false)
             
         }
         if (index == 1) {
-            console.log("index:::::::::::" , index)
-            setSortBy("position")
+            setSortBy(1)
             setActions("ASC")
             const fdata = {
-                sortby : "position",
-                action : "ASC"
-
-            }
-            getData(fdata)
+                data : "ASC"
+             }
+             setProductData(fdata)
             setSortFilter(false)
 
         }
         if (index == 2) {
-            setSortBy("price")
-            setActions("ASC")
-            const fdata = {
-                sortby : "price",
-                action : "ASC"
-
-            }
-            getData(fdata)
-            setSortFilter(false)
-
-        }
-        if (index == 3) {
-            setSortBy("price")
+            setSortBy(2)
             setActions("DESC")
             const fdata = {
-                sortby : "price",
-                action : "DESC"
-
-            }
-            getData(fdata)
+                data : "DESC"
+             }
+             setProductData(fdata)
             setSortFilter(false)
-
         }
-
-
-
+       
     }
     return (
         <View style={styles.mainView}>
@@ -88,9 +70,7 @@ const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData  }) =
             </TouchableOpacity>
             <View style={styles.container}>
                 <Text style={[styles.title , lang == NUMBER.num0 &&  {textAlign:'right'}]}>{lang == NUMBER.num1 ? "Sort By" : "ترتيب حسب"}</Text>
-
                 <View style={styles.boxView}>
-
                     <LinearGradient
                         style={styles.boxView}
                         colors={['#fff', '#FFE3E4']}
@@ -104,7 +84,7 @@ const SortFilter = ({ setSortFilter, lang, setSortBy, setActions , getData  }) =
                                     }}
                                     style={[styles.containView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                     <View style={[styles.checkBoxCircal, { justifyContent: 'center', alignItems: 'center', padding: ResponsiveSize(5) }]}>
-                                        <View style={[styles.checkBoxCircal2, index == productIndex && { backgroundColor: COLOR.primaray }]} />
+                                        <View style={[styles.checkBoxCircal2, (index == productIndex || index == sortBy)&& { backgroundColor: COLOR.primaray }]} />
                                     </View>
 
                                     <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) , textAlign:'right'}]}>{item?.name}</Text>

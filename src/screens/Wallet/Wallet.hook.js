@@ -82,8 +82,6 @@ const UseWalletHook = (setloader, route) => {
   }
 
   const beforeUrwayPayment = async (address) => {
-    
-    console.log("getPassword ::::::::" , address?.region?.region_id)
     setIsLoading(true)
     const data = `
      mutation{
@@ -115,7 +113,6 @@ const UseWalletHook = (setloader, route) => {
 if(addAmount) {
   try {
      const resp = await postBeforUrWay(data, lang)
-    console.log("resp ::::::::::" , resp?.data)
     const orderID = resp?.data?.data?.placeOrder?.order_id
     setOId(orderID)
     orderID &&

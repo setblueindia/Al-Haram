@@ -153,7 +153,7 @@ export const DeleteAddress = async (params) => {
 export const ExpireToken = async (params , lang) => {
     const addKeyWord = lang == NUMBER.num0 ? "arabic"   : "default" 
     const makeURL = BASE_URL +  "/rest/" +addKeyWord+ "/V1/carts/mine"
-    const res = await POSTFORM2(expireTokenDefault , params)
+    const res = await POSTFORM2(makeURL , params)
     return res
 }
 export const AddCustomerToSponser = async (params, lang) => {

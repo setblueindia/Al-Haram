@@ -11,6 +11,7 @@ import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import { useNavigation } from '@react-navigation/native';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData';
+import { SHOWTOTS } from '../../utils/utils';
 
 const useSplshHook = () => {
   const dispatch = useDispatch();
@@ -56,13 +57,12 @@ const useSplshHook = () => {
       const rep = await AsyncStorage.getItem("UserData")
       const response = JSON.parse(rep)
       dispatch(addUserData(response))
-      // getData(response?.token)
+      getData(response?.token)
       // setLang()
     } catch (error) {
       console.log("SPLASH SCREEN SET USER ERROR ======> ", error)
     }
   }
-
 
   const getData = async (token) => {
     const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
@@ -70,15 +70,20 @@ const useSplshHook = () => {
     fromData.append("token", token)
     fromData.append("store_id", result)
     try {
-      const response = await CartListCount(fromData)
-      if (response?.status == "200") {
-        const count = parseInt(response?.data?.data?.items_qty)
-        count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
-      } else {
-        console.log("else respomnse :::::::::::::", response)
+      if(token) {
+        const response = await CartListCount(fromData)
+        if (response?.status == "200") {
+          const count = parseInt(response?.data?.data?.items_qty)
+          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+          console.log("GET CART ITEMS :::::: ", count)
+        } else {
+          console.log("else respomnse :::::::::::::", response?.data)
+          dispatch(addProduct(0))
+        }
+      } else{
+        SHOWTOTS("TOKEN CAN-NOT GET")
         dispatch(addProduct(0))
       }
-
     } catch (error) {
       dispatch(addProduct(0))
     }

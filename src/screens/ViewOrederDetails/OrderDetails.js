@@ -12,7 +12,17 @@ import CusLoader from '../../components/CustomLoader'
 const OrderDetails = (props) => {
     const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
 
-    // console.log(" orderDetailsList?.increment_id " ,  orderDetailsList?.increment_id)
+   const address1 =  orderDetailsList?.shippingaddress?.street[0] ? orderDetailsList?.shippingaddress?.street[0] + " " : ""
+   const address2 =  orderDetailsList?.shippingaddress?.street[1] ? orderDetailsList?.shippingaddress?.street[1] + " ": ""
+   const address3 =  orderDetailsList?.shippingaddress?.street[2] ? orderDetailsList?.shippingaddress?.street[2] + " ": ""
+
+   const shippongAddress = address1 + address2 + address3
+
+   const baddress1 = orderDetailsList?.billingaddress?.street[0] ? orderDetailsList?.billingaddress?.street[0] + " ": " " 
+   const baddress2 = orderDetailsList?.billingaddress?.street[1] ? orderDetailsList?.billingaddress?.street[1] + " ": " " 
+   const baddress3 = orderDetailsList?.billingaddress?.street[2] ? orderDetailsList?.billingaddress?.street[2] + " ": " " 
+
+   const billingAddress = baddress1 + baddress2 + baddress3
 
     return (
         <View style={styles.mainView}>
@@ -51,7 +61,7 @@ const OrderDetails = (props) => {
                         </View>
                         <View style={styles.orderDetails}>
                             {
-                                orderDetailsList?.items.length > 0 &&
+                                orderDetailsList?.items?.length > 0 &&
                                 orderDetailsList?.items?.map((items, index) => {
 
                                     return (
@@ -79,10 +89,8 @@ const OrderDetails = (props) => {
                                                             <Text style={styles.titleText} >{lable?.Qty + " "}</Text>
                                                             <Text style={styles.normalText}>{items?.qty_ordered}</Text>
                                                         </View>
-
                                                     </View>
                                                 </View>
-
                                                 <Text style={[styles.fistPriceTex, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.row_total}</Text>
                                             </View>
                                             <View style={{ height: ResponsiveSize(20) }} />
@@ -90,8 +98,6 @@ const OrderDetails = (props) => {
                                     )
                                 })
                             }
-
-
                         </View>
                     </View>
 
@@ -106,28 +112,26 @@ const OrderDetails = (props) => {
                                 )
                             })
                         }
-
                     </View>
 
                     {orderDetailsList?.shippingaddress && <View style={[styles.secomdView]}>
-
                         <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                             <Text style={[styles.headerText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lable?.ShippingAddress} </Text>
                         </View>
 
                         <View style={styles.addressView}>
                             <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.shippingaddress?.region}</Text>
-                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.shippingaddress?.street[0] + " " + orderDetailsList?.shippingaddress?.street[1] + " " + orderDetailsList?.shippingaddress?.street[2]}</Text>
+                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{shippongAddress}</Text>
                             <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.shippingaddress?.telephone}</Text>
                         </View>
                     </View>
                     }
                     <View style={styles.secomdView}>
                         <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                            <Text style={styles.headerText}>{lable?.ShippingMethod} </Text>
+                            <Text style={styles.headerText}>{lable?.ShippingMethod ? lable?.ShippingMethod : " "} </Text>
                         </View>
                         <View style={styles.addressView}>
-                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.shipping_description}</Text>
+                            <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.shipping_description ? orderDetailsList?.shipping_description : " "}</Text>
                             {/* <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.shipping2}</Text>
               <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.shippingDate}</Text> */}
                         </View>
@@ -137,11 +141,11 @@ const OrderDetails = (props) => {
                         orderDetailsList?.billingaddress &&
                         <View style={[styles.secomdView]}>
                             <View style={[styles.secondComman, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                <Text style={[styles.headerText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lable?.BillingAddress} </Text>
+                                <Text style={[styles.headerText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lable?.BillingAddress ? lable?.BillingAddress : " "} </Text>
                             </View>
                             <View style={styles.addressView}>
                                 <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.region}</Text>
-                                <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.street[0] + " " + orderDetailsList?.billingaddress?.street[1] + " " + orderDetailsList?.billingaddress?.street[2]}</Text>
+                                <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{billingAddress}</Text>
                                 <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.billingaddress?.telephone}</Text>
                             </View>
                         </View>
@@ -156,9 +160,7 @@ const OrderDetails = (props) => {
                                 <Text style={[styles.addressText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{orderDetailsList?.payment_method}</Text>
                             </View>
                         </View>}
-
                     <View style={{ height: ResponsiveSize(200) }} />
-
                 </ScrollView>
             }
 
@@ -172,7 +174,6 @@ const OrderDetails = (props) => {
                             SHOWTOTS("Refund status is" + orderDetailsList?.refund_status)
                     }} text={"Return Order"} />
                 </View>
-
             }
 
             {

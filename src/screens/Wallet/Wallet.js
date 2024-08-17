@@ -18,7 +18,6 @@ const Wallet = ({ Sponser , setloader ,  route }) => {
       {!Sponser &&
        <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
       <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
-
         {!Sponser && <View style={styles.mngView}>
           <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet ? data?.ManageWallet :"0"}</Text>
         </View>}

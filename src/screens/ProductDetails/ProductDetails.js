@@ -119,11 +119,11 @@ const ProductDetails = (props) => {
                                             onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index) }}
                                             key={index}
                                             style={[styles.sizeContainer,
-                                            index == sizeIndex && { backgroundColor: COLOR.primaray },
-                                                 !blcok || !sizeShow && { }
+                                            index == sizeIndex && sizeShow && { backgroundColor: COLOR.primaray },
+                                                 !blcok || !sizeShow && {backgroundColor:COLOR.white }
                                             ]}
                                         >
-                                            <Text style={[styles.sizeText, index == sizeIndex && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
+                                            <Text style={[styles.sizeText, (index == sizeIndex && sizeShow) && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
                                         </TouchableOpacity>
 
                                         {(!blcok && !sizeShow )&&

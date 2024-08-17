@@ -4,12 +4,20 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import Icon from "react-native-vector-icons/Entypo";
 import { NUMBER } from '../../constants/constants';
-// import Slider from '@react-native-community/slider';
 import CustomRangeSlider from '../RangSlider';
 
-
-const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
-
+const SizeFilter = ({
+    setSizeFilter,
+    lang,
+    filterData,
+    setColor,
+    setSize,
+    setPrice,
+    setProductData,
+    price,
+    size,
+    color
+}) => {
     const [index1, setIndex1] = useState()
     const [index2, setIndex2] = useState()
     const [slider, setSilder] = useState(false)
@@ -18,16 +26,29 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
     const [sizeIndex, setSizeIndex] = useState()
     const [colorIndex, setColorIndex] = useState()
     const [displayIndex, setDisplayIndex] = useState()
+    const [code, setCode] = useState()
     const [cetegoriesIndex, setCetegoriesIndex] = useState()
     const [priceIndex, setPriceIndex] = useState()
-    const [minValue, setMinValue] = useState(0)
-    const [maxValue, setMaxValue] = useState(200)
-    const [unselect , SetUnselect] = useState(false) 
+    const [unselect, SetUnselect] = useState(false)
+    const [num1, setNum1] = useState(price?.data?.length > 0 ? price?.data[0] : 0)
+    const [num2, setNum2] = useState(price?.data?.length > 0 ? price?.data[1] : 0)
 
-
+    const [lowPrese , setLowPrice]  = useState(price?.data?.length > 0 ? price?.data[0] : 0)
+    const [hightPrice , setHighPrice] = useState(price?.data?.length > 0 ? price?.data[1] : 0)
+    const fdata = true
     useEffect(() => {
         filterData?.map((item) => {
             if (item?.attribute_code == "price") {
+                const numbers = item?.options[0]?.value
+                const numbers2 = item?.options[item?.options?.length - 1]?.value
+                const result = numbers.split('_')[0];
+                const result2 = numbers2.split('_')[1];
+                let number1 = parseInt(result);
+                let number2 = parseInt(result2);
+                setLowPrice(number1)
+                setHighPrice(number2)
+                price?.data?.length <= 0 &&  setNum1(number1)
+                price?.data?.length <= 0 &&  setNum2(number2)
                 setOpationData(item?.options)
                 setIndex2(0)
                 setSilder(true)
@@ -35,8 +56,14 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
         })
     }, [])
 
+    useEffect(() => {
+        setPrice({ visibale: true, data: (lowPrese && hightPrice ) ? [num1, num2] : [] })
+    }, [num1, num2])
 
     const onClear = () => {
+        setSize({ visibale: false, data: {} })
+        setPrice({ visibale: false, data: [] })
+        setColor({ visibale: false, data: {} })
         filterData?.map((item) => {
             if (item?.attribute_code == "price") {
                 setOpationData(item?.options)
@@ -45,32 +72,40 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                 SetUnselect(true)
             }
         })
-        
+
     }
 
-
-
-    const innderDataOnPress = (cIndex) => {
+   const innderDataOnPress = (cIndex, items) => {
+   const tempData = items.value
         if (cetegories == "size") {
             setSizeIndex(cIndex)
+            setSize({ visibale: true, data: tempData })
+            setCode('')
         }
         if (cetegories == "category_uid") {
             setCetegoriesIndex(cIndex)
+            setCode('')
         }
         if (cetegories == "color") {
             setColorIndex(cIndex)
+            setColor({ visibale: true, data: tempData })
+            setCode('')
         }
         if (cetegories == "display_sale_label") {
             setDisplayIndex(cIndex)
+            setCode('')
         }
         if (cetegories == "price") {
             setPriceIndex(cIndex)
+            setPrice({ visibale: true, data: [num1, num2] })
+            setCode('')
         }
     }
 
     const ctegouriesSelection = (index) => {
-       
+
         if (cetegories == "size" && index == sizeIndex) {
+
             return true
         } else if (cetegories == "color" && index == colorIndex) {
             return true
@@ -86,23 +121,25 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
     const finalPress = (items) => {
         if (items == "size") {
             setSilder(false)
+            setCode(size?.data)
         }
         if (items == "category_uid") {
             setSilder(false)
+            setCode("")
         }
         if (items == "color") {
             setSilder(false)
+            setCode(color?.data)
         }
         if (items == "display_sale_label") {
             setSilder(false)
+            setCode("")
         }
         if (items == "price") {
             setSilder(true)
+            setCode("")
         }
     }
-
-
-
 
     return (
         <View style={styles.mainView}>
@@ -121,12 +158,14 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                     </View>
 
                     <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <TouchableOpacity 
-                        onPress={()=>{onClear()}}
-                        style={styles.clearView}>
+                        <TouchableOpacity
+                            onPress={() => { onClear() }}
+                            style={styles.clearView}>
                             <Text style={styles.clearText}>{lang == NUMBER.num1 ? "Clear" : "واضح"}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.ApplyView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
+                        <TouchableOpacity
+                            onPress={() => { setProductData(fdata), setSizeFilter(false) }}
+                            style={[styles.ApplyView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
                             <Text style={styles.applyText}>{lang == NUMBER.num1 ? "Apply" : "يتقدم"}</Text>
                         </TouchableOpacity>
                     </View>
@@ -147,12 +186,9 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                                             key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
                                             <Text style={styles.firstViewText}>{items?.label}</Text>
                                         </TouchableOpacity>
-                                    </View>
-                                )
-                            })
-                        }
+                                    </View>)
+                            })}
                     </View>
-
                     <ScrollView style={styles.secondView}>
                         {!slider
                             && optionData.length > 0 && optionData?.map((items, index) => {
@@ -160,31 +196,30 @@ const SizeFilter = ({ setSizeFilter, lang, filterData }) => {
                                 return (
                                     <TouchableOpacity
                                         onPress={() => {
-                                            innderDataOnPress(index)
+                                            innderDataOnPress(index, items)
                                             setIndex1(index)
                                             SetUnselect(false)
                                             result = ctegouriesSelection(index)
                                         }}
                                         key={index}
                                         style={[styles.secondInnerView,
-                                        (result && !unselect)&& { backgroundColor: COLOR.white },
+                                        (result && !unselect || code == items?.value ) && { backgroundColor: COLOR.white },
                                         lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                         <Text style={styles.innerText}>{items?.label}</Text>
                                         <Text style={styles.innerText}>{items?.count}</Text>
                                     </TouchableOpacity>
                                 )
                             })}
-
                         {
                             slider &&
 
                             <View style={{ width: "100%", height: ResponsiveSize(200), justifyContent: 'center', alignItems: 'center', width: "100%" }}>
-
+                                {console.log("price ::: " , price )}
                                 <View style={styles.rangeTex}>
-                                    <Text style={styles.valueText}>{minValue}</Text>
-                                    <Text style={styles.valueText}>{maxValue}</Text>
+                                    <Text style={[styles.valueText, { textAlign: 'left' }]}>{price?.data?.length > 0 ? price?.data[0] : lowPrese}</Text>
+                                    <Text style={[styles.valueText, { textAlign: 'right' }]}>{price?.data?.length > 0 ? price?.data[1] : hightPrice}</Text>
                                 </View>
-                                <CustomRangeSlider setMinValue={setMinValue} setMaxValue={setMaxValue} />
+                                <CustomRangeSlider price={price} setMinPrice={setLowPrice} setMaxPrice={setHighPrice} setMinValue={setNum1} setMaxValue={setNum2} lowPrese={lowPrese} hightPrice={hightPrice} />
                             </View>
                         }
                     </ScrollView>
@@ -252,10 +287,14 @@ const styles = StyleSheet.create({
     },
     applyText: {
         color: COLOR.white,
-        fontWeight: FONTWEGHIT.font600
+        fontWeight: FONTWEGHIT.font600,
+        textAlign:ALINE.center,
+        width:"100%"
     },
     clearText: {
-        color: COLOR.black
+        color: COLOR.black,
+        width:"100%",
+        textAlign:ALINE.center
     },
     firstView: {
         width: ResponsiveSize(250),
@@ -290,12 +329,15 @@ const styles = StyleSheet.create({
     },
     firstViewText: {
         color: COLOR.black,
-        fontSize: ResponsiveSize(25)
+        fontSize: ResponsiveSize(25),
+        width:"100%",
+        textAlign:ALINE.center
     },
     valueText: {
         fontSize: ResponsiveSize(25),
         marginBottom: ResponsiveSize(10),
-        color: COLOR.black
+        color: COLOR.black,
+        flex: 1
     },
     rangeTex: {
         flexDirection: ALINE.row,

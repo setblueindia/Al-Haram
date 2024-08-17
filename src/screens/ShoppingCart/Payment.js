@@ -59,7 +59,6 @@ const Payment = ({
     setCredit(false)
     setWalletAmount(WAmount)
   }
-
   useEffect(() => {
     finalAmount()
   }, [txtData])
@@ -405,7 +404,9 @@ const styles = StyleSheet.create({
   btnText: {
     color: COLOR.white,
     fontSize: ResponsiveSize(25),
-    fontWeight: FONTWEGHIT.font600
+    fontWeight: FONTWEGHIT.font600,
+    width:"100%",
+    textAlign:ALINE.center
   },
   walletView: {
     width: "100%",
@@ -442,18 +443,20 @@ const styles = StyleSheet.create({
   container: {
     width: ResponsiveSize(120),
     // height: "100%",
-    alignItems: 'center'
-    // backgroundColor:"#000"
+    alignItems: 'center',
+    // backgroundColor:"#000",
+    justifyContent:'center'
   },
   containerText: {
     color: "#202020",
     lineHeight: ResponsiveSize(30),
     textAlign: 'center',
-    height: ResponsiveSize(70)
+    // flex:1
+    height: ResponsiveSize(100)
   },
   priceView: {
-    height: ResponsiveSize(40),
-    width: ResponsiveSize(100),
+    padding:ResponsiveSize(5),
+    width: ResponsiveSize(120),
     backgroundColor: COLOR.primaray,
     borderRadius: ResponsiveSize(5),
     alignItems: 'center',
@@ -461,7 +464,9 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveSize(10)
   },
   priceText: {
-    color: COLOR.white
+    color: COLOR.white,
+    width:"100%",
+    textAlign:'center'
   },
   walletLineView: {
     height: ResponsiveSize(110),

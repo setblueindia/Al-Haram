@@ -4,12 +4,14 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { ResponsiveSize } from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
 
-const CustomRangeSlider = ({setMinValue , setMaxValue}) => {
-  const [values, setValues] = useState([0, 100]);
+const CustomRangeSlider = ({setMinValue , setMaxValue , lowPrese , hightPrice , price , setMinPrice , setMaxPrice}) => {
+const [values, setValues] = useState([price?.data?.length > 0 ? price?.data[0] : lowPrese , price?.data?.length > 0 ? price?.data[1] : hightPrice]);
 
   const onValuesChange = (values) => {
     setMinValue(values[0])
     setMaxValue(values[1])
+    setMinPrice(values[0])
+    setMaxPrice(values[1])
     setValues(values);
   };
 
@@ -19,8 +21,8 @@ const CustomRangeSlider = ({setMinValue , setMaxValue}) => {
         values={values}
         sliderLength={ResponsiveSize(270)}
         onValuesChange={onValuesChange}
-        min={0}
-        max={100}
+        min={lowPrese}
+        max={hightPrice}
         step={1}
         allowOverlap={false}
         snapped
