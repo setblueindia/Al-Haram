@@ -4,8 +4,6 @@ import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
 const width = Dimensions.get('window').width;
 export const styles = StyleSheet.create({
     mainView: {
-//   backgroundColor:COLOR.gray
-
     },
    
     productView: {   
@@ -17,24 +15,16 @@ export const styles = StyleSheet.create({
         height:ResponsiveSize(270),
         alignItems: ALINE.center,
         backgroundColor:COLOR.white
-
-        
-        // height:ResponsiveSize(300)
     },
 
     container: {
         width: width,
-        // backgroundColor: COLOR.white,
-        // borderWidth: 0.5,
         borderColor: COLOR.gray,
         padding: ResponsiveSize(10),
-
-
     },
     headerTextView: {
         flexDirection: ALINE.row,
         justifyContent: ALINE.spaceBetween,
-        // marginBottom:ResponsiveSize(10),
         padding:ResponsiveSize(10),
         alignItems:ALINE.center
         
@@ -60,7 +50,6 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(30),
     },
     imgView: {
-        // height: ResponsiveSize(200),
         width: ResponsiveSize(200),
         borderRadius: ResponsiveSize(30),
 
@@ -68,7 +57,6 @@ export const styles = StyleSheet.create({
     ProductName: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
-        // fontWeight: '600',
         marginLeft: ResponsiveSize(15)
     },
     listView: {

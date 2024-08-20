@@ -415,8 +415,8 @@ const styles = StyleSheet.create({
     borderColor: COLOR.primaray,
     marginTop: ResponsiveSize(20),
     backgroundColor: "#FFEEEE",
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: ALINE.row,
+    alignItems: ALINE.center,
     padding: ResponsiveSize(10),
     borderTopLeftRadius: ResponsiveSize(10),
     borderTopRightRadius: ResponsiveSize(10)
@@ -434,24 +434,20 @@ const styles = StyleSheet.create({
     borderColor: COLOR.primaray,
   },
   containerView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.spaceBetween,
     width: "100%",
     padding: ResponsiveSize(20)
-    // backgroundColor:"#000"
   },
   container: {
     width: ResponsiveSize(120),
-    // height: "100%",
-    alignItems: 'center',
-    // backgroundColor:"#000",
-    justifyContent:'center'
+    alignItems: ALINE.center,
+    justifyContent:ALINE.center
   },
   containerText: {
     color: "#202020",
     lineHeight: ResponsiveSize(30),
     textAlign: 'center',
-    // flex:1
     height: ResponsiveSize(100)
   },
   priceView: {

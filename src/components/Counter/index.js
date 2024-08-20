@@ -17,9 +17,6 @@ const Counter = ({ qty, setQnt , id , updateQnty}) => {
             }else{
                 setQnt(qty + 1)
             }
-            
-            // updateQnty &&  updateQnty(id , qty + 1 , n = true)
-            // console.log("Response :::::" , res)
         } else {
             qty > 1 && setQnt(qty - 1)
             updateQnty &&   updateQnty(id , qty - 1 , n = false)

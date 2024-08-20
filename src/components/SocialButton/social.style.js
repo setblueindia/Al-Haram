@@ -16,18 +16,12 @@ export const styles = StyleSheet.create({
     },
     socialIcon: {
         height: ResponsiveSize(45),
-        width: ResponsiveSize(45),
-        // alignSelf:'center',
-    
+        width: ResponsiveSize(45),    
     },
     text: {
         fontSize: ResponsiveSize(25),
         marginLeft: ResponsiveSize(10),
         flex:Platform.OS == 'android' && 0.2,
         color:COLOR.darkGray
-        // textAlign:'justify'
-        // width:ResponsiveSize(300),
-        // flex:1,
-        // textAlign:'center'
     },
 })

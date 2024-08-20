@@ -1,6 +1,5 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-// import {styles} from './header.stye';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {ResponsiveSize} from '../../utils/utils';
 import {useNavigation} from '@react-navigation/native';

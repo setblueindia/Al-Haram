@@ -87,9 +87,7 @@ const styles = StyleSheet.create({
         fontSize: ResponsiveSize(30)
     },
     secondView: {
-        // width: ResponsiveSize(400),
         marginTop: ResponsiveSize(20),
-        // marginRight:ResponsiveSize(80)
     },
     innerAddres: {
         lineHeight: ResponsiveSize(40),

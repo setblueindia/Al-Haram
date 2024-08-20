@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     alignItems: ALINE.center,
     height: '100%',
     width: '100%',
-    // backgroundColor: '#00000010',
   },
   lottiTextView: {
     height: ResponsiveSize(60),

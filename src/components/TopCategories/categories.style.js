@@ -6,8 +6,6 @@ export const styles = StyleSheet.create({
     listView: {
         height: ResponsiveSize(100),
         width: ResponsiveSize(100),
-        // marginLeft:ResponsiveSize(20),
-        // marginTop: ResponsiveSize(20),
         borderRadius: ResponsiveSize(100)
     },
     Image: {
@@ -18,7 +16,6 @@ export const styles = StyleSheet.create({
     },
     mainView: {
         height:ResponsiveSize(350),
-        // padding:ResponsiveSize(10),
         width: "100%",
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
@@ -36,7 +33,6 @@ export const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         padding:ResponsiveSize(20)
-        // width:"100%"
     },
     text:{
         color:COLOR.black

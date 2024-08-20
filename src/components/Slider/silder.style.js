@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
-import { ALINE, COLOR, RESIZEMODE } from "../../constants/style";
+import { ALINE, RESIZEMODE } from "../../constants/style";
 
 const windowWidth = Dimensions.get('window').width;
 

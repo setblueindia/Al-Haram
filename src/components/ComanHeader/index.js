@@ -72,9 +72,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
         shadowColor: '#000',
-        // alignItems:'center',
-        // backgroundColor:"#000000"
-
     },
     container: {
         alignItems: ALINE.center,
@@ -89,7 +86,6 @@ const styles = StyleSheet.create({
         color: COLOR.black,
         fontSize: ResponsiveSize(30),
         width:ResponsiveSize(300),
-        // flex:1,
         textAlign:'center'
     },
     productCountView: {

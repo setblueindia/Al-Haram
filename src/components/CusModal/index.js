@@ -46,11 +46,8 @@ const styles = StyleSheet.create({
         padding:ResponsiveSize(20)
     },
     container: {
-        // height: ResponsiveSize(400),
-        // width: ResponsiveSize(500),
         width:"100%",
         backgroundColor: COLOR.white,
-        // backgroundColor:COLOR.primaray,
         borderRadius: ResponsiveSize(20),
         elevation: 10,
         shadowColor: '#000',
@@ -69,17 +66,13 @@ const styles = StyleSheet.create({
     imgView: {
         height: ResponsiveSize(80),
         width: "100%",
-        // backgroundColor:COLOR.black,
         padding: ResponsiveSize(10)
     },
     textView: {
         height: ResponsiveSize(130),
         width: "100%",
-        // backgroundColor: "#00000010",
-        // borderRadius: ResponsiveSize(20),
         justifyContent: 'center',
         alignItems: 'center',
-        // alignContent:'center'
     },
     button: {
         height: ResponsiveSize(60),
@@ -100,7 +93,6 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: COLOR.black,
-        // fontSize: ResponsiveSize(20),
         textAlign: ALINE.center,
         width:"100%"
     },

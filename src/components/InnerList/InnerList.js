@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: ResponsiveSize(1),
     backgroundColor: COLOR.gray,
-    // margin:ResponsiveSize(10)
   },
   lableText: {
     fontSize: ResponsiveSize(22),

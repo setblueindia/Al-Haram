@@ -4,15 +4,10 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
-import { ShippingList } from '../../constants/axios.url'
-import { getStorePickupMethod } from '../../api/axios.api'
-
 
 const ShipingMethod = ({
     lang,
     data,
-    Token,
-    addressCod,
     selectShipping,
     selectAddressList,
     setShippingdata,
@@ -61,8 +56,8 @@ const ShipingMethod = ({
             {(selectAddressList?.length > 0 && on == "fmestorepickup") &&
                 selectAddressList?.map((items, index) => {
                     return (
-                        <>
-                            <View key={index} style={styles.selectAddressView}>
+                        <> 
+                         <View key={index} style={styles.selectAddressView}>
                                 <Text style={styles.headerText}>{"Store Pickup"}</Text>
                                 <TouchableOpacity
                                     onPress={() => { setStorePickUpData(items) , setSindex(index) }}
@@ -83,11 +78,8 @@ const ShipingMethod = ({
                                             {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
                                         </View>
                                     </View>
-
                                 </TouchableOpacity>
-
                             </View>
-
                         </>
                     )
                 })
@@ -102,7 +94,6 @@ export default ShipingMethod
 
 const styles = StyleSheet.create({
     mainView: {
-        // height: "100%",
         width: "100%",
         padding: ResponsiveSize(20)
     },
@@ -156,7 +147,6 @@ const styles = StyleSheet.create({
     fillCircalView: {
         height: "100%",
         width: "100%",
-        // backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(100)
     },
     fillCircalView2:{
@@ -167,7 +157,6 @@ const styles = StyleSheet.create({
     },
     selectAddressView: {
         backgroundColor: "#FFEEEE",
-        // height: ResponsiveSize(200),
         width: "100%",
         padding: ResponsiveSize(20)
     },

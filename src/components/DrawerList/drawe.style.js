@@ -4,7 +4,7 @@ import {ResponsiveSize} from '../../utils/utils';
 
 export const styles = StyleSheet.create({
   mainView: {
-    // alignItems: ALINE.center,
+
   },
   mainHeaderText: {
     color: COLOR.black,

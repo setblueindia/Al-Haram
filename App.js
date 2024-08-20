@@ -46,13 +46,11 @@ const App = () => {
 
     const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
       console.log('Notification caused app to open from background state:', remoteMessage.notification);
-      // Handle the notification data and navigate to specific screen if needed
     });
 
     messaging().getInitialNotification().then(remoteMessage => {
       if (remoteMessage) {
         console.log('Notification caused app to open from quit state:', remoteMessage.notification);
-        // Handle the notification data and navigate to specific screen if needed
       }
     });
 
@@ -72,12 +70,6 @@ const App = () => {
     <>
       <StatusBar backgroundColor="#000000" />
       {isConnected ? <AppNavigation /> : <NetworkConnection />}
-      {/* {loader && 
-      (
-        <View style={{ flex: 1, position: 'absolute', height: "100%", width: "100%" }}>
-          <CusLoader />
-        </View>
-      )} */}
     </>
   );
 };

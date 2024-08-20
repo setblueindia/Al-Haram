@@ -90,12 +90,10 @@ const styles = StyleSheet.create({
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
         fontWeight: FONTWEGHIT.font600,
-        // backgroundColor:"red",
         width:ResponsiveSize(400)
     },
     viewText: {
         color: COLOR.primaray,
-    //    backgroundColor:COLOR.black,
        width:ResponsiveSize(100),
        textAlign:'right'
     },
