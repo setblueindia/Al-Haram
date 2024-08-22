@@ -9,7 +9,9 @@ const CheackButton = ({ onPress , preVriable , onPress2 , setCOD , setCredit , v
     <TouchableOpacity
       onPress={() => {
         preVriable ? onPress(false) : onPress(true)
-        validation && preVriable ? validation(false , "walletsystem" , WAmount ) : validation(true , "walletsystem" , WAmount)
+        if(validation){
+          preVriable ? validation(false , "walletsystem" , WAmount ) : validation(true , "walletsystem" , WAmount)
+        }
         onPress2 && onPress2(),
         setCOD &&  setCOD(false),
         setCredit &&  setCredit(false)

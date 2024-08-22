@@ -91,6 +91,18 @@ export const styles = StyleSheet.create({
         flex: 1,
         height:"100%",
         width:"100%"
-    }
+    },
+    scrollToTopButton : {
+        position: 'absolute',
+        bottom: ResponsiveSize(20),
+        right: ResponsiveSize(20),
+        backgroundColor: '#007bff',
+        padding: ResponsiveSize(10),
+        borderRadius: ResponsiveSize(25),
+    },
+    scrollToTopButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+      },
 
 })

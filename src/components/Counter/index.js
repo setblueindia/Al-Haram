@@ -7,21 +7,27 @@ import { ICON } from '../../constants/constants';
 
 const Counter = ({ qty, setQnt , id , updateQnty}) => {
 
-    const [count, setCount] = useState(0)
+
+    console.log("QUNTY " , qty)
+
+    const QTY = parseInt(qty)
+
+
 
     const countProcess = async (type) => {
         if (type) {
             if(updateQnty) {
-                const res = await updateQnty(id , qty + 1 , n = true)
-                res && setQnt(qty + 1)
+                const res = await updateQnty(id , QTY + 1 , n = true)
+                res && setQnt(QTY + 1)
             }else{
-                setQnt(qty + 1)
+                setQnt(QTY + 1)
             }
         } else {
-            qty > 1 && setQnt(qty - 1)
-            updateQnty &&   updateQnty(id , qty - 1 , n = false)
+            QTY > 1 && setQnt(QTY - 1)
+            updateQnty &&   updateQnty(id , QTY - 1 , n = false)
         }
     }
+
     return (
         <View>
             <View style={styles.container}>
@@ -31,7 +37,7 @@ const Counter = ({ qty, setQnt , id , updateQnty}) => {
                     <Icon name={ICON.minus} size={ResponsiveSize(30)} color={COLOR.black} />
                 </TouchableOpacity>
 
-                <Text style={styles.text}>{qty}</Text>
+                <Text style={styles.text}>{QTY}</Text>
 
                 <TouchableOpacity
                     onPress={() => { countProcess(true) }}

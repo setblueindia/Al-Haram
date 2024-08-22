@@ -5,21 +5,17 @@ import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
-import useShoppingcart from './ShoppingCart.hook'
 import { Ar, En } from '../../constants/localization'
 import DeleteBox from '../../components/DeleteBox'
 
-
-
-  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty ,
-    //  setQnt ,
-      // qty
-    }) => {
+  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty }) => {
   const [qty, setQnt] = useState(parseInt(data?.qty))
-  
   const [deletePopp , setDeletePopp] = useState(false)
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar
+
+
+  console.log("QUNTY :::::::::::: " ,data?.qty )
 
   return (
     <View>
@@ -42,7 +38,7 @@ import DeleteBox from '../../components/DeleteBox'
             <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{lable?.Qty}</Text>
-                <Counter updateQnty={updateQnty} id={data?.item_id} qty={qty} setQnt={setQnt} />  
+                <Counter updateQnty={updateQnty} id={data?.item_id} qty={data?.qty} setQnt={setQnt} />  
               </View>
               <TouchableOpacity
                 onPress={() => {setDeletePopp(true)}}>

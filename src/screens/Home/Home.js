@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, Image, RefreshControl, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
@@ -28,8 +28,12 @@ const Home = (props) => {
     CetegouriesList,
     ProductDetails,
     onRefresh,
+    handleScroll,
     setRefreshing,
-    refreshing
+    refreshing,
+    scrollViewRef,
+    showScrollToTop,
+    scrollToTop
   } = useHomeHook(props)
 
   return (
@@ -37,6 +41,8 @@ const Home = (props) => {
       <View style={styles.CustomeHeaderView}>
         <CustomeHeader search={true} like={true} shoppingcart={true} />
         <ScrollView
+         ref={scrollViewRef}
+        onScroll={handleScroll}
         refreshControl={
           <RefreshControl
           onRefresh={onRefresh}
@@ -83,6 +89,11 @@ const Home = (props) => {
           <View style={{ height: ResponsiveSize(200) }} />
         </ScrollView>
       </View>
+      {showScrollToTop && (
+        <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
+          <Text style={styles.scrollToTopButtonText}>Go to Top</Text>
+        </TouchableOpacity>
+      )}
 
       {
         (!CetegoriesData || isLoadding) &&

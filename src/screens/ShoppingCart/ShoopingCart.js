@@ -63,6 +63,7 @@ const ShoopingCart = (props) => {
         selectPayment,
         selectPaymentMethod,
         setStorePickUpData,
+        getProductCount,
         outOfStock
     } = useShoppingcart()
 
@@ -72,22 +73,22 @@ const ShoopingCart = (props) => {
     return (
         <View style={styles.mainView}>
 
-            <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} />
+            <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} getProductCount={getProductCount} />
             <View style={styles.container}>
                 <View style={[styles.stepView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={COLOR.primaray} />
-                    <Text style={[styles.text, { color: COLOR.primaray , width:ResponsiveSize(50) }]}>{shopinfCratData?.cart}</Text>
+                    <Text style={[styles.text, { color: COLOR.primaray, width: ResponsiveSize(50) }]}>{shopinfCratData?.cart}</Text>
                     <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray } , { width:ResponsiveSize(90)}]}>{shopinfCratData?.Shipping}</Text>
-                    {index == 0 && <Text style={{color:COLOR.darkGray}}>------</Text>}
+                    <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }, { width: ResponsiveSize(90) }]}>{shopinfCratData?.Shipping}</Text>
+                    {index == 0 && <Text style={{ color: COLOR.darkGray }}>------</Text>}
                     {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
 
                     <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 3) && { color: COLOR.primaray } , { width:ResponsiveSize(90)}]}>{shopinfCratData.Payment}</Text>
-                    {(index == 0 || index == 1 || index == 2) && <Text style={{color:COLOR.darkGray}}>------</Text>}
+                    <Text style={[styles.text, (index == 3) && { color: COLOR.primaray }, { width: ResponsiveSize(90) }]}>{shopinfCratData.Payment}</Text>
+                    {(index == 0 || index == 1 || index == 2) && <Text style={{ color: COLOR.darkGray }}>------</Text>}
                 </View>
 
                 {index == 0 &&
@@ -102,7 +103,12 @@ const ShoopingCart = (props) => {
                                 renderItem={({ item, index }) => {
                                     return (
                                         <View key={index}>
-                                            <Cart updateQnty={updateQnty} outOfStock={false} data={item} lang={lang} deleteProduct={deleteProduct} />
+                                            <Cart
+                                                updateQnty={updateQnty}
+                                                outOfStock={false}
+                                                data={item} lang={lang}
+                                                deleteProduct={deleteProduct}
+                                                getProductCount={getProductCount} />
                                             <View style={{ height: ResponsiveSize(20) }} />
                                         </View>
                                     )
@@ -143,7 +149,7 @@ const ShoopingCart = (props) => {
                         </View>
                         : null
                 }
-                
+
                 {
                     index == 1 &&
                     <View style={{ flex: 1 }}>
@@ -245,7 +251,7 @@ const styles = StyleSheet.create({
     },
     stepView: {
         flexDirection: ALINE.row,
-        justifyContent:"space-around",
+        justifyContent: "space-around",
         width: "100%",
         padding: ResponsiveSize(20),
         alignItems: ALINE.center,

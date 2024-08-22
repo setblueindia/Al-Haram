@@ -23,6 +23,8 @@ const useHomeHook = (props) => {
   const dispatch = useDispatch()
   const isInitialMount = useRef(true)
   const [refreshing, setRefreshing] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const scrollViewRef = useRef(null);
 
   const CetegouriesList = async () => {
     // dispatch(updateLoader(true))
@@ -214,7 +216,6 @@ const useHomeHook = (props) => {
     TokenExpired()
   }, [navigation])
 
-
   const onRefresh = () => {
     setRefreshing(true);
     CetegouriesList()
@@ -222,6 +223,23 @@ const useHomeHook = (props) => {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
+  };
+
+
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    if (offsetY > 300) {
+      setShowScrollToTop(true);
+    } else {
+      setShowScrollToTop(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
   };
 
   return {
@@ -236,7 +254,11 @@ const useHomeHook = (props) => {
     ProductDetails,
     onRefresh,
     setRefreshing,
-    refreshing
+    refreshing,
+    handleScroll,
+    scrollViewRef,
+    showScrollToTop,
+    scrollToTop
   }
 }
 

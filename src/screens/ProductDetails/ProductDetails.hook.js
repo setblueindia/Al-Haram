@@ -1,14 +1,15 @@
 import { useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
-import { NUMBER } from "../../constants/constants"
+import { ASYNCSTORAGE, NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { AddRemoveToWhishLisst, AddToCartAPI, ExpireToken, ProductDetalsBySKU } from "../../api/axios.api"
+import { AddRemoveToWhishLisst, AddToCartAPI, CartListCount, ExpireToken, ProductDetalsBySKU } from "../../api/axios.api"
 import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
 import Share from 'react-native-share';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 const useProductDetails = (props) => {
@@ -86,8 +87,9 @@ const useProductDetails = (props) => {
     try {
       if (response?.data?.status == NUMBER.num1) {
         const count = productCountToCart + 1
-        dispatch(addProduct(count)),
-          SHOWTOTS(response?.data?.message)
+        getProductCount()
+        // dispatch(addProduct(count)),
+        SHOWTOTS(response?.data?.message)
         setShowAnimation(false)
         setIsLoading(false)
         addTocartAnimation()
@@ -294,7 +296,6 @@ const useProductDetails = (props) => {
     // && setIndex()
   }
 
-
   const likeDislike = async (id) => {
 
     const formData = new FormData()
@@ -320,6 +321,37 @@ const useProductDetails = (props) => {
       console.log(" Token Error:::::::" , error)
     }
   }
+
+  const getProductCount = async () => {
+    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
+    const fromData = new FormData()
+    fromData.append("token", userData?.token)
+    fromData.append("store_id", result)
+    try {
+      if(userData?.token) {
+        const response = await CartListCount(fromData)
+        if (response?.status == "200") {
+          const count = parseInt(response?.data?.data?.items_qty)
+          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+          console.log("GET CART ITEMS :::::: ", count)
+        } else {
+          console.log("else respomnse :::::::::::::", response?.data)
+          dispatch(addProduct(0))
+        }
+      } else{
+        // SHOWTOTS("TOKEN CAN-NOT GET")
+        dispatch(addProduct(0))
+      }
+    } catch (error) {
+      dispatch(addProduct(0))
+    }
+  }
+
+
+
+  useEffect(()=>{
+    getProductCount()
+  },[navigation])
 
   useEffect(()=>{
     TokenExpire()

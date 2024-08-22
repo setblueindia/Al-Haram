@@ -11,12 +11,14 @@ import { useSelector } from 'react-redux';
 
 const CommanHeader = ({ navigation, lang, name }) => {
     const productCount = useSelector(state => state?.AddToCart)
+
+ 
     return (
         <View style={styles.mainView}>
             <StatusBarCus />
             <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <TouchableOpacity
-                    onPress={() => { navigation.goBack() }}
+                    onPress={() => { navigation.goBack()}}
                 >
                     <Icon style={styles.icon}
                         name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft}

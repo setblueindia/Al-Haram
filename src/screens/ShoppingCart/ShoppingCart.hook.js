@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, DeleteCartItems, ExpireToken, PlaceeHolder2, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
+import { CartList, CartListCount, DeleteCartItems, ExpireToken, PlaceeHolder2, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
-import { ShippingList } from '../../constants/axios.url'
-import { useSharedValue } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
 import { config } from '../YourWay/config'
@@ -24,6 +22,8 @@ const useShoppingcart = () => {
   const [outOfStock, setOutOfStock] = useState([])
   const productCount = useSelector(state => state?.AddToCart?.data)
   const [qty, setQnt] = useState(parseInt(data?.qty))
+  const dispatch = useDispatch()
+
 
 
   // For Address
@@ -257,7 +257,7 @@ const useShoppingcart = () => {
       const response = await DeleteCartItems(formData)
       if (response?.data?.status == NUMBER.num1) {
         getData()
-        disPatch(addProduct(productNo - 1))
+        getProductCount()
       } else {
         setLoadding(false)
       }
@@ -566,7 +566,6 @@ const useShoppingcart = () => {
     }
   }
 
-
   const PlaceHolder = async () => {
     setLoadding(true)
     var shoppingTotal = 0
@@ -690,6 +689,7 @@ const useShoppingcart = () => {
 
     }
   }
+
   const onProcessPayment = (responseData) => {
     console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)
     if (responseData.status == 'success') {
@@ -701,6 +701,31 @@ const useShoppingcart = () => {
       console.log("message ::::::::::::::::", { message: responseData.error, type: "danger" })
     }
   };
+
+  const getProductCount = async () => {
+    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
+    const fromData = new FormData()
+    fromData.append("token", userData?.data?.token)
+    fromData.append("store_id", result)
+    try {
+      if(userData?.data?.token) {
+        const response = await CartListCount(fromData)
+        if (response?.status == "200") {
+          const count = parseInt(response?.data?.data?.items_qty)
+          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+        } else {
+          console.log("else respomnse :::::::::::::", response?.data)
+          dispatch(addProduct(0))
+        }
+      } else{
+        SHOWTOTS("TOKEN CAN-NOT GET")
+        dispatch(addProduct(0))
+      }
+    } catch (error) {
+      dispatch(addProduct(0))
+      console.log("ERORR ::::::::::" , error)
+    }
+  }
 
   return {
     selectPaymentMethod,
@@ -748,7 +773,8 @@ const useShoppingcart = () => {
     setSelectPayment,
     PlaceHolder,
     setSelectPayemrntMethod,
-    setWalletAmount
+    setWalletAmount,
+    getProductCount
   }
 }
 

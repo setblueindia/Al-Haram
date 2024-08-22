@@ -11,7 +11,6 @@ import Block from 'react-native-vector-icons/FontAwesome6';
 import { EXTRASTR, ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
-import { Ratting } from '../../assests'
 import ReviewSlider from '../../components/ReviewSlider'
 import CusLoader from '../../components/CustomLoader'
 
