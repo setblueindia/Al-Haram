@@ -48,13 +48,12 @@ const Banner = (props) => {
         } catch (error) {
             console.log("BANNER ERROR :::::::: ", error)
             setIsLoadding(false)
-
         }
     }
 
     return (
         <View style={styles.mainView}>
-            <CommanHeader navigation={navigation} />
+            <CommanHeader navigation={navigation} lang={lang}/>
             <ScrollView>
 
                 <View style={styles.containerView}>

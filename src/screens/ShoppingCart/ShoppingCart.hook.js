@@ -52,7 +52,7 @@ const useShoppingcart = () => {
 
   const [extra, setEtrx] = useState()
   const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
-  const [walletAmount  , setWalletAmount] = useState()
+  const [walletAmount, setWalletAmount] = useState()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -187,13 +187,11 @@ const useShoppingcart = () => {
           PlaceHolder1()
         }
       }
-    } else {
+    } else {   
       if (!validationn) {
         setShowModal(true)
         setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      } else if (validationn && wallateAmount < extra && selectPayemrntMethod == "Wallet") {
-        setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      } else {
+      }else {
         PlaceHolder()
         setOutOfStock([])
         setData([])
@@ -385,7 +383,7 @@ const useShoppingcart = () => {
         "shipping_carrier_code": shippingData?.carrier_code,
         "shipping_method_code": shippingData?.method_code
       },
-       "custom": {
+      "custom": {
         "token": Token,
         "store_id": lang
       }
@@ -534,42 +532,46 @@ const useShoppingcart = () => {
     }
   }
 
-  const validation = (value) => {
-
+  const validation = (value , edata , WAmount) => {
+   
     var validationTotal = 0
+    // console.log("Valu :::::::::::::::::: " , {value : value  , selectPayemrntMethod : selectPayemrntMethod , edata:edata , walletAmount:wallateAmount})
 
     paymentScreenData?.total_segments?.map((items, index) => {
       if (items?.code == "grand_total") {
         validationTotal = items?.value
       }
     })
+
+    if(edata == "walletsystem" && value == true) {
+      setWalletAmount(WAmount)
+    }
+    if(edata == "walletsystem" && value == false) {
+      setWalletAmount(0)
+    }
+
     if (value) {
-      if (wallateAmount < validationTotal) {
-        setValidation(true)
-      } else {
+      if(edata == "walletsystem"){
+        if(wallateAmount < validationTotal) {
+          setValidation(false)
+        } else{
+          setValidation(true)
+        }
+      }
+      if(edata != "walletsystem"){
         setValidation(true)
       }
     } else {
       setValidation(false)
     }
-
-
-    console.log("Value ====> ",
-      {
-        value: value,
-        validationTotal: validationTotal
-      }
-    )
   }
 
-  console.log("WALLET-AMOUNT ::::::::: " , walletAmount)
 
   const PlaceHolder = async () => {
     setLoadding(true)
     var shoppingTotal = 0
     var subTotal = 0
     var grandTotal = 0
-
     const fromdata = new FormData()
 
     paymentScreenData?.total_segments?.map((items, index) => {
@@ -593,9 +595,6 @@ const useShoppingcart = () => {
       }
 
     })
-
-  
-
     const params = {
       "paymentMethod": paymentCode ? paymentCode : "walletsystem",
       "billing_address": {
@@ -620,7 +619,7 @@ const useShoppingcart = () => {
         "address3": billingAddressData?.address3,
         "city_display": billingAddressData?.city_display
       },
-       "custom": {
+      "custom": {
         "token": Token,
         "store_id": lang,
         "email": userData?.data?.email,
@@ -630,9 +629,9 @@ const useShoppingcart = () => {
         "shipping": shoppingTotal,
         "grand_total": grandTotal,
         "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
-        "wallet_amount" : walletAmount,
-        "device_type" : Platform.OS == 'ios' ? "react_ios" : "react_android",
-        "device_version" : 0.1
+        "wallet_amount":walletAmount,
+        "device_type": Platform.OS == 'ios' ? "react_ios" : "react_android",
+        "device_version": 0.1
       }
     }
     try {

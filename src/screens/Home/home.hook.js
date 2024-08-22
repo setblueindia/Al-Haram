@@ -22,6 +22,7 @@ const useHomeHook = (props) => {
   const Sliderdata = home?.banner_slider
   const dispatch = useDispatch()
   const isInitialMount = useRef(true)
+  const [refreshing, setRefreshing] = useState(false);
 
   const CetegouriesList = async () => {
     // dispatch(updateLoader(true))
@@ -213,6 +214,16 @@ const useHomeHook = (props) => {
     TokenExpired()
   }, [navigation])
 
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    CetegouriesList()
+    ProductDetails()
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return {
     HomeScreeData,
     lang,
@@ -220,7 +231,12 @@ const useHomeHook = (props) => {
     navigation,
     CetegoriesData,
     loder,
-    isLoadding
+    isLoadding,
+    CetegouriesList,
+    ProductDetails,
+    onRefresh,
+    setRefreshing,
+    refreshing
   }
 }
 

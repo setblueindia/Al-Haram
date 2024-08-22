@@ -52,12 +52,13 @@ const Payment = ({
     setEtrx(temp)
   }
 
-  const walletPress = async () =>{
+  const walletPress = async () => {
     selectPaymentMethod()
-    setSelectPayemrntMethod("Wallet")
+    setSelectPayemrntMethod("walletsystem")
     setCOD(false)
     setCredit(false)
-    setWalletAmount(WAmount)
+    // setWalletAmount(WAmount)
+    // validation(true)
   }
   useEffect(() => {
     finalAmount()
@@ -76,13 +77,23 @@ const Payment = ({
 
           {wallateAmount > 0 &&
             <TouchableOpacity
-            onPress={() => {
-              showWallet ? setShowWallet(false) : setShowWallet(true)
-              showWallet ? validation(false) : validation(true)
-              walletPress()}}
+              onPress={() => {
+                showWallet ? setShowWallet(false) : setShowWallet(true)
+                showWallet ? validation(false , "walletsystem" , WAmount) : validation(true , "walletsystem" , WAmount)
+                walletPress()
+              }}
               style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-              <CheackButton preVriable={showWallet} onPress={setShowWallet} onPress2={selectPaymentMethod} setCOD={setCOD} setCredit={setCredit} />
+              <CheackButton
+                WAmount={WAmount}
+                setWalletAmount={setWalletAmount}
+                validation={validation}
+                preVriable={showWallet}
+                onPress={setShowWallet}
+                onPress2={selectPaymentMethod}
+                onPress3={setSelectPayemrntMethod}
+                setCOD={setCOD}
+                setCredit={setCredit} />
               <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
             </TouchableOpacity>}
           {
@@ -137,7 +148,7 @@ const Payment = ({
                 onPress={() => {
                   setCOD(true)
                   setCredit(false)
-                  validation(true)
+                  validation(true , "COD" ,  WAmount)
                   setSelectPayemrntMethod("COD")
                   selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code)
                 }}
@@ -149,14 +160,14 @@ const Payment = ({
                 }]}>
 
                 </View>
-                <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) , textAlign:'right' }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>
+                <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => {
                   setCOD(false)
                   setCredit(true)
-                  validation(true)
+                  validation(true , "Cradite" , WAmount)
                   selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code)
                   setSelectPayemrntMethod("Cradite")
                 }}
@@ -166,7 +177,7 @@ const Payment = ({
                   backgroundColor: COLOR.primaray,
                   borderColor: COLOR.primaray,
                 }]}></View>
-                <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) ,  textAlign:'right' }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>
+                <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>
               </TouchableOpacity>
             </View>}
 
@@ -175,7 +186,7 @@ const Payment = ({
             return (
               <View key={index} style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
-                <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray } , lang == NUMBER.num0 && {textAlign:'left'}]}>{lable?.SAR + " " + items?.value}</Text>
+                <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text>
               </View>
             )
           })}
@@ -184,12 +195,12 @@ const Payment = ({
             <View style={styles.FinaltextView}>
               <View style={[styles.commonView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>{lable?.WalletAmount}</Text>
-                <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) } , lang == NUMBER.num0 &&{textAlign:'left'}]}>{lable?.SAR + " " + WAmount && WAmount}</Text>
+                <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + WAmount && WAmount}</Text>
               </View>
 
               <View style={[styles.commonView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }, { marginTop: ResponsiveSize(10) }]}>
                 <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }]}>{lable?.TotaldueAmount}</Text>
-                <Text style={[styles.price, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' } , lang == NUMBER.num0 &&{textAlign:'left'}]}>{lable?.SAR + " " + dueAmount && dueAmount}</Text>
+                <Text style={[styles.price, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + dueAmount && dueAmount}</Text>
               </View>
 
 
@@ -319,7 +330,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: ResponsiveSize(23),
     color: COLOR.black,
-    width:"100%"
+    width: "100%"
   },
   lineView: {
     width: "100%",
@@ -338,13 +349,13 @@ const styles = StyleSheet.create({
   leftText: {
     color: "#00000080",
     width: ResponsiveSize(300),
-    flex:1,
-    textAlign:'left'
+    flex: 1,
+    textAlign: 'left'
   },
   price: {
     color: COLOR.black,
-    flex:1,
-    textAlign:'right'
+    flex: 1,
+    textAlign: 'right'
   },
   FinaltextView: {
     backgroundColor: COLOR.white,
@@ -405,8 +416,8 @@ const styles = StyleSheet.create({
     color: COLOR.white,
     fontSize: ResponsiveSize(25),
     fontWeight: FONTWEGHIT.font600,
-    width:"100%",
-    textAlign:ALINE.center
+    width: "100%",
+    textAlign: ALINE.center
   },
   walletView: {
     width: "100%",
@@ -423,7 +434,7 @@ const styles = StyleSheet.create({
   },
   walletText: {
     marginLeft: ResponsiveSize(20),
-    color:COLOR.black
+    color: COLOR.black
   },
   wallateDeatails: {
     width: "100%",
@@ -442,7 +453,7 @@ const styles = StyleSheet.create({
   container: {
     width: ResponsiveSize(120),
     alignItems: ALINE.center,
-    justifyContent:ALINE.center
+    justifyContent: ALINE.center
   },
   containerText: {
     color: "#202020",
@@ -451,7 +462,7 @@ const styles = StyleSheet.create({
     height: ResponsiveSize(100)
   },
   priceView: {
-    padding:ResponsiveSize(5),
+    padding: ResponsiveSize(5),
     width: ResponsiveSize(120),
     backgroundColor: COLOR.primaray,
     borderRadius: ResponsiveSize(5),
@@ -461,8 +472,8 @@ const styles = StyleSheet.create({
   },
   priceText: {
     color: COLOR.white,
-    width:"100%",
-    textAlign:'center'
+    width: "100%",
+    textAlign: 'center'
   },
   walletLineView: {
     height: ResponsiveSize(110),
@@ -514,7 +525,7 @@ const styles = StyleSheet.create({
     borderColor: COLOR.darkGray,
     // marginTop: ResponsiveSize(20),
     paddingHorizontal: ResponsiveSize(20),
-    color:COLOR.black
+    color: COLOR.black
   },
   applyView: {
     height: ResponsiveSize(50),

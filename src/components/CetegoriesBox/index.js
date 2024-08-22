@@ -19,7 +19,7 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                 <Image style={styles.bannerImg} source={{ uri: BASE_URL + items?.mobile_image }} />
             </View>
             <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={styles.categoriesName}>{items?.name}</Text>
+                <Text style={[styles.categoriesName , lang.data == NUMBER.num0 &&  {textAlign:'right'}]}>{items?.name}</Text>
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })

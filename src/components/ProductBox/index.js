@@ -45,7 +45,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
       </View>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-        <Text style={styles.categoriesName}>{items?.title}</Text>
+        <Text style={[styles.categoriesName , lang.data == NUMBER.num0 &&  {textAlign:'right'}]}>{items?.title}</Text>
         {items?.is_viewAll == 1 &&
           <TouchableOpacity
             onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}

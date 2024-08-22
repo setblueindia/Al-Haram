@@ -87,6 +87,7 @@ const Addaddress = (props) => {
               const button = true
               gwtStateData(button)
               setMixCity(true)
+              setCity("")
             }}
           >
             <Text style={styles.stateTextStyle}>{state ? state : data?.StateProvince}</Text>

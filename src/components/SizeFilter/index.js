@@ -193,6 +193,10 @@ const SizeFilter = ({
                         {!slider
                             && optionData.length > 0 && optionData?.map((items, index) => {
                                 let result = ctegouriesSelection(index)
+
+                                const label = items?.label?.length > 10 ? items?.label?.substring(0,10) :items?.label
+
+                                console.log("label :::::::::: " , label)
                                 return (
                                     <TouchableOpacity
                                         onPress={() => {
@@ -205,7 +209,7 @@ const SizeFilter = ({
                                         style={[styles.secondInnerView,
                                         (result && !unselect || code == items?.value ) && { backgroundColor: COLOR.white },
                                         lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                        <Text style={styles.innerText}>{items?.label}</Text>
+                                        <Text style={styles.innerText}>{items?.label?.length > 10   ? label + "..." :label}</Text>
                                         <Text style={styles.innerText}>{items?.count}</Text>
                                     </TouchableOpacity>
                                 )

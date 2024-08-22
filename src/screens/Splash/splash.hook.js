@@ -57,7 +57,7 @@ const useSplshHook = () => {
       const rep = await AsyncStorage.getItem("UserData")
       const response = JSON.parse(rep)
       dispatch(addUserData(response))
-      getData(response?.token)
+      response?.token && getData(response?.token)
       // setLang()
     } catch (error) {
       console.log("SPLASH SCREEN SET USER ERROR ======> ", error)
@@ -81,7 +81,7 @@ const useSplshHook = () => {
           dispatch(addProduct(0))
         }
       } else{
-        SHOWTOTS("TOKEN CAN-NOT GET")
+        // SHOWTOTS("TOKEN CAN-NOT GET")
         dispatch(addProduct(0))
       }
     } catch (error) {

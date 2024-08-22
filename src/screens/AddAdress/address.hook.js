@@ -35,6 +35,8 @@ const useAddressHook = (props) => {
   const [mixCity, setMixCity] = useState()
   const getData = props?.route?.params?.getData
   const temp =  props?.route?.params?.setLoadding
+
+  console.log(":::::::::::::::" , esiteData?.region?.region_id)
   
 
   useEffect(() => {
@@ -68,6 +70,7 @@ const useAddressHook = (props) => {
         const rep = await StateList(formData)
         if (rep?.data?.status == NUMBER.num1) {
           !sates && setCitydata(rep?.data?.data)
+          esiteData &&  getCityData(esiteData?.region?.region_id)
           setStates(rep?.data?.data)
           setIsLoading(false)
         } else {

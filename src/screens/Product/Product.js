@@ -86,7 +86,6 @@ const Product = (props) => {
                                 bounces={true}
                                 ListFooterComponent={() => {
                                     return (
-
                                         <View style={{
                                             width: "100%",
                                             height: ResponsiveSize(100),
@@ -97,14 +96,15 @@ const Product = (props) => {
                                                 moreData &&
                                                 <ActivityIndicator
                                                     size={"large"}
-                                                    color={COLOR.primaray}
-
+                                                    color={COLOR.primaray}                                                           
                                                 />
                                             }
                                         </View>
                                     )
                                 }}
                                 renderItem={({ item, index }) => {
+
+                                    // console.log(":::::::::::::::::::::::::" , item?.price?.regularPrice?.amount?.value)
                                     const name = item?.name?.substring(0, 16)
                                     return (
                                         <TouchableOpacity
@@ -162,10 +162,8 @@ const Product = (props) => {
                                     lang={lang}
                                     setProductData={setProductData}
                                     sortBy={sortBy}
-                                  
                                 />
                             </Modal>
-
                             <Modal animationType='slide' transparent={true} visible={sizeFilter}>
                                 <SizeFilter
                                  filterData={filterData}
@@ -181,8 +179,7 @@ const Product = (props) => {
                                   />
                             </Modal>
                         </View>
-                        : !isLoadding ? <DataIsNotFound /> : null}
-
+                        : !isLoadding ? <DataIsNotFound color={true} header={true} navigation={navigation}/> : null}
                 </View>
 
                 {isLoadding &&

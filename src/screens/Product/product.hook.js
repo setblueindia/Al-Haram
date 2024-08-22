@@ -142,15 +142,13 @@ const useProductHook = (props) => {
     const sortSTR = fdata?.data  ? "sort: {price: " + fdata?.data + "}" : ""
     const sortSTR2 = action  ? "sort: {price: " + action + "}" : ""
 
-    const sortFilterSTR = fdata?.data ? sortSTR : sortSTR2
+     const sortFilterSTR = fdata?.data ? sortSTR : sortSTR2
 
     currePage < 1 && setIsLoadding(true)
     fdata && setIsLoadding(true)
     currePage >= 1 && setMoreData(true)
     const nextPage = fdata ? 1 : currePage + 1
-
-    const sdata =
- `{
+    const sdata = `{
     products(
       filter: {
         category_id: { eq: "${props?.route?.params?.cetegoriesId}" },
@@ -200,10 +198,11 @@ const useProductHook = (props) => {
     }
   }
   `
-    try {
+   try {
       const res = await getFilterList(sdata, lang)
       if (res?.data?.data) {
         // setFilterData(res?.data?.data?.products?.aggregations)
+        // console.log(":::::::::::::::::::::" , res?.data?.data?.products?.items?.length)
         fdata ? setData(res?.data?.data?.products?.items) : setData([...data, ...res?.data?.data?.products?.items])
         setIsLoadding(false)
         setMoreData(false)

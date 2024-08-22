@@ -151,7 +151,6 @@ const ShoopingCart = (props) => {
                             setLoadding={setLoadding}
                             setAddressCode={setAddressCode}
                             setBillingAddress={setBillingAddress}
-
                             data={shopinfCratData} lang={lang} />
                     </View>
                 }

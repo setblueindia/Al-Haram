@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, RefreshControl } from 'react-native';
 import React from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
@@ -24,14 +24,26 @@ const Home = (props) => {
     navigation,
     CetegoriesData,
     loder,
-    isLoadding
+    isLoadding,
+    CetegouriesList,
+    ProductDetails,
+    onRefresh,
+    setRefreshing,
+    refreshing
   } = useHomeHook(props)
 
   return (
     <View style={styles.mainView}>
       <View style={styles.CustomeHeaderView}>
         <CustomeHeader search={true} like={true} shoppingcart={true} />
-        <ScrollView style={styles.containerView}>
+        <ScrollView
+        refreshControl={
+          <RefreshControl
+          onRefresh={onRefresh}
+          refreshing={refreshing}/>
+        }
+        onRefresh={()=>{CetegouriesList() , ProductDetails() }}
+        style={styles.containerView}>
           <View style={styles.storyView}>
             <StoryView CetegoriesData={CetegoriesData} data={data} lang={lang} navigation={navigation} />
           </View>

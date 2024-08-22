@@ -84,6 +84,8 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                         setRemark('')
                         setReciverID('')
                         GetCustomerList()
+                        setAmount('')
+                        setText(Str?.Selectcustomer)
                     } else{
                         SHOWTOTS("Add Remark")
                     setIsLodding(false)
@@ -172,12 +174,14 @@ const TranferAmount = ({ Str, lang, setIsLodding }) => {
                 <View style={styles.devider} />
                 <View style={styles.devider} />
                 <TextFildCus
+                    value={amount}
                     onChange={setAmount}
                     number={true}
                     text={lable?.AmountSAR}
                 />
                 <View style={styles.devider} />
                 <TextFildCus
+                  value={remark}
                     onChange={setRemark}
                     text={lable?.addyourremark} />
                 <View style={styles.devider} />
