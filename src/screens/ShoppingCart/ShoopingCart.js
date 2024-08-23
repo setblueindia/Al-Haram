@@ -63,7 +63,6 @@ const ShoopingCart = (props) => {
         selectPayment,
         selectPaymentMethod,
         setStorePickUpData,
-        getProductCount,
         outOfStock
     } = useShoppingcart()
 
@@ -73,7 +72,7 @@ const ShoopingCart = (props) => {
     return (
         <View style={styles.mainView}>
 
-            <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} getProductCount={getProductCount} />
+            <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} />
             <View style={styles.container}>
                 <View style={[styles.stepView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
@@ -108,7 +107,7 @@ const ShoopingCart = (props) => {
                                                 outOfStock={false}
                                                 data={item} lang={lang}
                                                 deleteProduct={deleteProduct}
-                                                getProductCount={getProductCount} />
+                                                />
                                             <View style={{ height: ResponsiveSize(20) }} />
                                         </View>
                                     )

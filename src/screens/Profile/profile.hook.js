@@ -1,17 +1,21 @@
 import { Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateLangCode } from '../../redux/Slices/LangSlices';
+import { getCetergourisList, getProductDetails } from '../../api/axios.api';
+import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
+import { addHomeScreenData } from '../../redux/Slices/HomeScreenData';
 
 const useProfileHook = () => {
 
   const lang = useSelector(state => state.lang.data)
   const userData = useSelector(state => state?.userData)
   const loder = useSelector(state => state?.Categories?.loader)
+  const [isLoadding, setIsLoadding] = useState(false)
 
   const navigation = useNavigation();
   const [selectedItems, setSelectedItems] = useState()
@@ -33,7 +37,6 @@ const useProfileHook = () => {
     { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
     { icon: 'book', text: PROFILEStr?.AddressBook },
     { icon: 'phone', text: PROFILEStr?.CustomerService },
-    // { icon: 'phone', text: PROFILEStr?.CustomerService },
 
   ];
   const onPress = (item) => {
@@ -64,14 +67,82 @@ const useProfileHook = () => {
 
   const changeLungues = async () => {
     const num = lang == NUMBER.num0 ? NUMBER.num1 : lang == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
-    console.log("NUMBER ::::::::::::::: ", num)
+
     try {
       await AsyncStorage.setItem('Lang', num);
       dispatch(updateLangCode(num));
+      CetegouriesList(num)
+
     } catch (error) {
       console.log('UPDATE LANGUES ERROR :: ', error);
     }
   };
+
+
+  const CetegouriesList = async (num) => {
+    setIsLoadding(true)
+    const params = `
+    {
+      categoryList(filters: {ids: {in: ["2"]}}) {
+        children_count
+        children {
+          id
+          level
+          name
+          path
+          url_path
+          url_key
+          image
+          description
+          mobile_thumbnail
+          mobile_image
+          display_mode
+          children {
+            id
+            level
+            name
+            path
+            url_path
+            url_key
+            image
+            description
+            mobile_thumbnail
+            mobile_circle_thumbnail
+            mobile_image
+            children {
+                id
+                level
+                name
+                path
+                url_path
+                url_key
+                image
+                description
+                mobile_thumbnail
+                mobile_image
+            }
+          }
+        }
+      }
+    }
+    `
+    try {
+      const res = await getCetergourisList(params, num)
+      if (res?.status == '200') {
+        dispatch(addCetegoriesData(res?.data?.data?.categoryList[0]))
+        setIsLoadding(false)
+
+      }
+
+    } catch (error) {
+      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
+      setIsLoadding(false)
+
+
+    }
+  }
+
+
 
   return {
     menuItems,
@@ -89,7 +160,8 @@ const useProfileHook = () => {
     userData,
     PROFILEStr,
     arabic,
-    loder
+    loder,
+    isLoadding
 
   };
 };

@@ -25,10 +25,8 @@ const useSplshHook = () => {
     }, 3000);
   }, []);
 
-  // useEffect(() => {
-  //   setLang()
-  //   setUserData()
-  // }, []);
+
+  
 
   const setLang = async () => {
     try {
@@ -57,7 +55,7 @@ const useSplshHook = () => {
       const rep = await AsyncStorage.getItem("UserData")
       const response = JSON.parse(rep)
       dispatch(addUserData(response))
-      response?.token && getData(response?.token)
+      // response?.token && getData(response?.token) 
       // setLang()
     } catch (error) {
       console.log("SPLASH SCREEN SET USER ERROR ======> ", error)

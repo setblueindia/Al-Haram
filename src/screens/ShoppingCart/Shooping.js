@@ -6,7 +6,7 @@ import AddressBookComp from '../../components/AddressBookComp'
 import { NUMBER } from '../../constants/constants'
 import { COLOR } from '../../constants/style'
 
-const Shooping = ({ data, lang, setAddressCode, setLoadding, setBillingAddress }, props) => {
+const Shooping = ({ data, lang, setAddressCode, setLoadding, setBillingAddress }) => {
   
   return (
     <View style={styles.mainView}>

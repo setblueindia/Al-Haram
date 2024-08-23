@@ -13,6 +13,8 @@ import { ResponsiveSize } from '../../utils/utils';
 import CetegoriesBox from '../../components/CetegoriesBox';
 import ProductBox from '../../components/ProductBox';
 import CusLoader from '../../components/CustomLoader';
+import Icon from 'react-native-vector-icons/dist/AntDesign';
+import { COLOR } from '../../constants/style';
 
 
 const Home = (props) => {
@@ -91,7 +93,8 @@ const Home = (props) => {
       </View>
       {showScrollToTop && (
         <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
-          <Text style={styles.scrollToTopButtonText}>Go to Top</Text>
+          {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
+          <Icon name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
         </TouchableOpacity>
       )}
 

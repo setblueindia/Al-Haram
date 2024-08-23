@@ -4,7 +4,7 @@ import { ASYNCSTORAGE, NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { AddRemoveToWhishLisst, AddToCartAPI, CartListCount, ExpireToken, ProductDetalsBySKU } from "../../api/axios.api"
+import { AddRemoveToWhishLisst, AddToCartAPI, CartListCount, ExpireToken, ProductDetalsBySKU, ProductlistCount } from "../../api/axios.api"
 import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
@@ -88,7 +88,6 @@ const useProductDetails = (props) => {
       if (response?.data?.status == NUMBER.num1) {
         const count = productCountToCart + 1
         getProductCount()
-        // dispatch(addProduct(count)),
         SHOWTOTS(response?.data?.message)
         setShowAnimation(false)
         setIsLoading(false)
@@ -323,35 +322,32 @@ const useProductDetails = (props) => {
   }
 
   const getProductCount = async () => {
-    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
-    const fromData = new FormData()
-    fromData.append("token", userData?.token)
-    fromData.append("store_id", result)
-    try {
-      if(userData?.token) {
-        const response = await CartListCount(fromData)
-        if (response?.status == "200") {
-          const count = parseInt(response?.data?.data?.items_qty)
-          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
-          console.log("GET CART ITEMS :::::: ", count)
-        } else {
-          console.log("else respomnse :::::::::::::", response?.data)
-          dispatch(addProduct(0))
+    const countData = `
+    query {
+      customerCart {
+        items {
+          quantity
         }
-      } else{
-        // SHOWTOTS("TOKEN CAN-NOT GET")
-        dispatch(addProduct(0))
+      }
+    }
+    `
+    try {
+      if (userData?.token) {
+        const result = await ProductlistCount(countData , lang?.data)
+        const arrOFItems = result?.data?.data?.customerCart?.items
+        const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
+        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
+      }else{
+        dispatch(addProduct(0)) 
       }
     } catch (error) {
-      dispatch(addProduct(0))
+      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+      dispatch(addProduct(0)) 
     }
   }
 
 
 
-  useEffect(()=>{
-    getProductCount()
-  },[navigation])
 
   useEffect(()=>{
     TokenExpire()

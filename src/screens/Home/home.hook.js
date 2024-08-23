@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE, NUMBER } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
-import { CartListCount, ExpireToken, HomeApi, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { CartListCount, ExpireToken, HomeApi, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import { updateLoader } from '../../redux/Slices/DrawerSlice'
@@ -145,7 +145,7 @@ const useHomeHook = (props) => {
 
   const SaveToken = async () => {
     const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
-    if(token) {
+    if (token) {
       const storyViewdata = `
       mutation{
         pushNotificationDeviceTokenSave(input:{
@@ -159,56 +159,28 @@ const useHomeHook = (props) => {
        }
       }
           `
-          try {
-            const resp = userData && await Storetoken(sdata, lang?.data)
-            console.log("FCM SAVE TOKEN :::::", resp?.data)
-          } catch (error) {
-            console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
-          }
-
-    }
-
-
-  }
-
-  const getData = async () => {
-    if (userData?.token) {
-      const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
-      const fromData = new FormData()
-      fromData.append("token", userData?.token)
-      fromData.append("store_id", result)
       try {
-        const response = await CartListCount(fromData)
-        if (response?.status == "200") {
-          const count = parseInt(response?.data?.data?.items_qty)
-          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
-        } else {
-          console.log("else respomnse :::::::::::::", response)
-          dispatch(addProduct(0))
-        }
+        const resp = userData && await Storetoken(storyViewdata, lang?.data)
+        // console.log("FCM SAVE TOKEN :::::", resp?.data?.data?.pushNotificationDeviceTokenSave?.message)
       } catch (error) {
-        dispatch(addProduct(0))
+        console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
       }
-    } else {
-      console.log(" :::::::::::: Token not recive ::::::::::::: ")
     }
-
   }
 
-  useEffect(() => {
-    getData()
-  }, [navigation])
 
   useEffect(() => {
     CetegouriesList()
     ProductDetails()
   }, [lang])
 
+ 
+  // const CetegouriesList = useMemo(() => CetegouriesList(num), [num]);
+
   const TokenExpired = async () => {
-    if(userData) {
+    if (userData) {
       const fromdata = new FormData()
       const result = await ExpireToken(fromdata, lang?.data)
-      console.log("Token Expire :::::::", result?.data)
     }
   }
 
@@ -225,7 +197,6 @@ const useHomeHook = (props) => {
     }, 2000);
   };
 
-
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     if (offsetY > 300) {
@@ -241,6 +212,36 @@ const useHomeHook = (props) => {
       animated: true,
     });
   };
+
+  const PoductCount = async () => {
+    const countData = `
+    query {
+      customerCart {
+        items {
+          quantity
+        }
+      }
+    }
+    `
+    try {
+      if (userData?.token) {
+        const result = await ProductlistCount(countData , lang?.data)
+        const arrOFItems = result?.data?.data?.customerCart?.items
+        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
+      }else{
+        dispatch(addProduct(0)) 
+      }
+    } catch (error) {
+      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+      dispatch(addProduct(0)) 
+    }
+  }
+
+
+  useEffect(()=>{
+    PoductCount()
+  },[navigation] )
 
   return {
     HomeScreeData,

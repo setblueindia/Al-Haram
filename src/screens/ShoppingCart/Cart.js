@@ -14,9 +14,6 @@ import DeleteBox from '../../components/DeleteBox'
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar
 
-
-  console.log("QUNTY :::::::::::: " ,data?.qty )
-
   return (
     <View>
       {!outOfStock ?

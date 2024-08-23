@@ -27,9 +27,8 @@ const useDrowerHook = () => {
     changeLable(); 
   }, [lang]);
 
-  // useEffect(() => {
-  //   DraweList()
-  // }, [])
+
+
 
 
   const changeLable = () => {
@@ -37,45 +36,6 @@ const useDrowerHook = () => {
     setLangues(lable);
   }
 
-  // const DraweList = async () => {
-  //   dispatch(updateLoader(true))
-    
-  //   const params =
-  //     `  {
-  //     categoryList(filters: {ids: {in: ["2"]}}) {
-  //       children_count
-  //       children {
-  //         id
-  //         level
-  //         name
-  //         path
-  //         url_path
-  //         url_key
-  //         image
-  //         description
-  //         children {
-  //           id
-  //           level
-  //           name
-  //           path
-  //           url_path
-  //           url_key
-  //           image
-  //           description
-  //         }
-  //       }
-  //     }
-  //   }`
-  //   try {
-  //     const res = await DrowerApi(params, lang?.data)
-  //     setData(res?.data?.data?.categoryList[0]?.children)
-  //     dispatch(addDraweData(res?.data?.data?.categoryList[0]?.children))
-  //     dispatch(updateLoader(false))
-  //   } catch (error) {
-  //     console.log("Error Drowe========> ", error)
-  //     setLoadding(false)
-  //   }
-  // }
 
   const handleInstagramPress = () => {
     const instagramURL = 'https://www.instagram.com/alharamksa/';

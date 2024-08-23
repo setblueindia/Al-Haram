@@ -7,13 +7,7 @@ import { ICON } from '../../constants/constants';
 
 const Counter = ({ qty, setQnt , id , updateQnty}) => {
 
-
-    console.log("QUNTY " , qty)
-
     const QTY = parseInt(qty)
-
-
-
     const countProcess = async (type) => {
         if (type) {
             if(updateQnty) {

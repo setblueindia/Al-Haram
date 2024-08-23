@@ -95,28 +95,36 @@ export const POSTJSON  = async (url , params) =>{
 }
 
 export const POSTFORMGRAPH = async (url, params, lang) => {
+
+    const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
+    const token = JSON.parse(userData)
+    authToken = token?.token
+
+    console.log("Token ::::::::" , authToken)
+    const header = {
+        'Authorization': 'Bearer ' + authToken,
+        'Content-Type': 'application/json',
+        'Store': lang == NUMBER.num1 ? "default" : "arabic"
+
+    }
+  
     console.log("==============================")
     console.log({
         URL: url,
         params: params,
-        lang: lang
+        lang: lang,
+        header : header
+
     })
     console.log("==============================")
     try {
-        const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
-        const token = JSON.parse(userData)
-        authToken = token?.token
+      
 
         const response = await axios({
             method: 'post',
             url: url,
             data: { query: params, variables: null },
-            headers: {
-                'Authorization': 'Bearer' + authToken,
-                'Content-Type': 'application/json',
-                'Store': lang == NUMBER.num1 ? "default" : "arabic"
-
-            }
+            headers: header
         });
         //   console.log("Response :::" , response?.data?.errors )
         return response;

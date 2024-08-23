@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, CartListCount, DeleteCartItems, ExpireToken, PlaceeHolder2, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
+import { CartList, CartListCount, DeleteCartItems, DeteleProductToCart, ExpireToken, PlaceeHolder2, ProductlistCount, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
@@ -53,6 +53,8 @@ const useShoppingcart = () => {
   const [extra, setEtrx] = useState()
   const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
   const [walletAmount, setWalletAmount] = useState()
+
+  const [quoteId , setQuoteId] = useState()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -168,7 +170,7 @@ const useShoppingcart = () => {
     if (index < 3) {
       if (index == 0) {
         setIndex(index + 1)
-        RemoveCart()
+       outOfStock.length > 0 && RemoveCart()
       }
       if (index == 1) {
         if (!addressCod) {
@@ -228,6 +230,7 @@ const useShoppingcart = () => {
     try {
       const response = await CartList(formData)
       if (response.data.status) {
+        setQuoteId(response?.data?.data?.quote_id)
         const inStockItems = [];
         const outOfStockItems = [];
         response?.data?.data?.items.forEach(item => {
@@ -250,42 +253,52 @@ const useShoppingcart = () => {
   // Delete Cart Product
   const deleteProduct = async (items) => {
     setLoadding(true)
-    const formData = new FormData
-    formData.append("token", Token)
-    formData.append("item_id", items)
-    try {
-      const response = await DeleteCartItems(formData)
-      if (response?.data?.status == NUMBER.num1) {
-        getData()
-        getProductCount()
-      } else {
-        setLoadding(false)
+    const dataOfDelet = [items]
+    const deleteData = `
+    mutation{
+      removeOutOfStockItemFromCartByItemId(input:{
+          quote_id: ${quoteId}
+          item_ids: ${dataOfDelet ? dataOfDelet : []}
+      }){
+          status
+          message
       }
-    } catch (error) {
-      console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+  }
+    `
+    try {
+      const result = await DeteleProductToCart(deleteData , lang)
+      console.log("DELETE PRODUCT TO CART ::::: " , result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
+      SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
+      getData()
+      getProductCount()
       setLoadding(false)
+    } catch (error) {
+          console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+          setLoadding(false)
     }
   }
 
   // remove out fo stock product from cart
-  const RemoveCart = async (items) => {
+  const RemoveCart = async () => {
     setLoadding(true)
-    const formData = new FormData
-    formData.append("token", Token)
-    formData.append("item_id", outOfStock)
-    try {
-      const response = await DeleteCartItems(formData)
-      if (response?.data?.status == NUMBER.num1) {
-        setLoadding(false)
-        // getData()
-        // getData()
-        // disPatch(addProduct(productNo - 1))
-      } else {
-        setLoadding(false)
+    const deleteData = `
+    mutation{
+      removeOutOfStockItemFromCartByItemId(input:{
+          quote_id: ${quoteId}
+          item_ids: ${outOfStock ? outOfStock : []}
+      }){
+          status
+          message
       }
-    } catch (error) {
-      console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+  }
+    `
+    try {
+      const result = await DeteleProductToCart(deleteData , lang)
+      SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
       setLoadding(false)
+    } catch (error) {
+          console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+          setLoadding(false)
     }
   }
 
@@ -704,27 +717,54 @@ const useShoppingcart = () => {
 
   const getProductCount = async () => {
     const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
-    const fromData = new FormData()
-    fromData.append("token", userData?.data?.token)
-    fromData.append("store_id", result)
-    try {
-      if(userData?.data?.token) {
-        const response = await CartListCount(fromData)
-        if (response?.status == "200") {
-          const count = parseInt(response?.data?.data?.items_qty)
-          count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
-        } else {
-          console.log("else respomnse :::::::::::::", response?.data)
-          dispatch(addProduct(0))
+    const countData = `
+    query {
+      customerCart {
+        items {
+          quantity
         }
-      } else{
-        SHOWTOTS("TOKEN CAN-NOT GET")
-        dispatch(addProduct(0))
+      }
+    }
+    `
+    try {
+      if (userData?.data?.token) {
+        const result = await ProductlistCount(countData , result)
+        const arrOFItems = result?.data?.data?.customerCart?.items
+        const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
+        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
+      }else{
+        dispatch(addProduct(0)) 
       }
     } catch (error) {
-      dispatch(addProduct(0))
-      console.log("ERORR ::::::::::" , error)
+      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+      dispatch(addProduct(0)) 
     }
+
+
+
+    // const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
+    // const fromData = new FormData()
+    // fromData.append("token", userData?.data?.token)
+    // fromData.append("store_id", result)
+    // try {
+    //   if(userData?.data?.token) {
+    //     const response = await CartListCount(fromData)
+    //     if (response?.status == "200") {
+    //       const count = parseInt(response?.data?.data?.items_qty)
+    //       count ? dispatch(addProduct(count)) : dispatch(addProduct(0))
+    //     } else {
+    //       console.log("else respomnse :::::::::::::", response?.data)
+    //       dispatch(addProduct(0))
+    //     }
+    //   } else{
+    //     SHOWTOTS("TOKEN CAN-NOT GET")
+    //     dispatch(addProduct(0))
+    //   }
+    // } catch (error) {
+    //   dispatch(addProduct(0))
+    //   console.log("ERORR ::::::::::" , error)
+    // }
+
   }
 
   return {
@@ -774,7 +814,6 @@ const useShoppingcart = () => {
     PlaceHolder,
     setSelectPayemrntMethod,
     setWalletAmount,
-    getProductCount
   }
 }
 

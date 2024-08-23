@@ -27,7 +27,7 @@ const OrderDetails = (props) => {
     return (
         <View style={styles.mainView}>
             <CommanHeader name={lable?.ViewOrder} navigation={navigation} lang={lang} />
-            {data &&
+            {(data && !isLoadding ) &&
                 <ScrollView style={styles.containView}>
 
                     <View style={styles.firstView}>
@@ -182,6 +182,7 @@ const OrderDetails = (props) => {
                     <CusLoader />
                 </View>
             }
+            
         </View>
     )
 }

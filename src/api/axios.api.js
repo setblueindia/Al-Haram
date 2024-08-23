@@ -115,17 +115,14 @@ export const CityList = async (params) => {
     const res = await POSTFORM(CityListURL, params)
     return res
 }
-
 export const StateList = async (params) => {
     const res = await POSTFORM(StateListURL, params)
     return res
 }
-
 export const ProductDetalsBySKU = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
-
 export const AddToCartAPI = async (params) => {
     const res = await POSTFORM(AddToCart, params)
     return res
@@ -292,5 +289,16 @@ export const SendNotifiction = async (params, lang) => {
 
 export const StatusUpadate = async (params) => {
     const res = await POSTFORM(StatusUpadateURL , params)
+    return res
+}
+
+
+export const ProductlistCount = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const DeteleProductToCart = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }

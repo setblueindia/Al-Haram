@@ -96,9 +96,13 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: ResponsiveSize(20),
         right: ResponsiveSize(20),
-        backgroundColor: '#007bff',
+        backgroundColor: COLOR.primaray,
         padding: ResponsiveSize(10),
         borderRadius: ResponsiveSize(25),
+        height:ResponsiveSize(50),
+        width:ResponsiveSize(50),
+        alignItems:'center',
+        justifyContent:'center'
     },
     scrollToTopButtonText: {
         color: 'white',
