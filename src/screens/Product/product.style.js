@@ -103,7 +103,6 @@ export const styles = StyleSheet.create({
     comonView:{
         flexDirection:'row',
         alignItems:ALINE.center,
-        // justifyContent:ALINE.spaceBetween,
         width:"50%",        
     },
     deviderInner:{
@@ -123,7 +122,29 @@ export const styles = StyleSheet.create({
         borderColor:COLOR.gray,
         justifyContent:ALINE.center,
         alignItems:ALINE.center
-    }
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        borderRadius: 10,
+      },
+      itemText: {
+        fontSize: 18,
+      },
+      scrollToTopButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: '#007bff',
+        padding: 10,
+        borderRadius: 25,
+      },
+      scrollToTopButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+      },
+    
 
 
 })

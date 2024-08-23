@@ -13,6 +13,8 @@ import SizeFilter from '../../components/SizeFilter'
 import CusLoader from '../../components/CustomLoader'
 import DataIsNotFound from '../../components/DataNotFound2'
 import FastImage from 'react-native-fast-image'
+import Icon from 'react-native-vector-icons/dist/AntDesign';
+
 
 
 const Product = (props) => {
@@ -33,6 +35,7 @@ const Product = (props) => {
         userData,
         price,
         size,
+        showScrollToTop,
         color,
         likeDislike,
         likePress,
@@ -40,6 +43,8 @@ const Product = (props) => {
         setPrice,
         setSize,
         setProductData,
+        handleScroll,
+        scrollToTop,
         moreData
 
     } = useProductHook(props)
@@ -84,6 +89,8 @@ const Product = (props) => {
                                 onEndReached={() => { data?.length > 0 && setProductData() }}
                                 numColumns={2}
                                 bounces={true}
+                                onScroll={handleScroll}
+                                // scrollEventThrottle={16}
                                 ListFooterComponent={() => {
                                     return (
                                         <View style={{
@@ -96,22 +103,20 @@ const Product = (props) => {
                                                 moreData &&
                                                 <ActivityIndicator
                                                     size={"large"}
-                                                    color={COLOR.primaray}                                                           
+                                                    color={COLOR.primaray}
                                                 />
                                             }
                                         </View>
                                     )
                                 }}
                                 renderItem={({ item, index }) => {
-
-                                    // console.log(":::::::::::::::::::::::::" , item?.price?.regularPrice?.amount?.value)
                                     const name = item?.name?.substring(0, 16)
                                     return (
                                         <TouchableOpacity
                                             onPress={() => {
                                                 navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku })
                                             }}
-                                            style={[styles.conntainer , data?.length == 1 &&{width:ResponsiveSize(300) }]}>
+                                            style={[styles.conntainer, data?.length == 1 && { width: ResponsiveSize(300) }]}>
                                             <View style={styles.imageView}>
                                                 <FastImage
                                                     style={styles.image}
@@ -119,7 +124,7 @@ const Product = (props) => {
                                                     onLoadStart={() => { setImageLoader(true) }}
                                                     onLoadEnd={() => { setImageLoader(false) }}
                                                 />
-                                                {imageLoader &&
+                                                {(imageLoader && !item?.small_image?.url) &&
                                                     <View style={{
                                                         height: "100%",
                                                         width: "100%",
@@ -166,20 +171,20 @@ const Product = (props) => {
                             </Modal>
                             <Modal animationType='slide' transparent={true} visible={sizeFilter}>
                                 <SizeFilter
-                                 filterData={filterData}
-                                  setSizeFilter={setSizeFilter} 
-                                  lang={lang} 
-                                  setColor={setColor}
-                                  setSize={setSize}
-                                  setPrice={setPrice}
-                                  setProductData={setProductData}
-                                  price={price}
-                                  size={size}
-                                  color={color}
-                                  />
+                                    filterData={filterData}
+                                    setSizeFilter={setSizeFilter}
+                                    lang={lang}
+                                    setColor={setColor}
+                                    setSize={setSize}
+                                    setPrice={setPrice}
+                                    setProductData={setProductData}
+                                    price={price}
+                                    size={size}
+                                    color={color}
+                                />
                             </Modal>
                         </View>
-                        : !isLoadding ? <DataIsNotFound color={true} header={true} navigation={navigation}/> : null}
+                        : !isLoadding ? <DataIsNotFound color={true} header={true} navigation={navigation} /> : null}
                 </View>
 
                 {isLoadding &&
@@ -187,6 +192,13 @@ const Product = (props) => {
                         <CusLoader />
                     </View>
                 }
+
+                {showScrollToTop && (
+                    <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
+                        {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
+                        <Icon name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
+                    </TouchableOpacity>
+                )}
             </View>
         </>
 

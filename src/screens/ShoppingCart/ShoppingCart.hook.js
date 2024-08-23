@@ -164,7 +164,7 @@ const useShoppingcart = () => {
   useEffect(() => {
     getData()
     getWallateData()
-  }, [])
+  }, [navigation])
 
   const onPress = () => {
     if (index < 3) {

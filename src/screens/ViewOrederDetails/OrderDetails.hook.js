@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { NAVIGATION, NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
-import { getOrderView, postReOrder } from "../../api/axios.api"
+import { ProductlistCount, getOrderView, postReOrder } from "../../api/axios.api"
 import { useEffect, useState } from "react"
 import { SHOWTOTS } from "../../utils/utils"
+import { addProduct } from "../../redux/Slices/AddToCartSlice"
 
 
 const useOrderDetaisHook = (props) => {
@@ -15,6 +16,7 @@ const useOrderDetaisHook = (props) => {
     const userData = useSelector(state => state?.userData?.data)
     const lable = lang == NUMBER.num0 ? Ar : En
     const OId = props?.route?.params?.orderID
+    const dispatch = useDispatch()
 
     const orderDetails = async () => {
         setIsLoadding(true)
@@ -47,9 +49,9 @@ const useOrderDetaisHook = (props) => {
         try {
             const response = await postReOrder(fromData)
             if (response?.data?.data) {
-
                 SHOWTOTS(response?.data?.message)
-                navigation.navigate(NAVIGATION.Shoppingcart)
+                PoductCount()
+                navigation.navigate(NAVIGATION.DrawerNavigation)
                 setIsLoadding(false)
             } else {
                 console.log("RE ORDER ERROR ::::::::::: ", response?.data?.message)
@@ -61,6 +63,35 @@ const useOrderDetaisHook = (props) => {
             setIsLoadding(false)
         }
     }
+
+    const PoductCount = async () => {
+        const countData = `
+        query {
+          customerCart {
+            items {
+              quantity
+            }
+          }
+        }
+        `
+        try {
+          if (userData?.token) {
+            const result = await ProductlistCount(countData , lang)
+            const arrOFItems = result?.data?.data?.customerCart?.items
+            const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+
+            console.log("totalQuantity ::::::::::::::::::::" , totalQuantity)
+            totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
+          }else{
+            console.log("totalQuantity result ::::::::::::::::::::" , userData?.token)
+            dispatch(addProduct(0)) 
+          }
+        } catch (error) {
+          console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+          dispatch(addProduct(0)) 
+        }
+      }
+
     useEffect(() => {
         orderDetails()
     }, [])

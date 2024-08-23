@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
-import { ExpireToken, useSingUp, userLogIn, userLogInWithNumber } from '../../api/axios.api';
+import { ExpireToken, ProductlistCount, useSingUp, userLogIn, userLogInWithNumber } from '../../api/axios.api';
 import { SHOWTOTS, emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
 import { signInWithGoogle } from '../../firebase/firebaseConfig';
 import { Alert } from 'react-native';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 
 const useLoginHook = () => {
@@ -65,6 +66,9 @@ const useLoginHook = () => {
           console.log("Errorrr=====> ", error)
         }
       }
+      console.log("Token ::::::::: " , response?.data?.data)
+
+        PoductCount(response?.data?.data?.token)
         setUserData(response?.data?.data)
         dispatch(addUserData(response?.data?.data))
         navigation.navigate(NAVIGATION.DrawerNavigation)
@@ -236,6 +240,31 @@ const useLoginHook = () => {
     lastName : lastName
   }) 
   SINUP(mail , firstName , lastName , uid , type = "apple")
+  }
+
+  const PoductCount = async (token) => {
+    const countData = `
+    query {
+      customerCart {
+        items {
+          quantity
+        }
+      }
+    }
+    `
+    try {
+      if (token) {
+        const result = await ProductlistCount(countData , lang?.data)
+        const arrOFItems = result?.data?.data?.customerCart?.items
+        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
+      }else{
+        dispatch(addProduct(0)) 
+      }
+    } catch (error) {
+      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+      dispatch(addProduct(0)) 
+    }
   }
 
   

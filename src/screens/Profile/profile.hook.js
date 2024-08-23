@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateLangCode } from '../../redux/Slices/LangSlices';
-import { getCetergourisList, getProductDetails } from '../../api/axios.api';
+import { ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData';
+import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 const useProfileHook = () => {
 
@@ -142,7 +143,35 @@ const useProfileHook = () => {
     }
   }
 
+  const PoductCount = async () => {
+    const countData = `
+    query {
+      customerCart {
+        items {
+          quantity
+        }
+      }
+    }
+    `
+    try {
+      if (userData?.data?.token) {
+        const result = await ProductlistCount(countData , lang)
+        const arrOFItems = result?.data?.data?.customerCart?.items
+        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
+      }else{
+        dispatch(addProduct(0)) 
+      }
+    } catch (error) {
+      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+      dispatch(addProduct(0)) 
+    }
+  }
 
+
+useEffect(()=>{
+  PoductCount()
+}, [])
 
   return {
     menuItems,

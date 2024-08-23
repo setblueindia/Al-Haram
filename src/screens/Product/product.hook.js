@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { NUMBER } from "../../constants/constants"
 import { AddRemoveToWhishLisst, getFilterList, getProductList } from "../../api/axios.api"
@@ -23,6 +23,9 @@ const useProductHook = (props) => {
   const [color, setColor] = useState({ visibale: false, data: {} })
   const [price, setPrice] = useState({ visibale: false, data: {} })
   const [size, setSize] = useState({ visibale: false, data: {} })
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const scrollViewRef = useRef(null);
+  
 
   const [apicalling, setApicalling] = useState(false)
 
@@ -223,6 +226,27 @@ const useProductHook = (props) => {
       setActions('')
     }
   }
+
+
+
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    if (offsetY > 300) {
+      setShowScrollToTop(true);
+    } else {
+      setShowScrollToTop(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
+ 
+  
   return {
     data,
     navigation,
@@ -248,11 +272,15 @@ const useProductHook = (props) => {
     filterData,
     likePress,
     likeDislike,
+    handleScroll,
+    scrollToTop,
     sortBy,
     moreData,
     price,
     size,
-    color
+    color,
+    showScrollToTop,
+
 
   }
 
