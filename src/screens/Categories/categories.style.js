@@ -28,7 +28,9 @@ export const styles = StyleSheet.create({
     title: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
-        width:ResponsiveSize(400)
+        width:ResponsiveSize(400),
+        flex:1,
+        textAlign:'left'
     },
     imageView: {
 

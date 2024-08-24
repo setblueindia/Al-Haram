@@ -21,8 +21,6 @@ const useSingUpHook = ({ lable }) => {
   const navigation = useNavigation();
   const langNumber = useSelector(stast => stast.lang)
 
-
-
   const SINUP = async () => {
     setLoader(true)
 

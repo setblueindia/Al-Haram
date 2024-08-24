@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, CartListCount, DeleteCartItems, DeteleProductToCart, ExpireToken, PlaceeHolder2, ProductlistCount, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
+import { CartList, CartListCount, DeleteCartItems, DeteleProductToCart, ExpireToken, GetWallateAmount, PlaceeHolder2, ProductlistCount, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
 import { config } from '../YourWay/config'
 import { Platform } from 'react-native'
+import { WallateAmount } from '../../utils/asyncStorage'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
@@ -164,6 +165,7 @@ const useShoppingcart = () => {
   useEffect(() => {
     getData()
     getWallateData()
+    getWallteAmount()
   }, [navigation])
 
   const onPress = () => {
@@ -765,6 +767,21 @@ const useShoppingcart = () => {
     //   console.log("ERORR ::::::::::" , error)
     // }
 
+  }
+
+  const getWallteAmount = async () => {
+    const data = `{ getWalletRemainingTotal(id : ${userData?.data?.id}) }`
+    try {
+      const rep = await GetWallateAmount(data, lang)
+      if (rep) {
+        const strAmount = JSON.stringify(rep?.data?.data?.getWalletRemainingTotal ? rep?.data?.data?.getWalletRemainingTotal : 0)
+        WallateAmount(strAmount)
+      } else {
+        console.log("ERT AMOUNT INNER ERROR :::::::: ", rep?.data)
+      }
+    } catch (error) {
+      console.log("GERT AMOUNT ERROR :::::: ", error)
+    }
   }
 
   return {

@@ -24,7 +24,7 @@ const useProductHook = (props) => {
   const [price, setPrice] = useState({ visibale: false, data: {} })
   const [size, setSize] = useState({ visibale: false, data: {} })
   const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const scrollViewRef = useRef(null);
+  const flatListRef = useRef(null);
   
 
   const [apicalling, setApicalling] = useState(false)
@@ -239,8 +239,8 @@ const useProductHook = (props) => {
   };
 
   const scrollToTop = () => {
-    scrollViewRef.current?.scrollTo({
-      y: 0,
+    flatListRef.current?.scrollToOffset({
+      offset: 0,
       animated: true,
     });
   };
@@ -280,6 +280,7 @@ const useProductHook = (props) => {
     size,
     color,
     showScrollToTop,
+    flatListRef
 
 
   }

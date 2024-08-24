@@ -1,12 +1,11 @@
-import { Platform, Text, View } from 'react-native'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { Platform } from 'react-native'
+import  { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ASYNCSTORAGE, NUMBER } from '../../constants/constants'
+import { ASYNCSTORAGE } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
-import { CartListCount, ExpireToken, HomeApi, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import {  ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
-import { updateLoader } from '../../redux/Slices/DrawerSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 
@@ -21,7 +20,6 @@ const useHomeHook = (props) => {
   const HomeScreeData = home?.product_slider
   const Sliderdata = home?.banner_slider
   const dispatch = useDispatch()
-  const isInitialMount = useRef(true)
   const [refreshing, setRefreshing] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollViewRef = useRef(null);
@@ -161,7 +159,6 @@ const useHomeHook = (props) => {
           `
       try {
         const resp = userData && await Storetoken(storyViewdata, lang?.data)
-        // console.log("FCM SAVE TOKEN :::::", resp?.data?.data?.pushNotificationDeviceTokenSave?.message)
       } catch (error) {
         console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
       }
@@ -174,8 +171,6 @@ const useHomeHook = (props) => {
     ProductDetails()
   }, [lang])
 
- 
-  // const CetegouriesList = useMemo(() => CetegouriesList(num), [num]);
 
   const TokenExpired = async () => {
     if (userData) {
@@ -238,10 +233,11 @@ const useHomeHook = (props) => {
     }
   }
 
-
   useEffect(()=>{
     PoductCount()
-  },[navigation] )
+  }, [])
+
+
 
   return {
     HomeScreeData,

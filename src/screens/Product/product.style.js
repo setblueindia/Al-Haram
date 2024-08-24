@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         right: 20,
-        backgroundColor: '#007bff',
+        backgroundColor: COLOR.primaray,
         padding: 10,
         borderRadius: 25,
       },

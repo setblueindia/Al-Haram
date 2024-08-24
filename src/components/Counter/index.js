@@ -18,7 +18,10 @@ const Counter = ({ qty, setQnt , id , updateQnty}) => {
             }
         } else {
             QTY > 1 && setQnt(QTY - 1)
-            updateQnty &&   updateQnty(id , QTY - 1 , n = false)
+            if(updateQnty && QTY > 1){
+                updateQnty(id , QTY - 1 , n = false)
+            }
+            // updateQnty &&   updateQnty(id , QTY - 1 , n = false)
         }
     }
 

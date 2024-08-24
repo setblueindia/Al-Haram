@@ -82,7 +82,7 @@ const OrderDetails = (props) => {
                                                             </View>}
                                                         {items?.size &&
                                                             <View style={[{ flexDirection: 'row' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                                                <Text style={styles.titleText} >{lable?.Qty}</Text>
+                                                                <Text style={styles.titleText} >{lable?.Size}</Text>
                                                                 <Text style={styles.normalText}>{items?.size[0]?.label}</Text>
                                                             </View>}
                                                         <View style={[{ flexDirection: 'row' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>

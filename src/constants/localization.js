@@ -135,7 +135,8 @@ export const Ar = {
   Name : "اسم",
   Note:"ملحوظة",
   AreYousureyouwantdelete : "هل أنت متأكد أنك تريد الحذف؟",
-  Enteryournewpassword : "أدخل كلمة المرور الجديدة"
+  Enteryournewpassword : "أدخل كلمة المرور الجديدة",
+  Size : "مقاس"
 }
 
 export const En = {
@@ -275,6 +276,7 @@ export const En = {
   color : "color :",
   Name : "Name",
   Note : "Note",
-  AreYousureyouwantdelete  : "Are you sure you want delete ?"
+  AreYousureyouwantdelete  : "Are you sure you want delete ?",
+  Size : "Size" 
 
 };

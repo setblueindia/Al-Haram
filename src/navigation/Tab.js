@@ -119,9 +119,38 @@ export default function AnimTab1() {
   const lang = useSelector(state => state.lang.data)
   const Data = lang == NUMBER.num1 ? TabArr : TabArr2
 
+  // return (
+  //   <View style={{ flex: 1 }}>
+  //     <Tab.Navigator
+  //       screenOptions={{
+  //         headerShown: false,
+  //         tabBarStyle: {
+  //           height: ResponsiveSize(80),
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //           elevation: 10,
+  //         }
+  //       }}
+  //     >
+  //       {
+  //       Data.map((item, index) => {
+  //         return (
+  //           <Tab.Screen key={index} name={item.route} component={item.component}
+  //             options={{
+  //               tabBarShowLabel: false,
+  //               tabBarButton: (props) => <TabButton {...props} item={item} />
+  //             }}
+  //           />
+  //         )
+  //       })}
+  //     </Tab.Navigator>
+  //   </View>
+  // )
+
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
+        initialRouteName={NAVIGATION.HomeScreen}  // Set initial route to HomeScreen
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
@@ -133,16 +162,16 @@ export default function AnimTab1() {
         }}
       >
         {
-        Data.map((item, index) => {
-          return (
-            <Tab.Screen key={index} name={item.route} component={item.component}
-              options={{
-                tabBarShowLabel: false,
-                tabBarButton: (props) => <TabButton {...props} item={item} />
-              }}
-            />
-          )
-        })}
+          Data.map((item, index) => {
+            return (
+              <Tab.Screen key={index} name={item.route} component={item.component}
+                options={{
+                  tabBarShowLabel: false,
+                  tabBarButton: (props) => <TabButton {...props} item={item} />
+                }}
+              />
+            )
+          })}
       </Tab.Navigator>
     </View>
   )

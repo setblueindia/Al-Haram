@@ -36,8 +36,9 @@ const Profile = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView style={styles.mainView}>
+
         <CustomeHeader shoppingcart={true} userData={userData} />
+        <ScrollView style={styles.mainView}>
         <View style={styles.profileView}>
           <LinearGradient
             style={styles.linearView}

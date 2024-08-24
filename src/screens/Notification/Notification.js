@@ -10,6 +10,8 @@ import CusLoader from '../../components/CustomLoader'
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import CusModal from '../../components/CusModal'
 import DataIsNotFound from '../../components/DataNotFound2'
+import Icons from 'react-native-vector-icons/dist/AntDesign';
+
 
 
 const Notification = () => {
@@ -20,10 +22,14 @@ const Notification = () => {
     GETNotificationAPI,
     showModal,
     setMesageText,
+    handleScroll,
+    scrollToTop,
+    flatListRef,
     moreData,
     userData,
     lotti,
-    messText
+    messText,
+    showScrollToTop
   } = useNotificationHook()
 
   return (
@@ -32,6 +38,8 @@ const Notification = () => {
         <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} />
         <View style={styles.container}>
           <FlatList
+          ref={flatListRef}
+          onScroll={handleScroll}
             data={data}
             onEndReached={() => { data?.length > 0 && GETNotificationAPI() }}
             onEndReachedThreshold={0.1}
@@ -122,6 +130,12 @@ const Notification = () => {
           <CusLoader />
         </View>
       }
+       {showScrollToTop && (
+                    <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
+                        {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
+                        <Icons name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
+                    </TouchableOpacity>
+                )}
       <Modal
         animationType='slide'
         transparent={true}

@@ -9,13 +9,14 @@ import Button from '../../components/Button'
 import useForgetPassword from './Forget.hook'
 import CusLoader from '../../components/CustomLoader'
 import CusModal from '../../components/CusModal'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const Forget = () => {
     const { lang, lable, setEmail, isLoading, forgetPassword, showModal, setShowModal, msg , oppsHide} = useForgetPassword()
     return (
         <>
-            <View style={styles.mainView}>
+            <KeyboardAwareScrollView style={styles.mainView}>
                 <Onbordingheader />
                 <View style={styles.container}>
                     <Text style={styles.Textheader}>{lable?.ForgotPassword}</Text>
@@ -29,7 +30,7 @@ const Forget = () => {
                     </View>
                 </View>
 
-            </View>
+            </KeyboardAwareScrollView>
 
             <Modal
                 animationType='slide'

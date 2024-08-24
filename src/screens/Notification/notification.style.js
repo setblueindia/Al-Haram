@@ -83,6 +83,26 @@ export const styles = StyleSheet.create({
     dataView: {
         alignSelf: ALINE.center
     },
-   
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        borderRadius: 10,
+      },
+      itemText: {
+        fontSize: 18,
+      },
+      scrollToTopButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: COLOR.primaray,
+        padding: 10,
+        borderRadius: 25,
+      },
+      scrollToTopButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+      },
 
 })

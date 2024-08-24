@@ -125,12 +125,18 @@ const useLoginHook = () => {
   }
 
   const useLoginWithNumber = () => {
-    if (moNumber.length != 9) {
-      setShowModal(true)
-      setErrorText(langues?.Invalidnumber)
-    } else {
-      mobailLogin()
+    if(moNumber) {
+      if (moNumber?.length != 9) {
+        setShowModal(true)
+        setErrorText(langues?.Invalidnumber)
+      } else {
+        mobailLogin()
+      }
+
+    }else{
+      SHOWTOTS(langues?.Entermobilenumber)
     }
+   
 
   }
 

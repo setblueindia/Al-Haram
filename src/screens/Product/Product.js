@@ -36,6 +36,7 @@ const Product = (props) => {
         price,
         size,
         showScrollToTop,
+        flatListRef,
         color,
         likeDislike,
         likePress,
@@ -84,6 +85,7 @@ const Product = (props) => {
                                 </View>
                             </View>
                             <FlatList
+                                ref={flatListRef}
                                 data={data}
                                 showsVerticalScrollIndicator={false}
                                 onEndReached={() => { data?.length > 0 && setProductData() }}

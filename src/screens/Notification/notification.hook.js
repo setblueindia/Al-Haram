@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { NotificationAIP, ReadNotification } from "../../api/axios.api"
 import { useNavigation } from "@react-navigation/native"
@@ -17,6 +17,10 @@ const useNotificationHook = () => {
   const [lotti, setLotti] = useState(false)
   const [currePage, setCurrentPage] = useState(0)
   const [data, setData] = useState([])
+  const flatListRef = useRef(null);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+
 
   useEffect(() => {
     GETNotificationAPI()
@@ -98,6 +102,22 @@ const useNotificationHook = () => {
 
   }
 
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    if (offsetY > 300) {
+      setShowScrollToTop(true);
+    } else {
+      setShowScrollToTop(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    flatListRef.current?.scrollToOffset({
+      offset: 0,
+      animated: true,
+    });
+  };
+
   return {
     data,
     lang,
@@ -113,6 +133,10 @@ const useNotificationHook = () => {
     userData,
     lotti,
     setLotti,
+    handleScroll,
+    scrollToTop,
+    flatListRef,
+    showScrollToTop
   }
 }
 

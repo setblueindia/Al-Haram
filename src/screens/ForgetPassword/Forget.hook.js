@@ -3,6 +3,7 @@ import { NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
 import { useState } from "react"
 import { ForgetPassword } from "../../api/axios.api"
+import { SHOWTOTS } from "../../utils/utils"
 
 const useForgetPassword = () => {
   const [email, setEmail] = useState()
@@ -15,7 +16,8 @@ const useForgetPassword = () => {
 
 
   const forgetPassword = async () => {
-    setIsLoanding(true)
+    if(email) {
+      setIsLoanding(true)
     const formData = new FormData()
     formData.append("email", email)
     formData.append("store_id", lang)
@@ -32,11 +34,14 @@ const useForgetPassword = () => {
         setShowModal(true)
         setOppsHide(false)
       }
-
     } catch (error) {
       console.log("FORGET-PASSWORD ERROR ::::::::::: ", error)
       setOppsHide(false)
     }
+    }else{
+      SHOWTOTS(lable?.Enteremailaddress)
+    }
+    
   }
 
 
