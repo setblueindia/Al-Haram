@@ -170,7 +170,7 @@ const useProfileHook = () => {
 
 
 useEffect(()=>{
-  // PoductCount()
+  PoductCount()
 }, [])
 
   return {

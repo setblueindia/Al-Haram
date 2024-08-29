@@ -176,7 +176,7 @@ const useLoginHook = () => {
     try {
 
       const userCredential = await signInWithGoogle();
-      
+    
       const regex = /^[A-Za-z0-9 ]*$/
       const fullName = userCredential?.user?.displayName
       const mail = userCredential?.user?.email
@@ -185,7 +185,7 @@ const useLoginHook = () => {
       const firstName = nameParts[0];
       const lastnameText = nameParts?.slice(1)?.join(' '); 
       const testLastName = regex.test(lastnameText);
-      const lastName = testLastName ? lastName : " "
+      const lastName = testLastName ? lastnameText : firstName
 
        SINUP(mail , firstName , lastName , uid , type = "google")
 

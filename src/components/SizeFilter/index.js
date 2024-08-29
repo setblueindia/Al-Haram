@@ -218,7 +218,6 @@ const SizeFilter = ({
                             slider &&
 
                             <View style={{ width: "100%", height: ResponsiveSize(200), justifyContent: 'center', alignItems: 'center', width: "100%" }}>
-                                {console.log("price ::: " , price )}
                                 <View style={styles.rangeTex}>
                                     <Text style={[styles.valueText, { textAlign: 'left' }]}>{price?.data?.length > 0 ? price?.data[0] : lowPrese}</Text>
                                     <Text style={[styles.valueText, { textAlign: 'right' }]}>{price?.data?.length > 0 ? price?.data[1] : hightPrice}</Text>
@@ -226,6 +225,8 @@ const SizeFilter = ({
                                 <CustomRangeSlider price={price} setMinPrice={setLowPrice} setMaxPrice={setHighPrice} setMinValue={setNum1} setMaxValue={setNum2} lowPrese={lowPrese} hightPrice={hightPrice} />
                             </View>
                         }
+
+                    <View style={{height:ResponsiveSize(100)}}/>
                     </ScrollView>
                 </View>
             </View>
@@ -305,7 +306,10 @@ const styles = StyleSheet.create({
     },
     secondView: {
         width: ResponsiveSize(340),
-        borderWidth: ResponsiveSize(1),
+        // borderWidth: ResponsiveSize(1),
+        // borderRightWidth:ResponsiveSize(1),
+        // borderLeftWidth:ResponsiveSize(1),
+        borderBottomWidth:ResponsiveSize(0),
         borderColor: "#D5C1C1",
     },
     containt: {

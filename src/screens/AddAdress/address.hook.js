@@ -36,7 +36,6 @@ const useAddressHook = (props) => {
   const getData = props?.route?.params?.getData
   const temp =  props?.route?.params?.setLoadding
 
-  console.log(":::::::::::::::" , esiteData?.region?.region_id)
   
 
   useEffect(() => {
@@ -161,8 +160,10 @@ const useAddressHook = (props) => {
         formData.append("address3", address3)
         formData.append("postcode", "20001")
         formData.append("telephone", mNumaber)
-        formData.append("set_is_default_billing", billing ? 1 : 0)
-        formData.append("set_is_default_shipping", shopping ? 1 : 0)
+        // formData.append("set_is_default_billing", billing ? 1 : 0)
+        // formData.append("set_is_default_shipping", shopping ? 1 : 0)
+        formData.append("set_is_default_billing", 1)
+        formData.append("set_is_default_shipping", 1)
         formData.append("store_id", lang)
         const response = await AddressList(formData)
         if (response?.data?.status) {
@@ -188,9 +189,9 @@ const useAddressHook = (props) => {
       FirstName: "الاسم الأول",
       LastName: "اسم العائلة",
       PhoneNumber: "رقم التليفون",
-      Streetaddress: ".عنوان الشارع",
-      Addressline1: "العنوان سطر 1",
-      Addressline2: "سطر العنوان 2",
+      Streetaddress: "حيّ",
+      Addressline1: "عنوان الشارع الخاص بك",
+      Addressline2: "رقم البيت",
       Pincode: "الرمز السري",
       StateProvince: "الولاية/المقاطعة",
       City: "مدينة",
@@ -204,9 +205,9 @@ const useAddressHook = (props) => {
       FirstName: "First Name",
       LastName: "Last  Name",
       PhoneNumber: "Phone Number",
-      Streetaddress: "Street address",
-      Addressline1: "Addressline 1",
-      Addressline2: "Addressline 2",
+      Streetaddress: "Neighbourhood",
+      Addressline1: "Your street address ",
+      Addressline2: "Home Number",
       Pincode: "Pincode",
       StateProvince: "State /Province",
       City: "City",

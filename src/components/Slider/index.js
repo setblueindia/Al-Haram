@@ -14,30 +14,52 @@ const Slider = ({lang , height , data , home}) => {
     const handaleScroll = (event) => {
 
         const scrollPosition = event?.nativeEvent?.contentOffset.x;
-
         const index = scrollPosition / windowWidth
         const  floatValue = Math?.ceil(index) 
         setActiveIndex(floatValue)
 
     }
 
+    // useEffect(() => {
+    //     let intervel = setInterval(() => {
+    //         if (activeIndex === data?.length - 1) {
+    //             flatListRef?.current?.scrollToIndex({
+    //                 index: 0,
+    //                 animation: true
+    //             });
+    //         } else {
+    //             flatListRef?.current?.scrollToIndex({
+    //                 index: activeIndex + 1,
+    //                 animation: true
+    //             });
+    //         }
+    //     }, 3000);
+
+    //     return () => clearInterval(intervel)
+    // });
+
     useEffect(() => {
-        let intervel = setInterval(() => {
-            if (activeIndex === data?.length - 1) {
-                flatListRef?.current?.scrollToIndex({
-                    index: 0,
-                    animation: true
-                });
-            } else {
-                flatListRef?.current?.scrollToIndex({
-                    index: activeIndex + 1,
-                    animation: true
-                });
+        const interval = setInterval(() => {
+            if (flatListRef.current) {
+                let nextIndex = activeIndex + 1;
+
+                // If reaching the end of the list, jump to the start
+                if (nextIndex === data?.length) {
+                    nextIndex = 0;
+                    flatListRef.current.scrollToOffset({ offset: 0, animated: false });
+                } else {
+                    flatListRef.current.scrollToIndex({
+                        index: nextIndex,
+                        animated: true,
+                    });
+                }
+
+                setActiveIndex(nextIndex);
             }
         }, 3000);
 
-        return () => clearInterval(intervel)
-    });
+        return () => clearInterval(interval);
+    }, [activeIndex]);
 
     const getIntemLayout = (data, index) => ({
         length: windowWidth,
@@ -81,6 +103,5 @@ const Slider = ({lang , height , data , home}) => {
     )
 }
 export default Slider
-
 
 

@@ -51,13 +51,13 @@ const useProductHook = (props) => {
     }
 
   const likePress = (items) => {
-    // setData((prevData) =>
-    //   prevData?.map(
-    //     (productDetails) => productDetails?.id == items ?
-    //       { ...productDetails, wishlist: !productDetails?.wishlist } :
-    //       productDetails
-    //   )
-    // )
+    setData((prevData) =>
+      prevData?.map(
+        (productDetails) => productDetails?.id == items ?
+          { ...productDetails, wishlist: !productDetails?.wishlist } :
+          productDetails
+      )
+    )
   }
   
   const getFilterData = async () => {

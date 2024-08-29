@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 const CommanHeader = ({ navigation, lang, name }) => {
     const productCount = useSelector(state => state?.AddToCart)
-
+    const userData = useSelector(state => state?.userData?.data)
  
     return (
         <View style={styles.mainView}>
@@ -31,7 +31,7 @@ const CommanHeader = ({ navigation, lang, name }) => {
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate(NAVIGATION.Shoppingcart) }}
+                    onPress={() => { userData ? navigation.navigate(NAVIGATION.Shoppingcart) : navigation.navigate(NAVIGATION.Login) }}
                     style={{ width: ResponsiveSize(40) }}>
                     {!name &&
                         <Icon style={styles.icon}

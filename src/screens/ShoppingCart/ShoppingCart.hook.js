@@ -164,8 +164,7 @@ const useShoppingcart = () => {
     }
   useEffect(() => {
     getData()
-    getWallateData()
-    getWallteAmount()
+    // getWallateData()
   }, [navigation])
 
   const onPress = () => {
@@ -776,13 +775,20 @@ const useShoppingcart = () => {
       if (rep) {
         const strAmount = JSON.stringify(rep?.data?.data?.getWalletRemainingTotal ? rep?.data?.data?.getWalletRemainingTotal : 0)
         WallateAmount(strAmount)
+        setWallateAmount(strAmount ? strAmount : 0)
       } else {
         console.log("ERT AMOUNT INNER ERROR :::::::: ", rep?.data)
+        setWallateAmount(0)
       }
     } catch (error) {
       console.log("GERT AMOUNT ERROR :::::: ", error)
+      setWallateAmount(0)
     }
   }
+
+  useEffect(()=>{
+    getWallteAmount()
+  }, [])
 
   return {
     selectPaymentMethod,

@@ -38,6 +38,8 @@ const Home = (props) => {
     scrollToTop
   } = useHomeHook(props)
 
+  console.log("")
+
   return (
     <View style={styles.mainView}>
       <View style={styles.CustomeHeaderView}>

@@ -17,19 +17,18 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
   const labale = lang?.data == NUMBER.num0 ? Ar : En
   const [imageLoader, setImageLoader] = useState(false)
 
- 
   return (
     <View style={[
       styles.mainView,
-       sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
-       ]}>
+      sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
+    ]}>
       <View style={styles.bannerView}>
         <FastImage
           resizeMode='contain'
           style={styles.bannerImg}
           onLoadStart={() => { setImageLoader(true) }}
           onLoadEnd={() => { setImageLoader(false) }}
-          source={{ uri:items?.banner_url && items?.banner_url }} />
+          source={{ uri: items?.banner_url && items?.banner_url }} />
 
         {imageLoader &&
           <View style={{
@@ -45,12 +44,12 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
       </View>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-        <Text style={[styles.categoriesName , lang.data == NUMBER.num0 &&  {textAlign:'right'}]}>{items?.title}</Text>
+        <Text style={[styles.categoriesName, lang.data == NUMBER.num0 && { textAlign: 'right' }]}>{items?.title}</Text>
         {items?.is_viewAll == 1 &&
           <TouchableOpacity
             onPress={() => { navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}
           >
-            <Text style={[styles.viewText , lang.data == NUMBER.num0 &&  {textAlign:'left'}]}>{labale.ViewAll}</Text>
+            <Text style={[styles.viewText, lang.data == NUMBER.num0 && { textAlign: 'left' }]}>{labale.ViewAll}</Text>
           </TouchableOpacity>}
       </View>
       <ScrollView
@@ -70,6 +69,9 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
                   <View style={styles.innerCategoriesView}>
                     <Image style={styles.storyView} source={{ uri: items?.image }} />
                   </View>
+            {   (items?.special_offer || items?.is_new_badge)  &&  <View style={[styles.textImgView , items?.special_offer ? {right:ResponsiveSize(0)} :  {left:ResponsiveSize(0)}  ]}>
+                    <Image style={{height:"100%" , width:"100%"}} source={{ uri: items?.special_offer ? items?.special_offer :  items?.is_new_badge }} />
+                  </View>}
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
                   <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{labale.SAR + " " + items?.price}</Text>
                 </TouchableOpacity>
@@ -92,6 +94,12 @@ const styles = StyleSheet.create({
     borderWidth: ResponsiveSize(1),
     borderColor: "#CEB282"
   },
+  textImgView: {
+    height: ResponsiveSize(90),
+    width: ResponsiveSize(90),
+    // backgroundColor: COLOR.black,
+    position: 'absolute'
+  },
   bannerView: {
     height: ResponsiveSize(250),
   },
@@ -109,12 +117,12 @@ const styles = StyleSheet.create({
     color: COLOR.black,
     fontSize: ResponsiveSize(25),
     fontWeight: FONTWEGHIT.font600,
-    width:ResponsiveSize(400)
+    width: ResponsiveSize(400)
   },
   viewText: {
     color: COLOR.primaray,
-    width:ResponsiveSize(100),
-    textAlign:'right'
+    width: ResponsiveSize(100),
+    textAlign: 'right'
   },
   subCategories: {
     flexDirection: 'row',
