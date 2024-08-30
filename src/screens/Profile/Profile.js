@@ -1,9 +1,10 @@
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import React from 'react';
 import { styles } from './profile.style';
 import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import AntDesign2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { ResponsiveSize } from '../../utils/utils';
 import useProfileHook from './profile.hook';
@@ -11,6 +12,7 @@ import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { ALINE, COLOR } from '../../constants/style';
 import CustomeHeader from '../../components/CustomeHeader';
 import CusLoader from '../../components/CustomLoader';
+import { SoupanserIcon } from '../../assests';
 
 
 
@@ -65,6 +67,8 @@ const Profile = () => {
                     color="#202020"
                     size={ResponsiveSize(35)}
                   />
+
+
                 </TouchableOpacity>
 
               </View>
@@ -75,10 +79,7 @@ const Profile = () => {
               <View style={styles.emailText}>
                 <Text style={[styles.textEmail, lang == NUMBER.num0 && { textAlign: 'right' }]}>{email}</Text>
               </View>
-
             </View>
-
-
           </LinearGradient>
         </View>
 
@@ -90,13 +91,21 @@ const Profile = () => {
             onPress={() => { onPress(item?.text) }}>
 
             <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
-
+            {item.text !==  PROFILEStr?.Sponser &&
               <AntDesign
                 name={item.icon}
                 color="#000000"
                 size={ResponsiveSize(35)}
-              />
+              />}
+            {item.text ==  PROFILEStr?.Sponser &&
 
+             <AntDesign2
+                name={"transfer"}
+                color="#000000"
+                size={ResponsiveSize(35)}
+              />}
+              
+                  {/* <Image style={{height:ResponsiveSize(30) , width:ResponsiveSize(30) , tintColor:COLOR.black }} source={SoupanserIcon}/> */}
               <View style={styles.textMenu}>
                 <Text style={styles.menuText}>{item.text}</Text>
               </View>

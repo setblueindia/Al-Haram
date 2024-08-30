@@ -71,23 +71,32 @@ const ShoopingCart = (props) => {
 
     return (
         <View style={styles.mainView}>
-
             <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} />
             <View style={styles.container}>
                 <View style={[styles.stepView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 0.8, paddingHorizontal: ResponsiveSize(10) } , lang == NUMBER.num0 &&  {flexDirection:'row-reverse'}]}>
+                        <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={COLOR.primaray} />
+                        <Text style={[styles.text, { color: COLOR.primaray, width: ResponsiveSize(50) } , lang == NUMBER.num0 &&   {textAlign:'right' , marginRight:ResponsiveSize(5)}]}>{shopinfCratData?.cart}</Text>
+                        <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
+                    </View>
 
-                    <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={COLOR.primaray} />
-                    <Text style={[styles.text, { color: COLOR.primaray, width: ResponsiveSize(50) }]}>{shopinfCratData?.cart}</Text>
-                    <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
 
-                    <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }, { width: ResponsiveSize(90) }]}>{shopinfCratData?.Shipping}</Text>
-                    {index == 0 && <Text style={{ color: COLOR.darkGray }}>------</Text>}
-                    {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
+                    <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: ResponsiveSize(10) } , lang == NUMBER.num0 &&  {flexDirection:'row-reverse'}]}>
+                        <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
+                        <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }, lang == NUMBER.num0 &&   {textAlign:'right' , marginRight:ResponsiveSize(5)}]}>{shopinfCratData?.Shipping}</Text>
+                        {index == 0 && <Text style={{ color: COLOR.darkGray }}>------</Text>}
+                        {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
+                    </View>
 
-                    <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
-                    <Text style={[styles.text, (index == 3) && { color: COLOR.primaray }, { width: ResponsiveSize(90) }]}>{shopinfCratData.Payment}</Text>
-                    {(index == 0 || index == 1 || index == 2) && <Text style={{ color: COLOR.darkGray }}>------</Text>}
+
+                    <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: ResponsiveSize(10) } ,lang == NUMBER.num0 &&  {flexDirection:'row-reverse'}]}>
+                        <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
+                        <Text style={[styles.text, (index == 3) && { color: COLOR.primaray }, lang == NUMBER.num0 &&   {textAlign:'right' , marginRight:ResponsiveSize(5)}]}>{shopinfCratData.Payment}</Text>
+                        {(index == 0 || index == 1 || index == 2 ) && <Text style={{ color: COLOR.darkGray }}>------</Text>}
+                        {(index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />}
+                    </View>
+
+
                 </View>
 
                 {index == 0 &&
@@ -107,7 +116,7 @@ const ShoopingCart = (props) => {
                                                 outOfStock={false}
                                                 data={item} lang={lang}
                                                 deleteProduct={deleteProduct}
-                                                />
+                                            />
                                             <View style={{ height: ResponsiveSize(20) }} />
                                         </View>
                                     )
@@ -270,6 +279,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "#202020",
+        // flex: 1, 
+         marginLeft: ResponsiveSize(5),
+        //  width:"100%"
+        
     },
     lineView: {
         height: ResponsiveSize(2),

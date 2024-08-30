@@ -13,7 +13,6 @@ import { Alert } from 'react-native';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
-
 const useLoginHook = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,8 +24,6 @@ const useLoginHook = () => {
   const [checkBox, setCheckBox] = useState(false)
   const [moNumber, setMobailNumber] = useState();
   const [rememberMe, setRembemberMe] = useState();
-
-
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
   const dispatch = useDispatch()
@@ -66,9 +63,7 @@ const useLoginHook = () => {
           console.log("Errorrr=====> ", error)
         }
       }
-      console.log("Token ::::::::: " , response?.data?.data)
-
-        PoductCount(response?.data?.data?.token)
+        response?.data?.data?.token &&   PoductCount(response?.data?.data?.token)
         setUserData(response?.data?.data)
         dispatch(addUserData(response?.data?.data))
         navigation.navigate(NAVIGATION.DrawerNavigation)
@@ -213,8 +208,9 @@ const useLoginHook = () => {
     console.log("::::::::::::" , response?.data)
     if (response?.data?.status == NUMBER.num1) {
       const result = await ExpireToken(fromdata)
-      console.log("TOKEN EXPRIE API RES ::::::: " , result)
+      console.log("TOKEN EXPRIE API RES ::::::: " , response?.data?.data?.token)
       navigation.navigate(NAVIGATION.DrawerNavigation)
+      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
       dispatch(addUserData(response?.data?.data))
       setUserData(response?.data?.data)
       setLoader(false)
@@ -249,6 +245,7 @@ const useLoginHook = () => {
   }
 
   const PoductCount = async (token) => {
+    console.log("Product  Token :::::::::: " , token)
     const countData = `
     query {
       customerCart {
@@ -260,7 +257,7 @@ const useLoginHook = () => {
     `
     try {
       if (token) {
-        const result = await ProductlistCount(countData , lang?.data)
+        const result = await ProductlistCount(countData , lang?.data , token)
         const arrOFItems = result?.data?.data?.customerCart?.items
         const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
         totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 

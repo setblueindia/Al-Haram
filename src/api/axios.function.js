@@ -94,7 +94,7 @@ export const POSTJSON  = async (url , params) =>{
     }
 }
 
-export const POSTFORMGRAPH = async (url, params, lang) => {
+export const POSTFORMGRAPH = async (url, params, lang , sToken) => {
 
     const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
     const token = JSON.parse(userData)
@@ -102,7 +102,7 @@ export const POSTFORMGRAPH = async (url, params, lang) => {
 
     console.log("Token ::::::::" , authToken)
     const header = {
-        'Authorization': 'Bearer ' + authToken,
+        'Authorization': sToken ? 'Bearer ' + sToken : 'Bearer ' + authToken,
         'Content-Type': 'application/json',
         'Store': lang == NUMBER.num1 ? "default" : "arabic"
 

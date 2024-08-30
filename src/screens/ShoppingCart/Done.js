@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         fontSize: ResponsiveSize(60),
         color: COLOR.black,
         width: ResponsiveSize(600),
-        textAlign: 'center'
+        textAlign: ALINE.center
     },
     lastText: {
         color: "#00000080",
