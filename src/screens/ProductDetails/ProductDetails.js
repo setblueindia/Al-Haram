@@ -13,6 +13,7 @@ import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
 import ReviewSlider from '../../components/ReviewSlider'
 import CusLoader from '../../components/CustomLoader'
+import FastImage from 'react-native-fast-image'
 
 const ProductDetails = (props) => {
     const { lang,
@@ -26,6 +27,7 @@ const ProductDetails = (props) => {
         avalabeSize,
         avalabeColor,
         shoeColor,
+        imageObject,
         setIndex,
         sindex,
         like,
@@ -80,6 +82,7 @@ const ProductDetails = (props) => {
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
                         {defaultColor?.values?.map((items, index) => {
                             const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
+                            var fileImage = ''
                             return (
                                 <View style={{ justifyContent: ALINE.center }}>
                                     <TouchableOpacity
@@ -87,7 +90,19 @@ const ProductDetails = (props) => {
                                         key={index}
                                         style={[styles.colorConatiner,
                                         index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
-                                        <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
+
+                                        {imageObject?.map((item) => {
+                                            if (item?.colorIndex == items?.value_index) {
+                                                fileImage = item?.imgURL
+                                            } 
+
+                                        })}
+
+                                        {fileImage ?  
+                                        <FastImage source={{uri : fileImage}}  style={{height:"100%" , width:"100%" , resizeMode:'contain' , borderRadius:ResponsiveSize(10)}}/> :
+                                        <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} /> }
+
+
                                         {(!block && !shoeColor) &&
                                             <View style={{
                                                 alignSelf: ALINE.center,
@@ -97,7 +112,7 @@ const ProductDetails = (props) => {
                                                 backgroundColor: "#00000050",
                                                 borderRadius: ResponsiveSize(20)
                                             }}>
-                                                    <Block style={{ alignSelf:'center' , top:ResponsiveSize(5)}} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
+                                                <Block style={{ alignSelf: 'center', top: ResponsiveSize(5) }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
                                             </View>
                                         }
                                     </TouchableOpacity>
@@ -107,11 +122,11 @@ const ProductDetails = (props) => {
                     </View>
                 }
                 {defaultSize &&
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={ lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>
                         <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                             <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
                             {defaultSize?.values?.map((items, index) => {
-                               var  blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                                var blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
                                 return (
                                     <View>
                                         <TouchableOpacity
@@ -119,26 +134,26 @@ const ProductDetails = (props) => {
                                             key={index}
                                             style={[styles.sizeContainer,
                                             index == sizeIndex && sizeShow && { backgroundColor: COLOR.primaray },
-                                                 !blcok || !sizeShow && {backgroundColor:COLOR.white }
+                                            !blcok || !sizeShow && { backgroundColor: COLOR.white }
                                             ]}
                                         >
                                             <Text style={[styles.sizeText, (index == sizeIndex && sizeShow) && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
                                         </TouchableOpacity>
 
-                                        {(!blcok && !sizeShow )&&
-                                                 <TouchableOpacity
-                                                 onPress={()=>{sizeOnPress(items?.value_index), setSizeIndex(index), setSizeShow(true) , blcok = true}}
-                                                 style={{
-                                                        position: 'absolute',
-                                                        flex:1,
-                                                        height : "100%",
-                                                        width:"100%",
-                                                        left:ResponsiveSize(10)
-                                                    }}>
+                                        {(!blcok && !sizeShow) &&
+                                            <TouchableOpacity
+                                                onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index), setSizeShow(true), blcok = true }}
+                                                style={{
+                                                    position: 'absolute',
+                                                    flex: 1,
+                                                    height: "100%",
+                                                    width: "100%",
+                                                    left: ResponsiveSize(10)
+                                                }}>
 
-                                                   <Block style={{ alignSelf:'center'}} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
-                                                </TouchableOpacity>
-                                            }
+                                                <Block style={{ alignSelf: 'center' }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
+                                            </TouchableOpacity>
+                                        }
                                     </View>
                                 )
                             })}

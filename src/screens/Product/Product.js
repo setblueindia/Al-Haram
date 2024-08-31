@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Modal, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from './product.style'
 import CommanHeader from '../../components/ComanHeader'
@@ -14,7 +14,6 @@ import CusLoader from '../../components/CustomLoader'
 import DataIsNotFound from '../../components/DataNotFound2'
 import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/dist/AntDesign';
-
 
 
 const Product = (props) => {

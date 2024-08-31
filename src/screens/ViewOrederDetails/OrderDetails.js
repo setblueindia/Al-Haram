@@ -1,13 +1,14 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './orderDeatils.style'
 import useOrderDetaisHook from './OrderDetails.hook'
-import { ALINE, COLOR } from '../../constants/style'
+import { ALINE, COLOR, RESIZEMODE } from '../../constants/style'
 import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
 import Button from '../../components/Button'
 import CusLoader from '../../components/CustomLoader'
+import FastImage from 'react-native-fast-image'
 
 const OrderDetails = (props) => {
     const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
@@ -69,7 +70,7 @@ const OrderDetails = (props) => {
                                             <View style={[styles.itemsList, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                                 <View style={[styles.firstOne, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                                     <View style={styles.imgeView}>
-                                                        <Image style={styles.productImg} source={{ uri: items?.image }} />
+                                                        <FastImage resizeMode={RESIZEMODE.contain} style={styles.productImg} source={{ uri: items?.image }} />
                                                     </View>
 
                                                     <View style={styles.nameView}>

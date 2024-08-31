@@ -20,5 +20,6 @@ export const MensBanner = require("./images/Home/MensBanner.jpg")
 export const ShopBug = require("./images/Common/ShoppingBag.jpg")
 export const  bannecrSC= require("./images/Common/bannecrSC.png")
 export const  SoupanserIcon= require("./images/Common/SoupanserIcon.png")
+export const  A= require("./images/Common/A.png")
 
 // export const  ErrorImg = require("./images/Payment/ErrorImg.png")

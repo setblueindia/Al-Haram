@@ -181,7 +181,6 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: "100%",
         width: "100%",
-        resizeMode: ALINE.center
     },
     btnView: {
         width: "100%",

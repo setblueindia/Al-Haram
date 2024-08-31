@@ -1,5 +1,5 @@
-import { Platform, StyleSheet } from "react-native";
-import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
+import { StyleSheet } from "react-native";
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
 
 export const styles = StyleSheet.create({
@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
         height:"100%",
         width:"100%",
         backgroundColor:COLOR.white,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent:ALINE.center,
+        alignItems:ALINE.center
     },
     headerView: {
         flex: 1,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     image: {
         height: "100%",
         width: "100%",
-        resizeMode: 'contain',
+        resizeMode: RESIZEMODE.contain,
     },
     textView: {
 
@@ -65,9 +65,7 @@ export const styles = StyleSheet.create({
       width:"100%",
       height:ResponsiveSize(50),
       paddingHorizontal:ResponsiveSize(20),
-      marginTop:ResponsiveSize(20),
-    //   backgroundColor:'red'
-     
+      marginTop:ResponsiveSize(20),     
     },
     filterContainer:{
         width:"100%",
@@ -80,7 +78,7 @@ export const styles = StyleSheet.create({
         alignItems:ALINE.center,
     },
     firstView:{
-        flexDirection:'row',
+        flexDirection:ALINE.row,
         justifyContent:ALINE.center,
         alignItems:ALINE.center,
     },

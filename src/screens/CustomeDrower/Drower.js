@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, View, Text, ScrollView } from 'react-native';
+import {TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import CommanHeader from '../../components/ComanHeader';
 import useDrowerHook from './drower.hook';
@@ -6,9 +6,10 @@ import { styles } from './drower.style';
 import { BASE_URL } from '../../constants/axios.url';
 import { COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
-import { logo } from '../../assests';
+import { A, logo } from '../../assests';
 import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { useSelector } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 
 const Drower = () => {
   const { navigation, cetegouriesData } = useDrowerHook();
@@ -19,7 +20,6 @@ const Drower = () => {
   const [sindex, setIndex] = useState()
   const [topIndex, setTopIndex] = useState()
   const [on, setOn] = useState(false)
-
 
   const handleCategoryClick = (index) => {
     setSelectedCategoryIndex(selectedCategoryIndex === index ? null : index);
@@ -52,11 +52,11 @@ const Drower = () => {
                     on && topIndex == actualIndex ? setOn(false) : setOn(true)
                   }}
                 >
-                  <Image
+                  <FastImage
                     style={[styles.topImage,
                     (topIndex == actualIndex && on) && { marginTop: ResponsiveSize(20) }
                     ]}
-                    source={items?.mobile_thumbnail ? { uri: BASE_URL + items?.mobile_thumbnail } : logo}
+                    source={items?.mobile_thumbnail ? { uri: BASE_URL + items?.mobile_thumbnail } : A}
                   />
                   <Text style={[styles.ceteGouriesText, (topIndex == actualIndex && on) && { top: ResponsiveSize(20) }]}>{items?.name}</Text>
                 </TouchableOpacity>
@@ -78,7 +78,7 @@ const Drower = () => {
                       lang == NUMBER.num0 && { flexDirection: 'row-reverse' },
                       subIndex == sindex && { backgroundColor: "#FFF9DF" }]}>
                       <View style={styles.subImageView}>
-                        <Image source={ subItem?.mobile_circle_thumbnail ? { uri: BASE_URL + subItem?.mobile_circle_thumbnail  } : logo} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
+                        <FastImage source={ subItem?.mobile_circle_thumbnail ? { uri: BASE_URL + subItem?.mobile_circle_thumbnail  } : A} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
                       </View>
                       <Text style={styles.text}>{subItem?.name}</Text>
                     </TouchableOpacity>
@@ -94,7 +94,6 @@ const Drower = () => {
                             }
                             style={[styles.childView ]}
                              key={childIndex}
-                             
                              >
                             <Text style={[styles.chaildNameText ,  lang == NUMBER.num0 && {textAlign:'right'}]}>{childItem?.name}</Text>
                           </TouchableOpacity>

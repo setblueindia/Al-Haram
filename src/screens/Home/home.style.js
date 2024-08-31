@@ -1,4 +1,4 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 

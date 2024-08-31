@@ -1,22 +1,21 @@
-import { StyleSheet, Text, View, TextInput, Image, FlatList, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React from 'react';
 import { styles } from './MyOrder.style.js';
 import CommanHeader from '../../components/ComanHeader/index.js';
 import UseMyOrderHook from './MyOrder.hook.js';
 import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants.js';
-import { ALINE, COLOR } from '../../constants/style.js';
+import { ALINE, COLOR, RESIZEMODE } from '../../constants/style.js';
 import { ResponsiveSize, SHOWTOTS } from '../../utils/utils.js';
 import CusLoader from '../../components/CustomLoader/index.js';
 import { ShopBug } from '../../assests/index.js';
 import DataIsNotFound from '../../components/DataNotFound2/index.js';
+import FastImage from 'react-native-fast-image';
 const MyOrder = () => {
   const { lang, navigation, data, Str, isLoadding } = UseMyOrderHook()
   return (
     <View style={styles.mainView}>
       <CommanHeader lang={lang} navigation={navigation} name={Str.MyOrder} />
-
       <View style={{ flex: 1, height: "100%", width: "100%" }}>
-
         {data?.length > 0 ?
           < View style={styles.containerView}>
             <FlatList
@@ -30,9 +29,9 @@ const MyOrder = () => {
                       onPress={() => {
                         item?.name == "Wallet Amount" ?  SHOWTOTS("Wallet Order status is in " + item?.status_display)  : navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id }) }}
                       style={[styles.listView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
                       <View style={styles.imgView}>
-                        <Image
+                        <FastImage
+                        resizeMode={RESIZEMODE.contain}
                           source={ShopBug}
                           style={styles.imgStyle}
                         />

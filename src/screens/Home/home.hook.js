@@ -1,5 +1,5 @@
 import { Platform } from 'react-native'
-import  { useEffect, useMemo, useRef, useState } from 'react'
+import  { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'

@@ -20,7 +20,9 @@ const Banner = (props) => {
     const [dataLength, setDataLength] = useState()
     const [isloadding, setIsLoadding] = useState(false)
     const [imageLoader, setImageLoader] = useState(false)
+   const name = props?.route?.params?.titleName
 
+//    console.log("::::::::::" , name)
 
     useEffect(() => {
         getData()
@@ -33,6 +35,8 @@ const Banner = (props) => {
         formData.append("category_id", props?.route?.params?.cetegouriesId)
         try {
             const response = await getBanner(formData)
+
+            // console.log("Response :::::::" , response?.data?.data )
 
             if (response?.data?.status == 1) {
                 setData(response?.data?.data)
@@ -54,6 +58,8 @@ const Banner = (props) => {
     return (
         <View style={styles.mainView}>
             <CommanHeader navigation={navigation} lang={lang}/>
+
+            <Text style={styles.headingText}>{name}</Text>
             <ScrollView>
 
                 <View style={styles.containerView}>
@@ -75,11 +81,12 @@ const Banner = (props) => {
                                     alignSelf: ALINE.center,
                                     marginLeft: ResponsiveSize(0),
                                     marginRight: ResponsiveSize(0)
+                                
                                 }
                                 ]}>
                                 <FastImage
-                                    resizeMode='contain'
-                                    style={[styles.img]} source={{ uri: items?.image }}
+                                    resizeMode= { !temp && result == index ?   'cover'  :'contain'}
+                                    style={[styles.img ] } source={{ uri: items?.image }}
                                     onLoadStart={() => { setImageLoader(true) }}
                                     onLoadEnd={() => { setImageLoader(false) }}
                                 />
@@ -146,5 +153,11 @@ const styles = StyleSheet.create({
         width: "100%",
         resizeMode: 'cover',
         borderRadius: ResponsiveSize(20)
+    },
+    headingText:{
+        textAlign:'center',
+        fontSize:ResponsiveSize(35),
+        marginTop:ResponsiveSize(20),
+        color:COLOR.primaray
     }
 })

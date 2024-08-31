@@ -7,32 +7,32 @@ import { BASE_URL } from '../../constants/axios.url'
 import FastImage from 'react-native-fast-image'
 
 
-const StoryView = ({ data , lang , CetegoriesData , navigation }) => {
+const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
     const [imageLoader, setImageLoader] = useState(false)
 
 
     return (
-        <View style={[styles.mainView , lang.data == NUMBER.num0 && {flexDirection:ALINE.rowreverse}]}>
+        <View style={[styles.mainView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
             <FlatList
                 data={CetegoriesData}
-                inverted ={lang.data == NUMBER.num0 ?  true :false}
+                inverted={lang.data == NUMBER.num0 ? true : false}
                 scrollEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 style={styles.FlatList}
                 horizontal
-                renderItem={({ item , index }) => {
+                renderItem={({ item, index }) => {
                     const temp = item?.children?.length <= 0 ? false : true
                     return (
-                        <View  key={index + 10}  style={styles.listView}>
-                            <TouchableOpacity 
-                            onPress={()=>{temp ? navigation.navigate(NAVIGATION.bannerScreen , {cetegouriesId : item?.id}) : navigation.navigate(NAVIGATION.ProductScreen , {cetegouriesId : item?.id})}}
-                            style={styles.storyView}>
-                                <FastImage 
-                                   onLoadStart={() => { setImageLoader(true) }}
-                                   onLoadEnd={() => { setImageLoader(false) }}
-                                style={styles.imge} source={{uri : BASE_URL+ item?.mobile_thumbnail}} />
-                                  {imageLoader &&
+                        <View key={index + 10} style={styles.listView}>
+                            <TouchableOpacity
+                                onPress={() => { temp ? navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: item?.id, titleName: item?.name }) : navigation.navigate(NAVIGATION.ProductScreen, { cetegouriesId: item?.id }) }}
+                                style={styles.storyView}>
+                                <FastImage
+                                    onLoadStart={() => { setImageLoader(true) }}
+                                    onLoadEnd={() => { setImageLoader(false) }}
+                                    style={styles.imge} source={{ uri: BASE_URL + item?.mobile_thumbnail }} />
+                                {imageLoader &&
                                     <View style={{
                                         height: "100%",
                                         width: "100%",

@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './whishList.style'
 import CommanHeader from '../../components/ComanHeader'
@@ -9,7 +9,6 @@ import { ResponsiveSize } from '../../utils/utils'
 import { COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
-import DataNotFound from '../../components/DataNotFound'
 import DataIsNotFound from '../../components/DataNotFound2'
 
 const WhishList = () => {

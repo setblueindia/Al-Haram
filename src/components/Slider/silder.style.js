@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     image: {
         height: "100%",
         width:"100%",
-        resizeMode:RESIZEMODE.cover,
+        resizeMode:RESIZEMODE.contain,
         borderRadius:ResponsiveSize(20)
     },
     listView: {

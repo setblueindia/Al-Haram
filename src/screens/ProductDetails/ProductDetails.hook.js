@@ -36,7 +36,8 @@ const useProductDetails = (props) => {
   const [color, setColor] = useState()
   const [qnt, setQnts] = useState(1)
   const [valueIndexOfSize, setValueIndexOfSize] = useState()
-  const  [imagesArry , setImageArry] = useState()
+  const [imageObject , setImageObject ] = useState()
+  const [imagesArry, setImageArry] = useState()
   const label = lang?.data == NUMBER.num0 ? Ar : En
   const [sliderData, setSliderData] = useState(
     [
@@ -52,7 +53,7 @@ const useProductDetails = (props) => {
     getData()
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     setQnts(1)
   }, [navigation])
 
@@ -68,7 +69,7 @@ const useProductDetails = (props) => {
     } catch (error) {
       // Alert.alert('Error', error.message);
     }
-  } 
+  }
 
   const AddTocart = async () => {
     setIsLoading(true)
@@ -128,6 +129,9 @@ const useProductDetails = (props) => {
       Addtocard: "اضف الى البطاقة",
       Reviews: "التعليقات :"
     }
+
+
+    // console.log("imageObject ::::: " , imageObject)
 
   const getData = async () => {
     setIsLoading(true)
@@ -230,12 +234,14 @@ const useProductDetails = (props) => {
                 `
     try {
       const response = await ProductDetalsBySKU(data, lang?.data)
-      console.log("response :::::: ", response?.data?.data?.products?.items[0]?.variants )
+
       if (response?.status == '200') {
         setDetails(response?.data?.data?.products?.items[0])
+        getImageStr(response)
         const temp = [];
         response?.data?.data?.products?.items[0]?.media_gallery_entries?.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
+          console.log("uri ::: ", uri)
           temp.push(uri)
         })
         setSliderData(temp)
@@ -254,6 +260,35 @@ const useProductDetails = (props) => {
     }
   }
 
+  const getImageStr = (response) =>{
+
+       const temp = []
+      response?.data?.data?.products?.items[0]?.configurable_options?.map((colorItem) => {
+        if (colorItem?.attribute_code == "color") {
+          colorItem?.values?.map((colorItem2) => {
+            response?.data?.data?.products?.items[0]?.variants?.map((item) => {
+              item?.attributes?.map((items1) => {
+                if (items1?.code == "color" && items1?.value_index == colorItem2?.value_index) {
+                  const imgURL = imageURL + "/pub/media/catalog/product/" + item?.product?.media_gallery_entries[0]?.file
+                  const temObject = {
+                    colorIndex  : colorItem2?.value_index,
+                    imgURL : imageURL + "/pub/media/catalog/product/" + item?.product?.media_gallery_entries[0]?.file
+                  }
+                  temp.push(temObject)
+
+                }
+              })
+
+            })
+
+          })
+        }
+      })
+
+      setImageObject(temp)
+
+  }
+
   const colorOnPress = (id) => {
     setShowColor(true)
     setSizeShow(false)
@@ -265,6 +300,7 @@ const useProductDetails = (props) => {
       if (items?.attributes[0]?.value_index == id) {
         items?.product?.media_gallery_entries.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
+          // console.log("Change URL ::::: " , uri)
           temp2.push(uri)
         })
         const Size = items?.attributes[1]?.label
@@ -291,7 +327,7 @@ const useProductDetails = (props) => {
       }
     })
     setAvalableColor(temp)
-    valueIndexOfSize?.includes(id) 
+    valueIndexOfSize?.includes(id)
     // && setIndex()
   }
 
@@ -300,7 +336,7 @@ const useProductDetails = (props) => {
     const formData = new FormData()
     formData.append("customer_id", userData?.id)
     formData.append("productId", id)
-    formData.append("action",like ? false : "true")
+    formData.append("action", like ? false : "true")
     try {
       const response = id && await AddRemoveToWhishLisst(formData)
       if (response?.data?.status == NUMBER.num1) {
@@ -311,13 +347,13 @@ const useProductDetails = (props) => {
     }
   }
 
-  const TokenExpire = async () =>{
+  const TokenExpire = async () => {
     const fromdata = new FormData()
     try {
       const result = await ExpireToken(fromdata)
-      console.log("Token Expire :::::" , result?.data)
+      console.log("Token Expire :::::", result?.data)
     } catch (error) {
-      console.log(" Token Error:::::::" , error)
+      console.log(" Token Error:::::::", error)
     }
   }
 
@@ -333,25 +369,25 @@ const useProductDetails = (props) => {
     `
     try {
       if (userData?.token) {
-        const result = await ProductlistCount(countData , lang?.data)
+        const result = await ProductlistCount(countData, lang?.data)
         const arrOFItems = result?.data?.data?.customerCart?.items
         const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
-      }else{
-        dispatch(addProduct(0)) 
+        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+      } else {
+        dispatch(addProduct(0))
       }
     } catch (error) {
       console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0)) 
+      dispatch(addProduct(0))
     }
   }
 
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
     TokenExpire()
-  },[])
+  }, [])
 
 
 
@@ -390,6 +426,7 @@ const useProductDetails = (props) => {
     sizeIndex,
     setQnts,
     qnt,
+    imageObject
   }
 }
 

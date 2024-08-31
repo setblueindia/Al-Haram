@@ -1,20 +1,18 @@
-import { View, Text, ScrollView, Image, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
 import useHomeHook from './home.hook';
 import Slider from '../../components/Slider';
-import TopCategories from '../../components/TopCategories';
-import HomeListView from '../../components/HomeListView';
-import { banner2, firstBanner } from '../../assests';
-import { NUMBER } from '../../constants/constants';
+import { banner2 } from '../../assests';
 import { ResponsiveSize } from '../../utils/utils';
 import CetegoriesBox from '../../components/CetegoriesBox';
 import ProductBox from '../../components/ProductBox';
 import CusLoader from '../../components/CustomLoader';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
-import { COLOR } from '../../constants/style';
+import { COLOR, RESIZEMODE } from '../../constants/style';
+import FastImage from 'react-native-fast-image';
 
 
 const Home = (props) => {
@@ -59,7 +57,7 @@ const Home = (props) => {
           </View>
           <View style={styles.bannerView2}>
             <View style={styles.bannerImage}>
-              <Image style={styles.bannerImg} source={banner2} />
+              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={banner2} />
             </View>
           </View>
           <View style={styles.siderView}>
@@ -95,13 +93,12 @@ const Home = (props) => {
       </View>
       {showScrollToTop && (
         <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
-          {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
           <Icon name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
         </TouchableOpacity>
       )}
 
       {
-        (!CetegoriesData || isLoadding) &&
+        (!CetegoriesData || isLoadding || !Sliderdata) &&
         <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
           <CusLoader />
         </View>

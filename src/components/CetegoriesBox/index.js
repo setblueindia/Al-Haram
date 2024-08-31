@@ -1,22 +1,21 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {  ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { WC1, WomenBanner } from '../../assests'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { BASE_URL } from '../../constants/axios.url'
 import { Ar, En } from '../../constants/localization'
+import FastImage from 'react-native-fast-image'
 
 const CetegoriesBox = ({ items, index, lang, navigation }) => {
 
     const lable = lang?.data == NUMBER.num1 ? En : Ar
-
     const data = items?.children
-
+    
     return (
         <View style={[styles.mainView, index % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
             <View style={styles.bannerView}>
-                <Image style={styles.bannerImg} source={{ uri: BASE_URL + items?.mobile_image }} />
+                <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{ uri: BASE_URL + items?.mobile_image }} />
             </View>
             <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <Text style={[styles.categoriesName , lang.data == NUMBER.num0 &&  {textAlign:'right'}]}>{items?.name}</Text>
@@ -39,17 +38,19 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                  data?.map((sitems, index) => {
                         const name = sitems?.name
                         const finalName = name.substring(0, 10);
+                        const RoundImage = BASE_URL + sitems?.mobile_circle_thumbnail 
+                        
                         return (
                             <>
                                 <TouchableOpacity
                                     onPress={() => {
                                         navigation.navigate(NAVIGATION.ProductScreen,
-                                            { cetegoriesId: sitems?.id })
+                                            { cetegoriesId: sitems?.id})
                                     }}
                                     style={{ justifyContent: 'center', alignItems: 'center' }} >
-                                    <View style={styles.innerCategoriesView}>
-                                        <Image style={styles.storyView} source={{ uri: BASE_URL + sitems?.mobile_circle_thumbnail }} />
-                                    </View>
+                                   {RoundImage && <View style={styles.innerCategoriesView}>
+                                        <FastImage style={styles.storyView} source={{ uri: RoundImage}} />
+                                    </View>}
                                     <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{sitems?.name}</Text>
                                 </TouchableOpacity>
 

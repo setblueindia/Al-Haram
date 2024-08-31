@@ -3,12 +3,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './silder.style'
 import { NUMBER } from '../../constants/constants'
 import { COLOR, RESIZEMODE } from '../../constants/style'
+import FastImage from 'react-native-fast-image'
+import { A } from '../../assests'
 
 const Slider = ({lang , height , data , home}) => {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const flatListRef = useRef()
     const windowWidth = Dimensions.get('window').width;
+    const [loade , setLoade] = useState(false)
 
 
     const handaleScroll = (event) => {
@@ -84,17 +87,20 @@ const Slider = ({lang , height , data , home}) => {
                 renderItem={({ item , index}) => {
                     return (
                      <View key={index * 2} style={styles.listView}>
-                             <Image
+                             <FastImage
                                 // resizeMode='contain'
+                                // onLoadStart={()=>{setLoade(true)}}
+                                // onLoadEnd={()=>{setLoade(false)}}
                                 style={[styles?.image , home && {resizeMode:RESIZEMODE.stretch}]}
-                                source={{ uri: item?.image ? item?.image : item}}
+                                source={(item?.image || item )? { uri: item?.image ? item?.image : item} : A}
                             />
                         </View> 
                     )
                 }}
             /> :
-             <View style={[styles.mainView , {backgroundColor:COLOR.gray}]}>
-
+            home ? <View style={[styles.mainView , {backgroundColor:COLOR.gray}]}/>  :
+             <View style={[styles.mainView ]}>
+                <Image style={{height:"100%" , width:"100%" , resizeMode:'cover'}} source={A}/>
             </View>
             }
 

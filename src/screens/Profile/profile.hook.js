@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateLangCode } from '../../redux/Slices/LangSlices';
 import { ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
-import { addHomeScreenData } from '../../redux/Slices/HomeScreenData';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 const useProfileHook = () => {

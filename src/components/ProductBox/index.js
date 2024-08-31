@@ -63,14 +63,15 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
           data?.map((items, index) => {
             const name = items?.name
             const finalName = name.substring(0, 15);
+           const productImage = items?.image 
             return (
               <View key={index} style={{ flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
                   <View style={styles.innerCategoriesView}>
-                    <Image style={styles.storyView} source={{ uri: items?.image }} />
+                    <FastImage style={styles.storyView} source={{ uri: productImage }} />
                   </View>
             {   (items?.special_offer || items?.is_new_badge)  &&  <View style={[styles.textImgView , items?.special_offer ? {right:ResponsiveSize(0)} :  {left:ResponsiveSize(0)}  ]}>
-                    <Image style={{height:"100%" , width:"100%"}} source={{ uri: items?.special_offer ? items?.special_offer :  items?.is_new_badge }} />
+                    <FastImage style={{height:"100%" , width:"100%"}} source={{ uri: items?.special_offer ? items?.special_offer :  items?.is_new_badge }} />
                   </View>}
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
                   <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{labale.SAR + " " + items?.price}</Text>
