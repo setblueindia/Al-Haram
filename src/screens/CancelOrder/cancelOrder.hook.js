@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { NAVIGATION, NUMBER } from '../../constants/constants'

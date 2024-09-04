@@ -1,11 +1,9 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ALINE, COLOR } from '../../constants/style'
-import CustomeHeader from '../../components/CustomeHeader'
 import { useNavigation } from '@react-navigation/native'
 import CommanHeader from '../../components/ComanHeader'
 import { ResponsiveSize } from '../../utils/utils'
-import { bannecrSC } from '../../assests'
 import { getBanner } from '../../api/axios.api'
 import { useSelector } from 'react-redux'
 import { NAVIGATION } from '../../constants/constants'
@@ -22,8 +20,6 @@ const Banner = (props) => {
     const [imageLoader, setImageLoader] = useState(false)
    const name = props?.route?.params?.titleName
 
-//    console.log("::::::::::" , name)
-
     useEffect(() => {
         getData()
     }, [])
@@ -35,9 +31,6 @@ const Banner = (props) => {
         formData.append("category_id", props?.route?.params?.cetegouriesId)
         try {
             const response = await getBanner(formData)
-
-            // console.log("Response :::::::" , response?.data?.data )
-
             if (response?.data?.status == 1) {
                 setData(response?.data?.data)
 
@@ -48,7 +41,6 @@ const Banner = (props) => {
                 setIsLoadding(false)
                 console.log("Banner Data ERROR:::::::: ", response?.data)
             }
-
         } catch (error) {
             console.log("BANNER ERROR :::::::: ", error)
             setIsLoadding(false)
@@ -61,9 +53,7 @@ const Banner = (props) => {
 
             <Text style={styles.headingText}>{name}</Text>
             <ScrollView>
-
                 <View style={styles.containerView}>
-
                     {data?.map((items, index) => {
                         const temp = dataLength % 3 == 0 ? true : false
                         const result = dataLength - 1

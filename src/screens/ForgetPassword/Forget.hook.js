@@ -14,7 +14,6 @@ const useForgetPassword = () => {
   const [oppsHide, setOppsHide] = useState(false)
   const lable = lang == NUMBER.num0 ? Ar : En
 
-
   const forgetPassword = async () => {
     if(email) {
       setIsLoanding(true)
@@ -41,11 +40,7 @@ const useForgetPassword = () => {
     }else{
       SHOWTOTS(lable?.Enteremailaddress)
     }
-    
   }
-
-
-
 
   return {
     lang,

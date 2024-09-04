@@ -1,8 +1,8 @@
-import { ActivityIndicator, FlatList, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Modal, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './notification.style'
 import CustomeHeader from '../../components/CustomeHeader'
-import { ALINE, COLOR, RESIZEMODE } from '../../constants/style'
+import { ALINE, COLOR } from '../../constants/style'
 import { ResponsiveSize } from '../../utils/utils'
 import useNotificationHook from './notification.hook'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
@@ -17,7 +17,7 @@ import Icons from 'react-native-vector-icons/dist/AntDesign';
 const Notification = () => {
 
   const {
-    data, onPress, setID, lang, loadding,
+    data, onPress, lang, loadding,
     setShowModal,
     GETNotificationAPI,
     showModal,

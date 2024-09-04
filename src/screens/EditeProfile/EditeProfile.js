@@ -1,5 +1,5 @@
-import { Modal, ScrollView, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { Modal, ScrollView,  View } from 'react-native'
+import React from 'react'
 import Onbordingheader from '../../components/OnbordingHeader'
 import { styles } from './editeProfile.style'
 import SwitchButton from '../../components/SwitchButton'

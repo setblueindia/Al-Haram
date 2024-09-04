@@ -17,9 +17,7 @@ export const styles = StyleSheet.create({
     },
     productCodeView: {
         marginTop: ResponsiveSize(40),
-        // width:"100%",
         paddingHorizontal: ResponsiveSize(20),
-
     },
     codeText: {
         color: "#554D4D",
@@ -30,7 +28,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(20)
     },
     profuctNameText: {
-        // color:COLOR.black,
+
         color: "#202020",
         fontSize: ResponsiveSize(30)
     },
@@ -94,7 +92,6 @@ export const styles = StyleSheet.create({
         marginTop: ResponsiveSize(20),
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
-        // flexWrap : 'wrap'
     },
     sizeContainer: {
         borderRadius: ResponsiveSize(100),
@@ -109,7 +106,6 @@ export const styles = StyleSheet.create({
     },
     sizeText: {
         color: COLOR.black,
-        // textAlign:'center'
     },
 
     counteView: {
@@ -126,16 +122,12 @@ export const styles = StyleSheet.create({
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
         backgroundColor: "#F8F2F2",
-        // marginTop:ResponsiveSize(20),
         alignItems: ALINE.center,
         justifyContent: ALINE.spaceBetween,
         paddingHorizontal: ResponsiveSize(20),
         height: ResponsiveSize(120),
         position: 'absolute',
         bottom: ResponsiveSize(20),
-
-
-
     },
     likeBtn: {
         height: ResponsiveSize(90),

@@ -1,4 +1,4 @@
-import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './ProductDetails.style'
@@ -78,6 +78,9 @@ const ProductDetails = (props) => {
                 </View>
 
                 {defaultColor &&
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={ [{  height: ResponsiveSize(100),} ,lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
+   
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
                         {defaultColor?.values?.map((items, index) => {
@@ -120,6 +123,7 @@ const ProductDetails = (props) => {
                             )
                         })}
                     </View>
+                    </ScrollView>
                 }
                 {defaultSize &&
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>

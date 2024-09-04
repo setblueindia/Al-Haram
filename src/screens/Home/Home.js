@@ -1,11 +1,11 @@
-import { View, ScrollView, Image, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal } from 'react-native';
 import React from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
 import useHomeHook from './home.hook';
 import Slider from '../../components/Slider';
-import { banner2 } from '../../assests';
+import { banner2, whatsapp } from '../../assests';
 import { ResponsiveSize } from '../../utils/utils';
 import CetegoriesBox from '../../components/CetegoriesBox';
 import ProductBox from '../../components/ProductBox';
@@ -13,6 +13,7 @@ import CusLoader from '../../components/CustomLoader';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { COLOR, RESIZEMODE } from '../../constants/style';
 import FastImage from 'react-native-fast-image';
+import CusModal from '../../components/CusModal';
 
 
 const Home = (props) => {
@@ -25,15 +26,20 @@ const Home = (props) => {
     CetegoriesData,
     loder,
     isLoadding,
+    showPop,
+    mes,
+    setShowPop,
     CetegouriesList,
     ProductDetails,
     onRefresh,
     handleScroll,
     setRefreshing,
+    openPlayStore,
     refreshing,
     scrollViewRef,
     showScrollToTop,
-    scrollToTop
+    scrollToTop,
+    openWhatsApp
   } = useHomeHook(props)
 
   console.log("")
@@ -43,15 +49,15 @@ const Home = (props) => {
       <View style={styles.CustomeHeaderView}>
         <CustomeHeader search={true} like={true} shoppingcart={true} />
         <ScrollView
-         ref={scrollViewRef}
-        onScroll={handleScroll}
-        refreshControl={
-          <RefreshControl
-          onRefresh={onRefresh}
-          refreshing={refreshing}/>
-        }
-        onRefresh={()=>{CetegouriesList() , ProductDetails() }}
-        style={styles.containerView}>
+          ref={scrollViewRef}
+          onScroll={handleScroll}
+          refreshControl={
+            <RefreshControl
+              onRefresh={onRefresh}
+              refreshing={refreshing} />
+          }
+          onRefresh={() => { CetegouriesList(), ProductDetails() }}
+          style={styles.containerView}>
           <View style={styles.storyView}>
             <StoryView CetegoriesData={CetegoriesData} data={data} lang={lang} navigation={navigation} />
           </View>
@@ -70,14 +76,14 @@ const Home = (props) => {
                 return (
                   <View key={index} style={styles.cetegoriesBox}>
                     {items?.children.length > 0 &&
-                     <CetegoriesBox navigation={navigation} lang={lang} items={items} index={index} />
-                     }
+                      <CetegoriesBox navigation={navigation} lang={lang} items={items} index={index} />
+                    }
                   </View>
                 )
               })
             }
           </View>
-          
+
           {
             HomeScreeData?.map((items, index) => {
               return (
@@ -103,6 +109,38 @@ const Home = (props) => {
           <CusLoader />
         </View>
       }
+
+      <Modal
+        transparent={true}
+        visible={showPop}
+        animationType='slide'
+      >
+        <CusModal text={mes} setModalShow={setShowPop} notification={false} GETNotificationAPI={openPlayStore} />
+      </Modal>
+
+      <TouchableOpacity
+      onPress={()=>{openWhatsApp()}}
+        style={{
+          height: ResponsiveSize(80),
+          width: ResponsiveSize(80),
+          borderRadius: ResponsiveSize(100),
+          // backgroundColor: COLOR.black,
+          position: 'absolute',
+          bottom: ResponsiveSize(80),
+          right: ResponsiveSize(40)
+        }}
+      >
+        <Image style={{
+          height:"100%",
+          width:"100%",
+          resizeMode:'contain'
+        }} source={whatsapp}/>
+
+      </TouchableOpacity>
+
+
+
+
     </View>
   );
 };

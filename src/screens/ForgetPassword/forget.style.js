@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     },
     container: {
         alignItems: 'center',
-        // padding:ResponsiveSize(20)
     },
     Textheader: {
         fontSize: ResponsiveSize(35),

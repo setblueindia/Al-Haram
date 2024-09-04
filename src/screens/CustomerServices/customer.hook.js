@@ -4,7 +4,6 @@ import { NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
 import { customerSuppot } from "../../api/axios.api"
 import { useEffect, useState } from "react"
-import { SHOWTOTS } from "../../utils/utils"
 
 const useCustomerServiceHook = () => {
     const navigation = useNavigation()

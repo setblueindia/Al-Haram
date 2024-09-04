@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Linking, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import { updateLangCode } from '../../redux/Slices/LangSlices';
 import { ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
+import DeviceInfo from 'react-native-device-info';
 
 const useProfileHook = () => {
 
@@ -21,6 +22,8 @@ const useProfileHook = () => {
   const [selectedItems, setSelectedItems] = useState()
   const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
   const dispatch = useDispatch();
+  const version = DeviceInfo.getVersion()
+
 
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
 
@@ -167,6 +170,33 @@ const useProfileHook = () => {
     }
   }
 
+  const socialPress = (social) =>{
+    if(social == '1'){
+      const instagramURL = 'https://www.instagram.com/alharamksa/';
+      Linking.openURL(instagramURL);
+    }
+    if(social == '2'){
+      const instagramURL = 'https://www.facebook.com/alharamksa/';
+      Linking.openURL(instagramURL);
+    }
+    if(social == '3'){
+      const instagramURL = 'https://maroof.sa/businesses/';
+      Linking.openURL(instagramURL);
+    }
+  }
+
+  const handleInstagramPress = () => {
+    const instagramURL = 'https://www.instagram.com/alharamksa/';
+    Linking.openURL(instagramURL);
+  };
+  const handleFacebookPress = () => {
+    const facebookURL = 'https://www.facebook.com/alharamksa/';
+    Linking.openURL(facebookURL);
+  };
+  const handlechatPress = () => {
+    const businessesURL = 'https://maroof.sa/businesses/';
+    Linking.openURL(businessesURL);
+  };
 
 useEffect(()=>{
   PoductCount()
@@ -178,6 +208,7 @@ useEffect(()=>{
     email,
     firstName,
     lastName,
+    version,
     setSelectedItems,
     changeLungues,
     setArabic,
@@ -189,7 +220,8 @@ useEffect(()=>{
     PROFILEStr,
     arabic,
     loder,
-    isLoadding
+    isLoadding,
+    socialPress
 
   };
 };

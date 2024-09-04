@@ -303,3 +303,7 @@ export const DeteleProductToCart = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
+export const AppUpadateAPI = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}

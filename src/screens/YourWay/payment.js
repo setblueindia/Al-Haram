@@ -1,16 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
-
+import {View,  ActivityIndicator} from 'react-native';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import queryString from 'query-string';
 import publicIP from 'react-native-public-ip';
-
 import {WebView} from 'react-native-webview';
-
 import {config} from './config';
 import { NAVIGATION } from '../../constants/constants';
-import ResponseScreen from './response';
 import { ResponsiveSize } from '../../utils/utils';
 import { COLOR } from '../../constants/style';
 

@@ -4,7 +4,6 @@ import CommanHeader from '../../components/ComanHeader';
 import useDrowerHook from './drower.hook';
 import { styles } from './drower.style';
 import { BASE_URL } from '../../constants/axios.url';
-import { COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
 import { A, logo } from '../../assests';
 import { NAVIGATION, NUMBER } from '../../constants/constants';
@@ -20,7 +19,6 @@ const Drower = () => {
   const [sindex, setIndex] = useState()
   const [topIndex, setTopIndex] = useState()
   const [on, setOn] = useState(false)
-
   const handleCategoryClick = (index) => {
     setSelectedCategoryIndex(selectedCategoryIndex === index ? null : index);
   };
@@ -66,7 +64,6 @@ const Drower = () => {
               subData.length > 0 && <View style={styles.fullWidthView}>
                 {subData?.map((subItem, subIndex) => (
                   <View>
-
                     <TouchableOpacity
                       onPress={() => {
                         setChildData(subItem?.children),
@@ -108,7 +105,6 @@ const Drower = () => {
         ))}
         <View style={{ flex: 1, height: ResponsiveSize(200) }}></View>
       </ScrollView>
-
     </View>
   );
 };

@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
-import { NUMBER } from '../../constants/constants'
-import { getMobaileCetegouries, getOrderDetailsList } from '../../api/axios.api'
+import { getMobaileCetegouries } from '../../api/axios.api'
 
 
 const useCategroiesHook = () => {

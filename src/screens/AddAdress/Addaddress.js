@@ -1,4 +1,4 @@
-import { Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Platform, ScrollView, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import TextFildCus from '../../components/TextFildCus'

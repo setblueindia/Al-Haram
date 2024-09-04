@@ -11,7 +11,6 @@ const useWhishListHook = () => {
   const navigation = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
   const [lotti, setLotti] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0)
   const [data, setData] = useState([])
 
   useEffect(() => {

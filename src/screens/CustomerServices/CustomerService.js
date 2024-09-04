@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-
 import CommanHeader from '../../components/ComanHeader'
-import { NUMBER, PROFILEStr } from '../../constants/constants'
+import { NUMBER} from '../../constants/constants'
 import { styles } from './customer.style'
 import useCustomerServiceHook from './customer.hook'
 import CusLoader from '../../components/CustomLoader'

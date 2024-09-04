@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import useCancelOrderHook from './cancelOrder.hook'
 import { styles } from './cancelOrder.style'
@@ -8,7 +8,7 @@ import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import { TextInput } from 'react-native-gesture-handler'
 import Button from '../../components/Button'
-import { ALINE, COLOR } from '../../constants/style'
+import { ALINE } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 
 

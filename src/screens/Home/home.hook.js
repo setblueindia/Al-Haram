@@ -1,13 +1,15 @@
-import { Platform } from 'react-native'
-import  { useEffect, useRef, useState } from 'react'
+import { Platform, Linking } from 'react-native'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
 import { useNavigation } from '@react-navigation/native'
-import {  ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
+import DeviceInfo from 'react-native-device-info'
+import { SHOWTOTS } from '../../utils/utils'
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
@@ -23,6 +25,47 @@ const useHomeHook = (props) => {
   const [refreshing, setRefreshing] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollViewRef = useRef(null);
+
+  const version = DeviceInfo.getVersion()
+  const [showPop, setShowPop] = useState(false)
+  const [mes, setMes] = useState()
+
+  const UpdateVersion = async () => {
+
+    const data = `
+{
+  deviceVersionCheck(device_version : "${version}"){
+      status
+      message
+  }
+}
+`
+    try {
+      const result = await AppUpadateAPI(data, lang?.data)
+      if (result?.data?.data?.deviceVersionCheck?.status) {
+        SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
+      } else {
+        setShowPop(true)
+        setMes(result?.data?.data?.deviceVersionCheck?.message)
+      }
+    } catch (error) {
+      console.log("UpdateVersion ERROR :::::: ", error)
+    }
+  }
+
+
+  const openPlayStore = () => {
+    const url = 'https://play.google.com/store/apps/details?id=com.example.app';
+    Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
+  };
+
+  useEffect(() => {
+    // UpdateVersion()
+  }, [])
+
+
+
+
 
   const CetegouriesList = async () => {
     // dispatch(updateLoader(true))
@@ -220,23 +263,36 @@ const useHomeHook = (props) => {
     `
     try {
       if (userData?.token) {
-        const result = await ProductlistCount(countData , lang?.data)
+        const result = await ProductlistCount(countData, lang?.data)
         const arrOFItems = result?.data?.data?.customerCart?.items
         const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
-      }else{
-        dispatch(addProduct(0)) 
+        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+      } else {
+        dispatch(addProduct(0))
       }
     } catch (error) {
       console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0)) 
+      dispatch(addProduct(0))
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     PoductCount()
   }, [])
 
+  const openWhatsApp = () => {
+    // const phoneNumber = '8238155248';
+    const phoneNumber = '966920033093'; 
+    const url = "whatsapp://send?phone="+ phoneNumber +"&text=hi"
+    Linking.openURL(url).catch((err) => openWhatsApp2());
+  };
+
+  const openWhatsApp2 = () => {
+    // const phoneNumber = '8238155248'; 
+    const phoneNumber = '966920033093'; 
+    const url = "https://wa.me//966920033093";
+    Linking.openURL(url).catch((err) => console.error("Couldn't open WhatsApp", err));
+  };
 
 
   return {
@@ -255,7 +311,12 @@ const useHomeHook = (props) => {
     handleScroll,
     scrollViewRef,
     showScrollToTop,
-    scrollToTop
+    showPop,
+    mes,
+    setShowPop,
+    scrollToTop,
+    openPlayStore,
+    openWhatsApp
   }
 }
 

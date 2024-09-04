@@ -16,8 +16,6 @@ export const styles = StyleSheet.create({
     },
     imageView: {
         height: ResponsiveSize(350),
-        // flex:1,
-        // width:"40%",
         width: ResponsiveSize(275),
         padding: ResponsiveSize(20),
         backgroundColor: COLOR.white,

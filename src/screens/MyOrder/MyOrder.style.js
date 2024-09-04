@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    // marginBottom:ResponsiveSize(50)
   },
   listView: {
     backgroundColor: COLOR.white,
@@ -84,6 +83,5 @@ export const styles = StyleSheet.create({
     marginLeft: ResponsiveSize(10),
     flex:1,
     textAlign:'left',
-    // backgroundColor:"#000"
   }
 });
