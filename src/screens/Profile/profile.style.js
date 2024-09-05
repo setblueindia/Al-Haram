@@ -105,6 +105,8 @@ export const styles = StyleSheet.create({
     borderColor: 'green',
     borderWidth: ResponsiveSize(2),
     backgroundColor: COLOR.white,
+    marginBottom:ResponsiveSize(30),
+    marginTop: ResponsiveSize(10)
   },
   btntext: {
     color: COLOR.black,
@@ -120,7 +122,10 @@ export const styles = StyleSheet.create({
   },
   scoialLinkTex: {
     color: COLOR.black,
-    fontSize: ResponsiveSize(25)
+    fontSize: ResponsiveSize(25),
+    width:"100%" , 
+    textAlign:'left',
+    marginLeft:ResponsiveSize(60)
   },
   scoialIconView: {
     flexDirection: 'row',

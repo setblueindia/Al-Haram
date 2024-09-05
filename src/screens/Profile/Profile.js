@@ -12,7 +12,7 @@ import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { ALINE, COLOR } from '../../constants/style';
 import CustomeHeader from '../../components/CustomeHeader';
 import CusLoader from '../../components/CustomLoader';
-import { chatapp, fbimg, insta } from '../../assests';
+import { VAT, bussnis1, chatapp, fbimg, insta } from '../../assests';
 
 
 
@@ -120,43 +120,58 @@ const Profile = () => {
           </TouchableOpacity>
         ))}
 
-        <View>
-          <View style={styles.btnView}>
-            <TouchableOpacity
-              onPress={() => {
-                changeLungues();
-              }}
-              style={styles.chnageLangBtnView}>
-              <Text style={styles.btntext}>{PROFILEStr?.ChangeLang}</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: ResponsiveSize(20), paddingVertical: ResponsiveSize(20), backgroundColor: "#FFF3F4" }}>
+          <TouchableOpacity
+            onPress={() => {
+              changeLungues();
+            }}
+            style={styles.chnageLangBtnView}>
+            <Text style={styles.btntext}>{PROFILEStr?.ChangeLang}</Text>
+          </TouchableOpacity>
 
-          <View style={[styles.socialView ]}>
-            <Text style={styles.scoialLinkTex}>{lang == NUMBER.num1 ?  "Social Links" : "الروابط الاجتماعية"}</Text>
-            <View style={[styles.scoialIconView ,lang == NUMBER.num0 && {flexDirection:'row-reverse'}]}>
+          <View style={[styles.socialView]}>
+            <Text style={[styles.scoialLinkTex, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(100) }]}>{lang == NUMBER.num1 ? "Social Links" : "الروابط الاجتماعية"}</Text>
+            <View style={[{ width: "100%", flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+              <View style={[styles.scoialIconView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
-              <TouchableOpacity
-                onPress={() => { socialPress("1") }}
-                style={styles.roundIcon}>
-                <Image style={styles.cocialIcon} source={insta} />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => { socialPress("1") }}
+                  style={styles.roundIcon}>
+                  <Image style={styles.cocialIcon} source={insta} />
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => { socialPress("2") }}
-                style={styles.roundIcon}>
-                <Image style={styles.cocialIcon} source={fbimg} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => { socialPress("3") }}
-                style={styles.roundIcon}>
-                <Image style={styles.cocialIcon} source={chatapp} />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => { socialPress("2") }}
+                  style={styles.roundIcon}>
+                  <Image style={styles.cocialIcon} source={fbimg} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => { socialPress("3") }}
+                  style={styles.roundIcon}>
+                  <Image style={[styles.cocialIcon, { resizeMode: 'contain' }]} source={chatapp} />
+                </TouchableOpacity>
+
+              </View>
+
+              <View style={{ width: ResponsiveSize(2), height: ResponsiveSize(50), backgroundColor: COLOR.darkGray, marginTop: ResponsiveSize(20) }} />
+              <View style={{ width: "50%", alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}>
+                <TouchableOpacity
+                  onPress={() => { socialPress("5") }}
+                  style={{ width: "60%", height: ResponsiveSize(80) }}>
+                  <Image style={{ height: "100%", width: "100%", resizeMode: 'contain' }} source={bussnis1} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => { socialPress("4") }}
+                  style={{ width: "30%", height: ResponsiveSize(80) }}>
+                  <Image style={{ height: "100%", width: "100%", resizeMode: 'contain', marginTop: ResponsiveSize(10) }} source={VAT} />
+                </TouchableOpacity>
+              </View>
             </View>
-          
-            <Text style={{ color: COLOR.darkGray, marginTop: ResponsiveSize(20) }}>{lang == NUMBER.num0 ?  "إصدار التطبيق" + " : " + version    : "App Version : " + version}</Text>
+            <Text style={{ color: COLOR.darkGray, marginTop: ResponsiveSize(20), width: "100%", textAlign: 'center' }}>{lang == NUMBER.num0 ? "إصدار التطبيق" + " : " + version : "App Version : " + version}</Text>
           </View>
 
-          <View style={{ height: ResponsiveSize(30), width: "100%", backgroundColor: "#FFF3F4" }} />
         </View>
       </ScrollView>
 

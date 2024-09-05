@@ -183,6 +183,14 @@ const useProfileHook = () => {
       const instagramURL = 'https://maroof.sa/businesses/';
       Linking.openURL(instagramURL);
     }
+    if(social == '4'){
+      const instagramURL = 'https://alharamstores.com/vat-document';
+      Linking.openURL(instagramURL);
+    }
+    if(social == '5'){
+      const instagramURL = 'https://alharamstores.com/e-commerce-authentication-certificate';
+      Linking.openURL(instagramURL);
+    }
   }
 
   const handleInstagramPress = () => {

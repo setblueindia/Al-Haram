@@ -22,5 +22,7 @@ export const  bannecrSC= require("./images/Common/bannecrSC.png")
 export const  SoupanserIcon= require("./images/Common/SoupanserIcon.png")
 export const  A= require("./images/Common/A.png")
 export const  whatsapp= require("./images/Common/whatsapp.png")
+export const  bussnis1= require("./images/Common/bussnis1.png")
+export const  VAT= require("./images/Common/VAT.png")
 
 // export const  ErrorImg = require("./images/Payment/ErrorImg.png")
