@@ -1,4 +1,4 @@
-import {Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './ProductDetails.style'
@@ -14,6 +14,7 @@ import LottieView from 'lottie-react-native'
 import ReviewSlider from '../../components/ReviewSlider'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
+import RenderHTML from 'react-native-render-html';
 
 const ProductDetails = (props) => {
     const { lang,
@@ -50,6 +51,9 @@ const ProductDetails = (props) => {
         setQnts
     } = useProductDetails({ props })
 
+    const { width } = useWindowDimensions();
+   
+
 
     return (
         <View style={styles.mainVIew}>
@@ -72,57 +76,81 @@ const ProductDetails = (props) => {
                 <View style={styles.PriveView}>
                     <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
                 </View>
+{/* 
+             {  details?.description?.html && <View style={styles.deviderView}>
+                    <View style={styles.devider} />
+                </View>}
+
+              {details?.description?.html &&  <Text
+                    style={[{
+                        color: COLOR.black,
+                        marginLeft:ResponsiveSize(30),
+                        fontWeight:'600',
+                        marginTop:ResponsiveSize(20)
+                    },
+                    lang.data == NUMBER.num0 && {
+                        textAlign: 'right',
+                        marginRight:ResponsiveSize(30)
+                    }
+                    ]}
+
+                >{lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
+
+                <RenderHTML
+                    contentWidth={"100%"}
+                    source={{ html: details?.description?.html }}
+                /> */}
 
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>
 
                 {defaultColor &&
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={ [{  height: ResponsiveSize(100),} ,lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
-   
-                    <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
-                        {defaultColor?.values?.map((items, index) => {
-                            const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
-                            var fileImage = ''
-                            return (
-                                <View style={{ justifyContent: ALINE.center }}>
-                                    <TouchableOpacity
-                                        onPress={(() => { setIndex(index), colorOnPress(items?.value_index) })}
-                                        key={index}
-                                        style={[styles.colorConatiner,
-                                        index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
-
-                                        {imageObject?.map((item) => {
-                                            if (item?.colorIndex == items?.value_index) {
-                                                fileImage = item?.imgURL
-                                            } 
-
-                                        })}
-
-                                        {fileImage ?  
-                                        <FastImage source={{uri : fileImage}}  style={{height:"100%" , width:"100%" , resizeMode:'contain' , borderRadius:ResponsiveSize(10)}}/> :
-                                        <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} /> }
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
 
-                                        {(!block && !shoeColor) &&
-                                            <View style={{
-                                                alignSelf: ALINE.center,
-                                                position: 'absolute',
-                                                height: ResponsiveSize(70),
-                                                width: ResponsiveSize(70),
-                                                backgroundColor: "#00000050",
-                                                borderRadius: ResponsiveSize(20)
-                                            }}>
-                                                <Block style={{ alignSelf: 'center', top: ResponsiveSize(5) }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
-                                            </View>
-                                        }
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        })}
-                    </View>
+                        <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
+                            {defaultColor?.values?.map((items, index) => {
+                                const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
+                                var fileImage = ''
+                                return (
+                                    <View style={{ justifyContent: ALINE.center }}>
+                                        <TouchableOpacity
+                                            onPress={(() => { setIndex(index), colorOnPress(items?.value_index) })}
+                                            key={index}
+                                            style={[styles.colorConatiner,
+                                            index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
+
+                                            {imageObject?.map((item) => {
+                                                if (item?.colorIndex == items?.value_index) {
+                                                    fileImage = item?.imgURL
+                                                }
+
+                                            })}
+
+                                            {fileImage ?
+                                                <FastImage source={{ uri: fileImage }} style={{ height: "100%", width: "100%", resizeMode: 'contain', borderRadius: ResponsiveSize(10) }} /> :
+                                                <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />}
+
+
+                                            {(!block && !shoeColor) &&
+                                                <View style={{
+                                                    alignSelf: ALINE.center,
+                                                    position: 'absolute',
+                                                    height: ResponsiveSize(70),
+                                                    width: ResponsiveSize(70),
+                                                    backgroundColor: "#00000050",
+                                                    borderRadius: ResponsiveSize(20)
+                                                }}>
+                                                    <Block style={{ alignSelf: 'center', top: ResponsiveSize(5) }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
+                                                </View>
+                                            }
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            })}
+                        </View>
                     </ScrollView>
                 }
                 {defaultSize &&
@@ -175,6 +203,35 @@ const ProductDetails = (props) => {
                         <Counter qty={qnt} setQnt={setQnts} />
                     </View>
                 </View>
+
+                {  details?.description?.html && <View style={styles.deviderView}>
+                    <View style={styles.devider} />
+                </View>}
+
+              {details?.description?.html &&  <Text
+                    style={[{
+                        color: COLOR.black,
+                        marginLeft:ResponsiveSize(30),
+                        fontWeight:'600',
+                        marginTop:ResponsiveSize(20)
+                    },
+                    lang.data == NUMBER.num0 && {
+                        textAlign: 'right',
+                        marginRight:ResponsiveSize(30)
+                    }
+                    ]}
+
+                >{lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
+
+            {  details?.description?.html &&  <RenderHTML
+                    contentWidth={width}
+                    tagsStyles={{
+                        p: {
+                          color: 'black',  // Applying black color to paragraph text
+                        },
+                      }}
+                    source={{ html: details?.description?.html }}
+                />}
                 <View style={{ height: ResponsiveSize(200) }} />
             </ScrollView>
 
@@ -214,6 +271,7 @@ const ProductDetails = (props) => {
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>
 
+        
                 <Modal
                     transparent={true}
                     visible={showModal}

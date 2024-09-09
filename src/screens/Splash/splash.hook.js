@@ -16,6 +16,7 @@ const useSplshHook = () => {
     setUserData()
     setTimeout(() => {
       navigation.replace(NAVIGATION.DrawerNavigation );
+      // navigation.replace(NAVIGATION.OTPScreen);
       setLang()
     }, 200);
   }, []);
@@ -68,6 +69,7 @@ const useSplshHook = () => {
           image
           description
           mobile_thumbnail
+          mobile_circle_thumbnail
           mobile_image
           display_mode
           children {
@@ -80,6 +82,7 @@ const useSplshHook = () => {
             image
             description
             mobile_thumbnail
+            mobile_circle_thumbnail
             mobile_image
             children {
                 id
@@ -91,6 +94,7 @@ const useSplshHook = () => {
                 image
                 description
                 mobile_thumbnail
+                mobile_circle_thumbnail
                 mobile_image
             }
           }
@@ -118,6 +122,7 @@ const useSplshHook = () => {
           store_id
           wallet_checkout_enable
           category_list_page_size
+          top_banner
           banner_slider{
               image
               category_id

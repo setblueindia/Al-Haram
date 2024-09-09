@@ -33,12 +33,17 @@ const [text4, setText4] = useState()
 
 
   return (
-    <View style={[styles.mainView , lang.data == NUMBER.num0 &&{flexDirection:ALINE.rowreverse }]}>
+    <View style={[styles.mainView , 
+    // lang.data == NUMBER.num0 &&{flexDirection:ALINE.rowreverse }
+    ]}>
       <TextInput
         ref={et1}
-        style={[styles.otpView, lang.data == NUMBER.num1 && {marginLeft: 0}]}
+        style={[styles.otpView, 
+          lang.data == NUMBER.num1 && {marginLeft: 0}
+        ]}
         keyboardType="numeric"
         maxLength={1}
+        textContentType='oneTimeCode'
         onChangeText={text =>{
             setText1(text)
             if(text.length >= 1){
@@ -51,6 +56,7 @@ const [text4, setText4] = useState()
         style={[styles.otpView  ]}
         keyboardType="numeric"
         maxLength={1} 
+        textContentType='oneTimeCode'
         onChangeText={text =>{
             setText2(text)
             if(text.length >= 1){
@@ -65,6 +71,7 @@ const [text4, setText4] = useState()
         style={[styles.otpView ]}
         keyboardType="numeric"
         maxLength={1}
+        textContentType='oneTimeCode'
         onChangeText={text =>{
             setText3(text)
             if(text.length >= 1){
@@ -76,9 +83,12 @@ const [text4, setText4] = useState()
       />
       <TextInput
         ref={et4}
-        style={[styles.otpView ,  lang.data == NUMBER.num0 &&{marginLeft:0} ]}
+        style={[styles.otpView ,
+            // lang.data == NUMBER.num0 &&{marginLeft:0}
+           ]}
         keyboardType="numeric"
         maxLength={1}
+        textContentType='oneTimeCode'
         onChangeText={text =>{
             setText4(text)
             if(text.length < 1){

@@ -130,7 +130,7 @@ const Profile = () => {
           </TouchableOpacity>
 
           <View style={[styles.socialView]}>
-            <Text style={[styles.scoialLinkTex, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(100) }]}>{lang == NUMBER.num1 ? "Social Links" : "الروابط الاجتماعية"}</Text>
+            <Text style={[styles.scoialLinkTex, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(100) }]}>{lang == NUMBER.num1 ? "Social Links" : "حساباتنا"}</Text>
             <View style={[{ width: "100%", flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
               <View style={[styles.scoialIconView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 

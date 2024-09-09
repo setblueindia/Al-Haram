@@ -25,6 +25,7 @@ const useHomeHook = (props) => {
   const [refreshing, setRefreshing] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollViewRef = useRef(null);
+  const [bannerUrl, setBannerUrl] = useState()
 
   const version = DeviceInfo.getVersion()
   const [showPop, setShowPop] = useState(false)
@@ -84,6 +85,7 @@ const useHomeHook = (props) => {
           image
           description
           mobile_thumbnail
+          mobile_circle_thumbnail
           mobile_image
           display_mode
           children {
@@ -108,6 +110,7 @@ const useHomeHook = (props) => {
                 image
                 description
                 mobile_thumbnail
+                mobile_circle_thumbnail
                 mobile_image
             }
           }
@@ -141,7 +144,10 @@ const useHomeHook = (props) => {
           whatapps_chat
           store_id
           wallet_checkout_enable
+          whatapps_chat
           category_list_page_size
+          wallet_checkout_enable
+          top_banner
           banner_slider{
               image
               category_id
@@ -169,9 +175,9 @@ const useHomeHook = (props) => {
     try {
       const res = await getProductDetails(params, lang?.data)
       if (res?.status == '200') {
+        setBannerUrl(res?.data?.data?.getHomePageData?.top_banner)
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
         setIsLoadding(false)
-        // dispatch(updateLoader(false))
       }
 
     } catch (error) {
@@ -282,14 +288,14 @@ const useHomeHook = (props) => {
 
   const openWhatsApp = () => {
     // const phoneNumber = '8238155248';
-    const phoneNumber = '966920033093'; 
-    const url = "whatsapp://send?phone="+ phoneNumber +"&text=hi"
+    const phoneNumber = '966920033093';
+    const url = "whatsapp://send?phone=" + phoneNumber + "&text=hi"
     Linking.openURL(url).catch((err) => openWhatsApp2());
   };
 
   const openWhatsApp2 = () => {
     // const phoneNumber = '8238155248'; 
-    const phoneNumber = '966920033093'; 
+    const phoneNumber = '966920033093';
     const url = "https://wa.me//966920033093";
     Linking.openURL(url).catch((err) => console.error("Couldn't open WhatsApp", err));
   };
@@ -313,6 +319,7 @@ const useHomeHook = (props) => {
     showScrollToTop,
     showPop,
     mes,
+    bannerUrl,
     setShowPop,
     scrollToTop,
     openPlayStore,

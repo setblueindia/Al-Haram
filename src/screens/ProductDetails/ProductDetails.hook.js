@@ -234,11 +234,11 @@ const useProductDetails = (props) => {
                 `
     try {
       const response = await ProductDetalsBySKU(data, lang?.data)
-
       if (response?.status == '200') {
         setDetails(response?.data?.data?.products?.items[0])
         getImageStr(response)
         const temp = [];
+        // console.log(":::::::::::::::::::" , response?.data?.data?.products?.items[0])
         response?.data?.data?.products?.items[0]?.media_gallery_entries?.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
           console.log("uri ::: ", uri)

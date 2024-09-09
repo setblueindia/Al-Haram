@@ -19,7 +19,7 @@ numberView: {
 },
 numberText: {
     color: COLOR.primaray,
-    fontSize: ResponsiveSize(40),
+    fontSize: ResponsiveSize(25),
     fontWeight: 'bold',
 },
 line: {
@@ -34,7 +34,7 @@ line: {
    
   },
   verificationText:{
-    fontSize:ResponsiveSize(25)
+    fontSize:ResponsiveSize(30)
 },
 verificationView:{
     marginTop: ResponsiveSize(50),

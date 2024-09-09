@@ -74,12 +74,18 @@ const styles = StyleSheet.create({
         borderColor: "#CEB282"
     },
     bannerView: {
-        height: ResponsiveSize(250),
+        // height: ResponsiveSize(250),
+        marginTop:ResponsiveSize(30),
+        marginBottom:ResponsiveSize(20)
+        // backgroundColor:'red'
     },
     bannerImg: {
-        height: "100%",
+        height: ResponsiveSize(195),
         width: "100%",
-        resizeMode: RESIZEMODE.contain
+        resizeMode: RESIZEMODE.contain,
+        borderRadius:ResponsiveSize(20),
+        // backgroundColor:'red'
+        
     },
     textView: {
         flexDirection: ALINE.row,

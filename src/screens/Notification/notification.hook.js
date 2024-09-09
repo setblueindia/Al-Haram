@@ -76,7 +76,7 @@ const useNotificationHook = () => {
     try {
       const response = await NotificationAIP(sData, lang)
       if (response?.status == "200") {
-        console.log("Response :::::::::::: " , response?.data)
+        // console.log("Response :::::::::::: " , response?.data)
        setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId]) 
         response?.data?.data?.getNotificationHistoryByCustomerId?.map((item)=>{
         })

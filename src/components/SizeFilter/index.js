@@ -105,7 +105,6 @@ const SizeFilter = ({
     const ctegouriesSelection = (index) => {
 
         if (cetegories == "size" && index == sizeIndex) {
-
             return true
         } else if (cetegories == "color" && index == colorIndex) {
             return true
@@ -176,6 +175,7 @@ const SizeFilter = ({
                             filterData?.map((items, index) => {
                                 return (
                                     <View key={index}>
+                                      {  items?.label !== "Category" &&
                                         <TouchableOpacity
                                             onPress={() => {
                                                 setOpationData(items?.options),
@@ -185,8 +185,9 @@ const SizeFilter = ({
                                             }}
                                             key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
                                             <Text style={styles.firstViewText}>{items?.label}</Text>
-                                        </TouchableOpacity>
-                                    </View>)
+                                        </TouchableOpacity>}
+                                    </View>
+                                    )
                             })}
                     </View>
                     <ScrollView style={styles.secondView}>

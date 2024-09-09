@@ -31,7 +31,7 @@ const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
                                 <FastImage
                                     onLoadStart={() => { setImageLoader(true) }}
                                     onLoadEnd={() => { setImageLoader(false) }}
-                                    style={styles.imge} source={{ uri: BASE_URL + item?.mobile_thumbnail }} />
+                                    style={styles.imge} source={{ uri: BASE_URL + item?.mobile_circle_thumbnail }} />
                                 {imageLoader &&
                                     <View style={{
                                         height: "100%",

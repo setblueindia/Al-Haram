@@ -38,11 +38,12 @@ const Home = (props) => {
     refreshing,
     scrollViewRef,
     showScrollToTop,
+    bannerUrl,
     scrollToTop,
     openWhatsApp
   } = useHomeHook(props)
 
-  console.log("")
+  console.log("::::::::" , bannerUrl )
 
   return (
     <View style={styles.mainView}>
@@ -61,11 +62,15 @@ const Home = (props) => {
           <View style={styles.storyView}>
             <StoryView CetegoriesData={CetegoriesData} data={data} lang={lang} navigation={navigation} />
           </View>
+
+
           <View style={styles.bannerView2}>
             <View style={styles.bannerImage}>
-              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={banner2} />
+              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{uri : bannerUrl}} />
             </View>
           </View>
+
+
           <View style={styles.siderView}>
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>

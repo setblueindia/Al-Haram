@@ -17,7 +17,6 @@ const useProfileHook = () => {
   const userData = useSelector(state => state?.userData)
   const loder = useSelector(state => state?.Categories?.loader)
   const [isLoadding, setIsLoadding] = useState(false)
-
   const navigation = useNavigation();
   const [selectedItems, setSelectedItems] = useState()
   const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
@@ -30,7 +29,7 @@ const useProfileHook = () => {
   const email = userData?.data?.email
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
-  const name = (firstName && lastName) ? firstName + " " + lastName : "User"
+  const name = (firstName && lastName) ? firstName + " " + lastName : NUMBER.num0 == lang ? "حسابي" : "User"
 
   const menuItems = [
 

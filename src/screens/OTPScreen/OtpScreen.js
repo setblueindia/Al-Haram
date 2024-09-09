@@ -12,9 +12,11 @@ import CusModal from '../../components/CusModal';
 
 const OtpScreen = (props) => {
   const Mo = props?.route?.params?.mobileNo
-  const { setMainOTP, onPress, loading, showModal, errorText, setShowModal } = useOPTHook({ number: Mo })
+  const { setMainOTP, onPress, loading, showModal, errorText, setShowModal , language } = useOPTHook({ number: Mo })
 
   const lable = props?.route?.params?.lable
+
+
 
 
   return (
@@ -26,21 +28,22 @@ const OtpScreen = (props) => {
       <View style={styles.containerView}>
         <View style={styles.numberView}>
           <View style={styles.numberView}>
-            <Text style={styles.numberText}>+9978855621</Text>
-            <Text style={styles.verificationText}>
-              {lable?.OPTVerification}
+          <Text style={styles.verificationText}>
+              {language?.OPTVerification}
             </Text>
+            <Text style={styles.numberText}>{Mo}</Text>
+           
           </View>
           <View style={styles.line} />
           <View style={styles.otpView}>
             <OTP setMainOTP={setMainOTP} />
           </View>
-          <View style={styles.verificationView}>
+          {/* <View style={styles.verificationView}>
             <Text style={styles.verificationText}>
               {lable?.Verificationhasbeensendto}
             </Text>
             <Text style={styles.verificationText}>+9978855621</Text>
-          </View>
+          </View> */}
 
           <TouchableOpacity style={styles.resendView}>
             <Text style={styles.resendText}>{lable?.Resend}</Text>

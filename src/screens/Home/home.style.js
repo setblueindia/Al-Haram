@@ -48,14 +48,15 @@ export const styles = StyleSheet.create({
     },
     bannerView2: {
         width: "92%",
-        height: ResponsiveSize(60),
+        height: ResponsiveSize(70),
         paddingHorizontal: ResponsiveSize(10),
         borderRadius: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
         backgroundColor: "#FFEBEB",
         padding: ResponsiveSize(10),
-        alignSelf: ALINE.center
-
+        alignSelf: ALINE.center,
+        alignItems:'center',
+        justifyContent:'center'
     },
     bannerImage :{
      height:"100%",
@@ -63,7 +64,9 @@ export const styles = StyleSheet.create({
      borderWidth:ResponsiveSize(1),
      borderColor:"#00000050",
      padding:ResponsiveSize(5),
-     borderRadius:ResponsiveSize(10)
+     borderRadius:ResponsiveSize(10),
+     alignItems:'center',
+     justifyContent:'center'
 
     },
     bannerView3: {
@@ -78,8 +81,6 @@ export const styles = StyleSheet.create({
         width: "100%",
         resizeMode: RESIZEMODE.contain,
         borderRadius: ResponsiveSize(10),
-        elevation: 10,
-
     },
     cetegoriesBox: {
   
