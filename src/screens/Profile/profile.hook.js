@@ -5,11 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { updateLangCode } from '../../redux/Slices/LangSlices';
+import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
 import { ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
+import { addUserData } from '../../redux/Slices/UserData.slice';
 
 const useProfileHook = () => {
 
@@ -22,6 +23,7 @@ const useProfileHook = () => {
   const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
   const dispatch = useDispatch();
   const version = DeviceInfo.getVersion()
+  const [modal , setModal] = useState(false)
 
 
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
@@ -31,6 +33,8 @@ const useProfileHook = () => {
   const lastName = userData?.data?.lastname
   const name = (firstName && lastName) ? firstName + " " + lastName : NUMBER.num0 == lang ? "حسابي" : "User"
 
+  const valiTemp = userData?.data
+
   const menuItems = [
 
     { icon: 'hearto', text: PROFILEStr?.Wishlist },
@@ -39,9 +43,11 @@ const useProfileHook = () => {
     { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
     { icon: 'book', text: PROFILEStr?.AddressBook },
     { icon: 'phone', text: PROFILEStr?.CustomerService },
+   { icon: valiTemp ?'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN },
 
   ];
   const onPress = (item) => {
+    // console.log("item " , item)
     if (userData?.data) {
       if (item == PROFILEStr.Wishlist) {
         navigation.navigate(NAVIGATION.WhishListScreen)
@@ -61,9 +67,20 @@ const useProfileHook = () => {
       if (item == PROFILEStr.Sponser) {
         navigation.navigate(NAVIGATION.SponserScreen)
       }
+      if (item == PROFILEStr.Notifications) {
+        if(item == PROFILEStr.LOGIN) {
+          navigation.navigate(NAVIGATION.Login)
+        }else{
+          setModal(true)
+        }
+
+      }
 
     } else {
-      navigation.navigate(NAVIGATION.Login)
+      if(item !== PROFILEStr.Notifications){
+        navigation.navigate(NAVIGATION.Login)
+      }
+      // navigation.navigate(NAVIGATION.Login)
     }
   }
 
@@ -192,6 +209,20 @@ const useProfileHook = () => {
     }
   }
 
+  const singOut = async () =>{
+   const langNum = '2'
+    try {
+    await AsyncStorage.clear()
+    //  console.log("result :::" ,result )
+    dispatch(addUserData(undefined))
+    dispatch(addLangCode(langNum))
+    //  navigation.navigate(NAVIGATION.Login , {type : true})
+     navigation.navigate(NAVIGATION.Login)
+    } catch (error) {
+      console.log("SINGOUTE ERROR ::::::" , error)
+    }
+  }
+
   const handleInstagramPress = () => {
     const instagramURL = 'https://www.instagram.com/alharamksa/';
     Linking.openURL(instagramURL);
@@ -228,7 +259,10 @@ useEffect(()=>{
     arabic,
     loder,
     isLoadding,
-    socialPress
+    socialPress,
+    setModal,
+    singOut,
+    modal
 
   };
 };

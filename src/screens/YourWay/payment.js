@@ -1,14 +1,15 @@
 import React from 'react';
-import {View,  ActivityIndicator} from 'react-native';
+import { View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import queryString from 'query-string';
 import publicIP from 'react-native-public-ip';
-import {WebView} from 'react-native-webview';
-import {config} from './config';
+import { WebView } from 'react-native-webview';
+import { config } from './config';
 import { NAVIGATION } from '../../constants/constants';
 import { ResponsiveSize } from '../../utils/utils';
 import { COLOR } from '../../constants/style';
+import Icon from 'react-native-vector-icons/dist/Ionicons';
 
 class PaymentScreen extends React.Component {
   constructor(props) {
@@ -21,23 +22,23 @@ class PaymentScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {route, navigation} = this.props;
+    const { route, navigation } = this.props;
     const requestData = route.params?.request || {};
     const sourcePage = route.params?.source || {};
 
-    this.setState({source: sourcePage}, () => {
+    this.setState({ source: sourcePage }, () => {
       this.processPayment(requestData)
         .then(response => {
           if (response.status == 'redirect') {
-            this.setState({baseURL: response.redirectUrl});
+            this.setState({ baseURL: response.redirectUrl });
           } else if (response.status == 'success') {
             // go back with success before processing payment
-            this.returnResponse({status: 'success', data: {}});
+            this.returnResponse({ status: 'success', data: {} });
           }
         })
         .catch(err => {
           // go back with error
-          this.returnResponse({status: 'error', error: err});
+          this.returnResponse({ status: 'error', error: err });
         });
     });
   }
@@ -46,16 +47,16 @@ class PaymentScreen extends React.Component {
     this.processResponse(processUrl)
       .then(response => {
         //go back with success after processing payment
-        this.returnResponse({status: 'success', data: response});
+        this.returnResponse({ status: 'success', data: response });
       })
       .catch(err => {
         //go back with error
-        this.returnResponse({status: 'error', error: err});
+        this.returnResponse({ status: 'error', error: err });
       });
   };
 
   returnResponse = data => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     setTimeout(() => {
       if (
         navigation.state &&
@@ -67,8 +68,8 @@ class PaymentScreen extends React.Component {
     }, 500);
 
     this.props.route.params.request.done ?
-       navigation.navigate(NAVIGATION.Done, {response: data , orderId : this.props.route?.params?.request?.trackid , responseID : this.props.route?.params?.request?.responseId})
-     : navigation.navigate(NAVIGATION.Wallet, {response: data})
+      navigation.navigate(NAVIGATION.Done, { response: data, orderId: this.props.route?.params?.request?.trackid, responseID: this.props.route?.params?.request?.responseId })
+      : navigation.navigate(NAVIGATION.Wallet, { response: data })
   };
 
   processPayment = requestData => {
@@ -319,11 +320,11 @@ class PaymentScreen extends React.Component {
                     urldecode['targetUrl'] + '?paymentid=' + urldecode['payid'];
                 }
 
-                resolve({status: 'redirect', redirectUrl: url});
+                resolve({ status: 'redirect', redirectUrl: url });
               } else {
                 if (urldecode['result'] != undefined) {
                   if (urldecode['result'] == 'Successful') {
-                    resolve({status: 'success'});
+                    resolve({ status: 'success' });
                   } else {
                     let responsecode = '';
                     if (urldecode['responsecode'] != undefined) {
@@ -476,45 +477,66 @@ class PaymentScreen extends React.Component {
   };
 
   render() {
-    const {baseURL, visible} = this.state;
+    const { baseURL, visible } = this.state;
+    const { navigation } = this.props;
+    const condiation = this.props.route.params.request.done
 
     return (
-      <View style={{flex:1 , backgroundColor:COLOR.white}}>
-        {baseURL ?    
+      <View style={{ flex: 1, backgroundColor: COLOR.white }}>
+        <TouchableOpacity
+          onPress={() => { condiation ? navigation.navigate(NAVIGATION.HomeScreen) : navigation.navigate(NAVIGATION.ProfileScreen) }}
+          style={{
+            height: ResponsiveSize(80),
+            width: ResponsiveSize(80),
+            //  backgroundColor: COLOR.black,
+            // position: 'absolute',
+            borderRadius: ResponsiveSize(100),
+            marginTop: ResponsiveSize(100),
+            marginLeft: ResponsiveSize(20),
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: ResponsiveSize(1),
+            borderColor: COLOR.liteGray
+          }}>
+
+          <Icon size={ResponsiveSize(40)} name={"arrow-back-outline"} />
+
+        </TouchableOpacity>
+        {baseURL ?
           // {baseURL.length > 0 && (
-            <WebView
-            style={{flex:1 , marginTop:ResponsiveSize(100)}}
-              source={{uri: baseURL}}
-              scalesPageToFit={true}
-              sharedCookiesEnabled={true}
-              automaticallyAdjustContentInsets={true}
-              startInLoadingState={true}
-              renderError={() => null}
-              renderLoading={() => null}
-              // onLoadStart={() => this.setState({visible: true})}
-              // onLoadEnd={() => this.setState({visible: false})}
-              onShouldStartLoadWithRequest={event => {
-                if (event.url.startsWith(config.responseUrl)) {
-                  this.onPaymentComplete(event.url);
-                  return false;
-                } else {
-                  return true;
-                }
-              }}
-            />
+          <WebView
+            style={{ flex: 1, marginTop: ResponsiveSize(100) }}
+            source={{ uri: baseURL }}
+            scalesPageToFit={true}
+            sharedCookiesEnabled={true}
+            automaticallyAdjustContentInsets={true}
+            startInLoadingState={true}
+            renderError={() => null}
+            renderLoading={() => null}
+            // onLoadStart={() => this.setState({visible: true})}
+            // onLoadEnd={() => this.setState({visible: false})}
+            onShouldStartLoadWithRequest={event => {
+              if (event.url.startsWith(config.responseUrl)) {
+                this.onPaymentComplete(event.url);
+                return false;
+              } else {
+                return true;
+              }
+            }}
+          />
           // )}
-        :
-        <View
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          backgroundColor: 'transparent',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <ActivityIndicator size={'large'} />
-      </View>  }
+          :
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              backgroundColor: 'transparent',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ActivityIndicator size={'large'} />
+          </View>}
       </View>
     );
   }

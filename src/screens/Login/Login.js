@@ -16,7 +16,7 @@ import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const Login = () => {
+const Login = (props) => {
   const {
     whiteEmail,
     errorText,
@@ -39,12 +39,12 @@ const Login = () => {
     langues,
     lang
   } =
-    useLoginHook();
+    useLoginHook(props);
   return (
     <View style={{flex:1, backgroundColor:COLOR.white}}>
       <KeyboardAwareScrollView style={[styles.mainView]}>
         <View style={styles.headerView}>
-          <Onbordingheader />
+          <Onbordingheader type ={props?.route?.params ? true : false} />
         </View>
         <View style={styles.container}>
           <View style={styles.uthView}>

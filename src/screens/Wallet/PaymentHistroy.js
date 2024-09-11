@@ -94,7 +94,8 @@ const PaymentHistroy = (props) => {
                     )
                 })} */}
 
-                {data?.length > 0 ? <FlatList
+                {data?.length > 0 ?
+                 <FlatList
                     data={data}
                     onEndReached={() => { getData(), console.log("Hello") }}
                     onEndReachedThreshold={0.1}

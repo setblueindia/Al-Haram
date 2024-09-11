@@ -43,7 +43,7 @@ const SerchScreen = () => {
         <TextInput
           style={styles.textInput}
           placeholderTextColor={COLOR.darkGray}
-          placeholder={lang == NUMBER.num1 ? 'Search......' : "يبحث......"}
+          placeholder={lang == NUMBER.num1 ? 'Search......' : "بحث"}
           onChangeText={(text) => { SerchPress(text), setSerchTex(text) }}
         />
       </View>

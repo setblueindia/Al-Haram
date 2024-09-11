@@ -49,7 +49,6 @@ const Product = (props) => {
 
     } = useProductHook(props)
     const [imageLoader, setImageLoader] = useState(false)
-
     return (
         <>
             <View style={styles.mainView}>

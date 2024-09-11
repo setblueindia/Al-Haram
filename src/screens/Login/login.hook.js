@@ -13,7 +13,7 @@ import { Alert } from 'react-native';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
-const useLoginHook = () => {
+const useLoginHook = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorText, setErrorText] = useState('')
@@ -26,7 +26,11 @@ const useLoginHook = () => {
   const [rememberMe, setRembemberMe] = useState();
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
+  const userData = useSelector(state => state?.userData?.data)
   const dispatch = useDispatch()
+
+  // console.log("Props ::::" , props?.route?.params)
+  console.log({lang : lang , userData : userData})
 
   useEffect(() => {
     getLang();
@@ -99,18 +103,18 @@ const useLoginHook = () => {
   }
   const mobailLogin = async () => {
     setLoader(true)
-
+    // navigation.navigate(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber})
     const formData = new FormData();
-
     formData.append('mobile', '+966' + moNumber);
     formData.append('otptype', "login");
     formData.append('store_id', lang?.data);
 
     const response = await userLogInWithNumber(formData)
+
     if (response?.data?.status == NUMBER.num1) {
       setLoader(false)
       console.log("OTP ====> ", response?.data?.otp)
-      navigation.navigate(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber })
+      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber })
     } else {
       setLoader(false)
       setShowModal(true)

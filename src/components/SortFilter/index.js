@@ -23,9 +23,9 @@ const SortFilter = ({
         { id: 2, name: "Price High-Low" },
     ] :
         [
-            { id: 0, name: "ملاءمة" },
-            { id: 1, name: "السعر منخفض مرتفع" },
-            { id: 2, name: "السعر مرتفع ومنخفض" },
+            { id: 0, name: "الأحدث" },
+            { id: 1, name: "السعر-من الأقل إلى الأعلى" },
+            { id: 2, name: "السعر-من الأعلى إلى الأقل" },
         ]
 
     const filterOnPress = (index) => {
@@ -69,7 +69,7 @@ const SortFilter = ({
 
             </TouchableOpacity>
             <View style={styles.container}>
-                <Text style={[styles.title , lang == NUMBER.num0 &&  {textAlign:'right'}]}>{lang == NUMBER.num1 ? "Sort By" : "ترتيب حسب"}</Text>
+                <Text style={[styles.title , lang == NUMBER.num0 &&  {textAlign:'right'}]}>{lang == NUMBER.num1 ? "Sort By" : "فرز حسب"}</Text>
                 <View style={styles.boxView}>
                     <LinearGradient
                         style={styles.boxView}

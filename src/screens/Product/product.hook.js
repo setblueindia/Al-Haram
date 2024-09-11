@@ -46,8 +46,8 @@ const useProductHook = (props) => {
     }
     :
     {
-      Sort: "نوع",
-      Filter: "منقي"
+      Sort: "فرز حسب",
+      Filter: "تصنيف"
     }
 
   const likePress = (items) => {

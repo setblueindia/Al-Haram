@@ -153,19 +153,19 @@ const SizeFilter = ({
                         <TouchableOpacity onPress={() => { setSizeFilter(false) }}>
                             <Icon style={styles.crossIcon} name={"circle-with-cross"} size={ResponsiveSize(35)} />
                         </TouchableOpacity>
-                        <Text style={[styles.filterText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{lang == NUMBER.num1 ? "Filter By" : "مصنف بواسطة"}</Text>
+                        <Text style={[styles.filterText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}>{lang == NUMBER.num1 ? "Filter By" : "تصنيف"}</Text>
                     </View>
 
                     <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <TouchableOpacity
                             onPress={() => { onClear() }}
                             style={styles.clearView}>
-                            <Text style={styles.clearText}>{lang == NUMBER.num1 ? "Clear" : "واضح"}</Text>
+                            <Text style={styles.clearText}>{lang == NUMBER.num1 ? "Clear" : "حذف"}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => { setProductData(fdata), setSizeFilter(false) }}
                             style={[styles.ApplyView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
-                            <Text style={styles.applyText}>{lang == NUMBER.num1 ? "Apply" : "يتقدم"}</Text>
+                            <Text style={styles.applyText}>{lang == NUMBER.num1 ? "Apply" : "تطبيق"}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -173,6 +173,8 @@ const SizeFilter = ({
                     <View style={styles.firstView}>
                         {
                             filterData?.map((items, index) => {
+
+                                // console.log(items?.label)
                                 return (
                                     <View key={index}>
                                       {  items?.label !== "Category" &&

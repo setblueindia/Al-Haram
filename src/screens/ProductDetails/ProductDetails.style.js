@@ -21,16 +21,15 @@ export const styles = StyleSheet.create({
     },
     codeText: {
         color: "#554D4D",
-        fontSize: ResponsiveSize(20)
+        fontSize: ResponsiveSize(18)
     },
     profuctName: {
         marginTop: ResponsiveSize(10),
         paddingHorizontal: ResponsiveSize(20)
     },
     profuctNameText: {
-
         color: "#202020",
-        fontSize: ResponsiveSize(30)
+        fontSize: ResponsiveSize(22)
     },
     devider: {
         height: ResponsiveSize(1),
@@ -45,14 +44,12 @@ export const styles = StyleSheet.create({
         marginTop: ResponsiveSize(10),
     },
     PrizeText: {
-        fontSize: ResponsiveSize(25),
+        fontSize: ResponsiveSize(22),
         fontWeight: FONTWEGHIT.font700,
         color: COLOR.primaray
     },
     text: {
         color: "#505050",
-        // flex:1
-        // width:"100%"
     },
     colorView: {
         paddingHorizontal: ResponsiveSize(20),
@@ -60,8 +57,8 @@ export const styles = StyleSheet.create({
         alignItems: ALINE.center
     },
     colorConatiner: {
-        height: ResponsiveSize(70),
-        width: ResponsiveSize(70),
+        height: ResponsiveSize(60),
+        width: ResponsiveSize(60),
         marginLeft: ResponsiveSize(10),
         borderRadius: ResponsiveSize(20),
         backgroundColor: COLOR.white,
@@ -71,8 +68,6 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         shadowColor: COLOR.black,
         padding: ResponsiveSize(5)
-
-
     },
     innerColorView: {
         height: "100%",
@@ -89,7 +84,7 @@ export const styles = StyleSheet.create({
     },
     sizeView: {
         paddingHorizontal: ResponsiveSize(20),
-        marginTop: ResponsiveSize(20),
+        // marginTop: ResponsiveSize(20),
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
     },
@@ -106,6 +101,7 @@ export const styles = StyleSheet.create({
     },
     sizeText: {
         color: COLOR.black,
+        fontSize:ResponsiveSize(18)
     },
 
     counteView: {

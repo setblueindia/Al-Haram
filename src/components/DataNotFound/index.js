@@ -5,13 +5,16 @@ import { ALINE, COLOR, RESIZEMODE } from '../../constants/style'
 import LottieView from 'lottie-react-native'
 import CustomeHeader from '../CustomeHeader'
 import CommanHeader from '../ComanHeader'
+import { useSelector } from 'react-redux'
 
 const DataNotFound = ({ userData, text, navigation, header }) => {
+    const lang = useSelector(state => state?.lang?.data)
     return (
         <View style={styles.lottiMainView}>
 
             {header
-                ? <CommanHeader navigation={navigation} /> : <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} />}
+                ? <CommanHeader navigation={navigation} /> : 
+                <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} lang={lang} />}
             <View style={styles.lottiView}>
                 <LottieView
                     source={require('../../assests/Lottianimation/Nonotofication2.json')}

@@ -164,7 +164,8 @@ const Slider = ({ lang, height, data, home }) => {
         return (
             <View style={styles.listView}>
                 <FastImage
-                    style={[styles.image, home && { resizeMode: RESIZEMODE.stretch }]}
+                resizeMode = {home ? RESIZEMODE.stretch  : RESIZEMODE.contain}
+                    style={[styles.image, home ? { resizeMode: RESIZEMODE.stretch } : { resizeMode: RESIZEMODE.contain }]}
                     source={imgURL ? { uri: imgURL } : A}
                 />
             </View>
@@ -190,7 +191,7 @@ const Slider = ({ lang, height, data, home }) => {
                 <View style={[styles.mainView, { backgroundColor: COLOR.gray }]} />
             ) : (
                 <View style={[styles.mainView]}>
-                    <Image style={{ height: '100%', width: '100%', resizeMode: 'cover' }} source={A} />
+                    <Image  style={{ height: '100%', width: '100%', resizeMode: 'cover' }} source={A} />
                 </View>
             )}
         </View>

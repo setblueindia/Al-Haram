@@ -23,7 +23,6 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
   return (
     <View style={styles.mainView}>
       <StatusBarCus />
-
       <View style={[styles.container, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
         <View style={styles.menuView}>
           <TouchableOpacity

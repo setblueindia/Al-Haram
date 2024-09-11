@@ -1,10 +1,12 @@
-import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
 import React from 'react';
 import { styles } from './profile.style';
 import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AntDesign2 from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign3 from 'react-native-vector-icons/Ionicons';
+
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { ResponsiveSize } from '../../utils/utils';
 import useProfileHook from './profile.hook';
@@ -13,6 +15,7 @@ import { ALINE, COLOR } from '../../constants/style';
 import CustomeHeader from '../../components/CustomeHeader';
 import CusLoader from '../../components/CustomLoader';
 import { VAT, bussnis1, chatapp, fbimg, insta } from '../../assests';
+import DeleteBox from '../../components/DeleteBox';
 
 
 
@@ -31,10 +34,13 @@ const Profile = () => {
     arabic,
     PROFILEStr,
     version,
+    setModal,
+    modal,
     setArabic,
     isLoadding,
     changeLungues,
-    socialPress
+    socialPress,
+    singOut
   } = useProfileHook();
 
   return (
@@ -90,19 +96,29 @@ const Profile = () => {
             onPress={() => { onPress(item?.text) }}>
 
             <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
-              {item.text !== PROFILEStr?.Sponser &&
+              {(item.text !== PROFILEStr?.Sponser) &&
                 <AntDesign
                   name={item.icon}
                   color="#000000"
                   size={ResponsiveSize(35)}
-                />}
-              {item.text == PROFILEStr?.Sponser &&
+                />
 
+              }
+              {item.text == PROFILEStr?.Sponser &&
                 <AntDesign2
                   name={"transfer"}
                   color="#000000"
                   size={ResponsiveSize(35)}
                 />}
+
+              {/* {(item.text == PROFILEStr?.Notification  ) &&
+                <AntDesign3
+                  name={item.icon}
+                  color="#000000"
+                  size={ResponsiveSize(35)}
+                />} */}
+
+
 
               {/* <Image style={{height:ResponsiveSize(30) , width:ResponsiveSize(30) , tintColor:COLOR.black }} source={SoupanserIcon}/> */}
               <View style={styles.textMenu}>
@@ -180,6 +196,19 @@ const Profile = () => {
         <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
           <CusLoader />
         </View>
+      }
+
+      {console.log("modal :::" , modal)}
+
+      {modal &&
+        <Modal
+          visible={modal}
+          animationType='slide'
+          transparent
+        >
+          <DeleteBox noPress={() => { setModal(false) }} yesPress={() => { setModal(false) , singOut() }} lang={lang} type={"L"} />
+
+        </Modal>
       }
     </View>
   );

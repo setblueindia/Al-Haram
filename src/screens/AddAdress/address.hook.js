@@ -36,6 +36,41 @@ const useAddressHook = (props) => {
   const getData = props?.route?.params?.getData
   const temp =  props?.route?.params?.setLoadding
 
+  const data = lang == NUMBER.num0 ?
+  {
+    EditAddress : "تعديل العنوان",
+    AddAddress: "أضف العنوان",
+    FirstName: "الاسم الاول",
+    LastName: "الإسم الأخير",
+    PhoneNumber: "رقم الهاتف",
+    Streetaddress: "حيّ",
+    Addressline1: "عنوان الشارع الخاص بك",
+    Addressline2: "رقم البيت",
+    Pincode: "البريد",
+    StateProvince: "الولاية / المحافظة ",
+    City: "المدينة",
+    SaudiArabia: "المملكة العربية السعودية",
+    Useasmydefaultbillingaddress: "استخدم عنوان الفاتورة الإفتراضي",
+    UseasmydefaultShippingaddress: "استخدم عنوان الفاتورة الإفتراضي"
+  } :
+  {
+    AddAddress: "Add Address",
+    EditAddress : "Edit Address",
+    FirstName: "First Name",
+    LastName: "Last  Name",
+    PhoneNumber: "Phone Number",
+    Streetaddress: "Neighbourhood",
+    Addressline1: "Your street address ",
+    Addressline2: "Home Number",
+    Pincode: "Pincode",
+    StateProvince: "State /Province",
+    City: "City",
+    SaudiArabia: "Saudi Arabia",
+    Useasmydefaultbillingaddress: "Use as my default billing address",
+    UseasmydefaultShippingaddress: "Use as my default Shipping address",
+
+  }
+
   
 
   useEffect(() => {
@@ -59,7 +94,7 @@ const useAddressHook = (props) => {
 
   const gwtStateData = async (button) => {
     button && setOn(true)
-    button && setPopTex("State/Province")
+    button && setPopTex(data?.StateProvince)
     sates && setCitydata(sates)
     const formData = new FormData
     formData.append("country_code", "sa")
@@ -88,7 +123,7 @@ const useAddressHook = (props) => {
   const getCityData = async (code , open) => {
 
     (state && !code )&& setOn(true)
-    !code && setPopTex("City")
+    !code && setPopTex(data?.City)
     cities && setCitydata(cities)
     if (code) {
       setIsLoading(true)
@@ -130,19 +165,19 @@ const useAddressHook = (props) => {
       SHOWTOTS(lable?.Entermobilenumber)
       setIsLoading(false)
     } else if (!address1) {
-      SHOWTOTS(lable?.enteraddress1)
+      SHOWTOTS(data?.Streetaddress)
       setIsLoading(false)
     } else if (!address2) {
-      SHOWTOTS(lable?.enteraddress2)
+      SHOWTOTS(lable?.Addressline1)
       setIsLoading(false)
     } else if (!address3) {
-      SHOWTOTS(lable?.enteraddress3)
+      SHOWTOTS(lable?.Addressline2)
       setIsLoading(false)
     } else if (!address1) {
       SHOWTOTS(lable?.enteraddress1)
       setIsLoading(false)
     } else if (!pinCode) {
-      SHOWTOTS(lable?.Enterpincode)
+      SHOWTOTS(lable?.Pincode)
       setIsLoading(false)
     } else {
 
@@ -182,40 +217,7 @@ const useAddressHook = (props) => {
       }
     }
   }
-  const data = lang == NUMBER.num0 ?
-    {
-      EditAddress : "عنوان التحرير",
-      AddAddress: "اضف عنوان",
-      FirstName: "الاسم الأول",
-      LastName: "اسم العائلة",
-      PhoneNumber: "رقم التليفون",
-      Streetaddress: "حيّ",
-      Addressline1: "عنوان الشارع الخاص بك",
-      Addressline2: "رقم البيت",
-      Pincode: "الرمز السري",
-      StateProvince: "الولاية/المقاطعة",
-      City: "مدينة",
-      SaudiArabia: "المملكة العربية السعودية",
-      Useasmydefaultbillingaddress: "استخدمه كعنوان إرسال الفواتير الافتراضي الخاص بي",
-      UseasmydefaultShippingaddress: "استخدمه كعنوان الشحن الافتراضي الخاص بي"
-    } :
-    {
-      AddAddress: "Add Address",
-      EditAddress : "Edit Address",
-      FirstName: "First Name",
-      LastName: "Last  Name",
-      PhoneNumber: "Phone Number",
-      Streetaddress: "Neighbourhood",
-      Addressline1: "Your street address ",
-      Addressline2: "Home Number",
-      Pincode: "Pincode",
-      StateProvince: "State /Province",
-      City: "City",
-      SaudiArabia: "Saudi Arabia",
-      Useasmydefaultbillingaddress: "Use as my default billing address",
-      UseasmydefaultShippingaddress: "Use as my default Shipping address",
 
-    }
 
   return {
     navigation,

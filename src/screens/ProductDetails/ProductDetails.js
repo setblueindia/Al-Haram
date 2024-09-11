@@ -48,11 +48,13 @@ const ProductDetails = (props) => {
         qnt,
         label,
         userData,
+    htmlSource,
+
         setQnts
     } = useProductDetails({ props })
 
     const { width } = useWindowDimensions();
-   
+
 
 
     return (
@@ -76,30 +78,39 @@ const ProductDetails = (props) => {
                 <View style={styles.PriveView}>
                     <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
                 </View>
-{/* 
-             {  details?.description?.html && <View style={styles.deviderView}>
+
+                {console.log(":::::::::" , details?.short_description?.html)}
+                {details?.description?.html && <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>}
 
-              {details?.description?.html &&  <Text
+                {details?.short_description?.html && <Text
                     style={[{
                         color: COLOR.black,
-                        marginLeft:ResponsiveSize(30),
-                        fontWeight:'600',
-                        marginTop:ResponsiveSize(20)
+                        marginLeft: ResponsiveSize(30),
+                        fontWeight: '600',
+                        marginTop: ResponsiveSize(20)
                     },
                     lang.data == NUMBER.num0 && {
                         textAlign: 'right',
-                        marginRight:ResponsiveSize(30)
+                        marginRight: ResponsiveSize(30)
                     }
                     ]}
 
                 >{lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
 
+
+                {details?.short_description?.html && 
                 <RenderHTML
                     contentWidth={"100%"}
-                    source={{ html: details?.description?.html }}
-                /> */}
+                    source={{ html: details?.short_description?.html}}
+                    // source={htmlSource}
+                    tagsStyles={{
+                        p: { color: COLOR.black, fontSize: ResponsiveSize(18) , fontWeight: '400' , width:"90%" , alignSelf:'center' },
+                    
+                    }}
+                />
+                }
 
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
@@ -107,7 +118,6 @@ const ProductDetails = (props) => {
 
                 {defaultColor &&
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
 
                         <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                             <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
@@ -204,11 +214,11 @@ const ProductDetails = (props) => {
                     </View>
                 </View>
 
-                {  details?.description?.html && <View style={styles.deviderView}>
+                {details?.description?.html && <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>}
 
-              {details?.description?.html &&  <Text
+                {details?.description?.html &&  <Text
                     style={[{
                         color: COLOR.black,
                         marginLeft:ResponsiveSize(30),
@@ -221,9 +231,10 @@ const ProductDetails = (props) => {
                     }
                     ]}
 
-                >{lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
+                >
+                    {lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
 
-            {  details?.description?.html &&  <RenderHTML
+                {  details?.description?.html &&  <RenderHTML
                     contentWidth={width}
                     tagsStyles={{
                         p: {
@@ -271,7 +282,7 @@ const ProductDetails = (props) => {
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>
 
-        
+
                 <Modal
                     transparent={true}
                     visible={showModal}

@@ -28,7 +28,7 @@ const useOPTHook = (props) => {
 
     const response = await CheckOTP(formData)
     if (response?.data?.status == NUMBER.num1) {
-      navigation.navigate(NAVIGATION.HomeScreen)
+      navigation.replace(NAVIGATION.TabScreen)
       setUserData(response?.data?.data)
       dispatch(addUserData(response?.data?.data))
       setLoading(false)

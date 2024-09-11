@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { ASYNCSTORAGE, NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
 import { AddRemoveToWhishLisst, AddToCartAPI, CartListCount, ExpireToken, ProductDetalsBySKU, ProductlistCount } from "../../api/axios.api"
 import { BASE_URL, imageURL } from "../../constants/axios.url"
@@ -121,17 +121,18 @@ const useProductDetails = (props) => {
 
     } :
     {
-      color: "لون :",
-      Size: " مقاس :",
-      ProductCode: "رمز المنتج :13884",
+      color: "اللون :",
+      Size: "المقاس :",
+      ProductCode: "رمز المنتج:",
       MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
       QNT: "الكمية: ",
-      Addtocard: "اضف الى البطاقة",
+      Addtocard: "أضف الى عربة التسوق",
       Reviews: "التعليقات :"
     }
 
 
-    // console.log("imageObject ::::: " , imageObject)
+
+
 
   const getData = async () => {
     setIsLoading(true)
@@ -383,6 +384,10 @@ const useProductDetails = (props) => {
   }
 
 
+  const htmlSource = useMemo(() => ({
+    html: details?.short_description?.html || ""
+  }), [details?.short_description?.html]);
+
 
 
   useEffect(() => {
@@ -426,7 +431,8 @@ const useProductDetails = (props) => {
     sizeIndex,
     setQnts,
     qnt,
-    imageObject
+    imageObject,
+    htmlSource
   }
 }
 

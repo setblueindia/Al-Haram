@@ -5,12 +5,12 @@ import { COLOR } from '../../constants/style'
 import { NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 
-const DeleteBox = ({lang , noPress , yesPress}) => {
+const DeleteBox = ({lang , noPress , yesPress , type}) => {
     const lable = lang == NUMBER.num0 ? Ar : En
     return (
         <View style={styles.mainView}>
             <View style={styles.containerView}>
-                <Text style={styles.text}>{lable?.AreYousureyouwantdelete}</Text>
+                <Text style={styles.text}>{type == 'L' ?  lable?.AreYousureyouwantsingout : lable?.AreYousureyouwantdelete}</Text>
                 <View style={[styles.btnContainer ,  lang == NUMBER.num0 &&  {flexDirection:'row-reverse'}]}>
                     <TouchableOpacity
                     onPress={noPress}
