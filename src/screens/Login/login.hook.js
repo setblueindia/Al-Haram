@@ -114,7 +114,7 @@ const useLoginHook = (props) => {
     if (response?.data?.status == NUMBER.num1) {
       setLoader(false)
       console.log("OTP ====> ", response?.data?.otp)
-      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber })
+      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber , otpr : response?.data?.otp })
     } else {
       setLoader(false)
       setShowModal(true)

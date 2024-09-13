@@ -87,8 +87,8 @@ const useShoppingcart = () => {
   const shopinfCratData = lang == NUMBER.num0 ? {
     ShoppingCart: "عربة التسوق",
     cart: "عربة التسوق",
-    Shipping: "شحن",
-    Payment: "قسط",
+    Shipping: "الشحن",
+    Payment: "الدفع",
     ProceedtoCheckout: "الشروع في الخروج",
     YourAddreses: "عنوانك",
     PaymentOptions: "خيارات الدفع",
@@ -127,7 +127,7 @@ const useShoppingcart = () => {
     {
 
       ShoppingCart: "Shopping Cart",
-      cart: "Cart",
+      cart: "My bag",
       Shipping: "Shipping",
       Payment: "Payment",
       ProceedtoCheckout: "Proceed to Checkout",

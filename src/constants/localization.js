@@ -117,7 +117,7 @@ export const Ar = {
   Enterpincode: "أدخل الرمز السري",
   emailmismatch:"عدم تطابق البريد الإلكتروني والبريد الإلكتروني المؤكد",
   enterNickName : "أدخل كنية",
-  ShippingMethods:"طرق الشحن",
+  ShippingMethods:"عملية الشحن",
   SAR : "ر.س",
   PaymentByYourWallet : " الدفع عن طريق محفظتك",
   PaymentToBeMade:"الدفع ليتم",
@@ -127,7 +127,7 @@ export const Ar = {
   WalletAmount : "مبلغ المحفظة",
   TotaldueAmount:"إجمالي المبلغ المستحق",
   BillingAddress:"Billing Address",
-  EnterCoupanCode : "أدخل رمز الكأس",
+  EnterCoupanCode : "أدخل رمز القسيمة",
   Tel : "هاتف",
   vat : "ضريبة القيمة المضافة:-",
   cr : "سجل تجاري:-",
@@ -138,7 +138,7 @@ export const Ar = {
   AreYousureyouwantsingout:"هل انت متأكد من تسجيل الخروج",
   Enteryournewpassword : "أدخل كلمة المرور الجديدة",
   Size : "مقاس",
-  Notifications : "الاشعارات"
+  Notifications : "تسجيل الخروج"
 }
 
 export const En = {
@@ -262,7 +262,7 @@ export const En = {
   enteraddress2: "enter address 1",
   enteraddress3: "enter address 1",
   Enterpincode : "Enter pincode",
-  ShippingMethods : "Shipping Methods",
+  ShippingMethods : "Shipping Process",
   SAR : "SAR",
   PaymentByYourWallet : "Payment By Your Wallet",
   PaymentToBeMade : "Payment To Be Made",

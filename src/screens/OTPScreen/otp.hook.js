@@ -6,7 +6,7 @@ import { setUserData } from "../../utils/asyncStorage"
 import { useDispatch, useSelector } from "react-redux"
 import { addUserData } from "../../redux/Slices/UserData.slice"
 import { Ar, En } from "../../constants/localization"
-import OTPVerify from 'react-native-otp-verify';
+import OtpVerify from 'react-native-otp-verify';
 import { Platform } from "react-native"
 
 const useOPTHook = (props) => {
@@ -45,24 +45,6 @@ const useOPTHook = (props) => {
 
   }
 
-  useEffect(() => {
-    if(Platform.OS == 'android'){
-      OTPVerify.getHash().then(hash => console.log('OTP Hash:', hash)).catch(console.log);
-      OTPVerify.getOtp()
-        .then(p => OTPVerify.addListener(message => {
-          const otp = /(\d{6})/.exec(message)[1];
-          console.lof("otp ::::::: ", otp)
-          setMainOTP(otp);
-          OTPVerify.removeListener();
-        }))
-        .catch(err => console.log("Inner Error" , err));
-  
-      return () => OTPVerify.removeListener();
-    }else{
-      console.log("good::::::")
-    }
-  
-  }, []);
 
   useEffect(()=>{
     if(mainOTP?.length == 4){

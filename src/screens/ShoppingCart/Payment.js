@@ -229,7 +229,7 @@ const Payment = ({
                 coupanCode && applyCoupan(coupanCode, 1)
               }}
               style={styles.applyView}>
-              <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
+              <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
             </TouchableOpacity>}
 
           {remove && <TouchableOpacity

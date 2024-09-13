@@ -22,10 +22,10 @@ const Done = (props) => {
     const responseID = props?.route?.params?.responseID
     const disPatch = useDispatch()
 
-    const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n We will send you order confirmation with details and tracking information.` : `رقم طلبك: ${OrderID}. \n سوف نرسل لك تأكيد الطلب مع تفاصيل ومعلومات التعقب.`
+    const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n Thank you for shopping at Al Haram Online Store.` : `رقم طلبك: ${OrderID}. \n شكراً لتسوقكم من متجر الهرم الإلكتروني.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
     const oppss = lang == NUMBER.num1 ? "OOOOps..." : "خطأ ....."
-    const Congratulation = lang == NUMBER.num1 ? "Congratulation" : "تهنئة"
+    const Congratulation = lang == NUMBER.num1 ? "The order has been successfully processed." : "تمت عملية الطلب بنجاح"
 
     const senNotiFication = async () => {
         const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
@@ -127,11 +127,11 @@ const Done = (props) => {
 
             </View>
             <View style={styles.btnView}>
-                <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "مشاهدة الطلب" : "View Order"} />
+                <Button onPress={() => { navigation.replace(NAVIGATION.MyOrderSscreen) }} text={lang == NUMBER.num0 ? "عرض الطلب" : "View Order"} />
                 <TouchableOpacity
                     onPress={() => { navigation.replace(NAVIGATION.DrawerNavigation) }}
                     style={styles.btnContinues}>
-                    <Text style={styles.continuesShoppingsText}>{lang == NUMBER.num0 ? "مشاهدة الطلب" : "Continue Shopping"}</Text>
+                    <Text style={styles.continuesShoppingsText}>{lang == NUMBER.num0 ? "متابعة التسوق" : "Continue Shopping"}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -155,17 +155,18 @@ const styles = StyleSheet.create({
     textView: {
         justifyContent: ALINE.center,
         alignItems: ALINE.center,
-        paddingHorizontal: ResponsiveSize(20)
+        paddingHorizontal: ResponsiveSize(20),
     },
     SecondView: {
         textAlign: ALINE.center,
-        color: COLOR.black
+        color: COLOR.black,
     },
     congrationText: {
-        fontSize: ResponsiveSize(60),
+        fontSize: ResponsiveSize(40),
         color: COLOR.black,
         width: ResponsiveSize(600),
-        textAlign: ALINE.center
+        textAlign: ALINE.center,
+        paddingVertical:ResponsiveSize(15),
     },
     lastText: {
         color: "#00000080",

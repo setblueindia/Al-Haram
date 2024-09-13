@@ -12,7 +12,8 @@ import CusModal from '../../components/CusModal';
 
 const OtpScreen = (props) => {
   const Mo = props?.route?.params?.mobileNo
-  const { setMainOTP, onPress, loading, showModal, errorText, setShowModal , language } = useOPTHook({ number: Mo })
+  const otpr = props?.route?.params?.otpr
+  const { setMainOTP, onPress, loading, showModal, errorText, setShowModal , language } = useOPTHook( { number: Mo , otpr : otpr })
 
   const lable = props?.route?.params?.lable
 
@@ -36,7 +37,7 @@ const OtpScreen = (props) => {
           </View>
           <View style={styles.line} />
           <View style={styles.otpView}>
-            <OTP setMainOTP={setMainOTP} />
+            <OTP setMainOTP={setMainOTP} otpr={otpr}/>
           </View>
           {/* <View style={styles.verificationView}>
             <Text style={styles.verificationText}>

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    backgroundColor:COLOR.white
+    backgroundColor:COLOR.white,
   },
   lottiView: {
     flex: 1,
@@ -59,12 +59,14 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   lottiTextView: {
-    height: ResponsiveSize(60),
+    // height: ResponsiveSize(60),
     width: ResponsiveSize(300),
     borderRadius: ResponsiveSize(100),
     justifyContent: ALINE.center,
     alignItems: ALINE.center,
-    marginTop: ResponsiveSize(6),
+    // marginTop: ResponsiveSize(6),
+    // backgroundColor:'red',
+    padding:ResponsiveSize(10)
   },
   errorText: {
     color: '#6E6969',
