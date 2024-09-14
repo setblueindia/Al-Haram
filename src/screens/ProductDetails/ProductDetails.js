@@ -79,10 +79,11 @@ const ProductDetails = (props) => {
                     <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
                 </View>
 
-                {console.log(":::::::::" , details?.short_description?.html)}
-                {details?.description?.html && <View style={styles.deviderView}>
+                {/* {details?.description?.html &&  */}
+                <View style={styles.deviderView}>
                     <View style={styles.devider} />
-                </View>}
+                </View>
+                {/* } */}
 
                 {details?.short_description?.html && <Text
                     style={[{
@@ -112,9 +113,9 @@ const ProductDetails = (props) => {
                 />
                 }
 
-                <View style={styles.deviderView}>
+               {details?.short_description?.html &&  <View style={styles.deviderView}>
                     <View style={styles.devider} />
-                </View>
+                </View>}
 
                 {defaultColor &&
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>

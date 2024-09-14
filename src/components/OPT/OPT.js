@@ -6,12 +6,8 @@
 // import { NUMBER } from '../../constants/constants';
 // import { ALINE } from '../../constants/style';
 
-
 // const OTP = ({setMainOTP}) => {
-
 // const lang = useSelector(state => state.lang)
-
-
 
 // const [text1, setText1] = useState()
 // const [text2, setText2] = useState()
@@ -19,8 +15,6 @@
 // const [text4, setText4] = useState()
 
 //  const opt = text1 + text2 + text3 + text4 
-
-
 
 //   const et1 = useRef();
 //   const et2 = useRef();
@@ -30,7 +24,6 @@
 //   useEffect(()=>{
 //     setMainOTP(opt)
 //   }, [opt])
-
 
 //   return (
 //     <View style={[styles.mainView , 
@@ -105,65 +98,6 @@
 // export default OTP;
 
 
-// import {StyleSheet, Text, View} from 'react-native';
-// import React, {useEffect, useState} from 'react';
-// import {TextInput} from 'react-native-gesture-handler';
-// import {styles} from './Otp.style';
-// import { useSelector } from 'react-redux';
-// import { NUMBER } from '../../constants/constants';
-// import { ALINE } from '../../constants/style';
-
-// const OTP = ({setMainOTP}) => {
-//   const lang = useSelector(state => state.lang);
-
-//   // State to store the full OTP (single input)
-//   const [otp, setOtp] = useState('');
-
-//   // State to track if OTP is fully entered (4 digits in this case)
-//   const [isOtpComplete, setIsOtpComplete] = useState(false);
-
-//   console.log("isOtpComplete :::::" , isOtpComplete)
-
-//   useEffect(() => {
-//     setMainOTP(otp);
-
-//     // Check if OTP is complete (4 digits)
-//     if (otp.length === 4) {
-//       setIsOtpComplete(true); // Set OTP as complete
-//     } else {
-//       setIsOtpComplete(false); // OTP is not complete
-//     }
-//   }, [otp]);
-
-//   return (
-//     <View
-//       style={[
-//         styles.mainView,
-//         // Handle RTL layout
-//         lang.data == NUMBER.num0 && {flexDirection: ALINE.rowreverse},
-//       ]}
-//     >
-//       {/* Single TextInput to handle OTP */}
-//       <TextInput
-//         style={[
-//           styles.otpView,
-//           {textAlign: 'center', fontSize: 20}, // Centralize and make it clear for OTP entry
-//           lang.data == NUMBER.num1 && {marginLeft: 0},
-//         ]}
-//         keyboardType="numeric"
-//         maxLength={4} // Limit to 4 digits (or however many your OTP length is)
-//         textContentType="oneTimeCode" // Enable autofill for iOS
-//         value={otp}
-//         onChangeText={text => setOtp(text)} // Update OTP state on change
-//       />
-
-//       {/* Optionally display if OTP is fully entered */}
-//       {isOtpComplete && <Text>OTP has been fully entered!</Text>}
-//     </View>
-//   );
-// };
-
-// export default OTP;
 
 // import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 // import React, {useEffect, useState, useRef} from 'react';
@@ -344,13 +278,13 @@ const OTP = ({ setMainOTP, otpr }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.center,
     marginVertical: ResponsiveSize(20),
   },
   otpContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.spaceBetween,
     width: '70%',
   },
   otpBox: {
@@ -358,7 +292,7 @@ const styles = StyleSheet.create({
     height: ResponsiveSize(70),
     borderWidth: 1,
     borderColor: '#ccc',
-    justifyContent: 'center',
+    justifyContent: ALINE.center,
     alignItems: 'center',
     marginHorizontal: 5,
     borderRadius: 5,

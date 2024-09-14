@@ -14,11 +14,7 @@ const OtpScreen = (props) => {
   const Mo = props?.route?.params?.mobileNo
   const otpr = props?.route?.params?.otpr
   const { setMainOTP, onPress, loading, showModal, errorText, setShowModal , language } = useOPTHook( { number: Mo , otpr : otpr })
-
   const lable = props?.route?.params?.lable
-
-
-
 
   return (
     <View style={styles.mainView}>
