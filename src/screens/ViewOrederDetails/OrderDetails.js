@@ -48,7 +48,7 @@ const OrderDetails = (props) => {
                             </View>
 
                             <View>
-                                <Text style={[styles.printText, lang == NUMBER.num0 && { textAlign: 'left' }]}>{data?.PrintOrder}</Text>
+                                {/* <Text style={[styles.printText, lang == NUMBER.num0 && { textAlign: 'left' }]}>{data?.PrintOrder}</Text> */}
                                 <TouchableOpacity
                                     onPress={() => { ReOrder() }}
                                 >
@@ -165,8 +165,10 @@ const OrderDetails = (props) => {
                 </ScrollView>
             }
 
+            {/* {console.log("::::::::" , orderDetailsList?.status )} */}
+
             {
-                orderDetailsList?.status == 'canceled' &&
+               ( orderDetailsList?.status !== 'canceled' && orderDetailsList?.status !== "closed") &&
                 <View style={styles.btnView}>
                     <Button onPress={() => {
                         orderDetailsList?.refund_status == "cancel" ?

@@ -50,6 +50,8 @@ const useShoppingcart = () => {
   const [actionCode, setActionCode] = useState()
   const [remove, setRemove] = useState(false)
   const [validationn, setValidation] = useState(false)
+  
+  const [noties , setNotices] = useState()
 
   const [extra, setEtrx] = useState()
   const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
@@ -85,11 +87,11 @@ const useShoppingcart = () => {
   const name = userData?.data?.firstname + " " + userData?.data?.lastname
 
   const shopinfCratData = lang == NUMBER.num0 ? {
-    ShoppingCart: "عربة التسوق",
+    ShoppingCart: "عملية الشحن",
     cart: "عربة التسوق",
     Shipping: "الشحن",
     Payment: "الدفع",
-    ProceedtoCheckout: "الشروع في الخروج",
+    ProceedtoCheckout: "متابعة",
     YourAddreses: "عنوانك",
     PaymentOptions: "خيارات الدفع",
     COD: "الدفع عند الاستلام",
@@ -232,6 +234,8 @@ const useShoppingcart = () => {
       const response = await CartList(formData)
       if (response.data.status) {
         setQuoteId(response?.data?.data?.quote_id)
+        // console.log("++++++++++++++++" , response?.data?.data?.notice )
+        setNotices(response?.data?.data?.notice)
         const inStockItems = [];
         const outOfStockItems = [];
         response?.data?.data?.items.forEach(item => {
@@ -807,6 +811,7 @@ const useShoppingcart = () => {
     messages,
     // showWallet,
     paymentScreenData,
+    noties,
     wallateAmount,
     coupanListData,
     coupanCode,

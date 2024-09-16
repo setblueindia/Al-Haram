@@ -148,8 +148,10 @@ if(addAmount) {
   }
 } else{
   setIsLoading(false)
-  SHOWTOTS("Please add amount")
+  SHOWTOTS(lang == NUMBER.num1 ? "Please add amount" : "الرجاء إضافة المبلغ")
 } }
+
+console.log("lang ::" , lang)
 
   const onProcessPayment = (responseData) => {
     console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)

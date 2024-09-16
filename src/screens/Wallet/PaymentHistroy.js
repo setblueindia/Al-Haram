@@ -112,9 +112,7 @@ const PaymentHistroy = (props) => {
                                     <ActivityIndicator
                                         size={"large"}
                                         color={COLOR.primaray}
-
                                     />}
-
                             </View>
                         )
                     }}

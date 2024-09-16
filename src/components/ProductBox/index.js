@@ -64,6 +64,8 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
             const name = items?.name
             const finalName = name.substring(0, 15);
            const productImage = items?.image 
+
+          //  console.log("SKu :::" , items?.sku )
             return (
               <View key={index} style={{ flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>

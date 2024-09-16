@@ -10,6 +10,7 @@ import useAddressBookHook from './AddressBook.hook'
 import AddressBookComp from '../../components/AddressBookComp'
 import CusLoader from '../../components/CustomLoader'
 import DeleteBox from '../../components/DeleteBox'
+import Icon from 'react-native-vector-icons/dist/Entypo';
 
 const AddressBook = ({
     Shooping,
@@ -39,6 +40,8 @@ const AddressBook = ({
                     data.map((items, index) => {
                         const name = items?.firstname + " " + items?.lastname
                         const address = items?.address1 + " " + items?.address2 + " " + items?.address3
+
+                        console.log("items :::::::: " , items?.default_billing)
                         return (
                             <View key={index}>
                                 <TouchableOpacity
@@ -47,8 +50,11 @@ const AddressBook = ({
                                         setAddressCode && setAddressCode(items)
                                     }}
                                     style={[styles.addressView, (aindex == index && setLoadding) && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
-                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <View style={styles.nameView}>
+                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse}]}>
+
+                                
+                                        <View style={[styles.nameView , lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse } ]}>
+                                        {  (items?.default_billing || items?.default_shipping   )  &&  <Icon name="location-pin" size={ResponsiveSize(40)} color={COLOR.primaray} style={{}}/>}
                                             <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
                                         </View>
                                         <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>

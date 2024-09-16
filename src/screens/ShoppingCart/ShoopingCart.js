@@ -41,6 +41,7 @@ const ShoopingCart = (props) => {
         coupanCode,
         remove,
         validationn,
+        noties,
         updateQnty,
         setActionCode,
         setCoupanCode,
@@ -85,14 +86,14 @@ const ShoopingCart = (props) => {
                 <View style={[styles.stepView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <View style={[{ flexDirection: 'row', alignItems: 'center', flex: 0.8, paddingHorizontal: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={COLOR.primaray} />
-                        <Text style={[styles.text, { color: COLOR.primaray }, lang == NUMBER.num1 && {width:ResponsiveSize(80)}, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.cart}</Text>
+                        <Text style={[styles.text, { color: COLOR.primaray }, lang == NUMBER.num1 && { width: ResponsiveSize(80) }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.cart}</Text>
                         <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
                     </View>
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: ResponsiveSize(10) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
                         <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.Shipping}</Text>
                         {index == 0 && <Text style={{ color: COLOR.darkGray }}>------</Text>}
-                        {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray , width:ResponsiveSize(40)}]} />}
+                        {(index == 1 || index == 2 || index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray, width: ResponsiveSize(40) }]} />}
                     </View>
 
 
@@ -100,14 +101,25 @@ const ShoopingCart = (props) => {
                         <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={index == 3 ? COLOR.primaray : COLOR.gray} />
                         <Text style={[styles.text, (index == 3) && { color: COLOR.primaray }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData.Payment}</Text>
                         {(index == 0 || index == 1 || index == 2) && <Text style={{ color: COLOR.darkGray }}>------</Text>}
-                        {(index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray ,  width:ResponsiveSize(40) }]} />}
+                        {(index == 3) && <View style={[styles.lineView, { backgroundColor: COLOR.primaray, width: ResponsiveSize(40) }]} />}
                     </View>
 
 
                 </View>
+
                 {index == 0 &&
+
+
                     data.length > 0 ?
                     <View style={styles.cartView}>
+
+                        {noties &&
+                            <View style={{ padding: ResponsiveSize(10), borderRadius: ResponsiveSize(20), backgroundColor: COLOR.primaray , marginBottom:ResponsiveSize(20)}}>
+                                <Text style={{ textAlign: 'center', color: COLOR.white }}>{noties}</Text>
+                            </View>
+
+                        }
+
                         <View style={{
                             height: outOfStock?.length > 0 ? "60%" : "100%"
                         }} >
@@ -295,7 +307,7 @@ const styles = StyleSheet.create({
         color: "#202020",
         // flex: 1, 
         marginLeft: ResponsiveSize(5),
-        fontSize:ResponsiveSize(18)
+        fontSize: ResponsiveSize(18)
         //  width:"100%"
 
     },

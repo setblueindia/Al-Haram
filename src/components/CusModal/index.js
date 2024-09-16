@@ -3,8 +3,11 @@ import React from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { logo } from '../../assests'
+import { useSelector } from 'react-redux'
+import { NUMBER } from '../../constants/constants'
 
 const CusModal = ({ text, setModalShow, examapleText, notification , GETNotificationAPI }) => {
+    const lang = useSelector(state => state?.lang?.data);
     return (
         <View style={styles.mainView}>
             <View style={styles.container}>
@@ -15,7 +18,7 @@ const CusModal = ({ text, setModalShow, examapleText, notification , GETNotifica
 
                 </View>}
 
-                {!notification && <Text style={styles.oopsText}>Oops!</Text>}
+                {!notification && <Text style={styles.oopsText}>{lang == NUMBER.num0 ?  "عفوا" : "Oops!"}</Text>}
                 <View style={styles.textView}>
                     <Text style={styles.errorText}>{text}</Text>
                     {examapleText && <Text style={styles.errorText}>{examapleText}</Text>}
@@ -24,7 +27,7 @@ const CusModal = ({ text, setModalShow, examapleText, notification , GETNotifica
                 <TouchableOpacity
                     onPress={() => { setModalShow(false) , GETNotificationAPI && GETNotificationAPI()}}
                     style={styles.button}>
-                    <Text style={styles.buttonText}>{"OK"}</Text>
+                    <Text style={styles.buttonText}>{ lang == NUMBER.num0 ? "موافق" : "OK"}</Text>
                 </TouchableOpacity>
             </View>
 

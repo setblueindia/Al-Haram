@@ -20,7 +20,7 @@ const ShipingMethod = ({
 
     return (
         <ScrollView style={{ height: "100%", width: "100%" }}>
-            <Text style={styles.headerText}>{labale?.ShippingMethods}</Text>
+            {/* <Text style={styles.headerText}>{labale?.ShippingMethods}</Text> */}
             <View style={styles.mainView}>
                 {
                 data?.length > 0 &&  data?.map((item, index) => {
@@ -55,33 +55,34 @@ const ShipingMethod = ({
 
             {(selectAddressList?.length > 0 && on == "fmestorepickup") &&
                 selectAddressList?.map((items, index) => {
-                    return (
-                        <> 
-                         <View key={index} style={styles.selectAddressView}>
-                                <Text style={styles.headerText}>{"Store Pickup"}</Text>
-                                <TouchableOpacity
-                                    onPress={() => { setStorePickUpData(items) , setSindex(index) }}
-                                    style={styles.containBox}>
-                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <View>
-                                            <View style={styles.circalView} >
-                                                <View style={[styles.fillCircalView , sIndex == index && {backgroundColor: COLOR.primaray}]} />
-                                            </View>
-                                        </View>
-                                        <View style={styles.textView}>
-                                            <View style={styles.hederTextView}>
-                                                <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.store_description}</Text>
-                                            </View>
-                                            <Text style={[styles.desText, { width: "90%" }, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                                                {items?.address}
-                                            </Text>
-                                            {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        </>
-                    )
+                    setStorePickUpData(items)
+                    // return (
+                    //     <> 
+                    //      <View key={index} style={styles.selectAddressView}>
+                    //             <Text style={styles.headerText}>{"Store Pickup"}</Text>
+                    //             <TouchableOpacity
+                    //                 onPress={() => { setStorePickUpData(items) , setSindex(index) }}
+                    //                 style={styles.containBox}>
+                    //                 <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    //                     <View>
+                    //                         <View style={styles.circalView} >
+                    //                             <View style={[styles.fillCircalView , sIndex == index && {backgroundColor: COLOR.primaray}]} />
+                    //                         </View>
+                    //                     </View>
+                    //                     <View style={styles.textView}>
+                    //                         <View style={styles.hederTextView}>
+                    //                             <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.store_description}</Text>
+                    //                         </View>
+                    //                         <Text style={[styles.desText, { width: "90%" }, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
+                    //                             {items?.address}
+                    //                         </Text>
+                    //                         {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " 18" }</Text> */}
+                    //                     </View>
+                    //                 </View>
+                    //             </TouchableOpacity>
+                    //         </View>
+                    //     </>
+                    // )
                 })
             }
             <View style={{ height: ResponsiveSize(200) }} />

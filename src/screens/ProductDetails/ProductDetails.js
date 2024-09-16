@@ -17,7 +17,8 @@ import FastImage from 'react-native-fast-image'
 import RenderHTML from 'react-native-render-html';
 
 const ProductDetails = (props) => {
-    const { lang,
+    const { 
+        lang,
         navigation,
         sliderData,
         showAnimation,
@@ -48,13 +49,10 @@ const ProductDetails = (props) => {
         qnt,
         label,
         userData,
-    htmlSource,
-
         setQnts
     } = useProductDetails({ props })
 
     const { width } = useWindowDimensions();
-
 
 
     return (
@@ -79,11 +77,10 @@ const ProductDetails = (props) => {
                     <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
                 </View>
 
-                {/* {details?.description?.html &&  */}
                 <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>
-                {/* } */}
+
 
                 {details?.short_description?.html && <Text
                     style={[{
@@ -101,19 +98,19 @@ const ProductDetails = (props) => {
                 >{lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
 
 
-                {details?.short_description?.html && 
-                <RenderHTML
-                    contentWidth={"100%"}
-                    source={{ html: details?.short_description?.html}}
-                    // source={htmlSource}
-                    tagsStyles={{
-                        p: { color: COLOR.black, fontSize: ResponsiveSize(18) , fontWeight: '400' , width:"90%" , alignSelf:'center' },
-                    
-                    }}
-                />
+                {details?.short_description?.html &&
+                    <RenderHTML
+                        contentWidth={"100%"}
+                        source={{ html: details?.short_description?.html }}
+                        // source={htmlSource}
+                        tagsStyles={{
+                            p: { color: COLOR.black, fontSize: ResponsiveSize(18), fontWeight: '400', width: "90%", alignSelf: 'center' },
+
+                        }}
+                    />
                 }
 
-               {details?.short_description?.html &&  <View style={styles.deviderView}>
+                {details?.short_description?.html && <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>}
 
@@ -219,29 +216,29 @@ const ProductDetails = (props) => {
                     <View style={styles.devider} />
                 </View>}
 
-                {details?.description?.html &&  <Text
+                {details?.description?.html && <Text
                     style={[{
                         color: COLOR.black,
-                        marginLeft:ResponsiveSize(30),
-                        fontWeight:'600',
-                        marginTop:ResponsiveSize(20)
+                        marginLeft: ResponsiveSize(30),
+                        fontWeight: '600',
+                        marginTop: ResponsiveSize(20)
                     },
                     lang.data == NUMBER.num0 && {
                         textAlign: 'right',
-                        marginRight:ResponsiveSize(30)
+                        marginRight: ResponsiveSize(30)
                     }
                     ]}
 
                 >
                     {lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
 
-                {  details?.description?.html &&  <RenderHTML
+                {details?.description?.html && <RenderHTML
                     contentWidth={width}
                     tagsStyles={{
                         p: {
-                          color: 'black',  // Applying black color to paragraph text
+                            color: 'black',  // Applying black color to paragraph text
                         },
-                      }}
+                    }}
                     source={{ html: details?.description?.html }}
                 />}
                 <View style={{ height: ResponsiveSize(200) }} />

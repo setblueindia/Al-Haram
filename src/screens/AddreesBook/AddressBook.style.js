@@ -46,16 +46,19 @@ export const styles = StyleSheet.create({
     },
     nameView: {
         borderBottomWidth: ResponsiveSize(1),
-        width: "80%",
-        borderColor: "#00000050"
+        width: "70%",
+        borderColor: "#00000050",
+        flexDirection:'row'
     },
     iconView: {
-        flexDirection: ALINE.row
+        flexDirection: ALINE.row,
+ 
     },
     firstNameText: {
         marginBottom: ResponsiveSize(10),
         color: COLOR.primaray,
-        fontSize: ResponsiveSize(30)
+        fontSize: ResponsiveSize(30),
+        // width: "70%",
     },
     secondView: {
         marginTop: ResponsiveSize(20),

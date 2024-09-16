@@ -209,13 +209,15 @@ const Payment = ({
 
         <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
-          {!remove && <TextInput
+          {!remove && 
+          <TextInput
             style={styles.coupnTextInput}
             placeholder={lable?.EnterCoupanCode}
             placeholderTextColor={COLOR.darkGray}
             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
             onChangeText={text => setCoupanCode(text)}
             value={coupanCode ? coupanCode : ""}
+            
           />}
 
           {remove && <View style={[styles.coupnTextInput, { justifyContent: 'center' }]}>
@@ -239,7 +241,7 @@ const Payment = ({
 
             }}
             style={styles.applyView}>
-            <Text style={[styles.btnText, { fontSize: ResponsiveSize(21) }]}>{lang == NUMBER.num0 ? "يزيل" : "Remove"}</Text>
+            <Text style={[styles.btnText, { fontSize: ResponsiveSize(21) }]}>{lang == NUMBER.num0 ? "إزالة" : "Remove"}</Text>
           </TouchableOpacity>}
 
         </View>
@@ -247,7 +249,7 @@ const Payment = ({
           <View>
 
             {coupanListData?.length > 0 &&
-              <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "جميع الكوبونات" : "All coupons"}</Text>}
+              <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "القسائم" : "All coupons"}</Text>}
             {
               coupanListData?.length > 0 &&
               coupanListData?.map((item, index) => {
@@ -268,7 +270,7 @@ const Payment = ({
                         applyCoupan(item?.coupon, 1)
                       }}
                       style={styles.btnView}>
-                      <Text style={styles.btnText}>{lang == NUMBER.num0 ? "يتقدم" : "APPLY"}</Text>
+                      <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
                     </TouchableOpacity>
                   </View>
                 )

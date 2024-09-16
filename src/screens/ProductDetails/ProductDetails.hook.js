@@ -36,7 +36,7 @@ const useProductDetails = (props) => {
   const [color, setColor] = useState()
   const [qnt, setQnts] = useState(1)
   const [valueIndexOfSize, setValueIndexOfSize] = useState()
-  const [imageObject , setImageObject ] = useState()
+  const [imageObject, setImageObject] = useState()
   const [imagesArry, setImageArry] = useState()
   const label = lang?.data == NUMBER.num0 ? Ar : En
   const [sliderData, setSliderData] = useState(
@@ -84,23 +84,33 @@ const useProductDetails = (props) => {
     formData.append("size", size ? size : "")
     formData.append("custom_option", "")
 
-    const response = await AddToCartAPI(formData)
-    try {
-      if (response?.data?.status == NUMBER.num1) {
-        const count = productCountToCart + 1
-        getProductCount()
-        SHOWTOTS(response?.data?.message)
-        setShowAnimation(false)
-        setIsLoading(false)
-        addTocartAnimation()
-      } else {
-        SHOWTOTS(response?.data?.message)
+    console.log("Condiation :::::" , defaultColor && !color )
+
+      const response = await AddToCartAPI(formData)
+      try {
+        if (response?.data?.status == NUMBER.num1) {
+          const count = productCountToCart + 1
+          SHOWTOTS(response?.data?.message)
+          setShowAnimation(false)
+          setIsLoading(false)
+          addTocartAnimation()
+        } else {
+          if(defaultColor && !color ){
+            SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color is a required field" :" هذا الحقل مطلوب.")
+            setIsLoading(false)
+          }else if (defaultSize && !size){
+            SHOWTOTS(lang?.data == NUMBER.num1 ? "Select size is a required field" :" هذا الحقل مطلوب.")
+            setIsLoading(false)
+          }else{
+            SHOWTOTS(response?.data?.message)
+          }
+          setIsLoading(false)
+        }
+      } catch (error) {
+        console.log("ADD TO CARD BITTON API RESPONSE ERROR :::::::::::::::::::::::: ", error)
         setIsLoading(false)
       }
-    } catch (error) {
-      console.log("ADD TO CARD BITTON API RESPONSE ERROR :::::::::::::::::::::::: ", error)
-      setIsLoading(false)
-    }
+
   }
 
   const addTocartAnimation = () => {
@@ -126,13 +136,11 @@ const useProductDetails = (props) => {
       ProductCode: "رمز المنتج:",
       MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
       QNT: "الكمية: ",
-      Addtocard: "أضف الى عربة التسوق",
+      Addtocard: "إضافة إلى عربة التسوق",
       Reviews: "التعليقات :"
     }
 
-
-
-
+    // console.log("ProductSKU :::::" , ProductSKU)
 
   const getData = async () => {
     setIsLoading(true)
@@ -239,7 +247,7 @@ const useProductDetails = (props) => {
         setDetails(response?.data?.data?.products?.items[0])
         getImageStr(response)
         const temp = [];
-        // console.log(":::::::::::::::::::" , response?.data?.data?.products?.items[0])
+        // console.log(":::::::::::::::::::" , response?.data?.data)
         response?.data?.data?.products?.items[0]?.media_gallery_entries?.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
           console.log("uri ::: ", uri)
@@ -261,32 +269,32 @@ const useProductDetails = (props) => {
     }
   }
 
-  const getImageStr = (response) =>{
+  const getImageStr = (response) => {
 
-       const temp = []
-      response?.data?.data?.products?.items[0]?.configurable_options?.map((colorItem) => {
-        if (colorItem?.attribute_code == "color") {
-          colorItem?.values?.map((colorItem2) => {
-            response?.data?.data?.products?.items[0]?.variants?.map((item) => {
-              item?.attributes?.map((items1) => {
-                if (items1?.code == "color" && items1?.value_index == colorItem2?.value_index) {
-                  const imgURL = imageURL + "/pub/media/catalog/product/" + item?.product?.media_gallery_entries[0]?.file
-                  const temObject = {
-                    colorIndex  : colorItem2?.value_index,
-                    imgURL : imageURL + "/pub/media/catalog/product/" + item?.product?.media_gallery_entries[0]?.file
-                  }
-                  temp.push(temObject)
-
+    const temp = []
+    response?.data?.data?.products?.items[0]?.configurable_options?.map((colorItem) => {
+      if (colorItem?.attribute_code == "color") {
+        colorItem?.values?.map((colorItem2) => {
+          response?.data?.data?.products?.items[0]?.variants?.map((item) => {
+            item?.attributes?.map((items1) => {
+              if (items1?.code == "color" && items1?.value_index == colorItem2?.value_index) {
+                const imgURL = imageURL + "/pub/media/catalog/product/" + item?.product?.media_gallery_entries[0]?.file
+                const temObject = {
+                  colorIndex: colorItem2?.value_index,
+                  imgURL: imageURL + "/pub/media/catalog/product/" + item?.product?.media_gallery_entries[0]?.file
                 }
-              })
+                temp.push(temObject)
 
+              }
             })
 
           })
-        }
-      })
 
-      setImageObject(temp)
+        })
+      }
+    })
+
+    setImageObject(temp)
 
   }
 

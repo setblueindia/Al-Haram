@@ -73,8 +73,8 @@ export const styles = StyleSheet.create({
 
     },
     reOrderText: {
-        marginTop: ResponsiveSize(40),
-        color: "#00000070",
+        marginTop: ResponsiveSize(60),
+        color: COLOR.primaray,
         fontWeight: FONTWEGHIT.font600,
         textAlign: EXTRASTR.right
     },
