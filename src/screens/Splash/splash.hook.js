@@ -16,7 +16,7 @@ const useSplshHook = () => {
     setUserData()
     setTimeout(() => {
       navigation.replace(NAVIGATION.DrawerNavigation );
-      // navigation.replace(NAVIGATION.OTPScreen);
+      // navigation.replace(NAVIGATION.giftcard);
       setLang()
     }, 200);
   }, []);
@@ -70,6 +70,7 @@ const useSplshHook = () => {
           description
           mobile_thumbnail
           mobile_circle_thumbnail
+          include_in_menu
           mobile_image
           display_mode
           children {
@@ -83,6 +84,7 @@ const useSplshHook = () => {
             description
             mobile_thumbnail
             mobile_circle_thumbnail
+            include_in_menu
             mobile_image
             children {
                 id
@@ -95,6 +97,7 @@ const useSplshHook = () => {
                 description
                 mobile_thumbnail
                 mobile_circle_thumbnail
+                include_in_menu
                 mobile_image
             }
           }

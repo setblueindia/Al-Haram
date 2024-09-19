@@ -53,12 +53,10 @@ const Payment = ({
   }
 
   const walletPress = async () => {
-    selectPaymentMethod()
+    selectPaymentMethod("walletsystem")
     setSelectPayemrntMethod("walletsystem")
     setCOD(false)
     setCredit(false)
-    // setWalletAmount(WAmount)
-    // validation(true)
   }
   useEffect(() => {
     finalAmount()
@@ -83,7 +81,6 @@ const Payment = ({
                 walletPress()
               }}
               style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
               <CheackButton
                 WAmount={WAmount}
                 setWalletAmount={setWalletAmount}
@@ -141,8 +138,10 @@ const Payment = ({
             </View>
           }
 
+          {/* {console.log("::::::::" , {showWallet : wallateAmount , wallateAmount : wallateAmount , totalAmount : totalAmount[0]} )} */}
+
           {
-            ((showWallet && wallateAmount < totalAmount) || (!showWallet)) &&
+            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet)) &&
             <View>
               <TouchableOpacity
                 onPress={() => {

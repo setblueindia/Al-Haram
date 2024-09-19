@@ -86,6 +86,7 @@ const useHomeHook = (props) => {
           description
           mobile_thumbnail
           mobile_circle_thumbnail
+          include_in_menu
           mobile_image
           display_mode
           children {
@@ -99,6 +100,7 @@ const useHomeHook = (props) => {
             description
             mobile_thumbnail
             mobile_circle_thumbnail
+            include_in_menu
             mobile_image
             children {
                 id
@@ -111,6 +113,7 @@ const useHomeHook = (props) => {
                 description
                 mobile_thumbnail
                 mobile_circle_thumbnail
+                include_in_menu
                 mobile_image
             }
           }

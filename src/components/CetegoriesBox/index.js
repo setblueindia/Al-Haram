@@ -23,7 +23,7 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                     onPress={() => {
                         navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })
                     }}>
-                    <Text style={[styles.viewText , lang.data == NUMBER.num0 &&  { textAlign:'left'}]}>{lable.ViewAll}</Text>
+                   { items?.display_mode == "PAGE" &&<Text style={[styles.viewText , lang.data == NUMBER.num0 &&  { textAlign:'left'}]}>{lable.ViewAll}</Text>}
                 </TouchableOpacity>
             </View>
 
@@ -36,13 +36,15 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
             >
                 {
                  data?.map((sitems, index) => {
-                        const name = sitems?.name
+                        const name = sitems?.name 
                         const finalName = name.substring(0, 10);
                         const RoundImage = BASE_URL + sitems?.mobile_circle_thumbnail 
+
+                        // console.log(":::::" , sitems?.include_in_menu)
                         
                         return (
                             <>
-                                <TouchableOpacity
+                             {  sitems?.include_in_menu == 1 && <TouchableOpacity
                                     onPress={() => {
                                         navigation.navigate(NAVIGATION.ProductScreen,
                                             { cetegoriesId: sitems?.id})
@@ -52,7 +54,7 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                                         <FastImage style={styles.storyView} source={{ uri: RoundImage}} />
                                     </View>}
                                     <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{sitems?.name}</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity>}
 
                                 <View style={{ width: ResponsiveSize(30) }} />
                             </>

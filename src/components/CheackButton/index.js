@@ -12,7 +12,7 @@ const CheackButton = ({ onPress , preVriable , onPress2 , setCOD , setCredit , v
         if(validation){
           preVriable ? validation(false , "walletsystem" , WAmount ) : validation(true , "walletsystem" , WAmount)
         }
-        onPress2 && onPress2(),
+        onPress2 && onPress2("walletsystem"),
         setCOD &&  setCOD(false),
         setCredit &&  setCredit(false)
         onPress3 && onPress3("walletsystem")

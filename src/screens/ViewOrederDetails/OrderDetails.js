@@ -165,13 +165,12 @@ const OrderDetails = (props) => {
                 </ScrollView>
             }
 
-            {/* {console.log("::::::::" , orderDetailsList?.status )} */}
 
             {
                ( orderDetailsList?.status !== 'canceled' && orderDetailsList?.status !== "closed") &&
                 <View style={styles.btnView}>
                     <Button onPress={() => {
-                        orderDetailsList?.refund_status == "cancel" ?
+                        orderDetailsList?.refund_status == "Cancel" ?
                             navigation.navigate(NAVIGATION.CancelOrder, { orderID: OId })
                             :
                             SHOWTOTS("Refund status is" + orderDetailsList?.refund_status)

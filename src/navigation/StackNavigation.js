@@ -32,6 +32,7 @@ import Banner from '../screens/BannerScreen/Banner';
 import PaymentScreen from '../screens/YourWay/payment';
 import ResponseScreen from '../screens/YourWay/response';
 import Home from '../screens/Home/Home';
+import GiftCart from '../screens/Giftcart/GiftCart';
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -177,6 +178,11 @@ const StackNavigation = () => {
          <Stack.Screen
         name={NAVIGATION?.HomeScreen}
         component={Home}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name={NAVIGATION?.giftcard}
+        component={GiftCart}
         options={{ headerShown: false }}
       />
     

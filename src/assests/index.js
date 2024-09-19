@@ -24,5 +24,6 @@ export const  A= require("./images/Common/A.png")
 export const  whatsapp= require("./images/Common/whatsapp.png")
 export const  bussnis1= require("./images/Common/bussnis1.png")
 export const  VAT= require("./images/Common/VAT.png")
+export const  Giftcard= require("./images/Common/giftcard.jpg")
 
 // export const  ErrorImg = require("./images/Payment/ErrorImg.png")

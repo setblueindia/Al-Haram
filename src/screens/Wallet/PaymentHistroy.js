@@ -63,7 +63,7 @@ const PaymentHistroy = (props) => {
 
     return (
         <View style={styles.mainView}>
-            <CommanHeader name={lable?.WalletHistory} navigation={navigation} lang />
+            <CommanHeader name={lable?.WalletHistory} navigation={navigation} lang={lang} />
             <View
                 style={styles.containerView}>
                 {/* {data?.map((items, index) => {

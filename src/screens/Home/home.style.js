@@ -109,5 +109,16 @@ export const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
       },
+      giftcart:{
+        paddingHorizontal:ResponsiveSize(20),
+        marginTop:ResponsiveSize(20)
+        // borderRadius:ResponsiveSize(20)
+      },
+      giftcartView:{
+        height:ResponsiveSize(400),
+        width:"100%",
+        borderRadius:ResponsiveSize(20)
+
+      }
 
 })

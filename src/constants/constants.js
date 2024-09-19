@@ -29,7 +29,8 @@ export const NAVIGATION = {
   paymentDetails : "Payment Details",
   bannerScreen : "Banner Screen",
   PaymentScreen : "PaymentScreen",
-  ResponseScreen : "ResponseScreen"
+  ResponseScreen : "ResponseScreen",
+  giftcard : "GiftCartScreen"
 
 };
 export const LOGINStr = {

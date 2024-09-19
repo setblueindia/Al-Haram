@@ -23,10 +23,19 @@ const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
                 horizontal
                 renderItem={({ item, index }) => {
                     const temp = item?.children?.length <= 0 ? false : true
+                    console.log(":::::::" , item?.display_mode)
                     return (
-                        <View key={index + 10} style={styles.listView}>
+                    <View>
+
+               
+                       { item?.include_in_menu == 1 &&
+                       <View key={index + 10} style={styles.listView}>
                             <TouchableOpacity
-                                onPress={() => { temp ? navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: item?.id, titleName: item?.name }) : navigation.navigate(NAVIGATION.ProductScreen, { cetegouriesId: item?.id }) }}
+                                onPress={() =>  {
+                                    if(item?.display_mode == "PAGE") {
+                                        temp ? navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: item?.id, titleName: item?.name }) : navigation.navigate(NAVIGATION.ProductScreen, { cetegouriesId: item?.id }) 
+                                    }
+                                }}
                                 style={styles.storyView}>
                                 <FastImage
                                     onLoadStart={() => { setImageLoader(true) }}
@@ -45,6 +54,7 @@ const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
                                     </View>}
                             </TouchableOpacity>
                             <Text style={styles.text} numberOfLines={2}>{item.name}</Text>
+                        </View>}
                         </View>
                     )
                 }}

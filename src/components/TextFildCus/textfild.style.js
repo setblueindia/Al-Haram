@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
         alignItems:ALINE.center,
         borderWidth:ResponsiveSize(1),
         borderColor:COLOR.gray , 
-        paddingHorizontal:ResponsiveSize(10)
+        paddingHorizontal:ResponsiveSize(10),
+        borderRadius:ResponsiveSize(10)
 
     },
     textInput:{
@@ -17,7 +18,9 @@ export const styles = StyleSheet.create({
         width:"100%",
         height:ResponsiveSize(80),
         marginLeft:ResponsiveSize(10),
-        color:COLOR.black
+        color:COLOR.black,
+        // backgroundColor:"#000"
+        // borderRadius:ResponsiveSize(100)
       
     },
     icon:{

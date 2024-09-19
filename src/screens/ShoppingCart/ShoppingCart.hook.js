@@ -436,6 +436,8 @@ const useShoppingcart = () => {
 
   // select PaymentMethod
   const selectPaymentMethod = async (cod) => {
+
+    console.log("codcod ::::::" , cod)
     setPaymentCode(cod)
     setLoadding(true)
     try {
@@ -510,6 +512,7 @@ const useShoppingcart = () => {
       if (response?.data?.status == 1) {
         setSelectPayment(response?.data?.data)
         remove ? setRemove(false) : setRemove(true)
+        code == 0 && setCoupanCode("")
       } else {
         SHOWTOTS(response?.data?.message)
         setLoadding(false)

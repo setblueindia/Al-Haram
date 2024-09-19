@@ -69,8 +69,8 @@ const useSingUpHook = ({ lable }) => {
     }
     else if (!number || number?.length < 9 || number?.length > 9) {
       setModalShow(true)
-      setErrorText(lable?.Invalidnumber)
-      setExample(lable?.Numbercontainsmustbe9digits)
+      setErrorText(lable?.Numbercontainsmustbe9digits)
+      // setExample(lable?.Numbercontainsmustbe9digits)
     }
     else if(!password) {
       setErrorText(lable?.Enterpassword)
