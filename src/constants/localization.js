@@ -280,7 +280,7 @@ export const En = {
   Name : "Name",
   Note : "Note",
   AreYousureyouwantdelete  : "Are you sure you want delete ?",
-  AreYousureyouwantsingout  : "Are you sure you want sing out ?",
+  AreYousureyouwantsingout  : "Are you sure you want sign out ?",
   Size : "Size" 
 
 };
