@@ -34,6 +34,7 @@ import ResponseScreen from '../screens/YourWay/response';
 import Home from '../screens/Home/Home';
 import GiftCart from '../screens/Giftcart/GiftCart';
 
+
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
   // const navigation = useNavigation();
@@ -185,6 +186,8 @@ const StackNavigation = () => {
         component={GiftCart}
         options={{ headerShown: false }}
       />
+
+
     
     </Stack.Navigator>
   );

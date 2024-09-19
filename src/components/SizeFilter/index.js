@@ -199,7 +199,6 @@ const SizeFilter = ({
 
                                 const label = items?.label?.length > 10 ? items?.label?.substring(0,10) :items?.label
 
-                                console.log("label :::::::::: " , label)
                                 return (
                                     <TouchableOpacity
                                         onPress={() => {

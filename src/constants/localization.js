@@ -18,7 +18,7 @@ export const Ar = {
   MyWallet: 'محفظتى',
   AddressBook: 'العناوين',
   MyOrder: 'الطلبات',
-  CustomerService: 'خدمة العملا',
+  CustomerService: 'خدمة العملاء',
   phone: 'رقم الهاتف',
   Email: 'البريد الإلكتروني',
   Password: 'كلمة المرور',

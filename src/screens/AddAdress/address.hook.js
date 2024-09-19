@@ -50,8 +50,8 @@ const useAddressHook = (props) => {
     StateProvince: "الولاية / المحافظة ",
     City: "المدينة",
     SaudiArabia: "المملكة العربية السعودية",
-    Useasmydefaultbillingaddress: "استخدم عنوان الفاتورة الإفتراضي",
-    UseasmydefaultShippingaddress: "استخدم عنوان الفاتورة الإفتراضي"
+    Useasmydefaultbillingaddress: "استخدمة كعنوان إفتراضي لأرسال الفواتيرالخاصة بي",
+    UseasmydefaultShippingaddress: "استخدمة كعنوان الشحن الإفتراضي الخاص بي"
   } :
   {
     AddAddress: "Add Address",

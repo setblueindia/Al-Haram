@@ -45,8 +45,6 @@ const Home = (props) => {
     openWhatsApp
   } = useHomeHook(props)
 
-  console.log("::::::::" , bannerUrl )
-
   return (
     <View style={styles.mainView}>
       <View style={styles.CustomeHeaderView}>
@@ -76,7 +74,7 @@ const Home = (props) => {
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
 
-          {/* <View style={styles.giftcart}>
+          <View style={styles.giftcart}>
             <TouchableOpacity
             onPress={()=>{navigation.navigate(NAVIGATION.giftcard)}}
             style={styles.giftcartView}>
@@ -84,7 +82,7 @@ const Home = (props) => {
 
             </TouchableOpacity>
 
-          </View> */}
+          </View>
 
           <View style={styles.categories}>
             {

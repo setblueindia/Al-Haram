@@ -40,8 +40,6 @@ const AddressBook = ({
                     data.map((items, index) => {
                         const name = items?.firstname + " " + items?.lastname
                         const address = items?.address1 + " " + items?.address2 + " " + items?.address3
-
-                        console.log("items :::::::: " , items?.default_billing)
                         return (
                             <View key={index}>
                                 <TouchableOpacity

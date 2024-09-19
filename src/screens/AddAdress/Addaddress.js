@@ -90,7 +90,7 @@ const Addaddress = (props) => {
               setCity("")
             }}
           >
-            <Text style={styles.stateTextStyle}>{state ? state : data?.StateProvince}</Text>
+            <Text style={[styles.stateTextStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{state ? state : data?.StateProvince}</Text>
           </TouchableOpacity>
           <View style={styles.devider} />
           <TouchableOpacity
@@ -100,22 +100,21 @@ const Addaddress = (props) => {
             }}
             style={styles.stateTextView}
           >
-            <Text style={styles.stateTextStyle}>{city ? city : data?.City}</Text>
+            <Text style={[styles.stateTextStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{city ? city : data?.City}</Text>
           </TouchableOpacity>
-          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
+          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
             <CheackButton preVriable={shopping} onPress={setShopping} />
             <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.Useasmydefaultbillingaddress}</Text>
           </View>
-          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: ALINE.row }]}>
+          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
             <CheackButton preVriable={billing} onPress={setBilling} />
             <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.UseasmydefaultShippingaddress}</Text>
           </View>
         </View>
         <View style={styles.btnView}>
-          <Button onPress={addAddress} text={ esiteData ?  data?.EditAddress  : lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
+          <Button onPress={addAddress} text={esiteData ? data?.EditAddress : lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
         </View>
         <View style={{ height: ResponsiveSize(40) }}>
-
         </View>
       </KeyboardAwareScrollView>
 
@@ -125,7 +124,8 @@ const Addaddress = (props) => {
             <Text style={styles.popTex}>{popTex}</Text>
             <TextInput
               style={styles.serchView}
-              placeholder='Search'
+              placeholder={lang == NUMBER.num1 ? 'Search......' : "بحث"}
+              textAlign={lang == NUMBER.num0 ? "right" : 'left'}
               value={serchText}
               placeholderTextColor={COLOR.liteGray}
               onChangeText={(text) => { setSerchText(text) }}
@@ -135,6 +135,7 @@ const Addaddress = (props) => {
                 citydata?.map((items, index) => {
                   return (
                     <TouchableOpacity onPress={() => {
+                      setSerchText("")
                       setOn(false),
                         items?.default_name ? setStae(items?.default_name) :
                           setCity(items?.city),
@@ -142,7 +143,7 @@ const Addaddress = (props) => {
                       items?.default_name && getCityData(items?.region_id)
                     }}
                       key={index} style={styles.itemsName}>
-                      <Text style={styles.customerName}>{items?.default_name ? items?.default_name : items?.city}</Text>
+                      <Text style={[styles.customerName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{items?.default_name ? items?.default_name : items?.city}</Text>
                     </TouchableOpacity>
                   )
                 })
@@ -155,12 +156,12 @@ const Addaddress = (props) => {
             <TouchableOpacity
               onPress={() => { setOn(false) }}
               style={styles.poppBtn}>
-              <Text style={styles.cancalText}>{"Cancel"}</Text>
+              <Text style={styles.cancalText}>{lang == NUMBER.num1 ? "Cancel" : "الغاء"}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => { setSerchText("") }}
               style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
-              <Text style={[styles.cancalText, { color: COLOR.black }]}>{"clear"}</Text>
+              <Text style={[styles.cancalText, { color: COLOR.black }]}>{lang == NUMBER.num1 ? "clear" : "حذف"}</Text>
             </TouchableOpacity>
 
           </View>

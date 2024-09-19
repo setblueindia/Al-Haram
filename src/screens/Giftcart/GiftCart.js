@@ -32,13 +32,13 @@ const GiftCart = () => {
                     <Slider data={data} height={ResponsiveSize(450)} home={true} />
                 </View>
                 <View style={{ paddingHorizontal: ResponsiveSize(25) }}>
-                    <Text style={[styles.titelText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"EASTER GIFT CARDS"} </Text>
-                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Be the first to review this product"}</Text>
+                    <Text style={[styles.titelText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "EASTER GIFT CARDS" : "بطاقات الهدايا"} </Text>
+                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Be the first to review this product" : "كن أول من يراجع هذا المنتج"}</Text>
 
                     <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SAR 50"}</Text>
                     <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SKU #easter-gift-cards"}</Text>
 
-                    <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Card Value in USD"}</Text>
+                    <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Card Value in USD" : "قيمة البطاقة باللاير السعودي"}</Text>
                     <View style={[styles.priceContainer, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <View style={styles.priceBox}>
                             <Text style={styles.priceText}>{"SAR 25"}</Text>
@@ -51,7 +51,7 @@ const GiftCart = () => {
                         </View>
                     </View>
 
-                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Other amount:"}</Text>
+                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Other amount:" : "مبلغ آخر"}</Text>
                     <View style={[{ width: "100%", flexDirection: 'row', justifyContent: 'space-between', marginTop: ResponsiveSize(10) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <TextInput
                             placeholder='SAR10 to SAR50'
@@ -60,11 +60,11 @@ const GiftCart = () => {
 
                         />
                         <TouchableOpacity style={styles.textinputBTN}>
-                            <Text style={styles.priceText}>{"ADD"}</Text>
+                            <Text style={styles.priceText}>{ lang == NUMBER.num1 ? "ADD" : "أضف"}</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Choose card design"}</Text>
+                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Choose card design" : "اختر تصميم البطاقة"}</Text>
                     <ScrollView style={[styles.scroll, lang == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]} showsHorizontalScrollIndicator={false} horizontal>
                         <View style={styles.rowPicView}>
                             {data?.map((items, index) => {
@@ -84,42 +84,42 @@ const GiftCart = () => {
                         </View>
                     </ScrollView>
 
-                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Upload your own design"}</Text>
+                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Upload your own design" : "قم بتحميل التصميم الخاص بك"}</Text>
                     <TouchableOpacity style={[styles.browsePic, lang == NUMBER.num0 && { alignSelf: 'flex-end', flexDirection: 'row-reverse' }]}>
                         <Icon name="add-a-photo" size={ResponsiveSize(30)} color={COLOR.white} />
-                        <Text style={styles.browserText}>{"Browser"}</Text>
+                        <Text style={styles.browserText}>{lang == NUMBER.num1 ? "Browser" : "تصفح"}</Text>
                     </TouchableOpacity>
 
                     <View style={styles.barView} />
 
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Your Name"}</Text>
+                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Your Name" : "االسم"}</Text>
                     <View style={styles.div2} />
-                    <TextFildCus text={"Enter Sender Name"} />
+                    <TextFildCus text={lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"} />
                     <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Recipient Name"}</Text>
+                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?"Recipient Name" : "اسم المستلم"}</Text>
                     <View style={styles.div2} />
-                    <TextFildCus text={"Enter Recipient Name"} />
+                    <TextFildCus text={lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"} />
                     <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Recipient Email"}</Text>
+                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?"Recipient Email" : "البريد اإللكتروني للمستلم"}</Text>
                     <View style={styles.div2} />
-                    <TextFildCus text={"Enter Recipient Email"} />
+                    <TextFildCus text={lang == NUMBER.num1 ? "Enter Recipient Email" : "أدخل البريد اإللكتروني للمستلم"} />
                     <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Recipient Phone"}</Text>
+                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?"Recipient Phone" : "هاتف المستلم"}</Text>
                     <View style={styles.div2} />
-                    <TextFildCus text={"Recipient Mobile Number"} />
+                    <TextFildCus text={lang == NUMBER.num1 ? "Recipient Mobile Number" : "رقم جوال المستلم"} />
                     <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Message"}</Text>
+                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?"Message" : "رسالة"}</Text>
                     <View style={styles.div2} />
                     <TextInput
                         textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                         multiline={true}
-                        placeholder='Enter your message'
+                        placeholder={lang == NUMBER.num1 ?'Enter your message' : "أدخل رسالتك"}
                         style={styles.messTextInput}
                     />
                     <View style={styles.div2} />
 
                     <View style={styles.addTonewRecipintView} >
-                        <Text style={styles.addnewRecipintText}>{"+ Add New Recipient"}</Text>
+                        <Text style={styles.addnewRecipintText}>{lang == NUMBER.num1 ?"+ Add New Recipient" : "إضافة مستلم جديد"}</Text>
 
                     </View>
 
@@ -128,12 +128,12 @@ const GiftCart = () => {
                     <View style={[{ flexDirection: 'row', width: "60%", justifyContent: 'space-between' }, lang == NUMBER.num0 && { alignSelf: 'flex-end' }]}>
                         <TouchableOpacity style={[styles.cheackboxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                             <View style={styles.roundView} />
-                            <Text style={[styles.checktext, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{"Send now"}</Text>
+                            <Text style={[styles.checktext, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ?"Send now" : "أرسل اآلن"}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={[styles.cheackboxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                             <View style={styles.roundView} />
-                            <Text style={[styles.checktext, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{"Send now"}</Text>
+                            <Text style={[styles.checktext, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ?"Send later2" : "الحقا إرسال"}</Text>
                         </TouchableOpacity>
 
                     </View>

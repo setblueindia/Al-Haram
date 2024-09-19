@@ -16,7 +16,6 @@ const useSplshHook = () => {
     setUserData()
     setTimeout(() => {
       navigation.replace(NAVIGATION.DrawerNavigation );
-      // navigation.replace(NAVIGATION.giftcard);
       setLang()
     }, 200);
   }, []);
