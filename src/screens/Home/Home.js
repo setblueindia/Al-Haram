@@ -26,7 +26,6 @@ const Home = (props) => {
     Sliderdata,
     navigation,
     CetegoriesData,
-    loder,
     isLoadding,
     showPop,
     mes,
@@ -35,7 +34,6 @@ const Home = (props) => {
     ProductDetails,
     onRefresh,
     handleScroll,
-    setRefreshing,
     openPlayStore,
     refreshing,
     scrollViewRef,
@@ -79,9 +77,7 @@ const Home = (props) => {
             onPress={()=>{navigation.navigate(NAVIGATION.giftcard)}}
             style={styles.giftcartView}>
               <Image style={{height:"100%" , width:"100%" , resizeMode:'cover' ,  borderRadius:ResponsiveSize(20)}} source={Giftcard}/>
-
             </TouchableOpacity>
-
           </View>
 
           <View style={styles.categories}>
@@ -97,8 +93,6 @@ const Home = (props) => {
               })
             }
           </View>
-
-       
 
           {
             HomeScreeData?.map((items, index) => {

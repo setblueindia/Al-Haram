@@ -14,6 +14,7 @@ import DataIsNotFound from '../../components/DataNotFound2'
 const WhishList = () => {
   const { navigation, data, lang, likePress, isLoading, dislikePress, lotti, userData } = useWhishListHook()
 
+
   return (
     <View style={styles.mainView}>
       <CommanHeader navigation={navigation} lang={lang} />
