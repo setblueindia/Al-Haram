@@ -23,10 +23,8 @@ const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
                 horizontal
                 renderItem={({ item, index }) => {
                     const temp = item?.children?.length <= 0 ? false : true
-                    console.log(":::::::" , item?.display_mode)
                     return (
                     <View>
-
                
                        { item?.include_in_menu == 1 &&
                        <View key={index + 10} style={styles.listView}>

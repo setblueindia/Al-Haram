@@ -113,8 +113,8 @@ export const styles = StyleSheet.create({
     },
     barView:{
         width:"100%",
-        height:ResponsiveSize(1),
-        backgroundColor:COLOR.darkGray,
+        height:ResponsiveSize(3),
+        backgroundColor:COLOR.primaray,
         marginVertical:ResponsiveSize(20),
         // alignSelf:'center'
     },

@@ -26,6 +26,7 @@ const useHomeHook = (props) => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollViewRef = useRef(null);
   const [bannerUrl, setBannerUrl] = useState()
+  const [giftCart, setGiftCart] = useState()
 
   const version = DeviceInfo.getVersion()
   const [showPop, setShowPop] = useState(false)
@@ -151,6 +152,10 @@ const useHomeHook = (props) => {
           category_list_page_size
           wallet_checkout_enable
           top_banner
+          gift_card{
+            image
+            id
+        }
           banner_slider{
               image
               category_id
@@ -179,6 +184,7 @@ const useHomeHook = (props) => {
       const res = await getProductDetails(params, lang?.data)
       if (res?.status == '200') {
         setBannerUrl(res?.data?.data?.getHomePageData?.top_banner)
+        setGiftCart(res?.data?.data?.getHomePageData?.gift_card)
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
         setIsLoadding(false)
       }
@@ -323,6 +329,7 @@ const useHomeHook = (props) => {
     showPop,
     mes,
     bannerUrl,
+    giftCart,
     setShowPop,
     scrollToTop,
     openPlayStore,

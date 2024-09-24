@@ -28,6 +28,7 @@ const Home = (props) => {
     CetegoriesData,
     loder,
     isLoadding,
+    giftCart,
     showPop,
     mes,
     setShowPop,
@@ -66,7 +67,7 @@ const Home = (props) => {
 
           <View style={styles.bannerView2}>
             <View style={styles.bannerImage}>
-              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{uri : bannerUrl}} />
+              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{ uri: bannerUrl }} />
             </View>
           </View>
 
@@ -74,15 +75,17 @@ const Home = (props) => {
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
 
-          {/* <View style={styles.giftcart}>
-            <TouchableOpacity
-            onPress={()=>{navigation.navigate(NAVIGATION.giftcard)}}
-            style={styles.giftcartView}>
-              <Image style={{height:"100%" , width:"100%" , resizeMode:'cover' ,  borderRadius:ResponsiveSize(20)}} source={Giftcard}/>
+          {
+            giftCart &&
+            <View style={styles.giftcart}>
+              <TouchableOpacity
+                onPress={() => { navigation.navigate(NAVIGATION.giftcard) }}
+                style={styles.giftcartView}>
+                <FastImage resizeMode='cover' style={{ height: "100%", width: "100%", borderRadius: ResponsiveSize(20) }} source={{ uri: giftCart?.image }} />
 
-            </TouchableOpacity>
+              </TouchableOpacity>
 
-          </View>   */}
+            </View>}
 
           <View style={styles.categories}>
             {
@@ -98,7 +101,7 @@ const Home = (props) => {
             }
           </View>
 
-       
+
 
           {
             HomeScreeData?.map((items, index) => {
@@ -135,7 +138,7 @@ const Home = (props) => {
       </Modal>
 
       <TouchableOpacity
-      onPress={()=>{openWhatsApp()}}
+        onPress={() => { openWhatsApp() }}
         style={{
           height: ResponsiveSize(80),
           width: ResponsiveSize(80),
@@ -147,10 +150,10 @@ const Home = (props) => {
         }}
       >
         <Image style={{
-          height:"100%",
-          width:"100%",
-          resizeMode:'contain'
-        }} source={whatsapp}/>
+          height: "100%",
+          width: "100%",
+          resizeMode: 'contain'
+        }} source={whatsapp} />
 
       </TouchableOpacity>
 

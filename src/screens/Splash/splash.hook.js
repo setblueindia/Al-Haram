@@ -125,6 +125,10 @@ const useSplshHook = () => {
           wallet_checkout_enable
           category_list_page_size
           top_banner
+          gift_card{
+            image
+            id
+        }
           banner_slider{
               image
               category_id
