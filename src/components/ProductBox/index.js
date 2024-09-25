@@ -13,6 +13,9 @@ import { BASE_URL } from '../../constants/axios.url'
 const ProductBox = ({ navigation, lang, sindex, items }) => {
 
 
+  // console.log("::::::::::", items)
+
+
   const data = items?.items
   const labale = lang?.data == NUMBER.num0 ? Ar : En
   const [imageLoader, setImageLoader] = useState(false)
@@ -65,7 +68,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
             const finalName = name.substring(0, 15);
            const productImage = items?.image 
 
-          //  console.log("SKu :::" , items?.sku )
+      
             return (
               <View key={index} style={{ flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>

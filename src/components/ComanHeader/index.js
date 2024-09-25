@@ -13,8 +13,6 @@ const CommanHeader = ({ navigation, lang, name }) => {
     const productCount = useSelector(state => state?.AddToCart)
     const userData = useSelector(state => state?.userData?.data)
 
-    console.log("lang ::" , lang)
- 
     return (
         <View style={styles.mainView}>
             <StatusBarCus />

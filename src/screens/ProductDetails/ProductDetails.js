@@ -15,9 +15,10 @@ import ReviewSlider from '../../components/ReviewSlider'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import RenderHTML from 'react-native-render-html';
+import ProductBox from '../../components/ProductBox'
 
 const ProductDetails = (props) => {
-    const { 
+    const {
         lang,
         navigation,
         sliderData,
@@ -45,6 +46,7 @@ const ProductDetails = (props) => {
         sizeOnPress,
         setSizeIndex,
         likeDislike,
+        getData,
         sizeIndex,
         qnt,
         label,
@@ -53,7 +55,6 @@ const ProductDetails = (props) => {
     } = useProductDetails({ props })
 
     const { width } = useWindowDimensions();
-
 
     return (
         <View style={styles.mainVIew}>
@@ -134,7 +135,6 @@ const ProductDetails = (props) => {
                                                 if (item?.colorIndex == items?.value_index) {
                                                     fileImage = item?.imgURL
                                                 }
-
                                             })}
 
                                             {fileImage ?
@@ -161,6 +161,7 @@ const ProductDetails = (props) => {
                         </View>
                     </ScrollView>
                 }
+                
                 {defaultSize &&
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>
                         <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -241,7 +242,55 @@ const ProductDetails = (props) => {
                     }}
                     source={{ html: details?.description?.html }}
                 />}
+
+
+
+
+
+
+                {details?.related_products.length > 0 && <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    automaticallyAdjustContentInsets={true}
+                    style={[styles.subCategories,
+                    lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
+                >
+                    {
+
+                        details?.related_products?.map((items, index) => {
+                            const name = items?.name
+                            const finalName = name.substring(0, 15);
+                            const productImage = items?.image?.url
+
+                            console.log(items?.sku)
+
+
+                            return (
+                                <View key={index} style={{ flexDirection: 'row' }}>
+                                    <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
+                                        <View style={styles.innerCategoriesView}>
+                                            <FastImage style={styles.storyView} source={{ uri: productImage }} />
+                                        </View>
+                                        {(items?.special_offer || items?.is_new_badge) && <View style={[styles.textImgView, items?.special_offer ? { right: ResponsiveSize(0) } : { left: ResponsiveSize(0) }]}>
+                                            <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
+                                        </View>}
+                                        <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
+                                        <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{label.SAR + " " + items?.price_range?.minimum_price?.regular_price?.value}</Text>
+                                    </TouchableOpacity>
+                                    <View style={{ width: ResponsiveSize(30) }} />
+                                </View>
+                            )
+                        })
+                    }
+                </ScrollView>
+                }
+
+
+
+
                 <View style={{ height: ResponsiveSize(200) }} />
+
+
             </ScrollView>
 
             {showAnimation &&

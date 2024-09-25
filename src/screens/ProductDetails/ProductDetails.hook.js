@@ -84,7 +84,6 @@ const useProductDetails = (props) => {
     formData.append("size", size ? size : "")
     formData.append("custom_option", "")
 
-    console.log("Condiation :::::" , defaultColor && !color )
 
       const response = await AddToCartAPI(formData)
       try {
@@ -139,8 +138,6 @@ const useProductDetails = (props) => {
       Addtocard: "إضافة إلى عربة التسوق",
       Reviews: "التعليقات :"
     }
-
-    // console.log("ProductSKU :::::" , ProductSKU)
 
   const getData = async () => {
     setIsLoading(true)
@@ -440,7 +437,8 @@ const useProductDetails = (props) => {
     setQnts,
     qnt,
     imageObject,
-    htmlSource
+    htmlSource,
+    getData
   }
 }
 

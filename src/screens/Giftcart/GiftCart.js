@@ -23,9 +23,7 @@ const GiftCart = () => {
     const {
         navigation,
         lang,
-        setRecipient,
         recipientDetails,
-        recipient,
         setName,
         setRecipientName,
         setRecipientEmail,

@@ -5,7 +5,7 @@ import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
 import useHomeHook from './home.hook';
 import Slider from '../../components/Slider';
-import { Giftcard, banner2, whatsapp } from '../../assests';
+import { whatsapp } from '../../assests';
 import { ResponsiveSize } from '../../utils/utils';
 import CetegoriesBox from '../../components/CetegoriesBox';
 import ProductBox from '../../components/ProductBox';
@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { COLOR, RESIZEMODE } from '../../constants/style';
 import FastImage from 'react-native-fast-image';
 import CusModal from '../../components/CusModal';
-import GiftCart from '../Giftcart/GiftCart';
 import { NAVIGATION } from '../../constants/constants';
 
 
@@ -100,8 +99,6 @@ const Home = (props) => {
               })
             }
           </View>
-
-
 
           {
             HomeScreeData?.map((items, index) => {

@@ -189,5 +189,48 @@ export const styles = StyleSheet.create({
         width: ResponsiveSize(200),
         height: ResponsiveSize(60),
         marginLeft: ResponsiveSize(20)
-    }
+    },
+    productView: {
+        flex: 1,
+        height:"100%",
+        width:"100%"
+    },
+    innerCategoriesView: {
+        height: ResponsiveSize(250),
+        width: ResponsiveSize(200),
+        backgroundColor: COLOR.white,
+        borderRadius: ResponsiveSize(20),
+        borderWidth: ResponsiveSize(1),
+        borderColor: "#00000040",
+        padding: ResponsiveSize(20)
+      },
+      storyView: {
+        borderRadius: ResponsiveSize(100),
+        height: "100%",
+        width: "100%",
+      },
+      textImgView: {
+        height: ResponsiveSize(90),
+        width: ResponsiveSize(90),
+        // backgroundColor: COLOR.black,
+        position: 'absolute'
+      },
+      cetegoriesText: {
+        textAlign: "center",
+        color: COLOR.black,
+        marginTop: ResponsiveSize(20)
+      },
+      priceText: {
+        fontWeight: FONTWEGHIT.font600,
+        color: COLOR.primaray,
+        textAlign: 'center',
+        width: "100%",
+        alignSelf: 'center'
+      },
+      subCategories: {
+        flexDirection: 'row',
+        marginTop: ResponsiveSize(30),
+        paddingBottom: ResponsiveSize(30),
+        paddingHorizontal:ResponsiveSize(20)
+      },
 })
