@@ -88,7 +88,7 @@ const Home = (props) => {
 
           <View style={styles.categories}>
             {
-              CetegoriesData?.map((items, index) => {
+              CetegoriesData?.map((items, index) => { 
                 return (
                   <View key={index} style={styles.cetegoriesBox}>
                     {items?.children.length > 0 &&

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: COLOR.white
     },
     sliderView: {
-        height: ResponsiveSize(450),
+        height: ResponsiveSize(300),
         width: "100%",
         marginTop: ResponsiveSize(20),
         borderRadius: ResponsiveSize(20),
@@ -44,8 +44,9 @@ export const styles = StyleSheet.create({
     priceContainer:{
         flexDirection:'row',
         width:"100%",
-        justifyContent:'space-between',
-        marginTop: ResponsiveSize(20)
+        // justifyContent:'space-between',
+        marginTop: ResponsiveSize(20),
+        flexWrap:'wrap'
     },
     priceBox:{
         height:ResponsiveSize(70),
@@ -55,7 +56,8 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         // borderColor:COLOR.darkGray,
         backgroundColor:"#cccccc20",
-        borderColor:COLOR.liteGray
+        borderColor:COLOR.liteGray,
+        borderRadius:ResponsiveSize(5)
     },
     priceText:{
         color:COLOR.black
@@ -220,5 +222,12 @@ export const styles = StyleSheet.create({
     checktext:{
         color:COLOR.black,
         marginLeft:ResponsiveSize(10)
+    },
+    eerroText:{
+        color:COLOR.primaray,
+        marginLeft:ResponsiveSize(5),
+        marginTop:ResponsiveSize(5)
     }
+                              
+
 })

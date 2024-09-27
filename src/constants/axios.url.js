@@ -2,7 +2,6 @@
 // LIVE
 // export const BASE_URL = "https://alharamstores.com"
 // export const  BASE_URL = "https://test.alharamstores.com"
-// export const  BASE_URL = "https://beta.alharamstores.com"
 export const  BASE_URL = "https://fairpricecorner.com"
 
 
@@ -10,10 +9,19 @@ export const  BASE_URL = "https://fairpricecorner.com"
 export const imageURL = "https://fairpricecorner.com"
 
 
-// Graph Url 
-// export const GRAFORL = "https://beta.alharamstores.com/graphql"
+// Gift Cart
 
-// export const GRAFORL = "https://test.alharamstores.com/graphql"
+// export const imageURL = "https://beta.alharamstores.com"
+// export const GRAFORL = "https://beta.alharamstores.com/graphql"
+// export const  BASE_URL = "https://beta.alharamstores.com"
+// export const TESTGRAFORL = "https://beta.alharamstores.com/graphql"
+
+
+
+// Graph Url 
+
+
+// export const TESTGRAFORL = "https://test.alharamstores.com/graphql"
 // export const GRAFORL = "https://alharamstores.com/graphql"
 export const GRAFORL = "https://fairpricecorner.com/graphql"
 

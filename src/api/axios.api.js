@@ -25,6 +25,7 @@ import {
     StateListURL,
     StatusUpadateURL,
     StoreShippingURL,
+    TESTGRAFORL,
     UpdateProfileURL,
     WhishListURL,
     actionCoupan,
@@ -150,6 +151,8 @@ export const DeleteAddress = async (params) => {
 export const ExpireToken = async (params , lang) => {
     const addKeyWord = lang == NUMBER.num0 ? "arabic"   : "default" 
     const makeURL = BASE_URL +  "/rest/" +addKeyWord+ "/V1/carts/mine"
+    console.log(":::::::" , makeURL)
+    
     const res = await POSTFORM2(makeURL , params)
     return res
 }
@@ -305,5 +308,21 @@ export const DeteleProductToCart = async (params, lang) => {
 }
 export const AppUpadateAPI = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+
+
+
+
+// Gift Cart
+
+export const getGiftCartdInfo = async (params, lang) => {
+    const res = await POSTFORMGRAPH(TESTGRAFORL, params, lang)
+    return res
+}
+
+export const giftAddToCart = async (params, lang) => {
+    const res = await POSTFORMGRAPH(TESTGRAFORL, params, lang)
     return res
 }

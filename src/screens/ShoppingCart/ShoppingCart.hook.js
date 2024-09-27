@@ -234,7 +234,6 @@ const useShoppingcart = () => {
       const response = await CartList(formData)
       if (response.data.status) {
         setQuoteId(response?.data?.data?.quote_id)
-        // console.log("++++++++++++++++" , response?.data?.data?.notice )
         setNotices(response?.data?.data?.notice)
         const inStockItems = [];
         const outOfStockItems = [];
@@ -574,7 +573,7 @@ const useShoppingcart = () => {
     if (value) {
       if(edata == "walletsystem"){
         if(wallateAmount < validationTotal) {
-          setValidation(false)
+          setValidation(true)
         } else{
           setValidation(true)
         }
