@@ -50,14 +50,14 @@ const useShoppingcart = () => {
   const [actionCode, setActionCode] = useState()
   const [remove, setRemove] = useState(false)
   const [validationn, setValidation] = useState(false)
-  
-  const [noties , setNotices] = useState()
+
+  const [noties, setNotices] = useState()
 
   const [extra, setEtrx] = useState()
   const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
   const [walletAmount, setWalletAmount] = useState()
 
-  const [quoteId , setQuoteId] = useState()
+  const [quoteId, setQuoteId] = useState()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -87,7 +87,7 @@ const useShoppingcart = () => {
   const name = userData?.data?.firstname + " " + userData?.data?.lastname
 
   const shopinfCratData = lang == NUMBER.num0 ? {
-    ShoppingCart: "عملية الشحن",
+    ShoppingCart: "عربة التسوق",
     cart: "عربة التسوق",
     Shipping: "الشحن",
     Payment: "الدفع",
@@ -173,7 +173,7 @@ const useShoppingcart = () => {
     if (index < 3) {
       if (index == 0) {
         setIndex(index + 1)
-       outOfStock.length > 0 && RemoveCart()
+        outOfStock.length > 0 && RemoveCart()
       }
       if (index == 1) {
         if (!addressCod) {
@@ -192,11 +192,11 @@ const useShoppingcart = () => {
           PlaceHolder1()
         }
       }
-    } else {   
+    } else {
       if (!validationn) {
         setShowModal(true)
         setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
-      }else {
+      } else {
         PlaceHolder()
         setOutOfStock([])
         setData([])
@@ -270,26 +270,33 @@ const useShoppingcart = () => {
   }
     `
     try {
-      const result = await DeteleProductToCart(deleteData , lang)
-      console.log("DELETE PRODUCT TO CART ::::: " , result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
+      const result = await DeteleProductToCart(deleteData, lang)
+      console.log("DELETE PRODUCT TO CART ::::: ", result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
       SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
       getData()
       getProductCount()
       setLoadding(false)
     } catch (error) {
-          console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
-          setLoadding(false)
+      console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+      setLoadding(false)
     }
   }
 
   // remove out fo stock product from cart
   const RemoveCart = async () => {
+    const temp = []
+    outOfStock?.map((item, index) => {
+      const tempID = item?.item_id
+      temp.push(tempID)
+    })
+
+    console.log("temp ::::::" , temp)
     setLoadding(true)
     const deleteData = `
     mutation{
       removeOutOfStockItemFromCartByItemId(input:{
           quote_id: ${quoteId}
-          item_ids: ${outOfStock ? outOfStock : []}
+          item_ids: [${temp}]
       }){
           status
           message
@@ -297,12 +304,15 @@ const useShoppingcart = () => {
   }
     `
     try {
-      const result = await DeteleProductToCart(deleteData , lang)
+      const result = await DeteleProductToCart(deleteData, lang)
+      console.log("Delete product ::::::", result?.data)
       SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
+      getData()
       setLoadding(false)
+
     } catch (error) {
-          console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
-          setLoadding(false)
+      console.log("DELETE CART ITEMS :::::::::::::::::::: ", error)
+      setLoadding(false)
     }
   }
 
@@ -436,7 +446,7 @@ const useShoppingcart = () => {
   // select PaymentMethod
   const selectPaymentMethod = async (cod) => {
 
-    console.log("codcod ::::::" , cod)
+    console.log("codcod ::::::", cod)
     setPaymentCode(cod)
     setLoadding(true)
     try {
@@ -552,8 +562,8 @@ const useShoppingcart = () => {
     }
   }
 
-  const validation = (value , edata , WAmount) => {
-   
+  const validation = (value, edata, WAmount) => {
+
     var validationTotal = 0
     // console.log("Valu :::::::::::::::::: " , {value : value  , selectPayemrntMethod : selectPayemrntMethod , edata:edata , walletAmount:wallateAmount})
 
@@ -563,22 +573,22 @@ const useShoppingcart = () => {
       }
     })
 
-    if(edata == "walletsystem" && value == true) {
+    if (edata == "walletsystem" && value == true) {
       setWalletAmount(WAmount)
     }
-    if(edata == "walletsystem" && value == false) {
+    if (edata == "walletsystem" && value == false) {
       setWalletAmount(0)
     }
 
     if (value) {
-      if(edata == "walletsystem"){
-        if(wallateAmount < validationTotal) {
+      if (edata == "walletsystem") {
+        if (wallateAmount < validationTotal) {
           setValidation(true)
-        } else{
+        } else {
           setValidation(true)
         }
       }
-      if(edata != "walletsystem"){
+      if (edata != "walletsystem") {
         setValidation(true)
       }
     } else {
@@ -648,7 +658,7 @@ const useShoppingcart = () => {
         "shipping": shoppingTotal,
         "grand_total": grandTotal,
         "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
-        "wallet_amount":walletAmount,
+        "wallet_amount": walletAmount,
         "device_type": Platform.OS == 'ios' ? "react_ios" : "react_android",
         "device_version": 0.1
       }
@@ -735,16 +745,16 @@ const useShoppingcart = () => {
     `
     try {
       if (userData?.data?.token) {
-        const result = await ProductlistCount(countData , result)
+        const result = await ProductlistCount(countData, result)
         const arrOFItems = result?.data?.data?.customerCart?.items
         const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
-      }else{
-        dispatch(addProduct(0)) 
+        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+      } else {
+        dispatch(addProduct(0))
       }
     } catch (error) {
       console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0)) 
+      dispatch(addProduct(0))
     }
 
 
@@ -792,7 +802,7 @@ const useShoppingcart = () => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getWallteAmount()
   }, [])
 
@@ -838,6 +848,7 @@ const useShoppingcart = () => {
     applyCoupan,
     updateQnty,
     setStorePickUpData,
+    RemoveCart,
     validation,
     selectPayment,
     setSelectPayment,

@@ -8,14 +8,14 @@ import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import DeleteBox from '../../components/DeleteBox'
 
-  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty }) => {
+  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty , RemoveCart}) => {
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const [deletePopp , setDeletePopp] = useState(false)
   const name = data?.name?.substring(0, 20) 
   const lable = lang == NUMBER.num1 ? En : Ar
 
   return (
-    <View>
+    <View style={{flex:1}}>
       {!outOfStock ?
         <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <View style={styles.ImageView}>

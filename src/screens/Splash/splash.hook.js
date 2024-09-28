@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import {  getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { getCetergourisList, getProductDetails } from '../../api/axios.api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { addLangCode } from '../../redux/Slices/LangSlices';
@@ -15,7 +15,7 @@ const useSplshHook = () => {
   useEffect(() => {
     setUserData()
     setTimeout(() => {
-      navigation.replace(NAVIGATION.DrawerNavigation );
+      navigation.replace(NAVIGATION.DrawerNavigation);
       setLang()
     }, 200);
   }, []);
@@ -25,11 +25,11 @@ const useSplshHook = () => {
     try {
       const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
       !result && setLangues();
-      if(result){
+      if (result) {
         CetegouriesList(result)
         ProductDetails(result)
         dispatch(addLangCode(result));
-      } 
+      }
     } catch (error) { }
   };
 
@@ -53,7 +53,7 @@ const useSplshHook = () => {
     }
   }
 
-  const CetegouriesList = async (lang) =>{
+  const CetegouriesList = async (lang) => {
     const params = `
     {
       categoryList(filters: {ids: {in: ["2"]}}) {
@@ -105,17 +105,17 @@ const useSplshHook = () => {
     }
     `
     try {
-      const res = await getCetergourisList(params , lang)
-      if(res?.status == '200' ) {
+      const res = await getCetergourisList(params, lang)
+      if (res?.status == '200') {
         dispatch(addCetegoriesData(res?.data?.data?.categoryList[0]))
       }
-  
+
     } catch (error) {
-      console.log("CETEGORIERS LIST ERROR ::::::::::::::: " , error)
-    } 
+      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
+    }
   }
 
-  const ProductDetails = async (lang) =>{
+  const ProductDetails = async (lang) => {
     const params = `
     {
       getHomePageData(store_id : ${lang}){
@@ -125,10 +125,6 @@ const useSplshHook = () => {
           wallet_checkout_enable
           category_list_page_size
           top_banner
-          gift_card{
-            image
-            id
-        }
           banner_slider{
               image
               category_id
@@ -154,13 +150,13 @@ const useSplshHook = () => {
   }
     `
     try {
-      const res = await getProductDetails(params , lang)
-      if(res?.status == '200' ) {
+      const res = await getProductDetails(params, lang)
+      if (res?.status == '200') {
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
       }
     } catch (error) {
-      console.log("CETEGORIERS LIST ERROR ::::::::::::::: " , error)
-    } 
+      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
+    }
   }
 
   return {

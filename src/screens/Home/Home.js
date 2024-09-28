@@ -74,7 +74,7 @@ const Home = (props) => {
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
 
-          {
+          {/* {
             giftCart &&
             <View style={styles.giftcart}>
               <TouchableOpacity
@@ -84,7 +84,7 @@ const Home = (props) => {
 
               </TouchableOpacity>
 
-            </View>}
+            </View>} */}
 
           <View style={styles.categories}>
             {

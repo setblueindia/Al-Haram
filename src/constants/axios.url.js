@@ -1,12 +1,12 @@
 
 // LIVE
-// export const BASE_URL = "https://alharamstores.com"
+export const BASE_URL = "https://alharamstores.com"
 // export const  BASE_URL = "https://test.alharamstores.com"
-export const  BASE_URL = "https://fairpricecorner.com"
+// export const  BASE_URL = "https://fairpricecorner.com"
 
 
-// export const imageURL = "https://alharamstores.com"
-export const imageURL = "https://fairpricecorner.com"
+export const imageURL = "https://alharamstores.com"
+// export const imageURL = "https://fairpricecorner.com"
 
 
 // Gift Cart
@@ -22,8 +22,8 @@ export const imageURL = "https://fairpricecorner.com"
 
 
 // export const TESTGRAFORL = "https://test.alharamstores.com/graphql"
-// export const GRAFORL = "https://alharamstores.com/graphql"
-export const GRAFORL = "https://fairpricecorner.com/graphql"
+export const GRAFORL = "https://alharamstores.com/graphql"
+// export const GRAFORL = "https://fairpricecorner.com/graphql"
 
 export const SINUPURL = BASE_URL + "/rest/arabic/V1/api/mobileOtpRegistrationMethod"
 export const LOGINURL = BASE_URL + "/rest/V1/api/loginUser"

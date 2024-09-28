@@ -1,4 +1,4 @@
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
@@ -55,6 +55,7 @@ const ShoopingCart = (props) => {
         setBillingAddress,
         setSelectPayment,
         setWalletAmount,
+        RemoveCart,
         getCoupanList,
         PlaceHolder,
         applyCoupan,
@@ -109,71 +110,78 @@ const ShoopingCart = (props) => {
 
                 {index == 0 &&
 
+                    <View style={{flex:1}}>
 
-                    data.length > 0 ?
-                    <View style={styles.cartView}>
 
-                        {noties &&
-                            <View style={{ padding: ResponsiveSize(10), borderRadius: ResponsiveSize(20), backgroundColor: COLOR.primaray , marginBottom:ResponsiveSize(20)}}>
-                                <Text style={{ textAlign: 'center', color: COLOR.white }}>{noties}</Text>
-                            </View>
-
-                        }
-
-                        <View style={{
-                            height: outOfStock?.length > 0 ? "60%" : "100%"
-                        }} >
-                            <FlatList
-                                showsVerticalScrollIndicator={false}
-                                data={data}
-                                renderItem={({ item, index }) => {
-                                    return (
-                                        <View key={index}>
-                                            <Cart
-                                                updateQnty={updateQnty}
-                                                outOfStock={false}
-                                                data={item} lang={lang}
-                                                deleteProduct={deleteProduct}
-                                            />
-                                            <View style={{ height: ResponsiveSize(20) }} />
+                        {data.length > 0 ?
+                            <ScrollView style={{ flex: 1 }}>
+                                <View style={styles.cartView}>
+                                    {noties &&
+                                        <View style={{ padding: ResponsiveSize(10), borderRadius: ResponsiveSize(20), backgroundColor: COLOR.primaray, marginBottom: ResponsiveSize(20) }}>
+                                            <Text style={{ textAlign: 'center', color: COLOR.white }}>{noties}</Text>
                                         </View>
-                                    )
-                                }}
-                            />
-                        </View>
-                        {
-                            outOfStock?.length > 0 &&
-                            <View style={{
-                                height: "40%",
-                                backgroundColor: "#FFE9E9",
-                                padding: ResponsiveSize(20),
-                            }}>
-                                <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                    <Text style={styles.outOfStockText}>{"Out of stock"}</Text>
-                                    <TouchableOpacity>
-                                        <Text style={styles.removeAllText}>{"Remove all"}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <FlatList
-                                    showsVerticalScrollIndicator={false}
-                                    data={data}
-                                    renderItem={({ item, index }) => {
-                                        return (
-                                            <View key={index}>
-                                                <Cart outOfStock={true} data={item} lang={lang} deleteProduct={deleteProduct} />
-                                                <View style={{ height: ResponsiveSize(20) }} />
+                                    }
+                                    <View style={{
+                                        // height: outOfStock?.length > 0 ? "60%" : "100%"
+                                    }} >
+                                        <FlatList
+                                            showsVerticalScrollIndicator={false}
+                                            data={data}
+                                            renderItem={({ item, index }) => {
+                                                return (
+                                                    <View key={index}>
+                                                        <Cart
+                                                            updateQnty={updateQnty}
+                                                            outOfStock={false}
+                                                            data={item} lang={lang}
+                                                            deleteProduct={deleteProduct}
+                                                        />
+                                                        <View style={{ height: ResponsiveSize(20) }} />
+                                                    </View>
+                                                )
+                                            }}
+                                        />
+                                    </View>
+                                    {
+                                        outOfStock?.length > 0 &&
+                                        <View style={{
+                                            height: "40%",
+                                            backgroundColor: "#FFE9E9",
+                                            padding: ResponsiveSize(20),
+                                        }}>
+                                            <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                                <Text style={styles.outOfStockText}>{"Out of stock"}</Text>
+                                                <TouchableOpacity onPress={() => { RemoveCart() }}>
+                                                    <Text style={styles.removeAllText}>{"Remove all"}</Text>
+                                                </TouchableOpacity>
                                             </View>
-                                        )
-                                    }}
-                                />
-                            </View>}
+                                            <FlatList
+                                                showsVerticalScrollIndicator={false}
+                                                data={outOfStock}
+                                                renderItem={({ item, index }) => {
+                                                    return (
+                                                        <View key={index}>
+                                                            <Cart outOfStock={true} data={item} lang={lang} deleteProduct={deleteProduct} />
+                                                            <View style={{ height: ResponsiveSize(20) }} />
+                                                        </View>
+                                                    )
+                                                }}
+                                            />
+                                        </View>}
+
+                                </View>
+                            </ScrollView>
+                            : (!isLoadding && index == 0) ?
+                                <View style={{ height: "100%", width: "100%", alignSelf: 'center' }}>
+                                    <DataIsNotFound color={false} />
+                                </View>
+
+                                : null}
+
 
                     </View>
-                    : (!isLoadding && index == 0) ?
-                        <View style={{ height: "100%", width: "100%" }}>
-                            <DataIsNotFound color={false} />
-                        </View>
-                        : null
+
+
                 }
 
                 {
@@ -249,7 +257,8 @@ const ShoopingCart = (props) => {
                             color="#009834"
                             ShoopingCart={true}
                         />
-                    </View>}
+                    </View>
+                }
 
                 {(index == 1 || index == 2 || index == 3) &&
                     (!isLoadding && data.length > 0) &&
