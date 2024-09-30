@@ -1,29 +1,20 @@
 
-// LIVE
-export const BASE_URL = "https://alharamstores.com"
-// export const  BASE_URL = "https://test.alharamstores.com"
-// export const  BASE_URL = "https://fairpricecorner.com"
 
-
-export const imageURL = "https://alharamstores.com"
-// export const imageURL = "https://fairpricecorner.com"
-
-
-// Gift Cart
-
-// export const imageURL = "https://beta.alharamstores.com"
-// export const GRAFORL = "https://beta.alharamstores.com/graphql"
-// export const  BASE_URL = "https://beta.alharamstores.com"
-// export const TESTGRAFORL = "https://beta.alharamstores.com/graphql"
-
-
-
-// Graph Url 
-
-
-// export const TESTGRAFORL = "https://test.alharamstores.com/graphql"
-export const GRAFORL = "https://alharamstores.com/graphql"
+// fireprics
 // export const GRAFORL = "https://fairpricecorner.com/graphql"
+// export const imageURL = "https://fairpricecorner.com"
+// export const BASE_URL = "https://fairpricecorner.com"
+
+
+// LiVE
+export const BASE_URL = "https://alharamstores.com"
+export const imageURL = "https://alharamstores.com"
+export const GRAFORL = "https://alharamstores.com/graphql"
+
+
+
+
+
 
 export const SINUPURL = BASE_URL + "/rest/arabic/V1/api/mobileOtpRegistrationMethod"
 export const LOGINURL = BASE_URL + "/rest/V1/api/loginUser"
@@ -40,16 +31,16 @@ export const AddToCart = BASE_URL + "/rest/V1/api/addToCartMethod"
 export const CartListApi = BASE_URL + "/rest/V1/api/getCartMethod"
 export const getCartItemsCount = BASE_URL + "/rest/V1/api/cartItemCountMethod"
 export const deleteCartItems = BASE_URL + "/rest/V1/api/removeCartItemMethod"
-export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDeleteMethod" 
+export const deleteAdress = BASE_URL + "/rest/default/V1/api/customerAddressDeleteMethod"
 export const expireTokenDefault = BASE_URL + "/rest/" + "default" + "/V1/carts/mine"
-export const ShippingList = BASE_URL + "/rest/V1/api/shippingListMethod" 
+export const ShippingList = BASE_URL + "/rest/V1/api/shippingListMethod"
 export const StoreShippingURL = BASE_URL + "/rest/V1/api/storePickupMethodlist"
 export const selectedShippingListMethodURl = BASE_URL + "/rest/V1/api/selectedShippingListMethod"
 export const SetPaymentMethodURL = BASE_URL + "/rest/V1/api/setPaymentMethod"
 export const OrderList = BASE_URL + "/rest/V1/api/orderListMethod"
 export const OrderView = BASE_URL + "/rest/V1/api/orderViewMethod"
-export const PRODUCTLIST = BASE_URL + "/rest/V1/api/getProductByCateId" 
-export const FilterList = BASE_URL + "/rest/V1/api/getCategoryFilterMethod" 
+export const PRODUCTLIST = BASE_URL + "/rest/V1/api/getProductByCateId"
+export const FilterList = BASE_URL + "/rest/V1/api/getCategoryFilterMethod"
 export const CoupanListAPI = BASE_URL + "/rest/V1/api/coupenListMethod"
 export const actionCoupan = BASE_URL + "/rest/V1/api/coupenActionMethod"
 export const getCustomerService = BASE_URL + "/rest/V1/api/countryToStateMethod"

@@ -85,30 +85,31 @@ const useProductDetails = (props) => {
     formData.append("custom_option", "")
 
 
-      const response = await AddToCartAPI(formData)
-      try {
-        if (response?.data?.status == NUMBER.num1) {
-          const count = productCountToCart + 1
-          SHOWTOTS(response?.data?.message)
-          setShowAnimation(false)
+    const response = await AddToCartAPI(formData)
+    try {
+      if (response?.data?.status == NUMBER.num1) {
+        const count = productCountToCart + 1
+        SHOWTOTS(response?.data?.message)
+        getProductCount()
+        setShowAnimation(false)
+        setIsLoading(false)
+        addTocartAnimation()
+      } else {
+        if (defaultColor && !color) {
+          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
           setIsLoading(false)
-          addTocartAnimation()
+        } else if (defaultSize && !size) {
+          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
+          setIsLoading(false)
         } else {
-          if(defaultColor && !color ){
-            SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color is a required field" :" هذا الحقل مطلوب.")
-            setIsLoading(false)
-          }else if (defaultSize && !size){
-            SHOWTOTS(lang?.data == NUMBER.num1 ? "Select size is a required field" :" هذا الحقل مطلوب.")
-            setIsLoading(false)
-          }else{
-            SHOWTOTS(response?.data?.message)
-          }
-          setIsLoading(false)
+          SHOWTOTS(response?.data?.message)
         }
-      } catch (error) {
-        console.log("ADD TO CARD BITTON API RESPONSE ERROR :::::::::::::::::::::::: ", error)
         setIsLoading(false)
       }
+    } catch (error) {
+      console.log("ADD TO CARD BITTON API RESPONSE ERROR :::::::::::::::::::::::: ", error)
+      setIsLoading(false)
+    }
 
   }
 

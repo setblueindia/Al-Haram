@@ -77,7 +77,7 @@ const PaymentDetails = (props) => {
 
 
   return (
-    
+
     <View style={styles.mainView}>
       <CommanHeader name={lable?.WalletHistoryDetail} navigation={navigation} lang={lang} />
       <View style={styles.container}>
@@ -105,38 +105,45 @@ const PaymentDetails = (props) => {
             <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { justifyContent: 'flex-end' }]}>
               <Text style={styles.headerText}>{lable?.WalletDetail}</Text>
             </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+
+            {data?.curr_amount && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.Amount}</Text>
               <Text style={styles.rightText}>{data?.curr_amount}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+            </View>}
+
+            {data?.action && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.Action}</Text>
               <Text style={styles.rightText}>{data?.action}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+            </View>}
+
+            {data?.type_data && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.Type}</Text>
               <Text style={styles.rightText}>{data?.type_data}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+            </View>}
+
+            {data?.reference && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.Reference}</Text>
               <Text style={styles.rightText}>{data?.reference}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+            </View>}
+
+            {data?.transaction_at && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.TransactionAt}</Text>
               <Text style={styles.rightText}>{data?.transaction_at}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+            </View>}
+
+            {data?.transaction_note && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.TransactionNote}</Text>
-              <Text numberOfLines={2} style={[styles.rightText , {width:ResponsiveSize(300)} ,lang == NUMBER.num0 && {textAlign:'right'} ]}>{data?.transaction_note}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+              <Text numberOfLines={2} style={[styles.rightText, { width: ResponsiveSize(300) }, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.transaction_note}</Text>
+            </View>}
+
+            {ststus && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.Status}</Text>
               <Text style={styles.rightText}>{ststus}</Text>
-            </View>
-            <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
+            </View>}
+            {data?.payment_method && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.PaymentMethod}</Text>
               <Text style={styles.rightText}>{data?.payment_method}</Text>
-            </View>
+            </View>}
           </View>
 
         </View>
@@ -144,7 +151,7 @@ const PaymentDetails = (props) => {
 
       </View>
 
-     
+
 
       {loadding &&
         <View style={{ height: "100%", width: "100%", position: 'absolute' }}>

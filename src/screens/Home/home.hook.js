@@ -2,7 +2,7 @@ import { Platform, Linking } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native'
 import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
@@ -27,16 +27,20 @@ const useHomeHook = (props) => {
   const scrollViewRef = useRef(null);
   const [bannerUrl, setBannerUrl] = useState()
   const [giftCart, setGiftCart] = useState()
+  const [wpNumber, setWPNumber] = useState()
 
   const version = DeviceInfo.getVersion()
+  // const version = "0.0.0"
   const [showPop, setShowPop] = useState(false)
   const [mes, setMes] = useState()
 
-  const UpdateVersion = async () => {
+  const focus = useIsFocused()
 
+  const UpdateVersion = async () => {
+    const type = Platform.OS == "ios" ? "ios" : "android"
     const data = `
 {
-  deviceVersionCheck(device_version : "${version}"){
+  deviceVersionCheck(device_version : "${version}" device_type : ${type}){
       status
       message
   }
@@ -45,10 +49,11 @@ const useHomeHook = (props) => {
     try {
       const result = await AppUpadateAPI(data, lang?.data)
       if (result?.data?.data?.deviceVersionCheck?.status) {
-        SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
+        // SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
       } else {
         setShowPop(true)
         setMes(result?.data?.data?.deviceVersionCheck?.message)
+        console.log("result?.data?.data?.deviceVersionCheck?.message ::::::: ", result?.data)
       }
     } catch (error) {
       console.log("UpdateVersion ERROR :::::: ", error)
@@ -57,13 +62,15 @@ const useHomeHook = (props) => {
 
 
   const openPlayStore = () => {
-    const url = 'https://play.google.com/store/apps/details?id=com.example.app';
+    const url = Platform.OS ==
+      'ios' ? "https://apps.apple.com/in/app/alharamstores-%D8%A7%D9%84%D9%87%D8%B1%D9%85/id1562821620" :
+      'https://play.google.com/store/apps/details?id=com.v2ideas.alharam';
     Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
   };
 
   useEffect(() => {
-    UpdateVersion()
-  }, [])
+    focus && UpdateVersion()
+  }, [focus])
 
 
 
@@ -179,6 +186,7 @@ const useHomeHook = (props) => {
     try {
       const res = await getProductDetails(params, lang?.data)
       if (res?.status == '200') {
+        setWPNumber(res?.data?.data?.getHomePageData?.whatapps_chat)
         setBannerUrl(res?.data?.data?.getHomePageData?.top_banner)
         setGiftCart(res?.data?.data?.getHomePageData?.gift_card)
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
@@ -197,26 +205,31 @@ const useHomeHook = (props) => {
 
   const SaveToken = async () => {
     const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
-    if (token) {
-      const storyViewdata = `
-      mutation{
-        pushNotificationDeviceTokenSave(input:{
-           device_id: "${token}"
-           customer_id: ${userData?.id}
-           email: "${userData?.email}"
-           device_type: ${Platform.OS == "ios" ? "ios" : "android"}
-       }){
-           status
-           message
-       }
+    if (userData?.id) {
+      if (token) {
+        const storyViewdata = `
+        mutation{
+          pushNotificationDeviceTokenSave(input:{
+             device_id: "${token}"
+             customer_id: ${userData?.id}
+             email: "${userData?.email}"
+             device_type: ${Platform.OS == "ios" ? "ios" : "android"}
+         }){
+             status
+             message
+         }
+        }
+            `
+        try {
+          const resp = userData && await Storetoken(storyViewdata, lang?.data)
+        } catch (error) {
+          console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
+        }
       }
-          `
-      try {
-        const resp = userData && await Storetoken(storyViewdata, lang?.data)
-      } catch (error) {
-        console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
-      }
+
+
     }
+
   }
 
 
@@ -292,8 +305,7 @@ const useHomeHook = (props) => {
   }, [])
 
   const openWhatsApp = () => {
-    // const phoneNumber = '8238155248';
-    const phoneNumber = '966920033093';
+    const phoneNumber = wpNumber;
     const url = "whatsapp://send?phone=" + phoneNumber + "&text=hi"
     Linking.openURL(url).catch((err) => openWhatsApp2());
   };

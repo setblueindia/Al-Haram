@@ -110,7 +110,7 @@ const ShoopingCart = (props) => {
 
                 {index == 0 &&
 
-                    <View style={{flex:1}}>
+                    <View style={{ flex: 1 }}>
 
 
                         {data.length > 0 ?
@@ -180,7 +180,6 @@ const ShoopingCart = (props) => {
 
 
                     </View>
-
 
                 }
 

@@ -290,7 +290,7 @@ const useShoppingcart = () => {
       temp.push(tempID)
     })
 
-    console.log("temp ::::::" , temp)
+    console.log("temp ::::::", temp)
     setLoadding(true)
     const deleteData = `
     mutation{
@@ -581,9 +581,11 @@ const useShoppingcart = () => {
     }
 
     if (value) {
+
+      console.log('validationTotal :::::::: ', { validationTotal: validationTotal, wallateAmount: wallateAmount, conditions: (wallateAmount < validationTotal) })
       if (edata == "walletsystem") {
         if (wallateAmount < validationTotal) {
-          setValidation(true)
+          setValidation(false)
         } else {
           setValidation(true)
         }
@@ -665,6 +667,7 @@ const useShoppingcart = () => {
     }
     try {
       const res = await PlaceeHolder2(params)
+
       if (res?.data?.status == NUMBER.num1) {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
@@ -712,6 +715,8 @@ const useShoppingcart = () => {
       } else {
         setLoadding(false)
         console.log("PlaceOrder Inner error ::::::::: ", res?.data)
+        SHOWTOTS(res?.data?.message)
+        navigation.replace(NAVIGATION.AddressBookScreen)
       }
     } catch (error) {
       console.log("Place Holder API ERROR ======> ", error)

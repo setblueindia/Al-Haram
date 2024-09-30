@@ -1,4 +1,4 @@
-import {TouchableOpacity, View, Text, ScrollView } from 'react-native';
+import { TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import CommanHeader from '../../components/ComanHeader';
 import useDrowerHook from './drower.hook';
@@ -23,7 +23,7 @@ const Drower = () => {
     setSelectedCategoryIndex(selectedCategoryIndex === index ? null : index);
   };
 
-  
+
   const filteredData = cetegouriesData?.children?.filter(category => category.include_in_menu !== 0);
 
   const groupedCategories = [];
@@ -43,7 +43,7 @@ const Drower = () => {
               return (
                 <TouchableOpacity
                   key={actualIndex}
-                  style={[styles.firstCeteImageView ,   (topIndex == actualIndex && on) && { marginTop: ResponsiveSize(20) }]}
+                  style={[styles.firstCeteImageView, (topIndex == actualIndex && on) && { marginTop: ResponsiveSize(20) }]}
                   onPress={() => {
                     handleCategoryClick(actualIndex),
                       setSubData(items?.children),
@@ -59,7 +59,7 @@ const Drower = () => {
                     ]}
                     source={items?.mobile_thumbnail ? { uri: BASE_URL + items?.mobile_thumbnail } : A}
                   />
-                  <Text style={[styles.ceteGouriesText, (topIndex == actualIndex && on) && { top: ResponsiveSize(20) }]}>{items?.name}</Text>
+                  <Text style={[styles.ceteGouriesText]}>{items?.name}</Text>
                 </TouchableOpacity>
               );
             })}
@@ -78,14 +78,14 @@ const Drower = () => {
                       lang == NUMBER.num0 && { flexDirection: 'row-reverse' },
                       subIndex == sindex && { backgroundColor: "#FFF9DF" }]}>
                       <View style={styles.subImageView}>
-                        <FastImage source={ subItem?.mobile_circle_thumbnail ? { uri: BASE_URL + subItem?.mobile_circle_thumbnail  } : A} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
+                        <FastImage source={subItem?.mobile_circle_thumbnail ? { uri: BASE_URL + subItem?.mobile_circle_thumbnail } : A} style={[styles.subImge, !subItem?.mobile_thumbnail && { resizeMode: 'contain' }]} />
                       </View>
                       <Text style={styles.text}>{subItem?.name}</Text>
                     </TouchableOpacity>
 
                     {(childData.length > 0 && subIndex == sindex) &&
                       childData.map((childItem, childIndex) => {
-     
+
                         return (
                           <TouchableOpacity
                             onPress={() => {
@@ -93,10 +93,10 @@ const Drower = () => {
                                 { cetegoriesId: childItem?.id })
                             }
                             }
-                            style={[styles.childView ]}
-                             key={childIndex}
-                             >
-                            <Text style={[styles.chaildNameText ,  lang == NUMBER.num0 && {textAlign:'right'}]}>{childItem?.name}</Text>
+                            style={[styles.childView]}
+                            key={childIndex}
+                          >
+                            <Text style={[styles.chaildNameText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{childItem?.name}</Text>
                           </TouchableOpacity>
                         )
                       })

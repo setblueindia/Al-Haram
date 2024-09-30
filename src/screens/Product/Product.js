@@ -112,6 +112,8 @@ const Product = (props) => {
                                         )
                                     }}
                                     renderItem={({ item, index }) => {
+
+                                        console.log("item ::::::::::: ", item)
                                         const name = item?.name?.substring(0, 16)
                                         return (
                                             <TouchableOpacity
@@ -120,6 +122,8 @@ const Product = (props) => {
                                                 }}
                                                 style={[styles.conntainer, data?.length == 1 && { width: ResponsiveSize(300) }]}>
                                                 <View style={styles.imageView}>
+
+
                                                     <FastImage
                                                         style={styles.image}
                                                         source={{ uri: item?.small_image?.url }}
@@ -136,6 +140,25 @@ const Product = (props) => {
                                                             alignSelf: 'center'
                                                         }}>
                                                             <ActivityIndicator size='small' color={COLOR.primaray} />
+                                                        </View>}
+
+                                                    {(item?.display_sale_label == 1 || item?.display_new_label == 1) &&
+                                                        <View style={[styles.textImgView,
+                                                        { position: 'absolute' },
+                                                        item?.display_sale_label == 1 ? { right: ResponsiveSize(0) } : { left: ResponsiveSize(0) }]}>
+                                                            <FastImage style={{ height: "100%", width: "100%" }}
+                                                                source={lang == NUMBER.num1 ? {
+                                                                    uri: item?.display_sale_label == 1 ?
+                                                                        "https://alharamstores.com/media/magiccart/lookbook/s/p/special_offer_2.png" :
+                                                                        "https://alharamstores.com/media/magiccart/lookbook/n/e/new_en_offer.png"
+                                                                }
+                                                                    :
+                                                                    {
+                                                                        uri: item?.display_sale_label == 1 ?
+                                                                            "https://alharamstores.com/media/magiccart/lookbook/s/p/special_offer01.png" :
+                                                                            "https://alharamstores.com/media/magiccart/lookbook/n/e/new_ar_offer.png"
+                                                                    }
+                                                                } />
                                                         </View>}
                                                 </View>
 
@@ -154,7 +177,7 @@ const Product = (props) => {
                                                         }
                                                     }}
                                                     style={styles.likeView}>
-                                                    <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
+                                                    <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(20)} color={COLOR.primaray} />
                                                 </TouchableOpacity>
                                             </TouchableOpacity>
                                         )

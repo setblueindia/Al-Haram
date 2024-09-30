@@ -25,7 +25,7 @@ const useProductHook = (props) => {
   const [size, setSize] = useState({ visibale: false, data: {} })
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const flatListRef = useRef(null);
-  
+
 
   const [apicalling, setApicalling] = useState(false)
 
@@ -59,10 +59,10 @@ const useProductHook = (props) => {
       )
     )
   }
-  
+
   const getFilterData = async () => {
     const params = `
-  {
+    {
     products(
       filter: {
         category_id: { eq: ${props?.route?.params?.cetegoriesId} }
@@ -142,10 +142,10 @@ const useProductHook = (props) => {
     const colorStr = color?.visibale ? "color: { eq: " + qutes + color?.data + qutes + " }," : ""
     const sizeStr = size?.visibale ? "size: { eq: " + qutes + size?.data + qutes + " }," : ""
     const priceFilter = price?.data?.length > 0 ? "price: { from: " + qutes + price?.data[0] + qutes + ", to: " + qutes + price?.data[1] + qutes + " }," : ""
-    const sortSTR = fdata?.data  ? "sort: {price: " + fdata?.data + "}" : ""
-    const sortSTR2 = action  ? "sort: {price: " + action + "}" : ""
+    const sortSTR = fdata?.data ? "sort: {price: " + fdata?.data + "}" : ""
+    const sortSTR2 = action ? "sort: {price: " + action + "}" : ""
 
-     const sortFilterSTR = fdata?.data ? sortSTR : sortSTR2
+    const sortFilterSTR = fdata?.data ? sortSTR : sortSTR2
 
     currePage < 1 && setIsLoadding(true)
     fdata && setIsLoadding(true)
@@ -201,7 +201,7 @@ const useProductHook = (props) => {
     }
   }
   `
-   try {
+    try {
       const res = await getFilterList(sdata, lang)
       if (res?.data?.data) {
         // setFilterData(res?.data?.data?.products?.aggregations)
@@ -245,8 +245,8 @@ const useProductHook = (props) => {
     });
   };
 
- 
-  
+
+
   return {
     data,
     navigation,
