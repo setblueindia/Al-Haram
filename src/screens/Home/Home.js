@@ -14,8 +14,6 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { COLOR, RESIZEMODE } from '../../constants/style';
 import FastImage from 'react-native-fast-image';
 import CusModal from '../../components/CusModal';
-import { NAVIGATION } from '../../constants/constants';
-
 
 const Home = (props) => {
   const {
@@ -88,7 +86,7 @@ const Home = (props) => {
 
           <View style={styles.categories}>
             {
-              CetegoriesData?.map((items, index) => { 
+              CetegoriesData?.map((items, index) => {
                 return (
                   <View key={index} style={styles.cetegoriesBox}>
                     {items?.children.length > 0 &&

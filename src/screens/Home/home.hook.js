@@ -2,14 +2,14 @@ import { Platform, Linking } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
-import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import DeviceInfo from 'react-native-device-info'
-import { SHOWTOTS } from '../../utils/utils'
+
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
