@@ -9,6 +9,7 @@ import { SHOWTOTS } from '../../utils/utils'
 import { config } from '../YourWay/config'
 import { Platform } from 'react-native'
 import { WallateAmount } from '../../utils/asyncStorage'
+import DeviceInfo from 'react-native-device-info'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
@@ -58,6 +59,8 @@ const useShoppingcart = () => {
   const [walletAmount, setWalletAmount] = useState()
 
   const [quoteId, setQuoteId] = useState()
+
+  const version = DeviceInfo.getVersion()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -662,7 +665,7 @@ const useShoppingcart = () => {
         "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
         "wallet_amount": walletAmount,
         "device_type": Platform.OS == 'ios' ? "react_ios" : "react_android",
-        "device_version": 0.1
+        "device_version": version
       }
     }
     try {

@@ -131,6 +131,7 @@ const Addaddress = (props) => {
               onChangeText={(text) => { setSerchText(text) }}
             />
             <ScrollView style={styles.ScrollView}>
+
               {
                 citydata?.map((items, index) => {
                   return (
@@ -138,7 +139,8 @@ const Addaddress = (props) => {
                       setSerchText("")
                       setOn(false),
                         items?.default_name ? setStae(items?.default_name) :
-                          setCity(items?.city),
+                          setCity(items?.value),
+                        // setCity(items?.city),
                         setStaeCode(items?.region_id)
                       items?.default_name && getCityData(items?.region_id)
                     }}

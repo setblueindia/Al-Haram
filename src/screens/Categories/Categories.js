@@ -32,16 +32,18 @@ const Categories = () => {
                       (setIndex(index), setViewMore(false)) : navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.category_id })
                   }}
                   style={[styles.opationView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]} key={index}>
-                  <Text style={[styles.title , lang == NUMBER.num0 && {textAlign : 'right'}]}>{items?.title}</Text>
+                  <Text style={[styles.title, lang == NUMBER.num0 && { textAlign: 'right' }]}>{items?.title}</Text>
                   {items?.sub_category.length > 0 && <Icon size={ResponsiveSize(25)}
-                   name={
-                    index == aindex ?
-                      ICON.down : lang == NUMBER.num0 ? ICON.left :  ICON.right}
-                     />
-                   }
+                    name={
+                      index == aindex ?
+                        ICON.down : lang == NUMBER.num0 ? ICON.left : ICON.right}
+                  />
+                  }
                 </TouchableOpacity>
 
                 {(index == aindex && items?.sub_category.length > 0) &&
+
+
                   <View style={styles.imageContainer} >
                     <FlatList
                       scrollEnabled={false}
@@ -51,6 +53,7 @@ const Categories = () => {
                       keyExtractor={(item, index) => index * Math.random()}
                       renderItem={({ item, index }) => {
 
+                        // console.log("::::::::::::::", item?.image)
                         return (
                           <>
                             <TouchableOpacity

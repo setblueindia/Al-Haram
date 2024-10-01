@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native"
+import { useIsFocused, useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { ASYNCSTORAGE, NUMBER } from "../../constants/constants"
 import { ColorSpace } from "react-native-reanimated"
@@ -39,6 +39,7 @@ const useProductDetails = (props) => {
   const [imageObject, setImageObject] = useState()
   const [imagesArry, setImageArry] = useState()
   const label = lang?.data == NUMBER.num0 ? Ar : En
+  const focus = useIsFocused()
   const [sliderData, setSliderData] = useState(
     [
       //     "https://img.freepik.com/premium-photo/plain-white-t-shirt-mockup-photo_398492-234.jpg",
@@ -50,8 +51,8 @@ const useProductDetails = (props) => {
     ]
   )
   useEffect(() => {
-    getData()
-  }, [])
+    focus && getData()
+  }, [focus, imagesArry])
 
   useEffect(() => {
     setQnts(1)
@@ -439,7 +440,8 @@ const useProductDetails = (props) => {
     qnt,
     imageObject,
     htmlSource,
-    getData
+    getData,
+    setImageArry
   }
 }
 

@@ -12,8 +12,7 @@ export const imageURL = "https://alharamstores.com"
 export const GRAFORL = "https://alharamstores.com/graphql"
 
 
-
-
+// furqanamar06@gmail.com
 
 
 export const SINUPURL = BASE_URL + "/rest/arabic/V1/api/mobileOtpRegistrationMethod"

@@ -94,14 +94,14 @@ export const styles = StyleSheet.create({
         borderColor: COLOR.primaray,
         marginLeft: ResponsiveSize(20),
         height: ResponsiveSize(60),
-        paddingHorizontal:ResponsiveSize(30),
-        alignItems:'center',
-        justifyContent:'center',
+        paddingHorizontal: ResponsiveSize(30),
+        alignItems: 'center',
+        justifyContent: 'center',
 
     },
     sizeText: {
         color: COLOR.black,
-        fontSize:ResponsiveSize(18)
+        fontSize: ResponsiveSize(18)
     },
 
     counteView: {
@@ -170,8 +170,8 @@ export const styles = StyleSheet.create({
     AddTocardText: {
         color: COLOR.white,
         fontSize: ResponsiveSize(25),
-       width:"100%",
-       textAlign:'center'
+        width: "100%",
+        textAlign: 'center'
     },
     reviewView: {
         width: "100%",
@@ -192,8 +192,8 @@ export const styles = StyleSheet.create({
     },
     productView: {
         flex: 1,
-        height:"100%",
-        width:"100%"
+        height: "100%",
+        width: "100%"
     },
     innerCategoriesView: {
         height: ResponsiveSize(250),
@@ -203,34 +203,34 @@ export const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderColor: "#00000040",
         padding: ResponsiveSize(20)
-      },
-      storyView: {
+    },
+    storyView: {
         borderRadius: ResponsiveSize(100),
         height: "100%",
         width: "100%",
-      },
-      textImgView: {
+    },
+    textImgView: {
         height: ResponsiveSize(90),
         width: ResponsiveSize(90),
         // backgroundColor: COLOR.black,
         position: 'absolute'
-      },
-      cetegoriesText: {
+    },
+    cetegoriesText: {
         textAlign: "center",
         color: COLOR.black,
         marginTop: ResponsiveSize(20)
-      },
-      priceText: {
+    },
+    priceText: {
         fontWeight: FONTWEGHIT.font600,
         color: COLOR.primaray,
         textAlign: 'center',
         width: "100%",
         alignSelf: 'center'
-      },
-      subCategories: {
+    },
+    subCategories: {
         flexDirection: 'row',
-        marginTop: ResponsiveSize(30),
+        // marginTop: ResponsiveSize(30),
         paddingBottom: ResponsiveSize(30),
-        paddingHorizontal:ResponsiveSize(20)
-      },
+        paddingHorizontal: ResponsiveSize(20)
+    },
 })

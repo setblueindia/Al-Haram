@@ -44,6 +44,7 @@ const ProductDetails = (props) => {
         setSizeShow,
         colorOnPress,
         sizeOnPress,
+        setImageArry,
         setSizeIndex,
         likeDislike,
         getData,
@@ -161,7 +162,7 @@ const ProductDetails = (props) => {
                         </View>
                     </ScrollView>
                 }
-                
+
                 {defaultSize &&
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>
                         <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -246,7 +247,13 @@ const ProductDetails = (props) => {
 
 
 
-
+                {details?.related_products.length > 0 &&
+                    <Text style={[{
+                        padding: ResponsiveSize(20),
+                        fontSize: ResponsiveSize(25),
+                        color: COLOR.primaray,
+                        fontWeight: "500"
+                    }, lang?.data == NUMBER.num0 && { textAlign: 'right' }]}>{lang?.data == NUMBER.num0 ? "منتجات ذات صله" : "Related Product"}</Text>}
 
                 {details?.related_products.length > 0 && <ScrollView
                     horizontal
@@ -262,12 +269,12 @@ const ProductDetails = (props) => {
                             const finalName = name.substring(0, 15);
                             const productImage = items?.image?.url
 
-                            console.log(items?.sku)
+                            // console.log(items?.sku)
 
 
                             return (
                                 <View key={index} style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
+                                    <TouchableOpacity onPress={() => { setImageArry(true), navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
                                         <View style={styles.innerCategoriesView}>
                                             <FastImage style={styles.storyView} source={{ uri: productImage }} />
                                         </View>

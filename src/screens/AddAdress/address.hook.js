@@ -34,44 +34,44 @@ const useAddressHook = (props) => {
   const [sates, setStates] = useState([])
   const [mixCity, setMixCity] = useState()
   const getData = props?.route?.params?.getData
-  const temp =  props?.route?.params?.setLoadding
+  const temp = props?.route?.params?.setLoadding
 
   const data = lang == NUMBER.num0 ?
-  {
-    EditAddress : "تعديل العنوان",
-    AddAddress: "أضف العنوان",
-    FirstName: "الاسم الاول",
-    LastName: "الإسم الأخير",
-    PhoneNumber: "رقم الهاتف",
-    Streetaddress: "حيّ",
-    Addressline1: "عنوان الشارع الخاص بك",
-    Addressline2: "رقم البيت",
-    Pincode: "البريد",
-    StateProvince: "الولاية / المحافظة ",
-    City: "المدينة",
-    SaudiArabia: "المملكة العربية السعودية",
-    Useasmydefaultbillingaddress: "استخدمة كعنوان إفتراضي لأرسال الفواتيرالخاصة بي",
-    UseasmydefaultShippingaddress: "استخدمة كعنوان الشحن الإفتراضي الخاص بي"
-  } :
-  {
-    AddAddress: "Add Address",
-    EditAddress : "Edit Address",
-    FirstName: "First Name",
-    LastName: "Last  Name",
-    PhoneNumber: "Phone Number",
-    Streetaddress: "Neighbourhood",
-    Addressline1: "Your street address ",
-    Addressline2: "Home Number",
-    Pincode: "Pincode",
-    StateProvince: "State /Province",
-    City: "City",
-    SaudiArabia: "Saudi Arabia",
-    Useasmydefaultbillingaddress: "Use as my default billing address",
-    UseasmydefaultShippingaddress: "Use as my default Shipping address",
+    {
+      EditAddress: "تعديل العنوان",
+      AddAddress: "أضف العنوان",
+      FirstName: "الاسم الاول",
+      LastName: "الإسم الأخير",
+      PhoneNumber: "رقم الهاتف",
+      Streetaddress: "حيّ",
+      Addressline1: "عنوان الشارع الخاص بك",
+      Addressline2: "رقم البيت",
+      Pincode: "البريد",
+      StateProvince: "الولاية / المحافظة ",
+      City: "المدينة",
+      SaudiArabia: "المملكة العربية السعودية",
+      Useasmydefaultbillingaddress: "استخدمة كعنوان إفتراضي لأرسال الفواتيرالخاصة بي",
+      UseasmydefaultShippingaddress: "استخدمة كعنوان الشحن الإفتراضي الخاص بي"
+    } :
+    {
+      AddAddress: "Add Address",
+      EditAddress: "Edit Address",
+      FirstName: "First Name",
+      LastName: "Last  Name",
+      PhoneNumber: "Phone Number",
+      Streetaddress: "Neighbourhood",
+      Addressline1: "Your street address ",
+      Addressline2: "Home Number",
+      Pincode: "Pincode",
+      StateProvince: "State /Province",
+      City: "City",
+      SaudiArabia: "Saudi Arabia",
+      Useasmydefaultbillingaddress: "Use as my default billing address",
+      UseasmydefaultShippingaddress: "Use as my default Shipping address",
 
-  }
+    }
 
-  
+
 
   useEffect(() => {
     const button = false;
@@ -92,6 +92,8 @@ const useAddressHook = (props) => {
     setCitydata(result.length <= 0 ? sates : result)
   }, [serchText])
 
+
+
   const gwtStateData = async (button) => {
     button && setOn(true)
     button && setPopTex(data?.StateProvince)
@@ -104,7 +106,7 @@ const useAddressHook = (props) => {
         const rep = await StateList(formData)
         if (rep?.data?.status == NUMBER.num1) {
           !sates && setCitydata(rep?.data?.data)
-          esiteData &&  getCityData(esiteData?.region?.region_id)
+          esiteData && getCityData(esiteData?.region?.region_id)
           setStates(rep?.data?.data)
           setIsLoading(false)
         } else {
@@ -120,9 +122,9 @@ const useAddressHook = (props) => {
 
   }
 
-  const getCityData = async (code , open) => {
+  const getCityData = async (code, open) => {
 
-    (state && !code )&& setOn(true)
+    (state && !code) && setOn(true)
     !code && setPopTex(data?.City)
     cities && setCitydata(cities)
     if (code) {
@@ -183,7 +185,7 @@ const useAddressHook = (props) => {
 
       try {
         const formData = new FormData
-        formData.append("address_id", esiteData?.id)
+        formData.append("address_id", esiteData?.id ? esiteData?.id : "")
         formData.append("customer_id", userData?.id)
         formData.append("firstname", firstName)
         formData.append("lastname", lastName)
@@ -197,15 +199,15 @@ const useAddressHook = (props) => {
         formData.append("telephone", mNumaber)
         // formData.append("set_is_default_billing", billing ? 1 : 0)
         // formData.append("set_is_default_shipping", shopping ? 1 : 0)
-        formData.append("set_is_default_billing",billing ? 1 : 0)
+        formData.append("set_is_default_billing", billing ? 1 : 0)
         formData.append("set_is_default_shipping", shopping ? 1 : 0)
         formData.append("store_id", lang)
         const response = await AddressList(formData)
         if (response?.data?.status) {
-          getData &&  getData()
+          getData && getData()
           SHOWTOTS(response?.data?.message ? response?.data?.message : "")
           setReload && setReload(true)
-          props?.route?.params?.setLoadding ?  navigation.goBack() : navigation.navigate( NAVIGATION.AddressBookScreen)
+          props?.route?.params?.setLoadding ? navigation.goBack() : navigation.navigate(NAVIGATION.AddressBookScreen)
           setIsLoading(false)
         } else {
           SHOWTOTS(response?.data?.message ? response?.data?.message : "")
