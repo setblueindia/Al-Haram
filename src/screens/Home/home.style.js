@@ -14,15 +14,20 @@ export const styles = StyleSheet.create({
         width: "100%",
     },
     containerView: {
-       height:"100%",
+        height: "100%",
         width: "100%",
 
     },
     siderView: {
-        flex:1
+        flex: 1
     },
     storyView: {
-        padding: ResponsiveSize(20)
+        marginHorizontal: ResponsiveSize(20),
+        flex: 1,
+        width: "100%",
+        height: "100%",
+        zIndex: 10
+
     },
     listView: {
 
@@ -52,21 +57,23 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(10),
         borderRadius: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
-        backgroundColor: "#FFEBEB",
+        // backgroundColor: "#FDEFC8",
+        // backgroundColor: "#FFEBEB",
         padding: ResponsiveSize(10),
         alignSelf: ALINE.center,
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    bannerImage :{
-     height:"100%",
-     width:"100%" ,
-     borderWidth:ResponsiveSize(1),
-     borderColor:"#00000050",
-     padding:ResponsiveSize(5),
-     borderRadius:ResponsiveSize(10),
-     alignItems:'center',
-     justifyContent:'center'
+    bannerImage: {
+        height: "100%",
+        width: "100%",
+        borderWidth: ResponsiveSize(1),
+        borderColor: "#00000050",
+        // padding: ResponsiveSize(5),
+        // backgroundColor: "#FDEFC8",
+        borderRadius: ResponsiveSize(10),
+        alignItems: 'center',
+        justifyContent: 'center'
 
     },
     bannerView3: {
@@ -74,6 +81,7 @@ export const styles = StyleSheet.create({
         height: ResponsiveSize(200),
         paddingHorizontal: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
+        backgroundColor: COLOR.white
     },
 
     bannerImg: {
@@ -83,42 +91,42 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(10),
     },
     cetegoriesBox: {
-  
+
     },
     categories: {
         marginTop: ResponsiveSize(40),
     },
     productView: {
         flex: 1,
-        height:"100%",
-        width:"100%"
+        height: "100%",
+        width: "100%"
     },
-    scrollToTopButton : {
+    scrollToTopButton: {
         position: 'absolute',
         bottom: ResponsiveSize(20),
         right: ResponsiveSize(20),
         backgroundColor: COLOR.primaray,
         padding: ResponsiveSize(10),
         borderRadius: ResponsiveSize(25),
-        height:ResponsiveSize(50),
-        width:ResponsiveSize(50),
-        alignItems:'center',
-        justifyContent:'center'
+        height: ResponsiveSize(50),
+        width: ResponsiveSize(50),
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     scrollToTopButtonText: {
         color: 'white',
         fontWeight: 'bold',
-      },
-      giftcart:{
-        paddingHorizontal:ResponsiveSize(20),
-        marginTop:ResponsiveSize(20)
+    },
+    giftcart: {
+        paddingHorizontal: ResponsiveSize(20),
+        marginTop: ResponsiveSize(20)
         // borderRadius:ResponsiveSize(20)
-      },
-      giftcartView:{
-        height:ResponsiveSize(400),
-        width:"100%",
-        borderRadius:ResponsiveSize(20)
+    },
+    giftcartView: {
+        height: ResponsiveSize(400),
+        width: "100%",
+        borderRadius: ResponsiveSize(20)
 
-      }
+    }
 
 })

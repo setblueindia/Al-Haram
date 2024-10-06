@@ -227,8 +227,6 @@ const useProductHook = (props) => {
     }
   }
 
-
-
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     if (offsetY > 300) {

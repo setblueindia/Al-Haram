@@ -40,23 +40,20 @@ const useProductDetails = (props) => {
   const [imagesArry, setImageArry] = useState()
   const label = lang?.data == NUMBER.num0 ? Ar : En
   const focus = useIsFocused()
-  const [sliderData, setSliderData] = useState(
-    [
-      //     "https://img.freepik.com/premium-photo/plain-white-t-shirt-mockup-photo_398492-234.jpg",
-      //     "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV8yOV9waG90b19vZl9hX3doaXRlX3Qtc2hpcnRfb25fYV9taW5pbWFsX2JhY2tncl9lNzEyYTMzOC0wZmU5LTRjMTYtOWFkMC0wMDAyMDEyZWRlNDlfMS5qcGc.jpg",
-      //     "https://img.freepik.com/premium-photo/white-cotton-t-shirt-mockup-tshirt-mockup_677428-1081.jpg",
-      //     "https://images.unsplash.com/photo-1618677603286-0ec56cb6e1b5?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8d2hpdGUlMjB0JTIwc2hpcnR8ZW58MHx8MHx8fDA%3D",
-      //     "https://img.freepik.com/premium-photo/fashion-dress-mockup-white-tshirt-blank_856660-6512.jpg",
-      //     "https://img.freepik.com/premium-photo/blank-white-tshirts-mockup-hanging-white-wall-front-view-template-custom-design-generative-ai_117038-6478.jpg"
-    ]
-  )
+  const [sliderData, setSliderData] = useState([])
+
   useEffect(() => {
-    focus && getData()
+    if (focus) {
+      getData()
+      getProductCount()
+    }
   }, [focus, imagesArry])
 
   useEffect(() => {
     setQnts(1)
   }, [navigation])
+
+
 
   const onShare = async () => {
     const shareOptions = {

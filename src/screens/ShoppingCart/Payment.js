@@ -15,6 +15,11 @@ const Payment = ({
   lang,
   // showWallet,
   // setShowWallet,
+  type,
+  applyGiftCart,
+  giftCardList,
+  setGiftCardCode,
+  giftCardCode,
   paymentScreenData,
   wallateAmount,
   selectPayment,
@@ -28,7 +33,12 @@ const Payment = ({
   remove,
   setSelectPayemrntMethod,
   coupanCode,
-  setWalletAmount
+  setWalletAmount,
+  setGiftCardList,
+  setGiftCartDis,
+  getGiftCartdSatus,
+  setGiftSatus,
+  giftSatus
 }) => {
   const [showWallet, setShowWallet] = useState(false)
   const [COD, setCOD] = useState(false)
@@ -47,12 +57,24 @@ const Payment = ({
         const aa = parseInt(items?.value)
         temp.push(aa)
       }
+
+      if (items?.code == "amgiftcard") {
+        const aa = items?.title?.split(",").map(item => item.trim());
+        const tempVAL = items?.value
+        const val = parseInt(tempVAL)
+        setGiftCartDis(val ? val : 0)
+        setGiftCardList(aa)
+      } else {
+        setGiftCardList([])
+        setGiftCartDis(0)
+      }
     })
     setTotalAmount(temp)
     setEtrx(temp)
   }
 
   const walletPress = async () => {
+    setGiftSatus()
     selectPaymentMethod("walletsystem")
     setSelectPayemrntMethod("walletsystem")
     setCOD(false)
@@ -62,22 +84,24 @@ const Payment = ({
     finalAmount()
   }, [txtData])
 
+
+
   return (
     <KeyboardAwareScrollView style={{ flex: 1 }}>
       <View style={styles.mainView}>
-        <View style={styles.delevryView}>
+        {paymentScreenData?.dispatch_note && <View style={styles.delevryView}>
           <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.label}</Text>
           <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.date}</Text>
         </View>
-
+        }
         <View style={styles.paymentView}>
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
 
-          {wallateAmount > 0 &&
+          {(wallateAmount > 0 && type !== "amgiftcard") &&
             <TouchableOpacity
               onPress={() => {
                 showWallet ? setShowWallet(false) : setShowWallet(true)
-                showWallet ? validation(false , "walletsystem" , WAmount) : validation(true , "walletsystem" , WAmount)
+                showWallet ? validation(false, "walletsystem", WAmount) : validation(true, "walletsystem", WAmount)
                 walletPress()
               }}
               style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -93,6 +117,8 @@ const Payment = ({
                 setCredit={setCredit} />
               <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
             </TouchableOpacity>}
+
+
           {
             showWallet &&
             <View style={styles.wallateDeatails}>
@@ -138,18 +164,18 @@ const Payment = ({
             </View>
           }
 
-          {/* {console.log("::::::::" , {showWallet : wallateAmount , wallateAmount : wallateAmount , totalAmount : totalAmount[0]} )} */}
-
           {
-            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet)) &&
+            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet) && type !== "amgiftcard") &&
             <View>
               <TouchableOpacity
                 onPress={() => {
                   setCOD(true)
                   setCredit(false)
-                  validation(true , "COD" ,  WAmount)
+                  validation(true, "COD", WAmount)
                   setSelectPayemrntMethod("COD")
                   selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code)
+                  setGiftSatus()
+
                 }}
                 style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <View style={[styles.fillView, COD &&
@@ -159,16 +185,18 @@ const Payment = ({
                 }]}>
 
                 </View>
-                <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>
+                {paymentScreenData?.payment_methods && <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>}
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => {
                   setCOD(false)
                   setCredit(true)
-                  validation(true , "Cradite" , WAmount)
+                  validation(true, "Cradite", WAmount)
                   selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code)
                   setSelectPayemrntMethod("Cradite")
+                  setGiftSatus()
+
                 }}
                 style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <View style={[styles.fillView, credit &&
@@ -176,16 +204,48 @@ const Payment = ({
                   backgroundColor: COLOR.primaray,
                   borderColor: COLOR.primaray,
                 }]}></View>
-                <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>
+                {paymentScreenData?.payment_methods && <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>}
               </TouchableOpacity>
-            </View>}
+            </View>
+          }
+
+          {type == "amgiftcard" &&
+            <TouchableOpacity
+              onPress={() => {
+                validation(true, "Cradite", WAmount)
+                setCredit(true)
+                selectPaymentMethod("magveg")
+                setSelectPayemrntMethod("Cradite")
+
+              }}
+              style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+              <View style={[styles.fillView, credit &&
+              {
+                backgroundColor: COLOR.primaray,
+                borderColor: COLOR.primaray,
+              }]}>
+
+              </View>
+              <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Online payment" : "الدفع عبر الإنترنت"}</Text>
+            </TouchableOpacity>}
+
+
 
           <View style={styles.lineView} />
           {txtData?.map((items, index) => {
             return (
-              <View key={index} style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
-                <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text>
+              <View key={index} >
+                {items?.code == "amgiftcard" && <Text style={[{
+                  marginBottom: ResponsiveSize(-10),
+                  marginTop: ResponsiveSize(10),
+                  color: COLOR.black, fontWeight:
+                    FONTWEGHIT.font400
+                }, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Giftcard" : "بطاقات الهدايا"}</Text>}
+                <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
+                  <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
+                  <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text>
+                </View>
               </View>
             )
           })}
@@ -206,18 +266,135 @@ const Payment = ({
             </View>}
         </View>
 
-        <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
-          {!remove && 
-          <TextInput
-            style={styles.coupnTextInput}
-            placeholder={lable?.EnterCoupanCode}
-            placeholderTextColor={COLOR.darkGray}
-            textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-            onChangeText={text => setCoupanCode(text)}
-            value={coupanCode ? coupanCode : ""}
-            
-          />}
+        {/* ::::::::::::::::::::::::::::: ADD GITCAT GEGIEN ::::::::::::::::::::::::::::: */}
+
+        {type !== "amgiftcard" &&
+          <View style={styles?.giftCartdMainView}>
+            <View style={{
+              width: "100%",
+            }}>
+
+              {giftCardList.length > 0
+                && giftCardList?.map((item, index) => {
+                  return (
+                    <View key={index}
+                      style={[styles.coupnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+
+                      {lang == NUMBER.num0 ?
+                        <Text>{item + " (بطاقات الهدايا)"}</Text> :
+                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{item + " (Gift Card)"}</Text>}
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          applyGiftCart(0, item)
+                          setCOD(false),
+                            setCredit(false),
+                            setShowWallet(false),
+                            setSelectPayemrntMethod()
+                          setGiftSatus()
+
+                        }}
+
+                        style={styles.CLRemoveBTN}>
+                        <Text
+                          style={{
+                            fontSize: ResponsiveSize(20),
+                            color: COLOR.primaray
+                          }}
+                        >{lang == NUMBER.num0 ? "إزالة" : "Remove"}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                })}
+            </View>
+
+
+
+
+            <View style={[{}, lang == NUMBER.num0 && {}]}>
+
+              <TextInput
+                style={[styles.coupnTextInput, { marginTop: ResponsiveSize(20), width: "100%" }]}
+                placeholder={lang == NUMBER.num1 ? "Enter gifcard code" : "ادخل رمز البطاقة"}
+                placeholderTextColor={COLOR.darkGray}
+                textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+                onChangeText={text => { setGiftCardCode(text) }}
+                value={giftCardCode ? giftCardCode : ""}
+
+              />
+
+              <View style={styles.GIFTBtn}>
+                <TouchableOpacity
+                  onPress={() => {
+                    getGiftCartdSatus()
+                  }}
+                  style={styles.ChwckStausBTN}>
+                  <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تحقق" : "Check Status"}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    applyGiftCart(1),
+                      setCOD(false)
+                    setCredit(false),
+                      setShowWallet(false),
+                      setSelectPayemrntMethod(),
+                      setGiftSatus()
+                  }}
+                  style={styles.GIFTApplyBTN}>
+                  <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
+                </TouchableOpacity>
+
+              </View>
+
+
+
+            </View>
+
+            {giftSatus?.data &&
+              <View style={{ height: "100%", marginBottom: ResponsiveSize(10) }}>
+                {giftSatus?.data?.balance &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"Balance "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.balance}</Text>
+                  </View>}
+
+                {giftSatus?.data?.code &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"Code "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.code}</Text>
+                  </View>}
+
+                {giftSatus?.data?.expiredDate &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"expiredDate "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.expiredDate}</Text>
+                  </View>}
+
+                {giftSatus?.data?.status &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"status "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.status}</Text>
+                  </View>}
+
+              </View>}
+
+          </View>}
+        {/* ::::::::::::::::::::::::::::: ADD GITCAT GEGIEN ::::::::::::::::::::::::::::: */}
+
+        {type !== "amgiftcard" && <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+
+          {!remove &&
+            <TextInput
+              style={styles.coupnTextInput}
+              placeholder={lable?.EnterCoupanCode}
+              placeholderTextColor={COLOR.darkGray}
+              textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+              onChangeText={text => setCoupanCode(text)}
+              value={coupanCode ? coupanCode : ""}
+
+            />}
 
           {remove && <View style={[styles.coupnTextInput, { justifyContent: 'center' }]}>
             <Text>{coupanCode ? coupanCode : ""}</Text>
@@ -231,7 +408,8 @@ const Payment = ({
               }}
               style={styles.applyView}>
               <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
-            </TouchableOpacity>}
+            </TouchableOpacity>
+          }
 
           {remove && <TouchableOpacity
             onPress={() => {
@@ -243,7 +421,12 @@ const Payment = ({
             <Text style={[styles.btnText, { fontSize: ResponsiveSize(21) }]}>{lang == NUMBER.num0 ? "إزالة" : "Remove"}</Text>
           </TouchableOpacity>}
 
-        </View>
+        </View>}
+
+
+
+
+
         {!remove &&
           <View>
 
@@ -275,6 +458,8 @@ const Payment = ({
                 )
               })}
           </View>}
+
+
       </View><View style={{ height: ResponsiveSize(200) }} />
 
     </KeyboardAwareScrollView>
@@ -284,6 +469,102 @@ const Payment = ({
 export default Payment
 
 const styles = StyleSheet.create({
+
+  GIFTBtn: {
+    width: "100%",
+    justifyContent: ALINE.spaceBetween,
+    flexDirection: ALINE.row,
+    marginBottom: ResponsiveSize(20),
+    paddingHorizontal: ResponsiveSize(5)
+  },
+
+  GIFTApplyBTN: {
+    marginTop: ResponsiveSize(20),
+    backgroundColor: COLOR.primaray,
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    padding: ResponsiveSize(10),
+    width: ResponsiveSize(230),
+    height: ResponsiveSize(60),
+    borderRadius: ResponsiveSize(10)
+  },
+  ChwckStausBTN: {
+    marginTop: ResponsiveSize(20),
+    backgroundColor: "green",
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    padding: ResponsiveSize(10),
+    width: ResponsiveSize(230),
+    height: ResponsiveSize(60),
+    borderRadius: ResponsiveSize(10)
+  },
+  CLRemoveBTN: {
+    height: ResponsiveSize(50),
+    width: ResponsiveSize(100),
+    backgroundColor: COLOR.white,
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    elevation: ResponsiveSize(5),
+    borderRadius: ResponsiveSize(10),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.primaray,
+
+  },
+  giftCartdMainView: {
+    width: "100%",
+    flex: 1,
+    backgroundColor: "#00000009",
+    paddingHorizontal: ResponsiveSize(20),
+    marginTop: ResponsiveSize(10),
+    borderRadius: ResponsiveSize(20),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.darkGray,
+
+  },
+
+  giftSatusANS: {
+    color: "green",
+    fontWeight: FONTWEGHIT.font600,
+    fontSize: ResponsiveSize(18)
+  },
+
+  giftCardSatusView: {
+
+    width: "100%",
+    height: ResponsiveSize(45),
+    borderBottomWidth: ResponsiveSize(1),
+    marginBottom: ResponsiveSize(10),
+    alignItems: ALINE.center,
+    justifyContent: ALINE.spaceBetween,
+    flexDirection: ALINE.row,
+    paddingHorizontal: ResponsiveSize(5),
+    borderColor: COLOR.darkGray
+
+  },
+
+  coupnView: {
+    width: "100%",
+    height: ResponsiveSize(80),
+    marginTop: ResponsiveSize(20),
+    borderRadius: ResponsiveSize(10),
+    justifyContent: ALINE.spaceBetween,
+    alignItems: ALINE.center,
+    paddingHorizontal: ResponsiveSize(10),
+    flexDirection: ALINE.row,
+    elevation: ResponsiveSize(5),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.darkGray,
+    backgroundColor: COLOR.white,
+    shadowColor: COLOR.darkGray,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
+
+  },
+
   delevryView: {
     height: ResponsiveSize(100),
     width: "100%",
@@ -308,7 +589,8 @@ const styles = StyleSheet.create({
     borderColor: "#00000080",
     marginTop: ResponsiveSize(20),
     backgroundColor: "#00000009",
-    padding: ResponsiveSize(20)
+    padding: ResponsiveSize(20),
+    borderRadius: ResponsiveSize(20)
   },
   palymentopationText: {
     color: COLOR.black,
@@ -373,8 +655,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 10,
     shadowColor: COLOR.black,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center
   },
   coupanView: {
     width: "100%",
@@ -415,7 +697,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: COLOR.white,
-    fontSize: ResponsiveSize(25),
+    fontSize: ResponsiveSize(20),
     fontWeight: FONTWEGHIT.font600,
     width: "100%",
     textAlign: ALINE.center
@@ -459,7 +741,7 @@ const styles = StyleSheet.create({
   containerText: {
     color: "#202020",
     lineHeight: ResponsiveSize(30),
-    textAlign: 'center',
+    textAlign: ALINE.center,
     height: ResponsiveSize(100)
   },
   priceView: {
@@ -467,14 +749,14 @@ const styles = StyleSheet.create({
     width: ResponsiveSize(120),
     backgroundColor: COLOR.primaray,
     borderRadius: ResponsiveSize(5),
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
     marginTop: ResponsiveSize(10)
   },
   priceText: {
     color: COLOR.white,
     width: "100%",
-    textAlign: 'center'
+    textAlign: ALINE.center
   },
   walletLineView: {
     height: ResponsiveSize(110),
@@ -492,50 +774,49 @@ const styles = StyleSheet.create({
     borderColor: COLOR.primaray,
     backgroundColor: "#FFEEEE",
     position: 'absolute',
-    alignSelf: 'center',
+    alignSelf: ALINE.center,
     top: ResponsiveSize(10),
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center
   },
   mainusText: {
     fontSize: ResponsiveSize(30),
-    textAlign: 'center',
+    textAlign: ALINE.center,
 
   },
   lastTexrt: {
-    textAlign: 'center',
+    textAlign: ALINE.center,
     color: COLOR.primaray,
     marginBottom: ResponsiveSize(20)
   },
   commonView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.spaceBetween,
     width: "100%"
   },
   manulCoupanView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: ALINE.row,
+    alignItems: ALINE.center,
+    justifyContent: ALINE.spaceBetween,
     marginTop: ResponsiveSize(20),
   },
   coupnTextInput: {
-    height: ResponsiveSize(80),
+    height: ResponsiveSize(70),
     width: ResponsiveSize(400),
-    borderRadius: ResponsiveSize(100),
+    borderRadius: ResponsiveSize(20),
     borderWidth: ResponsiveSize(1),
     borderColor: COLOR.darkGray,
-    // marginTop: ResponsiveSize(20),
     paddingHorizontal: ResponsiveSize(20),
     color: COLOR.black
   },
   applyView: {
-    height: ResponsiveSize(50),
+    height: ResponsiveSize(60),
     width: ResponsiveSize(120),
-    borderRadius: ResponsiveSize(100),
+    borderRadius: ResponsiveSize(20),
     backgroundColor: COLOR.primaray,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center'
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    alignSelf: ALINE.center
   }
 
 

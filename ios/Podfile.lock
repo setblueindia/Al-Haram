@@ -1407,7 +1407,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-webview (13.12.2):
+  - react-native-webview (13.12.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1739,7 +1739,7 @@ PODS:
   - RNGoogleSignin (12.2.1):
     - GoogleSignIn (~> 7.1)
     - React-Core
-  - RNReanimated (3.15.3):
+  - RNReanimated (3.15.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1759,10 +1759,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.3)
-    - RNReanimated/worklets (= 3.15.3)
+    - RNReanimated/reanimated (= 3.15.4)
+    - RNReanimated/worklets (= 3.15.4)
     - Yoga
-  - RNReanimated/reanimated (3.15.3):
+  - RNReanimated/reanimated (3.15.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1783,7 +1783,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated/worklets (3.15.3):
+  - RNReanimated/worklets (3.15.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2169,7 +2169,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 913cf60d0400ebd5d6b63a28b290372ab44590dd
   FirebaseMessaging: 7b5d8033e183ab59eb5b852a53201559e976d366
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
-  glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
+  glog: 69ef571f3de08433d766d614c73a9838a06bf7eb
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
@@ -2181,7 +2181,7 @@ SPEC CHECKSUMS:
   lottie-react-native: 27aac05865dd6de7c90b1064f98374d17336c6db
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  RCT-Folly: 045d6ecaa59d826c5736dfba0b2f4083ff8d79df
+  RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
   RCTDeprecation: 4191f6e64b72d9743f6fe1a8a16e89e868f5e9e7
   RCTRequired: 9bb589570f2bb3abc6518761e3fd1ad9b7f7f06c
   RCTTypeSafety: 1c1a8741c86df0a0ac1a99cf3fb0e29eedbc2c88
@@ -2217,7 +2217,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-slider: 5103fdf2444d1038fb614d6992aae8a65c0d1596
-  react-native-webview: 90edc35a70c053b9b44a07cdd0e22414d433f48c
+  react-native-webview: d9a8bad8f501ca1b282165123ff7b3c16cd970df
   React-nativeconfig: cd572c97f64676dcc2a1c88fc644b693b98408bf
   React-NativeModulesApple: 249c7a23d8ad82f13778f4f525a8d19ccf4deb86
   React-perflogger: 3bbb82f18e9ac29a1a6931568e99d6305ef4403b
@@ -2255,7 +2255,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 81f9447a3790df25c72753b446247ebeba95b182
   RNGestureHandler: b1bde7ef45d1472a8145a143efc097df8a9173a4
   RNGoogleSignin: 08dc4ba7eac2096c7fecfe109f0950fa4683c803
-  RNReanimated: 588d6037ed5b6aed59f0a1d08f163efce125d0cb
+  RNReanimated: 5bc479ee962a00bc41a0cc573ff7daa083626173
   RNScreens: de55b9d7de8a017d1588dcb70415492d0b0597c2
   RNShare: 0fad69ae2d71de9d1f7b9a43acf876886a6cb99c
   RNVectorIcons: 7b81882e9c9369031aede0016dee0fe415cf2f43

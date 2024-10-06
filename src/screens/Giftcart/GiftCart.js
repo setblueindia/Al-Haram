@@ -1,7 +1,6 @@
-import { ScrollView, StyleSheet, Text, TextComponent, TextInput, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './giftcart.style'
-import CustomeHeader from '../../components/CustomeHeader'
 import Slider from '../../components/Slider'
 import { ResponsiveSize } from '../../utils/utils'
 import FastImage from 'react-native-fast-image'
@@ -15,8 +14,7 @@ import CommanHeader from '../../components/ComanHeader'
 import CusLoader from '../../components/CustomLoader'
 import { Ar, En } from '../../constants/localization'
 
-const GiftCart = () => {
-
+const GiftCart = (props) => {
 
     // const sdata = [
     //     "https://images.unsplash.com/photo-1637070155805-e6fbee6ec2cf?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lmdCUyMGNhcmR8ZW58MHx8MHx8fDA%3D",
@@ -24,7 +22,6 @@ const GiftCart = () => {
     //     "https://images.unsplash.com/photo-1637070155805-e6fbee6ec2cf?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lmdCUyMGNhcmR8ZW58MHx8MHx8fDA%3D",
     //     "https://plus.unsplash.com/premium_photo-1669740575755-4434d69ae654?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGdpZnQlMjBjYXJkfGVufDB8fDB8fHww"
     // ]
-
 
     const {
         navigation,
@@ -36,6 +33,13 @@ const GiftCart = () => {
         price,
         inputPrice,
         userData,
+        name,
+        recipientName,
+        recipientNumber,
+        message,
+        recipientEmail,
+        ondata,
+        giftCardID,
         setName,
         setRecipientName,
         setRecipientEmail,
@@ -46,15 +50,16 @@ const GiftCart = () => {
         pricvePress,
         setInputPrice,
         addWallte,
+        setOnData,
+        checkValidation,
         setPrice,
-        selectIndex
-    } = useGiftHook()
+        selectIndex,
+        error
+    } = useGiftHook(props)
 
 
 
     const lable = lang == NUMBER.num0 ? Ar : En
-
-    // console.log(recipientDetails)
 
     const renderRicipint = () => {
         const imageComponents = [];
@@ -106,16 +111,20 @@ const GiftCart = () => {
                 </View>
                 <View style={{ paddingHorizontal: ResponsiveSize(25) }}>
                     <Text style={[styles.titelText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.name} </Text>
-                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Be the first to review this product" : "قيمة البطاقة بالريال السعودي"}</Text>
+                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?
+                        "Be the first to review this product"
+                        : "قيمة البطاقة بالريال السعودي"}
+                    </Text>
 
                     <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + price}</Text>
-                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SKU #easter-gift-cards"}</Text>
+                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{giftCardID}</Text>
 
-                    <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Card Value in USD" : "قيمة البطاقة باللاير السعودي"}</Text>
+                    <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{
+                        lang == NUMBER.num1 ? "Card Value in USD" : "قيمة البطاقة باللاير السعودي"}</Text>
                     <View style={[styles.priceContainer, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
                         {data?.am_giftcard_prices?.map((items, index) => {
-        
+
                             return (
                                 <View style={{ padding: ResponsiveSize(5) }}>
                                     <TouchableOpacity onPress={() => { pricvePress(index, items?.value) }} style={[styles.priceBox, selectIndex == index && { backgroundColor: COLOR.primaray }]}>
@@ -172,51 +181,82 @@ const GiftCart = () => {
                         </View>
                     </ScrollView> */}
 
-                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Upload your own design" : "قم بتحميل التصميم الخاص بك"}</Text>
+                    {/* <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Upload your own design" : "قم بتحميل التصميم الخاص بك"}</Text>
                     <TouchableOpacity style={[styles.browsePic, lang == NUMBER.num0 && { alignSelf: 'flex-end', flexDirection: 'row-reverse' }]}>
                         <Icon name="add-a-photo" size={ResponsiveSize(30)} color={COLOR.white} />
                         <Text style={styles.browserText}>{lang == NUMBER.num1 ? "Browser" : "تصفح"}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {/* {renderRicipint()} */}
 
 
 
-                    {recipientDetails?.map((item , index) => {
+                    {recipientDetails?.map((item, index) => {
 
-                        // console.log("item ::::::::::::: " , item?.am_giftcard_recipient_email)
                         return (
                             <View>
+
                                 <View style={styles.barView} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Your Name" : "الاسم"}</Text>
                                 <View style={styles.div2} />
-                                <TextFildCus onChange={setName} text={lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"} />
+
+                                <TextFildCus
+                                    value={item?.am_giftcard_sender_name ? item?.am_giftcard_sender_name : name}
+                                    onChange={setName}
+                                    text={lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"}
+                                />
+                                {(!item?.am_giftcard_sender_name && error && !name) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"}</Text>}
+
+
 
                                 <View style={styles.div2} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Name" : "اسم المستلم"}</Text>
                                 <View style={styles.div2} />
-                                <TextFildCus onChange={setRecipientName} text={lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"} />
+                                <TextFildCus
+                                    value={item?.am_giftcard_recipient_name ? item?.am_giftcard_recipient_name : recipientName}
+                                    onChange={setRecipientName}
+                                    text={lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"}
+                                />
+                                {(!item?.am_giftcard_recipient_name && error && !recipientName) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"}</Text>}
+
+
+
+
                                 <View style={styles.div2} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Email" : "البريد الإلكتروني للمستلم"}</Text>
                                 <View style={styles.div2} />
+                                <TextFildCus
+                                    value={item?.am_giftcard_recipient_email ? item?.am_giftcard_recipient_email : recipientEmail}
+                                    onChange={setRecipientEmail}
+                                    text={lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"}
+                                />
+                                {(!item?.am_giftcard_recipient_email && error && !recipientEmail) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"}</Text>}
 
-                                <TextFildCus onChange={setRecipientEmail} text={lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"} />
-                                {/* {!item?.am_giftcard_recipient_email && <Text style={styles.eerroText}>{"Enter Recipient Email"}</Text>} */}
-                
+
+
                                 <View style={styles.div2} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Mobile Number" : "هاتف المستلم"}</Text>
                                 <View style={styles.div2} />
-                                <TextFildCus onChange={setRecipientNumber} text={lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"} />
+                                <TextFildCus
+                                    value={item?.mobilenumber ? item?.mobilenumber : recipientNumber}
+                                    onChange={setRecipientNumber}
+                                    text={lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"} />
+                                {(!item?.mobilenumber && error && !recipientNumber) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"}</Text>}
+
+
                                 <View style={styles.div2} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Message" : "رسالة"}</Text>
                                 <View style={styles.div2} />
+
                                 <TextInput
-                                    // onChange={setMessage}
+                                    value={item?.am_giftcard_message ? item?.am_giftcard_message : message}
                                     onChangeText={(text) => { setMessage(text) }}
                                     textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                                     multiline={true}
                                     placeholder={lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}
                                     style={styles.messTextInput}
                                 />
+                                {(!item?.am_giftcard_message && error && !message) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}</Text>}
+
                                 <View style={styles.div2} />
                             </View>
                         )
@@ -237,23 +277,31 @@ const GiftCart = () => {
 
                     <View style={styles.barView} />
                     <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Schedule delivery"}</Text>
-                    <View style={[{ flexDirection: 'row', width: "60%", justifyContent: 'space-between' }, lang == NUMBER.num0 && { alignSelf: 'flex-end' }]}>
-                        <TouchableOpacity style={[styles.cheackboxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                            <View style={styles.roundView} />
+
+                    <View style={[{ flexDirection: 'row', width: "100%", }, lang == NUMBER.num0 && { alignItems: 'flex-end' }]}>
+
+                        <TouchableOpacity
+                            onPress={() => { setOnData(1) }}
+                            style={[styles.cheackboxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse', }]}>
+                            <View style={[styles.roundView, ondata == 0 && { borderWidth: ResponsiveSize(1) },]} />
                             <Text style={[styles.checktext, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ? "Send now" : "أرسل الآن"}</Text>
                         </TouchableOpacity>
+                        {/* 
 
-                        <TouchableOpacity style={[styles.cheackboxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                            <View style={styles.roundView} />
+                        <TouchableOpacity
+                            onPress={() => { setOnData(0) }}
+                            style={[styles.cheackboxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                            <View style={[styles.roundView, ondata == 1 && { borderWidth: ResponsiveSize(1) },]} />
                             <Text style={[styles.checktext, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ? "Send later" : "إرسال لاحقاً"}</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                     </View>
 
                     <View style={styles.barView} />
 
                     <View style={[styles.btnConatainer, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <TouchableOpacity
+
+                        {/* <TouchableOpacity
                             onPress={() => { }}
                             style={styles.likeBtn}>
                             <Icon2 name={ICON.hearto} size={ResponsiveSize(30)} color={COLOR.primaray} />
@@ -264,12 +312,12 @@ const GiftCart = () => {
                             onPress={() => { }}
                             style={styles.shareBtn}>
                             <Icon2 name={"sharealt"} size={ResponsiveSize(30)} color={COLOR.primaray} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <TouchableOpacity
                             onPress={() => { userData ? onAddTocart() : navigation.navigate(NAVIGATION.Login) }}
                             style={styles.AddToCartBtn}>
-                            <Text style={styles.AddTocardText}>{"Add to card"}</Text>
+                            <Text style={styles.AddTocardText}>{lang == NUMBER.num1 ? "Add to card" : "إضافة إلى عربة التسوق"}</Text>
                         </TouchableOpacity>
 
                     </View>

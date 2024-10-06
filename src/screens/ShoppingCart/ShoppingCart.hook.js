@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, CartListCount, DeleteCartItems, DeteleProductToCart, ExpireToken, GetWallateAmount, PlaceeHolder2, ProductlistCount, getActonCoupan, getCoupan, getPlaceHolder1, getShippingListAxios, getStorePickupMethod, postUpdateCart, setPaymentMethod } from '../../api/axios.api'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
@@ -10,30 +9,44 @@ import { config } from '../YourWay/config'
 import { Platform } from 'react-native'
 import { WallateAmount } from '../../utils/asyncStorage'
 import DeviceInfo from 'react-native-device-info'
+import {
+  APPLYGIFTCART,
+  CartList,
+  DeteleProductToCart,
+  ExpireToken,
+  GIFATCARTSATUS,
+  GetWallateAmount,
+  PlaceeHolder2,
+  ProductlistCount,
+  getActonCoupan,
+  getCoupan,
+  getPlaceHolder1,
+  getShippingListAxios,
+  getStorePickupMethod,
+  postUpdateCart,
+  setPaymentMethod
+} from '../../api/axios.api'
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
   const productNo = useSelector(state => state?.AddToCart?.data)
+  const productCount = useSelector(state => state?.AddToCart?.data)
+  const userData = useSelector(state => state?.userData)
+  const Token = useSelector(state => state?.userData?.data?.token)
+
   const disPatch = useDispatch()
   const [index, setIndex] = useState(0)
   const [data, setData] = useState([])
   const [isLoadding, setLoadding] = useState(false)
   const navigation = useNavigation()
-  const Token = useSelector(state => state?.userData?.data?.token)
-  const userData = useSelector(state => state?.userData)
   const [outOfStock, setOutOfStock] = useState([])
-  const productCount = useSelector(state => state?.AddToCart?.data)
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const dispatch = useDispatch()
-
-
 
   // For Address
   const [addressCod, setAddressCode] = useState()
   const [billingAddress, setBillingAddress] = useState([])
   const [selectAddressList, setSelectAddress] = useState()
-
-
 
   const [ShhippingData, SetShippingdata] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -53,10 +66,15 @@ const useShoppingcart = () => {
   const [validationn, setValidation] = useState(false)
 
   const [noties, setNotices] = useState()
-
   const [extra, setEtrx] = useState()
   const [selectPayemrntMethod, setSelectPayemrntMethod] = useState()
   const [walletAmount, setWalletAmount] = useState()
+
+  const [giftCardCode, setGiftCardCode] = useState()
+  const [giftCardList, setGiftCardList] = useState([])
+  const [giftCartDis, setGiftCartDis] = useState(0)
+  const [giftSatus, setGiftSatus] = useState()
+  const [type, setType] = useState()
 
   const [quoteId, setQuoteId] = useState()
 
@@ -167,10 +185,16 @@ const useShoppingcart = () => {
 
         }]
     }
+
+
   useEffect(() => {
     getData()
-    // getWallateData()
   }, [navigation])
+
+
+
+  console.log("TYPE ::::::::", type)
+
 
   const onPress = () => {
     if (index < 3) {
@@ -183,8 +207,13 @@ const useShoppingcart = () => {
           setShowModal(true)
           setMessages(lang == NUMBER.num1 ? "Please select address" : "الرجاء تحديد العنوان")
         } else {
-          getShipingList()
-          setIndex(index + 1)
+          if (type == "amgiftcard") {
+            setIndex(3)
+          } else {
+            getShipingList()
+            setIndex(index + 1)
+          }
+
         }
       }
       if (index == 2) {
@@ -235,14 +264,21 @@ const useShoppingcart = () => {
     formData.append("token", Token)
     try {
       const response = await CartList(formData)
-      if (response.data.status) {
+      if (response?.data?.status) {
         setQuoteId(response?.data?.data?.quote_id)
         setNotices(response?.data?.data?.notice)
         const inStockItems = [];
         const outOfStockItems = [];
         response?.data?.data?.items.forEach(item => {
           if (item.isInStock) {
+            // console.log("esponse?.data?.data :::::::: ", response?.data?.data)
             inStockItems.push(item);
+            inStockItems?.map((item) => {
+              if (item?.type == "amgiftcard") {
+                setPaymentScreen(response?.data?.data)
+              }
+              setType(item?.type)
+            })
           } else {
             outOfStockItems.push(item);
           }
@@ -663,11 +699,13 @@ const useShoppingcart = () => {
         "shipping": shoppingTotal,
         "grand_total": grandTotal,
         "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
-        "wallet_amount": walletAmount,
+        "wallet_amount": walletAmount ? walletAmount : 0,
         "device_type": Platform.OS == 'ios' ? "react_ios" : "react_android",
-        "device_version": version
+        "device_version": version,
+        "amgiftcard": giftCartDis
       }
     }
+
     try {
       const res = await PlaceeHolder2(params)
 
@@ -810,6 +848,94 @@ const useShoppingcart = () => {
     }
   }
 
+
+  const applyGiftCart = async (status, giftID) => {
+    setLoadding(true)
+    const fromdata = new FormData()
+    const result = await ExpireToken(fromdata)
+    const qurry =
+      `
+    query {
+      applyGiftCardToCart(
+          quote_id: ${result?.data},
+          giftcard_code: "${giftID ? giftID : giftCardCode}", 
+          store_id: ${lang == NUMBER.num1 ? 1 : 0}
+          apply : ${status}
+      ) {
+          success
+          message
+          total_segments{
+              code
+              title
+              value
+          }
+      }
+  }
+    `
+    if (result?.data) {
+      setLoadding(false)
+      try {
+        const response = await APPLYGIFTCART(qurry, lang)
+
+        if (response?.data?.data?.applyGiftCardToCart?.success) {
+          setGiftCardCode("")
+          SHOWTOTS(response?.data?.data?.applyGiftCardToCart?.message)
+          setSelectPayment(response?.data?.data?.applyGiftCardToCart)
+
+        } else {
+          console.log("INNER ERROR :::::::::::: ", response?.data?.data?.applyGiftCardToCart)
+          SHOWTOTS(response?.data?.data?.applyGiftCardToCart?.message)
+
+        }
+
+      } catch (error) {
+        console.log("APPLY GIFT CART EROOR  ::::::::::::: ", error)
+      }
+
+    }
+
+  }
+
+  const getGiftCartdSatus = async () => {
+    setLoadding(true)
+    const qurry3 = `
+    {
+      getGiftcardDetailsByCode(
+          giftcard_code: "${giftCardCode}"
+          store_id: 0
+      ) {
+          success
+          message
+          data{
+              id
+              code
+              status
+              balance
+              expiredDate
+          }
+      }
+  }
+    
+    `
+    try {
+      const result = await GIFATCARTSATUS(qurry3, lang)
+      if (result?.data?.data?.getGiftcardDetailsByCode?.success) {
+        setGiftSatus(result?.data?.data?.getGiftcardDetailsByCode)
+        setLoadding(false)
+
+      } else {
+        console.log("INNER SATUS ERROR :::", result?.data?.data)
+        setLoadding(false)
+
+      }
+
+    } catch (error) {
+      console.log("GIFCART SATUS ERROR :::::", error)
+      setLoadding(false)
+
+    }
+  }
+
   useEffect(() => {
     getWallteAmount()
   }, [])
@@ -838,7 +964,12 @@ const useShoppingcart = () => {
     remove,
     validationn,
     qty,
+    type,
+    setGiftCardCode, giftCardCode,
+    setGiftSatus, giftSatus,
+    giftCardList,
     setActionCode,
+    getGiftCartdSatus,
     setQnt,
     setShowModal,
     deleteProduct,
@@ -848,6 +979,7 @@ const useShoppingcart = () => {
     goBack,
     setLoadding,
     setEtrx,
+    setGiftCardList,
     // setShowWallet,
     setShippingdata,
     setBillingAddress,
@@ -863,6 +995,9 @@ const useShoppingcart = () => {
     PlaceHolder,
     setSelectPayemrntMethod,
     setWalletAmount,
+    applyGiftCart,
+    setGiftCartDis,
+    setGiftCartDis
   }
 }
 

@@ -42,26 +42,33 @@ const ShoopingCart = (props) => {
         remove,
         validationn,
         noties,
+        giftCardList,
+        type,
+        setGiftSatus, giftSatus,
+        setGiftCardCode, giftCardCode,
         updateQnty,
         setActionCode,
         setCoupanCode,
+        getGiftCartdSatus,
         // setShowWallet,
         selectShipping,
         deleteProduct,
         setAddressCode,
         setLoadding,
+        setGiftCardList,
         setShowModal,
         setShippingdata,
         setBillingAddress,
         setSelectPayment,
         setWalletAmount,
         RemoveCart,
-        getCoupanList,
         PlaceHolder,
         applyCoupan,
         validation,
         setEtrx,
         setSelectPayemrntMethod,
+        applyGiftCart,
+        setGiftCartDis,
         selectPayment,
         selectPaymentMethod,
         setStorePickUpData,
@@ -90,6 +97,7 @@ const ShoopingCart = (props) => {
                         <Text style={[styles.text, { color: COLOR.primaray }, lang == NUMBER.num1 && { width: ResponsiveSize(80) }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.cart}</Text>
                         <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
                     </View>
+
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: ResponsiveSize(10) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
                         <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.Shipping}</Text>
@@ -231,6 +239,16 @@ const ShoopingCart = (props) => {
                             setEtrx={setEtrx}
                             setSelectPayemrntMethod={setSelectPayemrntMethod}
                             setWalletAmount={setWalletAmount}
+                            setGiftCardCode={setGiftCardCode}
+                            applyGiftCart={applyGiftCart}
+                            giftCardCode={giftCardCode}
+                            giftCardList={giftCardList}
+                            setGiftCardList={setGiftCardList}
+                            setGiftCartDis={setGiftCartDis}
+                            getGiftCartdSatus={getGiftCartdSatus}
+                            setGiftSatus={setGiftSatus}
+                            giftSatus={giftSatus}
+                            type={type}
                         />
                     </View>
                 }

@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal } from 'react-native';
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
 import React from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { COLOR, RESIZEMODE } from '../../constants/style';
 import FastImage from 'react-native-fast-image';
 import CusModal from '../../components/CusModal';
+import { NAVIGATION } from '../../constants/constants';
 
 const Home = (props) => {
   const {
@@ -55,11 +56,15 @@ const Home = (props) => {
               onRefresh={onRefresh}
               refreshing={refreshing} />
           }
+
           onRefresh={() => { CetegouriesList(), ProductDetails() }}
           style={styles.containerView}>
+
+
           <View style={styles.storyView}>
             <StoryView CetegoriesData={CetegoriesData} data={data} lang={lang} navigation={navigation} />
           </View>
+
 
 
           <View style={styles.bannerView2}>
@@ -72,17 +77,20 @@ const Home = (props) => {
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
 
-          {/* {
+
+
+          {
             giftCart &&
             <View style={styles.giftcart}>
               <TouchableOpacity
-                onPress={() => { navigation.navigate(NAVIGATION.giftcard) }}
+                onPress={() => { navigation.navigate(NAVIGATION.giftcard, { giftCartID: giftCart?.id }) }}
                 style={styles.giftcartView}>
                 <FastImage resizeMode='cover' style={{ height: "100%", width: "100%", borderRadius: ResponsiveSize(20) }} source={{ uri: giftCart?.image }} />
 
               </TouchableOpacity>
 
-            </View>} */}
+            </View>
+          }
 
           <View style={styles.categories}>
             {

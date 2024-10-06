@@ -30,7 +30,8 @@ const useHomeHook = (props) => {
   const [wpNumber, setWPNumber] = useState()
 
   const version = DeviceInfo.getVersion()
-  // const version = "0.0.0"
+  // const version = "1.0.65"
+
   const [showPop, setShowPop] = useState(false)
   const [mes, setMes] = useState()
 
@@ -39,13 +40,13 @@ const useHomeHook = (props) => {
   const UpdateVersion = async () => {
     const type = Platform.OS == "ios" ? "ios" : "android"
     const data = `
-{
-  deviceVersionCheck(device_version : "${version}" device_type : ${type}){
-      status
-      message
-  }
-}
-`
+    {
+      deviceVersionCheck(device_version : "${version}" device_type : ${type}){
+        status
+        message
+    }
+   }
+     `
     try {
       const result = await AppUpadateAPI(data, lang?.data)
       if (result?.data?.data?.deviceVersionCheck?.status) {
@@ -53,7 +54,7 @@ const useHomeHook = (props) => {
       } else {
         setShowPop(true)
         setMes(result?.data?.data?.deviceVersionCheck?.message)
-        console.log("result?.data?.data?.deviceVersionCheck?.message ::::::: ", result?.data)
+        // console.log("result?.data?.data?.deviceVersionCheck?.message ::::::: ", result?.data)
       }
     } catch (error) {
       console.log("UpdateVersion ERROR :::::: ", error)
@@ -163,6 +164,10 @@ const useHomeHook = (props) => {
               image
               category_id
           }
+          gift_card{
+            image
+            id
+        }
           product_slider{
               title
               key

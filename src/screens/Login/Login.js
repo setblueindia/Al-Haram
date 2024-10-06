@@ -1,9 +1,9 @@
-import { Image, Text, View, TouchableOpacity, ScrollView, Modal, SafeAreaView, Platform } from 'react-native';
-import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, Modal, Platform } from 'react-native';
+import React from 'react';
 import { styles } from './login.style';
 import Onbordingheader from '../../components/OnbordingHeader';
 import SwitchButton from '../../components/SwitchButton';
-import { Apple, google, logo } from '../../assests';
+import { Apple, google, } from '../../assests';
 import TextFildCus from '../../components/TextFildCus';
 import { ICON, LOGINStr, NUMBER } from '../../constants/constants';
 import CheackButton from '../../components/CheackButton';
@@ -41,10 +41,10 @@ const Login = (props) => {
   } =
     useLoginHook(props);
   return (
-    <View style={{flex:1, backgroundColor:COLOR.white}}>
+    <View style={{ flex: 1, backgroundColor: COLOR.white }}>
       <KeyboardAwareScrollView style={[styles.mainView]}>
         <View style={styles.headerView}>
-          <Onbordingheader type ={props?.route?.params ? true : false} />
+          <Onbordingheader type={props?.route?.params ? true : false} />
         </View>
         <View style={styles.container}>
           <View style={styles.uthView}>
@@ -56,7 +56,7 @@ const Login = (props) => {
               {whiteEmail && (
                 <>
                   <TextFildCus
-                     password={false}
+                    password={false}
                     value={rememberMe?.EMAIL}
                     onChange={setEmail}
                     icon={ICON.emailIcon}
@@ -70,7 +70,7 @@ const Login = (props) => {
                     onChange={setPassword}
                     icon={ICON.lockIcon}
                     text={langues?.Enteryourpassword}
-                  
+
                   />
                 </>
               )}
@@ -80,7 +80,7 @@ const Login = (props) => {
                   icon={ICON.phoneIcon}
                   text={langues?.Entermobilenumber}
                   onChange={setMobailNumber}
-                  countryText={"+966"} 
+                  countryText={"+966"}
                   number={true}
                 />
               )}
@@ -115,8 +115,8 @@ const Login = (props) => {
                     </View>
                   )}
                 </View>
-                <TouchableOpacity style={{ flex:1}} onPress={() => { ForgetPassword() }}>
-                  <Text  style={[styles.forgetText , lang?.data == NUMBER.num0 && {textAlign:'left'}]}>{langues?.ForgotPassword}</Text>
+                <TouchableOpacity style={{ flex: 1 }} onPress={() => { ForgetPassword() }}>
+                  <Text style={[styles.forgetText, lang?.data == NUMBER.num0 && { textAlign: 'left' }]}>{langues?.ForgotPassword}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -130,15 +130,15 @@ const Login = (props) => {
               </View>
               <View style={styles.devider} />
               <View style={styles.socialButton}>
-                <SocialButton onPress={()=>{handleGoogleSignIn()}} icon={google} text={LOGINStr.Google} />
-             { Platform.OS == 'ios' && 
-               <SocialButton   onPress={()=>{onAppleButtonPress()}} icon={Apple}  text={LOGINStr.Apple} />}
+                <SocialButton onPress={() => { handleGoogleSignIn() }} icon={google} text={LOGINStr.Google} />
+                {Platform.OS == 'ios' &&
+                  <SocialButton onPress={() => { onAppleButtonPress() }} icon={Apple} text={LOGINStr.Apple} />}
               </View>
 
               <View style={styles.devider} />
 
               <View style={styles.newCustomer}>
-                 <View style={styles.row}></View>
+                <View style={styles.row}></View>
                 <Text style={styles.text}>{langues?.NewCustomer}</Text>
                 <View style={styles.row}></View>
               </View>

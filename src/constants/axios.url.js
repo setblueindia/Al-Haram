@@ -12,7 +12,13 @@ export const imageURL = "https://alharamstores.com"
 export const GRAFORL = "https://alharamstores.com/graphql"
 
 
-// furqanamar06@gmail.com
+// beta
+// export const BASE_URL = "https://beta.alharamstores.com"
+// export const imageURL = "https://alharamstores.com"
+// export const GRAFORL = "https://beta.alharamstores.com/graphql"
+
+// export const GiftCartURL = "https://beta.alharamstores.com/graphql"
+// export const GiftCartIMAGEURL = "https://beta.alharamstores.com"
 
 
 export const SINUPURL = BASE_URL + "/rest/arabic/V1/api/mobileOtpRegistrationMethod"

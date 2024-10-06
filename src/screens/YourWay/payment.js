@@ -68,8 +68,8 @@ class PaymentScreen extends React.Component {
     }, 500);
 
     this.props.route.params.request.done ?
-      navigation.navigate(NAVIGATION.Done, { response: data, orderId: this.props.route?.params?.request?.trackid, responseID: this.props.route?.params?.request?.responseId })
-      : navigation.navigate(NAVIGATION.Wallet, { response: data })
+      navigation.replace(NAVIGATION.Done, { response: data, orderId: this.props.route?.params?.request?.trackid, responseID: this.props.route?.params?.request?.responseId })
+      : navigation.replace(NAVIGATION.Wallet, { response: data })
   };
 
   processPayment = requestData => {
@@ -484,7 +484,7 @@ class PaymentScreen extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: COLOR.white }}>
         <TouchableOpacity
-          onPress={() => { condiation ? navigation.navigate(NAVIGATION.HomeScreen) : navigation.navigate(NAVIGATION.ProfileScreen) }}
+          onPress={() => { condiation ? navigation.replace(NAVIGATION.HomeScreen) : navigation.replace(NAVIGATION.ProfileScreen) }}
           style={{
             height: ResponsiveSize(80),
             width: ResponsiveSize(80),

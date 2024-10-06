@@ -112,8 +112,6 @@ const Product = (props) => {
                                         )
                                     }}
                                     renderItem={({ item, index }) => {
-
-                                        console.log("item ::::::::::: ", item)
                                         const name = item?.name?.substring(0, 16)
                                         return (
                                             <TouchableOpacity

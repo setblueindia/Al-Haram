@@ -11,6 +11,7 @@ import {
     FilterList,
     ForgetPasswordURL,
     GRAFORL,
+    GiftCartURL,
     HOMEURL,
     LOGINURL,
     OTPVerification,
@@ -148,12 +149,12 @@ export const DeleteAddress = async (params) => {
     return res
 }
 
-export const ExpireToken = async (params , lang) => {
-    const addKeyWord = lang == NUMBER.num0 ? "arabic"   : "default" 
-    const makeURL = BASE_URL +  "/rest/" +addKeyWord+ "/V1/carts/mine"
-    console.log(":::::::" , makeURL)
-    
-    const res = await POSTFORM2(makeURL , params)
+export const ExpireToken = async (params, lang) => {
+    const addKeyWord = lang == NUMBER.num0 ? "arabic" : "default"
+    const makeURL = BASE_URL + "/rest/" + addKeyWord + "/V1/carts/mine"
+    console.log(":::::::", makeURL)
+
+    const res = await POSTFORM2(makeURL, params)
     return res
 }
 export const AddCustomerToSponser = async (params, lang) => {
@@ -177,22 +178,22 @@ export const GetWallateAmount = async (params, lang) => {
 }
 
 export const getShippingListAxios = async (params) => {
-    const res = await POSTFORM(ShippingList , params)
+    const res = await POSTFORM(ShippingList, params)
     return res
 }
 
 export const getStorePickupMethod = async (params) => {
-    const res = await POSTFORM(StoreShippingURL , params)
+    const res = await POSTFORM(StoreShippingURL, params)
     return res
 }
 
-export const getPlaceHolder1 = async (params) =>{
-    const res = await POSTJSON(selectedShippingListMethodURl , params)
+export const getPlaceHolder1 = async (params) => {
+    const res = await POSTJSON(selectedShippingListMethodURl, params)
     return res
 }
 
-export const setPaymentMethod = async (params) =>{
-    const res = await POSTJSON(SetPaymentMethodURL , params)
+export const setPaymentMethod = async (params) => {
+    const res = await POSTJSON(SetPaymentMethodURL, params)
     return res
 }
 
@@ -221,18 +222,18 @@ export const getProductList = async (params) => {
     return res
 }
 
-export const getFilterList = async (params, lang) =>{
-    const res = await POSTFORMGRAPH(GRAFORL, params , lang)
+export const getFilterList = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
 
-export const  getCoupan = async (params) =>{
-    const res = await POSTFORM(CoupanListAPI , params)
+export const getCoupan = async (params) => {
+    const res = await POSTFORM(CoupanListAPI, params)
     return res
 }
 
-export const  getActonCoupan = async (params) =>{
-    const res = await POSTFORM(actionCoupan , params)
+export const getActonCoupan = async (params) => {
+    const res = await POSTFORM(actionCoupan, params)
     return res
 }
 
@@ -241,19 +242,19 @@ export const customerSuppot = async (params, lang) => {
     return res
 }
 export const postUpdateCart = async (params) => {
-    const res = await POSTFORM(updateCartitems , params)
+    const res = await POSTFORM(updateCartitems, params)
     return res
 }
 export const getMobaileCetegouries = async (params) => {
-    const res = await POSTFORM(mobailCetegouries , params)
+    const res = await POSTFORM(mobailCetegouries, params)
     return res
 }
 export const postReOrder = async (params) => {
-    const res = await POSTFORM(reOrderUrl , params)
+    const res = await POSTFORM(reOrderUrl, params)
     return res
 }
 export const postRefundOrder = async (params) => {
-    const res = await POSTFORM(RefundOrder , params)
+    const res = await POSTFORM(RefundOrder, params)
     return res
 }
 export const getTranferAmount = async (params, lang) => {
@@ -291,14 +292,14 @@ export const SendNotifiction = async (params, lang) => {
 }
 
 export const StatusUpadate = async (params) => {
-    const res = await POSTFORM(StatusUpadateURL , params)
+    const res = await POSTFORM(StatusUpadateURL, params)
     return res
 }
 
 
-export const ProductlistCount = async (params, lang , sToken) => {
-    
-    const res = await POSTFORMGRAPH(GRAFORL, params, lang , sToken)
+export const ProductlistCount = async (params, lang, sToken) => {
+
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang, sToken)
     return res
 }
 
@@ -318,11 +319,20 @@ export const AppUpadateAPI = async (params, lang) => {
 // Gift Cart
 
 export const getGiftCartdInfo = async (params, lang) => {
-    const res = await POSTFORMGRAPH(TESTGRAFORL, params, lang)
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
 
 export const giftAddToCart = async (params, lang) => {
-    const res = await POSTFORMGRAPH(TESTGRAFORL, params, lang)
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+export const APPLYGIFTCART = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const GIFATCARTSATUS = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
     return res
 }
