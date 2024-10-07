@@ -70,9 +70,19 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
                   <View style={styles.innerCategoriesView}>
                     <FastImage style={styles.storyView} source={{ uri: productImage }} />
                   </View>
-                  {(items?.special_offer || items?.is_new_badge) && <View style={[styles.textImgView, items?.special_offer ? { right: ResponsiveSize(0) } : { left: ResponsiveSize(0) }]}>
-                    <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
-                  </View>}
+                  {(items?.special_offer || items?.is_new_badge) &&
+                    <View style={
+                      [styles.textImgView,
+                      (items?.special_offer && lang?.data == NUMBER.num0) && { left: ResponsiveSize(0) },
+                      (items?.is_new_badge && lang?.data == NUMBER.num0) && { right: ResponsiveSize(0) },
+
+                      (items?.special_offer && lang?.data == NUMBER.num1) && { right: ResponsiveSize(0) },
+                      (items?.is_new_badge && lang?.data == NUMBER.num1) && { left: ResponsiveSize(0) },
+                      lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
+                    >
+                      <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
+                    </View>
+                  }
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
                   <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{labale.SAR + " " + items?.price}</Text>
                 </TouchableOpacity>

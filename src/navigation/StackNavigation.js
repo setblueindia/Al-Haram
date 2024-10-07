@@ -33,6 +33,7 @@ import PaymentScreen from '../screens/YourWay/payment';
 import ResponseScreen from '../screens/YourWay/response';
 import Home from '../screens/Home/Home';
 import GiftCart from '../screens/Giftcart/GiftCart';
+import Maintenance from '../screens/Maintenance/Maintenance';
 
 
 const StackNavigation = () => {
@@ -61,7 +62,7 @@ const StackNavigation = () => {
         component={SingUp}
         options={{ headerShown: false }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.TabScreen}
         component={AnimTab1}
         options={{ headerShown: false }}
@@ -161,34 +162,39 @@ const StackNavigation = () => {
         component={PaymentDetails}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.bannerScreen}
         component={Banner}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.PaymentScreen}
         component={PaymentScreen}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.ResponseScreen}
         component={ResponseScreen}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.HomeScreen}
         component={Home}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.giftcard}
         component={GiftCart}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name={NAVIGATION?.Maintenance}
+        component={Maintenance}
+        options={{ headerShown: false }}
+      />
 
 
-    
+
     </Stack.Navigator>
   );
 };

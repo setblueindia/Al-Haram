@@ -105,13 +105,18 @@ const useGiftHook = (props) => {
     const qurry =
       `
     query {
-      getGiftCartProductByStore(sku: "${giftCardID}") {
+      getGiftCartProductByStore(sku: "${giftCardID}" , store_id: ${lang}) {
           id
           sku
           name
           price
           description
           type_id
+          term_and_condition{
+            title
+            link
+            icon
+        }
           media_gallery_entries
           {
               file

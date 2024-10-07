@@ -1,4 +1,4 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './giftcart.style'
 import Slider from '../../components/Slider'
@@ -13,6 +13,7 @@ import { ICON, NAVIGATION, NUMBER } from '../../constants/constants'
 import CommanHeader from '../../components/ComanHeader'
 import CusLoader from '../../components/CustomLoader'
 import { Ar, En } from '../../constants/localization'
+import RenderHTML from 'react-native-render-html'
 
 const GiftCart = (props) => {
 
@@ -61,45 +62,7 @@ const GiftCart = (props) => {
 
     const lable = lang == NUMBER.num0 ? Ar : En
 
-    const renderRicipint = () => {
-        const imageComponents = [];
-        for (let i = 0; i < recipientDetails.length; i++) {
-            imageComponents.push(
-                <View>
-                    <View style={styles.barView} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Your Name" : "الاسم"}</Text>
-                    <View style={styles.div2} />
-                    <TextFildCus onChange={setName} text={lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"} />
 
-                    <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Name" : "اسم المستلم"}</Text>
-                    <View style={styles.div2} />
-                    <TextFildCus onChange={setRecipientName} text={lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"} />
-                    <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Email" : "البريد الإلكتروني للمستلم"}</Text>
-                    <View style={styles.div2} />
-                    <TextFildCus onChange={setRecipientEmail} text={lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"} />
-                    <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Mobile Number" : "هاتف المستلم"}</Text>
-                    <View style={styles.div2} />
-                    <TextFildCus onChange={setRecipientNumber} text={lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"} />
-                    <View style={styles.div2} />
-                    <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Message" : "رسالة"}</Text>
-                    <View style={styles.div2} />
-                    <TextInput
-                        // onChange={setMessage}
-                        onChangeText={(text) => { setMessage(text) }}
-                        textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                        multiline={true}
-                        placeholder={lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}
-                        style={styles.messTextInput}
-                    />
-                    <View style={styles.div2} />
-                </View>
-            )
-        }
-        return imageComponents;
-    }
 
     return (
         <View style={styles.mainView}>
@@ -109,12 +72,22 @@ const GiftCart = (props) => {
                 <View style={styles.sliderView}>
                     <Slider data={slider} height={ResponsiveSize(300)} home={true} />
                 </View>
-                <View style={{ paddingHorizontal: ResponsiveSize(25) }}>
+                <View style={[{ paddingHorizontal: ResponsiveSize(25) }]}>
                     <Text style={[styles.titelText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.name} </Text>
                     <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?
                         "Be the first to review this product"
                         : "قيمة البطاقة بالريال السعودي"}
                     </Text>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            Linking.openURL(data?.term_and_condition?.link);
+                        }}
+                        style={[styles.termsCoditionView, lang == NUMBER.num0 && { flexDirection: 'row-reverse', marginRight: ResponsiveSize(20) }]}>
+                        <Image style={styles.startIcon} source={{ uri: data?.term_and_condition?.icon }} />
+                        <Text style={styles.termsconditionText}>{data?.term_and_condition?.title}</Text>
+
+                    </TouchableOpacity>
 
                     <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + price}</Text>
                     <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{giftCardID}</Text>

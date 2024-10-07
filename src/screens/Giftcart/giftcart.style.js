@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
 
 export const styles = StyleSheet.create({
@@ -229,6 +229,23 @@ export const styles = StyleSheet.create({
         color: COLOR.primaray,
         marginLeft: ResponsiveSize(5),
         marginTop: ResponsiveSize(5)
+    },
+    termsCoditionView: {
+        flexDirection: 'row',
+        width: "100%",
+        marginTop: ResponsiveSize(20)
+
+    },
+    startIcon: {
+        height: ResponsiveSize(30),
+        width: ResponsiveSize(30),
+        resizeMode: RESIZEMODE.contain
+    },
+    termsconditionText: {
+        color: COLOR.primaray,
+        marginLeft: ResponsiveSize(10),
+        textAlign: 'center',
+        marginTop: ResponsiveSize(2)
     }
 
 
