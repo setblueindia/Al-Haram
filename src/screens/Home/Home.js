@@ -60,23 +60,22 @@ const Home = (props) => {
           onRefresh={() => { CetegouriesList(), ProductDetails() }}
           style={styles.containerView}>
 
-
           <View style={styles.storyView}>
             <StoryView CetegoriesData={CetegoriesData} data={data} lang={lang} navigation={navigation} />
           </View>
 
-
-
           <View style={styles.bannerView2}>
-            <View style={styles.bannerImage}>
-              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{ uri: bannerUrl }} />
-            </View>
+            {/* <View style={styles.bannerImage}> */}
+            <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{
+              uri: bannerUrl
+              // uri: "https://alharamstores.com/pub/media/wysiwyg/FREE-SHIPPING-E_A_-4-0__1.jpg"
+            }} />
+            {/* </View> */}
           </View>
 
           <View style={styles.siderView}>
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
-
 
 
           {
@@ -146,7 +145,6 @@ const Home = (props) => {
           height: ResponsiveSize(80),
           width: ResponsiveSize(80),
           borderRadius: ResponsiveSize(100),
-          // backgroundColor: COLOR.black,
           position: 'absolute',
           bottom: ResponsiveSize(80),
           right: ResponsiveSize(40)
@@ -155,7 +153,7 @@ const Home = (props) => {
         <Image style={{
           height: "100%",
           width: "100%",
-          resizeMode: 'contain'
+          resizeMode: RESIZEMODE.contain
         }} source={whatsapp} />
 
       </TouchableOpacity>

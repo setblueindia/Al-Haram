@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     },
     desText: {
         color: COLOR.darkGray,
+        // marginTop: ResponsiveSize(5)
         // marginTop: ResponsiveSize(10)
 
     },
@@ -33,13 +34,14 @@ export const styles = StyleSheet.create({
         color: COLOR.primaray,
         fontSize: ResponsiveSize(40),
         fontWeight: FONTWEGHIT.font400,
-        marginTop: ResponsiveSize(20)
+        marginTop: ResponsiveSize(10),
+        marginBottom: ResponsiveSize(10)
 
     },
     cartPriceText: {
         color: COLOR.black,
         fontWeight: FONTWEGHIT.font400,
-        marginTop: ResponsiveSize(20)
+        // marginTop: ResponsiveSize(20)
     },
     priceContainer: {
         flexDirection: 'row',
@@ -74,8 +76,8 @@ export const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.liteGray,
         paddingHorizontal: ResponsiveSize(20),
-        fontSize: ResponsiveSize(20)
-
+        fontSize: ResponsiveSize(20),
+        color: COLOR.black
         // textAlign:'center'
     },
     textinputBTN: {
@@ -121,7 +123,8 @@ export const styles = StyleSheet.create({
         // alignSelf:'center'
     },
     textInputTitel: {
-        color: COLOR.black
+        color: COLOR.black,
+        width: "100%"
     },
     div2: {
         marginTop: ResponsiveSize(10)
@@ -133,7 +136,8 @@ export const styles = StyleSheet.create({
         borderColor: COLOR.liteGray,
         borderRadius: ResponsiveSize(10),
         padding: ResponsiveSize(20),
-        textAlignVertical: 'top'
+        textAlignVertical: 'top',
+        color: COLOR.black
         // textAlign:'top'
         // justifyContent:'flex-start'
     },
@@ -233,7 +237,7 @@ export const styles = StyleSheet.create({
     termsCoditionView: {
         flexDirection: 'row',
         width: "100%",
-        marginTop: ResponsiveSize(20)
+        marginTop: ResponsiveSize(10)
 
     },
     startIcon: {
@@ -242,7 +246,7 @@ export const styles = StyleSheet.create({
         resizeMode: RESIZEMODE.contain
     },
     termsconditionText: {
-        color: COLOR.primaray,
+        color: COLOR.black,
         marginLeft: ResponsiveSize(10),
         textAlign: 'center',
         marginTop: ResponsiveSize(2)

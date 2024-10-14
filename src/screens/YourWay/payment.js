@@ -483,7 +483,7 @@ class PaymentScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: COLOR.white }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => { condiation ? navigation.replace(NAVIGATION.HomeScreen) : navigation.replace(NAVIGATION.ProfileScreen) }}
           style={{
             height: ResponsiveSize(80),
@@ -501,7 +501,7 @@ class PaymentScreen extends React.Component {
 
           <Icon size={ResponsiveSize(40)} name={"arrow-back-outline"} />
 
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {baseURL ?
           // {baseURL.length > 0 && (
           <WebView

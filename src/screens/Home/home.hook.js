@@ -30,7 +30,7 @@ const useHomeHook = (props) => {
   const [wpNumber, setWPNumber] = useState()
 
   const version = DeviceInfo.getVersion()
-  // const version = "1.0.65"
+  // const version = "1.0.66"
 
   const [showPop, setShowPop] = useState(false)
   const [mes, setMes] = useState()
@@ -54,7 +54,7 @@ const useHomeHook = (props) => {
       } else {
         setShowPop(true)
         setMes(result?.data?.data?.deviceVersionCheck?.message)
-        // console.log("result?.data?.data?.deviceVersionCheck?.message ::::::: ", result?.data)
+
       }
     } catch (error) {
       console.log("UpdateVersion ERROR :::::: ", error)

@@ -192,10 +192,6 @@ const useShoppingcart = () => {
   }, [navigation])
 
 
-
-  console.log("TYPE ::::::::", type)
-
-
   const onPress = () => {
     if (index < 3) {
       if (index == 0) {

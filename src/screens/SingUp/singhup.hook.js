@@ -59,7 +59,7 @@ const useSingUpHook = ({ lable }) => {
       setModalShow(true)
       setErrorText(lable?.Enterlastname)
     }
-   else if(!email) {
+    else if (!email) {
       setErrorText(lable?.Enteremailaddress)
       setModalShow(true)
     }
@@ -72,7 +72,7 @@ const useSingUpHook = ({ lable }) => {
       setErrorText(lable?.Numbercontainsmustbe9digits)
       // setExample(lable?.Numbercontainsmustbe9digits)
     }
-    else if(!password) {
+    else if (!password) {
       setErrorText(lable?.Enterpassword)
       setModalShow(true)
     }
@@ -113,38 +113,4 @@ const useSingUpHook = ({ lable }) => {
 export default useSingUpHook;
 
 
-// const slider = [
-//   slider_loop = {
 
-//     title_en: "Latest Products",
-//     title_ar: "أحدث المنتجات",
-//     key: "latest_products",
-//     is_viewAll: 0,
-//     view_all_category_id: "",
-
-//     data: [
-//       {
-//         "id": "75941",
-//         "sku": "K05",
-//         "name": "Enamel Coated Kettle",
-//         "price": 39,
-//         "special_price": 0,
-//         "image": "https://beta.alharamstores.com/media/catalog/product",
-//         "special_offer": "",
-//         "is_new_badge": "https://beta.alharamstores.com/media/magiccart/lookbook/n/e/new_en_offer.png"
-//       },
-//       {
-//         "id": "75941",
-//         "sku": "K05",
-//         "name": "Enamel Coated Kettle",
-//         "price": 39,
-//         "special_price": 0,
-//         "image": "https://beta.alharamstores.com/media/catalog/product",
-//         "special_offer": "",
-//         "is_new_badge": "https://beta.alharamstores.com/media/magiccart/lookbook/n/e/new_en_offer.png"
-//       },
-
-//     ]
-//   }
-
-// ]

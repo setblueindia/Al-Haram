@@ -23,7 +23,7 @@ const useProfileHook = () => {
   const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
   const dispatch = useDispatch();
   const version = DeviceInfo.getVersion()
-  const [modal , setModal] = useState(false)
+  const [modal, setModal] = useState(false)
 
 
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
@@ -43,7 +43,7 @@ const useProfileHook = () => {
     { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
     { icon: 'book', text: PROFILEStr?.AddressBook },
     { icon: 'phone', text: PROFILEStr?.CustomerService },
-   { icon: valiTemp ?'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN },
+    { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN },
 
   ];
   const onPress = (item) => {
@@ -68,16 +68,16 @@ const useProfileHook = () => {
         navigation.navigate(NAVIGATION.SponserScreen)
       }
       if (item == PROFILEStr.Notifications) {
-        if(item == PROFILEStr.LOGIN) {
+        if (item == PROFILEStr.LOGIN) {
           navigation.navigate(NAVIGATION.Login)
-        }else{
+        } else {
           setModal(true)
         }
 
       }
 
     } else {
-      if(item !== PROFILEStr.Notifications){
+      if (item !== PROFILEStr.Notifications) {
         navigation.navigate(NAVIGATION.Login)
       }
       // navigation.navigate(NAVIGATION.Login)
@@ -90,7 +90,7 @@ const useProfileHook = () => {
     try {
       await AsyncStorage.setItem('Lang', num);
       dispatch(updateLangCode(num));
-      CetegouriesList(num)
+      // CetegouriesList(num)
 
     } catch (error) {
       console.log('UPDATE LANGUES ERROR :: ', error);
@@ -173,53 +173,53 @@ const useProfileHook = () => {
     `
     try {
       if (userData?.data?.token) {
-        const result = await ProductlistCount(countData , lang)
+        const result = await ProductlistCount(countData, lang)
         const arrOFItems = result?.data?.data?.customerCart?.items
         const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
-      }else{
-        dispatch(addProduct(0)) 
+        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+      } else {
+        dispatch(addProduct(0))
       }
     } catch (error) {
       console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0)) 
+      dispatch(addProduct(0))
     }
   }
 
-  const socialPress = (social) =>{
-    if(social == '1'){
+  const socialPress = (social) => {
+    if (social == '1') {
       const instagramURL = 'https://www.instagram.com/alharamksa/';
       Linking.openURL(instagramURL);
     }
-    if(social == '2'){
+    if (social == '2') {
       const instagramURL = 'https://www.facebook.com/alharamksa/';
       Linking.openURL(instagramURL);
     }
-    if(social == '3'){
+    if (social == '3') {
       const instagramURL = 'https://maroof.sa/businesses/';
       Linking.openURL(instagramURL);
     }
-    if(social == '4'){
+    if (social == '4') {
       const instagramURL = 'https://alharamstores.com/vat-document';
       Linking.openURL(instagramURL);
     }
-    if(social == '5'){
+    if (social == '5') {
       const instagramURL = 'https://alharamstores.com/e-commerce-authentication-certificate';
       Linking.openURL(instagramURL);
     }
   }
 
-  const singOut = async () =>{
-   const langNum = '2'
+  const singOut = async () => {
+    const langNum = '2'
     try {
-    await AsyncStorage.clear()
-    //  console.log("result :::" ,result )
-    dispatch(addUserData(undefined))
-    dispatch(addLangCode(langNum))
-    //  navigation.navigate(NAVIGATION.Login , {type : true})
-     navigation.navigate(NAVIGATION.Login)
+      await AsyncStorage.clear()
+      //  console.log("result :::" ,result )
+      dispatch(addUserData(undefined))
+      dispatch(addLangCode(langNum))
+      //  navigation.navigate(NAVIGATION.Login , {type : true})
+      navigation.navigate(NAVIGATION.Login)
     } catch (error) {
-      console.log("SINGOUTE ERROR ::::::" , error)
+      console.log("SINGOUTE ERROR ::::::", error)
     }
   }
 
@@ -236,9 +236,9 @@ const useProfileHook = () => {
     Linking.openURL(businessesURL);
   };
 
-useEffect(()=>{
-  PoductCount()
-}, [])
+  useEffect(() => {
+    PoductCount()
+  }, [])
 
   return {
     menuItems,

@@ -76,9 +76,9 @@ const Addaddress = (props) => {
         <TextFildCus onChange={setAddress2} value={address2} text={data?.Addressline1} add={true} />
         <View style={styles.devider} />
         <TextFildCus onChange={setAddress3} value={address3} text={data?.Addressline2} add={true} />
-        <View style={styles.devider} />
+        {/* <View style={styles.devider} />
         <TextFildCus onChange={setPinCode} value={pinCode} number={true} text={data?.Pincode} add={true} />
-        <View style={styles.devider} />
+        <View style={styles.devider} /> */}
         <View style={styles.secondView}>
           <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }]}>{data?.SaudiArabia}</Text>
           <TouchableOpacity

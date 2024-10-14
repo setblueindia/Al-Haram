@@ -22,6 +22,10 @@ const Done = (props) => {
     const responseID = props?.route?.params?.responseID
     const disPatch = useDispatch()
 
+
+
+    console.log("Response ID ::::::: ", responseID)
+
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n Thank you for shopping at Al Haram Online Store.` : `رقم طلبك: ${OrderID}. \n شكراً لتسوقكم من متجر الهرم الإلكتروني.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
     const oppss = lang == NUMBER.num1 ? "OOOOps..." : "خطأ ....."
@@ -30,7 +34,7 @@ const Done = (props) => {
     const senNotiFication = async () => {
         const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
         const data =
-        `mutation{
+            `mutation{
             orderPushNotificationSentToCustomer(input:{
             customer_id: ${userData?.id}
             notification_type: "order"
@@ -166,7 +170,7 @@ const styles = StyleSheet.create({
         color: COLOR.black,
         width: ResponsiveSize(600),
         textAlign: ALINE.center,
-        paddingVertical:ResponsiveSize(15),
+        paddingVertical: ResponsiveSize(15),
     },
     lastText: {
         color: "#00000080",

@@ -1,13 +1,14 @@
 
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { NAVIGATION, NUMBER } from '../../constants/constants';
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useEffect, useState } from 'react';
 import { AddressList, GetWallateAmount, postAfterUrWay, postBeforUrWay } from '../../api/axios.api';
 import { WallateAmount } from '../../utils/asyncStorage';
 import { config } from '../YourWay/config';
 import { SHOWTOTS } from '../../utils/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const UseWalletHook = (setloader, route) => {
@@ -97,7 +98,7 @@ const UseWalletHook = (setloader, route) => {
            street: "${address?.street}"
            city: "${address?.city}"
            country_id:"${address?.country_id}"
-           region: "${address?.region?.region_id ? address?.region?.region_id :address?.region?.region}"
+           region: "${address?.region?.region_id ? address?.region?.region_id : address?.region?.region}"
            postcode: "${address?.postcode}"
            telephone: "${address?.telephone}"
            fax: "0"
@@ -107,52 +108,63 @@ const UseWalletHook = (setloader, route) => {
       order_id
       status
       message 
+      increment_id
      }
    }
 `
-if(addAmount) {
-  try {
-     const resp = await postBeforUrWay(data, lang)
-    const orderID = resp?.data?.data?.placeOrder?.order_id
-    setOId(orderID)
-    orderID &&
-      navigation.navigate(NAVIGATION.PaymentScreen, {
-        request: {
-          country: address?.country_id,
-          first_name: userData?.firstname,
-          last_name: userData?.lastname,
-          address: address?.address1 + " " + address?.address2,
-          city: address?.city,
-          zip: address?.postcode,
-          phone_number: address?.telephone,
-          customerEmail: userData?.email,
-          udf2: config.responseUrl,
-          udf3: 'en',
-          trackid: orderID,
-          tranid: "",
-          currency: "SAR",
-          amount: addAmount,
-          action: 1,
-          tokenOperation: "A",
-          cardToken: "",
-          maskCardNum: "",
-          tokenizationType: 0,
-          done: false
-        },
-        callBack: onProcessPayment,
-      });
-    setIsLoading(false)
-  } catch (error) {
-    console.log("ADD AMOUNT WALLATE ERROR ::::::::::::::::::: ")
-    setIsLoading(false)
+    if (addAmount) {
+      try {
+        const resp = await postBeforUrWay(data, lang)
+        const orderID = resp?.data?.data?.placeOrder?.order_id
+        const inccrementID = resp?.data?.data?.placeOrder?.increment_id
+        const wallateJasonData = {
+          id: resp?.data?.data?.placeOrder?.order_id,
+          wallerAmount: addAmount,
+          inccrementID: inccrementID
+        }
+        const WJASONdata = JSON.stringify(wallateJasonData)
+        AsyncStorage.setItem("walletData", WJASONdata)
+
+
+        setOId(orderID)
+        orderID &&
+          navigation.navigate(NAVIGATION.PaymentScreen, {
+            request: {
+              country: address?.country_id,
+              first_name: userData?.firstname,
+              last_name: userData?.lastname,
+              address: address?.address1 + " " + address?.address2,
+              city: address?.city,
+              zip: address?.postcode,
+              phone_number: address?.telephone,
+              customerEmail: userData?.email,
+              udf2: config.responseUrl,
+              udf3: 'en',
+              trackid: inccrementID,
+              tranid: "",
+              currency: "SAR",
+              amount: addAmount,
+              action: 1,
+              tokenOperation: "A",
+              cardToken: "",
+              maskCardNum: "",
+              tokenizationType: 0,
+              done: false
+            },
+            callBack: onProcessPayment,
+          });
+        setIsLoading(false)
+      } catch (error) {
+        console.log("ADD AMOUNT WALLATE ERROR ::::::::::::::::::: ")
+        setIsLoading(false)
+      }
+    } else {
+      setIsLoading(false)
+      SHOWTOTS(lang == NUMBER.num1 ? "Please add amount" : "الرجاء إضافة المبلغ")
+    }
   }
-} else{
-  setIsLoading(false)
-  SHOWTOTS(lang == NUMBER.num1 ? "Please add amount" : "الرجاء إضافة المبلغ")
-} }
 
   const onProcessPayment = (responseData) => {
-    console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)
     if (responseData.status == 'success') {
       navigation.navigate(NAVIGATION.ResponseScreen, {
         response: responseData.data,
@@ -163,13 +175,16 @@ if(addAmount) {
   };
 
   const afterUrWay = async (adata) => {
+    const walletData = await AsyncStorage.getItem("walletData")
+    const wallateJasonData = JSON.parse(walletData)
+
     setIsLoading(true)
     const data =
-  `
+      `
       mutation{
       onlinePaymentAfterOrderUpdate(input:{
-          order_id: ${oID}
-          wallet_amount: ${addAmount}
+          order_id: ${wallateJasonData?.id}
+          wallet_amount: ${wallateJasonData?.wallerAmount}
           tran_refrence_id: "${adata?.tranid}"
           status: ${adata?.status == "Successful" ? 1 : 0}
       }){
@@ -182,11 +197,11 @@ if(addAmount) {
     try {
       const res = await postAfterUrWay(data, lang)
       const message = res?.data?.data?.onlinePaymentAfterOrderUpdate?.message
-      const messTost = message.toString()
+      const messTost = message?.toString()
       getWallteAmount()
       SHOWTOTS(messTost ? messTost : " ")
       setIsLoading(false)
-      setAddAmount(" ")
+      setAddAmount("")
     } catch (error) {
       console.log("AFTER URWAY PAYMENT ERROR ::::::: ", error)
       setIsLoading(false)

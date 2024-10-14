@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData';
 
+
 const useSplshHook = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation()

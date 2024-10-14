@@ -3,23 +3,28 @@ import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ICON } from '../../constants/constants';
+import { ICON, NUMBER } from '../../constants/constants';
+import { useSelector } from 'react-redux';
 
-const Counter = ({ qty, setQnt , id , updateQnty}) => {
+const Counter = ({ qty, setQnt, id, updateQnty }) => {
+
+    const lang = useSelector(state => state?.lang?.data)
+
+    console.log(":::::", lang)
 
     const QTY = parseInt(qty)
     const countProcess = async (type) => {
         if (type) {
-            if(updateQnty) {
-                const res = await updateQnty(id , QTY + 1 , n = true)
+            if (updateQnty) {
+                const res = await updateQnty(id, QTY + 1, n = true)
                 res && setQnt(QTY + 1)
-            }else{
+            } else {
                 setQnt(QTY + 1)
             }
         } else {
             QTY > 1 && setQnt(QTY - 1)
-            if(updateQnty && QTY > 1){
-                updateQnty(id , QTY - 1 , n = false)
+            if (updateQnty && QTY > 1) {
+                updateQnty(id, QTY - 1, n = false)
             }
             // updateQnty &&   updateQnty(id , QTY - 1 , n = false)
         }
@@ -27,7 +32,7 @@ const Counter = ({ qty, setQnt , id , updateQnty}) => {
 
     return (
         <View>
-            <View style={styles.container}>
+            <View style={[styles.container, lang == NUMBER.num1 && { flexDirection: 'row-reverse' }]}>
                 <TouchableOpacity
                     onPress={() => { countProcess(false) }}
                     style={styles.innerView}>

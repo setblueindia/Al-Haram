@@ -1,16 +1,14 @@
 
 
 // fireprics
-export const GRAFORL = "https://fairpricecorner.com/graphql"
-export const imageURL = "https://fairpricecorner.com"
-export const BASE_URL = "https://fairpricecorner.com"
-
+// export const GRAFORL = "https://fairpricecorner.com/graphql"
+// export const imageURL = "https://fairpricecorner.com"
+// export const BASE_URL = "https://fairpricecorner.com"
 
 // LiVE
-// export const BASE_URL = "https://alharamstores.com"
-// export const imageURL = "https://alharamstores.com"
-// export const GRAFORL = "https://alharamstores.com/graphql"
-
+export const BASE_URL = "https://alharamstores.com"
+export const imageURL = "https://alharamstores.com"
+export const GRAFORL = "https://alharamstores.com/graphql"
 
 // beta
 // export const BASE_URL = "https://beta.alharamstores.com"
@@ -56,8 +54,3 @@ export const RefundOrder = BASE_URL + "/rest/V1/api/orderRefundMethod"
 export const PlaceHolder1 = BASE_URL + "/rest/V1/api/orderPlaceMethod"
 export const Banner = BASE_URL + "/rest/V1/api/getCategoryBanner"
 export const StatusUpadateURL = BASE_URL + "/rest/V1/api/orderStatusUpdateMethod"
-
-
-
-
-

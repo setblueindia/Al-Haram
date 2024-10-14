@@ -95,62 +95,62 @@ const PaymentHistroy = (props) => {
                 })} */}
 
                 {data?.length > 0 ?
-                 <FlatList
-                    data={data}
-                    onEndReached={() => { getData(), console.log("Hello") }}
-                    onEndReachedThreshold={0.1}
-                    ListFooterComponent={() => {
-                        return (
-                            <View style={{
-                                width: "100%",
-                                height: ResponsiveSize(100),
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                                {
-                                    moreData &&
-                                    <ActivityIndicator
-                                        size={"large"}
-                                        color={COLOR.primaray}
-                                    />}
-                            </View>
-                        )
-                    }}
-                    renderItem={({ item, index }) => {
-                        const status = item?.status == "0" ? lable?.PENDING : item?.status == "1" ? lable?.APPROVED : item?.status == "2" ? lable.CANCELLED : null
-                        return (
-                            <View key={index}>
-                                <TouchableOpacity
-                                    onPress={() => { navigation.navigate(NAVIGATION.paymentDetails, { lable: item?.entity_id, refID: item?.reference, amount: item?.curr_amount, status: status }) }}
-                                    style={styles.container} >
-                                    <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <Text style={[styles.leftText, lang == NUMBER.num0 && {
-                                            textAlign: EXTRASTR.right,
-                                            marginRight: ResponsiveSize(40)
-                                        }]}>{lable?.Reference + " :"}</Text>
-                                        <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{item?.reference}</Text>
-                                    </View>
+                    <FlatList
+                        data={data}
+                        onEndReached={() => { getData() }}
+                        onEndReachedThreshold={0.1}
+                        ListFooterComponent={() => {
+                            return (
+                                <View style={{
+                                    width: "100%",
+                                    height: ResponsiveSize(100),
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    {
+                                        moreData &&
+                                        <ActivityIndicator
+                                            size={"large"}
+                                            color={COLOR.primaray}
+                                        />}
+                                </View>
+                            )
+                        }}
+                        renderItem={({ item, index }) => {
+                            const status = item?.status == "0" ? lable?.PENDING : item?.status == "1" ? lable?.APPROVED : item?.status == "2" ? lable.CANCELLED : null
+                            return (
+                                <View key={index}>
+                                    <TouchableOpacity
+                                        onPress={() => { navigation.navigate(NAVIGATION.paymentDetails, { lable: item?.entity_id, refID: item?.reference, amount: item?.curr_amount, status: status }) }}
+                                        style={styles.container} >
+                                        <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <Text style={[styles.leftText, lang == NUMBER.num0 && {
+                                                textAlign: EXTRASTR.right,
+                                                marginRight: ResponsiveSize(40)
+                                            }]}>{lable?.Reference + " :"}</Text>
+                                            <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{item?.reference}</Text>
+                                        </View>
 
-                                    <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(40) }]}>{lable.Amount + ":"}</Text>
-                                        <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{item?.curr_amount}</Text>
-                                    </View>
+                                        <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(40) }]}>{lable.Amount + ":"}</Text>
+                                            <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{item?.curr_amount}</Text>
+                                        </View>
 
-                                    <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(40) }]}>{lable?.Status + " :"}</Text>
-                                        <Text style={[styles.rightScreen, , lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }, { color: COLOR.liteGreen, fontWeight: FONTWEGHIT.font600 }]}>{status}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <View style={{ height: ResponsiveSize(20) }} />
-                            </View>
-                        )
-                    }}
-                /> : !loadding ?
-                    <View style={{ flex: 1 }}>
-                        <DataIsNotFound />
-                    </View>
-                    : null}
-               </View>
+                                        <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(40) }]}>{lable?.Status + " :"}</Text>
+                                            <Text style={[styles.rightScreen, , lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }, { color: COLOR.liteGreen, fontWeight: FONTWEGHIT.font600 }]}>{status}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <View style={{ height: ResponsiveSize(20) }} />
+                                </View>
+                            )
+                        }}
+                    /> : !loadding ?
+                        <View style={{ flex: 1 }}>
+                            <DataIsNotFound />
+                        </View>
+                        : null}
+            </View>
 
             {loadding &&
                 <View style={{ height: "100%", width: "100%", position: 'absolute' }}>

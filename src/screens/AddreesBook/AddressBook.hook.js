@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native"
+import { useIsFocused, useNavigation } from "@react-navigation/native"
 import { useSelector } from "react-redux"
 import { NAVIGATION, NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
@@ -18,16 +18,15 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
     const [deleteId, setdeteteId] = useState()
     const Str = lang == NUMBER.num0 ? Ar : En
     const [data, setData] = useState([])
+    const iiFoucs = useIsFocused()
     useEffect(() => {
-        getData()
-    }, [navigation, resload])
+        iiFoucs && getData()
+    }, [navigation, resload, iiFoucs])
 
     const addAddress = () => {
         navigation.navigate(NAVIGATION.addaddress, { setLoadding: setLoadding, setReload: setReload, getData: getData })
     }
     const getData = async () => {
-        // console.log("")
-          console.log("FUCTION CALLING ::::::::::" ,)
         !setLoadding && setIsLoading(true)
         setLoadding && setLoadding(true)
         const formData = new FormData
@@ -52,7 +51,7 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
                 setIsLoading(false)
                 setLoadding && setLoadding(false)
             } else {
-      
+
 
             }
         } catch (error) {

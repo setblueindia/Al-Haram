@@ -14,75 +14,101 @@ const useGiftHook = (props) => {
 
   const giftCardID = props?.route?.params?.giftCartID
   const navigation = useNavigation()
-
   const lang = useSelector(state => state?.lang?.data)
   const userData = useSelector(state => state?.userData?.data)
   const [recipient, setRecipient] = useState(1)
-
-
   const [name, setName] = useState()
   const [recipientName, setRecipientName] = useState()
   const [recipientEmail, setRecipientEmail] = useState()
   const [recipientNumber, setRecipientNumber] = useState()
   const [message, setMessage] = useState()
-
-
   const [data, setData] = useState()
   const [slider, setSlider] = useState()
   const [isLoadding, setIsLoadding] = useState(false)
-  const [price, setPrice] = useState(10)
+  const [price, setPrice] = useState()
   const [selectIndex, setSelectIndex] = useState()
   const [inputPrice, setInputPrice] = useState()
   const [error, setError] = useState(false)
-
   const [ondata, setOnData] = useState(1)
   const [recipientDetails, setRecipientDetails] = useState([])
+  const [qty, setQty] = useState(1)
+  const [info, setInfo] = useState(false)
+  const [coustomAmount, setCoutomerAmount] = useState()
 
 
   const dispatch = useDispatch()
   const focus = useIsFocused()
-
   const langues = lang == NUMBER?.num0 ? Ar : En
-
-
   const recipiantObject = {
-    am_giftcard_sender_name: name,
-    am_giftcard_recipient_name: recipientName,
-    am_giftcard_recipient_email: recipientEmail,
-    mobilenumber: recipientNumber,
-    am_giftcard_message: message
+    am_giftcard_sender_name: name?.replace(/[\n\r\t]/g, ''),
+    am_giftcard_recipient_name: recipientName?.replace(/[\n\r\t]/g, ''),
+    am_giftcard_recipient_email: recipientEmail?.replace(/[\n\r\t]/g, ''),
+    mobilenumber: recipientNumber?.replace(/[\n\r\t]/g, ''),
+    am_giftcard_message: message?.replace(/[\n\r\t]/g, '')
   }
+
+
+
+  const tempName = userData?.firstname + " " + userData?.lastname
+  let phoneNumber = userData?.mobile;
+  let updatedNumber = phoneNumber?.replace("+966", "");
+
+  useEffect(() => {
+
+    if (info) {
+      setRecipientEmail(userData?.email)
+      setName(tempName)
+      setRecipientName(tempName)
+      setRecipientNumber(updatedNumber)
+    } else {
+      setRecipientEmail()
+      setName()
+      setRecipientName()
+      setRecipientNumber()
+    }
+
+
+  }, [info == true, info == false])
 
   useEffect(() => {
     setRecipientDetails([recipiantObject, ...recipientDetails])
   }, [])
 
   useEffect(() => {
-    if (focus) {
-      getProductCount()
-    }
+
     getData()
   }, [])
+
+
+
+
+
+
 
   const onRecipientPress = () => {
 
 
     if (!recipiantObject?.am_giftcard_sender_name) {
       setError(true)
-    } else if (!recipiantObject?.am_giftcard_recipient_name) {
+    }
+    else if (!recipiantObject?.am_giftcard_recipient_name) {
       setError(true)
-    } else if (!recipiantObject?.am_giftcard_recipient_email) {
-      setError(true)
-    } else if (!emaileRegxp.test(recipientEmail)) {
+    }
+    // else if (!recipiantObject?.am_giftcard_recipient_email) {
+    //   setError(true)
+    // }
+    else if (recipiantObject?.am_giftcard_recipient_email && !emaileRegxp.test(recipientEmail)) {
       SHOWTOTS(langues?.Invalidemailaddress)
-    } else if (!recipiantObject?.mobilenumber) {
+    }
+    else if (!recipiantObject?.mobilenumber) {
       setError(true)
-    } else if (!recipientNumber || recipientNumber?.length < 9 || recipientNumber?.length > 9) {
+    } else if (!recipientNumber || recipientNumber?.length < 9 || recipientNumber?.length > 10) {
       SHOWTOTS(langues?.Numbercontainsmustbe9digits)
     }
-    else if (!recipiantObject?.am_giftcard_message) {
-      setError(true)
-    } else {
+    // else if (!recipiantObject?.am_giftcard_message) {
+    //   setError(true)
+    // } 
+    else {
 
       setError(false)
       setRecipientDetails([recipiantObject, ...recipientDetails])
@@ -94,10 +120,6 @@ const useGiftHook = (props) => {
       setName()
       setRecipientNumber()
     }
-
-
-
-
   }
 
   const getData = async () => {
@@ -105,22 +127,22 @@ const useGiftHook = (props) => {
     const qurry =
       `
     query {
-      getGiftCartProductByStore(sku: "${giftCardID}" , store_id: ${lang}) {
+      getGiftCartProductByStore(sku: "${giftCardID}" ) {
           id
           sku
           name
           price
           description
           type_id
+          media_gallery_entries
+          {
+              file
+          }
           term_and_condition{
             title
             link
             icon
         }
-          media_gallery_entries
-          {
-              file
-          }
           am_giftcard_prices{
               price_id
               product_id
@@ -143,7 +165,7 @@ const useGiftHook = (props) => {
         const url = imageURL + "/pub/media/catalog/product/" + items?.file
         temp.push(url)
       })
-      setPrice(giftCartInfo?.data?.data?.getGiftCartProductByStore?.am_giftcard_prices[0]?.value)
+      // setPrice(giftCartInfo?.data?.data?.getGiftCartProductByStore?.am_giftcard_prices[0]?.value)
       setSlider(temp)
       setIsLoadding(false)
     } catch (error) {
@@ -155,15 +177,18 @@ const useGiftHook = (props) => {
   const pricvePress = async (index, item) => {
     setSelectIndex(index)
     setPrice(item)
+    setCoutomerAmount()
     setInputPrice()
+
   }
 
   const addWallte = async () => {
     if (inputPrice) {
       setSelectIndex()
-      setPrice(inputPrice)
+      setCoutomerAmount(inputPrice)
+      // setPrice(inputPrice)
     } else {
-      SHOWTOTS("Enter amount")
+      SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
     }
 
   }
@@ -183,10 +208,9 @@ const useGiftHook = (props) => {
 
   }
 
-
   const onAddTocart = async () => {
 
-    let hasUndefinedValue = false;
+    let hasUndefinedValue = true;
 
     const recipientDetails1 = recipientDetails.map(card => {
       if (card.am_giftcard_message === undefined &&
@@ -204,16 +228,23 @@ const useGiftHook = (props) => {
         return `{ 
           am_giftcard_sender_name: "${recipient.am_giftcard_sender_name}",
           am_giftcard_recipient_name: "${recipient.am_giftcard_recipient_name}",
-          am_giftcard_recipient_email: "${recipient.am_giftcard_recipient_email}",
+          am_giftcard_recipient_email: "${recipient.am_giftcard_recipient_email ? recipient.am_giftcard_recipient_email : ""}",
           mobilenumber: "${recipient.mobilenumber}",
-          am_giftcard_message: "${recipient.am_giftcard_message}"
+          am_giftcard_message: "${recipient.am_giftcard_message ? recipient.am_giftcard_message : ""}"
     }`;
       }).join(",");
     };
 
     const addonRecipientsString = createAddonRecipientsString(recipientDetails1);
 
+
+    console.log("recipientDetails1 :::", recipientDetails1)
+
+
+
+
     const tempInner = async () => {
+
       const recipiantObject2 = {
         am_giftcard_sender_name: undefined,
         am_giftcard_recipient_name: undefined,
@@ -234,39 +265,47 @@ const useGiftHook = (props) => {
               product: ${data?.id},
               item: ${data?.id},
               quote_id: ${result?.data},
-              am_giftcard_amount: ${price},
-              am_giftcard_amount_custom: null,
+              am_giftcard_amount: ${price ? price : 0},
+              am_giftcard_amount_custom: ${coustomAmount ? coustomAmount : 0},
               am_giftcard_image: ${data?.am_giftcard_code_image},      
               addon_recipients: [${addonRecipientsString}],
               is_date_delivery: 0,
-              qty: 1
+              qty: ${qty}
           }) {
               success
               message
           }
       }
         `
-          const response = await giftAddToCart(Qurry2)
+
+
+          console.log("::::::::::: Qurry2", Qurry2)
+          const response = await giftAddToCart(Qurry2, lang)
           if (response?.data?.data?.addGiftCartToShoppingCart?.success) {
             SHOWTOTS(response?.data?.data?.addGiftCartToShoppingCart?.message)
-            getProductCount()
-            setIsLoadding(false)
+            setQty(1)
+            // getProductCount()
             setMessage()
             setRecipientName()
             setRecipientEmail()
             setName()
             setRecipientNumber()
+            setPrice()
+            setCoutomerAmount()
+            setSelectIndex()
             setRecipientDetails([recipiantObject2])
+            setError(false)
+            setInfo(false)
+            setIsLoadding(false)
+
           } else {
-            // console.log("INNER ERROR :::::::: ", response?.data?.data?.addGiftCartToShoppingCart?.message)
+
             SHOWTOTS(response?.data?.data?.addGiftCartToShoppingCart?.message)
             setIsLoadding(false)
           }
-
         } else {
           console.log("QUTE ID NOT FOUND")
           setIsLoadding(false)
-
         }
 
       } catch (error) {
@@ -276,24 +315,67 @@ const useGiftHook = (props) => {
 
     }
 
+    // recipientDetails1.forEach(item => {
+    //   Object.values(item).forEach(value => {
+    //     if (!price) {
+    //       SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
+    //     } else if (value === undefined) {
+    //       setError(true)
+    //       hasUndefinedValue = true;
+    //     }
+    //     else if (item?.mobilenumber?.length < 9 || item?.mobilenumber?.length < 9) {
+    //       SHOWTOTS(langues?.Numbercontainsmustbe9digits)
+    //       hasUndefinedValue = true;
+    //     } else {
+    //       hasUndefinedValue = false
+    //     }
+    //   });
+    // });
+
+
     recipientDetails1.forEach(item => {
       Object.values(item).forEach(value => {
-        if (value === undefined) {
-          // SHOWTOTS("ADD RCIPINT DATA")
+
+        if (!price && !coustomAmount) {
+          SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
+          // setError(true)
+          hasUndefinedValue = true
+        } else if (!item?.am_giftcard_recipient_name) {
           setError(true)
+          hasUndefinedValue = true
+        }
+        else if (!item?.am_giftcard_sender_name) {
+          setError(true)
+          hasUndefinedValue = true
+        }
+        // else if (!item?.am_giftcard_recipient_email) {
+        //   setError(true)
+        //   hasUndefinedValue = true;
+        // }
+        else if (item?.am_giftcard_recipient_email && !emaileRegxp.test(item?.am_giftcard_recipient_email)) {
+          SHOWTOTS(langues?.Invalidemailaddress)
           hasUndefinedValue = true;
-        } else {
-          console.log(":::::::::::")
+        }
+        else if (!item?.mobilenumber) {
+          setError(true)
+          hasUndefinedValue = true
+        }
+        else if (item?.mobilenumber?.length < 9 || item?.mobilenumber?.length > 10) {
+          SHOWTOTS(langues?.Numbercontainsmustbe9digits)
+          hasUndefinedValue = true;
+        }
+        else {
+          hasUndefinedValue = false
         }
       });
     });
+
 
     if (!hasUndefinedValue) {
       tempInner()
     }
 
   }
-
 
 
   const getProductCount = async () => {
@@ -365,7 +447,10 @@ const useGiftHook = (props) => {
     addWallte,
     setOnData,
     checkValidation,
+    setQty,
+    setRecipientDetails,
     ondata,
+    info, setInfo,
     recipient,
     recipientDetails,
     data,
@@ -378,13 +463,17 @@ const useGiftHook = (props) => {
     inputPrice,
     userData,
     error,
-
+    qty,
     name,
     recipientName,
     recipientNumber,
     message,
     recipientEmail,
-    giftCardID
+    giftCardID,
+    userData,
+    coustomAmount,
+    setCoutomerAmount,
+    setRecipientDetails
 
 
   }

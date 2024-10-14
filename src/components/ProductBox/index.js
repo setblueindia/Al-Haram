@@ -19,7 +19,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
   return (
     <View style={[
       styles.mainView,
-      sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
+      sindex % 2 == 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
     ]}>
       <View style={styles.bannerView}>
         <FastImage
@@ -68,7 +68,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
               <View key={index} style={{ flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
                   <View style={styles.innerCategoriesView}>
-                    <FastImage style={styles.storyView} source={{ uri: productImage }} />
+                    <FastImage style={[styles.storyView, lang?.data == NUMBER.num0 && {}]} source={{ uri: productImage }} />
                   </View>
                   {(items?.special_offer || items?.is_new_badge) &&
                     <View style={
@@ -80,7 +80,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
                       (items?.is_new_badge && lang?.data == NUMBER.num1) && { left: ResponsiveSize(0) },
                       lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
                     >
-                      <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
+                      <FastImage style={[{ height: "100%", width: "100%" }]} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
                     </View>
                   }
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
@@ -101,7 +101,8 @@ export default ProductBox
 const styles = StyleSheet.create({
   mainView: {
     paddingHorizontal: ResponsiveSize(20),
-    backgroundColor: "#FFF0DC",
+    // backgroundColor: "#FFF0DC",
+    backgroundColor: "#FFFBEB",
     borderWidth: ResponsiveSize(1),
     borderColor: "#CEB282"
   },
@@ -156,7 +157,10 @@ const styles = StyleSheet.create({
   cetegoriesText: {
     textAlign: "center",
     color: COLOR.black,
-    marginTop: ResponsiveSize(20)
+    marginTop: ResponsiveSize(20),
+    fontSize: ResponsiveSize(18),
+    width: ResponsiveSize(200),
+    // fontFamily: "Raleway-Regular"
   },
   priceText: {
     fontWeight: FONTWEGHIT.font600,

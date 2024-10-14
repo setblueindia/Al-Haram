@@ -29,8 +29,6 @@ const useLoginHook = (props) => {
   const userData = useSelector(state => state?.userData?.data)
   const dispatch = useDispatch()
 
-  // console.log("Props ::::" , props?.route?.params)
-  console.log({lang : lang , userData : userData})
 
   useEffect(() => {
     getLang();
@@ -60,19 +58,19 @@ const useLoginHook = (props) => {
         const fromdata = new FormData
         try {
           const result = await ExpireToken(fromdata)
-          console.log("EXPIRE TOKEN ::::::::::::::: " , result)
+          console.log("EXPIRE TOKEN ::::::::::::::: ", result)
           setLoader(false)
         } catch (error) {
           setLoader(false)
           console.log("Errorrr=====> ", error)
         }
       }
-        response?.data?.data?.token &&   PoductCount(response?.data?.data?.token)
-        setUserData(response?.data?.data)
-        dispatch(addUserData(response?.data?.data))
-        navigation.navigate(NAVIGATION.DrawerNavigation)
-        RemoveRembember()
-        setLoader(false)
+      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
+      setUserData(response?.data?.data)
+      dispatch(addUserData(response?.data?.data))
+      navigation.navigate(NAVIGATION.DrawerNavigation)
+      RemoveRembember()
+      setLoader(false)
     } else {
       setLoader(false)
       setShowModal(true)
@@ -114,7 +112,7 @@ const useLoginHook = (props) => {
     if (response?.data?.status == NUMBER.num1) {
       setLoader(false)
       console.log("OTP ====> ", response?.data?.otp)
-      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber , otpr : response?.data?.otp })
+      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber, otpr: response?.data?.otp })
     } else {
       setLoader(false)
       setShowModal(true)
@@ -124,7 +122,7 @@ const useLoginHook = (props) => {
   }
 
   const useLoginWithNumber = () => {
-    if(moNumber) {
+    if (moNumber) {
       if (moNumber?.length != 9) {
         setShowModal(true)
         setErrorText(langues?.Invalidnumber)
@@ -132,10 +130,10 @@ const useLoginHook = (props) => {
         mobailLogin()
       }
 
-    }else{
+    } else {
       SHOWTOTS(langues?.Entermobilenumber)
     }
-   
+
 
   }
 
@@ -175,18 +173,18 @@ const useLoginHook = (props) => {
     try {
 
       const userCredential = await signInWithGoogle();
-    
+
       const regex = /^[A-Za-z0-9 ]*$/
       const fullName = userCredential?.user?.displayName
       const mail = userCredential?.user?.email
       const uid = userCredential?.user?.uid
       const nameParts = fullName?.split(' ');
       const firstName = nameParts[0];
-      const lastnameText = nameParts?.slice(1)?.join(' '); 
+      const lastnameText = nameParts?.slice(1)?.join(' ');
       const testLastName = regex.test(lastnameText);
       const lastName = testLastName ? lastnameText : firstName
 
-       SINUP(mail , firstName , lastName , uid , type = "google")
+      SINUP(mail, firstName, lastName, uid, type = "google")
 
     } catch (error) {
       console.error('Error signing in with Google:', error.code, error.message, error);
@@ -195,24 +193,22 @@ const useLoginHook = (props) => {
   }
 
 
-  const SINUP = async (mail , firstName , lastName , uid , type) => {
+  const SINUP = async (mail, firstName, lastName, uid, type) => {
     const fromdata = new FormData()
     setLoader(true)
 
     // const userEmail = email.toLowerCase()
     const formData = new FormData();
-    formData.append('firstname', firstName ? firstName : " ") ;
+    formData.append('firstname', firstName ? firstName : " ");
     formData.append('lastname', lastName ? lastName : "");
-    formData.append('email', mail ?  mail : mail);
+    formData.append('email', mail ? mail : mail);
     formData.append('otptype', type);
     formData.append('store_id', lang?.data);
     formData.append('auth', uid ? uid : " ");
 
     const response = await useSingUp(formData)
-    console.log("::::::::::::" , response?.data)
     if (response?.data?.status == NUMBER.num1) {
       const result = await ExpireToken(fromdata)
-      console.log("TOKEN EXPRIE API RES ::::::: " , response?.data?.data?.token)
       navigation.navigate(NAVIGATION.DrawerNavigation)
       response?.data?.data?.token && PoductCount(response?.data?.data?.token)
       dispatch(addUserData(response?.data?.data))
@@ -232,24 +228,24 @@ const useLoginHook = (props) => {
       // Note: it appears putting FULL_NAME first is important, see issue #293
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
- 
-    console.log("All Data :::::::: " , appleAuthRequestResponse)
-  const mail = appleAuthRequestResponse?.email
-  const uid = appleAuthRequestResponse?.authorizationCode
-  const firstName = appleAuthRequestResponse?.fullName?.givenName
-  const lastName = appleAuthRequestResponse?.fullName?.familyName
 
-  console.log("APPLE DATA email  ::::::::" , {
-    mail : mail,
-    uid : uid ,
-    firstName : firstName,
-    lastName : lastName
-  }) 
-  SINUP(mail , firstName , lastName , uid , type = "apple")
+    console.log("All Data :::::::: ", appleAuthRequestResponse)
+    const mail = appleAuthRequestResponse?.email
+    const uid = appleAuthRequestResponse?.authorizationCode
+    const firstName = appleAuthRequestResponse?.fullName?.givenName
+    const lastName = appleAuthRequestResponse?.fullName?.familyName
+
+    console.log("APPLE DATA email  ::::::::", {
+      mail: mail,
+      uid: uid,
+      firstName: firstName,
+      lastName: lastName
+    })
+    SINUP(mail, firstName, lastName, uid, type = "apple")
   }
 
   const PoductCount = async (token) => {
-    console.log("Product  Token :::::::::: " , token)
+    console.log("Product  Token :::::::::: ", token)
     const countData = `
     query {
       customerCart {
@@ -261,20 +257,20 @@ const useLoginHook = (props) => {
     `
     try {
       if (token) {
-        const result = await ProductlistCount(countData , lang?.data , token)
+        const result = await ProductlistCount(countData, lang?.data, token)
         const arrOFItems = result?.data?.data?.customerCart?.items
         const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
-      }else{
-        dispatch(addProduct(0)) 
+        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+      } else {
+        dispatch(addProduct(0))
       }
     } catch (error) {
       console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0)) 
+      dispatch(addProduct(0))
     }
   }
 
-  
+
 
   return {
     whiteEmail,

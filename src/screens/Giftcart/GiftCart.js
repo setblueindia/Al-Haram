@@ -14,6 +14,8 @@ import CommanHeader from '../../components/ComanHeader'
 import CusLoader from '../../components/CustomLoader'
 import { Ar, En } from '../../constants/localization'
 import RenderHTML from 'react-native-render-html'
+import Counter from '../../components/Counter'
+import CheackButton from '../../components/CheackButton'
 
 const GiftCart = (props) => {
 
@@ -41,6 +43,9 @@ const GiftCart = (props) => {
         recipientEmail,
         ondata,
         giftCardID,
+        qty,
+        coustomAmount,
+        info, setInfo,
         setName,
         setRecipientName,
         setRecipientEmail,
@@ -52,32 +57,50 @@ const GiftCart = (props) => {
         setInputPrice,
         addWallte,
         setOnData,
+        setQty,
+        setRecipientDetails,
+        setCoutomerAmount,
         checkValidation,
+        handleUpdate,
         setPrice,
         selectIndex,
         error
     } = useGiftHook(props)
 
 
-
     const lable = lang == NUMBER.num0 ? Ar : En
-
-
 
     return (
         <View style={styles.mainView}>
-            <CommanHeader navigation={navigation} />
+            <CommanHeader navigation={navigation} lang={lang} />
 
             <ScrollView style={styles.containerView}>
                 <View style={styles.sliderView}>
                     <Slider data={slider} height={ResponsiveSize(300)} home={true} />
                 </View>
                 <View style={[{ paddingHorizontal: ResponsiveSize(25) }]}>
-                    <Text style={[styles.titelText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.name} </Text>
-                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?
-                        "Be the first to review this product"
-                        : "قيمة البطاقة بالريال السعودي"}
-                    </Text>
+                    <Text style={[styles.titelText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.name.toUpperCase()} </Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            const reviewLink = "https://alharamstores.com/alharam-gift-cards.html#review-form"
+                            Linking.openURL(reviewLink);
+                        }}
+                    >
+                        <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ?
+                            "Be the first to review this product"
+                            : "قيمة البطاقة بالريال السعودي"}
+                        </Text>
+
+                    </TouchableOpacity>
+
+                    {(!price && !coustomAmount) && <View style={{ height: ResponsiveSize(40) }} />}
+                    {(price || coustomAmount) && <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{price ? lable?.SAR + " " + price : lable?.SAR + " " + coustomAmount}</Text>}
+
+                    <View style={[{ flexDirection: 'row', alignItems: 'center' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                        <Text style={{ color: COLOR.black }}>{lang == NUMBER.num0 ? " :SKU" : "SKU: "}</Text>
+                        <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{giftCardID}</Text>
+                    </View>
+
 
                     <TouchableOpacity
                         onPress={() => {
@@ -89,11 +112,10 @@ const GiftCart = (props) => {
 
                     </TouchableOpacity>
 
-                    <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + price}</Text>
-                    <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{giftCardID}</Text>
+                    <View style={styles.barView} />
 
                     <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{
-                        lang == NUMBER.num1 ? "Card Value in USD" : "قيمة البطاقة باللاير السعودي"}</Text>
+                        lang == NUMBER.num1 ? "Card Value in SAR" : "قيمة البطاقة بالريال السعودي"}</Text>
                     <View style={[styles.priceContainer, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
                         {data?.am_giftcard_prices?.map((items, index) => {
@@ -107,30 +129,57 @@ const GiftCart = (props) => {
                             )
                         })
                         }
-                        {/* <View style={styles.priceBox}>
-                            <Text style={styles.priceText}>{"SAR 25"}</Text>
-                        </View>
-                        <View style={styles.priceBox}>
-                            <Text style={styles.priceText}>{"SAR 85"}</Text>
-                        </View> */}
+                        {
+                            /* <View style={styles.priceBox}>
+                                <Text style={styles.priceText}>{"SAR 25"}</Text>
+                            </View>
+                            <View style={styles.priceBox}>
+                                <Text style={styles.priceText}>{"SAR 85"}</Text>
+                            </View> */
+                        }
                     </View>
 
-                    {data?.am_allow_open_amount == 1 && <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Other amount:" : "مبلغ آخر"}</Text>}
-                    {data?.am_allow_open_amount == 1 && <View style={[{ width: "100%", flexDirection: 'row', justifyContent: 'space-between', marginTop: ResponsiveSize(10) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                        <TextInput
-                            value={inputPrice}
-                            onChangeText={(text) => { setInputPrice(text) }}
-                            placeholder='SAR10 to SAR50'
-                            placeholderTextColor={"#cccccc"}
-                            keyboardType='numeric'
-                            style={[styles.textInputs, lang == NUMBER.num0 && { textAlign: 'right' }]}
-                        />
-                        <TouchableOpacity
-                            onPress={() => { addWallte() }}
-                            style={styles.textinputBTN}>
-                            <Text style={styles.priceText}>{lang == NUMBER.num1 ? "ADD" : "أضف"}</Text>
-                        </TouchableOpacity>
-                    </View>}
+                    {data?.am_allow_open_amount == 1 && <Text
+                        style={[
+                            styles.otherAMT, lang == NUMBER.num0 &&
+                            { textAlign: 'right' }]}>
+                        {lang == NUMBER.num1 ? "Other amount:" : "مبلغ آخر"}</Text>}
+
+                    {data?.am_allow_open_amount == 1 &&
+                        <View style={
+                            [{
+                                width: "100%",
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                marginTop: ResponsiveSize(10)
+                            },
+                            lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+
+                            <TextInput
+                                value={inputPrice}
+                                onChangeText={(text) => { setInputPrice(text), setPrice() }}
+                                placeholder=''
+                                placeholderTextColor={COLOR.darkGray}
+                                keyboardType='numeric'
+                                style={[styles.textInputs, lang == NUMBER.num0 && { textAlign: 'right' }]}
+                            />
+
+                            <TouchableOpacity
+                                onPress={() => { addWallte() }}
+                                style={styles.textinputBTN}>
+                                <Text style={styles.priceText}>{lang == NUMBER.num1 ? "ADD" : "أضف"}</Text>
+                            </TouchableOpacity>
+
+                        </View>}
+                    <View style={[{
+                        marginTop: ResponsiveSize(20),
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                        <Text style={[{ color: COLOR.darkGray, marginRight: ResponsiveSize(10) }, lang == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{lang == NUMBER.num1 ? "Qty : " : "الكمية : "}</Text>
+                        < Counter qty={qty} setQnt={setQty} />
+                    </View>
+
 
                     {/* <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Choose card design" : "اختر تصميم البطاقة"}</Text> */}
 
@@ -161,48 +210,91 @@ const GiftCart = (props) => {
                     </TouchableOpacity> */}
                     {/* {renderRicipint()} */}
 
+                    {userData && <View style={styles.barView} />}
+
+
+                    {userData && <View style={[{
+                        flexDirection: 'row',
+                        width: "100%",
+                        alignItems: 'center',
+                        // marginTop: ResponsiveSize(20)
+                    }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                        <CheackButton preVriable={info} onPress={setInfo} />
+                        <Text
+                            style={[{
+                                marginLeft: ResponsiveSize(10),
+                                color: COLOR.black
+                            }, { marginRight: ResponsiveSize(10) }]}
+                        >{lang == NUMBER.num1 ? "Recipient my self" : "أنا المستلم"}</Text>
+
+                    </View>
+                    }
 
 
                     {recipientDetails?.map((item, index) => {
 
+                        const handleUpdate = (value, fild) => {
+                            const updatedDetails = recipientDetails?.map((i, detail, fild) =>
+                                i === index ? { ...detail, [fild]: name } : detail
+                            );
+                            // setRecipientDetails(updatedDetails); // assuming setRecipientDetails is the state setter for recipientDetails
+                        };
+
                         return (
-                            <View>
+                            <View key={index}>
 
                                 <View style={styles.barView} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Your Name" : "الاسم"}</Text>
                                 <View style={styles.div2} />
 
                                 <TextFildCus
+                                    disable={item?.am_giftcard_sender_name ? true : false}
                                     value={item?.am_giftcard_sender_name ? item?.am_giftcard_sender_name : name}
                                     onChange={setName}
                                     text={lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"}
+
                                 />
-                                {(!item?.am_giftcard_sender_name && error && !name) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"}</Text>}
 
-
-
+                                {(!item?.am_giftcard_sender_name && error && !name) &&
+                                    <Text style={
+                                        [styles.eerroText,
+                                        lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Sender Name" : "أدخل اسم المرسل"}</Text>}
                                 <View style={styles.div2} />
+
+
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Name" : "اسم المستلم"}</Text>
                                 <View style={styles.div2} />
                                 <TextFildCus
+                                    disable={item?.am_giftcard_recipient_name ? true : false}
+
                                     value={item?.am_giftcard_recipient_name ? item?.am_giftcard_recipient_name : recipientName}
                                     onChange={setRecipientName}
                                     text={lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"}
                                 />
-                                {(!item?.am_giftcard_recipient_name && error && !recipientName) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"}</Text>}
 
-
+                                {(!item?.am_giftcard_recipient_name && error && !recipientName) &&
+                                    <Text style={
+                                        [styles.eerroText,
+                                        lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                                        {lang == NUMBER.num1 ? "Enter Recipient Name" : "أدخل اسم المستلم"}
+                                    </Text>}
 
 
                                 <View style={styles.div2} />
-                                <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Email" : "البريد الإلكتروني للمستلم"}</Text>
+                                <Text style={
+                                    [styles.textInputTitel,
+                                    lang == NUMBER.num0 && { textAlign: 'right' }]}
+                                >{lang == NUMBER.num1 ? "Recipient Email" : "البريد الإلكتروني للمستلم"}</Text>
                                 <View style={styles.div2} />
+
+
                                 <TextFildCus
+                                    disable={item?.am_giftcard_recipient_email ? true : false}
                                     value={item?.am_giftcard_recipient_email ? item?.am_giftcard_recipient_email : recipientEmail}
                                     onChange={setRecipientEmail}
-                                    text={lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"}
+                                    text={lang == NUMBER.num1 ? "Enter Recipient Email - optional" : "عنوان البريد الإلكتروني - اختياري"}
                                 />
-                                {(!item?.am_giftcard_recipient_email && error && !recipientEmail) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"}</Text>}
+                                {/* {(!item?.am_giftcard_recipient_email && error && !recipientEmail) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Email" : "عنوان البريد الإلكتروني"}</Text>} */}
 
 
 
@@ -210,10 +302,16 @@ const GiftCart = (props) => {
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Recipient Mobile Number" : "هاتف المستلم"}</Text>
                                 <View style={styles.div2} />
                                 <TextFildCus
+                                    disable={item?.mobilenumber ? true : false}
+
+                                    number={true}
                                     value={item?.mobilenumber ? item?.mobilenumber : recipientNumber}
                                     onChange={setRecipientNumber}
-                                    text={lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"} />
-                                {(!item?.mobilenumber && error && !recipientNumber) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"}</Text>}
+                                    // text={lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"} 
+                                    text={"05XXXXXXXX"}
+                                />
+                                {(!item?.mobilenumber && error && !recipientNumber) &&
+                                    <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Enter Recipient Mobile Number" : "رقم جوال المستلم"}</Text>}
 
 
                                 <View style={styles.div2} />
@@ -222,13 +320,15 @@ const GiftCart = (props) => {
 
                                 <TextInput
                                     value={item?.am_giftcard_message ? item?.am_giftcard_message : message}
+                                    editable={item?.am_giftcard_message ? false : true}
                                     onChangeText={(text) => { setMessage(text) }}
                                     textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                                     multiline={true}
-                                    placeholder={lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}
+                                    placeholder={lang == NUMBER.num1 ? 'Enter message - optional' : " أدخل رسالتك - اختياري"}
+                                    placeholderTextColor={COLOR.darkGray}
                                     style={styles.messTextInput}
                                 />
-                                {(!item?.am_giftcard_message && error && !message) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}</Text>}
+                                {/* {(!item?.am_giftcard_message && error && !message) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}</Text>} */}
 
                                 <View style={styles.div2} />
                             </View>
@@ -249,7 +349,7 @@ const GiftCart = (props) => {
                     </TouchableOpacity>
 
                     <View style={styles.barView} />
-                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"Schedule delivery"}</Text>
+                    <Text style={[styles.otherAMT, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Schedule delivery" : "جدولة التسليم"}</Text>
 
                     <View style={[{ flexDirection: 'row', width: "100%", }, lang == NUMBER.num0 && { alignItems: 'flex-end' }]}>
 

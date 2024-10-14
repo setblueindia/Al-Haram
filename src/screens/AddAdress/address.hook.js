@@ -195,7 +195,7 @@ const useAddressHook = (props) => {
         formData.append("address1", address1)
         formData.append("address2", address2)
         formData.append("address3", address3)
-        formData.append("postcode", "20001")
+        formData.append("postcode", "")
         formData.append("telephone", mNumaber)
         // formData.append("set_is_default_billing", billing ? 1 : 0)
         // formData.append("set_is_default_shipping", shopping ? 1 : 0)

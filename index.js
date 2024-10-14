@@ -13,9 +13,7 @@ const AppRoot = () => {
     return (
 
         <Provider store={store}>
-
             <App />
-
         </Provider>
 
     )

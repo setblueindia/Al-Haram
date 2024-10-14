@@ -10,8 +10,7 @@ export const config = {
   // responseUrl: 'http://localhost/response.html',
 
 
-  // Live 
-
+  // Live config
   currency: 'SAR',
   timeout: '15',
   terminalId: 'haramcentM',

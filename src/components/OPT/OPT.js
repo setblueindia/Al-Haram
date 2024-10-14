@@ -243,13 +243,13 @@ const OTP = ({ setMainOTP, otpr }) => {
           ref={textInputRef}
           style={styles.hiddenTextInput}
           keyboardType="numeric"
-          maxLength={4} 
-          textContentType="oneTimeCode" 
+          maxLength={4}
+          textContentType="oneTimeCode"
           autoComplete="sms-otp"
           value={otp}
-          onChangeText={(text) => setOtp(text)} 
-          onFocus={() => handleFocus(-1)} 
-          onBlur={handleBlur} 
+          onChangeText={(text) => setOtp(text)}
+          onFocus={() => handleFocus(-1)}
+          onBlur={handleBlur}
         />
 
         {Array(4)
@@ -300,6 +300,7 @@ const styles = StyleSheet.create({
   otpText: {
     fontSize: ResponsiveSize(30),
     textAlign: 'center',
+    color: COLOR.black
   },
   hiddenTextInput: {
     position: 'absolute',

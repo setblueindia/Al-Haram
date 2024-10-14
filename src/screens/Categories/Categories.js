@@ -53,7 +53,6 @@ const Categories = () => {
                       keyExtractor={(item, index) => index * Math.random()}
                       renderItem={({ item, index }) => {
 
-                        // console.log("::::::::::::::", item?.image)
                         return (
                           <>
                             <TouchableOpacity

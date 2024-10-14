@@ -51,7 +51,7 @@ const Profile = () => {
 
           <LinearGradient
             style={styles.linearView}
-            colors={['#fff', '#FFE3E4']}
+            colors={['#fff', '#FAF6EE']}
             angle={160}>
             <View style={styles.profileMain}>
 
@@ -136,7 +136,7 @@ const Profile = () => {
           </TouchableOpacity>
         ))}
 
-        <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: ResponsiveSize(20), paddingVertical: ResponsiveSize(20), backgroundColor: "#FFF3F4" }}>
+        <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: ResponsiveSize(20), paddingVertical: ResponsiveSize(20), backgroundColor: "#FAF6EE" }}>
           <TouchableOpacity
             onPress={() => {
               changeLungues();
@@ -198,7 +198,7 @@ const Profile = () => {
         </View>
       }
 
-      {console.log("modal :::" , modal)}
+      {console.log("modal :::", modal)}
 
       {modal &&
         <Modal
@@ -206,7 +206,7 @@ const Profile = () => {
           animationType='slide'
           transparent
         >
-          <DeleteBox noPress={() => { setModal(false) }} yesPress={() => { setModal(false) , singOut() }} lang={lang} type={"L"} />
+          <DeleteBox noPress={() => { setModal(false) }} yesPress={() => { setModal(false), singOut() }} lang={lang} type={"L"} />
 
         </Modal>
       }

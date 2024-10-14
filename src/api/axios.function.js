@@ -38,7 +38,7 @@ export const POSTFORM = async (url, params) => {
             console.log('Other Error:', error.message);
             return error
         }
-        
+
     }
 
 }
@@ -74,59 +74,56 @@ export const POSTFORM2 = async (url, params) => {
         } else {
             console.log('Other Error:', error.message);
         }
-        
+
     }
 
 }
 
-export const POSTJSON  = async (url , params) =>{ 
+export const POSTJSON = async (url, params) => {
 
     console.log(" =======> ", {
-        url : url,
-        params : params
+        url: url,
+        params: params
     })
-    
+
     try {
         const response = await axios.post(url, params);
         return response
-    } catch (error) { 
-        console.log("MAIN ERROR IN JSON ::::::: " , error)
+    } catch (error) {
+        console.log("MAIN ERROR IN JSON ::::::: ", error)
     }
 }
 
-export const POSTFORMGRAPH = async (url, params, lang , sToken) => {
+export const POSTFORMGRAPH = async (url, params, lang, sToken) => {
 
     const userData = await AsyncStorage.getItem(ASYNCSTORAGE.Userdata)
     const token = JSON.parse(userData)
     authToken = token?.token
 
-    console.log("Token ::::::::" , authToken)
     const header = {
         'Authorization': sToken ? 'Bearer ' + sToken : 'Bearer ' + authToken,
         'Content-Type': 'application/json',
         'Store': lang == NUMBER.num1 ? "default" : "arabic"
 
     }
-  
+
     console.log("==============================")
     console.log({
         URL: url,
         params: params,
         lang: lang,
-        header : header
-
+        header: header
     })
     console.log("==============================")
-    try {
-      
 
+    try {
         const response = await axios({
             method: 'post',
             url: url,
             data: { query: params, variables: null },
             headers: header
         });
-        //   console.log("Response :::" , response?.data?.errors )
+
         return response;
     } catch (error) {
         console.log("ERROR ::::::: ", error)

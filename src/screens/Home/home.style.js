@@ -22,12 +22,12 @@ export const styles = StyleSheet.create({
         flex: 1
     },
     storyView: {
-        marginHorizontal: ResponsiveSize(20),
+        paddingHorizontal: ResponsiveSize(20),
         flex: 1,
         width: "100%",
         height: "100%",
-        zIndex: 10
-
+        zIndex: 10,
+        marginTop: ResponsiveSize(20)
     },
     listView: {
 
@@ -57,8 +57,6 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(10),
         borderRadius: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
-        // backgroundColor: "#FDEFC8",
-        // backgroundColor: "#FFEBEB",
         padding: ResponsiveSize(10),
         alignSelf: ALINE.center,
         alignItems: 'center',
@@ -67,10 +65,8 @@ export const styles = StyleSheet.create({
     bannerImage: {
         height: "100%",
         width: "100%",
-        borderWidth: ResponsiveSize(1),
         borderColor: "#00000050",
-        // padding: ResponsiveSize(5),
-        // backgroundColor: "#FDEFC8",
+        padding: ResponsiveSize(5),
         borderRadius: ResponsiveSize(10),
         alignItems: 'center',
         justifyContent: 'center'
@@ -78,7 +74,7 @@ export const styles = StyleSheet.create({
     },
     bannerView3: {
         width: "100%",
-        height: ResponsiveSize(200),
+        height: "100%",
         paddingHorizontal: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
         backgroundColor: COLOR.white
@@ -87,7 +83,7 @@ export const styles = StyleSheet.create({
     bannerImg: {
         height: "100%",
         width: "100%",
-        resizeMode: RESIZEMODE.contain,
+        // resizeMode: RESIZEMODE.contain,
         borderRadius: ResponsiveSize(10),
     },
     cetegoriesBox: {

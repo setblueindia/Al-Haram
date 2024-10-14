@@ -47,17 +47,18 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart })
             {(data?.options?.length > 0 && data?.type == "amgiftcard") &&
               data?.options?.map((item) => {
 
+
                 return (
                   <View style={[{ flexDirection: 'row', width: "100%" }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 
-                    <Text style={[styles.colorText, { fontSize: ResponsiveSize(18), color: COLOR.black }, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                    {item?.value && <Text style={[styles.colorText, { fontSize: ResponsiveSize(18), color: COLOR.black }, lang == NUMBER.num0 && { textAlign: 'right' }]}>
                       {item?.label + " : "}
-                    </Text>
+                    </Text>}
 
-                    <Text style={[styles.colorText, { width: "80%", fontSize: ResponsiveSize(18) }, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                    {item?.value && <Text style={[styles.colorText, { width: "80%", fontSize: ResponsiveSize(18) }, lang == NUMBER.num0 && { textAlign: 'right' }]}>
                       {item.value}
                     </Text>
-
+                    }
                   </View>
                 )
 
