@@ -34,6 +34,7 @@ import ResponseScreen from '../screens/YourWay/response';
 import Home from '../screens/Home/Home';
 import GiftCart from '../screens/Giftcart/GiftCart';
 import Maintenance from '../screens/Maintenance/Maintenance';
+import Checkbalance from '../screens/Giftcart/Checkbalance';
 
 
 const StackNavigation = () => {
@@ -192,6 +193,12 @@ const StackNavigation = () => {
         component={Maintenance}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name={NAVIGATION?.giftBalanceCheck}
+        component={Checkbalance}
+        options={{ headerShown: false }}
+      />
+
 
 
 

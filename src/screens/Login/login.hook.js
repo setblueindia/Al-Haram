@@ -29,6 +29,7 @@ const useLoginHook = (props) => {
   const userData = useSelector(state => state?.userData?.data)
   const dispatch = useDispatch()
 
+  const naviGtaionType = props?.route?.params?.type
 
   useEffect(() => {
     getLang();
@@ -68,7 +69,7 @@ const useLoginHook = (props) => {
       response?.data?.data?.token && PoductCount(response?.data?.data?.token)
       setUserData(response?.data?.data)
       dispatch(addUserData(response?.data?.data))
-      navigation.navigate(NAVIGATION.DrawerNavigation)
+      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
       RemoveRembember()
       setLoader(false)
     } else {
@@ -112,7 +113,7 @@ const useLoginHook = (props) => {
     if (response?.data?.status == NUMBER.num1) {
       setLoader(false)
       console.log("OTP ====> ", response?.data?.otp)
-      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber, otpr: response?.data?.otp })
+      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber, otpr: response?.data?.otp, types: "login", naviGtaionType: naviGtaionType })
     } else {
       setLoader(false)
       setShowModal(true)
@@ -142,11 +143,11 @@ const useLoginHook = (props) => {
   };
 
   const SingUpScreen = () => {
-    navigation.navigate(NAVIGATION.SinupSceen, { langues: langues });
+    navigation.replace(NAVIGATION.SinupSceen, { langues: langues, naviGtaionType: naviGtaionType });
   };
 
   const ForgetPassword = () => {
-    navigation.navigate(NAVIGATION.ForgetPasswor, { langues: langues });
+    navigation.navigate(NAVIGATION.ForgetPasswor, { langues: langues, naviGtaionType: naviGtaionType });
   }
 
   const Rembemberme = async () => {
@@ -209,7 +210,7 @@ const useLoginHook = (props) => {
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
       const result = await ExpireToken(fromdata)
-      navigation.navigate(NAVIGATION.DrawerNavigation)
+      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
       response?.data?.data?.token && PoductCount(response?.data?.data?.token)
       dispatch(addUserData(response?.data?.data))
       setUserData(response?.data?.data)

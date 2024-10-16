@@ -55,6 +55,10 @@ const ProductDetails = (props) => {
         setQnts
     } = useProductDetails({ props })
 
+    const addToCatdOn = props?.route?.params?.addToCatdOn
+
+    console.log("addToCatdOn :::::::: addToCatdOn", props?.route?.params)
+
     const { width } = useWindowDimensions();
 
     return (
@@ -140,7 +144,8 @@ const ProductDetails = (props) => {
 
                                             {fileImage ?
                                                 <FastImage source={{ uri: fileImage }} style={{ height: "100%", width: "100%", resizeMode: 'contain', borderRadius: ResponsiveSize(10) }} /> :
-                                                <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />}
+                                                <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
+                                            }
 
 
                                             {(!block && !shoeColor) &&
@@ -331,7 +336,7 @@ const ProductDetails = (props) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => { userData ? AddTocart() : navigation.navigate(NAVIGATION.Login) }}
+                    onPress={() => { userData ? AddTocart() : navigation.navigate(NAVIGATION.Login, { type: true }) }}
                     style={styles.AddToCartBtn}>
                     <Text style={styles.AddTocardText}>{Str?.Addtocard}</Text>
                 </TouchableOpacity>

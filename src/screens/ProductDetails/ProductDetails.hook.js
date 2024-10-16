@@ -25,6 +25,7 @@ const useProductDetails = (props) => {
   const [isLoading, setIsLoading] = useState()
   const dispatch = useDispatch()
   const ProductSKU = props?.props?.route?.params?.SKU
+
   const [defaultColor, setDefultColor] = useState()
   const [defaultSize, setDefultSize] = useState()
   const [avalabeSize, setAvalableSize] = useState()

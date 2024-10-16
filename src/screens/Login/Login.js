@@ -42,7 +42,7 @@ const Login = (props) => {
     useLoginHook(props);
   return (
     <View style={{ flex: 1, backgroundColor: COLOR.white }}>
-      <KeyboardAwareScrollView style={[styles.mainView]}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={[styles.mainView]}>
         <View style={styles.headerView}>
           <Onbordingheader type={props?.route?.params ? true : false} />
         </View>

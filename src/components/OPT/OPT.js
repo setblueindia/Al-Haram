@@ -192,43 +192,177 @@
 
 // export default OTP;
 
+// import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+// import React, { useEffect, useState, useRef } from 'react';
+// import { useSelector } from 'react-redux';
+// import { NUMBER } from '../../constants/constants';
+// import { ALINE, COLOR } from '../../constants/style';
+// import { ResponsiveSize } from '../../utils/utils';
+
+
+// const OTP = ({ setMainOTP, otpr, error }) => {
+
+//   const lang = useSelector((state) => state.lang);
+
+//   const [otp, setOtp] = useState('');
+//   const [isOtpComplete, setIsOtpComplete] = useState(false);
+//   const [focusedIndex, setFocusedIndex] = useState(null); // Track focused index
+//   const textInputRef = useRef(null);
+
+//   useEffect(() => {
+//     setMainOTP(otp);
+
+//     // Check if OTP is complete (4 digits)
+//     if (otp.length === 4) {
+//       setIsOtpComplete(true);
+//     } else {
+//       setIsOtpComplete(false);
+//     }
+//   }, [otp, error]);
+
+//   useEffect(() => {
+//     if (error == "true") {
+//       setOtp('')
+//       setIsOtpComplete(false)
+//       setFocusedIndex(null)
+//     }
+//   }, [error])
+
+
+//   const otpArray = otp.split('');
+
+//   const handleFocus = (index) => {
+//     // textInputRef.current.focus();
+//     setFocusedIndex(index);
+//   };
+
+//   const handleBlur = () => {
+//     setFocusedIndex(null);
+//   };
+
+//   return (
+//     <View
+//       style={[
+//         styles.mainView,
+//         lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse },
+//       ]}
+//     >
+//       <View style={styles.otpContainer}>
+//         <TextInput
+//           ref={textInputRef}
+//           style={styles.hiddenTextInput}
+//           keyboardType="numeric"
+//           maxLength={4}
+//           textContentType="oneTimeCode"
+//           autoComplete="sms-otp"
+//           value={otp}
+//           onChangeText={(text) => setOtp(text)}
+//           onFocus={() => handleFocus(-1)}
+//           onBlur={handleBlur}
+//         />
+
+//         {Array(4)
+//           .fill('')
+//           .map((_, index) => (
+//             <TouchableOpacity
+//               key={index}
+//               onPress={() => {
+//                 handleFocus(index);
+//                 textInputRef.current.focus();
+//               }}
+//               onBlur={handleBlur}
+//               style={[
+//                 styles.otpBox,
+//                 focusedIndex === index && styles.focusedOtpBox,
+//                 otpArray[index] && styles.filledOtpBox
+//               ]}
+//             >
+//               <Text style={styles.otpText}>{otpArray[index] || ''}</Text>
+//             </TouchableOpacity>
+//           ))}
+//       </View>
+//     </View >
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   mainView: {
+//     flexDirection: ALINE.row,
+//     justifyContent: ALINE.center,
+//     marginVertical: ResponsiveSize(20),
+//   },
+//   otpContainer: {
+//     flexDirection: ALINE.row,
+//     justifyContent: ALINE.spaceBetween,
+//     width: '70%',
+//   },
+//   otpBox: {
+//     width: ResponsiveSize(70),
+//     height: ResponsiveSize(70),
+//     borderWidth: 1,
+//     borderColor: '#ccc',
+//     justifyContent: ALINE.center,
+//     alignItems: 'center',
+//     marginHorizontal: 5,
+//     borderRadius: 5,
+//   },
+//   otpText: {
+//     fontSize: ResponsiveSize(30),
+//     textAlign: 'center',
+//     color: COLOR.black
+//   },
+//   hiddenTextInput: {
+//     position: 'absolute',
+//     opacity: 0,
+//     width: 1,
+//     height: 1,
+//   },
+//   focusedOtpBox: {
+//     borderColor: COLOR.liteGray, // Change to the color you want for focus
+//   },
+//   filledOtpBox: {
+//     borderColor: COLOR.primaray, // Change to the color you want for filled box
+//   },
+// });
+
+// export default OTP;
+
+
+
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { NUMBER } from '../../constants/constants';
 import { ALINE, COLOR } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
+import { Keyboard } from 'react-native'; // Import Keyboard to dismiss it
 
-
-const OTP = ({ setMainOTP, otpr }) => {
-
+const OTP = ({ setMainOTP, error }) => {
   const lang = useSelector((state) => state.lang);
 
+
+  console.log("error :::::", error)
+
   const [otp, setOtp] = useState('');
-  const [isOtpComplete, setIsOtpComplete] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(null); // Track focused index
   const textInputRef = useRef(null);
+  const [tempError, setTempErro] = useState()
 
   useEffect(() => {
     setMainOTP(otp);
-
-    // Check if OTP is complete (4 digits)
-    if (otp.length === 4) {
-      setIsOtpComplete(true);
-    } else {
-      setIsOtpComplete(false);
+    if (error === "true") {
+      setOtp(''); // Reset OTP on error
+      setFocusedIndex(null);
+      // Dismiss keyboard when showing error
+      Keyboard.dismiss();
     }
-  }, [otp]);
-
+  }, [otp, error]);
 
   const otpArray = otp.split('');
 
   const handleFocus = (index) => {
     setFocusedIndex(index);
-  };
-
-  const handleBlur = () => {
-    setFocusedIndex(null);
+    textInputRef.current.focus(); // Ensure TextInput is focused when any box is pressed
   };
 
   return (
@@ -248,8 +382,6 @@ const OTP = ({ setMainOTP, otpr }) => {
           autoComplete="sms-otp"
           value={otp}
           onChangeText={(text) => setOtp(text)}
-          onFocus={() => handleFocus(-1)}
-          onBlur={handleBlur}
         />
 
         {Array(4)
@@ -257,16 +389,8 @@ const OTP = ({ setMainOTP, otpr }) => {
           .map((_, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => {
-                handleFocus(index);
-                textInputRef.current.focus();
-              }}
-              onBlur={handleBlur}
-              style={[
-                styles.otpBox,
-                focusedIndex === index && styles.focusedOtpBox,
-                otpArray[index] && styles.filledOtpBox
-              ]}
+              onPress={() => handleFocus(index)}
+              style={[styles.otpBox, focusedIndex === index && styles.focusedOtpBox]}
             >
               <Text style={styles.otpText}>{otpArray[index] || ''}</Text>
             </TouchableOpacity>
@@ -300,7 +424,7 @@ const styles = StyleSheet.create({
   otpText: {
     fontSize: ResponsiveSize(30),
     textAlign: 'center',
-    color: COLOR.black
+    color: COLOR.black,
   },
   hiddenTextInput: {
     position: 'absolute',
@@ -309,13 +433,11 @@ const styles = StyleSheet.create({
     height: 1,
   },
   focusedOtpBox: {
-    borderColor: COLOR.liteGray, // Change to the color you want for focus
-  },
-  filledOtpBox: {
-    borderColor: COLOR.primaray, // Change to the color you want for filled box
+    borderColor: COLOR.liteGray,
   },
 });
 
 export default OTP;
+
 
 

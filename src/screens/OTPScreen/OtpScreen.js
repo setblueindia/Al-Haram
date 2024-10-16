@@ -13,7 +13,18 @@ import CusModal from '../../components/CusModal';
 const OtpScreen = (props) => {
   const Mo = props?.route?.params?.mobileNo
   const otpr = props?.route?.params?.otpr
-  const { setMainOTP, onPress, loading, showModal, errorText, setShowModal , language } = useOPTHook( { number: Mo , otpr : otpr })
+  const type = props?.route?.params?.types
+  const navigationType = props?.route?.params?.navigationType
+  const {
+    setMainOTP,
+    onPress,
+    loading,
+    showModal,
+    errorText,
+    setShowModal,
+    language,
+    setErrro,
+    error } = useOPTHook({ number: Mo, otpr: otpr, type: type, navigationType: navigationType })
   const lable = props?.route?.params?.lable
 
   return (
@@ -25,15 +36,15 @@ const OtpScreen = (props) => {
       <View style={styles.containerView}>
         <View style={styles.numberView}>
           <View style={styles.numberView}>
-          <Text style={styles.verificationText}>
+            <Text style={styles.verificationText}>
               {language?.OPTVerification}
             </Text>
             <Text style={styles.numberText}>{Mo}</Text>
-           
+
           </View>
           <View style={styles.line} />
           <View style={styles.otpView}>
-            <OTP setMainOTP={setMainOTP} otpr={otpr}/>
+            <OTP setMainOTP={setMainOTP} otpr={otpr} error={error} />
           </View>
           {/* <View style={styles.verificationView}>
             <Text style={styles.verificationText}>
@@ -66,8 +77,9 @@ const OtpScreen = (props) => {
         transparent={true}
         visible={showModal}
 
+
       >
-        <CusModal setModalShow={setShowModal} text={errorText} />
+        <CusModal setModalShow={setShowModal} text={errorText} setErrro={setErrro} />
       </Modal>
     </View>
   );

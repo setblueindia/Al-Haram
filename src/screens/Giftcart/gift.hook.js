@@ -122,6 +122,17 @@ const useGiftHook = (props) => {
     }
   }
 
+  // console.log("recipint data ::::::", recipientDetails)
+  const removeData = () => {
+    const filteredData = recipientDetails.filter(obj =>
+      !Object.values(obj).every(value => value === undefined)
+    );
+
+    setRecipientDetails(filteredData)
+    // setRecipient(recipient - 1)
+    // console.log("filteredData ::::", filteredData)
+  }
+
   const getData = async () => {
     setIsLoadding(true)
     const qurry =
@@ -278,8 +289,6 @@ const useGiftHook = (props) => {
       }
         `
 
-
-          console.log("::::::::::: Qurry2", Qurry2)
           const response = await giftAddToCart(Qurry2, lang)
           if (response?.data?.data?.addGiftCartToShoppingCart?.success) {
             SHOWTOTS(response?.data?.data?.addGiftCartToShoppingCart?.message)
@@ -472,6 +481,7 @@ const useGiftHook = (props) => {
     giftCardID,
     userData,
     coustomAmount,
+    removeData,
     setCoutomerAmount,
     setRecipientDetails
 

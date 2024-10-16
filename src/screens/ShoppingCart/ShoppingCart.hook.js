@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
@@ -76,9 +76,11 @@ const useShoppingcart = () => {
   const [giftSatus, setGiftSatus] = useState()
   const [type, setType] = useState()
 
+
   const [quoteId, setQuoteId] = useState()
 
   const version = DeviceInfo.getVersion()
+  const focus = useIsFocused()
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -188,8 +190,8 @@ const useShoppingcart = () => {
 
 
   useEffect(() => {
-    getData()
-  }, [navigation])
+    focus && getData()
+  }, [focus])
 
 
   const onPress = () => {

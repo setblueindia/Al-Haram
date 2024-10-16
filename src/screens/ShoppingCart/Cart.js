@@ -8,11 +8,13 @@ import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import DeleteBox from '../../components/DeleteBox'
 
+
 const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart }) => {
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const [deletePopp, setDeletePopp] = useState(false)
   const name = data?.name?.substring(0, 20)
   const lable = lang == NUMBER.num1 ? En : Ar
+
 
 
   return (
@@ -32,7 +34,6 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart })
 
             {data?.type !== "amgiftcard" &&
               <>
-
                 <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
                   {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
                 </Text>
@@ -47,15 +48,13 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart })
             {(data?.options?.length > 0 && data?.type == "amgiftcard") &&
               data?.options?.map((item) => {
 
-
                 return (
-                  <View style={[{ flexDirection: 'row', width: "100%" }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-
-                    {item?.value && <Text style={[styles.colorText, { fontSize: ResponsiveSize(18), color: COLOR.black }, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                  <View style={[{ flexDirection: 'row', width: ResponsiveSize(195) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse', alignSelf: 'flex-end' }]}>
+                    {item?.value && <Text style={[styles.colorText, { fontSiz: ResponsiveSize(18), color: COLOR.black }, lang == NUMBER.num0 && { textAlign: 'right', fontSize: ResponsiveSize(18) }]}>
                       {item?.label + " : "}
                     </Text>}
 
-                    {item?.value && <Text style={[styles.colorText, { width: "80%", fontSize: ResponsiveSize(18) }, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                    {item?.value && <Text style={[styles.colorText, { fontSize: ResponsiveSize(18) }, lang == NUMBER.num0 && { textAlign: 'right', fontSize: ResponsiveSize(18) }]}>
                       {item.value}
                     </Text>
                     }
@@ -127,7 +126,7 @@ export default Cart
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: ResponsiveSize(280),
+    // height: ResponsiveSize(280),
     backgroundColor: "#00000007",
     borderWidth: ResponsiveSize(1),
     borderColor: COLOR.gray,
@@ -165,7 +164,8 @@ const styles = StyleSheet.create({
   },
   colorText: {
     color: "#00000060",
-    marginTop: ResponsiveSize(5)
+    marginTop: ResponsiveSize(5),
+    // fontSize: ResponsiveSize(20)
   },
   lastView: {
     flexDirection: ALINE.row,

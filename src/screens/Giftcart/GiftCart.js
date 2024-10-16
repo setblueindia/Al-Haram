@@ -1,4 +1,4 @@
-import { Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Keyboard, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './giftcart.style'
 import Slider from '../../components/Slider'
@@ -16,6 +16,10 @@ import { Ar, En } from '../../constants/localization'
 import RenderHTML from 'react-native-render-html'
 import Counter from '../../components/Counter'
 import CheackButton from '../../components/CheackButton'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import CrossICON from 'react-native-vector-icons/dist/Entypo';
+
+
 
 const GiftCart = (props) => {
 
@@ -58,6 +62,7 @@ const GiftCart = (props) => {
         addWallte,
         setOnData,
         setQty,
+        removeData,
         setRecipientDetails,
         setCoutomerAmount,
         checkValidation,
@@ -74,7 +79,7 @@ const GiftCart = (props) => {
         <View style={styles.mainView}>
             <CommanHeader navigation={navigation} lang={lang} />
 
-            <ScrollView style={styles.containerView}>
+            <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={styles.containerView}>
                 <View style={styles.sliderView}>
                     <Slider data={slider} height={ResponsiveSize(300)} home={true} />
                 </View>
@@ -162,6 +167,7 @@ const GiftCart = (props) => {
                                 placeholderTextColor={COLOR.darkGray}
                                 keyboardType='numeric'
                                 style={[styles.textInputs, lang == NUMBER.num0 && { textAlign: 'right' }]}
+                                returnKeyType='done'
                             />
 
                             <TouchableOpacity
@@ -242,7 +248,21 @@ const GiftCart = (props) => {
 
                         return (
                             <View key={index}>
-
+                                {/* {index !== 0 &&
+                                    <TouchableOpacity
+                                        onPress={() => { removeData() }}
+                                        style={{
+                                            position: 'absolute',
+                                            backgroundColor: COLOR.white,
+                                            height: ResponsiveSize(40),
+                                            width: ResponsiveSize(40),
+                                            borderRadius: ResponsiveSize(100),
+                                            top: ResponsiveSize(30),
+                                            right: ResponsiveSize(5),
+                                            zIndex: 100
+                                        }}>
+                                        <CrossICON size={ResponsiveSize(40)} name="circle-with-cross" />
+                                    </TouchableOpacity>} */}
                                 <View style={styles.barView} />
                                 <Text style={[styles.textInputTitel, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Your Name" : "الاسم"}</Text>
                                 <View style={styles.div2} />
@@ -303,7 +323,6 @@ const GiftCart = (props) => {
                                 <View style={styles.div2} />
                                 <TextFildCus
                                     disable={item?.mobilenumber ? true : false}
-
                                     number={true}
                                     value={item?.mobilenumber ? item?.mobilenumber : recipientNumber}
                                     onChange={setRecipientNumber}
@@ -324,9 +343,17 @@ const GiftCart = (props) => {
                                     onChangeText={(text) => { setMessage(text) }}
                                     textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                                     multiline={true}
+                                    blurOnSubmit={true}
                                     placeholder={lang == NUMBER.num1 ? 'Enter message - optional' : " أدخل رسالتك - اختياري"}
                                     placeholderTextColor={COLOR.darkGray}
                                     style={styles.messTextInput}
+
+                                    returnKeyType='done'
+                                    onSubmitEditing={() => {
+                                        Keyboard.dismiss();
+                                        console.log('Done button pressed');
+                                    }}
+
                                 />
                                 {/* {(!item?.am_giftcard_message && error && !message) && <Text style={[styles.eerroText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? 'Enter your message' : "أدخل رسالتك"}</Text>} */}
 
@@ -334,11 +361,6 @@ const GiftCart = (props) => {
                             </View>
                         )
                     })}
-
-
-
-
-
 
 
                     <TouchableOpacity
@@ -388,7 +410,7 @@ const GiftCart = (props) => {
                         </TouchableOpacity> */}
 
                         <TouchableOpacity
-                            onPress={() => { userData ? onAddTocart() : navigation.navigate(NAVIGATION.Login) }}
+                            onPress={() => { userData ? onAddTocart() : navigation.navigate(NAVIGATION.Login, { type: true }) }}
                             style={styles.AddToCartBtn}>
                             <Text style={styles.AddTocardText}>{lang == NUMBER.num1 ? "Add to card" : "إضافة إلى عربة التسوق"}</Text>
                         </TouchableOpacity>
@@ -397,7 +419,7 @@ const GiftCart = (props) => {
                 </View>
                 <View style={{ height: ResponsiveSize(200) }} />
 
-            </ScrollView>
+            </KeyboardAwareScrollView>
 
 
             {isLoadding &&

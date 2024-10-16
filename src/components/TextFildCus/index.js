@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './textfild.style';
 import Icon from 'react-native-vector-icons/dist/Fontisto';
@@ -38,8 +38,13 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password, count
             textAlign={lang.data == NUMBER.num0 ? 'right' : 'left'}
             style={[styles.textInput, lang.data == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}
             placeholder={text}
+            blurOnSubmit={true}
             onChangeText={(text) => onChange && onChange(text)}
             secureTextEntry={passwordProtect ? true : false}
+            returnKeyType='done'
+            onSubmitEditing={() => {
+              Keyboard.dismiss();
+            }}
           />
         </View>
 

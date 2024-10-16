@@ -5,8 +5,9 @@ import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { useSingUp } from '../../api/axios.api';
 import { useSelector } from 'react-redux';
+import { types } from '@babel/core';
 
-const useSingUpHook = ({ lable }) => {
+const useSingUpHook = ({ lable, navigationType }) => {
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -20,6 +21,8 @@ const useSingUpHook = ({ lable }) => {
   const [loader, setLoader] = useState(false)
   const navigation = useNavigation();
   const langNumber = useSelector(stast => stast.lang)
+
+
 
   const SINUP = async () => {
     setLoader(true)
@@ -35,10 +38,12 @@ const useSingUpHook = ({ lable }) => {
     formData.append('store_id', langNumber?.data);
 
 
+
+
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
-      console.log("Singup Respones ==========> ", response?.data)
-      navigation.navigate(NAVIGATION.Login, { lable: lable });
+      // navigation.navigate(NAVIGATION.Login, { lable: lable });
+      navigation.replace(NAVIGATION.OTPScreen, { lable: lable, mobileNo: number, otpr: response?.data?.otp, types: "register", navigationType: navigationType })
       setLoader(false)
     } else {
       console.log("Singup Respones error ==========> ", response?.data)

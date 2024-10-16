@@ -33,7 +33,8 @@ export const NAVIGATION = {
   PaymentScreen: "PaymentScreen",
   ResponseScreen: "ResponseScreen",
   giftcard: "GiftCartScreen",
-  Maintenance: "MaintenanceScreen"
+  Maintenance: "MaintenanceScreen",
+  giftBalanceCheck: "Cheackbalancescreen"
 
 };
 export const LOGINStr = {

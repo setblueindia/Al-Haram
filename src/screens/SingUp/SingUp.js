@@ -14,6 +14,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 const SingUp = props => {
 
   const lable = props.route.params.langues;
+  const navigationType = props.route.params.naviGtaionType;
   const { onPress,
     setEmail,
     setPassword,
@@ -26,15 +27,15 @@ const SingUp = props => {
     modalShow,
     errorText,
     exampal
-  } = useSingUpHook({ lable });
+  } = useSingUpHook({ lable, navigationType });
 
   return (
-    <KeyboardAwareScrollView style={styles.mainView}>
+    <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={styles.mainView}>
       <View style={styles.headerView}>
         <Onbordingheader />
       </View>
       <View style={styles.container}>
-        <Text style={styles.createYouraccont}>{ lable?.CreateyourAccount}</Text>
+        <Text style={styles.createYouraccont}>{lable?.CreateyourAccount}</Text>
         <View style={styles.line} />
         <View style={styles.containerView}>
           <TextFildCus onChange={setFirstName} icon={ICON.usersecret} text={lable?.Enterfirstname} />
@@ -43,11 +44,11 @@ const SingUp = props => {
           <View style={styles.devider} />
           <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={lable?.Enteryouremail} />
           <View style={styles.devider} />
-          <TextFildCus number={true} onChange={setNumber}   countryText={"+966"} icon={ICON.phoneIcon} text={lable?.Entermobilenumber} />
+          <TextFildCus number={true} onChange={setNumber} countryText={"+966"} icon={ICON.phoneIcon} text={lable?.Entermobilenumber} />
           <View style={styles.devider} />
           <TextFildCus onChange={setPassword} password={true} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
           <View style={styles.devider} />
-          <TextFildCus onChange={setConPassword} password={true}  icon={ICON.lockIcon} text={lable?.confirmpassword} />
+          <TextFildCus onChange={setConPassword} password={true} icon={ICON.lockIcon} text={lable?.confirmpassword} />
         </View>
 
         <View style={styles.devider} />

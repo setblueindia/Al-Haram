@@ -83,6 +83,8 @@ const Product = (props) => {
                             </View>
                         </View>
                         <View style={{ flex: 1, height: "100%", width: "100%" }}>
+
+                            {/* {console.log(data?)} */}
                             {data?.length > 0 ?
                                 <FlatList
                                     ref={flatListRef}
@@ -113,6 +115,13 @@ const Product = (props) => {
                                     }}
                                     renderItem={({ item, index }) => {
                                         const name = item?.name?.substring(0, 16)
+
+                                        // 620016
+                                        if (item?.sku == "620016") {
+                                            console.log("sku :::::", item?.small_image?.url)
+                                        }
+
+
                                         return (
                                             <TouchableOpacity
                                                 onPress={() => {
@@ -121,13 +130,16 @@ const Product = (props) => {
                                                 style={[styles.conntainer, data?.length == 1 && { width: ResponsiveSize(300) }]}>
                                                 <View style={styles.imageView}>
 
+                                                    {/* {console.log("Images ::::::::::::", item?.small_image?.url)} */}
+
 
                                                     <FastImage
                                                         style={styles.image}
-                                                        source={{ uri: item?.small_image?.url }}
+                                                        source={{ uri: item?.small_image?.url + "?v=123" }}
                                                         onLoadStart={() => { setImageLoader(true) }}
                                                         onLoadEnd={() => { setImageLoader(false) }}
                                                     />
+
                                                     {(imageLoader && !item?.small_image?.url) &&
                                                         <View style={{
                                                             height: "100%",

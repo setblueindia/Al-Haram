@@ -3,7 +3,7 @@ import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ICON, NUMBER } from '../../constants/constants';
+import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 import { ResponsiveSize } from '../../utils/utils';
 import Button from '../../components/Button';
 import useShoppingcart from './ShoppingCart.hook';
@@ -136,8 +136,11 @@ const ShoopingCart = (props) => {
                                             showsVerticalScrollIndicator={false}
                                             data={data}
                                             renderItem={({ item, index }) => {
+
                                                 return (
-                                                    <View key={index}>
+                                                    <TouchableOpacity
+                                                        onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
+                                                        key={index}>
                                                         <Cart
                                                             updateQnty={updateQnty}
                                                             outOfStock={false}
@@ -145,7 +148,7 @@ const ShoopingCart = (props) => {
                                                             deleteProduct={deleteProduct}
                                                         />
                                                         <View style={{ height: ResponsiveSize(20) }} />
-                                                    </View>
+                                                    </TouchableOpacity>
                                                 )
                                             }}
                                         />
