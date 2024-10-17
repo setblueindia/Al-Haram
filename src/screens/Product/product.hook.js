@@ -204,8 +204,6 @@ const useProductHook = (props) => {
     try {
       const res = await getFilterList(sdata, lang)
       if (res?.data?.data) {
-        // setFilterData(res?.data?.data?.products?.aggregations)
-        // console.log(":::::::::::::::::::::" , res?.data?.data?.products?.items?.length)
         fdata ? setData(res?.data?.data?.products?.items) : setData([...data, ...res?.data?.data?.products?.items])
         setIsLoadding(false)
         setMoreData(false)

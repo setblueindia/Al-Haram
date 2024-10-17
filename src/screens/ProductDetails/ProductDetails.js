@@ -57,8 +57,6 @@ const ProductDetails = (props) => {
 
     const addToCatdOn = props?.route?.params?.addToCatdOn
 
-    console.log("addToCatdOn :::::::: addToCatdOn", props?.route?.params)
-
     const { width } = useWindowDimensions();
 
     return (
