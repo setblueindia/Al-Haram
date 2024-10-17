@@ -244,16 +244,33 @@ const useProductDetails = (props) => {
         setDetails(response?.data?.data?.products?.items[0])
         getImageStr(response)
         const temp = [];
-        // console.log(":::::::::::::::::::" , response?.data?.data)
+
         response?.data?.data?.products?.items[0]?.media_gallery_entries?.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
-          console.log("uri ::: ", uri)
           temp.push(uri)
         })
         setSliderData(temp)
         const tempVariant = response?.data?.data?.products?.items[0]?.variants
-        setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[0])
-        setDefultSize(response?.data?.data?.products?.items[0]?.configurable_options[1])
+
+        if (response?.data?.data?.products?.items[0]?.configurable_options[0]?.attribute_code == "size") {
+          setDefultSize(response?.data?.data?.products?.items[0]?.configurable_options[0])
+        }
+        if (response?.data?.data?.products?.items[0]?.configurable_options[1]?.attribute_code == "size") {
+          setDefultSize(response?.data?.data?.products?.items[0]?.configurable_options[1])
+        }
+
+        if (response?.data?.data?.products?.items[0]?.configurable_options[0]?.attribute_code == "color") {
+          setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[0])
+        }
+        if (response?.data?.data?.products?.items[0]?.configurable_options[1]?.attribute_code == "color") {
+          setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[1])
+        }
+
+
+        // setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[0])
+
+
+
         setIsLoading(false)
       } else {
         console.log("INNER DETAILS PRODUCT ERROR :::::::::::::: ", response)

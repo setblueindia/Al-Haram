@@ -36,7 +36,6 @@ const useProfileHook = () => {
   const valiTemp = userData?.data
 
   const menuItems = [
-
     { icon: 'hearto', text: PROFILEStr?.Wishlist },
     { icon: 'wallet', text: PROFILEStr?.MyWallet },
     // { icon: 'gift', text: PROFILEStr?.giftCardBalcnce },
@@ -45,10 +44,8 @@ const useProfileHook = () => {
     { icon: 'book', text: PROFILEStr?.AddressBook },
     { icon: 'phone', text: PROFILEStr?.CustomerService },
     { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN },
-
   ];
   const onPress = (item) => {
-    // console.log("item " , item)
     if (userData?.data) {
       if (item == PROFILEStr.Wishlist) {
         navigation.navigate(NAVIGATION.WhishListScreen)
@@ -77,9 +74,7 @@ const useProfileHook = () => {
         } else {
           setModal(true)
         }
-
       }
-
     } else {
       if (item !== PROFILEStr.Notifications) {
         navigation.navigate(NAVIGATION.Login)

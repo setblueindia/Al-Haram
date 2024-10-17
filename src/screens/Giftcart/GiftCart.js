@@ -412,7 +412,7 @@ const GiftCart = (props) => {
                         <TouchableOpacity
                             onPress={() => { userData ? onAddTocart() : navigation.navigate(NAVIGATION.Login, { type: true }) }}
                             style={styles.AddToCartBtn}>
-                            <Text style={styles.AddTocardText}>{lang == NUMBER.num1 ? "Add to card" : "إضافة إلى عربة التسوق"}</Text>
+                            <Text style={styles.AddTocardText}>{lang == NUMBER.num1 ? "Add to cart" : "إضافة إلى عربة التسوق"}</Text>
                         </TouchableOpacity>
 
                     </View>

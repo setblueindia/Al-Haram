@@ -124,6 +124,8 @@ const ProductDetails = (props) => {
                         <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                             <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
                             {defaultColor?.values?.map((items, index) => {
+
+                                // console.log("color items items ", items)
                                 const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
                                 var fileImage = ''
                                 return (
@@ -172,6 +174,8 @@ const ProductDetails = (props) => {
                             <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
                             {defaultSize?.values?.map((items, index) => {
                                 var blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                                // console.log("color SIZWE items ", items)
+
                                 return (
                                     <View>
                                         <TouchableOpacity
