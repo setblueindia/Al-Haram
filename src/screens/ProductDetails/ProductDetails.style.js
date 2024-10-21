@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
         width: "100%",
         marginTop: ResponsiveSize(20),
         borderRadius: ResponsiveSize(20),
+
+
     },
     mainVIew: {
         flex: 1,
@@ -50,11 +52,14 @@ export const styles = StyleSheet.create({
     },
     text: {
         color: "#505050",
+        marginLeft: ResponsiveSize(10),
+        alignItems: 'center'
+        // width: ResponsiveSize(200)
     },
     colorView: {
         paddingHorizontal: ResponsiveSize(20),
-        flexDirection: ALINE.row,
-        alignItems: ALINE.center
+        // flexDirection: ALINE.row,
+        // alignItems: ALINE.center
     },
     colorConatiner: {
         height: ResponsiveSize(60),
@@ -84,15 +89,16 @@ export const styles = StyleSheet.create({
     },
     sizeView: {
         paddingHorizontal: ResponsiveSize(20),
+        marginTop: ResponsiveSize(10),
         // marginTop: ResponsiveSize(20),
-        flexDirection: ALINE.row,
-        alignItems: ALINE.center,
+        // flexDirection: ALINE.row,
+        // alignItems: ALINE.center,
     },
     sizeContainer: {
         borderRadius: ResponsiveSize(100),
         borderWidth: ResponsiveSize(2),
         borderColor: COLOR.primaray,
-        marginLeft: ResponsiveSize(20),
+        marginLeft: ResponsiveSize(10),
         height: ResponsiveSize(60),
         paddingHorizontal: ResponsiveSize(30),
         alignItems: 'center',

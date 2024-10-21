@@ -42,6 +42,7 @@ const useProductDetails = (props) => {
   const label = lang?.data == NUMBER.num0 ? Ar : En
   const focus = useIsFocused()
   const [sliderData, setSliderData] = useState([])
+  const [colorTex, setColorTex] = useState()
 
   useEffect(() => {
     if (focus) {
@@ -117,10 +118,12 @@ const useProductDetails = (props) => {
       setShowAnimation(false)
     }, 4000);
   }
+  const selectionColor = colorTex ? colorTex : " "
+
 
   const Str = lang?.data == NUMBER.num1 ?
     {
-      color: "Color : ",
+      color: "Color : " + selectionColor,
       Size: "Size :",
       ProductCode: "Product Code : ",
       MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
@@ -130,7 +133,7 @@ const useProductDetails = (props) => {
 
     } :
     {
-      color: "اللون :",
+      color: "اللون :" + selectionColor,
       Size: "المقاس :",
       ProductCode: "رمز المنتج:",
       MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
@@ -431,6 +434,7 @@ const useProductDetails = (props) => {
     isLoading,
     sizeShow,
     userData,
+    colorTex, setColorTex,
     setIndex,
     sindex,
     label,

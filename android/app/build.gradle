@@ -85,8 +85,8 @@ android {
         applicationId "com.v2ideas.alharam"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 37
-        versionName "1.0.70"
+        versionCode 38
+        versionName "1.0.71"
     }
     signingConfigs {
            release {

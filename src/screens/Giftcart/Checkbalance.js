@@ -15,6 +15,7 @@ const Checkbalance = () => {
     const labale = lang == NUMBER.num0 ? Ar : En
 
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
     return (
         <View style={styles.mainView}>
             <CommanHeader name={labale?.giftCardBalcnce} lang={lang} navigation={navigation} />
@@ -25,11 +26,12 @@ const Checkbalance = () => {
                     </View>
                     <Text style={styles.titelText}>{"Apply Gift Card Code"}</Text>
 
-                    <View style={styles.boxView}>
+                    <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <TextInput
                             style={styles.textInput}
                             placeholder='Enter Your Code'
                             placeholderTextColor={COLOR.darkGray}
+                            textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                         />
 
                         <TouchableOpacity style={styles.addBtnView}>
@@ -45,15 +47,15 @@ const Checkbalance = () => {
 
                             <View key={index} style={styles.satusView}>
 
-                                <View style={styles.textView}>
+                                <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                     <View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                             <Text style={styles.firstText}>{"Code : "}</Text>
                                             <Text style={styles.secondView}>{"22334412345565"}</Text>
 
                                         </View>
                                         <View style={{ marginTop: ResponsiveSize(10) }} />
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                             <Text style={styles.firstText}>{"Current Balance : "}</Text>
                                             <Text style={styles.secondView}>{"$ 516"}</Text>
                                         </View>
@@ -61,8 +63,8 @@ const Checkbalance = () => {
                                     </View>
 
                                     <View style={{ justifyContent: 'flex-end' }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={[styles.firstText]}>{"Code : "}</Text>
+                                        <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <Text style={[styles.firstText]}>{"Status : "}</Text>
                                             <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{"Active"}</Text>
 
                                         </View>
@@ -79,14 +81,14 @@ const Checkbalance = () => {
 
                                 <View style={styles.lineView} />
 
-                                <View style={{ width: "100%", flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View style={{ width: "100%", flexDirection: ALINE.row, justifyContent: ALINE.spaceBetween }}>
+                                    <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                         <Text style={styles.firstText}>{"Usage : "}</Text>
                                         <Text style={styles.secondView}>{"Multiple"}</Text>
 
                                     </View>
                                     <View style={{ marginTop: ResponsiveSize(10) }} />
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                         <Text style={styles.firstText}>{"Valid Till : "}</Text>
                                         <Text style={styles.secondView}>{"Unlimited"}</Text>
                                     </View>

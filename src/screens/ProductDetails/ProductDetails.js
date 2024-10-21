@@ -31,6 +31,7 @@ const ProductDetails = (props) => {
         avalabeColor,
         shoeColor,
         imageObject,
+        colorTex, setColorTex,
         setIndex,
         sindex,
         like,
@@ -61,7 +62,9 @@ const ProductDetails = (props) => {
 
     return (
         <View style={styles.mainVIew}>
-            <CommanHeader navigation={navigation} lang={lang?.data} />
+            <View style={{ zIndex: 100 }}>
+                <CommanHeader navigation={navigation} lang={lang?.data} />
+            </View>
             <ScrollView style={{ flex: 1 }} >
                 <View style={styles.silderBox}>
                     <Slider data={sliderData} height={ResponsiveSize(450)} lang={lang} />
@@ -118,20 +121,27 @@ const ProductDetails = (props) => {
                     <View style={styles.devider} />
                 </View>}
 
-                {defaultColor &&
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                {/* {colorTex &&
+                    <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{"Color :   " + colorTex}</Text>
+                    </View>} */}
 
-                        <View style={[styles.colorView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                            <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{Str.color}</Text>
+
+                {defaultColor &&
+
+                    <View style={[styles.colorView, lang?.data == NUMBER.num0 && {}]}>
+
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30), textAlign: 'right' }]}>{Str.color}</Text>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), paddingHorizontal: ResponsiveSize(5) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
                             {defaultColor?.values?.map((items, index) => {
 
-                                // console.log("color items items ", items)
                                 const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
                                 var fileImage = ''
                                 return (
                                     <View style={{ justifyContent: ALINE.center }}>
                                         <TouchableOpacity
-                                            onPress={(() => { setIndex(index), colorOnPress(items?.value_index) })}
+                                            onPress={(() => { setIndex(index), colorOnPress(items?.value_index), setColorTex(items?.label) })}
                                             key={index}
                                             style={[styles.colorConatiner,
                                             index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
@@ -164,20 +174,26 @@ const ProductDetails = (props) => {
                                     </View>
                                 )
                             })}
-                        </View>
-                    </ScrollView>
+
+                        </ScrollView>
+                    </View>
+
                 }
 
+                <View style={styles.devider} />
+
                 {defaultSize &&
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }}>
-                        <View style={[styles.sizeView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                            <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]}>{Str?.Size}</Text>
+                    <View style={[styles.sizeView, lang?.data == NUMBER.num0 && {}]}>
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10), textAlign: 'right' }]}>{Str?.Size}</Text>
+
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ marginTop: ResponsiveSize(20) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
                             {defaultSize?.values?.map((items, index) => {
                                 var blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
                                 // console.log("color SIZWE items ", items)
-
                                 return (
                                     <View>
+
                                         <TouchableOpacity
                                             onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index) }}
                                             key={index}
@@ -188,6 +204,7 @@ const ProductDetails = (props) => {
                                         >
                                             <Text style={[styles.sizeText, (index == sizeIndex && sizeShow) && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
                                         </TouchableOpacity>
+
 
                                         {(!blcok && !sizeShow) &&
                                             <TouchableOpacity
@@ -203,11 +220,15 @@ const ProductDetails = (props) => {
                                                 <Block style={{ alignSelf: 'center' }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
                                             </TouchableOpacity>
                                         }
+
+                                        <View style={{ width: ResponsiveSize(20) }} />
+
                                     </View>
                                 )
                             })}
-                        </View>
-                    </ScrollView>
+                        </ScrollView>
+
+                    </View>
                 }
                 {(defaultColor || defaultSize) &&
                     <View style={styles.deviderView}>
