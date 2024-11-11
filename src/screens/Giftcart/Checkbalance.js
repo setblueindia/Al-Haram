@@ -1,20 +1,70 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import CommanHeader from '../../components/ComanHeader'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
-import { ResponsiveSize } from '../../utils/utils'
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { GiftCartICON } from '../../assests'
+import { GIFATCARTSATUS } from '../../api/axios.api'
+import CusLoader from '../../components/CustomLoader'
 
 const Checkbalance = () => {
     const navigation = useNavigation()
     const lang = useSelector(state => state?.lang?.data)
+    const [isLoadding, setLoadding] = useState(false)
     const labale = lang == NUMBER.num0 ? Ar : En
+    const [data, setData] = useState([])
+    const [giftCardNumber, setGiftCardNumber] = useState("")
 
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    // const data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    const getGiftCartdSatus = async () => {
+        setLoadding(true)
+        const qurry3 = `
+        {
+          getGiftcardDetailsByCode(
+              giftcard_code: "${giftCardNumber}"
+              store_id: 0
+          ) {
+              success
+              message
+              data{
+                  id
+                  code
+                  status
+                  balance
+                  expiredDate
+              }
+          }
+      }
+        
+        `
+
+        try {
+            const result = await GIFATCARTSATUS(qurry3, lang)
+            if (result?.data?.data?.getGiftcardDetailsByCode?.success) {
+                console.log("Gift catd satus :::::;", result?.data?.data?.getGiftcardDetailsByCode?.message)
+                setData([result?.data?.data?.getGiftcardDetailsByCode?.data])
+                setLoadding(false)
+
+            } else {
+                console.log("INNER SATUS ERROR :::", result?.data?.data)
+                SHOWTOTS(result?.data?.data?.getGiftcardDetailsByCode?.message ? result?.data?.data?.getGiftcardDetailsByCode?.message : "")
+                setLoadding(false)
+            }
+
+        } catch (error) {
+            console.log("GIFCART SATUS ERROR :::::", error)
+            setLoadding(false)
+        }
+    }
+
+    useEffect(() => {
+        // getGiftCartdSatus()
+    }, [])
 
     return (
         <View style={styles.mainView}>
@@ -32,32 +82,36 @@ const Checkbalance = () => {
                             placeholder='Enter Your Code'
                             placeholderTextColor={COLOR.darkGray}
                             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+                            onChangeText={(text) => { setGiftCardNumber(text) }}
                         />
 
-                        <TouchableOpacity style={styles.addBtnView}>
+                        <TouchableOpacity
+                            onPress={() => { getGiftCartdSatus() }}
+                            style={styles.addBtnView}>
                             <Text style={styles.addText}>{"ADD"}</Text>
                         </TouchableOpacity>
 
                     </View>
 
                 </View>
-                <ScrollView>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                >
                     {data?.map((item, index) => {
                         return (
-
                             <View key={index} style={styles.satusView}>
 
                                 <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                     <View>
                                         <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                             <Text style={styles.firstText}>{"Code : "}</Text>
-                                            <Text style={styles.secondView}>{"22334412345565"}</Text>
+                                            <Text style={styles.secondView}>{item?.code}</Text>
 
                                         </View>
                                         <View style={{ marginTop: ResponsiveSize(10) }} />
                                         <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                             <Text style={styles.firstText}>{"Current Balance : "}</Text>
-                                            <Text style={styles.secondView}>{"$ 516"}</Text>
+                                            <Text style={styles.secondView}>{item?.balance}</Text>
                                         </View>
 
                                     </View>
@@ -65,7 +119,7 @@ const Checkbalance = () => {
                                     <View style={{ justifyContent: 'flex-end' }}>
                                         <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                             <Text style={[styles.firstText]}>{"Status : "}</Text>
-                                            <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{"Active"}</Text>
+                                            <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
 
                                         </View>
 
@@ -90,7 +144,7 @@ const Checkbalance = () => {
                                     <View style={{ marginTop: ResponsiveSize(10) }} />
                                     <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                         <Text style={styles.firstText}>{"Valid Till : "}</Text>
-                                        <Text style={styles.secondView}>{"Unlimited"}</Text>
+                                        <Text style={styles.secondView}>{item?.expiredDate}</Text>
                                     </View>
 
                                 </View>
@@ -103,6 +157,13 @@ const Checkbalance = () => {
                 </ScrollView>
 
             </View>
+            {
+                isLoadding &&
+                <View style={{ position: 'absolute', height: "100%", width: "100%" }}>
+                    <CusLoader />
+                </View>
+
+            }
         </View>
     )
 }

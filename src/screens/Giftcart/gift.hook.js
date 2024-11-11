@@ -145,6 +145,7 @@ const useGiftHook = (props) => {
           price
           description
           type_id
+          note
           media_gallery_entries
           {
               file

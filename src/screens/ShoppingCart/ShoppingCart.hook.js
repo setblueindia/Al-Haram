@@ -273,7 +273,10 @@ const useShoppingcart = () => {
             inStockItems.push(item);
             inStockItems?.map((item) => {
               if (item?.type == "amgiftcard") {
+                setPaymentCode("magveg")
                 setPaymentScreen(response?.data?.data)
+              } else {
+                setPaymentCode("")
               }
               setType(item?.type)
             })
@@ -483,7 +486,6 @@ const useShoppingcart = () => {
   // select PaymentMethod
   const selectPaymentMethod = async (cod) => {
 
-    console.log("codcod ::::::", cod)
     setPaymentCode(cod)
     setLoadding(true)
     try {
@@ -517,7 +519,6 @@ const useShoppingcart = () => {
         }
       }
       const response = await setPaymentMethod(params)
-      // console.log( "===================",response?.data?.data)
       setSelectPayment(response?.data?.data)
       setLoadding(false)
 
@@ -703,10 +704,8 @@ const useShoppingcart = () => {
         "amgiftcard": giftCartDis
       }
     }
-
     try {
       const res = await PlaceeHolder2(params)
-
       if (res?.data?.status == NUMBER.num1) {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
@@ -740,6 +739,7 @@ const useShoppingcart = () => {
           setIndex(0)
           setData([])
           disPatch(addProduct(0))
+          setPaymentCode()
           const result = await ExpireToken(fromdata)
           setLoadding(false)
         } else {
@@ -749,6 +749,7 @@ const useShoppingcart = () => {
             responseID: res?.data?.data?.respon_id,
             orderId: online_payment?.order_id
           })
+          setPaymentCode()
           setIndex(0)
         }
       } else {

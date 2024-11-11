@@ -117,10 +117,7 @@ const ShoopingCart = (props) => {
                 </View>
 
                 {index == 0 &&
-
                     <View style={{ flex: 1 }}>
-
-
                         {data.length > 0 ?
                             <ScrollView style={{ flex: 1 }}>
                                 <View style={styles.cartView}>
@@ -137,8 +134,10 @@ const ShoopingCart = (props) => {
                                             data={data}
                                             renderItem={({ item, index }) => {
 
+
                                                 return (
                                                     <TouchableOpacity
+                                                        disabled={item?.type == "amgiftcard" ? true : false}
                                                         onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
                                                         key={index}>
                                                         <Cart

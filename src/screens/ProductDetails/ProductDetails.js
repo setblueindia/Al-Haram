@@ -180,7 +180,9 @@ const ProductDetails = (props) => {
 
                 }
 
-                <View style={styles.devider} />
+                {
+                    (defaultColor || defaultSize) &&
+                    <View style={styles.devider} />}
 
                 {defaultSize &&
                     <View style={[styles.sizeView, lang?.data == NUMBER.num0 && {}]}>
@@ -220,21 +222,20 @@ const ProductDetails = (props) => {
                                                 <Block style={{ alignSelf: 'center' }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
                                             </TouchableOpacity>
                                         }
-
                                         <View style={{ width: ResponsiveSize(20) }} />
-
                                     </View>
                                 )
                             })}
                         </ScrollView>
-
                     </View>
                 }
+
                 {(defaultColor || defaultSize) &&
                     <View style={styles.deviderView}>
                         <View style={styles.devider} />
                     </View>
                 }
+
                 <View style={[styles.counteView, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={styles.text}>{Str.QNT}</Text>
                     <View style={[styles.counter, lang?.data == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
@@ -250,7 +251,6 @@ const ProductDetails = (props) => {
                     style={[{
                         color: COLOR.black,
                         marginLeft: ResponsiveSize(30),
-                        fontWeight: '600',
                         marginTop: ResponsiveSize(20)
                     },
                     lang.data == NUMBER.num0 && {
@@ -262,26 +262,27 @@ const ProductDetails = (props) => {
                 >
                     {lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
 
-                {details?.description?.html && <RenderHTML
-                    contentWidth={width}
-                    tagsStyles={{
-                        p: {
-                            color: 'black',  // Applying black color to paragraph text
-                        },
-                    }}
-                    source={{ html: details?.description?.html }}
-                />}
+                {details?.description?.html &&
+                    <RenderHTML
+                        contentWidth={width}
+                        tagsStyles={{
+                            p: {
+                                color: 'black',  // Applying black color to paragraph text
+                            },
+                        }}
+                        source={{ html: details?.description?.html }}
+                    />}
 
 
-
-
-                {details?.related_products.length > 0 &&
+                {
+                    details?.related_products.length > 0 &&
                     <Text style={[{
                         padding: ResponsiveSize(20),
                         fontSize: ResponsiveSize(25),
                         color: COLOR.primaray,
                         fontWeight: "500"
-                    }, lang?.data == NUMBER.num0 && { textAlign: 'right' }]}>{lang?.data == NUMBER.num0 ? "منتجات ذات صله" : "Related Product"}</Text>}
+                    }, lang?.data == NUMBER.num0 && { textAlign: 'right' }]}>{lang?.data == NUMBER.num0 ? "منتجات ذات صله" : "Related Product"}</Text>
+                }
 
                 {details?.related_products.length > 0 && <ScrollView
                     horizontal
@@ -319,9 +320,6 @@ const ProductDetails = (props) => {
                     }
                 </ScrollView>
                 }
-
-
-
 
                 <View style={{ height: ResponsiveSize(200) }} />
 

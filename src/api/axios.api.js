@@ -295,7 +295,6 @@ export const StatusUpadate = async (params) => {
 }
 
 export const ProductlistCount = async (params, lang, sToken) => {
-
     const res = await POSTFORMGRAPH(GRAFORL, params, lang, sToken)
     return res
 }
