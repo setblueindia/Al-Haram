@@ -5,8 +5,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AntDesign2 from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign3 from 'react-native-vector-icons/Ionicons';
-
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { ResponsiveSize } from '../../utils/utils';
 import useProfileHook from './profile.hook';
@@ -90,28 +88,31 @@ const Profile = () => {
 
         </View>
 
-        {menuItems.map((item, index) => (
-          <TouchableOpacity key={index}
-            style={[styles.menuView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}
-            onPress={() => { onPress(item?.text) }}>
+        {menuItems?.map((item, index) => {
+          return (
+            <View >
+              {item?.display == 1 &&
+                <TouchableOpacity key={index}
+                  style={[styles.menuView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}
+                  onPress={() => { onPress(item?.text) }}>
 
-            <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
-              {(item.text !== PROFILEStr?.Sponser) &&
-                <AntDesign
-                  name={item.icon}
-                  color="#000000"
-                  size={ResponsiveSize(35)}
-                />
+                  <View style={{ flexDirection: lang == NUMBER.num0 ? 'row-reverse' : 'row', width: "80%" }}>
+                    {(item.text !== PROFILEStr?.Sponser) &&
+                      <AntDesign
+                        name={item.icon}
+                        color="#000000"
+                        size={ResponsiveSize(35)}
+                      />
 
-              }
-              {item.text == PROFILEStr?.Sponser &&
-                <AntDesign2
-                  name={"transfer"}
-                  color="#000000"
-                  size={ResponsiveSize(35)}
-                />}
+                    }
+                    {item.text == PROFILEStr?.Sponser &&
+                      <AntDesign2
+                        name={"transfer"}
+                        color="#000000"
+                        size={ResponsiveSize(35)}
+                      />}
 
-              {/* {(item.text == PROFILEStr?.Notification  ) &&
+                    {/* {(item.text == PROFILEStr?.Notification  ) &&
                 <AntDesign3
                   name={item.icon}
                   color="#000000"
@@ -120,22 +121,25 @@ const Profile = () => {
 
 
 
-              {/* <Image style={{height:ResponsiveSize(30) , width:ResponsiveSize(30) , tintColor:COLOR.black }} source={SoupanserIcon}/> */}
-              <View style={styles.textMenu}>
-                <Text style={styles.menuText}>{item.text}</Text>
-              </View>
+                    {/* <Image style={{height:ResponsiveSize(30) , width:ResponsiveSize(30) , tintColor:COLOR.black }} source={SoupanserIcon}/> */}
+                    <View style={styles.textMenu}>
+                      <Text style={styles.menuText}>{item.text}</Text>
+                    </View>
 
+                  </View>
+
+                  <SimpleLineIcons
+                    style={{ alignSelf: ALINE.center }}
+                    name={lang == NUMBER.num0 ? "arrow-left" : "arrow-right"}
+                    color={COLOR.black}
+                    size={ResponsiveSize(20)}
+                  />
+                </TouchableOpacity>}
             </View>
 
-            <SimpleLineIcons
-              style={{ alignSelf: ALINE.center }}
-              name={lang == NUMBER.num0 ? "arrow-left" : "arrow-right"}
-              color={COLOR.black}
-              size={ResponsiveSize(20)}
-            />
-          </TouchableOpacity>
-        ))}
-
+          )
+        }
+        )}
         <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: ResponsiveSize(20), paddingVertical: ResponsiveSize(20), backgroundColor: "#FAF6EE" }}>
           <TouchableOpacity
             onPress={() => {

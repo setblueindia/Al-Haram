@@ -1,13 +1,13 @@
-import { View} from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import {styles} from './splash.style';
-import {logo} from '../../assests';
+import { styles } from './splash.style';
+import { logo } from '../../assests';
 import useSplshHook from './splash.hook';
 import FastImage from 'react-native-fast-image';
 import { RESIZEMODE } from '../../constants/style';
 
 const Splash = () => {
-const {} = useSplshHook()
+  const { } = useSplshHook()
   return (
     <View style={styles.mainView}>
       <View style={styles.imageView}>

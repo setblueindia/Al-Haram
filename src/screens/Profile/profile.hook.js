@@ -6,16 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
-import { ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
+import { DeleteAccountAPI, ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
 import { addUserData } from '../../redux/Slices/UserData.slice';
+import { SHOWTOTS } from '../../utils/utils';
 
 const useProfileHook = () => {
 
   const lang = useSelector(state => state.lang.data)
   const userData = useSelector(state => state?.userData)
+  const HomeScreen = useSelector(state => state?.HomeScreen)
   const loder = useSelector(state => state?.Categories?.loader)
   const [isLoadding, setIsLoadding] = useState(false)
   const navigation = useNavigation();
@@ -27,7 +29,6 @@ const useProfileHook = () => {
 
 
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
-
   const email = userData?.data?.email
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
@@ -36,15 +37,18 @@ const useProfileHook = () => {
   const valiTemp = userData?.data
 
   const menuItems = [
-    { icon: 'hearto', text: PROFILEStr?.Wishlist },
-    { icon: 'wallet', text: PROFILEStr?.MyWallet },
-    // { icon: 'gift', text: PROFILEStr?.giftCardBalcnce },
-    { icon: 'shoppingcart', text: PROFILEStr?.MyOrder },
-    { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
-    { icon: 'book', text: PROFILEStr?.AddressBook },
-    { icon: 'phone', text: PROFILEStr?.CustomerService },
-    { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN },
+    { icon: 'hearto', text: PROFILEStr?.Wishlist, display: 1 },
+    { icon: 'wallet', text: PROFILEStr?.MyWallet, display: 1 },
+    { icon: 'gift', text: PROFILEStr?.giftCardBalcnce, display: 0 },
+    { icon: 'shoppingcart', text: PROFILEStr?.MyOrder, display: 1 },
+    { icon: 'shoppingcart', text: PROFILEStr?.Sponser, display: 1 },
+    { icon: 'book', text: PROFILEStr?.AddressBook, display: 1 },
+    { icon: 'phone', text: PROFILEStr?.CustomerService, display: 1 },
+    { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN, display: 1 },
+    valiTemp && { icon: "delete", text: PROFILEStr?.DeleteAccount, display: HomeScreen?.data?.gdpr }
   ];
+
+
   const onPress = (item) => {
     if (userData?.data) {
       if (item == PROFILEStr.Wishlist) {
@@ -74,6 +78,9 @@ const useProfileHook = () => {
         } else {
           setModal(true)
         }
+      }
+      if (item == PROFILEStr.DeleteAccount) {
+        deleteAccount()
       }
     } else {
       if (item !== PROFILEStr.Notifications) {
@@ -239,6 +246,28 @@ const useProfileHook = () => {
     PoductCount()
   }, [])
 
+
+
+  // delete account API
+
+  const deleteAccount = async () => {
+    const fromData = new FormData()
+    fromData.append("email", email)
+    fromData.append("customer_id", userData?.data?.id)
+    fromData.append("store_id", lang)
+
+    try {
+      const result = await DeleteAccountAPI(fromData, lang)
+      console.log("Delete account result ::::: ", result?.data?.message)
+      SHOWTOTS(result?.data?.message)
+      singOut()
+    } catch (error) {
+      console.log("Delete account error ::::: ", error)
+    }
+  }
+
+
+
   return {
     menuItems,
     lang,
@@ -261,7 +290,8 @@ const useProfileHook = () => {
     socialPress,
     setModal,
     singOut,
-    modal
+    modal,
+    deleteAccount
 
   };
 };

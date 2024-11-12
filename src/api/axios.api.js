@@ -8,6 +8,7 @@ import {
     CartListApi,
     CityListURL,
     CoupanListAPI,
+    DeleteURL,
     FilterList,
     ForgetPasswordURL,
     GRAFORL,
@@ -305,6 +306,10 @@ export const DeteleProductToCart = async (params, lang) => {
 }
 export const AppUpadateAPI = async (params, lang) => {
     const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+export const DeleteAccountAPI = async (params, lang) => {
+    const res = await POSTFORM(DeleteURL, params, lang)
     return res
 }
 

@@ -140,6 +140,7 @@ export const Ar = {
   Size: "مقاس",
   Notifications: "تسجيل الخروج",
   giftCardBalcnce: "Gift Card",
+  DeleteAccount: "احذف حسابك"
 }
 
 export const En = {
@@ -283,6 +284,6 @@ export const En = {
   Note: "Note",
   AreYousureyouwantdelete: "Are you sure you want delete ?",
   AreYousureyouwantsingout: "Are you sure you want sign out ?",
-  Size: "Size"
-
+  Size: "Size",
+  DeleteAccount: "Delete Your Account"
 };

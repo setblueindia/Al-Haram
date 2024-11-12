@@ -1,4 +1,4 @@
-import { Platform, Linking } from 'react-native'
+import { Platform, Linking, AppState } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
@@ -9,7 +9,6 @@ import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import DeviceInfo from 'react-native-device-info'
-
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
@@ -28,14 +27,29 @@ const useHomeHook = (props) => {
   const [bannerUrl, setBannerUrl] = useState()
   const [giftCart, setGiftCart] = useState()
   const [wpNumber, setWPNumber] = useState()
-
   const version = DeviceInfo.getVersion()
   // const version = "1.0.66"
 
   const [showPop, setShowPop] = useState(false)
   const [mes, setMes] = useState()
-
   const focus = useIsFocused()
+  const [appState, setAppState] = useState(AppState.currentState);
+
+  useEffect(() => {
+    UpdateVersion();
+    const handleAppStateChange = (nextAppState) => {
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+        console.log('App has come to the foreground!');
+        UpdateVersion();
+      }
+      setAppState(nextAppState);
+    };
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+      subscription.remove();
+    };
+  }, [appState]);
 
   const UpdateVersion = async () => {
     const type = Platform.OS == "ios" ? "ios" : "android"
@@ -61,21 +75,12 @@ const useHomeHook = (props) => {
     }
   }
 
-
   const openPlayStore = () => {
     const url = Platform.OS ==
       'ios' ? "https://apps.apple.com/in/app/alharamstores-%D8%A7%D9%84%D9%87%D8%B1%D9%85/id1562821620" :
       'https://play.google.com/store/apps/details?id=com.v2ideas.alharam';
     Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
   };
-
-  useEffect(() => {
-    focus && UpdateVersion()
-  }, [focus])
-
-
-
-
 
   const CetegouriesList = async () => {
     // dispatch(updateLoader(true))
@@ -195,6 +200,7 @@ const useHomeHook = (props) => {
         setBannerUrl(res?.data?.data?.getHomePageData?.top_banner)
         setGiftCart(res?.data?.data?.getHomePageData?.gift_card)
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
+        // console.log("res?.data?.data?.getHomePageData ::::::: ", res?.data?.data?.getHomePageData)
         setIsLoadding(false)
       }
 
@@ -237,12 +243,10 @@ const useHomeHook = (props) => {
 
   }
 
-
   useEffect(() => {
     CetegouriesList()
     ProductDetails()
   }, [lang])
-
 
   const TokenExpired = async () => {
     if (userData) {
@@ -321,7 +325,6 @@ const useHomeHook = (props) => {
     const url = "https://wa.me//966920033093";
     Linking.openURL(url).catch((err) => console.error("Couldn't open WhatsApp", err));
   };
-
 
   return {
     HomeScreeData,

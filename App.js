@@ -39,7 +39,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const unsubscribeOnMessage = messaging().onMessage( remoteMessage => {
+    const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
       console.log('Notification caused app to open from background state:', remoteMessage.notification?.body);
       Alert.alert('Notification arrived!', remoteMessage.notification?.body);
     });
