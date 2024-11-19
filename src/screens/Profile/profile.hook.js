@@ -26,6 +26,8 @@ const useProfileHook = () => {
   const dispatch = useDispatch();
   const version = DeviceInfo.getVersion()
   const [modal, setModal] = useState(false)
+  const [shoeDelete, setShoewDelete] = useState(false)
+
 
 
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
@@ -47,6 +49,8 @@ const useProfileHook = () => {
     { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN, display: 1 },
     valiTemp && { icon: "delete", text: PROFILEStr?.DeleteAccount, display: HomeScreen?.data?.gdpr }
   ];
+
+
 
 
   const onPress = (item) => {
@@ -80,7 +84,8 @@ const useProfileHook = () => {
         }
       }
       if (item == PROFILEStr.DeleteAccount) {
-        deleteAccount()
+        // deleteAccount()
+        setShoewDelete(true)
       }
     } else {
       if (item !== PROFILEStr.Notifications) {
@@ -291,7 +296,8 @@ const useProfileHook = () => {
     setModal,
     singOut,
     modal,
-    deleteAccount
+    deleteAccount,
+    setShoewDelete, shoeDelete
 
   };
 };

@@ -43,6 +43,7 @@ const SerchScreen = () => {
         <TextInput
           style={styles.textInput}
           placeholderTextColor={COLOR.darkGray}
+          textAlign={lang == NUMBER.num1 ? EXTRASTR.left : EXTRASTR.right}
           placeholder={lang == NUMBER.num1 ? 'Search......' : "بحث"}
           onChangeText={(text) => { SerchPress(text), setSerchTex(text) }}
         />
@@ -96,7 +97,7 @@ const SerchScreen = () => {
                   <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 10 ? Name + "..." : Name}</Text>
 
                   <View style={[styles.priveView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, }]}>{lang == NUMBER.num1 ? "SAR  " : "سار:"}</Text>
+                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, }]}>{lang == NUMBER.num1 ? "SAR  " : "سار"}</Text>
                     <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{price}</Text>
                   </View>
 

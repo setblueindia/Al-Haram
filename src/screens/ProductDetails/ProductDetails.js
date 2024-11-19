@@ -1,5 +1,5 @@
 import { Modal, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './ProductDetails.style'
 import Slider from '../../components/Slider'
@@ -16,6 +16,7 @@ import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import RenderHTML from 'react-native-render-html';
 import ProductBox from '../../components/ProductBox'
+import WebView from 'react-native-webview'
 
 const ProductDetails = (props) => {
     const {
@@ -57,8 +58,32 @@ const ProductDetails = (props) => {
     } = useProductDetails({ props })
 
     const addToCatdOn = props?.route?.params?.addToCatdOn
+    const [webViewHeight, setWebViewHeight] = useState(0);
 
     const { width } = useWindowDimensions();
+
+
+
+
+
+
+
+    const injectedJavaScript = `
+    (function() {
+      setTimeout(function() {
+        const contentHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        window.ReactNativeWebView.postMessage(contentHeight);
+      }, 500);  // Wait for the content to load completely
+    })();
+  `;
+    const handleMessage = (event) => {
+
+        const height = Number(event.nativeEvent.data, 10);
+
+        setWebViewHeight(height);
+    };
+
+
 
     return (
         <View style={styles.mainVIew}>
@@ -120,11 +145,6 @@ const ProductDetails = (props) => {
                 {details?.short_description?.html && <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>}
-
-                {/* {colorTex &&
-                    <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30) }]}>{"Color :   " + colorTex}</Text>
-                    </View>} */}
 
 
                 {defaultColor &&
@@ -262,16 +282,23 @@ const ProductDetails = (props) => {
                 >
                     {lang.data == NUMBER.num1 ? "Description" : "الوصف"}</Text>}
 
-                {details?.description?.html &&
-                    <RenderHTML
-                        contentWidth={width}
-                        tagsStyles={{
-                            p: {
-                                color: 'black',  // Applying black color to paragraph text
-                            },
-                        }}
+
+
+                <View style={{ width: "100%", paddingHorizontal: ResponsiveSize(20) }} >
+                    <WebView
+                        originWhitelist={['*']}
                         source={{ html: details?.description?.html }}
-                    />}
+                        style={{ width: '100%', height: ResponsiveSize(webViewHeight), resizeMode: 'contain', alignSelf: 'center' }}
+                        javaScriptEnabled={true}
+                        domStorageEnabled={true}
+                        scalesPageToFit={true}
+                        injectedJavaScript={injectedJavaScript} // Inject JavaScript to get height
+                        onMessage={handleMessage} // Use handleMessage as a reference
+                        nestedScrollEnabled={true}
+                        useWebKit={true}
+                        allowsInlineMediaPlayback={true}
+                    />
+                </View>
 
 
                 {
@@ -284,47 +311,48 @@ const ProductDetails = (props) => {
                     }, lang?.data == NUMBER.num0 && { textAlign: 'right' }]}>{lang?.data == NUMBER.num0 ? "منتجات ذات صله" : "Related Product"}</Text>
                 }
 
-                {details?.related_products.length > 0 && <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    automaticallyAdjustContentInsets={true}
-                    style={[styles.subCategories,
-                    lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
-                >
-                    {
+                {
+                    details?.related_products.length > 0 && <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        automaticallyAdjustContentInsets={true}
+                        style={[styles.subCategories,
+                        lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
+                    >
+                        {
 
-                        details?.related_products?.map((items, index) => {
-                            const name = items?.name
-                            const finalName = name.substring(0, 15);
-                            const productImage = items?.image?.url
+                            details?.related_products?.map((items, index) => {
+                                const name = items?.name
+                                const finalName = name.substring(0, 15);
+                                const productImage = items?.image?.url
 
-                            // console.log(items?.sku)
+                                // console.log(items?.sku)
 
 
-                            return (
-                                <View key={index} style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity onPress={() => { setImageArry(true), navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
-                                        <View style={styles.innerCategoriesView}>
-                                            <FastImage style={styles.storyView} source={{ uri: productImage }} />
-                                        </View>
-                                        {(items?.special_offer || items?.is_new_badge) && <View style={[styles.textImgView, items?.special_offer ? { right: ResponsiveSize(0) } : { left: ResponsiveSize(0) }]}>
-                                            <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
-                                        </View>}
-                                        <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
-                                        <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{label.SAR + " " + items?.price_range?.minimum_price?.regular_price?.value}</Text>
-                                    </TouchableOpacity>
-                                    <View style={{ width: ResponsiveSize(30) }} />
-                                </View>
-                            )
-                        })
-                    }
-                </ScrollView>
+                                return (
+                                    <View key={index} style={{ flexDirection: 'row' }}>
+                                        <TouchableOpacity onPress={() => { setImageArry(true), navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
+                                            <View style={styles.innerCategoriesView}>
+                                                <FastImage style={styles.storyView} source={{ uri: productImage }} />
+                                            </View>
+                                            {(items?.special_offer || items?.is_new_badge) && <View style={[styles.textImgView, items?.special_offer ? { right: ResponsiveSize(0) } : { left: ResponsiveSize(0) }]}>
+                                                <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
+                                            </View>}
+                                            <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
+                                            <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{label.SAR + " " + items?.price_range?.minimum_price?.regular_price?.value}</Text>
+                                        </TouchableOpacity>
+                                        <View style={{ width: ResponsiveSize(30) }} />
+                                    </View>
+                                )
+                            })
+                        }
+                    </ScrollView>
                 }
 
                 <View style={{ height: ResponsiveSize(200) }} />
 
 
-            </ScrollView>
+            </ScrollView >
 
             {showAnimation &&
                 <View style={{ height: ResponsiveSize(40), width: ResponsiveSize(40), position: 'absolute', bottom: ResponsiveSize(150), right: ResponsiveSize(20) }}>
@@ -379,7 +407,7 @@ const ProductDetails = (props) => {
                     <CusLoader />
                 </View>
             }
-        </View>
+        </View >
     )
 }
 

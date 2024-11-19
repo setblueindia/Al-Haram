@@ -268,14 +268,20 @@ const useShoppingcart = () => {
         const inStockItems = [];
         const outOfStockItems = [];
         response?.data?.data?.items.forEach(item => {
+
           if (item.isInStock) {
-            // console.log("esponse?.data?.data :::::::: ", response?.data?.data)
             inStockItems.push(item);
             inStockItems?.map((item) => {
               if (item?.type == "amgiftcard") {
                 setPaymentCode("magveg")
                 setPaymentScreen(response?.data?.data)
-              } else {
+              }
+              else if (item?.sku == "wk_wallet_amount") {
+                console.log("item demo:::::: ", item?.item_id)
+                const hideTost = true
+                // deleteProduct(item?.item_id, hideTost, response?.data?.data?.quote_id)
+              }
+              else {
                 setPaymentCode("")
               }
               setType(item?.type)
@@ -294,14 +300,15 @@ const useShoppingcart = () => {
     }
   }
 
+
   // Delete Cart Product
-  const deleteProduct = async (items) => {
+  const deleteProduct = async (items, hideTost, QT) => {
     setLoadding(true)
     const dataOfDelet = [items]
     const deleteData = `
     mutation{
       removeOutOfStockItemFromCartByItemId(input:{
-          quote_id: ${quoteId}
+          quote_id: ${QT ? QT : quoteId}
           item_ids: ${dataOfDelet ? dataOfDelet : []}
       }){
           status
@@ -312,8 +319,15 @@ const useShoppingcart = () => {
     try {
       const result = await DeteleProductToCart(deleteData, lang)
       console.log("DELETE PRODUCT TO CART ::::: ", result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
-      SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
-      getData()
+      !hideTost && SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
+      if (hideTost) {
+        setTimeout(() => {
+          getData()
+        }, 100);
+      } else {
+        getData()
+      }
+
       getProductCount()
       setLoadding(false)
     } catch (error) {

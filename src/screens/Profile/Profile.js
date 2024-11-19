@@ -23,7 +23,6 @@ const Profile = () => {
   const { menuItems,
     setSelectedItems,
     onPress,
-    // loder,
     lang,
     navigation,
     email,
@@ -32,6 +31,8 @@ const Profile = () => {
     arabic,
     PROFILEStr,
     version,
+    setShoewDelete, shoeDelete,
+    deleteAccount,
     setModal,
     modal,
     setArabic,
@@ -211,6 +212,18 @@ const Profile = () => {
           transparent
         >
           <DeleteBox noPress={() => { setModal(false) }} yesPress={() => { setModal(false), singOut() }} lang={lang} type={"L"} />
+
+        </Modal>
+      }
+
+
+      {shoeDelete &&
+        <Modal
+          visible={shoeDelete}
+          animationType='slide'
+          transparent
+        >
+          <DeleteBox noPress={() => { setShoewDelete(false) }} yesPress={() => { setShoewDelete(false), deleteAccount() }} lang={lang} type={"M"} />
 
         </Modal>
       }
