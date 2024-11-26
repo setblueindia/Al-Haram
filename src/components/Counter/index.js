@@ -10,8 +10,6 @@ const Counter = ({ qty, setQnt, id, updateQnty }) => {
 
     const lang = useSelector(state => state?.lang?.data)
 
-    console.log(":::::", lang)
-
     const QTY = parseInt(qty)
     const countProcess = async (type) => {
         if (type) {

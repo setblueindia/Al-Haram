@@ -17,10 +17,8 @@ const App = () => {
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
       if (enabled) {
-        console.log('Authorization status:', authStatus);
         const token = await messaging().getToken();
         FCMTokenStor(token)
-        console.log('FCM Token:', token);
       } else {
         Alert.alert('Permission Denied', 'You need to grant notification permissions to receive notifications.');
       }
@@ -40,17 +38,16 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
-      console.log('Notification caused app to open from background state:', remoteMessage.notification?.body);
       Alert.alert('Notification arrived!', remoteMessage.notification?.body);
     });
 
     const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log('Notification caused app to open from background state:', remoteMessage.notification);
+      Alert.alert('Notification arrived!', remoteMessage.notification);
     });
 
     messaging().getInitialNotification().then(remoteMessage => {
       if (remoteMessage) {
-        console.log('Notification caused app to open from quit state:', remoteMessage.notification);
+        Alert.alert('Notification arrived!', remoteMessage.notification);
       }
     });
 
@@ -62,7 +59,6 @@ const App = () => {
 
   useEffect(() => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
     });
   }, []);
 

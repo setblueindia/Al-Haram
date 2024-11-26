@@ -139,7 +139,7 @@ export const Ar = {
   Enteryournewpassword: "أدخل كلمة المرور الجديدة",
   Size: "مقاس",
   Notifications: "تسجيل الخروج",
-  giftCardBalcnce: "Gift Card",
+  giftCardBalcnce: "بطاقة الهدايا",
   DeleteAccount: "احذف حسابك"
 }
 

@@ -1,13 +1,12 @@
-import { Linking, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants';
+import { Linking } from 'react-native';
+import { useEffect, useState } from 'react';
+import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
-import { DeleteAccountAPI, ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
-import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
+import { DeleteAccountAPI, ProductlistCount } from '../../api/axios.api';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
 import { addUserData } from '../../redux/Slices/UserData.slice';
@@ -19,39 +18,33 @@ const useProfileHook = () => {
   const userData = useSelector(state => state?.userData)
   const HomeScreen = useSelector(state => state?.HomeScreen)
   const loder = useSelector(state => state?.Categories?.loader)
-  const [isLoadding, setIsLoadding] = useState(false)
   const navigation = useNavigation();
-  const [selectedItems, setSelectedItems] = useState()
-  const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
   const dispatch = useDispatch();
   const version = DeviceInfo.getVersion()
   const [modal, setModal] = useState(false)
   const [shoeDelete, setShoewDelete] = useState(false)
-
-
-
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
   const email = userData?.data?.email
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
   const name = (firstName && lastName) ? firstName + " " + lastName : NUMBER.num0 == lang ? "حسابي" : "User"
-
   const valiTemp = userData?.data
-
   const menuItems = [
     { icon: 'hearto', text: PROFILEStr?.Wishlist, display: 1 },
     { icon: 'wallet', text: PROFILEStr?.MyWallet, display: 1 },
-    { icon: 'gift', text: PROFILEStr?.giftCardBalcnce, display: 0 },
+    { icon: 'gift', text: PROFILEStr?.giftCardBalcnce, display: 1 },
     { icon: 'shoppingcart', text: PROFILEStr?.MyOrder, display: 1 },
     { icon: 'shoppingcart', text: PROFILEStr?.Sponser, display: 1 },
     { icon: 'book', text: PROFILEStr?.AddressBook, display: 1 },
     { icon: 'phone', text: PROFILEStr?.CustomerService, display: 1 },
     { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN, display: 1 },
-    valiTemp && { icon: "delete", text: PROFILEStr?.DeleteAccount, display: HomeScreen?.data?.gdpr }
+    valiTemp &&
+    { icon: "delete", text: PROFILEStr?.DeleteAccount, display: HomeScreen?.data?.gdpr }
   ];
 
-
-
+  useEffect(() => {
+    PoductCount()
+  }, [])
 
   const onPress = (item) => {
     if (userData?.data) {
@@ -84,14 +77,17 @@ const useProfileHook = () => {
         }
       }
       if (item == PROFILEStr.DeleteAccount) {
-        // deleteAccount()
         setShoewDelete(true)
       }
     } else {
+
       if (item !== PROFILEStr.Notifications) {
-        navigation.navigate(NAVIGATION.Login)
+        if (item == PROFILEStr.giftCardBalcnce) {
+          navigation.navigate(NAVIGATION.giftBalanceCheck)
+        } else {
+          navigation.navigate(NAVIGATION.Login)
+        }
       }
-      // navigation.navigate(NAVIGATION.Login)
     }
   }
 
@@ -107,70 +103,6 @@ const useProfileHook = () => {
       console.log('UPDATE LANGUES ERROR :: ', error);
     }
   };
-
-
-  const CetegouriesList = async (num) => {
-    setIsLoadding(true)
-    const params = `
-    {
-      categoryList(filters: {ids: {in: ["2"]}}) {
-        children_count
-        children {
-          id
-          level
-          name
-          path
-          url_path
-          url_key
-          image
-          description
-          mobile_thumbnail
-          mobile_image
-          display_mode
-          children {
-            id
-            level
-            name
-            path
-            url_path
-            url_key
-            image
-            description
-            mobile_thumbnail
-            mobile_circle_thumbnail
-            mobile_image
-            children {
-                id
-                level
-                name
-                path
-                url_path
-                url_key
-                image
-                description
-                mobile_thumbnail
-                mobile_image
-            }
-          }
-        }
-      }
-    }
-    `
-    try {
-      const res = await getCetergourisList(params, num)
-      if (res?.status == '200') {
-        dispatch(addCetegoriesData(res?.data?.data?.categoryList[0]))
-        setIsLoadding(false)
-
-      }
-
-    } catch (error) {
-      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
-      setIsLoadding(false)
-
-
-    }
-  }
 
   const PoductCount = async () => {
     const countData = `
@@ -234,36 +166,14 @@ const useProfileHook = () => {
     }
   }
 
-  const handleInstagramPress = () => {
-    const instagramURL = 'https://www.instagram.com/alharamksa/';
-    Linking.openURL(instagramURL);
-  };
-  const handleFacebookPress = () => {
-    const facebookURL = 'https://www.facebook.com/alharamksa/';
-    Linking.openURL(facebookURL);
-  };
-  const handlechatPress = () => {
-    const businessesURL = 'https://maroof.sa/businesses/';
-    Linking.openURL(businessesURL);
-  };
-
-  useEffect(() => {
-    PoductCount()
-  }, [])
-
-
-
   // delete account API
-
   const deleteAccount = async () => {
     const fromData = new FormData()
     fromData.append("email", email)
     fromData.append("customer_id", userData?.data?.id)
     fromData.append("store_id", lang)
-
     try {
       const result = await DeleteAccountAPI(fromData, lang)
-      console.log("Delete account result ::::: ", result?.data?.message)
       SHOWTOTS(result?.data?.message)
       singOut()
     } catch (error) {
@@ -280,25 +190,20 @@ const useProfileHook = () => {
     firstName,
     lastName,
     version,
-    setSelectedItems,
     changeLungues,
-    setArabic,
     navigation,
     onPress,
     navigation,
     name,
     userData,
     PROFILEStr,
-    arabic,
     loder,
-    isLoadding,
     socialPress,
     setModal,
     singOut,
     modal,
     deleteAccount,
     setShoewDelete, shoeDelete
-
   };
 };
 

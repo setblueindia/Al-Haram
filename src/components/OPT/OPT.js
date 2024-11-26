@@ -339,10 +339,6 @@ import { Keyboard } from 'react-native'; // Import Keyboard to dismiss it
 
 const OTP = ({ setMainOTP, error }) => {
   const lang = useSelector((state) => state.lang);
-
-
-  console.log("error :::::", error)
-
   const [otp, setOtp] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(null); // Track focused index
   const textInputRef = useRef(null);

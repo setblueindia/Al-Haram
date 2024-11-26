@@ -33,8 +33,8 @@ const SizeFilter = ({
     const [num1, setNum1] = useState(price?.data?.length > 0 ? price?.data[0] : 0)
     const [num2, setNum2] = useState(price?.data?.length > 0 ? price?.data[1] : 0)
 
-    const [lowPrese , setLowPrice]  = useState(price?.data?.length > 0 ? price?.data[0] : 0)
-    const [hightPrice , setHighPrice] = useState(price?.data?.length > 0 ? price?.data[1] : 0)
+    const [lowPrese, setLowPrice] = useState(price?.data?.length > 0 ? price?.data[0] : 0)
+    const [hightPrice, setHighPrice] = useState(price?.data?.length > 0 ? price?.data[1] : 0)
     const fdata = true
     useEffect(() => {
         filterData?.map((item) => {
@@ -47,8 +47,8 @@ const SizeFilter = ({
                 let number2 = parseInt(result2);
                 setLowPrice(number1)
                 setHighPrice(number2)
-                price?.data?.length <= 0 &&  setNum1(number1)
-                price?.data?.length <= 0 &&  setNum2(number2)
+                price?.data?.length <= 0 && setNum1(number1)
+                price?.data?.length <= 0 && setNum2(number2)
                 setOpationData(item?.options)
                 setIndex2(0)
                 setSilder(true)
@@ -57,7 +57,7 @@ const SizeFilter = ({
     }, [])
 
     useEffect(() => {
-        setPrice({ visibale: true, data: (lowPrese && hightPrice ) ? [num1, num2] : [] })
+        setPrice({ visibale: true, data: (lowPrese && hightPrice) ? [num1, num2] : [] })
     }, [num1, num2])
 
     const onClear = () => {
@@ -75,8 +75,8 @@ const SizeFilter = ({
 
     }
 
-   const innderDataOnPress = (cIndex, items) => {
-   const tempData = items.value
+    const innderDataOnPress = (cIndex, items) => {
+        const tempData = items.value
         if (cetegories == "size") {
             setSizeIndex(cIndex)
             setSize({ visibale: true, data: tempData })
@@ -173,23 +173,21 @@ const SizeFilter = ({
                     <View style={styles.firstView}>
                         {
                             filterData?.map((items, index) => {
-
-                                // console.log(items?.label)
                                 return (
                                     <View key={index}>
-                                      {  items?.label !== "Category" &&
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                setOpationData(items?.options),
-                                                    setIndex2(index),
-                                                    setCetegouries(items?.attribute_code)
-                                                finalPress(items?.attribute_code)
-                                            }}
-                                            key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
-                                            <Text style={styles.firstViewText}>{items?.label}</Text>
-                                        </TouchableOpacity>}
+                                        {items?.label !== "Category" &&
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    setOpationData(items?.options),
+                                                        setIndex2(index),
+                                                        setCetegouries(items?.attribute_code)
+                                                    finalPress(items?.attribute_code)
+                                                }}
+                                                key={index} style={[styles.innerFirstView, index == index2 && { backgroundColor: "#F8F2F2" }]}>
+                                                <Text style={styles.firstViewText}>{items?.label}</Text>
+                                            </TouchableOpacity>}
                                     </View>
-                                    )
+                                )
                             })}
                     </View>
                     <ScrollView style={styles.secondView}>
@@ -197,7 +195,7 @@ const SizeFilter = ({
                             && optionData.length > 0 && optionData?.map((items, index) => {
                                 let result = ctegouriesSelection(index)
 
-                                const label = items?.label?.length > 10 ? items?.label?.substring(0,10) :items?.label
+                                const label = items?.label?.length > 10 ? items?.label?.substring(0, 10) : items?.label
 
                                 return (
                                     <TouchableOpacity
@@ -209,9 +207,9 @@ const SizeFilter = ({
                                         }}
                                         key={index}
                                         style={[styles.secondInnerView,
-                                        (result && !unselect || code == items?.value ) && { backgroundColor: COLOR.white },
+                                        (result && !unselect || code == items?.value) && { backgroundColor: COLOR.white },
                                         lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                        <Text style={styles.innerText}>{items?.label?.length > 10   ? label + "..." :label}</Text>
+                                        <Text style={styles.innerText}>{items?.label?.length > 10 ? label + "..." : label}</Text>
                                         <Text style={styles.innerText}>{items?.count}</Text>
                                     </TouchableOpacity>
                                 )
@@ -228,7 +226,7 @@ const SizeFilter = ({
                             </View>
                         }
 
-                    <View style={{height:ResponsiveSize(100)}}/>
+                        <View style={{ height: ResponsiveSize(100) }} />
                     </ScrollView>
                 </View>
             </View>
@@ -295,13 +293,13 @@ const styles = StyleSheet.create({
     applyText: {
         color: COLOR.white,
         fontWeight: FONTWEGHIT.font600,
-        textAlign:ALINE.center,
-        width:"100%"
+        textAlign: ALINE.center,
+        width: "100%"
     },
     clearText: {
         color: COLOR.black,
-        width:"100%",
-        textAlign:ALINE.center
+        width: "100%",
+        textAlign: ALINE.center
     },
     firstView: {
         width: ResponsiveSize(250),
@@ -311,7 +309,7 @@ const styles = StyleSheet.create({
         // borderWidth: ResponsiveSize(1),
         // borderRightWidth:ResponsiveSize(1),
         // borderLeftWidth:ResponsiveSize(1),
-        borderBottomWidth:ResponsiveSize(0),
+        borderBottomWidth: ResponsiveSize(0),
         borderColor: "#D5C1C1",
     },
     containt: {
@@ -340,8 +338,8 @@ const styles = StyleSheet.create({
     firstViewText: {
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
-        width:"100%",
-        textAlign:ALINE.center
+        width: "100%",
+        textAlign: ALINE.center
     },
     valueText: {
         fontSize: ResponsiveSize(25),

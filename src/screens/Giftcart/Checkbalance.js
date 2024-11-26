@@ -1,6 +1,6 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
+import React, { useState } from 'react'
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import CommanHeader from '../../components/ComanHeader'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
@@ -19,8 +19,6 @@ const Checkbalance = () => {
     const [data, setData] = useState([])
     const [giftCardNumber, setGiftCardNumber] = useState("")
 
-    // const data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
     const getGiftCartdSatus = async () => {
         setLoadding(true)
         const qurry3 = `
@@ -32,21 +30,20 @@ const Checkbalance = () => {
               success
               message
               data{
-                  id
+                  id   
                   code
                   status
                   balance
+                  usage
                   expiredDate
               }
           }
       }
-        
         `
 
         try {
             const result = await GIFATCARTSATUS(qurry3, lang)
             if (result?.data?.data?.getGiftcardDetailsByCode?.success) {
-                console.log("Gift catd satus :::::;", result?.data?.data?.getGiftcardDetailsByCode?.message)
                 setData([result?.data?.data?.getGiftcardDetailsByCode?.data])
                 setLoadding(false)
 
@@ -62,9 +59,7 @@ const Checkbalance = () => {
         }
     }
 
-    useEffect(() => {
-        // getGiftCartdSatus()
-    }, [])
+    console.log("data ::::::::", data)
 
     return (
         <View style={styles.mainView}>
@@ -72,23 +67,23 @@ const Checkbalance = () => {
             <View style={styles.containerView}>
                 <View style={styles.firstView}>
                     <View style={styles.imageView}>
-                        <Image style={{ resizeMode: 'contain', height: "100%", width: "100%" }} source={GiftCartICON} />
+                        <Image style={{ resizeMode: RESIZEMODE.contain, height: "100%", width: "100%" }} source={GiftCartICON} />
                     </View>
-                    <Text style={styles.titelText}>{"Apply Gift Card Code"}</Text>
+                    <Text style={styles.titelText}>{lang == NUMBER.num0 ? "التحقق من رصيد حساب بطاقة الهدايا" : "Gift Card Account Balance Check"}</Text>
 
-                    <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <TextInput
                             style={styles.textInput}
-                            placeholder='Enter Your Code'
+                            placeholder={lang == NUMBER.num1 ? 'Enter Your Code' : "رمز البطاقة :"}
                             placeholderTextColor={COLOR.darkGray}
                             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                             onChangeText={(text) => { setGiftCardNumber(text) }}
                         />
 
                         <TouchableOpacity
-                            onPress={() => { getGiftCartdSatus() }}
+                            onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
                             style={styles.addBtnView}>
-                            <Text style={styles.addText}>{"ADD"}</Text>
+                            <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "Check Balance"}</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -104,29 +99,36 @@ const Checkbalance = () => {
                                 <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                     <View>
                                         <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            <Text style={styles.firstText}>{"Code : "}</Text>
+                                            <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Code : " : "رمز البطاقة : "}</Text>
                                             <Text style={styles.secondView}>{item?.code}</Text>
 
                                         </View>
                                         <View style={{ marginTop: ResponsiveSize(10) }} />
                                         <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            <Text style={styles.firstText}>{"Current Balance : "}</Text>
+                                            <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Current Balance : " : "الرصيد الحالي : "}</Text>
                                             <Text style={styles.secondView}>{item?.balance}</Text>
                                         </View>
+                                        {/* <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center, marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <Text style={[styles.firstText]}>{"Status : "}</Text>
+                                            <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
+
+                                        </View> */}
 
                                     </View>
 
                                     <View style={{ justifyContent: 'flex-end' }}>
                                         <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            <Text style={[styles.firstText]}>{"Status : "}</Text>
+                                            <Text style={[styles.firstText]}>{lang == NUMBER.num1 ? "Status : " : "الحالة : "}</Text>
                                             <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
 
                                         </View>
 
                                         <View style={{ marginTop: ResponsiveSize(10) }} />
 
-                                        <TouchableOpacity style={styles.removeBTN}>
-                                            <Text style={[styles.firstText, { color: COLOR.white }]}>{"Remove"}</Text>
+                                        <TouchableOpacity
+                                            style={styles.removeBTN}
+                                        >
+                                            {/* <Text style={[styles.firstText, { color: COLOR.white }]}>{"Remove"}</Text> */}
                                         </TouchableOpacity>
 
                                     </View>
@@ -137,13 +139,13 @@ const Checkbalance = () => {
 
                                 <View style={{ width: "100%", flexDirection: ALINE.row, justifyContent: ALINE.spaceBetween }}>
                                     <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                        <Text style={styles.firstText}>{"Usage : "}</Text>
-                                        <Text style={styles.secondView}>{"Multiple"}</Text>
+                                        <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
+                                        <Text style={styles.secondView}>{item?.usage}</Text>
 
                                     </View>
                                     <View style={{ marginTop: ResponsiveSize(10) }} />
                                     <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                        <Text style={styles.firstText}>{"Valid Till : "}</Text>
+                                        <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}</Text>
                                         <Text style={styles.secondView}>{item?.expiredDate}</Text>
                                     </View>
 
@@ -156,15 +158,19 @@ const Checkbalance = () => {
                     })}
                 </ScrollView>
 
-            </View>
+            </View >
             {
                 isLoadding &&
-                <View style={{ position: 'absolute', height: "100%", width: "100%" }}>
+                <View style={{
+                    position: 'absolute',
+                    height: "100%",
+                    width: "100%"
+                }}>
                     <CusLoader />
                 </View>
 
             }
-        </View>
+        </View >
     )
 }
 
@@ -183,10 +189,9 @@ const styles = StyleSheet.create({
     removeBTN: {
         height: ResponsiveSize(40),
         width: ResponsiveSize(140),
-        backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(10),
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
     },
 
     mainView: {
@@ -227,14 +232,13 @@ const styles = StyleSheet.create({
         borderWidth: ResponsiveSize(1),
         borderColor: "green",
         borderStyle: 'dashed',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
         marginTop: ResponsiveSize(20),
-        // alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: ALINE.center,
         backgroundColor: COLOR.white,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
         padding: ResponsiveSize(5)
 
     },
@@ -247,17 +251,16 @@ const styles = StyleSheet.create({
     },
     addBtnView: {
         height: "100%",
-        width: ResponsiveSize(150),
         backgroundColor: "green",
         borderRadius: ResponsiveSize(10),
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
     addText: {
-        color: COLOR.white
+        color: COLOR.white,
+        padding: ResponsiveSize(10)
     },
     satusView: {
-        // height: ResponsiveSize(200),
         width: "100%",
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.primaray,
@@ -268,9 +271,9 @@ const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(10)
     },
     textView: {
-        flexDirection: 'row',
+        flexDirection: ALINE.row,
         width: "100%",
-        justifyContent: 'space-between'
+        justifyContent: ALINE.spaceBetween
     },
     firstText: {
         color: COLOR.black,

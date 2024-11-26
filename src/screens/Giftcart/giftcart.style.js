@@ -15,20 +15,15 @@ export const styles = StyleSheet.create({
     },
     containerView: {
         flex: 1,
-
     },
     titelText: {
         color: COLOR.black,
         fontSize: ResponsiveSize(35),
         fontWeight: FONTWEGHIT.font400,
         marginTop: ResponsiveSize(20)
-
     },
     desText: {
         color: COLOR.darkGray,
-        // marginTop: ResponsiveSize(5)
-        // marginTop: ResponsiveSize(10)
-
     },
     priceText1: {
         color: COLOR.primaray,
@@ -138,16 +133,14 @@ export const styles = StyleSheet.create({
         padding: ResponsiveSize(20),
         textAlignVertical: 'top',
         color: COLOR.black
-        // textAlign:'top'
-        // justifyContent:'flex-start'
     },
     addTonewRecipintView: {
         height: ResponsiveSize(70),
         width: "100%",
         backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(10),
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center,
     },
     addnewRecipintText: {
         color: COLOR.white
@@ -157,7 +150,6 @@ export const styles = StyleSheet.create({
         flexDirection: ALINE.row,
         alignItems: ALINE.center,
         alignItems: ALINE.center,
-        // justifyContent: ALINE.spaceBetween,
         height: ResponsiveSize(120),
 
     },
@@ -201,19 +193,18 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(10),
         justifyContent: ALINE.center,
         alignItems: ALINE.center,
-        alignSelf: 'center'
+        alignSelf: ALINE.center
     },
     AddTocardText: {
         color: COLOR.white,
         fontSize: ResponsiveSize(25),
         width: "100%",
-        textAlign: 'center',
+        textAlign: ALINE.center,
 
     },
     cheackboxView: {
-        flexDirection: 'row',
-        // justifyContent:'center',
-        alignItems: 'center',
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
         marginTop: ResponsiveSize(20),
         marginBottom: ResponsiveSize(20),
         width: "100%"
@@ -235,7 +226,7 @@ export const styles = StyleSheet.create({
         marginTop: ResponsiveSize(5)
     },
     termsCoditionView: {
-        flexDirection: 'row',
+        flexDirection: ALINE.row,
         width: "100%",
         marginTop: ResponsiveSize(10)
 
@@ -248,7 +239,7 @@ export const styles = StyleSheet.create({
     termsconditionText: {
         color: COLOR.black,
         marginLeft: ResponsiveSize(10),
-        textAlign: 'center',
+        textAlign: ALINE.center,
         marginTop: ResponsiveSize(2)
     }
 

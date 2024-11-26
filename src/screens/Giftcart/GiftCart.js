@@ -125,7 +125,9 @@ const GiftCart = (props) => {
                         fontSize: ResponsiveSize(20),
                         paddingVertical: ResponsiveSize(10)
                     }, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.note}</Text>}
-                    {data?.note && <View style={styles.barView} />}
+                    {/* {data?.note && */}
+                    <View style={styles.barView} />
+                    {/* } */}
 
                     <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{
                         lang == NUMBER.num1 ? "Card Value in SAR" : "قيمة البطاقة بالريال السعودي"}</Text>

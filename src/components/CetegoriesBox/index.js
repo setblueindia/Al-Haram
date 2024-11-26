@@ -39,9 +39,6 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                         const name = sitems?.name
                         const finalName = name.substring(0, 10);
                         const RoundImage = BASE_URL + sitems?.mobile_circle_thumbnail
-
-                        // console.log(":::::" , sitems?.include_in_menu)
-
                         return (
                             <>
                                 {sitems?.include_in_menu == 1 && <TouchableOpacity

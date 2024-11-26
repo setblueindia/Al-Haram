@@ -52,7 +52,6 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
                 setLoadding && setLoadding(false)
             } else {
 
-
             }
         } catch (error) {
             console.log("ADRESS-LIST ERROR :::::::::::::::::::: ", error)
@@ -60,7 +59,7 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
             setLoadding && setLoadding(false)
         }
     }
-    const deleteAdress = async (items) => {
+    const deleteAdress = async () => {
         setIsLoading(true)
         const formData = new FormData
         formData.append("customer_id", userData?.id)

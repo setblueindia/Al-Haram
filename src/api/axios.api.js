@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+
 import {
     AddRemoveToWhishLisstURL,
     AddToCart,
@@ -9,10 +9,8 @@ import {
     CityListURL,
     CoupanListAPI,
     DeleteURL,
-    FilterList,
     ForgetPasswordURL,
     GRAFORL,
-    GiftCartURL,
     HOMEURL,
     LOGINURL,
     OTPVerification,
@@ -27,21 +25,18 @@ import {
     StateListURL,
     StatusUpadateURL,
     StoreShippingURL,
-    TESTGRAFORL,
     UpdateProfileURL,
     WhishListURL,
     actionCoupan,
     deleteAdress,
     deleteCartItems,
-    expireTokenArabic,
-    expireTokenDefault,
     getCartItemsCount,
     mobailCetegouries,
     reOrderUrl,
     selectedShippingListMethodURl,
     updateCartitems
 } from "../constants/axios.url"
-import { POSTFORM, POSTFORM2, POSTFORMGRAPH, POSTJSON, expireTokenFrom } from "./axios.function"
+import { POSTFORM, POSTFORM2, POSTFORMGRAPH, POSTJSON } from "./axios.function"
 import { NUMBER } from "../constants/constants"
 
 export const useSingUp = async (params) => {
