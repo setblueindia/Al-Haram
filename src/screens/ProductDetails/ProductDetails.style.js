@@ -8,8 +8,6 @@ export const styles = StyleSheet.create({
         width: "100%",
         marginTop: ResponsiveSize(20),
         borderRadius: ResponsiveSize(20),
-
-
     },
     mainVIew: {
         flex: 1,
@@ -54,12 +52,9 @@ export const styles = StyleSheet.create({
         color: "#505050",
         marginLeft: ResponsiveSize(10),
         alignItems: 'center'
-        // width: ResponsiveSize(200)
     },
     colorView: {
         paddingHorizontal: ResponsiveSize(20),
-        // flexDirection: ALINE.row,
-        // alignItems: ALINE.center
     },
     colorConatiner: {
         height: ResponsiveSize(60),
@@ -218,7 +213,6 @@ export const styles = StyleSheet.create({
     textImgView: {
         height: ResponsiveSize(90),
         width: ResponsiveSize(90),
-        // backgroundColor: COLOR.black,
         position: 'absolute'
     },
     cetegoriesText: {
@@ -235,8 +229,40 @@ export const styles = StyleSheet.create({
     },
     subCategories: {
         flexDirection: 'row',
-        // marginTop: ResponsiveSize(30),
         paddingBottom: ResponsiveSize(30),
         paddingHorizontal: ResponsiveSize(20)
     },
+    reviewView: {
+        width: "90%",
+        borderRadius: ResponsiveSize(20),
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.primaray,
+        alignSelf: ALINE.center,
+        marginBottom: ResponsiveSize(20),
+        backgroundColor: "#F6F0F0",
+        padding: ResponsiveSize(20),
+
+    },
+    reviewText: {
+        fontSize: ResponsiveSize(23),
+        color: COLOR.black,
+        fontWeight: FONTWEGHIT.font400
+    },
+    reviewTextdes: {
+        fontSize: ResponsiveSize(20),
+        color: COLOR.darkGray,
+        marginVertical: ResponsiveSize(10)
+    },
+    startView: {
+        flexDirection: ALINE.row,
+    },
+    totalReview: {
+        position: 'absolute',
+        bottom: ResponsiveSize(20),
+        right: ResponsiveSize(20),
+        borderBottomWidth: ResponsiveSize(1),
+    },
+    totalReviewText: {
+        fontSize: ResponsiveSize(18),
+    }
 })

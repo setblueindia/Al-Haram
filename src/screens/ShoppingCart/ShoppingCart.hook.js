@@ -77,6 +77,10 @@ const useShoppingcart = () => {
   const [type, setType] = useState()
 
 
+
+  const [giftCradPaymet, setGiftCradPaymet] = useState(false)
+
+
   const [quoteId, setQuoteId] = useState()
 
   const version = DeviceInfo.getVersion()
@@ -211,7 +215,6 @@ const useShoppingcart = () => {
             getShipingList()
             setIndex(index + 1)
           }
-
         }
       }
       if (index == 2) {
@@ -223,18 +226,49 @@ const useShoppingcart = () => {
         }
       }
     } else {
-      if (!validationn) {
-        setShowModal(true)
-        setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
+      if (selectPayment) {
+        selectPayment?.total_segments?.map((items, index) => {
+          if (items?.code == "grand_total") {
+            const tempVali = true
+            const grandTotalAmount = parseInt(items?.value)
+            if (grandTotalAmount == 0 && giftCardList?.length > 0) {
+              setGiftCradPaymet(true)
+              PlaceHolder(tempVali)
+              setOutOfStock([])
+              setData([])
+              setGiftCardList([])
+            } else {
+              console.log("validationn ::::::", validationn)
+              if (!validationn) {
+                setShowModal(true)
+                setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
+              } else {
+                PlaceHolder()
+                setOutOfStock([])
+                setData([])
+                setGiftCardList([])
+              }
+            }
+          }
+        })
       } else {
-        PlaceHolder()
-        setOutOfStock([])
-        setData([])
+        if (!validationn) {
+          setShowModal(true)
+          setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
+        } else {
+          PlaceHolder()
+          setOutOfStock([])
+          setData([])
+          setGiftCardList([])
+        }
       }
 
 
     }
+
+
   }
+
   // Back Button
   const goBack = () => {
     if (index == 2) {
@@ -615,13 +649,12 @@ const useShoppingcart = () => {
   }
 
   const validation = (value, edata, WAmount) => {
-
+    console.log("value :::::::", { value, edata, WAmount })
     var validationTotal = 0
-    // console.log("Valu :::::::::::::::::: " , {value : value  , selectPayemrntMethod : selectPayemrntMethod , edata:edata , walletAmount:wallateAmount})
-
     paymentScreenData?.total_segments?.map((items, index) => {
       if (items?.code == "grand_total") {
         validationTotal = items?.value
+
       }
     })
 
@@ -633,10 +666,10 @@ const useShoppingcart = () => {
     }
 
     if (value) {
-
-      console.log('validationTotal :::::::: ', { validationTotal: validationTotal, wallateAmount: wallateAmount, conditions: (wallateAmount < validationTotal) })
       if (edata == "walletsystem") {
-        if (wallateAmount < validationTotal) {
+        const tempWallateAmount = parseInt(wallateAmount)
+        const tempValidationTotal = parseInt(validationTotal)
+        if (tempWallateAmount < tempValidationTotal) {
           setValidation(false)
         } else {
           setValidation(true)
@@ -650,7 +683,7 @@ const useShoppingcart = () => {
     }
   }
 
-  const PlaceHolder = async () => {
+  const PlaceHolder = async (tempVali) => {
     setLoadding(true)
     var shoppingTotal = 0
     var subTotal = 0
@@ -679,7 +712,7 @@ const useShoppingcart = () => {
 
     })
     const params = {
-      "paymentMethod": paymentCode ? paymentCode : "walletsystem",
+      "paymentMethod": tempVali ? "free" : paymentCode ? paymentCode : "walletsystem",
       "billing_address": {
         "id": billingAddressData?.id,
         "customer_id": billingAddressData?.customer_id,

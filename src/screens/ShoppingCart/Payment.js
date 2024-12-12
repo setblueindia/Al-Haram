@@ -1,6 +1,6 @@
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { ResponsiveSize } from '../../utils/utils'
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -44,6 +44,7 @@ const Payment = ({
   const [COD, setCOD] = useState(false)
   const [credit, setCredit] = useState(false)
   const [totalAmount, setTotalAmount] = useState([])
+  const [shoeGiftCard, setShowGitfCard] = useState(false)
   let txtData = selectPayment?.total_segments ? selectPayment?.total_segments : paymentScreenData?.total_segments
   const dueAmount = totalAmount?.length > 0 && wallateAmount > totalAmount[0] ? 0 : totalAmount[0] - wallateAmount
   const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : 0
@@ -84,6 +85,9 @@ const Payment = ({
     finalAmount()
   }, [txtData])
 
+  const demo = () => {
+    // SHOWTOTS("First Remove gift giftcard")
+  }
 
 
   return (
@@ -94,6 +98,137 @@ const Payment = ({
           <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.date}</Text>
         </View>
         }
+
+        <TouchableOpacity
+          disabled
+          style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+          <CheackButton
+            preVriable={giftCardList?.length > 0 ? true : shoeGiftCard}
+            onPress={giftCardList?.length > 0 ? demo : setShowGitfCard}
+          />
+          <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ? "Payment By Giftcard" : " الدفع ببطاقة الهدية"}</Text>
+        </TouchableOpacity>
+
+
+        {(type !== "amgiftcard" && shoeGiftCard || giftCardList.length > 0) &&
+          <View style={styles?.giftCartdMainView}>
+            <View style={{
+              width: "100%",
+            }}>
+
+              {giftCardList.length > 0
+                && giftCardList?.map((item, index) => {
+                  return (
+                    <View key={index}
+                      style={[styles.coupnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+
+                      {lang == NUMBER.num0 ?
+                        <Text>{item + " (بطاقات الهدايا)"}</Text> :
+                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{item + " (Gift Card)"}</Text>}
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          applyGiftCart(0, item)
+                          setCOD(false),
+                            setCredit(false),
+                            setShowWallet(false),
+                            setSelectPayemrntMethod()
+                          setGiftSatus()
+
+                        }}
+
+                        style={styles.CLRemoveBTN}>
+                        <Text
+                          style={{
+                            fontSize: ResponsiveSize(20),
+                            color: COLOR.primaray
+                          }}
+                        >{lang == NUMBER.num0 ? "إزالة" : "Remove"}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                })}
+            </View>
+
+
+
+
+            <View style={[{}, lang == NUMBER.num0 && {}]}>
+
+              <TextInput
+                style={[styles.coupnTextInput, { marginTop: ResponsiveSize(20), width: "100%" }]}
+                placeholder={lang == NUMBER.num1 ? "Enter Giftcard number" : " ادخل رقم بطاقة الهدية"}
+                placeholderTextColor={COLOR.darkGray}
+                textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+                onChangeText={text => { setGiftCardCode(text) }}
+                value={giftCardCode ? giftCardCode : ""}
+
+              />
+
+              <View style={styles.GIFTBtn}>
+                <TouchableOpacity
+                  onPress={() => {
+                    getGiftCartdSatus()
+                  }}
+                  style={styles.ChwckStausBTN}>
+                  <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تحقق" : "Check Status"}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    applyGiftCart(1),
+                      setCOD(false)
+                    setCredit(false),
+                      setShowWallet(false),
+                      setSelectPayemrntMethod(),
+                      setGiftSatus()
+                    validation(false, "Cradite", WAmount)
+                  }}
+                  style={styles.GIFTApplyBTN}>
+                  <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
+                </TouchableOpacity>
+
+              </View>
+
+
+
+            </View>
+
+            {giftSatus?.data &&
+              <View style={{ height: "100%", marginBottom: ResponsiveSize(10) }}>
+                {giftSatus?.data?.balance &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"Balance "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.balance}</Text>
+                  </View>}
+
+                {giftSatus?.data?.code &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"Code "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.code}</Text>
+                  </View>}
+
+                {giftSatus?.data?.expiredDate &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"expiredDate "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.expiredDate}</Text>
+                  </View>}
+
+                {giftSatus?.data?.status &&
+                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"status "}</Text>
+                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.status}</Text>
+                  </View>}
+
+              </View>}
+
+          </View>}
+
+
+
+
+
+
         <View style={styles.paymentView}>
           <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
 
@@ -267,8 +402,8 @@ const Payment = ({
         </View>
 
 
-        {/* ::::::::::::::::::::::::::::: ADD GITCAT GEGIEN ::::::::::::::::::::::::::::: */}
 
+        {/*         
         {type !== "amgiftcard" &&
           <View style={styles?.giftCartdMainView}>
             <View style={{
@@ -341,6 +476,7 @@ const Payment = ({
                       setShowWallet(false),
                       setSelectPayemrntMethod(),
                       setGiftSatus()
+                    validation(false, "Cradite", WAmount)
                   }}
                   style={styles.GIFTApplyBTN}>
                   <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
@@ -380,7 +516,7 @@ const Payment = ({
 
               </View>}
 
-          </View>}
+          </View>} */}
         {/* ::::::::::::::::::::::::::::: ADD GITCAT GEGIEN ::::::::::::::::::::::::::::: */}
 
         {type !== "amgiftcard" && <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
@@ -450,6 +586,8 @@ const Payment = ({
                         setCoupanCode(item?.coupon)
                         setActionCode(1)
                         applyCoupan(item?.coupon, 1)
+
+
                       }}
                       style={styles.btnView}>
                       <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
@@ -513,11 +651,14 @@ const styles = StyleSheet.create({
   giftCartdMainView: {
     width: "100%",
     flex: 1,
-    backgroundColor: "#00000009",
+    backgroundColor: "#FFFFFF",
     paddingHorizontal: ResponsiveSize(20),
-    marginTop: ResponsiveSize(10),
+    // marginTop: ResponsiveSize(10),
     borderRadius: ResponsiveSize(20),
+    borderTopRightRadius: ResponsiveSize(0),
+    borderTopLeftRadius: ResponsiveSize(0),
     borderWidth: ResponsiveSize(1),
+    borderTopWidth: ResponsiveSize(0),
     borderColor: COLOR.darkGray,
 
   },

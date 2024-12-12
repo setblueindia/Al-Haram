@@ -20,18 +20,19 @@ const MyOrder = () => {
           < View style={styles.containerView}>
             <FlatList
               data={data}
-              style={{flex:1 , marginBottom:ResponsiveSize(20)}}
+              style={{ flex: 1, marginBottom: ResponsiveSize(20) }}
               showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => {
                 return (
                   <TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
-                        item?.name == "Wallet Amount" ?  SHOWTOTS("Wallet Order status is in " + item?.status_display)  : navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id }) }}
+                        item?.name == "Wallet Amount" ? SHOWTOTS("Wallet Order status is in " + item?.status_display) : navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id })
+                      }}
                       style={[styles.listView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                       <View style={styles.imgView}>
                         <FastImage
-                        resizeMode={RESIZEMODE.contain}
+                          resizeMode={RESIZEMODE.contain}
                           source={ShopBug}
                           style={styles.imgStyle}
                         />
@@ -47,12 +48,12 @@ const MyOrder = () => {
 
                         <View style={[styles.compalatedView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                           <View style={[styles.dott, { backgroundColor: item?.status_display == "pending" ? "#FFC000" : item?.status_display == "canceled" ? 'red' : item?.status_display == "closed" ? 'red' : item?.status_display == "canceled" ? 'red' : "green" }]}></View>
-                          <Text style={[styles.compalatedText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10) , textAlign:'right'}, { color: item?.status_display == "pending" ? "#FFC000" : item?.status_display == "closed" ? 'red' : item?.status_display == "canceled" ? 'red' : "green" }]}>{item?.status_display}</Text>
+                          <Text style={[styles.compalatedText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }, { color: item?.status_display == "pending" ? "#FFC000" : item?.status_display == "closed" ? 'red' : item?.status_display == "canceled" ? 'red' : "green" }]}>{item?.status_display}</Text>
                         </View>
 
                       </View>
                       <View style={styles.mnyView}>
-                        <Text style={{ color: COLOR.primaray, fontWeight: "600" , width:ResponsiveSize(100)}}>{Str.SAR + " " + item?.order_total}</Text>
+                        <Text style={{ color: COLOR.primaray, fontWeight: "600", width: ResponsiveSize(100) }}>{Str.SAR + " " + item?.order_total}</Text>
                       </View>
                     </TouchableOpacity>
 
@@ -65,7 +66,7 @@ const MyOrder = () => {
 
           </View>
           : !isLoadding ?
-            <DataIsNotFound navigation={navigation}/> : null
+            <DataIsNotFound navigation={navigation} /> : null
         }
 
       </View>

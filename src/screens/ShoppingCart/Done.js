@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect } from 'react'
 import LottieView from 'lottie-react-native';
-import { ResponsiveSize } from '../../utils/utils';
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
 import { ErrorIcon, ErrorImg, doneIcon } from '../../assests';
 import Button from '../../components/Button';
@@ -9,7 +9,7 @@ import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ExpireToken, SendNotifiction, StatusUpadate } from '../../api/axios.api';
+import { ExpireToken, SendNotifiction, StatusUpadate, sendMessageAPI } from '../../api/axios.api';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 
@@ -24,7 +24,7 @@ const Done = (props) => {
 
 
 
-    console.log("Response ID ::::::: ", responseID)
+    // console.log("Response ID ::::::: ", result)
 
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n Thank you for shopping at Al Haram Online Store.` : `رقم طلبك: ${OrderID}. \n شكراً لتسوقكم من متجر الهرم الإلكتروني.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
@@ -80,6 +80,39 @@ const Done = (props) => {
             console.log("Token Error :::::::::: ", error)
         }
     }
+
+
+    const sendMessage = async () => {
+        const qurry = `
+        {
+            successPageGiftcardMessageForApplication(
+                order_id : ${responseID}
+            ) {
+                success
+                message      
+            }
+        }
+        `
+        try {
+            if (!result?.data) {
+                const res = await sendMessageAPI(qurry, lang)
+                console.log("Response :::::::: ", res?.data)
+            } else if (result?.data?.status == "Successful") {
+                const res = await sendMessageAPI(qurry, lang)
+                console.log("Response :::::::: ", res?.data)
+            } else {
+                // SHOWTOTS("Something went wrong")
+            }
+
+
+        } catch (error) {
+            console.log("SEND MESSAGE ERROR :::::::::::: ", error)
+        }
+    }
+
+    useEffect(() => {
+        sendMessage()
+    }, [])
 
     useEffect(() => {
         tokenExpire()

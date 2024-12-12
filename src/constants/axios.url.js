@@ -15,10 +15,9 @@ export const GRAFORL = "https://alharamstores.com/graphql"
 // export const imageURL = "https://alharamstores.com"
 // export const GRAFORL = "https://beta.alharamstores.com/graphql"
 
+
 // export const GiftCartURL = "https://beta.alharamstores.com/graphql"
 // export const GiftCartIMAGEURL = "https://beta.alharamstores.com"
-
-
 
 
 

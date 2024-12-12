@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
-import { DeleteAccountAPI, ProductlistCount } from '../../api/axios.api';
+import { DeleteAccountAPI, ProductlistCount, getCount } from '../../api/axios.api';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { SHOWTOTS } from '../../utils/utils';
+import { addNotificationCount } from '../../redux/Slices/AddNotificationCount';
 
 const useProfileHook = () => {
 
@@ -98,7 +99,6 @@ const useProfileHook = () => {
       await AsyncStorage.setItem('Lang', num);
       dispatch(updateLangCode(num));
       // CetegouriesList(num)
-
     } catch (error) {
       console.log('UPDATE LANGUES ERROR :: ', error);
     }
@@ -159,6 +159,7 @@ const useProfileHook = () => {
       //  console.log("result :::" ,result )
       dispatch(addUserData(undefined))
       dispatch(addLangCode(langNum))
+      dispatch(addNotificationCount(0))
       //  navigation.navigate(NAVIGATION.Login , {type : true})
       navigation.navigate(NAVIGATION.Login)
     } catch (error) {
@@ -181,6 +182,34 @@ const useProfileHook = () => {
     }
   }
 
+
+
+  const getUnReadeNotifications = async () => {
+    const qrry = `{
+      getUnReadNotificationCountByCustomerId(customer_id : ${userData?.data?.id}){
+          status 
+          count
+          message
+      }
+  } `
+    if (userData?.data?.id) {
+      try {
+        const result = await getCount(qrry, lang?.data)
+        if (result?.data?.data?.getUnReadNotificationCountByCustomerId?.status) {
+          dispatch(addNotificationCount(result?.data?.data?.getUnReadNotificationCountByCustomerId?.count))
+        }
+      } catch (error) {
+        console.log("GET NOTIFICATIONS COUNT :::::: ", error)
+      }
+    } else {
+      console.log("USER ID NOT FOUND ::::::: ")
+    }
+  }
+
+
+  useEffect(() => {
+    getUnReadeNotifications()
+  }, [userData?.data?.id])
 
 
   return {

@@ -34,7 +34,8 @@ export const NAVIGATION = {
   ResponseScreen: "ResponseScreen",
   giftcard: "GiftCartScreen",
   Maintenance: "MaintenanceScreen",
-  giftBalanceCheck: "Cheackbalancescreen"
+  giftBalanceCheck: "Cheackbalancescreen",
+  reviewScrenn: "reviewScreen"
 
 };
 export const LOGINStr = {
@@ -99,7 +100,9 @@ export const ASYNCSTORAGE = {
   Email: "Email",
   Password: "Password",
   walletAmount: "WalletAmount",
-  FCMToken: "FCMToken"
+  FCMToken: "FCMToken",
+  Terms: "Terms",
+  conditions: "Conditions"
 };
 
 export const NUMBER = {

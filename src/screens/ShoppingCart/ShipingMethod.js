@@ -15,7 +15,7 @@ const ShipingMethod = ({
 }) => {
     const [selected, setSelected] = useState()
     const [on, setOn] = useState()
-    const [sIndex , setSindex] = useState()
+    const [sIndex, setSindex] = useState()
     const labale = lang == NUMBER.num0 ? Ar : En
 
     return (
@@ -23,7 +23,7 @@ const ShipingMethod = ({
             {/* <Text style={styles.headerText}>{labale?.ShippingMethods}</Text> */}
             <View style={styles.mainView}>
                 {
-                data?.length > 0 &&  data?.map((item, index) => {
+                    data?.length > 0 && data?.map((item, index) => {
                         return (
                             <View>
                                 <TouchableOpacity
@@ -35,8 +35,8 @@ const ShipingMethod = ({
                                                 <View style={selected == index ? styles.fillCircalView2 : null} />
                                             </View>
                                         </View>
-                                        <View style={[styles.textView , {width:"100%"}]}>
-                                            <View style={[styles.hederTextView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
+                                        <View style={[styles.textView, { width: "100%" }]}>
+                                            <View style={[styles.hederTextView, lang == NUMBER.num0 && { marginLeft: ResponsiveSize(20) }]}>
                                                 <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.carrier_title}</Text>
                                             </View>
                                             <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         width: "100%",
         borderRadius: ResponsiveSize(100)
     },
-    fillCircalView2:{
+    fillCircalView2: {
         height: "100%",
         width: "100%",
         backgroundColor: COLOR.primaray,

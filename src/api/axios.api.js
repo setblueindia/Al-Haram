@@ -333,3 +333,26 @@ export const GIFATCARTSATUS = async (params, lang) => {
     return res
 }
 
+
+
+
+
+
+
+export const sendMessageAPI = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+
+export const getCount = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+
+export const getTeramsAndConditionSatus = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+

@@ -17,6 +17,7 @@ import FastImage from 'react-native-fast-image'
 import RenderHTML from 'react-native-render-html';
 import ProductBox from '../../components/ProductBox'
 import WebView from 'react-native-webview'
+import StartICON from 'react-native-vector-icons/AntDesign';
 
 const ProductDetails = (props) => {
     const {
@@ -62,12 +63,6 @@ const ProductDetails = (props) => {
 
     const { width } = useWindowDimensions();
 
-
-
-
-
-
-
     const injectedJavaScript = `
     (function() {
       setTimeout(function() {
@@ -77,12 +72,11 @@ const ProductDetails = (props) => {
     })();
   `;
     const handleMessage = (event) => {
-
         const height = Number(event.nativeEvent.data, 10);
-
         setWebViewHeight(height);
     };
 
+    const testimonials = Array.from({ length: 5 });
 
 
     return (
@@ -137,20 +131,37 @@ const ProductDetails = (props) => {
                         // source={htmlSource}
                         tagsStyles={{
                             p: { color: COLOR.black, fontSize: ResponsiveSize(18), fontWeight: '400', width: "90%", alignSelf: 'center' },
-
                         }}
                     />
                 }
-
                 {details?.short_description?.html && <View style={styles.deviderView}>
                     <View style={styles.devider} />
                 </View>}
 
+                {/* <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate(NAVIGATION.reviewScrenn)
+                    }}
+                    style={styles.reviewView}>
+                    <Text style={styles.reviewText}>{"Customer Testimonial"}</Text>
+                    <Text style={styles.reviewTextdes}>{"Excellent"}</Text>
+
+                    <View style={styles.startView}>
+                        {testimonials?.map((item, index) => {
+                            return (
+                                <StartICON name={"star"} size={ResponsiveSize(30)} color={"#FAB834"} />
+                            )
+                        })}
+                    </View>
+
+                    <TouchableOpacity style={styles.totalReview}>
+                        <Text style={styles.totalReviewText}>{"7,262 reviews"}</Text>
+                    </TouchableOpacity>
+
+                </TouchableOpacity> */}
 
                 {defaultColor &&
-
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && {}]}>
-
                         <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30), textAlign: 'right' }]}>{Str.color}</Text>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), paddingHorizontal: ResponsiveSize(5) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
@@ -206,13 +217,12 @@ const ProductDetails = (props) => {
 
                 {defaultSize &&
                     <View style={[styles.sizeView, lang?.data == NUMBER.num0 && {}]}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10), textAlign: 'right' }]}>{Str?.Size}</Text>
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10), textAlign: ALINE.right }]}>{Str?.Size}</Text>
 
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ marginTop: ResponsiveSize(20) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
                             {defaultSize?.values?.map((items, index) => {
                                 var blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
-                                // console.log("color SIZWE items ", items)
                                 return (
                                     <View>
 

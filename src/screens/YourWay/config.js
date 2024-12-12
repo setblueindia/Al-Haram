@@ -22,3 +22,11 @@ export const config = {
 
 };
 
+
+
+
+// Test card number
+// 5123 4500 0000 0008
+// 05 / 32 100
+
+// Failure

@@ -3,12 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getCount, getProductDetails, getTeramsAndConditionSatus } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import DeviceInfo from 'react-native-device-info'
+import { addNotificationCount } from '../../redux/Slices/AddNotificationCount'
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
@@ -28,6 +29,9 @@ const useHomeHook = (props) => {
   const [giftCart, setGiftCart] = useState()
   const [wpNumber, setWPNumber] = useState()
   const version = DeviceInfo.getVersion()
+  const [showTerms, setShowTerms] = useState(false)
+  const [termsData, setTermsdata] = useState()
+
   // const version = "1.0.66"
 
   const [showPop, setShowPop] = useState(false)
@@ -36,11 +40,11 @@ const useHomeHook = (props) => {
   const [appState, setAppState] = useState(AppState.currentState);
 
   useEffect(() => {
-    UpdateVersion();
+    // UpdateVersion();
     const handleAppStateChange = (nextAppState) => {
       if (appState.match(/inactive|background/) && nextAppState === 'active') {
         console.log('App has come to the foreground!');
-        UpdateVersion();
+        // UpdateVersion();
       }
       setAppState(nextAppState);
     };
@@ -67,7 +71,7 @@ const useHomeHook = (props) => {
         // SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
       } else {
         setShowPop(true)
-        setMes(result?.data?.data?.deviceVersionCheck?.message)
+        result?.data?.data?.deviceVersionCheck?.message && setMes(result?.data?.data?.deviceVersionCheck?.message)
 
       }
     } catch (error) {
@@ -213,7 +217,6 @@ const useHomeHook = (props) => {
   useEffect(() => {
     SaveToken()
   }, [])
-
   const SaveToken = async () => {
     const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
     if (userData?.id) {
@@ -326,6 +329,118 @@ const useHomeHook = (props) => {
     Linking.openURL(url).catch((err) => console.error("Couldn't open WhatsApp", err));
   };
 
+
+  const getUnReadeNotifications = async () => {
+    const qrry = `{
+      getUnReadNotificationCountByCustomerId(customer_id : ${userData?.id}){
+          status 
+          count
+          message
+      }
+  } `
+    if (userData?.id) {
+      try {
+        const result = await getCount(qrry, lang?.data)
+        if (result?.data?.data?.getUnReadNotificationCountByCustomerId?.status) {
+          dispatch(addNotificationCount(result?.data?.data?.getUnReadNotificationCountByCustomerId?.count))
+
+        }
+      } catch (error) {
+        console.log("GET NOTIFICATIONS COUNT :::::: ", error)
+      }
+    } else {
+      console.log("USER ID NOT FOUND ::::::: ")
+    }
+  }
+
+
+
+  const tramsandconditions = async () => {
+    const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
+    console.log("termsSatus ::::", termsSatus)
+    if (termsSatus !== "true") {
+      // console.log("termsSatus ::::", termsSatus)
+      const query = `
+      {
+          updatePrivacyAgree(customer_id : ${userData?.id ? userData?.id : 0}){
+            status
+            message
+            title_text
+            button_text
+            popup_message
+            redirect_url
+          }
+      }
+      `
+      try {
+        const result = await getTeramsAndConditionSatus(query, lang?.data)
+        console.log("TERMS AND CONDITIONS ::::::: ", result?.data?.data?.updatePrivacyAgree)
+        if (result?.data?.data?.updatePrivacyAgree?.status) {
+          const tempTerms = "true"
+          await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
+          setTermsdata(result?.data?.data?.updatePrivacyAgree)
+          setShowTerms(true)
+        }
+      } catch (error) {
+        console.log("TERMS AND CONDITIONS ERROR ::::::: ", error)
+      }
+
+    }
+
+
+  }
+
+  const tramsandconditions2 = async () => {
+    const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
+    const conditions = await AsyncStorage.getItem(ASYNCSTORAGE.conditions)
+    if (termsSatus == "true" && userData && conditions !== "true") {
+      const query = `
+      {
+          updatePrivacyAgree(customer_id : ${userData?.id ? userData?.id : 0}){
+            status
+            message
+            title_text
+            button_text
+            popup_message
+            redirect_url
+          }
+      }
+      `
+      try {
+        const result = await getTeramsAndConditionSatus(query, lang?.data)
+        if (result?.data?.data?.updatePrivacyAgree?.status) {
+          const cond = "true"
+          await AsyncStorage.setItem(ASYNCSTORAGE.conditions, cond)
+        } else {
+          const cond = "true"
+          await AsyncStorage.setItem(ASYNCSTORAGE.conditions, cond)
+        }
+
+      } catch (error) {
+        console.log("TERMS AND CONDITIONS ERROR ::::::: ", error)
+      }
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+  useEffect(() => {
+    getUnReadeNotifications()
+    tramsandconditions()
+    tramsandconditions2()
+  }, [userData])
+
+
+
+
+
   return {
     HomeScreeData,
     lang,
@@ -349,7 +464,10 @@ const useHomeHook = (props) => {
     setShowPop,
     scrollToTop,
     openPlayStore,
-    openWhatsApp
+    openWhatsApp,
+    showTerms, setShowTerms,
+    termsData,
+
   }
 }
 

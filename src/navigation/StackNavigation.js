@@ -35,6 +35,7 @@ import Home from '../screens/Home/Home';
 import GiftCart from '../screens/Giftcart/GiftCart';
 import Maintenance from '../screens/Maintenance/Maintenance';
 import Checkbalance from '../screens/Giftcart/Checkbalance';
+import Review from '../screens/Review/Review';
 
 
 const StackNavigation = () => {
@@ -196,6 +197,11 @@ const StackNavigation = () => {
       <Stack.Screen
         name={NAVIGATION?.giftBalanceCheck}
         component={Checkbalance}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={NAVIGATION?.reviewScrenn}
+        component={Review}
         options={{ headerShown: false }}
       />
 

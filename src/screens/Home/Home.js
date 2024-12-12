@@ -1,5 +1,5 @@
 import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
@@ -15,6 +15,7 @@ import { COLOR, RESIZEMODE } from '../../constants/style';
 import FastImage from 'react-native-fast-image';
 import CusModal from '../../components/CusModal';
 import { NAVIGATION } from '../../constants/constants';
+import TermsPopup from '../../components/TermsPopup';
 
 const Home = (props) => {
   const {
@@ -28,6 +29,7 @@ const Home = (props) => {
     isLoadding,
     giftCart,
     showPop,
+    termsData,
     mes,
     setShowPop,
     CetegouriesList,
@@ -41,8 +43,10 @@ const Home = (props) => {
     showScrollToTop,
     bannerUrl,
     scrollToTop,
-    openWhatsApp
+    openWhatsApp,
+    showTerms, setShowTerms
   } = useHomeHook(props)
+
 
   return (
     <View style={styles.mainView}>
@@ -84,7 +88,10 @@ const Home = (props) => {
               <TouchableOpacity
                 onPress={() => { navigation.navigate(NAVIGATION.giftcard, { giftCartID: giftCart?.id }) }}
                 style={styles.giftcartView}>
-                <FastImage resizeMode='cover' style={{ height: "100%", width: "100%", borderRadius: ResponsiveSize(20) }} source={{ uri: giftCart?.image }} />
+                <FastImage resizeMode='cover' style={{ height: "100%", width: "100%", borderRadius: ResponsiveSize(20) }}
+                  source={{
+                    uri: giftCart?.image
+                  }} />
 
               </TouchableOpacity>
 
@@ -130,6 +137,17 @@ const Home = (props) => {
           <CusLoader />
         </View>
       }
+
+      <Modal
+        transparent={true}
+        visible={showTerms}
+        animationType='slide'
+      >
+        <TermsPopup onPress={setShowTerms} termsData={termsData} />
+
+      </Modal>
+
+
 
       <Modal
         transparent={true}

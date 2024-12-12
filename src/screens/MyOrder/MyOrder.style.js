@@ -54,7 +54,8 @@ export const styles = StyleSheet.create({
   },
   prdText: {
     color: '#202020',
-    width: ResponsiveSize(300)
+    width: ResponsiveSize(300),
+    fontSize: ResponsiveSize(18)
   },
   mnyView: {
     alignSelf: ALINE.center,
@@ -69,19 +70,21 @@ export const styles = StyleSheet.create({
   compalatedView: {
     flexDirection: ALINE.row,
     alignItems: ALINE.center,
-    justifyContent:'center'
+    justifyContent: 'center'
   },
   dott: {
     height: ResponsiveSize(10),
     width: ResponsiveSize(10),
     borderRadius: ResponsiveSize(100),
     backgroundColor: "green",
-    marginTop:ResponsiveSize(5)
+    marginTop: ResponsiveSize(5)
   },
   compalatedText: {
     color: "green",
     marginLeft: ResponsiveSize(10),
-    flex:1,
-    textAlign:'left',
+    flex: 1,
+    textAlign: 'left',
+    fontSize: ResponsiveSize(18)
+
   }
 });

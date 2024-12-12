@@ -188,8 +188,8 @@ const useLoginHook = (props) => {
       SINUP(mail, firstName, lastName, uid, type = "google")
 
     } catch (error) {
-      console.error('Error signing in with Google:', error.code, error.message, error);
-      Alert.alert('Error', `Error Code: ${error.code}\nMessage: ${error.message}`);
+      // console.error('Error signing in with Google:', error.code, error.message, error);
+      // Alert.alert('Error', `Error Code: ${error.code}\nMessage: ${error.message}`);
     }
   }
 

@@ -6,7 +6,7 @@ import { logo } from '../../assests'
 import { useSelector } from 'react-redux'
 import { NUMBER } from '../../constants/constants'
 
-const CusModal = ({ text, setModalShow, examapleText, notification, GETNotificationAPI, setErrro }) => {
+const CusModal = ({ text, setModalShow, examapleText, notification, GETNotificationAPI, setErrro, onPress }) => {
     const lang = useSelector(state => state?.lang?.data);
     return (
         <View style={styles.mainView}>
@@ -27,8 +27,9 @@ const CusModal = ({ text, setModalShow, examapleText, notification, GETNotificat
                 <TouchableOpacity
                     onPress={() => {
                         setModalShow(false),
-                        GETNotificationAPI && GETNotificationAPI(),
-                        setErrro && setErrro("false")
+                            GETNotificationAPI && GETNotificationAPI(),
+                            setErrro && setErrro("false")
+                        onPress && onPress()
                     }}
                     style={styles.button}>
                     <Text style={styles.buttonText}>{lang == NUMBER.num0 ? "موافق" : "OK"}</Text>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
-import { useSelector } from "react-redux"
-import { NotificationAIP, ReadNotification } from "../../api/axios.api"
-import { useNavigation } from "@react-navigation/native"
+import { useDispatch, useSelector } from "react-redux"
+import { NotificationAIP, ReadNotification, getCount } from "../../api/axios.api"
+import { addNotificationCount } from "../../redux/Slices/AddNotificationCount"
 
 
 const useNotificationHook = () => {
@@ -9,8 +9,6 @@ const useNotificationHook = () => {
   const userData = useSelector(state => state?.userData)
   const [notiFicationID, setNotificationID] = useState(userData?.data?.id)
   const [loadding, setLoadding] = useState(false)
-  const navigation = useNavigation()
-  const [id, setID] = useState()
   const [showModal, setShowModal] = useState(false)
   const [messText, setMesageText] = useState('')
   const [moreData, setMoreData] = useState(false)
@@ -19,6 +17,8 @@ const useNotificationHook = () => {
   const [data, setData] = useState([])
   const flatListRef = useRef(null);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [nID, setNID] = useState([])
+  const dispatch = useDispatch()
 
 
 
@@ -26,8 +26,7 @@ const useNotificationHook = () => {
     GETNotificationAPI()
   }, [])
 
-  const onPress = async (sid) => {
-    setLoadding(true)
+  const onPress = async (sid, sindex) => {
     const dataQurry =
       `  {
       updateNotificationReadById(id : ${sid}){
@@ -36,14 +35,16 @@ const useNotificationHook = () => {
       }
     }`
     try {
+      setShowModal(true)
       const response = await ReadNotification(dataQurry, lang)
-      console.log("Notification Response ::::::: " , response)
       setLoadding(false)
       if (response) {
         const read = true
-        setShowModal(true)
         GETNotificationAPI(read)
         setLoadding(false)
+        getUnReadeNotifications()
+
+        setNID([...nID, sindex])
       }
     } catch (error) {
       console.log("ERRORS ===> ", error)
@@ -53,7 +54,7 @@ const useNotificationHook = () => {
   const GETNotificationAPI = async (read) => {
     currePage < 1 && setLoadding(true)
     currePage >= 1 && setMoreData(true)
-    const nextPage =  currePage + 1 
+    const nextPage = currePage + 1
     const sData =
       ` {
       getNotificationHistoryByCustomerId(
@@ -76,9 +77,8 @@ const useNotificationHook = () => {
     try {
       const response = await NotificationAIP(sData, lang)
       if (response?.status == "200") {
-        // console.log("Response :::::::::::: " , response?.data)
-       setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId]) 
-        response?.data?.data?.getNotificationHistoryByCustomerId?.map((item)=>{
+        setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
+        response?.data?.data?.getNotificationHistoryByCustomerId?.map((item) => {
         })
         if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
           setLoadding(false)
@@ -111,6 +111,28 @@ const useNotificationHook = () => {
     }
   };
 
+  const getUnReadeNotifications = async () => {
+    const qrry = `{
+      getUnReadNotificationCountByCustomerId(customer_id : ${userData?.data?.id}){
+          status 
+          count
+          message
+      }
+  } `
+    if (userData?.data?.id) {
+      try {
+        const result = await getCount(qrry, lang?.data)
+        if (result?.data?.data?.getUnReadNotificationCountByCustomerId?.status) {
+          dispatch(addNotificationCount(result?.data?.data?.getUnReadNotificationCountByCustomerId?.count))
+        }
+      } catch (error) {
+        console.log("GET NOTIFICATIONS COUNT :::::: ", error)
+      }
+    } else {
+      console.log("USER ID NOT FOUND ::::::: ")
+    }
+  }
+
   const scrollToTop = () => {
     flatListRef.current?.scrollToOffset({
       offset: 0,
@@ -136,7 +158,8 @@ const useNotificationHook = () => {
     handleScroll,
     scrollToTop,
     flatListRef,
-    showScrollToTop
+    showScrollToTop,
+    nID
   }
 }
 
