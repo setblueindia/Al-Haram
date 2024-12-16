@@ -11,8 +11,7 @@ import useProfileHook from './profile.hook';
 import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { ALINE, COLOR, RESIZEMODE } from '../../constants/style';
 import CustomeHeader from '../../components/CustomeHeader';
-import CusLoader from '../../components/CustomLoader';
-import { A, VAT, bussnis1, chatapp, fbimg, insta } from '../../assests';
+import { VAT, bussnis1, chatapp, fbimg, insta } from '../../assests';
 import DeleteBox from '../../components/DeleteBox';
 
 
@@ -102,16 +101,8 @@ const Profile = () => {
                         size={ResponsiveSize(35)}
                       />}
 
-                    {/* {(item.text == PROFILEStr?.Notification  ) &&
-               <AntDesign3
-                  name={item.icon}
-                  color="#000000"
-                  size={ResponsiveSize(35)}
-                />} */}
 
 
-
-                    {/* <Image style={{height:ResponsiveSize(30) , width:ResponsiveSize(30) , tintColor:COLOR.black }} source={SoupanserIcon}/> */}
                     <View style={styles.textMenu}>
                       <Text style={styles.menuText}>{item.text}</Text>
                     </View>
@@ -184,13 +175,6 @@ const Profile = () => {
 
         </View>
       </ScrollView >
-
-
-      {/* {isLoadding &&
-        <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
-          <CusLoader />
-        </View>
-      } */}
 
       {
         modal &&

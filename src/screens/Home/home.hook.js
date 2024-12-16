@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getCount, getProductDetails, getTeramsAndConditionSatus } from '../../api/axios.api'
+import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getCount, getProductDetails, getTeramsAndConditionSatus, oldAddressDeleted } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -28,23 +28,21 @@ const useHomeHook = (props) => {
   const [bannerUrl, setBannerUrl] = useState()
   const [giftCart, setGiftCart] = useState()
   const [wpNumber, setWPNumber] = useState()
-  const version = DeviceInfo.getVersion()
   const [showTerms, setShowTerms] = useState(false)
   const [termsData, setTermsdata] = useState()
-
-  // const version = "1.0.66"
-
   const [showPop, setShowPop] = useState(false)
   const [mes, setMes] = useState()
-  const focus = useIsFocused()
   const [appState, setAppState] = useState(AppState.currentState);
+  const useFoucus = useIsFocused()
+  const version = DeviceInfo.getVersion()
+  // const version = "0.9"
 
   useEffect(() => {
-    // UpdateVersion();
+    UpdateVersion();
     const handleAppStateChange = (nextAppState) => {
       if (appState.match(/inactive|background/) && nextAppState === 'active') {
         console.log('App has come to the foreground!');
-        // UpdateVersion();
+        UpdateVersion();
       }
       setAppState(nextAppState);
     };
@@ -54,6 +52,28 @@ const useHomeHook = (props) => {
       subscription.remove();
     };
   }, [appState]);
+
+  useEffect(() => {
+    SaveToken()
+    PoductCount()
+  }, [])
+
+  useEffect(() => {
+    TokenExpired()
+  }, [navigation])
+
+  useEffect(() => {
+    CetegouriesList()
+    ProductDetails()
+  }, [lang])
+
+  useEffect(() => {
+    getUnReadeNotifications()
+    tramsandconditions2()
+    tramsandconditions()
+  }, [userData])
+
+
 
   const UpdateVersion = async () => {
     const type = Platform.OS == "ios" ? "ios" : "android"
@@ -67,13 +87,19 @@ const useHomeHook = (props) => {
      `
     try {
       const result = await AppUpadateAPI(data, lang?.data)
-      if (result?.data?.data?.deviceVersionCheck?.status) {
-        // SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
-      } else {
+
+      if (result?.data?.data?.deviceVersionCheck?.status == false) {
         setShowPop(true)
         result?.data?.data?.deviceVersionCheck?.message && setMes(result?.data?.data?.deviceVersionCheck?.message)
-
       }
+
+      // if (result?.data?.data?.deviceVersionCheck?.status) {
+      //   // SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
+      // } else {
+      //   setShowPop(true)
+      //   result?.data?.data?.deviceVersionCheck?.message && setMes(result?.data?.data?.deviceVersionCheck?.message)
+
+      // }
     } catch (error) {
       console.log("UpdateVersion ERROR :::::: ", error)
     }
@@ -156,7 +182,7 @@ const useHomeHook = (props) => {
   }
 
   const ProductDetails = async () => {
-    // dispatch(updateLoader(true))
+    const tempAdress2 = await AsyncStorage.getItem(ASYNCSTORAGE.oldAddress)
     setIsLoadding(true)
     const params = `
     {
@@ -168,6 +194,7 @@ const useHomeHook = (props) => {
           whatapps_chat
           category_list_page_size
           wallet_checkout_enable
+          old_address_delete_enable
           top_banner
           banner_slider{
               image
@@ -204,19 +231,39 @@ const useHomeHook = (props) => {
         setBannerUrl(res?.data?.data?.getHomePageData?.top_banner)
         setGiftCart(res?.data?.data?.getHomePageData?.gift_card)
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
-        // console.log("res?.data?.data?.getHomePageData ::::::: ", res?.data?.data?.getHomePageData)
+        if (res?.data?.data?.getHomePageData?.old_address_delete_enable == 1 && userData) {
+          if (tempAdress2 !== "true") {
+            oldAddressDetele()
+          }
+        }
         setIsLoadding(false)
       }
 
     } catch (error) {
       console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
       setIsLoadding(false)
-      // dispatch(updateLoader(false))
     }
   }
-  useEffect(() => {
-    SaveToken()
-  }, [])
+
+  const oldAddressDetele = async () => {
+    const params = `
+    {
+      deleteOldAddress(customer_id : ${userData?.id}){
+          status
+          message        
+      }
+  }
+    `
+    try {
+      const res = await oldAddressDeleted(params, lang?.data)
+      const tempAddress = "true"
+      await AsyncStorage.setItem(ASYNCSTORAGE.oldAddress, tempAddress)
+      console.log("message :", res?.data?.data?.deleteOldAddress?.message)
+    } catch (error) {
+      console.log(":::::::::: ADDRESS DELETE EROOR ::::::::::::::")
+    }
+  }
+
   const SaveToken = async () => {
     const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
     if (userData?.id) {
@@ -246,10 +293,6 @@ const useHomeHook = (props) => {
 
   }
 
-  useEffect(() => {
-    CetegouriesList()
-    ProductDetails()
-  }, [lang])
 
   const TokenExpired = async () => {
     if (userData) {
@@ -258,9 +301,6 @@ const useHomeHook = (props) => {
     }
   }
 
-  useEffect(() => {
-    TokenExpired()
-  }, [navigation])
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -312,10 +352,6 @@ const useHomeHook = (props) => {
     }
   }
 
-  useEffect(() => {
-    PoductCount()
-  }, [])
-
   const openWhatsApp = () => {
     const phoneNumber = wpNumber;
     const url = "whatsapp://send?phone=" + phoneNumber + "&text=hi"
@@ -354,27 +390,27 @@ const useHomeHook = (props) => {
   }
 
 
-
   const tramsandconditions = async () => {
     const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
-    console.log("termsSatus ::::", termsSatus)
+    console.log("HELLO  ::::", termsSatus)
+
     if (termsSatus !== "true") {
-      // console.log("termsSatus ::::", termsSatus)
       const query = `
-      {
-          updatePrivacyAgree(customer_id : ${userData?.id ? userData?.id : 0}){
-            status
-            message
-            title_text
-            button_text
-            popup_message
-            redirect_url
-          }
-      }
-      `
+        {
+            updatePrivacyAgree(customer_id : ${userData?.id ? userData?.id : 0}){
+              status
+              message
+              title_text
+              button_text
+              popup_message
+              redirect_url
+            }
+        }
+        `
       try {
         const result = await getTeramsAndConditionSatus(query, lang?.data)
-        console.log("TERMS AND CONDITIONS ::::::: ", result?.data?.data?.updatePrivacyAgree)
+
+        // console.log("TERMS AND CONDITIONS ::::::: ", result?.data?.data?.updatePrivacyAgree)
         if (result?.data?.data?.updatePrivacyAgree?.status) {
           const tempTerms = "true"
           await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
@@ -387,12 +423,13 @@ const useHomeHook = (props) => {
 
     }
 
-
   }
 
   const tramsandconditions2 = async () => {
     const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
     const conditions = await AsyncStorage.getItem(ASYNCSTORAGE.conditions)
+
+    console.log("HELLO2  ::::", conditions)
     if (termsSatus == "true" && userData && conditions !== "true") {
       const query = `
       {
@@ -431,11 +468,6 @@ const useHomeHook = (props) => {
 
 
 
-  useEffect(() => {
-    getUnReadeNotifications()
-    tramsandconditions()
-    tramsandconditions2()
-  }, [userData])
 
 
 

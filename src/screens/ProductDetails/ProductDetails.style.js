@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     text: {
         color: "#505050",
         marginLeft: ResponsiveSize(10),
-        alignItems: 'center'
+        alignItems: ALINE.center
     },
     colorView: {
         paddingHorizontal: ResponsiveSize(20),
@@ -96,8 +96,8 @@ export const styles = StyleSheet.create({
         marginLeft: ResponsiveSize(10),
         height: ResponsiveSize(60),
         paddingHorizontal: ResponsiveSize(30),
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
 
     },
     sizeText: {
@@ -172,13 +172,13 @@ export const styles = StyleSheet.create({
         color: COLOR.white,
         fontSize: ResponsiveSize(25),
         width: "100%",
-        textAlign: 'center'
+        textAlign: ALINE.center
     },
     reviewView: {
         width: "100%",
         height: ResponsiveSize(100),
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: ALINE.center,
         padding: ResponsiveSize(20)
     },
     ratingStart: {
@@ -223,9 +223,9 @@ export const styles = StyleSheet.create({
     priceText: {
         fontWeight: FONTWEGHIT.font600,
         color: COLOR.primaray,
-        textAlign: 'center',
+        textAlign: ALINE.center,
         width: "100%",
-        alignSelf: 'center'
+        alignSelf: ALINE.center
     },
     subCategories: {
         flexDirection: 'row',

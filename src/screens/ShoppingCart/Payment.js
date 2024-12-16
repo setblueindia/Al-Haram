@@ -165,7 +165,7 @@ const Payment = ({
 
               />
 
-              <View style={styles.GIFTBtn}>
+              <View style={[styles.GIFTBtn, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                 <TouchableOpacity
                   onPress={() => {
                     getGiftCartdSatus()

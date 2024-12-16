@@ -1,5 +1,5 @@
-import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal } from 'react-native';
+import React from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
@@ -25,7 +25,6 @@ const Home = (props) => {
     Sliderdata,
     navigation,
     CetegoriesData,
-    loder,
     isLoadding,
     giftCart,
     showPop,
@@ -36,7 +35,6 @@ const Home = (props) => {
     ProductDetails,
     onRefresh,
     handleScroll,
-    setRefreshing,
     openPlayStore,
     refreshing,
     scrollViewRef,
@@ -46,7 +44,6 @@ const Home = (props) => {
     openWhatsApp,
     showTerms, setShowTerms
   } = useHomeHook(props)
-
 
   return (
     <View style={styles.mainView}>
@@ -94,7 +91,6 @@ const Home = (props) => {
                   }} />
 
               </TouchableOpacity>
-
             </View>
           }
 

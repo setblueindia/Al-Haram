@@ -1,4 +1,3 @@
-import Maintenance from "../screens/Maintenance/Maintenance";
 
 export const NAVIGATION = {
   Splash: 'Splash SCreen',
@@ -102,7 +101,8 @@ export const ASYNCSTORAGE = {
   walletAmount: "WalletAmount",
   FCMToken: "FCMToken",
   Terms: "Terms",
-  conditions: "Conditions"
+  conditions: "Conditions",
+  oldAddress: "oldAddress"
 };
 
 export const NUMBER = {

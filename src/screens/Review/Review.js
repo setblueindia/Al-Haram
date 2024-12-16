@@ -1,10 +1,11 @@
-import { ScrollView, Text, TextComponent, Touchable, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, Text, TextComponent, Touchable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './review.style'
 import CommanHeader from '../../components/ComanHeader'
 import ReviewHook from './review.hook'
 import StartICON from 'react-native-vector-icons/AntDesign';
 import { ResponsiveSize } from '../../utils/utils'
+import Reviewpoupp from '../../components/Reviewpoupp'
 
 
 const Review = () => {
@@ -104,6 +105,15 @@ const Review = () => {
                 </TouchableOpacity>
 
             </View>
+
+            <Modal
+                visible={showPopp}
+                transparent={true}
+                animationType='slide'
+            // onRequestClose={() => setShowPopp(false)}
+            >
+                <Reviewpoupp />
+            </Modal>
 
         </View>
     )

@@ -7,7 +7,7 @@ import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import CheackButton from '../../components/CheackButton'
 import Button from '../../components/Button'
-import { ALINE, COLOR } from '../../constants/style'
+import { COLOR } from '../../constants/style'
 import useAddressHook from './address.hook'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CusLoader from '../../components/CustomLoader'
@@ -32,12 +32,8 @@ const Addaddress = (props) => {
     address1,
     address2,
     address3,
-    pinCode,
     serchText,
     esiteData,
-    temp,
-    cities,
-    sates,
     setShopping,
     setCity,
     setFirstName,

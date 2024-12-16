@@ -1,12 +1,12 @@
 import { Linking } from 'react-native';
 import { useEffect, useState } from 'react';
-import { NAVIGATION, NUMBER } from '../../constants/constants';
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
-import { DeleteAccountAPI, ProductlistCount, getCount } from '../../api/axios.api';
+import { DeleteAccountAPI, ProductlistCount, getCount, oldAddressDeleted } from '../../api/axios.api';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
 import { addUserData } from '../../redux/Slices/UserData.slice';
@@ -47,6 +47,12 @@ const useProfileHook = () => {
     PoductCount()
   }, [])
 
+  useEffect(() => {
+    getUnReadeNotifications()
+    oldAddressDetele()
+  }, [userData?.data?.id])
+
+  {/* OnPress Logic*/ }
   const onPress = (item) => {
     if (userData?.data) {
       if (item == PROFILEStr.Wishlist) {
@@ -92,6 +98,7 @@ const useProfileHook = () => {
     }
   }
 
+  {/* Chnage Langues Logic*/ }
   const changeLungues = async () => {
     const num = lang == NUMBER.num0 ? NUMBER.num1 : lang == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
 
@@ -104,6 +111,8 @@ const useProfileHook = () => {
     }
   };
 
+
+  {/* Product Count API*/ }
   const PoductCount = async () => {
     const countData = `
     query {
@@ -129,6 +138,7 @@ const useProfileHook = () => {
     }
   }
 
+  {/* Social Media Press Logic */ }
   const socialPress = (social) => {
     if (social == '1') {
       const instagramURL = 'https://www.instagram.com/alharamksa/';
@@ -152,22 +162,30 @@ const useProfileHook = () => {
     }
   }
 
+
+  {/* Sing Out API */ }
   const singOut = async () => {
     const langNum = '2'
+    setTimeout(async () => {
+      console.log("Done::::::")
+      const tempTerms = "true"
+      await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
+    }, 3000);
     try {
       await AsyncStorage.clear()
-      //  console.log("result :::" ,result )
       dispatch(addUserData(undefined))
       dispatch(addLangCode(langNum))
       dispatch(addNotificationCount(0))
-      //  navigation.navigate(NAVIGATION.Login , {type : true})
       navigation.navigate(NAVIGATION.Login)
+
     } catch (error) {
       console.log("SINGOUTE ERROR ::::::", error)
     }
   }
 
-  // delete account API
+
+
+  {/* Delete Account API */ }
   const deleteAccount = async () => {
     const fromData = new FormData()
     fromData.append("email", email)
@@ -183,7 +201,7 @@ const useProfileHook = () => {
   }
 
 
-
+  {/* Unread Notification Count API */ }
   const getUnReadeNotifications = async () => {
     const qrry = `{
       getUnReadNotificationCountByCustomerId(customer_id : ${userData?.data?.id}){
@@ -207,9 +225,31 @@ const useProfileHook = () => {
   }
 
 
-  useEffect(() => {
-    getUnReadeNotifications()
-  }, [userData?.data?.id])
+  {/* Address Remove API */ }
+  const oldAddressDetele = async () => {
+    const tempAddress = await AsyncStorage.getItem(ASYNCSTORAGE.oldAddress)
+    if (userData?.data?.id && tempAddress !== "true") {
+      const params = `
+      {
+        deleteOldAddress(customer_id : ${userData?.data?.id}){
+            status
+            message        
+        }
+    }
+      `
+      try {
+        const res = await oldAddressDeleted(params, lang?.data)
+        const tempAddress = "true"
+        await AsyncStorage.setItem(ASYNCSTORAGE.oldAddress, tempAddress)
+        console.log("message :", res?.data?.data?.deleteOldAddress?.message)
+      } catch (error) {
+        console.log(":::::::::: ADDRESS DELETE EROOR ::::::::::::::", error)
+      }
+    }
+  }
+
+
+
 
 
   return {

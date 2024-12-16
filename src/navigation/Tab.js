@@ -1,7 +1,7 @@
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
-import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon, { Icons } from '../components/TAB/Icons';
 import * as Animatable from 'react-native-animatable';
 import { ALINE, COLOR, FONTWEGHIT } from '../constants/style';
@@ -132,7 +132,6 @@ const TabButton = (props) => {
           justifyContent: ALINE.center,
           padding: ResponsiveSize(2)
         }, lang == NUMBER.num0 && { right: ResponsiveSize(0), left: ResponsiveSize(45) }]}>
-          {console.log(":::::::: Count", notificationsCount)}
           <Text style={{
             color: COLOR.white,
             fontWeight: FONTWEGHIT.font600,

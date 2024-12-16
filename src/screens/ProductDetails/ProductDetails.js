@@ -138,7 +138,12 @@ const ProductDetails = (props) => {
                     <View style={styles.devider} />
                 </View>}
 
-                {/* <TouchableOpacity
+
+                {/* ===============  Revieew Section =============== */}
+
+
+                {/* 
+                <TouchableOpacity
                     onPress={() => {
                         navigation.navigate(NAVIGATION.reviewScrenn)
                     }}
@@ -159,6 +164,10 @@ const ProductDetails = (props) => {
                     </TouchableOpacity>
 
                 </TouchableOpacity> */}
+
+
+                {/* ===============  Revieew Section =============== */}
+
 
                 {defaultColor &&
                     <View style={[styles.colorView, lang?.data == NUMBER.num0 && {}]}>
@@ -408,6 +417,9 @@ const ProductDetails = (props) => {
                 >
                     <ReviewSlider lang={lang} setShowModal={setShowModal} />
                 </Modal>
+
+
+
 
             </View>
 

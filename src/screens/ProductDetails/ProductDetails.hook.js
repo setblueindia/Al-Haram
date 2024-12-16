@@ -1,11 +1,10 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { ASYNCSTORAGE, NUMBER } from "../../constants/constants"
-import { ColorSpace } from "react-native-reanimated"
 import { useEffect, useMemo, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { AddRemoveToWhishLisst, AddToCartAPI, CartListCount, ExpireToken, ProductDetalsBySKU, ProductlistCount } from "../../api/axios.api"
-import { BASE_URL, imageURL } from "../../constants/axios.url"
+import { AddRemoveToWhishLisst, AddToCartAPI, ExpireToken, ProductDetalsBySKU, ProductlistCount, oldAddressDeleted } from "../../api/axios.api"
+import { imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
 import Share from 'react-native-share';
@@ -16,6 +15,7 @@ const useProductDetails = (props) => {
   const lang = useSelector(state => state.lang)
   const userData = useSelector(state => state?.userData?.data)
   const productCountToCart = useSelector(state => state?.AddToCart?.data)
+  const ProductSKU = props?.props?.route?.params?.SKU
   const [sindex, setIndex] = useState()
   const navigation = useNavigation()
   const [like, setLike] = useState(false)
@@ -24,8 +24,6 @@ const useProductDetails = (props) => {
   const [showAnimation, setShowAnimation] = useState(false)
   const [isLoading, setIsLoading] = useState()
   const dispatch = useDispatch()
-  const ProductSKU = props?.props?.route?.params?.SKU
-
   const [defaultColor, setDefultColor] = useState()
   const [defaultSize, setDefultSize] = useState()
   const [avalabeSize, setAvalableSize] = useState()
@@ -43,17 +41,52 @@ const useProductDetails = (props) => {
   const focus = useIsFocused()
   const [sliderData, setSliderData] = useState([])
   const [colorTex, setColorTex] = useState()
+  const [quteID, setQuteID] = useState(0)
+
+
+
+
+  const selectionColor = colorTex ? colorTex : " "
+
+
+  const Str = lang?.data == NUMBER.num1 ?
+    {
+      color: "Color : " + selectionColor,
+      Size: "Size :",
+      ProductCode: "Product Code : ",
+      MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
+      QNT: "QTY :",
+      Addtocard: "Add to cart",
+      Reviews: "Reviews :"
+
+    } :
+    {
+      color: "اللون :" + selectionColor,
+      Size: "المقاس :",
+      ProductCode: "رمز المنتج:",
+      MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
+      QNT: "الكمية: ",
+      Addtocard: "إضافة إلى عربة التسوق",
+      Reviews: "التعليقات :"
+    }
+
+
 
   useEffect(() => {
     if (focus) {
       getData()
       getProductCount()
+      oldAddressDetele()
     }
   }, [focus, imagesArry])
 
   useEffect(() => {
     setQnts(1)
   }, [navigation])
+
+  useEffect(() => {
+    TokenExpire()
+  }, [])
 
 
 
@@ -71,11 +104,23 @@ const useProductDetails = (props) => {
     }
   }
 
+
+  const addTocartAnimation = () => {
+    setTimeout(() => {
+      setShowAnimation(false)
+    }, 4000);
+  }
+
+
+
+
+  {/* Add To card API*/ }
   const AddTocart = async () => {
     setIsLoading(true)
     const formData = new FormData()
 
     formData.append("store_id", lang?.data)
+    formData.append("app_quote_id", quteID)
     formData.append("sku", ProductSKU)
     formData.append("qty", qnt)
     formData.append("token", userData?.token)
@@ -113,35 +158,7 @@ const useProductDetails = (props) => {
 
   }
 
-  const addTocartAnimation = () => {
-    setTimeout(() => {
-      setShowAnimation(false)
-    }, 4000);
-  }
-  const selectionColor = colorTex ? colorTex : " "
-
-
-  const Str = lang?.data == NUMBER.num1 ?
-    {
-      color: "Color : " + selectionColor,
-      Size: "Size :",
-      ProductCode: "Product Code : ",
-      MensPajamaSetShortTs: "Mens Pajama Set Short T-Shirt...",
-      QNT: "QTY :",
-      Addtocard: "Add to cart",
-      Reviews: "Reviews :"
-
-    } :
-    {
-      color: "اللون :" + selectionColor,
-      Size: "المقاس :",
-      ProductCode: "رمز المنتج:",
-      MensPajamaSetShortTs: "طقم بيجامة رجالي تي شيرت قصير...",
-      QNT: "الكمية: ",
-      Addtocard: "إضافة إلى عربة التسوق",
-      Reviews: "التعليقات :"
-    }
-
+  {/* Get Product Details API */ }
   const getData = async () => {
     setIsLoading(true)
     const data =
@@ -269,11 +286,6 @@ const useProductDetails = (props) => {
           setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[1])
         }
 
-
-        // setDefultColor(response?.data?.data?.products?.items[0]?.configurable_options[0])
-
-
-
         setIsLoading(false)
       } else {
         console.log("INNER DETAILS PRODUCT ERROR :::::::::::::: ", response)
@@ -315,6 +327,7 @@ const useProductDetails = (props) => {
 
   }
 
+  {/* Color Press Logic */ }
   const colorOnPress = (id) => {
     setShowColor(true)
     setSizeShow(false)
@@ -341,6 +354,8 @@ const useProductDetails = (props) => {
     avalabeColor?.includes(id) && setSizeIndex(), setSize("")
   }
 
+
+  {/* Size Press Logic */ }
   const sizeOnPress = (id) => {
     setShowColor(false)
     setSizeShow(true)
@@ -357,6 +372,8 @@ const useProductDetails = (props) => {
     // && setIndex()
   }
 
+
+  {/* Like / Dislike API */ }
   const likeDislike = async (id) => {
 
     const formData = new FormData()
@@ -373,16 +390,21 @@ const useProductDetails = (props) => {
     }
   }
 
+
+  {/* Token Expire API */ }
   const TokenExpire = async () => {
     const fromdata = new FormData()
     try {
       const result = await ExpireToken(fromdata)
       console.log("Token Expire :::::", result?.data)
+      result?.data && setQuteID(result?.data)
     } catch (error) {
       console.log(" Token Error:::::::", error)
     }
   }
 
+
+  {/* Get Product Count API */ }
   const getProductCount = async () => {
     const countData = `
     query {
@@ -415,9 +437,34 @@ const useProductDetails = (props) => {
 
 
 
-  useEffect(() => {
-    TokenExpire()
-  }, [])
+  {/* Address Remove API */ }
+  const oldAddressDetele = async () => {
+    const tempAddress = await AsyncStorage.getItem(ASYNCSTORAGE.oldAddress)
+    if (userData?.id && tempAddress !== "true") {
+      const params = `
+      {
+        deleteOldAddress(customer_id : ${userData?.id}){
+            status
+            message        
+        }
+    }
+      `
+      try {
+        const res = await oldAddressDeleted(params, lang?.data)
+        const tempAddress = "true"
+        await AsyncStorage.setItem(ASYNCSTORAGE.oldAddress, tempAddress)
+        console.log("message :", res?.data?.data?.deleteOldAddress?.message)
+      } catch (error) {
+        console.log(":::::::::: ADDRESS DELETE EROOR ::::::::::::::", error)
+      }
+    }
+  }
+
+
+
+
+
+
 
 
 

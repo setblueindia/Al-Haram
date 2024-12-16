@@ -5,7 +5,7 @@ import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { Ar, En } from '../../constants/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpireToken, ProductlistCount, useSingUp, userLogIn, userLogInWithNumber } from '../../api/axios.api';
-import { SHOWTOTS, emaileRegxp, passwordRegxp } from '../../utils/utils';
+import { SHOWTOTS, emaileRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
 import { signInWithGoogle } from '../../firebase/firebaseConfig';
@@ -26,7 +26,6 @@ const useLoginHook = (props) => {
   const [rememberMe, setRembemberMe] = useState();
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
-  const userData = useSelector(state => state?.userData?.data)
   const dispatch = useDispatch()
 
   const naviGtaionType = props?.route?.params?.type
@@ -92,17 +91,12 @@ const useLoginHook = (props) => {
       setErrorText(langues?.Enterpassword)
       setShowModal(true)
     }
-    // else if (!passwordRegxp.test(password)) {
-    //   setShowModal(true)
-    //   setErrorText(langues?.Invalidpassword)
-    // }
     else {
       emailLogin()
     }
   }
   const mobailLogin = async () => {
     setLoader(true)
-    // navigation.navigate(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber})
     const formData = new FormData();
     formData.append('mobile', '+966' + moNumber);
     formData.append('otptype', "login");
@@ -188,8 +182,7 @@ const useLoginHook = (props) => {
       SINUP(mail, firstName, lastName, uid, type = "google")
 
     } catch (error) {
-      // console.error('Error signing in with Google:', error.code, error.message, error);
-      // Alert.alert('Error', `Error Code: ${error.code}\nMessage: ${error.message}`);
+
     }
   }
 
@@ -198,7 +191,6 @@ const useLoginHook = (props) => {
     const fromdata = new FormData()
     setLoader(true)
 
-    // const userEmail = email.toLowerCase()
     const formData = new FormData();
     formData.append('firstname', firstName ? firstName : " ");
     formData.append('lastname', lastName ? lastName : "");
