@@ -16,6 +16,7 @@ import FastImage from 'react-native-fast-image';
 import CusModal from '../../components/CusModal';
 import { NAVIGATION } from '../../constants/constants';
 import TermsPopup from '../../components/TermsPopup';
+import Maintenance from '../Maintenance/Maintenance';
 
 const Home = (props) => {
   const {
@@ -30,6 +31,7 @@ const Home = (props) => {
     showPop,
     termsData,
     mes,
+    isMaintenance,
     setShowPop,
     CetegouriesList,
     ProductDetails,
@@ -40,6 +42,7 @@ const Home = (props) => {
     scrollViewRef,
     showScrollToTop,
     bannerUrl,
+    maintenanceData,
     scrollToTop,
     openWhatsApp,
     showTerms, setShowTerms
@@ -151,6 +154,18 @@ const Home = (props) => {
         animationType='slide'
       >
         <CusModal text={mes} setModalShow={setShowPop} notification={false} GETNotificationAPI={openPlayStore} />
+      </Modal>
+
+
+
+      {/* Maintances popup  */}
+      <Modal
+        transparent={true}
+        visible={isMaintenance}
+        animationType='slide'
+
+      >
+        <Maintenance maintenanceData={maintenanceData} />
       </Modal>
 
       <TouchableOpacity

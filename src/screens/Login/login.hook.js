@@ -222,18 +222,11 @@ const useLoginHook = (props) => {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
 
-    console.log("All Data :::::::: ", appleAuthRequestResponse)
     const mail = appleAuthRequestResponse?.email
     const uid = appleAuthRequestResponse?.authorizationCode
     const firstName = appleAuthRequestResponse?.fullName?.givenName
     const lastName = appleAuthRequestResponse?.fullName?.familyName
 
-    console.log("APPLE DATA email  ::::::::", {
-      mail: mail,
-      uid: uid,
-      firstName: firstName,
-      lastName: lastName
-    })
     SINUP(mail, firstName, lastName, uid, type = "apple")
   }
 

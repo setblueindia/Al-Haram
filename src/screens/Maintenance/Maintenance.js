@@ -1,13 +1,14 @@
-import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Linking, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { Image } from 'react-native-animatable'
 import { MaintananceICON, logo } from '../../assests'
-import { COLOR, FONTWEGHIT } from '../../constants/style'
+import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import StatusBarCus from '../../components/CustomStatusBar'
 import LottieView from 'lottie-react-native'
 
-const Maintenance = () => {
+const Maintenance = ({ maintenanceData }) => {
+    // console.log("maintenanceData", maintenanceData?.visible_update_button)
     return (
         <View style={styles.mainView}>
             <StatusBarCus />
@@ -24,19 +25,26 @@ const Maintenance = () => {
                     />
                 </View>
                 <View style={styles.TextView}>
-                    <Text style={styles.titelText}>{"Under Maintenance"}</Text>
-                    <Text style={styles.desText}>{"Sorry for the inconvenience, but perfoming some maintenance at the moment. if you need to reach us, you can always contact us on "}</Text>
+                    <Text style={styles.titelText}>{maintenanceData?.title}</Text>
+                    <Text style={styles.desText}>{maintenanceData?.message}</Text>
                 </View>
 
-                <View style={styles.binView}>
-                    <TouchableOpacity style={styles.btn}>
+                {maintenanceData?.visible_update_button && <View style={styles.binView}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            const url = Platform.OS == 'ios' ?
+                                "https://apps.apple.com/in/app/alharamstores-%D8%A7%D9%84%D9%87%D8%B1%D9%85/id1562821620" :
+                                'https://play.google.com/store/apps/details?id=com.v2ideas.alharam';
+                            Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
+                        }}
+                        style={styles.btn}>
                         <Text style={styles.updateText}>{"Update"}</Text>
 
                     </TouchableOpacity>
 
-                </View>
+                </View>}
             </View>
-            <View style={{ position: 'absolute', height: "100%", width: ResponsiveSize(10), left: 0, }}>
+            {/* <View style={{ position: 'absolute', height: "100%", width: ResponsiveSize(10), left: 0, }}>
                 <Image style={{
                     height: "100%",
                     width: "100%",
@@ -50,7 +58,7 @@ const Maintenance = () => {
                     width: "100%",
                     resizeMode: 'cover'
                 }} source={require("../../assests/images/Common/border.gif")} />
-            </View>
+            </View> */}
         </View>
     )
 }
@@ -68,18 +76,12 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: ResponsiveSize(20),
         width: "100%",
-        alignItems: 'center',
-        justifyContent: 'center',
-
-
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
     },
     imageView: {
         height: ResponsiveSize(80),
         width: "100%",
-        // position: 'absolute',
-        // top: 0
-        // backgroundColor: COLOR.black
-
     },
     img: {
         height: "100%",
@@ -88,8 +90,8 @@ const styles = StyleSheet.create({
     },
     TextView: {
         marginTop: ResponsiveSize(30),
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
 
     },
     titelText: {
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
         fontWeight: FONTWEGHIT.font600
     },
     desText: {
-        textAlign: 'center',
+        textAlign: ALINE.center,
         color: COLOR.darkGray,
         lineHeight: ResponsiveSize(30),
         width: ResponsiveSize(400),
@@ -109,8 +111,8 @@ const styles = StyleSheet.create({
     lottiView: {
         height: ResponsiveSize(400),
         width: "100%",
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
         marginTop: ResponsiveSize(50),
         // marginRight: ResponsiveSize(80)
     },
@@ -118,8 +120,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: ResponsiveSize(40),
         width: "100%",
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
 
     },
     btn: {
@@ -127,8 +129,8 @@ const styles = StyleSheet.create({
         width: ResponsiveSize(300),
         backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(10),
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
     updateText: {
         color: COLOR.white,
@@ -136,3 +138,4 @@ const styles = StyleSheet.create({
         fontWeight: FONTWEGHIT.font600
     }
 })
+

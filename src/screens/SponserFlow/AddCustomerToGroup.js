@@ -12,7 +12,7 @@ import { AddCustomerToSponserToGroup } from '../../api/axios.api'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const AddCustomerToGroup = ({ Str, lang, setloader }) => {
-    
+
     const useData = useSelector(state => state.userData?.data?.id)
     const [nicName, setNicName] = useState()
     const [email, setEmail] = useState()
@@ -63,7 +63,6 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
         setloader(true)
         try {
             const rep = await AddCustomerToSponserToGroup(data, lang)
-            console.log("Sponser data ::::::::::::" , rep?.data)
             if (rep) {
                 setloader(false)
                 SHOWTOTS(rep?.data?.data?.addCustomertoSponsorGroup?.message)
@@ -97,7 +96,7 @@ const AddCustomerToGroup = ({ Str, lang, setloader }) => {
                 <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
             </Modal>
 
-            <View style={{height:ResponsiveSize(100)}}/>
+            <View style={{ height: ResponsiveSize(100) }} />
         </KeyboardAwareScrollView>
     )
 }

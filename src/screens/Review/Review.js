@@ -110,9 +110,10 @@ const Review = () => {
                 visible={showPopp}
                 transparent={true}
                 animationType='slide'
-            // onRequestClose={() => setShowPopp(false)}
+
+
             >
-                <Reviewpoupp />
+                <Reviewpoupp setShowPopp={setShowPopp} />
             </Modal>
 
         </View>

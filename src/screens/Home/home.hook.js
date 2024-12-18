@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getCount, getProductDetails, getTeramsAndConditionSatus, oldAddressDeleted } from '../../api/axios.api'
+import { AppUpadateAPI, ExpireToken, MaintencseAPI, ProductlistCount, Storetoken, getCetergourisList, getCount, getProductDetails, getTeramsAndConditionSatus, oldAddressDeleted } from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -37,12 +37,18 @@ const useHomeHook = (props) => {
   const version = DeviceInfo.getVersion()
   // const version = "0.9"
 
+  const [isMaintenance, setMaintenance] = useState(false)
+  const [maintenanceData, setMaintenancedata] = useState('')
+
+
   useEffect(() => {
+    // showMaintenance()
     UpdateVersion();
     const handleAppStateChange = (nextAppState) => {
       if (appState.match(/inactive|background/) && nextAppState === 'active') {
         console.log('App has come to the foreground!');
         UpdateVersion();
+        // showMaintenance()
       }
       setAppState(nextAppState);
     };
@@ -72,6 +78,31 @@ const useHomeHook = (props) => {
     tramsandconditions2()
     tramsandconditions()
   }, [userData])
+
+
+
+  const showMaintenance = async () => {
+    const platfromType = Platform.OS == "ios" ? "ios" : "android"
+    const qurry = `
+    {
+      maintenanceApplication(device_version : "${version}", device_type : ${platfromType}){
+          status
+          title
+          message
+          visible_update_button
+      }
+  }
+    `
+    try {
+      const result = await MaintencseAPI(qurry, 1)
+      if (result?.data?.data?.maintenanceApplication?.status) {
+        setMaintenance(result?.data?.data?.maintenanceApplication?.status)
+        setMaintenancedata(result?.data?.data?.maintenanceApplication)
+      }
+    } catch (error) {
+      console.log("MAINTENANCE ERROR :::::: ", error)
+    }
+  }
 
 
 
@@ -499,6 +530,8 @@ const useHomeHook = (props) => {
     openWhatsApp,
     showTerms, setShowTerms,
     termsData,
+    isMaintenance,
+    maintenanceData
 
   }
 }

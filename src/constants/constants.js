@@ -34,7 +34,8 @@ export const NAVIGATION = {
   giftcard: "GiftCartScreen",
   Maintenance: "MaintenanceScreen",
   giftBalanceCheck: "Cheackbalancescreen",
-  reviewScrenn: "reviewScreen"
+  reviewScrenn: "reviewScreen",
+  giftcardHostory: "GiftCardHistory"
 
 };
 export const LOGINStr = {

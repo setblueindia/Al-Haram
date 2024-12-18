@@ -361,4 +361,9 @@ export const oldAddressDeleted = async (params, lang) => {
     return res
 }
 
+export const MaintencseAPI = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
 
