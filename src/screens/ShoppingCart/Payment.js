@@ -98,16 +98,16 @@ const Payment = ({
           <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.date}</Text>
         </View>
         }
-
-        <TouchableOpacity
-          disabled
-          style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <CheackButton
-            preVriable={giftCardList?.length > 0 ? true : shoeGiftCard}
-            onPress={giftCardList?.length > 0 ? demo : setShowGitfCard}
-          />
-          <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ? "Payment By Giftcard" : " الدفع ببطاقة الهدية"}</Text>
-        </TouchableOpacity>
+        {type !== "amgiftcard" &&
+          <TouchableOpacity
+            disabled
+            style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+            <CheackButton
+              preVriable={giftCardList?.length > 0 ? true : shoeGiftCard}
+              onPress={giftCardList?.length > 0 ? demo : setShowGitfCard}
+            />
+            <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lang == NUMBER.num1 ? "Payment By Giftcard" : " الدفع ببطاقة الهدية"}</Text>
+          </TouchableOpacity>}
 
 
         {(type !== "amgiftcard" && shoeGiftCard || giftCardList.length > 0) &&

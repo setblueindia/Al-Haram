@@ -1,4 +1,12 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native'
 import React, { useState } from 'react'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import CommanHeader from '../../components/ComanHeader'
@@ -11,9 +19,11 @@ import { GiftCartICON } from '../../assests'
 import { GIFATCARTSATUS } from '../../api/axios.api'
 import CusLoader from '../../components/CustomLoader'
 
+
 const Checkbalance = () => {
     const navigation = useNavigation()
     const lang = useSelector(state => state?.lang?.data)
+    const userData = useSelector(state => state?.userData?.data)
     const [isLoadding, setLoadding] = useState(false)
     const labale = lang == NUMBER.num0 ? Ar : En
     const [data, setData] = useState([])
@@ -59,50 +69,54 @@ const Checkbalance = () => {
         }
     }
 
-    // console.log("data ::::::::", data)
+
+
 
     return (
         <View style={styles.mainView}>
             <CommanHeader name={labale?.giftCardBalcnce} lang={lang} navigation={navigation} />
             <View style={styles.containerView}>
-                <View style={styles.firstView}>
-                    <View style={styles.imageView}>
-                        <Image style={{ resizeMode: RESIZEMODE.contain, height: "100%", width: "100%" }} source={GiftCartICON} />
+                {!userData &&
+                    <View style={styles.firstView}>
+                        <View style={styles.imageView}>
+                            <Image style={{ resizeMode: RESIZEMODE.contain, height: "100%", width: "100%" }} source={GiftCartICON} />
+                        </View>
+                        <Text style={styles.titelText}>{lang == NUMBER.num0 ? "التحقق من رصيد حساب بطاقة الهدايا" : "Gift Card Account Balance Check"}</Text>
+
+                        <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={lang == NUMBER.num1 ? 'Enter Your Code' : "رمز البطاقة :"}
+                                placeholderTextColor={COLOR.darkGray}
+                                textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+                                onChangeText={(text) => { setGiftCardNumber(text) }}
+                            />
+
+
+                        </View>
+
+                        <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                            <TouchableOpacity
+                                onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
+                                style={styles.addBtnView}>
+                                <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "Check Balance"}</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                onPress={() => { navigation.navigate(NAVIGATION.giftcardHostory) }}
+                                style={[styles.addBtnView, { backgroundColor: COLOR.primaray }]}>
+                                <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "History"}</Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
-                    <Text style={styles.titelText}>{lang == NUMBER.num0 ? "التحقق من رصيد حساب بطاقة الهدايا" : "Gift Card Account Balance Check"}</Text>
+                }
 
-                    <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={lang == NUMBER.num1 ? 'Enter Your Code' : "رمز البطاقة :"}
-                            placeholderTextColor={COLOR.darkGray}
-                            textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                            onChangeText={(text) => { setGiftCardNumber(text) }}
-                        />
 
-                        {/* <TouchableOpacity
-                            onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
-                            style={styles.addBtnView}>
-                            <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "Check Balance"}</Text>
-                        </TouchableOpacity> */}
 
-                    </View>
 
-                    <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                        <TouchableOpacity
-                            onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
-                            style={styles.addBtnView}>
-                            <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "Check Balance"}</Text>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={() => { navigation.navigate(NAVIGATION.giftcardHostory) }}
-                            style={[styles.addBtnView, { backgroundColor: COLOR.primaray }]}>
-                            <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "History"}</Text>
-                        </TouchableOpacity>
-                    </View>
 
-                </View>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
@@ -303,7 +317,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: ResponsiveSize(60),
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: ALINE.spaceBetween,
         marginTop: ResponsiveSize(20)
     }
 })

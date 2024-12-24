@@ -111,6 +111,7 @@ const Home = (props) => {
             }
           </View>
 
+
           {
             HomeScreeData?.map((items, index) => {
               return (
@@ -146,8 +147,6 @@ const Home = (props) => {
 
       </Modal>
 
-
-
       <Modal
         transparent={true}
         visible={showPop}
@@ -155,8 +154,6 @@ const Home = (props) => {
       >
         <CusModal text={mes} setModalShow={setShowPop} notification={false} GETNotificationAPI={openPlayStore} />
       </Modal>
-
-
 
       {/* Maintances popup  */}
       <Modal

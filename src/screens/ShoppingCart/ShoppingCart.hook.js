@@ -194,8 +194,12 @@ const useShoppingcart = () => {
 
 
   useEffect(() => {
-    focus && getData()
-  }, [focus])
+    console.log("Focus :::::::::::::::::::: ", focus)
+    if (index == 0) {
+      getData()
+    }
+
+  }, [focus, index])
 
 
   const onPress = () => {
@@ -803,7 +807,8 @@ const useShoppingcart = () => {
         setLoadding(false)
         console.log("PlaceOrder Inner error ::::::::: ", res?.data)
         SHOWTOTS(res?.data?.message)
-        navigation.replace(NAVIGATION.AddressBookScreen)
+        // navigation.replace(NAVIGATION.AddressBookScreen)
+        setIndex(0)
       }
     } catch (error) {
       console.log("Place Holder API ERROR ======> ", error)
