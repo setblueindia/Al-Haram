@@ -11,6 +11,7 @@ import { WallateAmount } from '../../utils/asyncStorage'
 import DeviceInfo from 'react-native-device-info'
 import {
   APPLYGIFTCART,
+  AddressList,
   CartList,
   DeteleProductToCart,
   ExpireToken,
@@ -75,9 +76,6 @@ const useShoppingcart = () => {
   const [giftCartDis, setGiftCartDis] = useState(0)
   const [giftSatus, setGiftSatus] = useState()
   const [type, setType] = useState()
-
-
-
   const [giftCradPaymet, setGiftCradPaymet] = useState(false)
 
 
@@ -85,6 +83,7 @@ const useShoppingcart = () => {
 
   const version = DeviceInfo.getVersion()
   const focus = useIsFocused()
+
 
   const [formData, setFormData] = useState({
     country: 'IN',
@@ -174,7 +173,6 @@ const useShoppingcart = () => {
           Color: "Color : Light Gray",
           QTY: "QTY :",
           Size: "Size :"
-          // LightGray : "Color : Light Gray"
         },
         {
           produtName: "Men's Pajama Set Short T-Shi...",
@@ -194,12 +192,40 @@ const useShoppingcart = () => {
 
 
   useEffect(() => {
-    console.log("Focus :::::::::::::::::::: ", focus)
     if (index == 0) {
       getData()
     }
 
   }, [focus, index])
+
+
+
+  const getAddress = async () => {
+    const formData = new FormData
+    formData.append("customer_id", userData?.data?.id)
+    formData.append("store_id", lang)
+    try {
+      const res = await AddressList(formData)
+      if (res?.data?.status == NUMBER.num1) {
+        const temp = [];
+        res?.data?.data.map((items, index) => {
+          if (items?.default_billing) {
+            temp.push(items)
+          }
+        })
+        if (temp?.length > 0) {
+          setAddressCode(temp[0])
+        }
+
+      } else {
+
+      }
+    }
+    catch (error) {
+      console.log("ADRESS-LIST ERROR :::::::::::::::::::: ", error)
+
+    }
+  }
 
 
   const onPress = () => {
@@ -208,19 +234,27 @@ const useShoppingcart = () => {
         setIndex(index + 1)
         outOfStock.length > 0 && RemoveCart()
       }
-      if (index == 1) {
-        if (!addressCod) {
-          setShowModal(true)
-          setMessages(lang == NUMBER.num1 ? "Please select address" : "الرجاء تحديد العنوان")
-        } else {
-          if (type == "amgiftcard") {
-            setIndex(3)
+
+      if (index == 0 && addressCod && type == "amgiftcard") {
+        setIndex(3)
+      } else {
+
+        if (index == 1) {
+          if (!addressCod) {
+            setShowModal(true)
+            setMessages(lang == NUMBER.num1 ? "Please select address" : "الرجاء تحديد العنوان")
           } else {
-            getShipingList()
-            setIndex(index + 1)
+            if (type == "amgiftcard") {
+              setIndex(3)
+            } else {
+              getShipingList()
+              setIndex(index + 1)
+            }
           }
         }
+
       }
+
       if (index == 2) {
         if (!shippingData) {
           setShowModal(true)
@@ -242,7 +276,6 @@ const useShoppingcart = () => {
               setData([])
               setGiftCardList([])
             } else {
-              console.log("validationn ::::::", validationn)
               if (!validationn) {
                 setShowModal(true)
                 setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
@@ -266,11 +299,7 @@ const useShoppingcart = () => {
           setGiftCardList([])
         }
       }
-
-
     }
-
-
   }
 
   // Back Button
@@ -313,9 +342,9 @@ const useShoppingcart = () => {
               if (item?.type == "amgiftcard") {
                 setPaymentCode("magveg")
                 setPaymentScreen(response?.data?.data)
+                getAddress()
               }
               else if (item?.sku == "wk_wallet_amount") {
-                console.log("item demo:::::: ", item?.item_id)
                 const hideTost = true
                 // deleteProduct(item?.item_id, hideTost, response?.data?.data?.quote_id)
               }
@@ -356,7 +385,6 @@ const useShoppingcart = () => {
     `
     try {
       const result = await DeteleProductToCart(deleteData, lang)
-      console.log("DELETE PRODUCT TO CART ::::: ", result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
       !hideTost && SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
       if (hideTost) {
         setTimeout(() => {
@@ -382,7 +410,6 @@ const useShoppingcart = () => {
       temp.push(tempID)
     })
 
-    console.log("temp ::::::", temp)
     setLoadding(true)
     const deleteData = `
     mutation{
@@ -397,7 +424,6 @@ const useShoppingcart = () => {
     `
     try {
       const result = await DeteleProductToCart(deleteData, lang)
-      console.log("Delete product ::::::", result?.data)
       SHOWTOTS(result?.data?.data?.removeOutOfStockItemFromCartByItemId?.message)
       getData()
       setLoadding(false)
@@ -438,7 +464,6 @@ const useShoppingcart = () => {
       if (response?.data?.status == NUMBER.num1) {
         setLoadding(false)
         setSelectAddress(response?.data?.data)
-        // console.log("=============> ", response?.data?.status)
       } else {
         console.log("ENNER SELECT LIST ERROR :::::: ", error)
       }
@@ -653,7 +678,6 @@ const useShoppingcart = () => {
   }
 
   const validation = (value, edata, WAmount) => {
-    console.log("value :::::::", { value, edata, WAmount })
     var validationTotal = 0
     paymentScreenData?.total_segments?.map((items, index) => {
       if (items?.code == "grand_total") {
@@ -818,41 +842,44 @@ const useShoppingcart = () => {
   }
 
   const onProcessPayment = (responseData) => {
-    console.log("RESPONSE SCREEN DATA ::::::::::::::::", responseData)
     if (responseData.status == 'success') {
       navigation.navigate(NAVIGATION.ResponseScreen, {
         response: responseData.data,
       });
     } else {
       showMessage({ message: responseData.error, type: 'danger' });
-      console.log("message ::::::::::::::::", { message: responseData.error, type: "danger" })
     }
   };
 
   const getProductCount = async () => {
-    const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);
-    const countData = `
-    query {
-      customerCart {
-        items {
-          quantity
-        }
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
       }
-    }
-    `
-    try {
-      if (userData?.data?.token) {
-        const result = await ProductlistCount(countData, result)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
-      } else {
+      `
+      try {
+        if (userData?.data?.token) {
+          const result = await ProductlistCount(countData, result)
+          dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+          // const arrOFItems = result?.data?.data?.customerCart?.items
+          // const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
+          // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+        } else {
+          dispatch(addProduct(0))
+        }
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0))
+
     }
+
+
+
 
 
 
@@ -1031,7 +1058,6 @@ const useShoppingcart = () => {
     setLoadding,
     setEtrx,
     setGiftCardList,
-    // setShowWallet,
     setShippingdata,
     setBillingAddress,
     setCoupanCode,

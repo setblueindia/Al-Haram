@@ -12,7 +12,7 @@ import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import CommanHeader from '../../components/ComanHeader'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
-import { NAVIGATION, NUMBER } from '../../constants/constants'
+import { NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { GiftCartICON } from '../../assests'
@@ -26,7 +26,7 @@ const Checkbalance = () => {
     const userData = useSelector(state => state?.userData?.data)
     const [isLoadding, setLoadding] = useState(false)
     const labale = lang == NUMBER.num0 ? Ar : En
-    const [data, setData] = useState([])
+    const [datas, setDatas] = useState()
     const [giftCardNumber, setGiftCardNumber] = useState("")
 
     const getGiftCartdSatus = async () => {
@@ -54,11 +54,11 @@ const Checkbalance = () => {
         try {
             const result = await GIFATCARTSATUS(qurry3, lang)
             if (result?.data?.data?.getGiftcardDetailsByCode?.success) {
-                setData([result?.data?.data?.getGiftcardDetailsByCode?.data])
+                setDatas(result?.data?.data?.getGiftcardDetailsByCode?.data)
                 setLoadding(false)
 
             } else {
-                console.log("INNER SATUS ERROR :::", result?.data?.data)
+                console.log("INNER SATUS ERROR :::", result?.data)
                 SHOWTOTS(result?.data?.data?.getGiftcardDetailsByCode?.message ? result?.data?.data?.getGiftcardDetailsByCode?.message : "")
                 setLoadding(false)
             }
@@ -69,6 +69,15 @@ const Checkbalance = () => {
         }
     }
 
+    // const data = [
+    //     { "balance": "SAR 500", "code": "2329377725", "expiredDate": "unlimited", "id": 73, "status": "Active", "usage": "multiple" },
+    //     { "balance": "SAR 500", "code": "2329377725", "expiredDate": "unlimited", "id": 73, "status": "Active", "usage": "multiple" },
+    //     { "balance": "SAR 500", "code": "2329377725", "expiredDate": "unlimited", "id": 73, "status": "Active", "usage": "multiple" },
+    //     { "balance": "SAR 500", "code": "2329377725", "expiredDate": "unlimited", "id": 73, "status": "Active", "usage": "multiple" }
+    // ]
+
+    const data = []
+
 
 
 
@@ -76,115 +85,180 @@ const Checkbalance = () => {
         <View style={styles.mainView}>
             <CommanHeader name={labale?.giftCardBalcnce} lang={lang} navigation={navigation} />
             <View style={styles.containerView}>
-                {!userData &&
-                    <View style={styles.firstView}>
-                        <View style={styles.imageView}>
-                            <Image style={{ resizeMode: RESIZEMODE.contain, height: "100%", width: "100%" }} source={GiftCartICON} />
-                        </View>
-                        <Text style={styles.titelText}>{lang == NUMBER.num0 ? "التحقق من رصيد حساب بطاقة الهدايا" : "Gift Card Account Balance Check"}</Text>
+                {/* {!userData && */}
+                <View style={styles.firstView}>
+                    <View style={styles.imageView}>
+                        <Image style={{ resizeMode: RESIZEMODE.contain, height: "100%", width: "100%" }} source={GiftCartICON} />
+                    </View>
+                    <Text style={styles.titelText}>{lang == NUMBER.num0 ? "التحقق من رصيد حساب بطاقة الهدايا" : "Gift Card Account Balance Check"}</Text>
 
-                        <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder={lang == NUMBER.num1 ? 'Enter Your Code' : "رمز البطاقة :"}
-                                placeholderTextColor={COLOR.darkGray}
-                                textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                                onChangeText={(text) => { setGiftCardNumber(text) }}
-                            />
+                    <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={lang == NUMBER.num1 ? 'Enter Your Code' : "رمز البطاقة :"}
+                            placeholderTextColor={COLOR.darkGray}
+                            textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
+                            onChangeText={(text) => { setGiftCardNumber(text) }}
+                        />
 
-
-                        </View>
-
-                        <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                            <TouchableOpacity
-                                onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
-                                style={styles.addBtnView}>
-                                <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "Check Balance"}</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={() => { navigation.navigate(NAVIGATION.giftcardHostory) }}
-                                style={[styles.addBtnView, { backgroundColor: COLOR.primaray }]}>
-                                <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "History"}</Text>
-                            </TouchableOpacity>
-                        </View>
 
                     </View>
+
+                    <View style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                        <TouchableOpacity
+                            onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
+                            style={styles.addBtnView}>
+                            <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "Check Balance"}</Text>
+                        </TouchableOpacity>
+
+                        {/* <TouchableOpacity
+                            onPress={() => { navigation.navigate(NAVIGATION.giftcardHostory) }}
+                            style={[styles.addBtnView, { backgroundColor: COLOR.primaray }]}>
+                            <Text style={styles.addText}>{lang == NUMBER.num0 ? "التحقق من الرصيد" : "History"}</Text>
+                        </TouchableOpacity> */}
+                    </View>
+
+                </View>
+                {/* } */}
+
+                {datas && <View>
+
+                    <View style={styles.satusView}>
+
+                        <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            <View>
+                                <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Code : " : "رمز البطاقة : "}</Text>
+                                    <Text style={styles.secondView}>{datas?.code}</Text>
+                                </View>
+
+                                <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Current Balance : " : "الرصيد الحالي : "}</Text>
+                                    <Text style={styles.secondView}>{datas?.balance}</Text>
+                                </View>
+                                {/* <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center, marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            <Text style={[styles.firstText]}>{"Status : "}</Text>
+                                            <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
+
+                                        </View> */}
+
+                            </View>
+
+                            <View style={{ justifyContent: 'flex-end' }}>
+                                <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    <Text style={[styles.firstText]}>{lang == NUMBER.num1 ? "Status : " : "الحالة : "}</Text>
+                                    <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{datas?.status}</Text>
+
+                                </View>
+
+                                <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                <TouchableOpacity
+                                    style={styles.removeBTN}
+                                >
+                                </TouchableOpacity>
+
+                            </View>
+
+                        </View>
+
+                        <View style={styles.lineView} />
+
+                        <View style={{ width: "100%", flexDirection: ALINE.row, justifyContent: ALINE.spaceBetween }}>
+                            <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
+                                <Text style={styles.secondView}>{datas?.usage}</Text>
+
+                            </View>
+                            <View style={{ marginTop: ResponsiveSize(10) }} />
+                            <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}</Text>
+                                <Text style={styles.secondView}>{datas?.expiredDate}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
                 }
 
 
-
-
-
+                {/* {
+                    datas && <Text style={{
+                        color: COLOR.black,
+                        fontSize: ResponsiveSize(20),
+                        fontWeight: FONTWEGHIT.font600,
+                        marginTop: ResponsiveSize(20)
+                    }}>{"Gift Card List"}</Text>
+                } */}
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
                     {data?.length > 0 &&
                         data?.map((item, index) => {
-                            return (
-                                <View key={index} style={styles.satusView}>
+                            // return (
+                            //     <View key={index} style={styles.satusView}>
 
-                                    <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                        <View>
-                                            <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                                <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Code : " : "رمز البطاقة : "}</Text>
-                                                <Text style={styles.secondView}>{item?.code}</Text>
+                            //         <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            //             <View>
+                            //                 <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            //                     <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Code : " : "رمز البطاقة : "}</Text>
+                            //                     <Text style={styles.secondView}>{item?.code}</Text>
 
-                                            </View>
-                                            <View style={{ marginTop: ResponsiveSize(10) }} />
-                                            <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                                <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Current Balance : " : "الرصيد الحالي : "}</Text>
-                                                <Text style={styles.secondView}>{item?.balance}</Text>
-                                            </View>
-                                            {/* <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center, marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            <Text style={[styles.firstText]}>{"Status : "}</Text>
-                                            <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
+                            //                 </View>
+                            //                 <View style={{ marginTop: ResponsiveSize(10) }} />
+                            //                 <View style={[{ flexDirection: 'row', alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            //                     <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Current Balance : " : "الرصيد الحالي : "}</Text>
+                            //                     <Text style={styles.secondView}>{item?.balance}</Text>
+                            //                 </View>
+                            //                 {/* <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center, marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            //                 <Text style={[styles.firstText]}>{"Status : "}</Text>
+                            //                 <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
 
-                                        </View> */}
+                            //             </View> */}
 
-                                        </View>
+                            //             </View>
 
-                                        <View style={{ justifyContent: 'flex-end' }}>
-                                            <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                                <Text style={[styles.firstText]}>{lang == NUMBER.num1 ? "Status : " : "الحالة : "}</Text>
-                                                <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
+                            //             <View style={{ justifyContent: 'flex-end' }}>
+                            //                 <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                            //                     <Text style={[styles.firstText]}>{lang == NUMBER.num1 ? "Status : " : "الحالة : "}</Text>
+                            //                     <Text style={[styles.secondView, { color: "green", fontWeight: FONTWEGHIT.font600 }]}>{item?.status}</Text>
 
-                                            </View>
+                            //                 </View>
 
-                                            <View style={{ marginTop: ResponsiveSize(10) }} />
+                            //                 <View style={{ marginTop: ResponsiveSize(10) }} />
 
-                                            <TouchableOpacity
-                                                style={styles.removeBTN}
-                                            >
-                                            </TouchableOpacity>
+                            //                 <TouchableOpacity
+                            //                     style={styles.removeBTN}
+                            //                 >
+                            //                 </TouchableOpacity>
 
-                                        </View>
+                            //             </View>
 
-                                    </View>
+                            //         </View>
 
-                                    <View style={styles.lineView} />
+                            //         <View style={styles.lineView} />
 
-                                    <View style={{ width: "100%", flexDirection: ALINE.row, justifyContent: ALINE.spaceBetween }}>
-                                        <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                            <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
-                                            <Text style={styles.secondView}>{item?.usage}</Text>
+                            //         <View style={{ width: "100%", flexDirection: ALINE.row, justifyContent: ALINE.spaceBetween }}>
+                            //             <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                            //                 <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
+                            //                 <Text style={styles.secondView}>{item?.usage}</Text>
 
-                                        </View>
-                                        <View style={{ marginTop: ResponsiveSize(10) }} />
-                                        <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                            <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}</Text>
-                                            <Text style={styles.secondView}>{item?.expiredDate}</Text>
-                                        </View>
+                            //             </View>
+                            //             <View style={{ marginTop: ResponsiveSize(10) }} />
+                            //             <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                            //                 <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}</Text>
+                            //                 <Text style={styles.secondView}>{item?.expiredDate}</Text>
+                            //             </View>
 
-                                    </View>
+                            //         </View>
 
-                                </View>
-
-
-                            )
+                            //     </View>
+                            // )
                         })}
                 </ScrollView>
+
 
             </View >
             {
@@ -283,7 +357,7 @@ const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(10),
         alignItems: ALINE.center,
         justifyContent: ALINE.center,
-        width: "47%"
+        width: "100%"
     },
     addText: {
         color: COLOR.white,

@@ -24,6 +24,7 @@ const useProductHook = (props) => {
   const [price, setPrice] = useState({ visibale: false, data: {} })
   const [size, setSize] = useState({ visibale: false, data: {} })
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [totalpage, setTolalPage] = useState()
   const flatListRef = useRef(null);
 
 
@@ -204,11 +205,14 @@ const useProductHook = (props) => {
     try {
       const res = await getFilterList(sdata, lang)
       if (res?.data?.data) {
+
+        setTolalPage(res?.data?.data?.products?.page_info?.total_pages)
         fdata ? setData(res?.data?.data?.products?.items) : setData([...data, ...res?.data?.data?.products?.items])
         setIsLoadding(false)
         setMoreData(false)
         setCurrentPage(nextPage)
         setApicalling(true)
+
       } else {
         console.log("INNER PRODUCT ERROR ::::::::::", res?.data)
         setIsLoadding(false)
@@ -276,7 +280,9 @@ const useProductHook = (props) => {
     size,
     color,
     showScrollToTop,
-    flatListRef
+    flatListRef,
+    totalpage,
+    currePage
 
 
   }

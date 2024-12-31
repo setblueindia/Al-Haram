@@ -1,12 +1,12 @@
 import { Linking } from 'react-native';
 import { useEffect, useState } from 'react';
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
-import { DeleteAccountAPI, ProductlistCount, getCount, oldAddressDeleted } from '../../api/axios.api';
+import { DeleteAccountAPI, ExpireToken, ProductlistCount, getCount, oldAddressDeleted } from '../../api/axios.api';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
 import { addUserData } from '../../redux/Slices/UserData.slice';
@@ -20,6 +20,7 @@ const useProfileHook = () => {
   const HomeScreen = useSelector(state => state?.HomeScreen)
   const loder = useSelector(state => state?.Categories?.loader)
   const navigation = useNavigation();
+  const isFoucs = useIsFocused()
   const dispatch = useDispatch();
   const version = DeviceInfo.getVersion()
   const [modal, setModal] = useState(false)
@@ -43,9 +44,11 @@ const useProfileHook = () => {
     { icon: "delete", text: PROFILEStr?.DeleteAccount, display: HomeScreen?.data?.gdpr }
   ];
 
+
+
   useEffect(() => {
-    PoductCount()
-  }, [])
+    PoductCount();
+  }, [isFoucs]);
 
   useEffect(() => {
     getUnReadeNotifications()
@@ -114,27 +117,30 @@ const useProfileHook = () => {
 
   {/* Product Count API*/ }
   const PoductCount = async () => {
-    const countData = `
-    query {
-      customerCart {
-        items {
-          quantity
-        }
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
       }
-    }
-    `
-    try {
-      if (userData?.data?.token) {
+      `
+      try {
+
         const result = await ProductlistCount(countData, lang)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
-      } else {
+        dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+        console.log("result :::::", result?.data)
+        // const arrOFItems = result?.data?.data?.customerCart?.items
+        // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0))
+    } else {
+      console.log("::::::: QUOTE ID NOT FOUND :::::::")
     }
   }
 
@@ -176,6 +182,7 @@ const useProfileHook = () => {
       dispatch(addUserData(undefined))
       dispatch(addLangCode(langNum))
       dispatch(addNotificationCount(0))
+      dispatch(addProduct(0))
       navigation.navigate(NAVIGATION.Login)
 
     } catch (error) {

@@ -231,29 +231,30 @@ const useLoginHook = (props) => {
   }
 
   const PoductCount = async (token) => {
-    console.log("Product  Token :::::::::: ", token)
-    const countData = `
-    query {
-      customerCart {
-        items {
-          quantity
-        }
+    // console.log("Product  Token :::::::::: ", token)
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
       }
-    }
-    `
-    try {
-      if (token) {
+  }
+  `
+      try {
+
         const result = await ProductlistCount(countData, lang?.data, token)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
-      } else {
+        dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+        // const arrOFItems = result?.data?.data?.customerCart?.items
+        // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0))
     }
+
   }
 
 

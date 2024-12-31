@@ -13,15 +13,14 @@ import { addHomeScreenData } from '../../redux/Slices/HomeScreenData';
 const useSplshHook = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
+
   useEffect(() => {
     setUserData()
     setTimeout(() => {
       navigation.replace(NAVIGATION.DrawerNavigation);
-      // navigation.replace(NAVIGATION.Maintenance)
       setLang()
     }, 200);
   }, []);
-
 
   const setLang = async () => {
     try {

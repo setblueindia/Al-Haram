@@ -65,31 +65,33 @@ const useOrderDetaisHook = (props) => {
   }
 
   const PoductCount = async () => {
-    const countData = `
-        query {
-          customerCart {
-            items {
-              quantity
-            }
-          }
-        }
-        `
-    try {
-      if (userData?.token) {
-        const result = await ProductlistCount(countData, lang)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item?.quantity, 0);
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
+      }
+      `
+      try {
+        if (userData?.token) {
+          const result = await ProductlistCount(countData, lang)
+          dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+          // const arrOFItems = result?.data?.data?.customerCart?.items
+          // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item?.quantity, 0);
 
-        console.log("totalQuantity ::::::::::::::::::::", totalQuantity)
-        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
-      } else {
-        console.log("totalQuantity result ::::::::::::::::::::", userData?.token)
+          // console.log("totalQuantity ::::::::::::::::::::", totalQuantity)
+          // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+        } else {
+          console.log("totalQuantity result ::::::::::::::::::::", userData?.token)
+          dispatch(addProduct(0))
+        }
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0))
     }
+
   }
 
   useEffect(() => {

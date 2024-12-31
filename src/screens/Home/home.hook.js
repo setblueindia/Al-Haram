@@ -3,7 +3,18 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { AppUpadateAPI, ExpireToken, MaintencseAPI, ProductlistCount, Storetoken, getCetergourisList, getCount, getProductDetails, getTeramsAndConditionSatus, oldAddressDeleted } from '../../api/axios.api'
+import {
+  AppUpadateAPI,
+  ExpireToken,
+  MaintencseAPI,
+  ProductlistCount,
+  Storetoken,
+  getCetergourisList,
+  getCount,
+  getProductDetails,
+  getTeramsAndConditionSatus,
+  oldAddressDeleted
+} from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -359,28 +370,32 @@ const useHomeHook = (props) => {
   };
 
   const PoductCount = async () => {
-    const countData = `
-    query {
-      customerCart {
-        items {
-          quantity
-        }
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
       }
-    }
-    `
-    try {
-      if (userData?.token) {
+      `
+      try {
+        // if (userData?.token) {
         const result = await ProductlistCount(countData, lang?.data)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
-      } else {
+        dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+        // const arrOFItems = result?.data?.data?.customerCart?.items
+        // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+        // }
+        //  else {
+        //   dispatch(addProduct(0))
+        // }
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0))
+
     }
+
   }
 
   const openWhatsApp = () => {
@@ -492,13 +507,6 @@ const useHomeHook = (props) => {
 
 
   }
-
-
-
-
-
-
-
 
 
 

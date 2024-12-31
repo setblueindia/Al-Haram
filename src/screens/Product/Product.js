@@ -37,6 +37,8 @@ const Product = (props) => {
         showScrollToTop,
         flatListRef,
         color,
+        totalpage,
+        currePage,
         likeDislike,
         likePress,
         setColor,
@@ -90,7 +92,7 @@ const Product = (props) => {
                                     ref={flatListRef}
                                     data={data}
                                     showsVerticalScrollIndicator={false}
-                                    onEndReached={() => { data?.length > 0 && setProductData() }}
+                                    onEndReached={() => { totalpage > currePage && setProductData() }}
                                     numColumns={2}
                                     bounces={true}
                                     onScroll={handleScroll}
