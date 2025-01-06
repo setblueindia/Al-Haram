@@ -12,6 +12,7 @@ import { signInWithGoogle } from '../../firebase/firebaseConfig';
 import { Alert } from 'react-native';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
+import { updateLangCode } from '../../redux/Slices/LangSlices';
 
 const useLoginHook = (props) => {
   const [email, setEmail] = useState('')
@@ -27,6 +28,8 @@ const useLoginHook = (props) => {
   const navigation = useNavigation();
   const lang = useSelector(state => state?.lang);
   const dispatch = useDispatch()
+  const [chnageLang, setChangeLang] = useState(false)
+  const [lanMode, setLangMode] = useState(lang.data == NUMBER?.num0 ? "AR" : "EN")
 
   const naviGtaionType = props?.route?.params?.type
 
@@ -231,7 +234,6 @@ const useLoginHook = (props) => {
   }
 
   const PoductCount = async (token) => {
-    // console.log("Product  Token :::::::::: ", token)
     const fromdata = new FormData()
     const resultt = await ExpireToken(fromdata, lang)
     if (resultt?.data) {
@@ -257,6 +259,24 @@ const useLoginHook = (props) => {
 
   }
 
+  const changeLungues = async () => {
+    setLoader(true)
+    const num = lang?.data == NUMBER.num0 ? NUMBER.num1 : lang?.data == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
+    try {
+      await AsyncStorage.setItem('Lang', num);
+      dispatch(updateLangCode(num));
+      setTimeout(() => {
+        setLoader(false)
+      }, 2000)
+
+
+    } catch (error) {
+      console.log('UPDATE LANGUES ERROR :: ', error);
+      setLoader(true)
+
+    }
+  };
+
 
 
   return {
@@ -279,7 +299,10 @@ const useLoginHook = (props) => {
     setMobailNumber,
     setCheckBox,
     handleGoogleSignIn,
-    onAppleButtonPress
+    onAppleButtonPress,
+    setChangeLang, chnageLang,
+    setLangMode, lanMode,
+    changeLungues
 
 
   };

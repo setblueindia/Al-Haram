@@ -366,4 +366,9 @@ export const MaintencseAPI = async (params, lang) => {
     return res
 }
 
+export const giftCardHistory = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
 

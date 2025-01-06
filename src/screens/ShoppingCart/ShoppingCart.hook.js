@@ -315,9 +315,15 @@ const useShoppingcart = () => {
     if (index == 4) {
       setShippingdata('')
       setSelectPayment('')
+
     }
 
-    index > 0 && setIndex(index - 1)
+    if (index > 0 && index == 3 && type == "amgiftcard") {
+      setIndex(0)
+    } else {
+      index > 0 && setIndex(index - 1)
+    }
+
   }
 
   // Get Cart Items API

@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Modal, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, Modal, Platform, TextComponent } from 'react-native';
 import React from 'react';
 import { styles } from './login.style';
 import Onbordingheader from '../../components/OnbordingHeader';
@@ -15,6 +15,7 @@ import { ResponsiveSize } from '../../utils/utils';
 import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Icon from 'react-native-vector-icons/dist/AntDesign';
 
 const Login = (props) => {
   const {
@@ -37,7 +38,10 @@ const Login = (props) => {
     onAppleButtonPress,
     loader,
     langues,
-    lang
+    lang,
+    setChangeLang, chnageLang,
+    setLangMode, lanMode,
+    changeLungues
   } =
     useLoginHook(props);
   return (
@@ -46,7 +50,41 @@ const Login = (props) => {
         <View style={styles.headerView}>
           <Onbordingheader type={props?.route?.params ? true : false} />
         </View>
+        <TouchableOpacity
+          onPress={() => { chnageLang ? setChangeLang(false) : setChangeLang(true) }}
+          style={[styles.LangView, lang?.data == NUMBER.num0 && { left: ResponsiveSize(20) }]}>
+          <Text style={styles.enText}>{lanMode}</Text>
+          <Icon name={!chnageLang ? "downcircle" : "upcircle"} size={ResponsiveSize(30)} color={COLOR.white} />
+        </TouchableOpacity>
+
+        {chnageLang &&
+          <View style={[styles.listLangView, lang?.data == NUMBER.num0 && { left: ResponsiveSize(20) }]}>
+            <TouchableOpacity
+              onPress={() => {
+                changeLungues()
+                setLangMode("EN")
+                setChangeLang(false)
+              }}
+              style={[styles.enBTN, lanMode == "EN" && { backgroundColor: COLOR.primaray }]}>
+              <Text style={[styles.enText2, lanMode == "EN" && { color: COLOR.white }]}>{"EN"}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                changeLungues()
+                setLangMode("AR")
+                setChangeLang(false)
+              }}
+              style={[styles.enBTN, lanMode == "AR" && { backgroundColor: COLOR.primaray }]}>
+              <Text style={[styles.enText2, lanMode == "AR" && { color: COLOR.white }]}>{"AR"}</Text>
+            </TouchableOpacity>
+
+          </View>
+        }
+
+
         <View style={styles.container}>
+
           <View style={styles.uthView}>
             <View>
               <SwitchButton setWithEmail={setWithEmail} langues={langues} />
@@ -70,8 +108,8 @@ const Login = (props) => {
                     onChange={setPassword}
                     icon={ICON.lockIcon}
                     text={langues?.Enteryourpassword}
-
                   />
+
                 </>
               )}
 

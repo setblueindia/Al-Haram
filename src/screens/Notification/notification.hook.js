@@ -74,31 +74,37 @@ const useNotificationHook = () => {
       }
     } `
 
-    try {
-      const response = await NotificationAIP(sData, lang)
-      if (response?.status == "200") {
-        setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
-        response?.data?.data?.getNotificationHistoryByCustomerId?.map((item) => {
-        })
-        if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
+    if (userData) {
+      try {
+        const response = await NotificationAIP(sData, lang)
+        if (response?.status == "200") {
+          setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
+          response?.data?.data?.getNotificationHistoryByCustomerId?.map((item) => {
+          })
+          if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
+            setLoadding(false)
+            setLotti(true)
+          } else {
+            setLotti(false)
+          }
+          setCurrentPage(nextPage)
+          setMoreData(false)
+        } else {
           setLoadding(false)
           setLotti(true)
-        } else {
-          setLotti(false)
         }
-        setCurrentPage(nextPage)
-        setMoreData(false)
-      } else {
         setLoadding(false)
+      } catch (error) {
+        setData(undefined)
         setLotti(true)
+        setLoadding(false)
+        console.log("RESPONSE ERROR ::::::::::: ", error)
       }
-      setLoadding(false)
-    } catch (error) {
-      setData(undefined)
-      setLotti(true)
-      setLoadding(false)
-      console.log("RESPONSE ERROR ::::::::::: ", error)
+    } else {
+      console.log("::::::::: User data not found :::::::")
     }
+
+
 
   }
 

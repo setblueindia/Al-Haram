@@ -130,7 +130,6 @@ const useProfileHook = () => {
 
         const result = await ProductlistCount(countData, lang)
         dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
-        console.log("result :::::", result?.data)
         // const arrOFItems = result?.data?.data?.customerCart?.items
         // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
         // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))

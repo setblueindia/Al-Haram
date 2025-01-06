@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 import { SHOWTOTS } from "../../utils/utils"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
 
-
 const useOrderDetaisHook = (props) => {
   const [isLoadding, setIsLoadding] = useState(false)
   const [orderDetailsList, setOrderDeatils] = useState()
@@ -83,7 +82,6 @@ const useOrderDetaisHook = (props) => {
           // console.log("totalQuantity ::::::::::::::::::::", totalQuantity)
           // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
         } else {
-          console.log("totalQuantity result ::::::::::::::::::::", userData?.token)
           dispatch(addProduct(0))
         }
       } catch (error) {

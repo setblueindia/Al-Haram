@@ -343,7 +343,6 @@ const Payment = ({
               </TouchableOpacity>
             </View>
           }
-
           {type == "amgiftcard" &&
             <TouchableOpacity
               onPress={() => {
@@ -361,7 +360,7 @@ const Payment = ({
               }]}>
 
               </View>
-              <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Online payment" : "الدفع عبر الإنترنت"}</Text>
+              <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Payment by card" : "الدفع عن طريق البطاقة"}</Text>
             </TouchableOpacity>}
 
 

@@ -1,9 +1,9 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {ALINE, COLOR} from '../../constants/style';
-import {ResponsiveSize} from '../../utils/utils';
+import { Dimensions, StyleSheet } from 'react-native';
+import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style';
+import { ResponsiveSize } from '../../utils/utils';
 
 const windowWidth = Dimensions.get('window').height;
- 
+
 export const styles = StyleSheet.create({
   mainView: {
     flex: 1,
@@ -48,14 +48,14 @@ export const styles = StyleSheet.create({
   },
   rememverText: {
     marginLeft: ResponsiveSize(20),
-    color:COLOR.darkGray
+    color: COLOR.darkGray
   },
   forgetText: {
     color: COLOR.primaray,
     fontSize: ResponsiveSize(25),
     fontWeight: 'bold',
-    textAlign:'right'
-    
+    textAlign: 'right'
+
   },
   socialButton: {
     flexDirection: ALINE.row,
@@ -73,17 +73,61 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: ResponsiveSize(25),
-    flex:1,
-    textAlign:'center',
-    color:COLOR.liteGray
+    flex: 1,
+    textAlign: ALINE.center,
+    color: COLOR.liteGray
   },
-  checkReam:{
-    flexDirection:ALINE.row
+  checkReam: {
+    flexDirection: ALINE.row
   },
-  loadder:{
+  loadder: {
     height: windowWidth,
-    width : "100%",
-    flex:1,
-    position:'absolute'
+    width: "100%",
+    flex: 1,
+    position: 'absolute'
+  },
+  LangView: {
+    // height: ResponsiveSize(40),
+    width: ResponsiveSize(100),
+    borderRadius: ResponsiveSize(20),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.white,
+    position: 'absolute',
+    top: ResponsiveSize(80),
+    right: ResponsiveSize(20),
+    alignItems: ALINE.center,
+    justifyContent: ALINE.spaceBetween,
+    flexDirection: ALINE.row,
+    padding: ResponsiveSize(15),
+    backgroundColor: COLOR.primaray
+
+  },
+  enText: {
+    color: COLOR.white,
+    fontSize: ResponsiveSize(20),
+    fontWeight: FONTWEGHIT.font600
+  },
+  listLangView: {
+    height: ResponsiveSize(60),
+    width: ResponsiveSize(200),
+    borderRadius: ResponsiveSize(20),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.primaray,
+    position: 'absolute',
+    top: ResponsiveSize(150),
+    right: ResponsiveSize(20),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  enBTN: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: "100%",
+    borderRadius: ResponsiveSize(20)
+  },
+  enText2: {
+    color: COLOR.black
   }
 });
