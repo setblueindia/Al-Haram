@@ -13,6 +13,7 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password, count
   const lang = useSelector(state => state.lang);
   const [passwordProtect, setPasswordProtec] = useState(password)
 
+
   return (
     <View
       style={[
@@ -39,7 +40,29 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password, count
             style={[styles.textInput, lang.data == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}
             placeholder={text}
             blurOnSubmit={true}
-            onChangeText={(text) => onChange && onChange(text)}
+            // onChangeText={(text) => {
+            //   if (onChange) {
+            //     if (number) {
+            //       if (/^[0-9]*$/.test(text)) { // Allow only numbers or empty input
+            //         onChange(text); // Call onChange only if input is valid
+            //       }
+            //     }
+            //     // onChange(text)
+            //   }
+
+            // }}
+            onChangeText={(text) => {
+
+              if (onChange) {
+                if (number) {
+                  const filteredText = text.replace(/[^0-9]/g, '');
+                  onChange(filteredText);
+                } else {
+                  console.log("FFFFFFFffff")
+                  onChange(text);
+                }
+              }
+            }}
             secureTextEntry={passwordProtect ? true : false}
             returnKeyType='done'
             onSubmitEditing={() => {

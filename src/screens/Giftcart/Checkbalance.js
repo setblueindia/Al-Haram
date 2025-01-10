@@ -18,6 +18,9 @@ import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { GiftCartICON } from '../../assests'
 import { GIFATCARTSATUS, giftCardHistory } from '../../api/axios.api'
 import CusLoader from '../../components/CustomLoader'
+import Icon from 'react-native-vector-icons/dist/Ionicons';
+import Share from 'react-native-share';
+import RNFS from 'react-native-fs';
 
 
 const Checkbalance = () => {
@@ -136,6 +139,50 @@ const Checkbalance = () => {
     }
 
 
+    // const onShare = async () => {
+    //     const shareOptions = {
+    //         title: 'Share via',
+    //         message: 'AL-Haram Stores (Giftcard)',
+    //         url: 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg',
+    //         type: 'image/jpeg',
+    //     };
+
+    //     try {
+    //         await Share.open(shareOptions);
+    //     } catch (error) {
+    //         // Alert.alert('Error', error.message);
+    //     }
+    // }
+
+
+    const onShare = async () => {
+        const imageUrl = 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
+        const localFilePath = `${RNFS.DocumentDirectoryPath}/image.jpeg`;
+
+        try {
+            // Download the image
+            const downloadResult = await RNFS.downloadFile({
+                fromUrl: imageUrl,
+                toFile: localFilePath,
+            }).promise;
+
+            if (downloadResult.statusCode === 200) {
+                const shareOptions = {
+                    title: 'Share via',
+                    message: 'AL-Haram Stores (Giftcard)',
+                    url: `file://${localFilePath}`, // Share the local file path
+                    type: 'image/jpeg',
+                };
+
+                // Share the image
+                await Share.open(shareOptions);
+            } else {
+                console.error('Failed to download image:', downloadResult);
+            }
+        } catch (error) {
+            console.error('Error sharing:', error.message);
+        }
+    };
 
     return (
         <View style={styles.mainView}>
@@ -301,7 +348,8 @@ const Checkbalance = () => {
 
                                     <View style={styles.lineView} />
 
-                                    <View style={{ width: "100%", flexDirection: ALINE.row, justifyContent: ALINE.spaceBetween }}>
+                                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}> */}
+                                    <View style={{ width: "100%", justifyContent: ALINE.spaceBetween, flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                             <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
                                             <Text style={styles.secondView}>{item?.usage}</Text>
@@ -314,6 +362,38 @@ const Checkbalance = () => {
                                         </View>
 
                                     </View>
+
+                                    {/* <TouchableOpacity
+                                            onPress={() => { onShare() }}
+                                            style={{
+                                                marginTop: ResponsiveSize(20),
+                                                backgroundColor: COLOR.primaray,
+                                                padding: ResponsiveSize(10),
+                                                width: ResponsiveSize(105),
+                                                borderRadius: ResponsiveSize(20),
+                                                alignSelf: 'flex-end',
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                // justifyContent: 'center',
+                                                alignItems: 'center',
+
+
+                                            }}>
+                                            <Text style={{
+                                                color: COLOR.white,
+                                                fontWeight: FONTWEGHIT.font600,
+                                                fontSize: ResponsiveSize(18)
+                                            }}>{"Share"}</Text>
+                                            <Icon
+                                                name={"share"} size={ResponsiveSize(30)} color={COLOR.white} />
+                                        </TouchableOpacity> */}
+
+                                    {/* </View> */}
+
+
+
+
+
 
                                 </View>
                             )

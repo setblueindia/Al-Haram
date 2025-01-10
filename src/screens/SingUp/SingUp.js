@@ -26,7 +26,8 @@ const SingUp = props => {
     loader,
     modalShow,
     errorText,
-    exampal
+    exampal,
+    number
   } = useSingUpHook({ lable, navigationType });
 
   return (
@@ -44,7 +45,15 @@ const SingUp = props => {
           <View style={styles.devider} />
           <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={lable?.Enteryouremail} />
           <View style={styles.devider} />
-          <TextFildCus number={true} onChange={setNumber} countryText={"+966"} icon={ICON.phoneIcon} text={lable?.Entermobilenumber} />
+          <TextFildCus
+            number={true}
+            onChange={setNumber}
+            countryText={"+966"}
+            icon={ICON.phoneIcon}
+            value={number}
+            text={lable?.Entermobilenumber}
+          // text={"05XXXXXXXX"}
+          />
           <View style={styles.devider} />
           <TextFildCus onChange={setPassword} password={true} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
           <View style={styles.devider} />

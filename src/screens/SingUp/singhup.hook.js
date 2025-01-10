@@ -111,7 +111,8 @@ const useSingUpHook = ({ lable, navigationType }) => {
     errorText,
     loader,
     modalShow,
-    exampal
+    exampal,
+    number
   };
 };
 

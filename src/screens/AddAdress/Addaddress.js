@@ -65,7 +65,14 @@ const Addaddress = (props) => {
         <View style={styles.devider} />
         <TextFildCus onChange={setlastname} value={lastName} text={data?.LastName} add={true} />
         <View style={styles.devider} />
-        <TextFildCus onChange={setMNumber} countryText={"+966"} value={mNumaber} number={true} text={data?.PhoneNumber} add={true} />
+        <TextFildCus
+          onChange={setMNumber}
+          countryText={"+966"}
+          value={mNumaber}
+          number={true}
+          text={data?.PhoneNumber}
+          // text={"05XXXXXXXX"}
+          add={true} />
         <View style={styles.devider} />
         <TextFildCus onChange={serAddress1} value={address1} text={data?.Streetaddress} add={true} />
         <View style={styles.devider} />
