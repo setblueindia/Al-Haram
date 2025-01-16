@@ -71,8 +71,6 @@ const useAddressHook = (props) => {
 
     }
 
-
-
   useEffect(() => {
     const button = false;
     gwtStateData(button)

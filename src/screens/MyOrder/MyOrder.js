@@ -23,11 +23,13 @@ const MyOrder = () => {
               style={{ flex: 1, marginBottom: ResponsiveSize(20) }}
               showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => {
+
+                console.log("id :::::", item?.order_id)
                 return (
                   <TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
-                        item?.name == "Wallet Amount" ? SHOWTOTS("Wallet Order status is in " + item?.status_display) : navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id })
+                        item?.name == "Wallet Amount" ? SHOWTOTS("Wallet Order status is in " + item?.status_display) : navigation.navigate(NAVIGATION?.OrderDeatsiScreen, { orderID: item?.id, returnID: item?.order_id })
                       }}
                       style={[styles.listView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                       <View style={styles.imgView}>

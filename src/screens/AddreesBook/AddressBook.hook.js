@@ -7,7 +7,7 @@ import { AddressList, DeleteAddress } from "../../api/axios.api"
 import { SHOWTOTS } from "../../utils/utils"
 
 
-const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
+const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress, secondCall) => {
     const lang = useSelector(state => state.lang.data)
     const userData = useSelector(state => state.userData.data)
     const navigation = useNavigation()
@@ -26,6 +26,7 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
     const addAddress = () => {
         navigation.navigate(NAVIGATION.addaddress, { setLoadding: setLoadding, setReload: setReload, getData: getData })
     }
+
     const getData = async () => {
         !setLoadding && setIsLoading(true)
         setLoadding && setLoadding(true)
@@ -42,7 +43,7 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress) => {
                         temp.push(items)
                     }
                 })
-                if (res?.data?.data.length <= 0) {
+                if (res?.data?.data.length <= 0 && !secondCall) {
                     navigation.navigate(NAVIGATION.addaddress)
                     setIsLoading(false)
                     setLoadding && setLoadding(false)

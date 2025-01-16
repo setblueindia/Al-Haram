@@ -13,22 +13,22 @@ import FastImage from 'react-native-fast-image'
 const OrderDetails = (props) => {
     const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
 
-   const address1 =  orderDetailsList?.shippingaddress?.street[0] ? orderDetailsList?.shippingaddress?.street[0] + " " : ""
-   const address2 =  orderDetailsList?.shippingaddress?.street[1] ? orderDetailsList?.shippingaddress?.street[1] + " ": ""
-   const address3 =  orderDetailsList?.shippingaddress?.street[2] ? orderDetailsList?.shippingaddress?.street[2] + " ": ""
+    const address1 = orderDetailsList?.shippingaddress?.street[0] ? orderDetailsList?.shippingaddress?.street[0] + " " : ""
+    const address2 = orderDetailsList?.shippingaddress?.street[1] ? orderDetailsList?.shippingaddress?.street[1] + " " : ""
+    const address3 = orderDetailsList?.shippingaddress?.street[2] ? orderDetailsList?.shippingaddress?.street[2] + " " : ""
 
-   const shippongAddress = address1 + address2 + address3
+    const shippongAddress = address1 + address2 + address3
 
-   const baddress1 = orderDetailsList?.billingaddress?.street[0] ? orderDetailsList?.billingaddress?.street[0] + " ": " " 
-   const baddress2 = orderDetailsList?.billingaddress?.street[1] ? orderDetailsList?.billingaddress?.street[1] + " ": " " 
-   const baddress3 = orderDetailsList?.billingaddress?.street[2] ? orderDetailsList?.billingaddress?.street[2] + " ": " " 
+    const baddress1 = orderDetailsList?.billingaddress?.street[0] ? orderDetailsList?.billingaddress?.street[0] + " " : " "
+    const baddress2 = orderDetailsList?.billingaddress?.street[1] ? orderDetailsList?.billingaddress?.street[1] + " " : " "
+    const baddress3 = orderDetailsList?.billingaddress?.street[2] ? orderDetailsList?.billingaddress?.street[2] + " " : " "
 
-   const billingAddress = baddress1 + baddress2 + baddress3
+    const billingAddress = baddress1 + baddress2 + baddress3
 
     return (
         <View style={styles.mainView}>
             <CommanHeader name={lable?.ViewOrder} navigation={navigation} lang={lang} />
-            {(data && !isLoadding ) &&
+            {(data && !isLoadding) &&
                 <ScrollView style={styles.containView}>
 
                     <View style={styles.firstView}>
@@ -165,9 +165,11 @@ const OrderDetails = (props) => {
                 </ScrollView>
             }
 
+            {console?.log("orderDetailsList?.refund_status", orderDetailsList?.status)}
 
             {
-               ( orderDetailsList?.status !== 'canceled' && orderDetailsList?.status !== "closed") &&
+                (orderDetailsList?.status !== 'canceled' && orderDetailsList?.status !== "closed" && orderDetailsList?.status !== "complete") &&
+
                 <View style={styles.btnView}>
                     <Button onPress={() => {
                         orderDetailsList?.refund_status == "Cancel" ?
@@ -184,7 +186,7 @@ const OrderDetails = (props) => {
                     <CusLoader />
                 </View>
             }
-            
+
         </View>
     )
 }

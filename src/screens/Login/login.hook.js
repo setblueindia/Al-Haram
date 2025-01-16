@@ -179,8 +179,8 @@ const useLoginHook = (props) => {
       const nameParts = fullName?.split(' ');
       const firstName = nameParts[0];
       const lastnameText = nameParts?.slice(1)?.join(' ');
-      const testLastName = regex.test(lastnameText);
-      const lastName = testLastName ? lastnameText : firstName
+      const testLastName = lastnameText;
+      const lastName = testLastName ? lastnameText : " "
 
       SINUP(mail, firstName, lastName, uid, type = "google")
 
@@ -196,7 +196,7 @@ const useLoginHook = (props) => {
 
     const formData = new FormData();
     formData.append('firstname', firstName ? firstName : " ");
-    formData.append('lastname', lastName ? lastName : "");
+    formData.append('lastname', lastName ? lastName : " ");
     formData.append('email', mail ? mail : mail);
     formData.append('otptype', type);
     formData.append('store_id', lang?.data);

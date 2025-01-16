@@ -3,7 +3,7 @@ import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import TextFildCus from '../../components/TextFildCus'
 import { styles } from './address.style'
-import { EXTRASTR, NUMBER } from '../../constants/constants'
+import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import CheackButton from '../../components/CheackButton'
 import Button from '../../components/Button'
@@ -57,9 +57,15 @@ const Addaddress = (props) => {
   } = useAddressHook(props)
   const insets = useSafeAreaInsets();
 
+
   return (
     <View style={styles.mainView}>
-      <CommanHeader navigation={navigation} lang={lang} name={esiteData ? data?.EditAddress : data.AddAddress} />
+      <CommanHeader
+        navigation={navigation}
+        lang={lang}
+        customNavg={true}
+        name={esiteData ? data?.EditAddress : data.AddAddress} />
+
       <KeyboardAwareScrollView style={styles.conatainer}>
         <TextFildCus onChange={setFirstName} value={firstName} text={data?.FirstName} add={true} />
         <View style={styles.devider} />

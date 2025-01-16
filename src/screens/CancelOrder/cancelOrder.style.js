@@ -57,8 +57,10 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(20),
         padding: ResponsiveSize(10),
         alignItems: ALINE.center,
-        justifyContent:ALINE.spaceBetween,
-        flexDirection: ALINE.row
+        justifyContent: ALINE.spaceBetween,
+        flexDirection: ALINE.row,
+        color: COLOR.black,
+
     },
     icon: {
         size: ResponsiveSize(40),
@@ -119,36 +121,36 @@ export const styles = StyleSheet.create({
         backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(100),
     },
-    secondView:{
+    secondView: {
     },
-    image:{
-        height:ResponsiveSize(60),
-        width:ResponsiveSize(60)
+    image: {
+        height: ResponsiveSize(60),
+        width: ResponsiveSize(60)
     },
-    orderView:{
-        width:"100%",
-        height:ResponsiveSize(100),
-        flexDirection:ALINE.row,
-        alignItems:ALINE.center,
-        justifyContent:ALINE.spaceBetween,
+    orderView: {
+        width: "100%",
+        height: ResponsiveSize(100),
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.spaceBetween,
         backgroundColor: "#00000010",
-        padding:ResponsiveSize(20),
-        borderRadius:ResponsiveSize(20),
-        marginTop:ResponsiveSize(20)
+        padding: ResponsiveSize(20),
+        borderRadius: ResponsiveSize(20),
+        marginTop: ResponsiveSize(20)
     },
-    orderCheack:{
-        height:ResponsiveSize(30),
-        width:ResponsiveSize(30),
-        backgroundColor:COLOR.white,
-        borderWidth:ResponsiveSize(1),
-        borderColor:"#00000070",
-        borderRadius:ResponsiveSize(5)
+    orderCheack: {
+        height: ResponsiveSize(30),
+        width: ResponsiveSize(30),
+        backgroundColor: COLOR.white,
+        borderWidth: ResponsiveSize(1),
+        borderColor: "#00000070",
+        borderRadius: ResponsiveSize(5)
     },
-    btnView:{
-        padding:ResponsiveSize(20),
+    btnView: {
+        padding: ResponsiveSize(20),
     },
-    priceText:{
-        color:COLOR.primaray,
-        fontWeight:FONTWEGHIT.font600
+    priceText: {
+        color: COLOR.primaray,
+        fontWeight: FONTWEGHIT.font600
     }
 })

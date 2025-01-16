@@ -65,6 +65,7 @@ const Checkbalance = () => {
 
         try {
             const result = await GIFATCARTSATUS(qurry3, lang)
+
             if (result?.data?.data?.getGiftcardDetailsByCode?.success) {
                 setDatas(result?.data?.data?.getGiftcardDetailsByCode?.data)
                 setLoadding(false)
@@ -100,6 +101,8 @@ const Checkbalance = () => {
                     status_label
                     usage
                     expired_date
+                    giftcard_image
+                    message
                 }
                 title
                 message
@@ -111,7 +114,7 @@ const Checkbalance = () => {
         try {
             if (userData?.email && extra) {
                 const result = await giftCardHistory(qurry, lang)
-                // console.log("GiftCard History :::::::: ", result?.data?.data?.getGiftcardBySenderEmail?.title)
+                // console.log("GiftCard History :::::::: ", result?.data?.data?.getGiftcardBySenderEmail)
                 setListTille(result?.data?.data?.getGiftcardBySenderEmail?.title ? result?.data?.data?.getGiftcardBySenderEmail?.title : undefined)
                 if (result?.data?.data?.getGiftcardBySenderEmail?.success) {
                     if (result?.data?.data?.getGiftcardBySenderEmail?.data?.length > 0) {
@@ -155,8 +158,9 @@ const Checkbalance = () => {
     // }
 
 
-    const onShare = async () => {
-        const imageUrl = 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
+    const onShare = async (giftcardImg, giftMes) => {
+        setLoadding(true)
+        const imageUrl = giftcardImg ? giftcardImg : 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
         const localFilePath = `${RNFS.DocumentDirectoryPath}/image.jpeg`;
 
         try {
@@ -169,18 +173,21 @@ const Checkbalance = () => {
             if (downloadResult.statusCode === 200) {
                 const shareOptions = {
                     title: 'Share via',
-                    message: 'AL-Haram Stores (Giftcard)',
+                    message: giftMes ? giftMes : 'AL-Haram Stores (Giftcard)',
                     url: `file://${localFilePath}`, // Share the local file path
                     type: 'image/jpeg',
                 };
 
                 // Share the image
+                setLoadding(false)
                 await Share.open(shareOptions);
             } else {
-                console.error('Failed to download image:', downloadResult);
+                console.log('Failed to download image:', downloadResult);
+                setLoadding(false)
             }
         } catch (error) {
-            console.error('Error sharing:', error.message);
+            console.log('Error sharing:', error.message);
+            setLoadding(false)
         }
     };
 
@@ -348,28 +355,29 @@ const Checkbalance = () => {
 
                                     <View style={styles.lineView} />
 
-                                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}> */}
-                                    <View style={{ width: "100%", justifyContent: ALINE.spaceBetween, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                            <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
-                                            <Text style={styles.secondView}>{item?.usage}</Text>
+                                    <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                        <View style={{ width: "50%", justifyContent: ALINE.spaceBetween }}>
+                                            <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Usage : " : "الاستخدام : "}</Text>
+                                                <Text style={styles.secondView}>{item?.usage}</Text>
+
+                                            </View>
+                                            <View style={{ marginTop: ResponsiveSize(10) }} />
+                                            <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}</Text>
+                                                <Text style={styles.secondView}>{item?.expired_date}</Text>
+                                            </View>
 
                                         </View>
-                                        <View style={{ marginTop: ResponsiveSize(10) }} />
-                                        <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                            <Text style={styles.firstText}>{lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}</Text>
-                                            <Text style={styles.secondView}>{item?.expired_date}</Text>
-                                        </View>
 
-                                    </View>
 
-                                    {/* <TouchableOpacity
-                                            onPress={() => { onShare() }}
+                                        <TouchableOpacity
+                                            onPress={() => { onShare(item?.giftcard_image, item?.message) }}
                                             style={{
                                                 marginTop: ResponsiveSize(20),
                                                 backgroundColor: COLOR.primaray,
                                                 padding: ResponsiveSize(10),
-                                                width: ResponsiveSize(105),
+                                                // width: ResponsiveSize(105),
                                                 borderRadius: ResponsiveSize(20),
                                                 alignSelf: 'flex-end',
                                                 flexDirection: 'row',
@@ -379,16 +387,16 @@ const Checkbalance = () => {
 
 
                                             }}>
-                                            <Text style={{
+                                            {/* <Text style={{
                                                 color: COLOR.white,
                                                 fontWeight: FONTWEGHIT.font600,
                                                 fontSize: ResponsiveSize(18)
-                                            }}>{"Share"}</Text>
+                                            }}>{"Share"}</Text> */}
                                             <Icon
-                                                name={"share"} size={ResponsiveSize(30)} color={COLOR.white} />
-                                        </TouchableOpacity> */}
+                                                name={"share"} size={ResponsiveSize(35)} color={COLOR.white} />
+                                        </TouchableOpacity>
 
-                                    {/* </View> */}
+                                    </View>
 
 
 

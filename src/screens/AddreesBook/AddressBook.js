@@ -12,12 +12,10 @@ import CusLoader from '../../components/CustomLoader'
 import DeleteBox from '../../components/DeleteBox'
 import Icon from 'react-native-vector-icons/dist/Entypo';
 
-const AddressBook = ({
-    Shooping,
-    setAddressCode,
-    setLoadding,
-    setBillingAddress,
-}) => {
+const AddressBook = (props) => {
+    const { Shooping, setAddressCode, setLoadding, setBillingAddress } = props;
+    const secondCall = props?.route?.params?.Xyz
+
     const { data,
         navigation,
         lang,
@@ -29,8 +27,10 @@ const AddressBook = ({
         deleteAdress,
         getData,
         setdeteteId
-    } = useAddressBookHook(setAddressCode, setLoadding, setBillingAddress)
+    } = useAddressBookHook(setAddressCode, setLoadding, setBillingAddress, secondCall)
     const [aindex, setIndex] = useState()
+
+
 
     return (
         <View style={styles.mainView}>
@@ -48,11 +48,11 @@ const AddressBook = ({
                                         setAddressCode && setAddressCode(items)
                                     }}
                                     style={[styles.addressView, (aindex == index && setLoadding) && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
-                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse}]}>
+                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-                                
-                                        <View style={[styles.nameView , lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse } ]}>
-                                        {  (items?.default_billing || items?.default_shipping   )  &&  <Icon name="location-pin" size={ResponsiveSize(40)} color={COLOR.primaray} style={{}}/>}
+
+                                        <View style={[styles.nameView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                            {(items?.default_billing || items?.default_shipping) && <Icon name="location-pin" size={ResponsiveSize(40)} color={COLOR.primaray} style={{}} />}
                                             <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
                                         </View>
                                         <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -95,15 +95,15 @@ const AddressBook = ({
             </ScrollView>
 
 
-                <View style={styles.btnView}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            addAddress()
-                        }}
-                        style={styles.btn}>
-                        <Text style={styles.btnText}>{lang == NUMBER.num0 ? "+ إضافة عنوان جديد" : "+Add new address"}</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.btnView}>
+                <TouchableOpacity
+                    onPress={() => {
+                        addAddress()
+                    }}
+                    style={styles.btn}>
+                    <Text style={styles.btnText}>{lang == NUMBER.num0 ? "+ إضافة عنوان جديد" : "+Add new address"}</Text>
+                </TouchableOpacity>
+            </View>
 
             {
                 isLoading &&
