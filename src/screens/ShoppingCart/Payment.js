@@ -89,6 +89,7 @@ const Payment = ({
     // SHOWTOTS("First Remove gift giftcard")
   }
 
+  // console.log("totalAmount :::::", totalAmount[0])
 
   return (
     <KeyboardAwareScrollView style={{ flex: 1 }}>
@@ -230,9 +231,9 @@ const Payment = ({
 
 
         <View style={styles.paymentView}>
-          <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
+          {(giftCardList.length < 0 || totalAmount[0] > 0) && <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>}
 
-          {(wallateAmount > 0 && type !== "amgiftcard") &&
+          {((wallateAmount > 0 && type !== "amgiftcard") && (giftCardList.length < 0 || totalAmount[0] > 0)) &&
             <TouchableOpacity
               onPress={() => {
                 showWallet ? setShowWallet(false) : setShowWallet(true)
@@ -300,7 +301,7 @@ const Payment = ({
           }
 
           {
-            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet) && type !== "amgiftcard") &&
+            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet) && (type !== "amgiftcard") && (giftCardList.length < 0 || totalAmount[0] > 0)) &&
             <View>
               <TouchableOpacity
                 onPress={() => {
@@ -365,7 +366,7 @@ const Payment = ({
 
 
 
-          <View style={styles.lineView} />
+          {(giftCardList.length < 0 || totalAmount[0] > 0) && <View style={styles.lineView} />}
           {txtData?.map((items, index) => {
             return (
               <View key={index} >
@@ -400,123 +401,6 @@ const Payment = ({
             </View>}
         </View>
 
-
-
-        {/*         
-        {type !== "amgiftcard" &&
-          <View style={styles?.giftCartdMainView}>
-            <View style={{
-              width: "100%",
-            }}>
-
-              {giftCardList.length > 0
-                && giftCardList?.map((item, index) => {
-                  return (
-                    <View key={index}
-                      style={[styles.coupnView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-
-                      {lang == NUMBER.num0 ?
-                        <Text>{item + " (بطاقات الهدايا)"}</Text> :
-                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{item + " (Gift Card)"}</Text>}
-
-                      <TouchableOpacity
-                        onPress={() => {
-                          applyGiftCart(0, item)
-                          setCOD(false),
-                            setCredit(false),
-                            setShowWallet(false),
-                            setSelectPayemrntMethod()
-                          setGiftSatus()
-
-                        }}
-
-                        style={styles.CLRemoveBTN}>
-                        <Text
-                          style={{
-                            fontSize: ResponsiveSize(20),
-                            color: COLOR.primaray
-                          }}
-                        >{lang == NUMBER.num0 ? "إزالة" : "Remove"}</Text>
-                      </TouchableOpacity>
-                    </View>
-                  )
-                })}
-            </View>
-
-
-
-
-            <View style={[{}, lang == NUMBER.num0 && {}]}>
-
-              <TextInput
-                style={[styles.coupnTextInput, { marginTop: ResponsiveSize(20), width: "100%" }]}
-                placeholder={lang == NUMBER.num1 ? "Enter gifcard code" : "ادخل رمز البطاقة"}
-                placeholderTextColor={COLOR.darkGray}
-                textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                onChangeText={text => { setGiftCardCode(text) }}
-                value={giftCardCode ? giftCardCode : ""}
-
-              />
-
-              <View style={styles.GIFTBtn}>
-                <TouchableOpacity
-                  onPress={() => {
-                    getGiftCartdSatus()
-                  }}
-                  style={styles.ChwckStausBTN}>
-                  <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تحقق" : "Check Status"}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => {
-                    applyGiftCart(1),
-                      setCOD(false)
-                    setCredit(false),
-                      setShowWallet(false),
-                      setSelectPayemrntMethod(),
-                      setGiftSatus()
-                    validation(false, "Cradite", WAmount)
-                  }}
-                  style={styles.GIFTApplyBTN}>
-                  <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
-                </TouchableOpacity>
-
-              </View>
-
-
-
-            </View>
-
-            {giftSatus?.data &&
-              <View style={{ height: "100%", marginBottom: ResponsiveSize(10) }}>
-                {giftSatus?.data?.balance &&
-                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"Balance "}</Text>
-                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.balance}</Text>
-                  </View>}
-
-                {giftSatus?.data?.code &&
-                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"Code "}</Text>
-                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.code}</Text>
-                  </View>}
-
-                {giftSatus?.data?.expiredDate &&
-                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"expiredDate "}</Text>
-                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.expiredDate}</Text>
-                  </View>}
-
-                {giftSatus?.data?.status &&
-                  <View style={[styles.giftCardSatusView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                    <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(18) }}>{"status "}</Text>
-                    <Text style={styles.giftSatusANS}>{giftSatus?.data?.status}</Text>
-                  </View>}
-
-              </View>}
-
-          </View>} */}
-        {/* ::::::::::::::::::::::::::::: ADD GITCAT GEGIEN ::::::::::::::::::::::::::::: */}
 
         {type !== "amgiftcard" && <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
 

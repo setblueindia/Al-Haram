@@ -197,7 +197,7 @@ const useLoginHook = (props) => {
     const formData = new FormData();
     formData.append('firstname', firstName ? firstName : " ");
     formData.append('lastname', lastName ? lastName : " ");
-    formData.append('email', mail ? mail : mail);
+    formData.append('email', mail ? mail : "");
     formData.append('otptype', type);
     formData.append('store_id', lang?.data);
     formData.append('auth', uid ? uid : " ");
@@ -229,8 +229,13 @@ const useLoginHook = (props) => {
     const uid = appleAuthRequestResponse?.authorizationCode
     const firstName = appleAuthRequestResponse?.fullName?.givenName
     const lastName = appleAuthRequestResponse?.fullName?.familyName
+    const user = appleAuthRequestResponse?.user
 
-    SINUP(mail, firstName, lastName, uid, type = "apple")
+    if (mail) {
+      SINUP(mail, firstName, lastName, user, type = "apple")
+    } else {
+      SINUP(mail, firstName, lastName, user, type = "apple")
+    }
   }
 
   const PoductCount = async (token) => {
