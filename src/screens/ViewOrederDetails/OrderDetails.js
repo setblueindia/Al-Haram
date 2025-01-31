@@ -44,7 +44,7 @@ const OrderDetails = (props) => {
                                     { color: orderDetailsList?.status_display == "pending" ? "#FFC000" : orderDetailsList?.status_display == "closed" ? 'red' : orderDetailsList?.status_display == "canceled" ? 'red' : "green" }
                                     ]}>{orderDetailsList?.status_display}</Text>
                                 </View>
-                                <Text style={styles.dateTextOrder}>{orderDetailsList?.created_at}</Text>
+                                <Text style={[styles.dateTextOrder, lang == NUMBER.num0 && { textAlign: 'right' }]}>{orderDetailsList?.created_at}</Text>
                             </View>
 
                             <View>
@@ -74,7 +74,7 @@ const OrderDetails = (props) => {
                                                     </View>
 
                                                     <View style={styles.nameView}>
-                                                        <Text style={styles.orderNameText} >{items?.name}</Text>
+                                                        <Text style={[styles.orderNameText, lang == NUMBER.num0 && { textAlign: 'right' }]} >{items?.name}</Text>
 
                                                         {items?.color &&
                                                             <View style={[{ flexDirection: 'row', marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>

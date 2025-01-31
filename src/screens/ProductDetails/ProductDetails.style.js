@@ -260,7 +260,8 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: ResponsiveSize(20),
         right: ResponsiveSize(20),
-        borderBottomWidth: ResponsiveSize(1),
+        // borderBottomWidth: ResponsiveSize(1),
+        // width: ResponsiveSize(150)
     },
     totalReviewText: {
         fontSize: ResponsiveSize(18),

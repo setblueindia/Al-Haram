@@ -42,9 +42,8 @@ const useProductDetails = (props) => {
   const [sliderData, setSliderData] = useState([])
   const [colorTex, setColorTex] = useState()
   const [quteID, setQuteID] = useState(0)
-
-
-
+  const [colorLable, setColorLable] = useState(null)
+  const [sizeLable, setSizeLable] = useState(null)
 
   const selectionColor = colorTex ? colorTex : " "
 
@@ -110,8 +109,6 @@ const useProductDetails = (props) => {
       setShowAnimation(false)
     }, 4000);
   }
-
-
 
 
   {/* Add To card API*/ }
@@ -206,6 +203,10 @@ const useProductDetails = (props) => {
                       media_gallery_entries {
                         file
                       }
+                      custom_attributes {
+                        color_label
+                        size_label
+                      }
                       only_x_left_in_stock
                       ... on ConfigurableProduct {
                         configurable_options {
@@ -262,6 +263,9 @@ const useProductDetails = (props) => {
       const response = await ProductDetalsBySKU(data, lang?.data)
       if (response?.status == '200') {
         setDetails(response?.data?.data?.products?.items[0])
+        // console.log(":::::::::::::: :::::::::", response?.data?.data?.products?.items[0]?.custom_attributes?.size_label)
+        setColorLable(response?.data?.data?.products?.items[0]?.custom_attributes?.color_label)
+        setSizeLable(response?.data?.data?.products?.items[0]?.custom_attributes?.size_label)
         getImageStr(response)
         const temp = [];
 
@@ -299,7 +303,6 @@ const useProductDetails = (props) => {
   }
 
   const getImageStr = (response) => {
-
     const temp = []
     response?.data?.data?.products?.items[0]?.configurable_options?.map((colorItem) => {
       if (colorItem?.attribute_code == "color") {
@@ -322,9 +325,7 @@ const useProductDetails = (props) => {
         })
       }
     })
-
     setImageObject(temp)
-
   }
 
   {/* Color Press Logic */ }
@@ -509,6 +510,8 @@ const useProductDetails = (props) => {
     qnt,
     imageObject,
     htmlSource,
+    colorLable,
+    sizeLable,
     getData,
     setImageArry
   }

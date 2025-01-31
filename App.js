@@ -20,7 +20,7 @@ const App = () => {
         const token = await messaging().getToken();
         FCMTokenStor(token)
       } else {
-        Alert.alert('Permission Denied', 'You need to grant notification permissions to receive notifications.');
+        // Alert.alert('Permission Denied', 'You need to grant notification permissions to receive notifications.');
       }
     };
     checkPermission();

@@ -1,5 +1,7 @@
 import {
     Image,
+    Linking,
+    Modal,
     ScrollView,
     StyleSheet,
     Text,
@@ -21,6 +23,7 @@ import CusLoader from '../../components/CustomLoader'
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
+import ShareWP from '../../components/ShareWP/ShareWP'
 
 
 const Checkbalance = () => {
@@ -35,7 +38,10 @@ const Checkbalance = () => {
     const [page, setPage] = useState(1)
     const [extra, setExtra] = useState(true)
     const [listTitel, setListTille] = useState()
-
+    const [shareon, setShareOn] = useState(false)
+    const [whatsappNumber, sewhatsappNumbert] = useState()
+    const [imges, setImages] = useState()
+    const [giftmes, setGiftmes] = useState()
 
     useEffect(() => {
         getGiftCardHistory()
@@ -142,23 +148,10 @@ const Checkbalance = () => {
     }
 
 
-    // const onShare = async () => {
-    //     const shareOptions = {
-    //         title: 'Share via',
-    //         message: 'AL-Haram Stores (Giftcard)',
-    //         url: 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg',
-    //         type: 'image/jpeg',
-    //     };
-
-    //     try {
-    //         await Share.open(shareOptions);
-    //     } catch (error) {
-    //         // Alert.alert('Error', error.message);
-    //     }
-    // }
-
-
     const onShare = async (giftcardImg, giftMes) => {
+        // setShareOn(true)
+        // setGiftmes(giftMes)
+        // setImages(giftcardImg)
         setLoadding(true)
         const imageUrl = giftcardImg ? giftcardImg : 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
         const localFilePath = `${RNFS.DocumentDirectoryPath}/image.jpeg`;
@@ -189,7 +182,64 @@ const Checkbalance = () => {
             console.log('Error sharing:', error.message);
             setLoadding(false)
         }
+
+
     };
+
+
+    const share2 = async () => {
+
+        // setShareOn(false);
+        // setLoadding(true);
+
+        // const imageUrl = imges
+        //     ? imges
+        //     : 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
+        // const localFilePath = `${RNFS.DocumentDirectoryPath}/image.jpeg`;
+        // const phoneNumber = whatsappNumber;
+
+        // try {
+        //     const downloadResult = await RNFS.downloadFile({
+        //         fromUrl: imageUrl,
+        //         toFile: localFilePath,
+        //     }).promise;
+
+        //     if (downloadResult.statusCode === 200) {
+        //         const shareOptions = {
+        //             message: giftmes ? giftmes : 'AL-Haram Stores (Giftcard)',
+        //             url: `file://${localFilePath}`,
+        //             social: Share.Social.WHATSAPP,
+        //             whatsAppNumber: `91${phoneNumber}`,
+        //         };
+
+        //         await Share.shareSingle(shareOptions);
+        //     } else {
+        //         console.log('Failed to download image:', downloadResult);
+        //     }
+        // } catch (error) {
+        //     console.log('Error sharing:', error.message);
+
+        //     const url = `whatsapp://send?phone=91${phoneNumber}&text=${encodeURIComponent(
+        //         giftmes ? giftmes : 'AL-Haram Stores (Giftcard)'
+        //     )}`;
+
+        //     Linking.canOpenURL(url)
+        //         .then((supported) => {
+        //             if (supported) {
+        //                 Linking.openURL(url);
+        //             } else {
+        //                 console.log('WhatsApp URL is not supported:', url);
+        //             }
+        //         })
+        //         .catch((err) => console.log('Error checking URL support:', err.message));
+        // } finally {
+        //     setShareOn(false);
+        //     setLoadding(false);
+        // }
+
+
+
+    }
 
     return (
         <View style={styles.mainView}>
@@ -421,6 +471,15 @@ const Checkbalance = () => {
                 </View>
 
             }
+
+            {console.log("shareon", whatsappNumber)}
+
+            <Modal
+                visible={shareon}
+                transparent={true}
+            >
+                <ShareWP setShareOn={setShareOn} whatsappNumber={whatsappNumber} sewhatsappNumbert={sewhatsappNumbert} share2={share2} />
+            </Modal>
         </View >
     )
 }

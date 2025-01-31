@@ -14,17 +14,15 @@ const Reviewpoupp = ({ setShowPopp }) => {
     const lang = useSelector(state => state.lang?.data)
 
 
-    // console.log("::::::::::::::", rating)
-
     const handleRatingCompleted = (ratingValue) => {
         setRating(ratingValue);
     };
     return (
         <View style={styles.mainView}>
             <View style={styles.conatiner}>
-                <Text style={[styles.headerText]}>{"You're reviewing:"}</Text>
+                <Text style={[styles.headerText]}>{lang == NUMBER?.num0 ? "أنت تقوم بمراجعة:" : "You're reviewing:"}</Text>
                 <View style={[styles.secondView, , lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                    <Text style={styles.ratereviewText}>{"Rate & Review"}</Text>
+                    <Text style={styles.ratereviewText}>{lang == NUMBER?.num0 ? "معدل ومراجعة" : "Rate & Review"}</Text>
                     <View style={styles.startView}>
                         <Rating
                             type='star'
@@ -40,14 +38,14 @@ const Reviewpoupp = ({ setShowPopp }) => {
                     <TextInput
                         style={[styles.textView]}
                         textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                        placeholder='Nickname'
+                        placeholder={lang == NUMBER.num0 ? 'اسمك المستعار' : 'Nickname'}
                         placeholderTextColor={"#00000090"}
 
                     />
                     <TextInput
                         style={[styles.textView, { marginTop: ResponsiveSize(20) }]}
                         textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                        placeholder='Summary'
+                        placeholder={lang == NUMBER.num0 ? 'ملخص' : 'Summary'}
                         placeholderTextColor={"#00000090"}
 
                     />
@@ -55,7 +53,7 @@ const Reviewpoupp = ({ setShowPopp }) => {
                     <TextInput
                         style={[styles.textView, { marginTop: ResponsiveSize(20), height: ResponsiveSize(200), textAlignVertical: 'top', padding: ResponsiveSize(20) }]}
                         textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-                        placeholder='Nickname'
+                        placeholder={lang == NUMBER.num0 ? "وصف" : 'Nickname'}
                         placeholderTextColor={"#00000090"}
                         multiline
                     />
@@ -66,13 +64,13 @@ const Reviewpoupp = ({ setShowPopp }) => {
                 <TouchableOpacity
                     onPress={() => { setShowPopp(false) }}
                     style={styles.btnView}>
-                    <Text style={styles.btnText}>{"SUBMIT"}</Text>
+                    <Text style={styles.btnText}>{lang == NUMBER.num1 ? "SUBMIT" : "يُقدِّم"}</Text>
                 </TouchableOpacity>
 
 
                 <TouchableOpacity
                     onPress={() => { setShowPopp(false) }}
-                    style={styles.closeView}>
+                    style={[styles.closeView, lang == NUMBER?.num0 && { left: ResponsiveSize(20) }]}>
 
                     <Icon name={"cross"} color={COLOR.white} size={ResponsiveSize(30)} />
                 </TouchableOpacity>

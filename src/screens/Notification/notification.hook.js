@@ -19,6 +19,7 @@ const useNotificationHook = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [nID, setNID] = useState([])
   const dispatch = useDispatch()
+  const [refreshing, setRefreshing] = useState(false);
 
 
 
@@ -40,7 +41,7 @@ const useNotificationHook = () => {
       setLoadding(false)
       if (response) {
         const read = true
-        GETNotificationAPI(read)
+        GETNotificationAPI()
         setLoadding(false)
         getUnReadeNotifications()
 
@@ -51,7 +52,7 @@ const useNotificationHook = () => {
       setLoadding(false)
     }
   }
-  const GETNotificationAPI = async (read) => {
+  const GETNotificationAPI = async (refreshingg) => {
     currePage < 1 && setLoadding(true)
     currePage >= 1 && setMoreData(true)
     const nextPage = currePage + 1
@@ -60,7 +61,7 @@ const useNotificationHook = () => {
       getNotificationHistoryByCustomerId(
         id : ${notiFicationID},
         pageSize: ${10},
-        curPage: ${nextPage}
+        curPage: ${refreshingg ? 1 : nextPage}
       )
       {
         id
@@ -78,7 +79,7 @@ const useNotificationHook = () => {
       try {
         const response = await NotificationAIP(sData, lang)
         if (response?.status == "200") {
-          setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
+          refreshingg ? setData(response?.data?.data?.getNotificationHistoryByCustomerId) : setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
           response?.data?.data?.getNotificationHistoryByCustomerId?.map((item) => {
           })
           if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
@@ -103,9 +104,6 @@ const useNotificationHook = () => {
     } else {
       console.log("::::::::: User data not found :::::::")
     }
-
-
-
   }
 
   const handleScroll = (event) => {
@@ -146,6 +144,17 @@ const useNotificationHook = () => {
     });
   };
 
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    const refreshingg = true
+    GETNotificationAPI(refreshingg)
+    setTimeout(() => {
+      setRefreshing(false);
+      setCurrentPage(1)
+    }, 2000);
+  };
+
   return {
     data,
     lang,
@@ -165,7 +174,9 @@ const useNotificationHook = () => {
     scrollToTop,
     flatListRef,
     showScrollToTop,
-    nID
+    nID,
+    refreshing,
+    onRefresh
   }
 }
 

@@ -43,6 +43,8 @@ const ProductDetails = (props) => {
         showModal,
         isLoading,
         sizeShow,
+        colorLable,
+        sizeLable,
         setShowModal,
         setSizeShow,
         colorOnPress,
@@ -64,13 +66,29 @@ const ProductDetails = (props) => {
     const { width } = useWindowDimensions();
 
     const injectedJavaScript = `
-    (function() {
-      setTimeout(function() {
-        const contentHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-        window.ReactNativeWebView.postMessage(contentHeight);
-      }, 500);  // Wait for the content to load completely
-    })();
-  `;
+        (function() {
+          setTimeout(function() {
+            const contentHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            window.ReactNativeWebView.postMessage(contentHeight);
+          }, 500);  // Wait for the content to load completely
+        })();
+      `;
+
+    //     const injectedJavaScript = `
+    //     (function() {
+    //       // Change font size
+    //       var style = document.createElement('style');
+    //       style.innerHTML = "body { font-size: 50px !important; }";
+    //       document.head.appendChild(style);
+
+    //       // Adjust WebView height after content loads
+    //       setTimeout(function() {
+    //         const contentHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+    //         window.ReactNativeWebView.postMessage(contentHeight);
+    //       }, 500);  // Wait for the content to load completely
+    //     })();
+    //     true;
+    // `;
     const handleMessage = (event) => {
         const height = Number(event.nativeEvent.data, 10);
         setWebViewHeight(height);
@@ -140,18 +158,17 @@ const ProductDetails = (props) => {
 
 
                 {/* ===============  Revieew Section =============== */}
-
-
                 {/* 
+
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate(NAVIGATION.reviewScrenn)
                     }}
-                    style={styles.reviewView}>
-                    <Text style={styles.reviewText}>{"Customer Testimonial"}</Text>
-                    <Text style={styles.reviewTextdes}>{"Excellent"}</Text>
+                    style={[styles.reviewView]}>
+                    <Text style={[styles.reviewText, lang?.data == NUMBER?.num0 && { textAlign: 'right' }]}>{lang?.data == NUMBER?.num0 ? "شهادة العملاء" : "Customer Testimonial"}</Text>
+                    <Text style={[styles.reviewTextdes, lang?.data == NUMBER?.num0 && { textAlign: 'right' }]}>{lang?.data == NUMBER?.num0 ? "ممتاز" : "Excellent"}</Text>
 
-                    <View style={styles.startView}>
+                    <View style={[styles.startView, lang?.data == NUMBER?.num0 && { flexDirection: 'row-reverse' }]}>
                         {testimonials?.map((item, index) => {
                             return (
                                 <StartICON name={"star"} size={ResponsiveSize(30)} color={"#FAB834"} />
@@ -159,14 +176,33 @@ const ProductDetails = (props) => {
                         })}
                     </View>
 
-                    <TouchableOpacity style={styles.totalReview}>
-                        <Text style={styles.totalReviewText}>{"7,262 reviews"}</Text>
+                    <TouchableOpacity style={[styles.totalReview, lang?.data == NUMBER?.num0 && { left: ResponsiveSize(20) }]}>
+                        <Text style={styles.totalReviewText}>{lang?.data == NUMBER?.num0 ? "7,262 تعليقًا" : "7,262 reviews"}</Text>
                     </TouchableOpacity>
 
                 </TouchableOpacity> */}
 
 
                 {/* ===============  Revieew Section =============== */}
+
+                {colorLable &&
+                    <View style={[{ flexDirection: 'row', marginLeft: ResponsiveSize(30), marginBottom: ResponsiveSize(20) }, lang?.data == NUMBER.num0 && { flexDirection: 'row-reverse', marginRight: ResponsiveSize(30) }]}>
+                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(20) }}>{lang?.data == NUMBER.num1 ? "Color : " : "اللون : "}</Text>
+                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(20) }}>{" " + colorLable}</Text>
+                    </View>
+                }
+                {sizeLable &&
+                    <View style={[{ flexDirection: 'row', marginLeft: ResponsiveSize(30), marginBottom: ResponsiveSize(20) }, lang?.data == NUMBER.num0 && { flexDirection: 'row-reverse', marginRight: ResponsiveSize(30) }]}>
+                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(20) }}>{lang?.data == NUMBER.num1 ? "Size : " : "المقاس : "}</Text>
+                        <Text style={{ color: COLOR.black, fontSize: ResponsiveSize(20) }}>{" " + sizeLable + " "}</Text>
+                    </View>
+                }
+
+                {(sizeLable || colorLable) &&
+                    <View style={{ paddingHorizontal: ResponsiveSize(20), marginBottom: ResponsiveSize(20) }}>
+                        <View style={[styles.devider]} />
+                    </View>
+                }
 
 
                 {defaultColor &&
@@ -290,7 +326,8 @@ const ProductDetails = (props) => {
                     style={[{
                         color: COLOR.black,
                         marginLeft: ResponsiveSize(30),
-                        marginTop: ResponsiveSize(20)
+                        marginTop: ResponsiveSize(20),
+                        // fontSize: ResponsiveSize(20)
                     },
                     lang.data == NUMBER.num0 && {
                         textAlign: 'right',

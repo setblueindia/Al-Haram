@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Modal, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Modal, RefreshControl, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './notification.style'
 import CustomeHeader from '../../components/CustomeHeader'
@@ -30,6 +30,8 @@ const Notification = () => {
     lotti,
     messText,
     showScrollToTop,
+    refreshing,
+    onRefresh,
     nID
   } = useNotificationHook()
 
@@ -46,6 +48,11 @@ const Notification = () => {
             onEndReached={() => { data?.length > 0 && GETNotificationAPI() }}
             onEndReachedThreshold={0.1}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                onRefresh={onRefresh}
+                refreshing={refreshing} />
+            }
             ListFooterComponent={() => {
               return (
                 <View style={{
