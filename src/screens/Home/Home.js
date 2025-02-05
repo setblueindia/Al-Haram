@@ -69,12 +69,9 @@ const Home = (props) => {
           </View>
 
           <View style={styles.bannerView2}>
-            {/* <View style={styles.bannerImage}> */}
             <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{
               uri: bannerUrl
-              // uri: "https://alharamstores.com/pub/media/wysiwyg/FREE-SHIPPING-E_A_-4-0__1.jpg"
             }} />
-            {/* </View> */}
           </View>
 
           <View style={styles.siderView}>

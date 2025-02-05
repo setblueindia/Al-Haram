@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
-import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
-
+import { ALINE, COLOR, FONTWEGHIT, MEASUREMENT } from "../../constants/style";
 
 
 
@@ -11,11 +10,11 @@ export const styles = StyleSheet.create({
         backgroundColor: COLOR.white,
     },
     CustomeHeaderView: {
-        width: "100%",
+        width: MEASUREMENT.masure100,
     },
     containerView: {
-        height: "100%",
-        width: "100%",
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100,
 
     },
     siderView: {
@@ -24,8 +23,8 @@ export const styles = StyleSheet.create({
     storyView: {
         paddingHorizontal: ResponsiveSize(20),
         flex: 1,
-        width: "100%",
-        height: "100%",
+        width: MEASUREMENT.masure100,
+        height: MEASUREMENT.masure100,
         zIndex: 10,
         marginTop: ResponsiveSize(20)
     },
@@ -45,7 +44,7 @@ export const styles = StyleSheet.create({
 
     },
     bannerView: {
-        width: "100%",
+        width: MEASUREMENT.masure100,
         height: ResponsiveSize(40),
         paddingHorizontal: ResponsiveSize(10),
         borderRadius: ResponsiveSize(10),
@@ -59,31 +58,30 @@ export const styles = StyleSheet.create({
         marginVertical: ResponsiveSize(20),
         padding: ResponsiveSize(10),
         alignSelf: ALINE.center,
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
     bannerImage: {
-        height: "100%",
-        width: "100%",
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100,
         borderColor: "#00000050",
         padding: ResponsiveSize(5),
         borderRadius: ResponsiveSize(10),
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
 
     },
     bannerView3: {
-        width: "100%",
-        height: "100%",
+        width: MEASUREMENT.masure100,
+        height: MEASUREMENT.masure100,
         paddingHorizontal: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
         backgroundColor: COLOR.white
     },
 
     bannerImg: {
-        height: "100%",
-        width: "100%",
-        // resizeMode: RESIZEMODE.contain,
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100,
         borderRadius: ResponsiveSize(10),
     },
     cetegoriesBox: {
@@ -94,8 +92,8 @@ export const styles = StyleSheet.create({
     },
     productView: {
         flex: 1,
-        height: "100%",
-        width: "100%"
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100
     },
     scrollToTopButton: {
         position: 'absolute',
@@ -106,21 +104,20 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(25),
         height: ResponsiveSize(50),
         width: ResponsiveSize(50),
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
     scrollToTopButtonText: {
-        color: 'white',
+        color: COLOR.white,
         fontWeight: 'bold',
     },
     giftcart: {
         paddingHorizontal: ResponsiveSize(20),
         marginTop: ResponsiveSize(20)
-        // borderRadius:ResponsiveSize(20)
     },
     giftcartView: {
         height: ResponsiveSize(400),
-        width: "100%",
+        width: MEASUREMENT.masure100,
         borderRadius: ResponsiveSize(20)
 
     }
