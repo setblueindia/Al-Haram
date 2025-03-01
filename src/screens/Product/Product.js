@@ -14,6 +14,7 @@ import CusLoader from '../../components/CustomLoader'
 import DataIsNotFound from '../../components/DataNotFound2'
 import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/dist/AntDesign';
+import SAR from '../../components/SAR/Index'
 
 
 const Product = (props) => {
@@ -170,9 +171,19 @@ const Product = (props) => {
                                                 </View>
 
                                                 <View style={styles.textView}>
-                                                    <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 16 ? name + "..." : item.name}</Text>
-                                                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price?.regularPrice?.amount?.value}</Text>
+                                                    {/* ADD IMG */}
+                                                    <SAR
+                                                        price={item?.price?.regularPrice?.amount?.value}
+                                                        normal={true}
+                                                        textAlign={{ justifyContent: lang == NUMBER.num1 ? 'flex-start' : 'flex-end' }}
+                                                    />
+                                                    {/* <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 16 ? name + "..." : item.name}</Text>
+                                                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price?.regularPrice?.amount?.value}</Text> */}
                                                 </View>
+
+
+
+
 
                                                 <TouchableOpacity
                                                     onPress={() => {

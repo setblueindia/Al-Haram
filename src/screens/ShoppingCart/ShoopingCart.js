@@ -1,5 +1,5 @@
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -15,6 +15,7 @@ import CusLoader from '../../components/CustomLoader';
 import ShipingMethod from './ShipingMethod';
 import CusModal from '../../components/CusModal';
 import DataIsNotFound from '../../components/DataNotFound2';
+import SAR from '../../components/SAR/Index';
 
 
 const ShoopingCart = (props) => {
@@ -44,6 +45,7 @@ const ShoopingCart = (props) => {
         noties,
         giftCardList,
         type,
+        cartTotal,
         setGiftSatus, giftSatus,
         setGiftCardCode, giftCardCode,
         updateQnty,
@@ -77,10 +79,19 @@ const ShoopingCart = (props) => {
 
 
 
+    const [isAtTop, setIsAtTop] = useState(true);
+    const handleScroll = (event) => {
+        const scrollY = event.nativeEvent.contentOffset.y;
+        setIsAtTop(scrollY <= 0);
+    };
+
+
+
+
+
 
     return (
         <View style={styles.mainView}>
-            {/* <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} /> */}
             <CommanHeader
                 name={
                     index == 3
@@ -119,7 +130,11 @@ const ShoopingCart = (props) => {
                 {index == 0 &&
                     <View style={{ flex: 1 }}>
                         {data.length > 0 ?
-                            <ScrollView style={{ flex: 1 }}>
+                            <ScrollView
+                                style={{ flex: 1 }}
+                                onScroll={handleScroll}
+
+                            >
                                 <View style={styles.cartView}>
                                     {noties &&
                                         <View style={{ padding: ResponsiveSize(10), borderRadius: ResponsiveSize(20), backgroundColor: COLOR.primaray, marginBottom: ResponsiveSize(20) }}>
@@ -127,7 +142,6 @@ const ShoopingCart = (props) => {
                                         </View>
                                     }
                                     <View style={{
-                                        // height: outOfStock?.length > 0 ? "60%" : "100%"
                                     }} >
                                         <FlatList
                                             showsVerticalScrollIndicator={false}
@@ -188,7 +202,47 @@ const ShoopingCart = (props) => {
 
                                 : null}
 
+                        {(data?.length > 0) &&
+                            <View style={{
 
+                            }}>
+                                <View style={[styles.subTotalView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    <Text
+                                        style={{
+                                            color: COLOR.white,
+                                            fontSize: ResponsiveSize(22),
+                                            fontWeight: FONTWEGHIT.bold
+                                        }}>{lang == NUMBER.num1 ? "Sub Total" : "الإجمالي"}</Text>
+
+                                    {/* 
+                                       <Text
+                                            style={{
+                                                color: COLOR.white,
+                                                fontSize: ResponsiveSize(22),
+                                                fontWeight: FONTWEGHIT.bold
+                                            }}>{lang == NUMBER.num1 ? "SAR  " + cartTotal : "سار " + cartTotal}</Text> */}
+
+                                    {/* ADD IMG */}
+
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Image
+                                            style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.white }}
+                                            source={require('../../assests/images/Common/SAR.png')} />
+
+                                        <View style={{ width: ResponsiveSize(5) }} />
+
+                                        <Text
+                                            style={{
+                                                color: COLOR.white,
+                                                fontSize: ResponsiveSize(22),
+                                                fontWeight: FONTWEGHIT.bold
+                                            }}>{cartTotal}</Text>
+
+                                    </View>
+
+                                </View>
+                            </View>
+                        }
                     </View>
 
                 }
@@ -228,8 +282,6 @@ const ShoopingCart = (props) => {
                             selectPayment={selectPayment}
                             wallateAmount={wallateAmount}
                             paymentScreenData={paymentScreenData}
-                            // showWallet={showWallet}
-                            // setShowWallet={setShowWallet}
                             setActionCode={setActionCode}
                             applyCoupan={applyCoupan}
                             data={shopinfCratData}
@@ -270,7 +322,7 @@ const ShoopingCart = (props) => {
                                     : index == 2
                                         ? (lang == NUMBER.num0 ? 'متابعة الطلب' : 'Track Order')
                                         : index == 0
-                                            ? (lang == NUMBER.num0 ? 'متابعة' : 'Tracking')
+                                            ? (lang == NUMBER.num0 ? 'متابعة' : 'Checkout')
                                             : shopinfCratData?.ProceedtoCheckout
                             }
                             color="#009834"
@@ -333,10 +385,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "#202020",
-        // flex: 1, 
         marginLeft: ResponsiveSize(5),
         fontSize: ResponsiveSize(18)
-        //  width:"100%"
 
     },
     lineView: {
@@ -376,7 +426,6 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     container: {
-        // flex: 1,
         height: "77%",
         width: "100%"
     },
@@ -395,5 +444,20 @@ const styles = StyleSheet.create({
         borderBottomWidth: ResponsiveSize(1),
         borderColor: COLOR.darkGray,
         marginBottom: ResponsiveSize(10)
+    },
+    subTotalView: {
+        width: "93%",
+        height: ResponsiveSize(60),
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        paddingHorizontal: ResponsiveSize(20),
+        alignSelf: 'center',
+        backgroundColor: COLOR.primaray,
+        borderWidth: ResponsiveSize(0.5),
+        borderColor: "#00000050",
+        borderRadius: ResponsiveSize(5),
+        bottom: ResponsiveSize(5),
+        // position: 'absolute'
     }
 })

@@ -34,7 +34,8 @@ export const styles = StyleSheet.create({
     devider: {
         height: ResponsiveSize(1),
         width: "100%",
-        backgroundColor: COLOR.gray
+        backgroundColor: COLOR.gray,
+        alignSelf: 'center'
     },
     deviderView: {
         padding: ResponsiveSize(20)

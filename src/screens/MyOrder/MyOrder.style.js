@@ -62,6 +62,8 @@ export const styles = StyleSheet.create({
     alignItems: ALINE.center,
     padding: ResponsiveSize(5),
     borderRadius: ResponsiveSize(3),
+    width: ResponsiveSize(100),
+    // backgroundColor: COLOR.primaray
   },
   btnView: {
     flexDirection: ALINE.row

@@ -7,14 +7,14 @@ export const styles = StyleSheet.create({
     mainView: {
         flex: 1,
         backgroundColor: COLOR.white,
-        height:"100%",
-        width:"100%"
+        height: "100%",
+        width: "100%"
     },
     containView: {
         padding: ResponsiveSize(20),
-        flex:1,
-        height:"100%",
-        width:"100%",
+        flex: 1,
+        height: "100%",
+        width: "100%",
     },
     firstView: {
         width: "100%",
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
         fontWeight: FONTWEGHIT.font600,
         // backgroundColor:"red",
 
-        
+
     },
     DottView: {
         height: ResponsiveSize(10),
@@ -51,8 +51,8 @@ export const styles = StyleSheet.create({
     statusText: {
         color: "green",
         marginLeft: ResponsiveSize(10),
-        flex:1,
-        textAlign:'left'
+        flex: 1,
+        textAlign: 'left'
     },
     StatusView: {
         flexDirection: ALINE.row,
@@ -68,8 +68,8 @@ export const styles = StyleSheet.create({
     printText: {
         color: COLOR.primaray,
         fontWeight: FONTWEGHIT.font600,
-        width:ResponsiveSize(150),
-        textAlign:'right'
+        width: ResponsiveSize(150),
+        textAlign: 'right'
 
     },
     reOrderText: {
@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
         textAlign: EXTRASTR.right
     },
     orderDetails: {
-        paddingHorizontal:ResponsiveSize(20)
+        paddingHorizontal: ResponsiveSize(20)
     },
     headerText: {
         color: COLOR.black,
@@ -126,14 +126,14 @@ export const styles = StyleSheet.create({
     },
     secondTitleText: {
         color: "#00000070",
-        width:ResponsiveSize(350)
+        width: ResponsiveSize(350)
     },
     secondPriceText: {
         color: COLOR.black,
         fontSize: ResponsiveSize(20),
         fontWeight: FONTWEGHIT.font600,
-        flex:1,
-        textAlign:'right'
+        // flex: 1,
+        textAlign: 'right'
     },
     addresstext: {
 
@@ -148,65 +148,69 @@ export const styles = StyleSheet.create({
         lineHeight: ResponsiveSize(30),
         color: "#202020"
     },
-    btnView:{
-        width :"100%",
-        position:'absolute',
-        bottom:ResponsiveSize(20),
-        paddingHorizontal:ResponsiveSize(20)
+    btnView: {
+        width: "100%",
+        position: 'absolute',
+        bottom: ResponsiveSize(20),
+        paddingHorizontal: ResponsiveSize(20)
     },
-    itemsList:{
-        width:"100%",
+    itemsList: {
+        width: "100%",
         // height:ResponsiveSize(130),
         // backgroundColor:COLOR.black,
-        borderRadius:ResponsiveSize(20),
-        borderWidth:ResponsiveSize(1),
-        borderColor:COLOR.primaray,
-        flexDirection:'row',
-        padding:ResponsiveSize(10),
-        justifyContent:'space-between',
-        alignItems:'center'
-       
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+
 
     },
-    imgeView:{
-        height:ResponsiveSize(120),
-        width:ResponsiveSize(100),
+
+    topListView: {
+        width: "100%",
+        borderRadius: ResponsiveSize(20),
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.primaray,
+        padding: ResponsiveSize(10),
+    },
+    imgeView: {
+        height: ResponsiveSize(120),
+        width: ResponsiveSize(100),
         // backgroundColor:COLOR.black,
-        borderRadius:ResponsiveSize(10),
+        borderRadius: ResponsiveSize(10),
     },
-    productImg:{
-        height:"100%",
-        width:"100%",
-        resizeMode:RESIZEMODE.cover
+    productImg: {
+        height: "100%",
+        width: "100%",
+        resizeMode: RESIZEMODE.cover
     },
-    firstOne:{
-        flexDirection:ALINE.row
+    firstOne: {
+        flexDirection: ALINE.row
     },
-    nameView:{
-        padding:ResponsiveSize(5),
-        paddingHorizontal:ResponsiveSize(10),
+    nameView: {
+        padding: ResponsiveSize(5),
+        paddingHorizontal: ResponsiveSize(10),
     },
-    normalText:{
-       color:COLOR.black
+    normalText: {
+        color: COLOR.black
     },
-    fistPriceTex:{
-        textAlign:ALINE.center,
-        color:COLOR.primaray,
-        fontWeight:FONTWEGHIT.font600,
-        marginRight:ResponsiveSize(20),
-        flex:1,
-        textAlign:'right'
+    fistPriceTex: {
+        textAlign: ALINE.center,
+        color: COLOR.primaray,
+        fontWeight: FONTWEGHIT.font600,
+        marginRight: ResponsiveSize(20),
+        flex: 1,
+        textAlign: 'right'
     },
-    orderNameText:{
-        width:ResponsiveSize(250),
-        fontSize:ResponsiveSize(20),
-        fontWeight:"500",
-        color:COLOR.black
+    orderNameText: {
+        width: ResponsiveSize(250),
+        fontSize: ResponsiveSize(20),
+        fontWeight: "500",
+        color: COLOR.black
     },
 
-    titleText:{
-        color:COLOR.darkGray,
-        fontWeight:"600",
+    titleText: {
+        color: COLOR.darkGray,
+        fontWeight: "600",
     }
 
 

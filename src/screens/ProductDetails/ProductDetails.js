@@ -17,7 +17,9 @@ import FastImage from 'react-native-fast-image'
 import RenderHTML from 'react-native-render-html';
 import ProductBox from '../../components/ProductBox'
 import WebView from 'react-native-webview'
-import StartICON from 'react-native-vector-icons/AntDesign';
+import BIcon from 'react-native-vector-icons/AntDesign';
+import SAR from '../../components/SAR/Index'
+
 
 const ProductDetails = (props) => {
     const {
@@ -62,6 +64,7 @@ const ProductDetails = (props) => {
 
     const addToCatdOn = props?.route?.params?.addToCatdOn
     const [webViewHeight, setWebViewHeight] = useState(0);
+    const [shoeBigSilder, setShowBingSider] = useState(false)
 
     const { width } = useWindowDimensions();
 
@@ -104,7 +107,7 @@ const ProductDetails = (props) => {
             </View>
             <ScrollView style={{ flex: 1 }} >
                 <View style={styles.silderBox}>
-                    <Slider data={sliderData} height={ResponsiveSize(450)} lang={lang} />
+                    <Slider data={sliderData} height={ResponsiveSize(450)} lang={lang} setShowBingSider={setShowBingSider} />
                 </View>
 
                 <View style={[styles.productCodeView]}>
@@ -118,7 +121,16 @@ const ProductDetails = (props) => {
                 </View>
 
                 <View style={styles.PriveView}>
-                    <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text>
+                    {/* ADD IMG */}
+                    <SAR
+                        price={details?.price_range?.minimum_price?.regular_price?.value}
+                        normal={true}
+                        texSize={ResponsiveSize(30)}
+                        imgSize={ResponsiveSize(25)}
+                        textAlign={{ justifyContent: lang.data == NUMBER.num1 ? 'flex-start' : 'flex-end' }}
+                    />
+
+                    {/* <Text style={[styles.PrizeText, lang.data == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{details?.price_range?.minimum_price?.regular_price?.value ? label?.SAR + " " + details?.price_range?.minimum_price?.regular_price?.value : " "}</Text> */}
                 </View>
 
                 <View style={styles.deviderView}>
@@ -258,11 +270,14 @@ const ProductDetails = (props) => {
 
                 {
                     (defaultColor || defaultSize) &&
-                    <View style={styles.devider} />}
+                    <View style={{ padding: ResponsiveSize(20) }}>
+                        <View style={styles.devider} />
+                    </View>
+                }
 
                 {defaultSize &&
                     <View style={[styles.sizeView, lang?.data == NUMBER.num0 && {}]}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10), textAlign: ALINE.right }]}>{Str?.Size}</Text>
+                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10), textAlign: ALINE.right, alignSelf: 'flex-end' }]}>{Str?.Size}</Text>
 
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ marginTop: ResponsiveSize(20) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
@@ -382,9 +397,6 @@ const ProductDetails = (props) => {
                                 const finalName = name.substring(0, 15);
                                 const productImage = items?.image?.url
 
-                                // console.log(items?.sku)
-
-
                                 return (
                                     <View key={index} style={{ flexDirection: 'row' }}>
                                         <TouchableOpacity onPress={() => { setImageArry(true), navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
@@ -395,7 +407,10 @@ const ProductDetails = (props) => {
                                                 <FastImage style={{ height: "100%", width: "100%" }} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
                                             </View>}
                                             <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
-                                            <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{label.SAR + " " + items?.price_range?.minimum_price?.regular_price?.value}</Text>
+
+
+                                            {/* <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{label.SAR + " " + items?.price_range?.minimum_price?.regular_price?.value}</Text> */}
+                                            <SAR price={items?.price_range?.minimum_price?.regular_price?.value} />
                                         </TouchableOpacity>
                                         <View style={{ width: ResponsiveSize(30) }} />
                                     </View>
@@ -459,6 +474,37 @@ const ProductDetails = (props) => {
 
 
             </View>
+
+            <Modal
+                visible={shoeBigSilder}
+                transparent={true}
+            >
+                <View style={{ backgroundColor: COLOR.white, height: "100%", width: "100%", }}>
+                    <TouchableOpacity
+                        style={{
+                            position: 'absolute',
+                            top: ResponsiveSize(80),
+                            left: ResponsiveSize(20),
+                            height: ResponsiveSize(80),
+                            width: ResponsiveSize(80),
+                            borderRadius: ResponsiveSize(100),
+                            backgroundColor: "#00000020",
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 100
+                        }}
+                        onPress={() => { setShowBingSider(false) }}>
+
+                        <BIcon
+                            name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft}
+                            size={ResponsiveSize(40)} coloe={COLOR.black} />
+
+                    </TouchableOpacity>
+                    {/* <View style={{ marginTop: ResponsiveSize(200) }} /> */}
+
+                    <Slider data={sliderData} height={ResponsiveSize(1000)} lang={lang} lottie={true} />
+                </View>
+            </Modal>
 
             {
                 isLoading &&

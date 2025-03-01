@@ -31,12 +31,28 @@ const useProfileHook = () => {
   const lastName = userData?.data?.lastname
   const name = (firstName && lastName) ? firstName + " " + lastName : NUMBER.num0 == lang ? "حسابي" : "User"
   const valiTemp = userData?.data
+  const [isSponsor, setIsSponsor] = useState()
+
+
+  const getIsSponsor = () => {
+
+    userData?.data?.custom_attributes?.map((item) => {
+      if (item?.attribute_code == "is_sponsor") {
+        setIsSponsor(item?.value)
+      }
+    })
+
+  }
+
+
+
+
   const menuItems = [
     { icon: 'hearto', text: PROFILEStr?.Wishlist, display: 1 },
     { icon: 'wallet', text: PROFILEStr?.MyWallet, display: 1 },
     { icon: 'gift', text: PROFILEStr?.giftCardBalcnce, display: 1 },
     { icon: 'shoppingcart', text: PROFILEStr?.MyOrder, display: 1 },
-    { icon: 'shoppingcart', text: PROFILEStr?.Sponser, display: 1 },
+    isSponsor == "1" && { icon: 'shoppingcart', text: PROFILEStr?.Sponser, display: 1 },
     { icon: 'book', text: PROFILEStr?.AddressBook, display: 1 },
     { icon: 'phone', text: PROFILEStr?.CustomerService, display: 1 },
     { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN, display: 1 },
@@ -53,7 +69,11 @@ const useProfileHook = () => {
   useEffect(() => {
     getUnReadeNotifications()
     oldAddressDetele()
+    getIsSponsor()
   }, [userData?.data?.id])
+
+
+
 
   {/* OnPress Logic*/ }
   const onPress = (item) => {

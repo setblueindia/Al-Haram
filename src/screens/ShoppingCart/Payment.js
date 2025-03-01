@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
@@ -9,6 +9,7 @@ import MinusIcon from 'react-native-vector-icons/AntDesign';
 import { Ar, En } from '../../constants/localization'
 import { setPaymentMethod } from '../../api/axios.api'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import SAR from '../../components/SAR/Index'
 
 const Payment = ({
   data,
@@ -89,7 +90,7 @@ const Payment = ({
     // SHOWTOTS("First Remove gift giftcard")
   }
 
-  // console.log("totalAmount :::::", totalAmount[0])
+
 
   return (
     <KeyboardAwareScrollView style={{ flex: 1 }}>
@@ -263,7 +264,11 @@ const Payment = ({
                 <View style={styles.container}>
                   <Text style={styles.containerText}>{lable?.PaymentToBeMade}</Text>
                   <View style={styles.priceView}>
-                    <Text style={styles.priceText}>{lable.SAR + " " + totalAmount}</Text>
+                    {/* <Text style={styles.priceText}>{lable.SAR + " " + totalAmount}</Text> */}
+
+                    {/* ADD IMG */}
+                    <SAR price={totalAmount} imgSize={ResponsiveSize(18)} normal={true} tintColor={COLOR.white} texSize={ResponsiveSize(20)} />
+
                   </View>
                 </View>
                 <View style={styles.barView}>
@@ -277,7 +282,11 @@ const Payment = ({
                 <View style={styles.container}>
                   <Text style={styles.containerText}>{lable?.AmountinYourWallet}</Text>
                   <View style={styles.priceView}>
-                    <Text style={styles.priceText}>{lable.SAR + " " + wallateAmount}</Text>
+                    {/* <Text style={styles.priceText}>{lable.SAR + " " + wallateAmount}</Text> */}
+
+                    {/* ADD IMG */}
+                    <SAR price={wallateAmount} imgSize={ResponsiveSize(18)} normal={true} tintColor={COLOR.white} texSize={ResponsiveSize(20)} />
+
                   </View>
                 </View>
                 <View style={styles.barView}>
@@ -291,11 +300,41 @@ const Payment = ({
                 <View style={styles.container}>
                   <Text style={styles.containerText}>{lable?.Leftamounttobepaid}</Text>
                   <View style={styles.priceView}>
-                    <Text style={styles.priceText}>{lable.SAR + " " + dueAmount && dueAmount}</Text>
+                    {/* <Text style={styles.priceText}>{lable.SAR + " " + dueAmount && dueAmount}</Text> */}
+
+
+                    {/* ADD IMG */}
+                    <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                      <Image
+                        style={{ height: ResponsiveSize(18), width: ResponsiveSize(18), tintColor: COLOR.white }}
+                        source={require('../../assests/images/Common/SAR.png')} />
+                      <View style={{ width: ResponsiveSize(10) }} />
+                      <Text style={styles.priceText}>{dueAmount && dueAmount}</Text>
+                    </View>
+
+
                   </View>
                 </View>
               </View>
-              <Text style={styles.lastTexrt}>{lable.RemainingWalletAmount + " :" + lable?.SAR + " " + RemingAmount}</Text>
+              {/* <Text style={styles.lastTexrt}>{lable.RemainingWalletAmount + " :" + lable?.SAR + " " + RemingAmount}</Text> */}
+
+              {/* ADD IMG */}
+
+              <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                <Text style={styles.lastTexrt}>{lable.RemainingWalletAmount + " :"}</Text>
+
+                <View style={{ width: ResponsiveSize(5) }} />
+
+                <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: ResponsiveSize(20) }}>
+                  <Image
+                    style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.primaray }}
+                    source={require('../../assests/images/Common/SAR.png')} />
+
+                  <View style={{ width: ResponsiveSize(5) }} />
+                  <Text style={[styles.priceText, { color: COLOR.primaray }]}>{RemingAmount && RemingAmount}</Text>
+                </View>
+
+              </View>
 
             </View>
           }
@@ -379,7 +418,32 @@ const Payment = ({
                 <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
                   <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
-                  <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text>
+
+                  {/* ADD IMG */}
+
+                  <View style={{
+                    width: ResponsiveSize(200),
+                    // flex: 1,
+                    alignItems: 'center',
+                    alignSelf: lang == NUMBER.num0 ? 'flex-end' : 'flex-start',
+                    justifyContent: lang == NUMBER.num0 ? 'flex-start' : 'flex-end',
+                    flexDirection: ALINE.row,
+
+                  }}>
+                    <Image
+                      style={[{
+                        height: ResponsiveSize(20),
+                        width: ResponsiveSize(20),
+                        tintColor: COLOR.black
+                      }, items?.code == "grand_total" && { tintColor: COLOR.primaray }]}
+                      source={require('../../assests/images/Common/SAR.png')} />
+                    <View style={{ width: ResponsiveSize(5) }} />
+                    <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{" " + items?.value}</Text>
+                  </View>
+
+
+
+                  {/* <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text> */}
                 </View>
               </View>
             )
@@ -661,7 +725,6 @@ const styles = StyleSheet.create({
   },
   price: {
     color: COLOR.black,
-    flex: 1,
     textAlign: 'right'
   },
   FinaltextView: {
@@ -670,10 +733,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: ResponsiveSize(120),
     alignItems: ALINE.center,
-    // flexDirection: ALINE.row,
     padding: ResponsiveSize(20),
-    // justifyContent: ALINE.spaceBetween,
-    // paddingHorizontal: ResponsiveSize(20),
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
@@ -779,7 +839,7 @@ const styles = StyleSheet.create({
   },
   priceText: {
     color: COLOR.white,
-    width: "100%",
+    // width: "100%",
     textAlign: ALINE.center
   },
   walletLineView: {

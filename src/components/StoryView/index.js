@@ -12,9 +12,6 @@ import { ResponsiveSize } from '../../utils/utils'
 
 const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
     const [imageLoader, setImageLoader] = useState(false)
-
-
-
     return (
 
         <View style={[styles.mainView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -27,7 +24,6 @@ const StoryView = ({ data, lang, CetegoriesData, navigation }) => {
                 horizontal
                 renderItem={({ item, index }) => {
                     const temp = item?.children?.length <= 0 ? false : true
-
 
                     return (
                         <View style={{}}>

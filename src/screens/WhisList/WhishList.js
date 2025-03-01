@@ -10,6 +10,7 @@ import { COLOR } from '../../constants/style'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import DataIsNotFound from '../../components/DataNotFound2'
+import SAR from '../../components/SAR/Index'
 
 const WhishList = () => {
   const { navigation, data, lang, likePress, isLoading, dislikePress, lotti, userData } = useWhishListHook()
@@ -27,14 +28,18 @@ const WhishList = () => {
           return (
             <View style={{}} key={index}>
               <TouchableOpacity
-                onPress={()=>{navigation.navigate(NAVIGATION.ProducDetails , { SKU: item?.sku })}}
+                onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku }) }}
                 style={styles.imageView}>
                 {item?.image ? <FastImage style={styles.image} source={{ uri: item?.image }} /> : <View style={[styles.imageView, { backgroundColor: COLOR.black }]} />}
               </TouchableOpacity>
 
               <View style={styles.textView}>
                 <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Name}</Text>
-                <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SAR : " + item?.price}</Text>
+                {/* <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{"SAR : " + item?.price}</Text> */}
+                {/* ADD IMG */}
+                <SAR price={item?.price} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? 'flex-end' : 'flex-start' }} />
+
+
               </View>
 
               <TouchableOpacity

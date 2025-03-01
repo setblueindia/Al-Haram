@@ -44,6 +44,11 @@ const Login = (props) => {
     changeLungues
   } =
     useLoginHook(props);
+
+
+  // console.log("props :::::: ", props?.route?.params?.shoeMes)
+
+
   return (
     <View style={{ flex: 1, backgroundColor: COLOR.white }}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={[styles.mainView]}>
@@ -166,6 +171,25 @@ const Login = (props) => {
                   text={whiteEmail ? langues?.SignIn : langues?.SendOTP}
                 />
               </View>
+
+              {props?.route?.params?.shoeMes &&
+                <View style={{
+                  padding: ResponsiveSize(10),
+                  backgroundColor: COLOR.white,
+                  marginTop: ResponsiveSize(10),
+                  borderRadius: ResponsiveSize(20),
+                  borderWidth: ResponsiveSize(1),
+                  borderColor: COLOR.primaray
+                }}>
+                  <Text style={{
+                    color: COLOR.primaray,
+                    fontSize: ResponsiveSize(22),
+                    textAlign: 'center',
+                    fontWeight: 'bold'
+                  }}>{props?.route?.params?.shoeMes}</Text>
+                </View>
+              }
+
               <View style={styles.devider} />
               <View style={styles.socialButton}>
                 <SocialButton onPress={() => { handleGoogleSignIn() }} icon={google} text={LOGINStr.Google} />
@@ -186,6 +210,7 @@ const Login = (props) => {
                 text={langues?.SignUp}
                 color={COLOR.white}
               />
+
             </View>
           </View>
         </View>

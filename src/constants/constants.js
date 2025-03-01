@@ -35,7 +35,8 @@ export const NAVIGATION = {
   Maintenance: "MaintenanceScreen",
   giftBalanceCheck: "Cheackbalancescreen",
   reviewScrenn: "reviewScreen",
-  giftcardHostory: "GiftCardHistory"
+  giftcardHostory: "GiftCardHistory",
+  WriteReview: "WriteReview"
 
 };
 export const LOGINStr = {

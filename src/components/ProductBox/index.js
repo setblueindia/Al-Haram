@@ -9,6 +9,7 @@ import { Ar, En } from '../../constants/localization'
 import { NavigationRouteContext } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 import { BASE_URL } from '../../constants/axios.url'
+import SAR from '../SAR/Index'
 
 const ProductBox = ({ navigation, lang, sindex, items }) => {
 
@@ -21,7 +22,10 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
       styles.mainView,
       sindex % 2 == 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
     ]}>
-      <View style={styles.bannerView}>
+      <TouchableOpacity
+        activeOpacity={items?.is_viewAll == 1 ? 0.8 : 1}
+        onPress={() => { items?.is_viewAll == 1 && navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}
+        style={styles.bannerView}>
         <FastImage
           resizeMode='contain'
           style={styles.bannerImg}
@@ -40,7 +44,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
           }}>
             <ActivityIndicator size='small' color={COLOR.primaray} />
           </View>}
-      </View>
+      </TouchableOpacity>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
         <Text style={[styles.categoriesName, lang.data == NUMBER.num0 && { textAlign: 'right' }]}>{items?.title}</Text>
@@ -84,7 +88,13 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
                     </View>
                   }
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
-                  <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{labale.SAR + " " + items?.price}</Text>
+
+                  {/* ADD IMG */}
+                  <SAR price={items?.price} textAlign={{ justifyContent: 'center', width: ResponsiveSize(150) }} />
+
+
+
+
                 </TouchableOpacity>
                 <View style={{ width: ResponsiveSize(30) }} />
               </View>
@@ -133,7 +143,7 @@ const styles = StyleSheet.create({
   viewText: {
     color: COLOR.primaray,
     width: ResponsiveSize(100),
-    textAlign: 'right'
+    textAlign: 'right',
   },
   subCategories: {
     flexDirection: 'row',

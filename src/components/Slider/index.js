@@ -4,6 +4,7 @@ import {
     FlatList,
     Dimensions,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 import { styles } from './silder.style';
@@ -12,14 +13,28 @@ import { A } from '../../assests';
 import { NUMBER } from '../../constants/constants';
 import LottieView from 'lottie-react-native';
 import { ResponsiveSize } from '../../utils/utils';
+import ZOOMICON from 'react-native-vector-icons/MaterialIcons';
 
 
-const Slider = ({ height, data, home, lang }) => {
+const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isZooming, setIsZooming] = useState(false);
     const flatListRef = useRef();
     const [lottiOn, setLottiOn] = useState(true)
     const windowWidth = Dimensions.get('window').width;
+    const flatListRef2 = useRef();
+    const [targetIndex, setTargetIndex] = useState(0)
+
+    // console.log("targetIndex :::::", targetIndex)
+    // const targetIndex = activeIndex;
+
+
+    useEffect(() => {
+        if (flatListRef2.current && data.length > targetIndex) {
+            flatListRef2.current.scrollToIndex({ index: targetIndex, animated: true });
+        }
+    }, [targetIndex]);
+
 
 
 
@@ -34,6 +49,7 @@ const Slider = ({ height, data, home, lang }) => {
         offset: windowWidth * index,
         index,
     });
+
 
     useEffect(() => {
         if (data?.length === 0) return;
@@ -58,6 +74,7 @@ const Slider = ({ height, data, home, lang }) => {
         }
     }, [activeIndex, data, isZooming]);
 
+
     useEffect(() => {
         setTimeout(() => {
             setLottiOn(false)
@@ -65,7 +82,7 @@ const Slider = ({ height, data, home, lang }) => {
     }, [])
 
 
-    const renderItem = ({ item }) => {
+    const renderItem = ({ item, index }) => {
         const imgURL = item?.image ? item?.image : item;
 
         return (
@@ -91,7 +108,7 @@ const Slider = ({ height, data, home, lang }) => {
                 />
 
                 {
-                    (!home && lottiOn) &&
+                    (!home && lottiOn && lottie) &&
                     <LottieView
                         source={require('../../assests/Lottianimation/doubaletap.json')}
                         autoPlay loop
@@ -112,6 +129,7 @@ const Slider = ({ height, data, home, lang }) => {
                     <FlatList
                         inverted={lang?.data === NUMBER?.num0}
                         horizontal={true}
+                        // ref={home ? flatListRef : flatListRef2}
                         ref={flatListRef}
                         data={data}
                         keyExtractor={(item, index) => index.toString()}
@@ -140,6 +158,74 @@ const Slider = ({ height, data, home, lang }) => {
                         />
                     </View>
                 )}
+                {/* <View>
+                    {!home &&
+                        <View style={{
+                            height: ResponsiveSize(80),
+                            bottom: 0,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                            // position: 'absolute'
+                            // alignSelf: 'center',
+                            // backgroundColor: COLOR.black
+                        }}>
+
+                            {(data?.length > 0 && !home) && data?.map((items, dindex) => {
+                                return (
+                                    <View style={{
+                                        height: ResponsiveSize(10),
+                                        width: ResponsiveSize(10),
+                                        backgroundColor: dindex == activeIndex ? COLOR.primaray : COLOR.darkGray,
+                                        borderRadius: ResponsiveSize(100),
+                                        marginHorizontal: ResponsiveSize(5)
+                                    }} />
+                                )
+                            })}
+
+                        </View>}
+                </View> */}
+
+                {/* {(!home && lottie) &&
+                    <View style={{ flexDirection: 'row' }}>
+                        {data?.length > 0 &&
+
+                            data?.map((items, pindex) => {
+                                return (
+                                    <TouchableOpacity style={{
+                                        height: ResponsiveSize(80),
+                                        width: ResponsiveSize(80),
+                                        borderRadius: ResponsiveSize(20),
+                                        borderWidth: 1,
+                                        borderColor: pindex == activeIndex ? COLOR.primaray : COLOR.darkGray,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginHorizontal: ResponsiveSize(5)
+                                    }}
+                                        onPress={() => { setActiveIndex(pindex), setTargetIndex(pindex) }}
+                                    >
+                                        <Image style={{ height: "100%", width: "100%", resizeMode: 'cover', borderRadius: ResponsiveSize(20) }} source={{ uri: items }} />
+
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+
+                    </View>
+                } */}
+
+
+                {/* {(!home && !lottie) &&
+                    <TouchableOpacity style={{
+                        padding: ResponsiveSize(5),
+                        backgroundColor: COLOR.primaray,
+                        borderRadius: ResponsiveSize(20),
+                        position: 'absolute', bottom: ResponsiveSize(15), right: ResponsiveSize(15)
+                    }}
+                        onPress={() => { setShowBingSider(true) }}
+                    >
+                        <ZOOMICON style={{}} name="zoom-out-map" size={ResponsiveSize(40)} color={COLOR.white} />
+                    </TouchableOpacity>} */}
             </View>
 
 

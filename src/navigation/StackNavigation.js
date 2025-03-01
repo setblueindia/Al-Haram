@@ -37,6 +37,7 @@ import Maintenance from '../screens/Maintenance/Maintenance';
 import Checkbalance from '../screens/Giftcart/Checkbalance';
 import Review from '../screens/Review/Review';
 import GiftcardHistory from '../screens/Giftcart/GiftcardHistory';
+import WriteReview from '../screens/WriteReview/Writereview';
 
 
 const StackNavigation = () => {
@@ -211,6 +212,13 @@ const StackNavigation = () => {
         component={GiftcardHistory}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name={NAVIGATION?.WriteReview}
+        component={WriteReview}
+        options={{ headerShown: false }}
+      />
+
 
 
 

@@ -4,6 +4,7 @@ import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
+import SAR from '../../components/SAR/Index'
 
 const ShipingMethod = ({
     lang,
@@ -42,7 +43,12 @@ const ShipingMethod = ({
                                             <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
                                                 {item?.method_title}
                                             </Text>
-                                            <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " " + item?.amount}</Text>
+                                            {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " " + item?.amount}</Text> */}
+                                            {/* ADD IMG */}
+                                            <SAR price={item?.amount}
+                                                normal={true}
+                                                textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
+
                                         </View>
                                     </View>
                                 </TouchableOpacity>

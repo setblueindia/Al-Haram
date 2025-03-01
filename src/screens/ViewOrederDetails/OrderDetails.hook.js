@@ -10,6 +10,7 @@ import { addProduct } from "../../redux/Slices/AddToCartSlice"
 const useOrderDetaisHook = (props) => {
   const [isLoadding, setIsLoadding] = useState(false)
   const [orderDetailsList, setOrderDeatils] = useState()
+  const [review, setReview] = useState(false)
   const navigation = useNavigation()
   const lang = useSelector(state => state?.lang?.data)
   const userData = useSelector(state => state?.userData?.data)
@@ -47,10 +48,11 @@ const useOrderDetaisHook = (props) => {
     fromData.append("order_id", OId)
     try {
       const response = await postReOrder(fromData)
-      if (response?.data?.data) {
+      if (response?.data?.status == "1") {
         SHOWTOTS(response?.data?.message)
         PoductCount()
-        navigation.navigate(NAVIGATION.DrawerNavigation)
+        // navigation.navigate(NAVIGATION.DrawerNavigation)
+        navigation.navigate(NAVIGATION.Shoppingcart)
         setIsLoadding(false)
       } else {
         console.log("RE ORDER ERROR ::::::::::: ", response?.data?.message)
@@ -139,7 +141,8 @@ const useOrderDetaisHook = (props) => {
     isLoadding,
     orderDetailsList,
     OId,
-    ReOrder
+    ReOrder,
+    review, setReview
   }
 }
 

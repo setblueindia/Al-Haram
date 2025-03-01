@@ -9,17 +9,18 @@ import CommanHeader from '../../components/ComanHeader/index.js';
 import { ICON, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants.js';
 import { ALINE, COLOR } from '../../constants/style.js';
 import CusLoader from '../../components/CustomLoader/index.js';
+import SAR from '../../components/SAR/Index.js';
 
-const Wallet = ({ Sponser , setloader ,  route }) => {
-  const { navigation, lang, data, Str, amount, isLoadding , getAdreesList , setAddAmount} = UseWalletHook(setloader ,route )
+const Wallet = ({ Sponser, setloader, route }) => {
+  const { navigation, lang, data, Str, amount, isLoadding, getAdreesList, setAddAmount } = UseWalletHook(setloader, route)
 
   return (
     <View style={styles.mainView}>
       {!Sponser &&
-       <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
+        <CommanHeader name={Str?.MyWallet} lang={lang} navigation={navigation} />}
       <View style={{ paddingHorizontal: ResponsiveSize(20) }}>
         {!Sponser && <View style={styles.mngView}>
-          <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet ? data?.ManageWallet :"0"}</Text>
+          <Text style={[styles.mngText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.ManageWallet ? data?.ManageWallet : "0"}</Text>
         </View>}
         <View style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <View style={[styles.walletImg, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -28,9 +29,14 @@ const Wallet = ({ Sponser , setloader ,  route }) => {
           </View>
           <View>
             <Text style={[styles.detailText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.WalletDetails}</Text>
-            <View>
-              <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.SAR + " " + amount}</Text>
+
+            {/* ADD IMG */}
+            <View style={{ width: ResponsiveSize(100), alignSelf: lang == NUMBER.num1 ? 'flex-start' : 'flex-end' }}>
+              {/* <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.SAR + " " + amount}</Text> */}
+              <SAR price={amount} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
             </View>
+
+
             <View>
               <Text style={[styles.balText, , lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.YourWalletBalance}</Text>
             </View>
@@ -49,20 +55,20 @@ const Wallet = ({ Sponser , setloader ,  route }) => {
               style={{ paddingHorizontal: ResponsiveSize(10) }}
             />
             <TextInput
-              style={{ flex: 1 , color:COLOR.black }}
+              style={{ flex: 1, color: COLOR.black }}
               placeholderTextColor={COLOR.darkGray}
               textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
               placeholder={data?.EnterAmount}
               underlineColorAndroid="transparent"
               keyboardType="numeric"
-              onChangeText={(tex)=>{setAddAmount(tex)}}
+              onChangeText={(tex) => { setAddAmount(tex) }}
             />
           </View>
         </View>
         <View style={styles.addAmtView}>
           <TouchableOpacity
-             onPress={()=>{getAdreesList()}}
-             style={styles.amtBtn}>
+            onPress={() => { getAdreesList() }}
+            style={styles.amtBtn}>
             <Text style={styles.amtText}>{data?.AddAmounttoWallet}</Text>
           </TouchableOpacity>
         </View>
@@ -77,7 +83,7 @@ const Wallet = ({ Sponser , setloader ,  route }) => {
 
       </View>
       {isLoadding &&
-        <View style={{ height: "100%", width: "100%" , position:'absolute' }}>
+        <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
           <CusLoader />
         </View>
       }

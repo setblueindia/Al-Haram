@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import DeleteBox from '../../components/DeleteBox'
+import SAR from '../../components/SAR/Index'
 
 
 const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart }) => {
@@ -29,7 +30,11 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart })
           </View>
           <View style={[styles.containerView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
             <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
-            <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR + " " + data?.price}</Text>
+            {/* <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR + " " + data?.price}</Text> */}
+            {/* ADD IMG */}
+            <View style={{ width: ResponsiveSize(100), alignSelf: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }}>
+              <SAR price={data?.price} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
+            </View>
 
 
             {data?.type !== "amgiftcard" &&

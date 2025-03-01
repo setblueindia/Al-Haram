@@ -18,6 +18,7 @@ import Counter from '../../components/Counter'
 import CheackButton from '../../components/CheackButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CrossICON from 'react-native-vector-icons/dist/Entypo';
+import SAR from '../../components/SAR/Index'
 
 
 
@@ -101,7 +102,30 @@ const GiftCart = (props) => {
                     </TouchableOpacity>
 
                     {(!price && !coustomAmount) && <View style={{ height: ResponsiveSize(40) }} />}
-                    {(price || coustomAmount) && <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{price ? lable?.SAR + " " + price : lable?.SAR + " " + coustomAmount}</Text>}
+                    {/* {(price || coustomAmount) && <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{price ? lable?.SAR + " " + price : lable?.SAR + " " + coustomAmount}</Text>} */}
+
+                    {/* ADD IMG */}
+                    {(price || coustomAmount) &&
+                        <View style={[{
+                            flexDirection: 'row',
+                            alignItems: 'center'
+                        }, { justifyContent: lang == NUMBER.num0 ? 'flex-end' : 'flex-start' }]}>
+                            <Image
+                                style={{
+                                    height: ResponsiveSize(40),
+                                    width: ResponsiveSize(40),
+                                    resizeMode: 'contain',
+                                    tintColor: COLOR.primaray
+                                }}
+                                source={require('../../assests/images/Common/SAR.png')}
+                            />
+                            <View style={{ width: ResponsiveSize(5) }} />
+                            {price && <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{price}</Text>}
+                            {coustomAmount && <Text style={[styles.priceText1, lang == NUMBER.num0 && { textAlign: 'right' }]}>{coustomAmount}</Text>}
+                        </View>
+                    }
+
+
 
                     <View style={[{ flexDirection: 'row', alignItems: 'center' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <Text style={{ color: COLOR.black }}>{lang == NUMBER.num0 ? " :SKU" : "SKU: "}</Text>
@@ -125,9 +149,9 @@ const GiftCart = (props) => {
                         fontSize: ResponsiveSize(20),
                         paddingVertical: ResponsiveSize(10)
                     }, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.note}</Text>}
-                    {/* {data?.note && */}
+
                     <View style={styles.barView} />
-                    {/* } */}
+
 
                     <Text style={[styles.cartPriceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{
                         lang == NUMBER.num1 ? "Card Value in SAR" : "قيمة البطاقة بالريال السعودي"}</Text>
@@ -138,7 +162,10 @@ const GiftCart = (props) => {
                             return (
                                 <View style={{ padding: ResponsiveSize(5) }}>
                                     <TouchableOpacity onPress={() => { pricvePress(index, items?.value) }} style={[styles.priceBox, selectIndex == index && { backgroundColor: COLOR.primaray }]}>
-                                        <Text style={[styles.priceText, selectIndex == index && { color: COLOR.white }]}>{lable?.SAR + " " + items?.value}</Text>
+                                        {/* <Text style={[styles.priceText, selectIndex == index && { color: COLOR.white }]}>{lable?.SAR + " " + items?.value}</Text> */}
+
+                                        {/* ADD IMG */}
+                                        <SAR normal={true} price={items?.value} tintColor={selectIndex == index ? COLOR.white : COLOR.black} />
                                     </TouchableOpacity>
                                 </View>
                             )

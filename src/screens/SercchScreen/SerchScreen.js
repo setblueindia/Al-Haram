@@ -20,6 +20,7 @@ import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import { BASE_URL, imageURL } from '../../constants/axios.url'
 import DataIsNotFound from '../../components/DataNotFound2'
+import SAR from '../../components/SAR/Index'
 
 const SerchScreen = () => {
   const {
@@ -95,11 +96,28 @@ const SerchScreen = () => {
                 </View>
                 <View style={styles.textView}>
                   <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 10 ? Name + "..." : Name}</Text>
-
+                  {/* 
                   <View style={[styles.priveView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                     <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, }]}>{lang == NUMBER.num1 ? "SAR  " : "سار"}</Text>
                     <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{price}</Text>
-                  </View>
+                  </View> */}
+                  {/* 
+                  <View style={[styles.priveView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    {lang == NUMBER.num1 ? <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, }]}>{lang == NUMBER.num1 ? "SAR  " : "سار"}</Text> :
+                      <Image
+                        style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), alignSelf: 'center', tintColor: COLOR.primaray }}
+                        source={require('../../assests/images/Common/SAR.png')} />
+                    }
+                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(10) }]}>{price}</Text>
+                  </View> */}
+
+
+                  {/* ADD IMG */}
+                  <SAR
+                    price={price}
+                    normal={true}
+                    textAlign={{ justifyContent: lang == NUMBER.num1 ? 'flex-start' : 'flex-end' }}
+                  />
 
                 </View>
 

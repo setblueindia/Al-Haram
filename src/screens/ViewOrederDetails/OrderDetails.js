@@ -1,4 +1,4 @@
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { styles } from './orderDeatils.style'
@@ -9,9 +9,13 @@ import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
 import Button from '../../components/Button'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
+import Review from '../Review/Review'
+import Reviewpoupp from '../../components/Reviewpoupp'
+import SAR from '../../components/SAR/Index'
+import { Image } from 'react-native-animatable'
 
 const OrderDetails = (props) => {
-    const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId } = useOrderDetaisHook(props)
+    const { navigation, lang, data, lable, isLoadding, orderDetailsList, ReOrder, OId, review, setReview } = useOrderDetaisHook(props)
 
     const address1 = orderDetailsList?.shippingaddress?.street[0] ? orderDetailsList?.shippingaddress?.street[0] + " " : ""
     const address2 = orderDetailsList?.shippingaddress?.street[1] ? orderDetailsList?.shippingaddress?.street[1] + " " : ""
@@ -67,33 +71,76 @@ const OrderDetails = (props) => {
 
                                     return (
                                         <View key={index}>
-                                            <View style={[styles.itemsList, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                                <View style={[styles.firstOne, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                                    <View style={styles.imgeView}>
-                                                        <FastImage resizeMode={RESIZEMODE.contain} style={styles.productImg} source={{ uri: items?.image }} />
-                                                    </View>
 
-                                                    <View style={styles.nameView}>
-                                                        <Text style={[styles.orderNameText, lang == NUMBER.num0 && { textAlign: 'right' }]} >{items?.name}</Text>
+                                            <View style={styles.topListView} >
 
-                                                        {items?.color &&
-                                                            <View style={[{ flexDirection: 'row', marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                                                <Text style={styles.titleText}>{lable?.color + " "}</Text>
-                                                                <Text style={styles.normalText}>{items?.color[0]?.label}</Text>
-                                                            </View>}
-                                                        {items?.size &&
-                                                            <View style={[{ flexDirection: 'row' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                                                <Text style={styles.titleText} >{lable?.Size}</Text>
-                                                                <Text style={styles.normalText}>{items?.size[0]?.label}</Text>
-                                                            </View>}
-                                                        <View style={[{ flexDirection: 'row' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-                                                            <Text style={styles.titleText} >{lable?.Qty + " "}</Text>
-                                                            <Text style={styles.normalText}>{items?.qty_ordered}</Text>
+
+                                                <View style={[styles.itemsList, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                    <View style={[styles.firstOne, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                        <View style={styles.imgeView}>
+                                                            <FastImage resizeMode={RESIZEMODE.contain} style={styles.productImg} source={{ uri: items?.image }} />
                                                         </View>
+
+                                                        <View style={styles.nameView}>
+                                                            <Text style={[styles.orderNameText, lang == NUMBER.num0 && { textAlign: 'right' }]} >{items?.name}</Text>
+
+                                                            {items?.color &&
+                                                                <View style={[{ flexDirection: 'row', marginTop: ResponsiveSize(5) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                                    <Text style={styles.titleText}>{lable?.color + " "}</Text>
+                                                                    <Text style={styles.normalText}>{items?.color[0]?.label}</Text>
+                                                                </View>}
+                                                            {items?.size &&
+                                                                <View style={[{ flexDirection: 'row' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                                    <Text style={styles.titleText} >{lable?.Size}</Text>
+                                                                    <Text style={styles.normalText}>{items?.size[0]?.label}</Text>
+                                                                </View>}
+                                                            <View style={[{ flexDirection: 'row' }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+                                                                <Text style={styles.titleText} >{lable?.Qty + " "}</Text>
+                                                                <Text style={styles.normalText}>{items?.qty_ordered}</Text>
+                                                            </View>
+                                                        </View>
+
+
                                                     </View>
+                                                    {/* <Text style={[styles.fistPriceTex, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.row_total}</Text> */}
+
+                                                    {/* ADD IMG */}
+                                                    <SAR
+                                                        price={items?.row_total} normal={true}
+                                                        textAlign={{
+                                                            width: ResponsiveSize(100),
+                                                            // backgroundColor: COLOR.black,
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center'
+                                                        }} />
+
+
+
                                                 </View>
-                                                <Text style={[styles.fistPriceTex, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.row_total}</Text>
+
+
+                                                {/* <TouchableOpacity
+                                                    onPress={() => {
+                                                        //  setReview(true) 
+                                                        navigation.navigate(NAVIGATION.WriteReview)
+                                                    }}
+                                                    style={{
+                                                        backgroundColor: COLOR.primaray,
+                                                        borderRadius: ResponsiveSize(12),
+                                                        alignItems: ALINE.center,
+                                                        justifyContent: ALINE.center,
+                                                        padding: ResponsiveSize(10)
+                                                    }}>
+                                                    <Text style={{
+                                                        color: COLOR.white,
+                                                        fontSize: ResponsiveSize(20)
+                                                    }}>{"Write Review"}</Text>
+                                                </TouchableOpacity> */}
+
+
+
                                             </View>
+
                                             <View style={{ height: ResponsiveSize(20) }} />
                                         </View>
                                     )
@@ -102,13 +149,38 @@ const OrderDetails = (props) => {
                         </View>
                     </View>
 
+
+
                     <View style={styles.secomdView}>
                         {
+                            orderDetailsList?.total_segments?.length > 0 &&
                             orderDetailsList?.total_segments?.map((items, index) => {
+                                { console.log("items?.value", items?.value) }
                                 return (
                                     <View key={index} style={[styles.secondComman, items?.code == "grand_total" && { borderBottomWidth: ResponsiveSize(0) }, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
-                                        <Text style={[styles.secondTitleText, items?.code == "grand_total" && { color: COLOR.black }]}>{items?.title} </Text>
-                                        <Text style={[styles.secondPriceText, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text>
+                                        <Text style={[styles.secondTitleText, items?.code == "grand_total" && { color: COLOR.black }, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items?.title} </Text>
+
+
+
+
+                                        {/* <Text style={[styles.secondPriceText, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text> */}
+
+
+                                        {/* ADD IMG */}
+                                        <View style={{
+                                            width: ResponsiveSize(100),
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            flexDirection: 'row',
+                                            justifyContent: lang == NUMBER.num0 ? 'flex-start' : 'flex-end'
+                                        }}>
+                                            <Image
+                                                style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.black }}
+                                                source={require('../../assests/images/Common/SAR.png')} />
+                                            <View style={{ width: ResponsiveSize(5) }} />
+                                            <Text style={[styles.secondPriceText, lang == NUMBER.num0 && { textAlign: 'left' }]}>{" " + items?.value}</Text>
+                                        </View>
+
                                     </View>
                                 )
                             })
@@ -186,6 +258,7 @@ const OrderDetails = (props) => {
                     <CusLoader />
                 </View>
             }
+
 
         </View>
     )

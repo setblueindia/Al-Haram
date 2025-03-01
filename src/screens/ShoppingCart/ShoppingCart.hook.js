@@ -43,6 +43,7 @@ const useShoppingcart = () => {
   const [outOfStock, setOutOfStock] = useState([])
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const dispatch = useDispatch()
+  const [cartTotal, setCartTotal] = useState()
 
   // For Address
   const [addressCod, setAddressCode] = useState()
@@ -229,6 +230,10 @@ const useShoppingcart = () => {
 
 
   const onPress = () => {
+
+    // console.log("main log ::::::" ,{ grandTotalAmount})
+
+
     if (index < 3) {
       if (index == 0) {
         setIndex(index + 1)
@@ -277,6 +282,7 @@ const useShoppingcart = () => {
               setGiftCardList([])
             } else {
               if (!validationn) {
+                console.log("main log ::::::", { validationn })
                 setShowModal(true)
                 setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
               } else {
@@ -290,6 +296,7 @@ const useShoppingcart = () => {
         })
       } else {
         if (!validationn) {
+          console.log("main2 log ::::::", { validationn })
           setShowModal(true)
           setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
         } else {
@@ -340,6 +347,13 @@ const useShoppingcart = () => {
         setNotices(response?.data?.data?.notice)
         const inStockItems = [];
         const outOfStockItems = [];
+
+        response?.data?.data?.total_segments?.map((item) => {
+          if (item?.code == "subtotal") {
+            setCartTotal(item?.value)
+          }
+        })
+
         response?.data?.data?.items.forEach(item => {
 
           if (item.isInStock) {
@@ -351,8 +365,6 @@ const useShoppingcart = () => {
                 getAddress()
               }
               else if (item?.sku == "wk_wallet_amount") {
-                const hideTost = true
-                // deleteProduct(item?.item_id, hideTost, response?.data?.data?.quote_id)
               }
               else {
                 setPaymentCode("")
@@ -451,8 +463,6 @@ const useShoppingcart = () => {
       const res = await getShippingListAxios(formData)
       SetShippingdata(res?.data?.data)
       setLoadding(false)
-
-
     } catch (error) {
       console.log("GET SHIPPING LIST ERROR :::: ", error)
       setLoadding(false)
@@ -473,7 +483,6 @@ const useShoppingcart = () => {
       } else {
         console.log("ENNER SELECT LIST ERROR :::::: ", error)
       }
-
 
     } catch (error) {
       console.log("GET STORE SHIPPING ERROR :::::::::::::: ", error)
@@ -559,12 +568,6 @@ const useShoppingcart = () => {
 
   }
 
-  // get Wallet Amount
-  const getWallateData = async () => {
-    const response = await AsyncStorage.getItem(ASYNCSTORAGE.walletAmount)
-    const amount = parseInt(response)
-    setWallateAmount(amount)
-  }
 
   // select PaymentMethod
   const selectPaymentMethod = async (cod) => {
@@ -603,6 +606,7 @@ const useShoppingcart = () => {
       }
       const response = await setPaymentMethod(params)
       setSelectPayment(response?.data?.data)
+      // console.log("Final call :::::", response?.data?.data)
       setLoadding(false)
 
     } catch (error) {
@@ -610,6 +614,7 @@ const useShoppingcart = () => {
       setLoadding(false)
     }
   }
+
 
   // get Coupna List Api 
   const getCoupanList = async () => {
@@ -685,10 +690,11 @@ const useShoppingcart = () => {
 
   const validation = (value, edata, WAmount) => {
     var validationTotal = 0
-    paymentScreenData?.total_segments?.map((items, index) => {
+    const tempPayment = selectPayment ? selectPayment : paymentScreenData
+    tempPayment?.total_segments?.map((items, index) => {
+
       if (items?.code == "grand_total") {
         validationTotal = items?.value
-
       }
     })
 
@@ -699,10 +705,12 @@ const useShoppingcart = () => {
       setWalletAmount(0)
     }
 
+
     if (value) {
       if (edata == "walletsystem") {
         const tempWallateAmount = parseInt(wallateAmount)
         const tempValidationTotal = parseInt(validationTotal)
+
         if (tempWallateAmount < tempValidationTotal) {
           setValidation(false)
         } else {
@@ -1049,6 +1057,7 @@ const useShoppingcart = () => {
     validationn,
     qty,
     type,
+    cartTotal,
     setGiftCardCode, giftCardCode,
     setGiftSatus, giftSatus,
     giftCardList,

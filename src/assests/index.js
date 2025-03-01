@@ -27,5 +27,7 @@ export const VAT = require("./images/Common/VAT.png")
 export const Giftcard = require("./images/Common/giftcard.jpg")
 export const MaintananceICON = require("./images/Common/MaintananceICON.png")
 export const GiftCartICON = require("./images/Common/Gift-card-icon.png")
+export const GalleryIcon = require("./images/Common/Gallery.png")
+export const CameraIcon = require("./images/Common/camera.png")
 
 // export const  ErrorImg = require("./images/Payment/ErrorImg.png")

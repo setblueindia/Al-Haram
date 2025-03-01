@@ -10,6 +10,7 @@ import CusLoader from '../../components/CustomLoader/index.js';
 import { ShopBug } from '../../assests/index.js';
 import DataIsNotFound from '../../components/DataNotFound2/index.js';
 import FastImage from 'react-native-fast-image';
+import SAR from '../../components/SAR/Index.js';
 const MyOrder = () => {
   const { lang, navigation, data, Str, isLoadding } = UseMyOrderHook()
   return (
@@ -23,8 +24,6 @@ const MyOrder = () => {
               style={{ flex: 1, marginBottom: ResponsiveSize(20) }}
               showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => {
-
-                console.log("id :::::", item?.order_id)
                 return (
                   <TouchableOpacity>
                     <TouchableOpacity
@@ -54,9 +53,20 @@ const MyOrder = () => {
                         </View>
 
                       </View>
+
                       <View style={styles.mnyView}>
-                        <Text style={{ color: COLOR.primaray, fontWeight: "600", width: ResponsiveSize(100) }}>{Str.SAR + " " + item?.order_total}</Text>
+                        {/* ADD IMG */}
+                        <SAR
+                          price={item?.order_total}
+                          normal={true}
+                          textAlign={{
+                            // flexDirection: lang == NUMBER.num0 ? ALINE.rowreverse : ALINE.row,
+                            justifyContent: lang == NUMBER.num0 ? 'flex-start' : 'flex-end',
+                            alignItems: 'center',
+                          }} />
+                        {/* <Text style={{ color: COLOR.primaray, fontWeight: "600", width: ResponsiveSize(100) }}>{Str.SAR + " " + item?.order_total}</Text> */}
                       </View>
+
                     </TouchableOpacity>
 
 

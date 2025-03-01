@@ -1,6 +1,6 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
-import { ASYNCSTORAGE, NUMBER } from "../../constants/constants"
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from "../../constants/constants"
 import { useEffect, useMemo, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
 import { AddRemoveToWhishLisst, AddToCartAPI, ExpireToken, ProductDetalsBySKU, ProductlistCount, oldAddressDeleted } from "../../api/axios.api"
@@ -9,6 +9,9 @@ import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
 import Share from 'react-native-share';
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { addUserData } from "../../redux/Slices/UserData.slice"
+import { addLangCode } from "../../redux/Slices/LangSlices"
+import { addNotificationCount } from "../../redux/Slices/AddNotificationCount"
 
 
 const useProductDetails = (props) => {
@@ -128,6 +131,8 @@ const useProductDetails = (props) => {
 
 
     const response = await AddToCartAPI(formData)
+
+
     try {
       if (response?.data?.status == NUMBER.num1) {
         const count = productCountToCart + 1
@@ -145,12 +150,36 @@ const useProductDetails = (props) => {
           setIsLoading(false)
         } else {
           SHOWTOTS(response?.data?.message)
+          setIsLoading(false)
+          if (response?.data?.data?.login_status == "0") {
+
+            const langNum = '2'
+            setTimeout(async () => {
+              const tempTerms = "true"
+              await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
+            }, 3000);
+            try {
+              await AsyncStorage.clear()
+              dispatch(addUserData(undefined))
+              dispatch(addLangCode(langNum))
+              dispatch(addNotificationCount(0))
+              dispatch(addProduct(0))
+              navigation.navigate(NAVIGATION.Login, { type: true, shoeMes: response?.data?.message })
+            } catch (error) {
+              console.log("SINGOUTE ERROR ::::::", error)
+            }
+
+            // navigation?.navigate(NAVIGATION.Login, { type: true })
+            console.log("ADD TO CARD BITTON API RESPONSE :::::::::::::::::::::::: ", response?.data?.data?.login_status)
+          }
+
         }
         setIsLoading(false)
       }
     } catch (error) {
       console.log("ADD TO CARD BITTON API RESPONSE ERROR :::::::::::::::::::::::: ", error)
       setIsLoading(false)
+
     }
 
   }
