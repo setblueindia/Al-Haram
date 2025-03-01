@@ -11,11 +11,11 @@ const SAR = ({ price, normal, textAlign, tintColor, texSize, imgSize }) => {
     const lang = useSelector(state => state.lang)
     const labale = lang?.data == NUMBER.num0 ? Ar : En
     return (
-        <View style={[[styles.mainView, textAlign, !normal && { flexDirection: 'row-reverse' }]]}>
+        <View style={[[styles.mainView, textAlign]]}>
 
             {lang?.data == NUMBER.num0 &&
                 <Image
-                    style={[styles.img, tintColor && { tintColor: tintColor }, imgSize && { height: imgSize, width: imgSize }, { transform: [{ scaleX: -1 }] }]}
+                    style={[styles.img, tintColor && { tintColor: tintColor }, imgSize && { height: imgSize, width: imgSize }, !normal && { transform: [{ scaleX: -1 }] }]}
                     source={
                         require('../../assests/images/Common/SAR.png')} />
             }

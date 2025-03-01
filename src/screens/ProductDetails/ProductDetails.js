@@ -383,7 +383,8 @@ const ProductDetails = (props) => {
                 }
 
                 {
-                    details?.related_products.length > 0 && <ScrollView
+                    details?.related_products.length > 0 &&
+                    <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         automaticallyAdjustContentInsets={true}
@@ -410,7 +411,7 @@ const ProductDetails = (props) => {
 
 
                                             {/* <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{label.SAR + " " + items?.price_range?.minimum_price?.regular_price?.value}</Text> */}
-                                            <SAR price={items?.price_range?.minimum_price?.regular_price?.value} />
+                                            <SAR normal={false} price={items?.price_range?.minimum_price?.regular_price?.value} textAlign={{ width: ResponsiveSize(100) }} />
                                         </TouchableOpacity>
                                         <View style={{ width: ResponsiveSize(30) }} />
                                     </View>

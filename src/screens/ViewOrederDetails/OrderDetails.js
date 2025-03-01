@@ -109,7 +109,6 @@ const OrderDetails = (props) => {
                                                         price={items?.row_total} normal={true}
                                                         textAlign={{
                                                             width: ResponsiveSize(100),
-                                                            // backgroundColor: COLOR.black,
                                                             alignItems: 'center',
                                                             justifyContent: 'center'
                                                         }} />
