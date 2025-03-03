@@ -90,7 +90,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
 
                   {/* ADD IMG */}
-                  <SAR price={items?.price} textAlign={{ justifyContent: 'center', width: ResponsiveSize(150) }} />
+                  <SAR price={items?.price} textAlign={{ justifyContent: 'center', width: ResponsiveSize(150), flexDirection: 'row-reverse' }} />
 
 
 

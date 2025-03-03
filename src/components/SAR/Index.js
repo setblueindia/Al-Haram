@@ -28,7 +28,8 @@ const SAR = ({ price, normal, textAlign, tintColor, texSize, imgSize }) => {
             {(lang?.data == NUMBER.num0 && price) &&
                 <Text style={[
                     styles.ARP,
-                    (lang?.data == NUMBER.num0 && !normal) && { transform: [{ rotateY: '180deg' }] }, texSize && { fontSize: texSize }, tintColor && { color: tintColor }]}>
+                    (lang?.data == NUMBER.num0 && !normal) && { transform: [{ rotateY: '180deg' }] },
+                    texSize && { fontSize: texSize }, tintColor && { color: tintColor }]}>
                     {" " + price}</Text>}
 
 
@@ -39,7 +40,9 @@ const SAR = ({ price, normal, textAlign, tintColor, texSize, imgSize }) => {
                         source={require('../../assests/images/Common/SAR.png')} />
                     <Text style={[
                         styles.ENP,
-                        (lang?.data == NUMBER.num0 && !normal) && { transform: [{ rotateY: '180deg' }] }, tintColor && { color: tintColor }, texSize && { fontSize: texSize }]}>
+                        (lang?.data == NUMBER.num0 && !normal) && { transform: [{ rotateY: '180deg' }] },
+                        tintColor && { color: tintColor },
+                        texSize && { fontSize: texSize }]}>
                         {/* {labale.SAR + " " + price} */}
                         {" " + price}
                     </Text>

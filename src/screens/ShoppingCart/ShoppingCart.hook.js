@@ -461,7 +461,15 @@ const useShoppingcart = () => {
     formData.append("addressId", addressCod?.id)
     try {
       const res = await getShippingListAxios(formData)
-      SetShippingdata(res?.data?.data)
+      if (res?.data?.status == NUMBER.num1) {
+        res?.data?.data && SetShippingdata(res?.data?.data && res?.data?.data)
+        setLoadding(false)
+      } else {
+        console.log("GET SHIPPIG METHOD ERROR ::::")
+        setLoadding(false)
+
+      }
+      // SetShippingdata(res?.data?.data)
       setLoadding(false)
     } catch (error) {
       console.log("GET SHIPPING LIST ERROR :::: ", error)

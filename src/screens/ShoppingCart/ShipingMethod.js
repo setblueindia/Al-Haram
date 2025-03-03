@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
@@ -43,11 +43,30 @@ const ShipingMethod = ({
                                             <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
                                                 {item?.method_title}
                                             </Text>
+
+
+
                                             {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " " + item?.amount}</Text> */}
+
                                             {/* ADD IMG */}
-                                            <SAR price={item?.amount}
-                                                normal={true}
-                                                textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                justifyContent: lang == NUMBER.num0 ? 'flex-end' : 'flex-start'
+                                            }}>
+                                                <Image
+                                                    style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.primaray }}
+                                                    source={
+                                                        require('../../assests/images/Common/SAR.png')} />
+                                                <View style={{ width: ResponsiveSize(5) }} />
+                                                <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.amount}</Text>
+                                            </View>
+
+                                            {/* <SAR price={item?.amount} normal={true} /> */}
+
+
+
+
 
                                         </View>
                                     </View>
