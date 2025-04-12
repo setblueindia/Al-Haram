@@ -1,13 +1,12 @@
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import CommanHeader from '../../components/ComanHeader'
-import { EXTRASTR, NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants'
+import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
 import { styles } from './AddressBook.style'
 import ICON from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR } from '../../constants/style'
 import useAddressBookHook from './AddressBook.hook'
-import AddressBookComp from '../../components/AddressBookComp'
 import CusLoader from '../../components/CustomLoader'
 import DeleteBox from '../../components/DeleteBox'
 import Icon from 'react-native-vector-icons/dist/Entypo';

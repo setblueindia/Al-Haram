@@ -69,6 +69,7 @@ const ShoopingCart = (props) => {
         validation,
         setEtrx,
         setSelectPayemrntMethod,
+        setTempWalletcheck,
         applyGiftCart,
         setGiftCartDis,
         selectPayment,
@@ -150,18 +151,19 @@ const ShoopingCart = (props) => {
 
 
                                                 return (
-                                                    <TouchableOpacity
-                                                        disabled={item?.type == "amgiftcard" ? true : false}
-                                                        onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
+                                                    <View
+                                                        // onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
                                                         key={index}>
                                                         <Cart
                                                             updateQnty={updateQnty}
                                                             outOfStock={false}
                                                             data={item} lang={lang}
                                                             deleteProduct={deleteProduct}
+                                                            onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
+                                                            disabled={item?.type == "amgiftcard" ? true : false}
                                                         />
                                                         <View style={{ height: ResponsiveSize(20) }} />
-                                                    </TouchableOpacity>
+                                                    </View>
                                                 )
                                             }}
                                         />
@@ -274,6 +276,7 @@ const ShoopingCart = (props) => {
                     index == 3 &&
                     <View style={{ flex: 1 }}>
                         <Payment
+                            setTempWalletcheck={setTempWalletcheck}
                             coupanCode={coupanCode}
                             setCoupanCode={setCoupanCode}
                             coupanListData={coupanListData}

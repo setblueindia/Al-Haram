@@ -1,4 +1,4 @@
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
@@ -10,7 +10,7 @@ import DeleteBox from '../../components/DeleteBox'
 import SAR from '../../components/SAR/Index'
 
 
-const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart }) => {
+const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, onPress, disabled }) => {
   const [qty, setQnt] = useState(parseInt(data?.qty))
   const [deletePopp, setDeletePopp] = useState(false)
   const name = data?.name?.substring(0, 20)
@@ -23,11 +23,14 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart })
     <View style={{ flex: 1 }}>
       {!outOfStock ?
         <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <View style={styles.ImageView}>
+          <TouchableOpacity
+            disabled={disabled}
+            onPress={onPress}
+            style={styles.ImageView}>
             <Image
               style={styles.Img}
               source={{ uri: data?.image }} />
-          </View>
+          </TouchableOpacity>
           <View style={[styles.containerView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
             <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
             {/* <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR + " " + data?.price}</Text> */}

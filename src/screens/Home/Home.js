@@ -1,5 +1,5 @@
-import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal } from 'react-native';
-import React from 'react';
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal, Alert } from 'react-native';
+import React, { useEffect } from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
@@ -17,7 +17,7 @@ import CusModal from '../../components/CusModal';
 import { NAVIGATION } from '../../constants/constants';
 import TermsPopup from '../../components/TermsPopup';
 import Maintenance from '../Maintenance/Maintenance';
-
+import messaging from '@react-native-firebase/messaging';
 const Home = (props) => {
   const {
     data,
@@ -47,6 +47,46 @@ const Home = (props) => {
     openWhatsApp,
     showTerms, setShowTerms
   } = useHomeHook(props)
+
+
+
+  // PUSH Notification 
+  useEffect(() => {
+    const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+      }
+
+    });
+
+    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+        navigation?.navigate(NAVIGATION.NotificationScreen)
+      }
+    });
+
+    messaging().getInitialNotification().then(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+        navigation?.navigate(NAVIGATION.NotificationScreen)
+      }
+    });
+
+    return () => {
+      unsubscribeOnMessage();
+      unsubscribeOnNotificationOpenedApp();
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
 
   return (
     <View style={styles.mainView}>

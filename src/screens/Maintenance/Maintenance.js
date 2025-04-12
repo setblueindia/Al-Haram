@@ -29,20 +29,21 @@ const Maintenance = ({ maintenanceData }) => {
                     <Text style={styles.desText}>{maintenanceData?.message}</Text>
                 </View>
 
-                {maintenanceData?.visible_update_button && <View style={styles.binView}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            const url = Platform.OS == 'ios' ?
-                                "https://apps.apple.com/in/app/alharamstores-%D8%A7%D9%84%D9%87%D8%B1%D9%85/id1562821620" :
-                                'https://play.google.com/store/apps/details?id=com.v2ideas.alharam';
-                            Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
-                        }}
-                        style={styles.btn}>
-                        <Text style={styles.updateText}>{"Update"}</Text>
+                {maintenanceData?.visible_update_button &&
+                    <View style={styles.binView}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                const url = Platform.OS == 'ios' ?
+                                    "https://apps.apple.com/in/app/alharamstores-%D8%A7%D9%84%D9%87%D8%B1%D9%85/id1562821620" :
+                                    'https://play.google.com/store/apps/details?id=com.v2ideas.alharam';
+                                Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
+                            }}
+                            style={styles.btn}>
+                            <Text style={styles.updateText}>{"Update"}</Text>
 
-                    </TouchableOpacity>
+                        </TouchableOpacity>
 
-                </View>}
+                    </View>}
             </View>
             {/* <View style={{ position: 'absolute', height: "100%", width: ResponsiveSize(10), left: 0, }}>
                 <Image style={{

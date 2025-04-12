@@ -10,10 +10,11 @@ import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 import { styles } from './silder.style';
 import { COLOR, RESIZEMODE } from '../../constants/style';
 import { A } from '../../assests';
-import { NUMBER } from '../../constants/constants';
+import { NAVIGATION, NUMBER } from '../../constants/constants';
 import LottieView from 'lottie-react-native';
 import { ResponsiveSize } from '../../utils/utils';
 import ZOOMICON from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
@@ -24,9 +25,9 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
     const windowWidth = Dimensions.get('window').width;
     const flatListRef2 = useRef();
     const [targetIndex, setTargetIndex] = useState(0)
+    const navigation = useNavigation()
+    const isManualScroll = useRef(false)
 
-    // console.log("targetIndex :::::", targetIndex)
-    // const targetIndex = activeIndex;
 
 
     useEffect(() => {
@@ -35,13 +36,13 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
         }
     }, [targetIndex]);
 
-
-
-
     const handleScroll = (event) => {
+        if (isManualScroll.current) return;
+
         const scrollPosition = event?.nativeEvent?.contentOffset.x || 0;
-        const index = Math.floor(scrollPosition / windowWidth);
+        const index = Math.round(scrollPosition / windowWidth);
         setActiveIndex(index);
+
     };
 
     const getItemLayout = (data, index) => ({
@@ -129,8 +130,8 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
                     <FlatList
                         inverted={lang?.data === NUMBER?.num0}
                         horizontal={true}
-                        // ref={home ? flatListRef : flatListRef2}
-                        ref={flatListRef}
+                        ref={home ? flatListRef : flatListRef2}
+                        // ref={flatListRef}
                         data={data}
                         keyExtractor={(item, index) => index.toString()}
                         showsHorizontalScrollIndicator={false}
@@ -158,17 +159,14 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
                         />
                     </View>
                 )}
-                {/* <View>
+                <View>
                     {!home &&
                         <View style={{
                             height: ResponsiveSize(80),
                             bottom: 0,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            flexDirection: 'row',
-                            // position: 'absolute'
-                            // alignSelf: 'center',
-                            // backgroundColor: COLOR.black
+                            flexDirection: lang?.data == NUMBER.num0 ? 'row-reverse' : 'row',
                         }}>
 
                             {(data?.length > 0 && !home) && data?.map((items, dindex) => {
@@ -184,17 +182,17 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
                             })}
 
                         </View>}
-                </View> */}
+                </View>
 
-                {/* {(!home && lottie) &&
-                    <View style={{ flexDirection: 'row' }}>
+                {(!home && lottie) &&
+                    <View style={{ flexDirection: lang?.data == NUMBER.num0 ? 'row-reverse' : 'row' }}>
                         {data?.length > 0 &&
 
                             data?.map((items, pindex) => {
                                 return (
                                     <TouchableOpacity style={{
-                                        height: ResponsiveSize(80),
-                                        width: ResponsiveSize(80),
+                                        height: ResponsiveSize(70),
+                                        width: ResponsiveSize(70),
                                         borderRadius: ResponsiveSize(20),
                                         borderWidth: 1,
                                         borderColor: pindex == activeIndex ? COLOR.primaray : COLOR.darkGray,
@@ -202,7 +200,15 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
                                         justifyContent: 'center',
                                         marginHorizontal: ResponsiveSize(5)
                                     }}
-                                        onPress={() => { setActiveIndex(pindex), setTargetIndex(pindex) }}
+                                        onPress={() => {
+                                            setActiveIndex(pindex)
+                                            setTargetIndex(pindex)
+
+                                            isManualScroll.current = true
+                                            setTimeout(() => {
+                                                isManualScroll.current = false
+                                            }, 600);
+                                        }}
                                     >
                                         <Image style={{ height: "100%", width: "100%", resizeMode: 'cover', borderRadius: ResponsiveSize(20) }} source={{ uri: items }} />
 
@@ -212,20 +218,28 @@ const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
                         }
 
                     </View>
-                } */}
+                }
 
 
-                {/* {(!home && !lottie) &&
-                    <TouchableOpacity style={{
+                {(!home && !lottie) &&
+                    <TouchableOpacity style={[{
                         padding: ResponsiveSize(5),
                         backgroundColor: COLOR.primaray,
                         borderRadius: ResponsiveSize(20),
-                        position: 'absolute', bottom: ResponsiveSize(15), right: ResponsiveSize(15)
-                    }}
-                        onPress={() => { setShowBingSider(true) }}
+                        position: 'absolute', bottom: ResponsiveSize(15), right: ResponsiveSize(15),
+
+                    }, lang?.data == NUMBER.num0 && {
+                        left: ResponsiveSize(15),
+                        height: ResponsiveSize(50),
+                        width: ResponsiveSize(50),
+                        alignItems: 'center',
+                        justifyContent: "center"
+                    }]}
+
+                        onPress={() => { navigation?.navigate(NAVIGATION.ProductZoom, { data: data }) }}
                     >
                         <ZOOMICON style={{}} name="zoom-out-map" size={ResponsiveSize(40)} color={COLOR.white} />
-                    </TouchableOpacity>} */}
+                    </TouchableOpacity>}
             </View>
 
 

@@ -38,7 +38,7 @@ const useShoppingcart = () => {
   const disPatch = useDispatch()
   const [index, setIndex] = useState(0)
   const [data, setData] = useState([])
-  const [isLoadding, setLoadding] = useState(false)
+  const [isLoadding, setLoadding] = useState(true)
   const navigation = useNavigation()
   const [outOfStock, setOutOfStock] = useState([])
   const [qty, setQnt] = useState(parseInt(data?.qty))
@@ -84,6 +84,11 @@ const useShoppingcart = () => {
 
   const version = DeviceInfo.getVersion()
   const focus = useIsFocused()
+
+
+
+
+  const [tempWalletcheck, setTempWalletcheck] = useState(false)
 
 
   const [formData, setFormData] = useState({
@@ -230,9 +235,6 @@ const useShoppingcart = () => {
 
 
   const onPress = () => {
-
-    // console.log("main log ::::::" ,{ grandTotalAmount})
-
 
     if (index < 3) {
       if (index == 0) {
@@ -733,6 +735,7 @@ const useShoppingcart = () => {
     }
   }
 
+
   const PlaceHolder = async (tempVali) => {
     setLoadding(true)
     var shoppingTotal = 0
@@ -761,6 +764,32 @@ const useShoppingcart = () => {
       }
 
     })
+
+
+    const getWallteAmount = () => {
+      if (tempWalletcheck) {
+        return walletAmount
+      } else {
+        return 0
+      }
+      // if (tempVali) {
+      //   return 0
+      // } else if (paymentCode == "magveg" && giftCardList?.length > 0 && parseInt(grandTotal) == 0) {
+      //   return 0
+      // } else if (paymentCode == "splpayment" && giftCardList?.length > 0 && parseInt(grandTotal) == 0) {
+      //   return 0
+      // } else if (paymentCode == "splpayment" && giftCardList?.length > 0 && parseInt(grandTotal) !== 0) {
+      //   return wallateAmount
+      // } else if (paymentCode == "magveg" && giftCardList?.length > 0 && parseInt(grandTotal) !== 0) {
+      //   return wallateAmount
+      // }
+      // else {
+      //   return walletAmount
+      // }
+    }
+
+    const tempWallateAmount = getWallteAmount()
+
     const params = {
       "paymentMethod": tempVali ? "free" : paymentCode ? paymentCode : "walletsystem",
       "billing_address": {
@@ -795,7 +824,7 @@ const useShoppingcart = () => {
         "shipping": shoppingTotal,
         "grand_total": grandTotal,
         "storepickup_identifier": storePickData?.identifier ? storePickData?.identifier : '',
-        "wallet_amount": walletAmount ? walletAmount : 0,
+        "wallet_amount": tempWallateAmount,
         "device_type": Platform.OS == 'ios' ? "react_ios" : "react_android",
         "device_version": version,
         "amgiftcard": giftCartDis
@@ -803,6 +832,7 @@ const useShoppingcart = () => {
     }
     try {
       const res = await PlaceeHolder2(params)
+
       if (res?.data?.status == NUMBER.num1) {
         const online_payment = res?.data?.data?.online_payment
         setLoadding(false)
@@ -1097,7 +1127,8 @@ const useShoppingcart = () => {
     setWalletAmount,
     applyGiftCart,
     setGiftCartDis,
-    setGiftCartDis
+    setGiftCartDis,
+    setTempWalletcheck
   }
 }
 

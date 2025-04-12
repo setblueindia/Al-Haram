@@ -63,7 +63,7 @@ const Addaddress = (props) => {
       <CommanHeader
         navigation={navigation}
         lang={lang}
-        customNavg={true}
+        customNavg={props?.route?.params?.setLoadding ? false : true}
         name={esiteData ? data?.EditAddress : data.AddAddress} />
 
       <KeyboardAwareScrollView style={styles.conatainer}>

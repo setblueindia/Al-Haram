@@ -2,14 +2,26 @@
  * @format
  */
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, I18nManager } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useEffect, useState } from 'react';
+import RNRestart from 'react-native-restart';
 
 const AppRoot = () => {
+
+    useEffect(() => {
+        if (I18nManager.isRTL) {
+            I18nManager.allowRTL(false);
+            I18nManager.forceRTL(false);
+            RNRestart.Restart();
+        }
+    }, []);
+
+
     return (
 
         <Provider store={store}>

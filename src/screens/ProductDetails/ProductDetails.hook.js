@@ -292,7 +292,6 @@ const useProductDetails = (props) => {
       const response = await ProductDetalsBySKU(data, lang?.data)
       if (response?.status == '200') {
         setDetails(response?.data?.data?.products?.items[0])
-        // console.log(":::::::::::::: :::::::::", response?.data?.data?.products?.items[0]?.custom_attributes?.size_label)
         setColorLable(response?.data?.data?.products?.items[0]?.custom_attributes?.color_label)
         setSizeLable(response?.data?.data?.products?.items[0]?.custom_attributes?.size_label)
         getImageStr(response)
@@ -359,18 +358,20 @@ const useProductDetails = (props) => {
 
   {/* Color Press Logic */ }
   const colorOnPress = (id) => {
+    let valueIndexOfSize2 = 0;
     setShowColor(true)
     setSizeShow(false)
     setColor(id)
     const temp = []
     const temp2 = []
     const temp3 = []
-    details?.variants?.map((items) => {
+    details?.variants?.map((items, index) => {
       if (items?.attributes[0]?.value_index == id) {
+        valueIndexOfSize2 = items?.product?.media_gallery_entries.length
         items?.product?.media_gallery_entries.map((items) => {
           const uri = imageURL + "/pub/media/catalog/product/" + items?.file
-          // console.log("Change URL ::::: " , uri)
           temp2.push(uri)
+
         })
         const Size = items?.attributes[1]?.label
         const valueIndexOfSize = items?.attributes[1]?.value_index
@@ -378,11 +379,17 @@ const useProductDetails = (props) => {
         temp3.push(valueIndexOfSize)
       }
     })
+
+    const temData = temp2?.slice(0, valueIndexOfSize2)
+
     setAvalableSize(temp)
-    setSliderData(temp2)
+    setSliderData(temData)
     setValueIndexOfSize(temp3)
     avalabeColor?.includes(id) && setSizeIndex(), setSize("")
   }
+
+
+
 
 
   {/* Size Press Logic */ }
@@ -426,7 +433,6 @@ const useProductDetails = (props) => {
     const fromdata = new FormData()
     try {
       const result = await ExpireToken(fromdata)
-      console.log("Token Expire :::::", result?.data)
       result?.data && setQuteID(result?.data)
     } catch (error) {
       console.log(" Token Error:::::::", error)
@@ -486,7 +492,6 @@ const useProductDetails = (props) => {
         const res = await oldAddressDeleted(params, lang?.data)
         const tempAddress = "true"
         await AsyncStorage.setItem(ASYNCSTORAGE.oldAddress, tempAddress)
-        console.log("message :", res?.data?.data?.deleteOldAddress?.message)
       } catch (error) {
         console.log(":::::::::: ADDRESS DELETE EROOR ::::::::::::::", error)
       }

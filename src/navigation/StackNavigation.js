@@ -38,6 +38,8 @@ import Checkbalance from '../screens/Giftcart/Checkbalance';
 import Review from '../screens/Review/Review';
 import GiftcardHistory from '../screens/Giftcart/GiftcardHistory';
 import WriteReview from '../screens/WriteReview/Writereview';
+import ProductZoom from '../screens/ProductDetails/ProductZoom';
+import Notification from '../screens/Notification/Notification';
 
 
 const StackNavigation = () => {
@@ -216,6 +218,19 @@ const StackNavigation = () => {
       <Stack.Screen
         name={NAVIGATION?.WriteReview}
         component={WriteReview}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={NAVIGATION?.ProductZoom}
+        component={ProductZoom}
+        options={{ headerShown: false }}
+      />
+
+
+      <Stack.Screen
+        name={NAVIGATION?.NotificationScreen}
+        component={Notification}
         options={{ headerShown: false }}
       />
 

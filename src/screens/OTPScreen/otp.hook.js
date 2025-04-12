@@ -20,7 +20,7 @@ const useOPTHook = (props) => {
 
   const naviGtaionType = props?.navigationType
 
-  console.log(" OTP ::::::::: OTP ", props?.otpr)
+  // console.log(" OTP ::::::::: OTP ", props?.otpr)
 
   const language = NUMBER.num0 ? Ar : En
   const onPress = async () => {
@@ -32,10 +32,10 @@ const useOPTHook = (props) => {
 
     const response = await CheckOTP(formData)
     if (response?.data?.status == NUMBER.num1) {
-      naviGtaionType ? navigation.goBack() : navigation.replace(NAVIGATION.TabScreen)
-      setUserData(response?.data?.data)
+      await setUserData(response?.data?.data)
       dispatch(addUserData(response?.data?.data))
       setErrro("false")
+      naviGtaionType ? navigation.goBack() : navigation.replace(NAVIGATION.TabScreen)
       setLoading(false)
 
     } else {

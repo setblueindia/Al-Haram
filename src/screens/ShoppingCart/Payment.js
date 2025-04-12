@@ -39,7 +39,8 @@ const Payment = ({
   setGiftCartDis,
   getGiftCartdSatus,
   setGiftSatus,
-  giftSatus
+  giftSatus,
+  setTempWalletcheck
 }) => {
   const [showWallet, setShowWallet] = useState(false)
   const [COD, setCOD] = useState(false)
@@ -91,6 +92,10 @@ const Payment = ({
   }
 
 
+  const tempSetPrevalue = (val) => {
+    setTempWalletcheck(val)
+  }
+
 
   return (
     <KeyboardAwareScrollView style={{ flex: 1 }}>
@@ -134,6 +139,7 @@ const Payment = ({
                           setCOD(false),
                             setCredit(false),
                             setShowWallet(false),
+                            setTempWalletcheck(false),
                             setSelectPayemrntMethod()
                           setGiftSatus()
 
@@ -182,7 +188,8 @@ const Payment = ({
                       setCOD(false)
                     setCredit(false),
                       setShowWallet(false),
-                      setSelectPayemrntMethod(),
+                      setTempWalletcheck(false)
+                    setSelectPayemrntMethod(),
                       setGiftSatus()
                     validation(false, "Cradite", WAmount)
                   }}
@@ -237,12 +244,14 @@ const Payment = ({
           {((wallateAmount > 0 && type !== "amgiftcard") && (giftCardList.length < 0 || totalAmount[0] > 0)) &&
             <TouchableOpacity
               onPress={() => {
+                showWallet ? setTempWalletcheck(false) : setTempWalletcheck(true)
                 showWallet ? setShowWallet(false) : setShowWallet(true)
                 showWallet ? validation(false, "walletsystem", WAmount) : validation(true, "walletsystem", WAmount)
                 walletPress()
               }}
               style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <CheackButton
+                setTempWalletcheck={tempSetPrevalue}
                 WAmount={WAmount}
                 setWalletAmount={setWalletAmount}
                 validation={validation}

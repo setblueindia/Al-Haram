@@ -77,12 +77,17 @@ const useAddressHook = (props) => {
   }, [])
 
   const searchState = (query) => {
-    const queryLower = query?.toLowerCase();
     const filterData = mixCity ? sates : cities
-    return filterData?.filter(city => {
-      const nameLower = mixCity ? city?.default_name?.toLowerCase() : city?.city?.toLowerCase();
-      return queryLower?.split('').some(letter => nameLower?.includes(letter));
-    });
+    return filterData.filter(region => {
+      const nameLower = mixCity ? region?.default_name?.toLowerCase().includes(query.toLowerCase()) : region?.city?.toLowerCase().includes(query.toLowerCase());
+      return nameLower
+    }
+    );
+
+    // return filterData?.filter(city => {
+    //   const nameLower = mixCity ? city?.default_name?.toLowerCase() : city?.city?.toLowerCase();
+    //   return queryLower?.split('').some(letter => nameLower?.includes(letter));
+    // });
   };
 
   useEffect(() => {

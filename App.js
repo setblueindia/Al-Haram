@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, Alert } from 'react-native';
+import { StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AppNavigation from './src/navigation/AppNavigation';
 import NetworkConnection from './src/components/NetworkConnection';
@@ -36,31 +36,34 @@ const App = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
-      Alert.alert('Notification arrived!', remoteMessage.notification?.body);
-    });
+  // useEffect(() => {
+  //   const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
+  //     Alert.alert('Notification arrived!', remoteMessage.notification?.body);
+  //   });
 
-    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
-      Alert.alert('Notification arrived!', remoteMessage.notification);
-    });
+  //   const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
+  //     Alert.alert('Notification arrived!', remoteMessage.notification);
+  //     // Navigation?.navigate(NAVIGATION.notification)
 
-    messaging().getInitialNotification().then(remoteMessage => {
-      if (remoteMessage) {
-        Alert.alert('Notification arrived!', remoteMessage.notification);
-      }
-    });
+  //   });
 
-    return () => {
-      unsubscribeOnMessage();
-      unsubscribeOnNotificationOpenedApp();
-    };
-  }, []);
+  //   messaging().getInitialNotification().then(remoteMessage => {
+  //     if (remoteMessage) {
+  //       Alert.alert('Notification arrived!', remoteMessage.notification);
+  //       // Navigation?.navigate(NAVIGATION.notification)
+  //     }
+  //   });
 
-  useEffect(() => {
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-    });
-  }, []);
+  //   return () => {
+  //     unsubscribeOnMessage();
+  //     unsubscribeOnNotificationOpenedApp();
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
+  //   });
+  // }, []);
 
   return (
     <>

@@ -44,7 +44,7 @@ const useAddressBookHook = (setAddressCode, setLoadding, setBillingAddress, seco
                     }
                 })
                 if (res?.data?.data.length <= 0 && !secondCall) {
-                    navigation.navigate(NAVIGATION.addaddress)
+                    navigation.navigate(NAVIGATION.addaddress, { setLoadding: setLoadding })
                     setIsLoading(false)
                     setLoadding && setLoadding(false)
                 }

@@ -16,7 +16,7 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
         <View style={[styles.mainView, index % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
             <TouchableOpacity
                 onPress={(() => {
-                    items?.display_mode == "PAGE" && navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })
+                    items?.display_mode == "PAGE" && navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id, titleName: items?.name })
                 })}
                 style={styles.bannerView}
                 activeOpacity={items?.display_mode !== "PAGE" ? 1 : 0.8}

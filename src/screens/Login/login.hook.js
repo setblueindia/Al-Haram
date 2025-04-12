@@ -9,7 +9,6 @@ import { SHOWTOTS, emaileRegxp } from '../../utils/utils';
 import { addUserData } from '../../redux/Slices/UserData.slice';
 import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
 import { signInWithGoogle } from '../../firebase/firebaseConfig';
-import { Alert } from 'react-native';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import { updateLangCode } from '../../redux/Slices/LangSlices';
@@ -69,7 +68,7 @@ const useLoginHook = (props) => {
         }
       }
       response?.data?.data?.token && PoductCount(response?.data?.data?.token)
-      setUserData(response?.data?.data)
+      await setUserData(response?.data?.data)
       dispatch(addUserData(response?.data?.data))
       naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
       RemoveRembember()
@@ -205,10 +204,10 @@ const useLoginHook = (props) => {
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
       const result = await ExpireToken(fromdata)
-      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
-      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
+      await setUserData(response?.data?.data)
       dispatch(addUserData(response?.data?.data))
-      setUserData(response?.data?.data)
+      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
+      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
       setLoader(false)
     } else {
       console.log("Singup Respones error ::::::; ==========> ", response)
@@ -218,10 +217,8 @@ const useLoginHook = (props) => {
     }
   }
   async function onAppleButtonPress() {
-    // performs login request
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
-      // Note: it appears putting FULL_NAME first is important, see issue #293
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
 

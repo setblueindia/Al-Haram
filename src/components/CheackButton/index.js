@@ -4,10 +4,15 @@ import { styles } from './chexkbutton.style';
 import { COLOR } from '../../constants/style';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
-const CheackButton = ({ onPress, preVriable, onPress2, setCOD, setCredit, validation, setWalletAmount, WAmount, onPress3 }) => {
+const CheackButton = ({ onPress, preVriable, onPress2, setCOD, setCredit, validation, setWalletAmount, WAmount, onPress3, setTempWalletcheck }) => {
   return (
     <TouchableOpacity
       onPress={() => {
+        if (setTempWalletcheck) {
+          preVriable ? setTempWalletcheck(false) : setTempWalletcheck(true)
+        }
+
+
         preVriable ? onPress(false) : onPress(true)
         if (validation) {
           preVriable ? validation(false, "walletsystem", WAmount) : validation(true, "walletsystem", WAmount)

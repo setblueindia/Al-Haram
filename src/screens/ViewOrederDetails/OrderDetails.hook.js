@@ -120,7 +120,7 @@ const useOrderDetaisHook = (props) => {
     Compalated: "مكتمل",
     date: "تاريخ الطلب : 27 مارس 2024",
     PrintOrder: "طلب طباعة",
-    Reorder: "إعادة الترتيب",
+    Reorder: "إعادة الطلب",
     ItemsOrdered: "العناصر المطلوبة",
     TESTNavyBlue: "اختبار-البحرية-الأزرق",
     TESTNBlue: "اختبار-N-الأزرق",

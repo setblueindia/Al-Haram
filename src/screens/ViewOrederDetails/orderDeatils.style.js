@@ -38,9 +38,6 @@ export const styles = StyleSheet.create({
         fontSize: ResponsiveSize(25),
         color: COLOR.black,
         fontWeight: FONTWEGHIT.font600,
-        // backgroundColor:"red",
-
-
     },
     DottView: {
         height: ResponsiveSize(10),
@@ -61,7 +58,7 @@ export const styles = StyleSheet.create({
 
     },
     dateTextOrder: {
-        marginTop: ResponsiveSize(5),
+        // marginTop: ResponsiveSize(5),
         color: "#00000070",
 
     },
@@ -73,7 +70,6 @@ export const styles = StyleSheet.create({
 
     },
     reOrderText: {
-        marginTop: ResponsiveSize(60),
         color: COLOR.primaray,
         fontWeight: FONTWEGHIT.font600,
         textAlign: EXTRASTR.right
@@ -119,8 +115,8 @@ export const styles = StyleSheet.create({
     secondComman: {
         borderBottomWidth: ResponsiveSize(1),
         borderBlockColor: "#00000080",
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        // flexDirection: 'row',
+        // justifyContent: 'space-between',
         padding: ResponsiveSize(20),
 
     },
@@ -175,7 +171,6 @@ export const styles = StyleSheet.create({
     imgeView: {
         height: ResponsiveSize(120),
         width: ResponsiveSize(100),
-        // backgroundColor:COLOR.black,
         borderRadius: ResponsiveSize(10),
     },
     productImg: {
@@ -211,6 +206,33 @@ export const styles = StyleSheet.create({
     titleText: {
         color: COLOR.darkGray,
         fontWeight: "600",
+    },
+    invocieText: {
+        color: COLOR.primaray,
+        textAlign: 'right',
+        fontWeight: "600"
+    },
+    invocieNumber: {
+        color: COLOR.black,
+        fontWeight: "300",
+        textAlign: 'right',
+        fontSize: ResponsiveSize(18)
+    },
+    headerTopView: {
+        marginBottom: ResponsiveSize(20),
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    invocieNumberView: {
+        flexDirection: 'row',
+        width: ResponsiveSize(250),
+        justifyContent: 'flex-end',
+        flexWrap: 'wrap'
+    },
+    headerlastView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }
 
 

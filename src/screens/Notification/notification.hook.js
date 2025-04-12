@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NotificationAIP, ReadNotification, getCount } from "../../api/axios.api"
 import { addNotificationCount } from "../../redux/Slices/AddNotificationCount"
+import { useIsFocused } from "@react-navigation/native"
 
 
 const useNotificationHook = () => {
@@ -20,12 +21,13 @@ const useNotificationHook = () => {
   const [nID, setNID] = useState([])
   const dispatch = useDispatch()
   const [refreshing, setRefreshing] = useState(false);
+  const focus = useIsFocused()
 
 
 
   useEffect(() => {
     GETNotificationAPI()
-  }, [])
+  }, [focus])
 
   const onPress = async (sid, sindex) => {
     const dataQurry =
@@ -59,7 +61,7 @@ const useNotificationHook = () => {
     const sData =
       ` {
       getNotificationHistoryByCustomerId(
-        id : ${notiFicationID},
+        id : ${notiFicationID ? notiFicationID : userData?.data?.id},
         pageSize: ${10},
         curPage: ${refreshingg ? 1 : nextPage}
       )
@@ -75,11 +77,16 @@ const useNotificationHook = () => {
       }
     } `
 
-    if (userData) {
+
+
+    if (userData?.data?.id) {
       try {
         const response = await NotificationAIP(sData, lang)
+        setLotti(false)
         if (response?.status == "200") {
-          refreshingg ? setData(response?.data?.data?.getNotificationHistoryByCustomerId) : setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
+          refreshingg ?
+            setData(response?.data?.data?.getNotificationHistoryByCustomerId) :
+            setData([...data, ...response?.data?.data?.getNotificationHistoryByCustomerId])
           response?.data?.data?.getNotificationHistoryByCustomerId?.map((item) => {
           })
           if (response?.data?.data?.getNotificationHistoryByCustomerId?.length <= 0 && nextPage == 1) {
@@ -102,6 +109,8 @@ const useNotificationHook = () => {
         console.log("RESPONSE ERROR ::::::::::: ", error)
       }
     } else {
+      setLoadding(false)
+      setLotti(true)
       console.log("::::::::: User data not found :::::::")
     }
   }

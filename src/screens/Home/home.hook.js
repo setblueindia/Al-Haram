@@ -438,8 +438,6 @@ const useHomeHook = (props) => {
 
   const tramsandconditions = async () => {
     const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
-    console.log("HELLO  ::::", termsSatus)
-
     if (termsSatus !== "true") {
       const query = `
         {
@@ -456,7 +454,6 @@ const useHomeHook = (props) => {
       try {
         const result = await getTeramsAndConditionSatus(query, lang?.data)
 
-        // console.log("TERMS AND CONDITIONS ::::::: ", result?.data?.data?.updatePrivacyAgree)
         if (result?.data?.data?.updatePrivacyAgree?.status) {
           const tempTerms = "true"
           await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
@@ -475,7 +472,6 @@ const useHomeHook = (props) => {
     const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
     const conditions = await AsyncStorage.getItem(ASYNCSTORAGE.conditions)
 
-    console.log("HELLO2  ::::", conditions)
     if (termsSatus == "true" && userData && conditions !== "true") {
       const query = `
       {

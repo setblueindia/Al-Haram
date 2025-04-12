@@ -36,7 +36,8 @@ export const NAVIGATION = {
   giftBalanceCheck: "Cheackbalancescreen",
   reviewScrenn: "reviewScreen",
   giftcardHostory: "GiftCardHistory",
-  WriteReview: "WriteReview"
+  WriteReview: "WriteReview",
+  ProductZoom: "ProductZoom"
 
 };
 export const LOGINStr = {

@@ -7,12 +7,12 @@ import { NUMBER } from '../../constants/constants'
 
 const SortFilter = ({
     setSortFilter,
-     lang,
-     setSortBy, 
-     setActions , 
-     setProductData,
-     sortBy
-      }) => {
+    lang,
+    setSortBy,
+    setActions,
+    setProductData,
+    sortBy
+}) => {
 
     const [productIndex, setProductIndex] = useState()
 
@@ -30,25 +30,25 @@ const SortFilter = ({
 
     const filterOnPress = (index) => {
 
-     
+
 
         if (index == 0) {
             setSortBy(0)
             setActions("relevance")
             const fdata = {
-               data : "relevance"
+                data: "relevance"
             }
             setProductData(fdata)
             setSortFilter(false)
-            
+
         }
         if (index == 1) {
             setSortBy(1)
             setActions("ASC")
             const fdata = {
-                data : "ASC"
-             }
-             setProductData(fdata)
+                data: "ASC"
+            }
+            setProductData(fdata)
             setSortFilter(false)
 
         }
@@ -56,12 +56,12 @@ const SortFilter = ({
             setSortBy(2)
             setActions("DESC")
             const fdata = {
-                data : "DESC"
-             }
-             setProductData(fdata)
+                data: "DESC"
+            }
+            setProductData(fdata)
             setSortFilter(false)
         }
-       
+
     }
     return (
         <View style={styles.mainView}>
@@ -69,7 +69,7 @@ const SortFilter = ({
 
             </TouchableOpacity>
             <View style={styles.container}>
-                <Text style={[styles.title , lang == NUMBER.num0 &&  {textAlign:'right'}]}>{lang == NUMBER.num1 ? "Sort By" : "فرز حسب"}</Text>
+                <Text style={[styles.title, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lang == NUMBER.num1 ? "Sort By" : "فرز حسب"}</Text>
                 <View style={styles.boxView}>
                     <LinearGradient
                         style={styles.boxView}
@@ -84,10 +84,10 @@ const SortFilter = ({
                                     }}
                                     style={[styles.containView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                                     <View style={[styles.checkBoxCircal, { justifyContent: 'center', alignItems: 'center', padding: ResponsiveSize(5) }]}>
-                                        <View style={[styles.checkBoxCircal2, (index == productIndex || index == sortBy)&& { backgroundColor: COLOR.primaray }]} />
+                                        <View style={[styles.checkBoxCircal2, (index == productIndex || index == sortBy) && { backgroundColor: COLOR.primaray }]} />
                                     </View>
 
-                                    <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) , textAlign:'right'}]}>{item?.name}</Text>
+                                    <Text style={[styles.checkText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20), textAlign: 'right' }]}>{item?.name}</Text>
                                 </TouchableOpacity>
                             )
                         })
@@ -158,8 +158,8 @@ const styles = StyleSheet.create({
     checkText: {
         fontSize: ResponsiveSize(30),
         marginLeft: ResponsiveSize(30),
-        flex:1,
-        color:COLOR.darkGray
+        flex: 1,
+        color: COLOR.darkGray
     }
 
 })

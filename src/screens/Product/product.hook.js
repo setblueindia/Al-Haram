@@ -12,7 +12,7 @@ const useProductHook = (props) => {
   const [sizeFilter, setSizeFilter] = useState(false)
   const lang = useSelector(state => state.lang.data)
   const userData = useSelector(state => state.userData.data)
-  const [isLoadding, setIsLoadding] = useState(false)
+  const [isLoadding, setIsLoadding] = useState(true)
   const [filterData, setFilterData] = useState('')
   const [sortBy, setSortBy] = useState()
   const [action, setActions] = useState('')

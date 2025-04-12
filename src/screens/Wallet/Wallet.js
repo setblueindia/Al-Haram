@@ -1,4 +1,4 @@
-import { Text, View, TextInput, } from 'react-native';
+import { Text, View, TextInput, Image, } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './Wallet.style.js';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -31,9 +31,17 @@ const Wallet = ({ Sponser, setloader, route }) => {
             <Text style={[styles.detailText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{data?.WalletDetails}</Text>
 
             {/* ADD IMG */}
-            <View style={{ width: ResponsiveSize(100), alignSelf: lang == NUMBER.num1 ? 'flex-start' : 'flex-end' }}>
-              {/* <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{Str?.SAR + " " + amount}</Text> */}
-              <SAR price={amount} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
+            <View style={{
+              flexDirection: lang == NUMBER.num1 ? 'row' : 'row-reverse',
+              alignItems: 'center'
+            }}>
+              <Image
+                style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), resizeMode: 'contain', tintColor: COLOR.primaray, marginRight: ResponsiveSize(5) }}
+                source={
+                  require('../../assests/images/Common/SAR.png')}
+              />
+              <Text style={[styles.mnyText, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{amount}</Text>
+              {/* <SAR price={amount} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} /> */}
             </View>
 
 
