@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { NAVIGATION, NUMBER } from "../../constants/constants"
 import { Ar, En } from "../../constants/localization"
-import { ProductlistCount, getOrderView, postReOrder } from "../../api/axios.api"
+import { ProductlistCount, getOrderView, getTraberckingNum, postReOrder } from "../../api/axios.api"
 import { useEffect, useState } from "react"
 import { SHOWTOTS } from "../../utils/utils"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
@@ -11,6 +11,7 @@ const useOrderDetaisHook = (props) => {
   const [isLoadding, setIsLoadding] = useState(false)
   const [orderDetailsList, setOrderDeatils] = useState()
   const [review, setReview] = useState(false)
+  const [trackingNumber, setTrackingNumber] = useState([])
   const navigation = useNavigation()
   const lang = useSelector(state => state?.lang?.data)
   const userData = useSelector(state => state?.userData?.data)
@@ -94,7 +95,41 @@ const useOrderDetaisHook = (props) => {
 
   }
 
+  const getTrackingNumber = async () => {
+    setIsLoadding(true)
+    const query = `
+    {
+    getShipmentTrackingByOrderId(order_id : ${OId}){
+        success
+        message
+        title
+        data{
+            shipment_id
+            carrier_code
+            title
+            track_number
+                 track_url
+            created_at
+        }     
+    }
+}
+    `
+    try {
+      const response = await getTraberckingNum(query, lang)
+      if (response?.data?.data?.getShipmentTrackingByOrderId?.success) {
+        setTrackingNumber(response?.data?.data?.getShipmentTrackingByOrderId)
+        setIsLoadding(false)
+      } else {
+        setIsLoadding(false)
+      }
+    } catch (error) {
+      console.log("GET TRACKING NUMBER ERROR ::::::::::: ", error)
+      setIsLoadding(false)
+    }
+  }
+
   useEffect(() => {
+    getTrackingNumber()
     orderDetails()
   }, [])
 
@@ -141,6 +176,7 @@ const useOrderDetaisHook = (props) => {
     isLoadding,
     orderDetailsList,
     OId,
+    trackingNumber,
     ReOrder,
     review, setReview
   }

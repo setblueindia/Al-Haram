@@ -309,6 +309,14 @@ export const DeleteAccountAPI = async (params, lang) => {
 }
 
 
+// get traker number
+
+export const getTraberckingNum = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}
+
+
 
 
 

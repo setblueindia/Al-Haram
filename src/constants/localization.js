@@ -126,7 +126,7 @@ export const Ar = {
   RemainingWalletAmount: "المبلغ المتبقي في المحفظة",
   WalletAmount: "مبلغ المحفظة",
   TotaldueAmount: "إجمالي المبلغ المستحق",
-  BillingAddress: "Billing Address",
+  BillingAddress: "عنوان الدفع",
   EnterCoupanCode: "ادخل رمز الخصم",
   Tel: "هاتف",
   vat: "ضريبة القيمة المضافة:-",

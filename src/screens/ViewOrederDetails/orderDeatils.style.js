@@ -138,11 +138,15 @@ export const styles = StyleSheet.create({
 
     },
     addressView: {
-        padding: ResponsiveSize(20)
+        padding: ResponsiveSize(20),
+        // borderBottomWidth: ResponsiveSize(1),
+        borderColor: "#00000050"
     },
     addressText: {
         lineHeight: ResponsiveSize(30),
-        color: "#202020"
+        color: "#202020",
+
+
     },
     btnView: {
         width: "100%",
