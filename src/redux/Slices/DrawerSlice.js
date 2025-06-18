@@ -1,8 +1,8 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   data: '',
-  loader : false
+  loader: false
 };
 
 export const drawerList = createSlice({
@@ -12,14 +12,13 @@ export const drawerList = createSlice({
   reducers: {
     addDraweData(state, action) {
       state.data = action.payload;
-
     },
     updateLoader(state, action) {
-     state.loader = action.payload
+      state.loader = action.payload
     },
   },
 });
 
-export const {addDraweData, updateLoader} = drawerList.actions;
+export const { addDraweData, updateLoader } = drawerList.actions;
 
 export default drawerList.reducer;
