@@ -1,0 +1,238 @@
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { ResponsiveSize } from '../../utils/utils'
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
+import { Ar, En } from '../../constants/localization'
+import FastImage from 'react-native-fast-image'
+import SAR from '../SAR/Index'
+import { FONTS } from '../../constants/fonts'
+
+const ProductBox = ({ navigation, lang, sindex, items }) => {
+
+  const data = items?.items
+  const labale = lang?.data == NUMBER.num0 ? Ar : En
+  const [imageLoader, setImageLoader] = useState(false)
+
+  return (
+    <View style={[
+      styles.mainView,
+      sindex % 2 == 0 && {
+        borderColor: COLOR.white,
+        backgroundColor: COLOR.white
+      }
+    ]}>
+      <TouchableOpacity
+        activeOpacity={items?.is_viewAll == 1 ? 0.8 : 1}
+        onPress={() => { items?.is_viewAll == 1 && navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}
+        style={styles.bannerView}>
+        <FastImage
+          resizeMode='contain'
+          style={styles.bannerImg}
+          onLoadStart={() => { setImageLoader(true) }}
+          onLoadEnd={() => { setImageLoader(false) }}
+          source={{ uri: items?.banner_url && items?.banner_url }} />
+
+        {imageLoader &&
+          <View style={styles.imgeLoder}>
+            <ActivityIndicator size='small' color={COLOR.primaray} />
+          </View>}
+      </TouchableOpacity>
+
+      <View style={[
+        styles.textView,
+        lang.data == NUMBER.num0 && {
+          flexDirection: ALINE.rowreverse
+        }]}
+      >
+        <Text style={
+          [styles.categoriesName,
+          lang.data == NUMBER.num0 && {
+            textAlign: EXTRASTR.right
+          }]}>{items?.title}</Text>
+
+        {
+          items?.is_viewAll == 1 &&
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id })
+            }}
+          >
+            <Text
+              style={[
+                styles.viewText,
+                lang.data == NUMBER.num0 && {
+                  textAlign: EXTRASTR.left
+                }]}>
+              {labale.ViewAll}
+            </Text>
+
+          </TouchableOpacity>
+        }
+
+      </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        automaticallyAdjustContentInsets={true}
+        style={[styles.subCategories,
+        lang?.data == NUMBER.num0 && {
+          transform: [{ rotateY: '180deg' }]
+        }]}
+      >
+        {
+          data?.map((items, index) => {
+            const productImage = items?.image
+
+            return (
+              <View key={index}
+                style={{ flexDirection: ALINE.row }}>
+                <TouchableOpacity onPress={() => {
+                  navigation.navigate(NAVIGATION.ProducDetails,
+                    { SKU: items?.sku })
+                }}>
+
+                  <View style={styles.innerCategoriesView}>
+                    <FastImage
+                      style={[
+                        styles.storyView
+                      ]}
+                      source={{ uri: productImage }}
+                    />
+                  </View>
+
+                  {(items?.special_offer || items?.is_new_badge) &&
+                    <View style={
+                      [styles.textImgView,
+                      (items?.special_offer && lang?.data == NUMBER.num0) && { left: ResponsiveSize(0) },
+                      (items?.is_new_badge && lang?.data == NUMBER.num0) && { right: ResponsiveSize(0) },
+                      (items?.special_offer && lang?.data == NUMBER.num1) && { right: ResponsiveSize(0) },
+                      (items?.is_new_badge && lang?.data == NUMBER.num1) && { left: ResponsiveSize(0) },
+                      lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
+                    >
+                      <FastImage
+                        style={[{
+                          height: "100%",
+                          width: "100%"
+                        }]}
+                        source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }}
+                      />
+                    </View>
+                  }
+                  <Text
+                    numberOfLines={1}
+                    style={[
+                      styles.cetegoriesText,
+                      lang?.data == NUMBER.num0 && {
+                        transform: [{ rotateY: '180deg' }]
+                      }]}>
+                    {items?.name}
+                  </Text>
+
+                  {/* ADD IMG */}
+                  <SAR
+                    price={items?.price}
+                    textAlign={
+                      {
+                        justifyContent: ALINE.center,
+                        width: ResponsiveSize(150),
+                        flexDirection: ALINE.rowreverse
+                      }} />
+
+
+                </TouchableOpacity>
+                <View style={{ width: ResponsiveSize(30) }} />
+              </View>
+            )
+          })
+        }
+      </ScrollView>
+    </View>
+  )
+}
+
+export default ProductBox
+
+const styles = StyleSheet.create({
+  mainView: {
+    paddingHorizontal: ResponsiveSize(20),
+    backgroundColor: "#FFFBEB",
+    borderWidth: ResponsiveSize(1),
+    borderColor: "#CEB282"
+  },
+  textImgView: {
+    height: ResponsiveSize(90),
+    width: ResponsiveSize(90),
+    position: 'absolute'
+  },
+  bannerView: {
+    height: ResponsiveSize(250),
+  },
+  bannerImg: {
+    height: "100%",
+    width: "100%",
+    resizeMode: RESIZEMODE.contain
+  },
+  textView: {
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.spaceBetween,
+    paddingHorizontal: ResponsiveSize(10)
+  },
+  categoriesName: {
+    color: COLOR.black,
+    fontSize: ResponsiveSize(25),
+    fontWeight: FONTWEGHIT.font600,
+    fontFamily: FONTS.SemiBold,
+  },
+  viewText: {
+    color: COLOR.primaray,
+    width: ResponsiveSize(100),
+    textAlign: EXTRASTR.right,
+    fontFamily: FONTS.Regular
+  },
+  subCategories: {
+    flexDirection: ALINE.row,
+    marginTop: ResponsiveSize(30),
+    paddingBottom: ResponsiveSize(30)
+  },
+  innerCategoriesView: {
+    height: ResponsiveSize(250),
+    width: ResponsiveSize(200),
+    backgroundColor: COLOR.white,
+    borderRadius: ResponsiveSize(20),
+    borderWidth: ResponsiveSize(1),
+    borderColor: "#00000040",
+    padding: ResponsiveSize(20)
+  },
+  storyView: {
+    borderRadius: ResponsiveSize(100),
+    height: "100%",
+    width: "100%",
+  },
+  cetegoriesText: {
+    textAlign: ALINE.center,
+    color: COLOR.black,
+    marginTop: ResponsiveSize(10),
+    fontSize: ResponsiveSize(20),
+    width: ResponsiveSize(180),
+    fontFamily: FONTS.Regular,
+    alignSelf: ALINE.center
+  },
+  priceText: {
+    fontWeight: FONTWEGHIT.font600,
+    color: COLOR.primaray,
+    textAlign: ALINE.center,
+    width: "100%",
+    alignSelf: ALINE.center,
+    fontFamily: FONTS.Bold
+  },
+  imgeLoder: {
+    height: "100%",
+    width: "100%",
+    position: 'absolute',
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    alignSelf: ALINE.center
+  }
+})

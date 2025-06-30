@@ -1,0 +1,765 @@
+import {
+    Image,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
+import CommanHeader from '../../components/ComanHeader'
+import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
+import { Ar, En } from '../../constants/localization'
+import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
+import { GiftCartICON } from '../../assets'
+import { GIFATCARTSATUS, giftCardHistory } from '../../api/axios.api'
+import CusLoader from '../../components/CustomLoader'
+import Icon from 'react-native-vector-icons/dist/Ionicons';
+import Share from 'react-native-share';
+import RNFS from 'react-native-fs';
+import ShareWP from '../../components/ShareWP/ShareWP'
+import { FONTS } from '../../constants/fonts'
+
+
+const Checkbalance = () => {
+    const navigation = useNavigation()
+    const lang = useSelector(state => state?.lang?.data)
+    const userData = useSelector(state => state?.userData?.data)
+    const [isLoadding, setLoadding] = useState(false)
+    const labale = lang == NUMBER.num0 ? Ar : En
+    const [datas, setDatas] = useState()
+    const [giftCardNumber, setGiftCardNumber] = useState("")
+    const [data, setData] = useState([])
+    const [page, setPage] = useState(1)
+    const [extra, setExtra] = useState(true)
+    const [listTitel, setListTille] = useState()
+    const [shareon, setShareOn] = useState(false)
+    const [whatsappNumber, sewhatsappNumbert] = useState()
+
+    useEffect(() => {
+        getGiftCardHistory()
+    }, [])
+
+    const getGiftCartdSatus = async () => {
+        setLoadding(true)
+        const qurry3 = `
+        {
+          getGiftcardDetailsByCode(
+              giftcard_code: "${giftCardNumber}"
+              store_id: 0
+          ) {
+              success
+              message
+              data{
+                  id   
+                  code
+                  status
+                  balance
+                  usage
+                  expiredDate
+              }
+          }
+      }
+        `
+
+        try {
+            const result = await GIFATCARTSATUS(qurry3, lang)
+
+            if (result?.data?.data?.getGiftcardDetailsByCode?.success) {
+                setDatas(result?.data?.data?.getGiftcardDetailsByCode?.data)
+                setLoadding(false)
+            } else {
+                console.log("INNER SATUS ERROR :::", result?.data)
+                SHOWTOTS(result?.data?.data?.getGiftcardDetailsByCode?.message ? result?.data?.data?.getGiftcardDetailsByCode?.message : "")
+                setLoadding(false)
+            }
+
+        } catch (error) {
+            console.log("GIFCART SATUS ERROR :::::", error)
+            setLoadding(false)
+        }
+    }
+
+    const getGiftCardHistory = async () => {
+        extra && setLoadding(true)
+        const qurry = `
+        {
+            getGiftcardBySenderEmail(
+                email: "${userData?.email}", 
+                pageSize:10,
+                curPage:${page}
+            ) {
+                success        
+                data{
+                    account_id
+                    code_id
+                    giftcard_code
+                    mobile_number
+                    balance
+                    status
+                    status_label
+                    usage
+                    expired_date
+                    giftcard_image
+                    message
+                }
+                title
+                message
+                total_count
+            }
+        }`
+        try {
+            if (userData?.email && extra) {
+                const result = await giftCardHistory(qurry, lang)
+                setListTille(result?.data?.data?.getGiftcardBySenderEmail?.title ? result?.data?.data?.getGiftcardBySenderEmail?.title : undefined)
+                if (result?.data?.data?.getGiftcardBySenderEmail?.success) {
+                    if (result?.data?.data?.getGiftcardBySenderEmail?.data?.length > 0) {
+                        setData([...data, ...result?.data?.data?.getGiftcardBySenderEmail?.data])
+                    } else {
+                        setLoadding(false)
+                        setExtra(false)
+                    }
+                    setLoadding(false)
+                    setPage(page + 1)
+                } else {
+                    setLoadding(false)
+                    console.log("INNER ERROR :::::::", result?.data)
+                }
+            } else {
+                setLoadding(false)
+                console.log("Email id not found")
+            }
+
+        } catch (error) {
+            console.log("GIFCART HISTORY ERROR :::::", error)
+            setLoadding(false)
+        }
+    }
+
+
+    const onShare = async (giftcardImg, giftMes) => {
+        setLoadding(true)
+        const imageUrl = giftcardImg ? giftcardImg : 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
+        const localFilePath = `${RNFS.DocumentDirectoryPath}/image.jpeg`;
+
+        try {
+            const downloadResult = await RNFS.downloadFile({
+                fromUrl: imageUrl,
+                toFile: localFilePath,
+            }).promise;
+
+            if (downloadResult.statusCode === 200) {
+                const shareOptions = {
+                    title: 'Share via',
+                    message: giftMes ? giftMes : 'AL-Haram Stores (Giftcard)',
+                    url: `file://${localFilePath}`, // Share the local file path
+                    type: 'image/jpeg',
+                };
+
+                // Share the image
+                setLoadding(false)
+                await Share.open(shareOptions);
+            } else {
+                console.log('Failed to download image:', downloadResult);
+                setLoadding(false)
+            }
+        } catch (error) {
+            console.log('Error sharing:', error.message);
+            setLoadding(false)
+        }
+
+
+    };
+
+    const share2 = async () => {
+
+        // setShareOn(false);
+        // setLoadding(true);
+
+        // const imageUrl = imges
+        //     ? imges
+        //     : 'https://beta.alharamstores.com/pub/media/amasty/amgcard/image/generated_images_cache/4352343338944626.jpeg';
+        // const localFilePath = `${RNFS.DocumentDirectoryPath}/image.jpeg`;
+        // const phoneNumber = whatsappNumber;
+
+        // try {
+        //     const downloadResult = await RNFS.downloadFile({
+        //         fromUrl: imageUrl,
+        //         toFile: localFilePath,
+        //     }).promise;
+
+        //     if (downloadResult.statusCode === 200) {
+        //         const shareOptions = {
+        //             message: giftmes ? giftmes : 'AL-Haram Stores (Giftcard)',
+        //             url: `file://${localFilePath}`,
+        //             social: Share.Social.WHATSAPP,
+        //             whatsAppNumber: `91${phoneNumber}`,
+        //         };
+
+        //         await Share.shareSingle(shareOptions);
+        //     } else {
+        //         console.log('Failed to download image:', downloadResult);
+        //     }
+        // } catch (error) {
+        //     console.log('Error sharing:', error.message);
+
+        //     const url = `whatsapp://send?phone=91${phoneNumber}&text=${encodeURIComponent(
+        //         giftmes ? giftmes : 'AL-Haram Stores (Giftcard)'
+        //     )}`;
+
+        //     Linking.canOpenURL(url)
+        //         .then((supported) => {
+        //             if (supported) {
+        //                 Linking.openURL(url);
+        //             } else {
+        //                 console.log('WhatsApp URL is not supported:', url);
+        //             }
+        //         })
+        //         .catch((err) => console.log('Error checking URL support:', err.message));
+        // } finally {
+        //     setShareOn(false);
+        //     setLoadding(false);
+        // }
+
+
+
+    }
+
+    return (
+        <View style={styles.mainView}>
+            <CommanHeader
+                name={labale?.giftCardBalcnce}
+                lang={lang} navigation={navigation}
+            />
+
+            <View style={styles.containerView}>
+                <View style={styles.firstView}>
+
+                    <View style={styles.imageView}>
+                        <Image
+                            style={{
+                                resizeMode: RESIZEMODE.contain,
+                                height: "100%",
+                                width: "100%"
+                            }}
+                            source={GiftCartICON}
+                        />
+                    </View>
+
+                    <Text
+                        style={styles.titelText}>
+                        {labale?.GiftCardAccountBalanceCheck}
+                    </Text>
+
+                    <View
+                        style={[styles.boxView,
+                        lang == NUMBER.num0 && {
+                            flexDirection: ALINE.rowreverse
+                        }
+                        ]}>
+
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={labale?.EnterYourCode}
+                            placeholderTextColor={COLOR.darkGray}
+                            textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
+                            onChangeText={(text) => {
+                                setGiftCardNumber(text)
+                            }}
+                        />
+                    </View>
+
+                    <View
+                        style={[styles.btnView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                        <TouchableOpacity
+                            onPress={() => { giftCardNumber?.length > 0 && getGiftCartdSatus() }}
+                            style={styles.addBtnView}
+                        >
+                            <Text
+                                style={styles.addText}>
+                                {labale?.CheckBalance}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+
+                {datas && <View>
+
+                    <View style={styles.satusView}>
+
+                        <View
+                            style={[styles.textView, lang == NUMBER.num0
+                                && { flexDirection: ALINE.rowreverse }]}>
+                            <View>
+                                <View
+                                    style={[{ flexDirection: ALINE.row, alignItems: ALINE.center },
+                                    lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
+                                    <Text
+                                        style={styles.firstText}>
+                                        {labale?.Code + " : "}
+                                    </Text>
+                                    <Text style={styles.secondView}>{datas?.code}</Text>
+                                </View>
+
+                                <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                <View style={
+                                    [{ flexDirection: ALINE.row, alignItems: ALINE.center },
+                                    lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]
+                                }>
+
+                                    <Text
+                                        style={styles.firstText}>{labale?.CurrentBalance + " : "}
+                                    </Text>
+
+                                    <Text
+                                        style={styles.secondView}>
+                                        {datas?.balance}
+                                    </Text>
+                                </View>
+
+                            </View>
+
+                            <View style={{ justifyContent: ALINE.flexend }}>
+
+                                <View
+                                    style={[
+                                        { flexDirection: ALINE.row, alignItems: ALINE.center },
+                                        lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }
+                                    ]}>
+
+                                    <Text
+                                        style={[styles.firstText]}>
+                                        {labale?.Status + " : "}
+                                    </Text>
+
+                                    <Text
+                                        style={[styles.secondView, { color: COLOR.green, fontWeight: FONTWEGHIT.font600 }]}>
+                                        {datas?.status}
+                                    </Text>
+
+                                </View>
+
+                                <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                <TouchableOpacity
+                                    style={styles.removeBTN}
+                                >
+                                </TouchableOpacity>
+
+                            </View>
+                        </View>
+
+                        <View style={styles.lineView} />
+
+                        <View style={{
+                            width: "100%",
+                            flexDirection: ALINE.row,
+                            justifyContent: ALINE.spaceBetween
+                        }}>
+
+                            <View style={[
+                                { flexDirection: ALINE.row, alignItems: ALINE.center },
+                                lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}
+                            >
+                                <Text
+                                    style={styles.firstText}>
+                                    {labale?.Usage + " : "}
+                                </Text>
+
+                                <Text style={styles.secondView}>
+                                    {datas?.usage}
+                                </Text>
+
+                            </View>
+
+                            <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                            <View
+                                style={[
+                                    {
+                                        flexDirection: ALINE.row,
+                                        alignItems: ALINE.center
+                                    },
+                                    lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]
+                                }>
+
+                                <Text
+                                    style={styles.firstText}>
+                                    {labale?.ValidTill + " : "}
+                                </Text>
+
+                                <Text
+                                    style={styles.secondView}>
+                                    {datas?.expiredDate}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+                }
+
+
+
+                {
+                    data?.length > 0 &&
+                    <Text style={[
+                        styles.GiftCardListTitel,
+                        { textAlign: lang == NUMBER.num1 ? EXTRASTR.left : EXTRASTR.right }
+                    ]}>
+                        {listTitel && listTitel}
+                    </Text>
+                }
+
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    onScrollEndDrag={() => {
+                        getGiftCardHistory()
+                    }}
+                >
+                    {data?.length > 0 &&
+                        data?.map((item, index) => {
+                            return (
+                                <View key={index} style={styles.satusView}>
+
+                                    <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
+                                        <View>
+                                            <View style={[
+                                                {
+                                                    flexDirection: ALINE.row,
+                                                    alignItems: ALINE.center
+                                                },
+                                                lang == NUMBER.num0 && {
+                                                    flexDirection: ALINE.rowreverse
+                                                }
+                                            ]}>
+                                                <Text
+                                                    style={styles.firstText}>
+                                                    {labale?.Code + " : "}
+                                                </Text>
+
+                                                <Text
+                                                    style={styles.secondView}>
+                                                    {item?.giftcard_code}
+                                                </Text>
+
+                                            </View>
+
+                                            <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                            <View style={[
+                                                {
+                                                    flexDirection: ALINE.row,
+                                                    alignItems: ALINE.center
+                                                }, lang == NUMBER.num0 && {
+                                                    flexDirection: ALINE.rowreverse
+                                                }
+                                            ]}>
+                                                <Text
+                                                    style={styles.firstText}>
+                                                    {labale?.CurrentBalance + " : "}
+                                                </Text>
+                                                <Text
+                                                    style={styles.secondView}>
+                                                    {item?.balance}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <View style={{ justifyContent: ALINE.flexend }}>
+                                            <View
+                                                style={[
+                                                    {
+                                                        flexDirection: ALINE.row,
+                                                        alignItems: ALINE.center
+                                                    },
+                                                    lang == NUMBER.num0 &&
+                                                    {
+                                                        flexDirection: ALINE.rowreverse
+                                                    }
+                                                ]}>
+                                                <Text
+                                                    style={[styles.firstText]}>
+                                                    {labale?.Status + " : "}
+                                                </Text>
+                                                <Text
+                                                    style={[
+                                                        styles.secondView,
+                                                        {
+                                                            color: COLOR.green,
+                                                            fontWeight: FONTWEGHIT.font600
+                                                        }
+                                                    ]}>
+                                                    {item?.status_label}
+                                                </Text>
+
+                                            </View>
+
+                                            <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                            <TouchableOpacity
+                                                style={styles.removeBTN}
+                                            >
+                                            </TouchableOpacity>
+
+                                        </View>
+
+                                    </View>
+
+                                    <View style={styles.lineView} />
+
+                                    <View style={[
+                                        {
+                                            flexDirection: ALINE.row,
+                                            justifyContent: ALINE.spaceBetween
+                                        },
+                                        lang == NUMBER.num0 &&
+                                        {
+                                            flexDirection: ALINE.rowreverse
+                                        }
+                                    ]}>
+
+                                        <View
+                                            style={
+                                                {
+                                                    width: "50%",
+                                                    justifyContent: ALINE.spaceBetween
+                                                }}>
+
+                                            <View
+                                                style={[
+                                                    {
+                                                        flexDirection: ALINE.row,
+                                                        alignItems: ALINE.center
+                                                    },
+                                                    lang == NUMBER.num0 &&
+                                                    {
+                                                        flexDirection: ALINE.rowreverse
+                                                    }
+                                                ]}>
+                                                <Text
+                                                    style={styles.firstText}>
+                                                    {labale?.Usage + " : "}
+                                                </Text>
+
+                                                <Text
+                                                    style={styles.secondView}>
+                                                    {item?.usage}
+                                                </Text>
+                                            </View>
+
+                                            <View style={{ marginTop: ResponsiveSize(10) }} />
+
+                                            <View style={[
+                                                {
+                                                    flexDirection: ALINE.row,
+                                                    alignItems: ALINE.center
+                                                },
+                                                lang == NUMBER.num0 && {
+                                                    flexDirection: ALINE.rowreverse
+                                                }
+                                            ]}>
+                                                <Text
+                                                    style={styles.firstText}>
+                                                    {labale?.ValidTill + " : "}
+                                                </Text>
+                                                <Text
+                                                    style={styles.secondView}>
+                                                    {item?.expired_date}
+                                                </Text>
+                                            </View>
+
+                                        </View>
+
+
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                onShare(item?.giftcard_image, item?.message)
+                                            }}
+                                            style={styles.shareIcon}>
+                                            <Icon
+                                                name={ICON.share} size={ResponsiveSize(30)} color={COLOR.white}
+                                            />
+                                        </TouchableOpacity>
+
+                                    </View>
+                                </View>
+                            )
+                        })}
+                </ScrollView>
+
+
+            </View >
+            {
+                isLoadding &&
+                <View style={{
+                    position: 'absolute',
+                    height: "100%",
+                    width: "100%"
+                }}>
+                    <CusLoader />
+                </View>
+
+            }
+            <Modal
+                visible={shareon}
+                transparent={true}
+            >
+                <ShareWP
+                    setShareOn={setShareOn}
+                    whatsappNumber={whatsappNumber}
+                    sewhatsappNumbert={sewhatsappNumbert}
+                    share2={share2}
+                />
+            </Modal>
+        </View >
+    )
+}
+
+export default Checkbalance
+
+const styles = StyleSheet.create({
+
+    shareIcon: {
+        marginTop: ResponsiveSize(20),
+        backgroundColor: COLOR.primaray,
+        padding: ResponsiveSize(10),
+        borderRadius: ResponsiveSize(10),
+        alignSelf: ALINE.flexend,
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
+        alignItems: ALINE.center,
+    },
+
+    GiftCardListTitel: {
+        color: COLOR.black,
+        fontSize: ResponsiveSize(20),
+        fontWeight: FONTWEGHIT.font600,
+        marginTop: ResponsiveSize(20),
+
+    },
+
+    lineView: {
+        width: "100%",
+        height: ResponsiveSize(1),
+        backgroundColor: COLOR.darkGray,
+        marginTop: ResponsiveSize(20),
+        marginBottom: ResponsiveSize(20)
+    },
+
+    removeBTN: {
+        height: ResponsiveSize(40),
+        width: ResponsiveSize(140),
+        borderRadius: ResponsiveSize(10),
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
+    },
+
+    mainView: {
+        flex: 1,
+        backgroundColor: COLOR.white
+    },
+    containerView: {
+        flex: 1,
+        padding: ResponsiveSize(20)
+    },
+    firstView: {
+        width: "100%",
+        backgroundColor: COLOR.GRAY20,
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.gray,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
+        paddingHorizontal: ResponsiveSize(20),
+        paddingVertical: ResponsiveSize(40)
+    },
+    imageView: {
+        height: ResponsiveSize(80),
+        width: ResponsiveSize(80),
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center,
+    },
+    titelText: {
+        color: COLOR.primaray,
+        marginTop: ResponsiveSize(20),
+        fontSize: ResponsiveSize(25),
+        fontFamily: FONTS.Regular
+    },
+    boxView: {
+        height: ResponsiveSize(70),
+        width: "100%",
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.liteGray,
+        borderStyle: 'dashed',
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
+        marginTop: ResponsiveSize(20),
+        justifyContent: ALINE.center,
+        backgroundColor: COLOR.white,
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
+        padding: ResponsiveSize(5)
+
+    },
+    textInput: {
+        width: ResponsiveSize(300),
+        height: "100%",
+        color: COLOR.black,
+        paddingHorizontal: ResponsiveSize(10),
+        fontFamily: FONTS.Regular
+    },
+    addBtnView: {
+        height: "100%",
+        backgroundColor: "green",
+        borderRadius: ResponsiveSize(10),
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
+        width: "100%"
+    },
+    addText: {
+        color: COLOR.white,
+        padding: ResponsiveSize(10),
+        fontFamily: FONTS.Medium
+    },
+    satusView: {
+        width: "100%",
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.primaray,
+        marginTop: ResponsiveSize(20),
+        backgroundColor: COLOR.white,
+        paddingHorizontal: ResponsiveSize(20),
+        paddingVertical: ResponsiveSize(30),
+        borderRadius: ResponsiveSize(10)
+    },
+    textView: {
+        flexDirection: ALINE.row,
+        width: "100%",
+        justifyContent: ALINE.spaceBetween
+    },
+    firstText: {
+        color: COLOR.black,
+        fontSize: ResponsiveSize(22),
+        fontFamily: FONTS.SemiBold
+
+    },
+    secondView: {
+        color: COLOR.black,
+        fontSize: ResponsiveSize(20),
+        fontFamily: FONTS.Regular
+    },
+    btnView: {
+        width: "100%",
+        height: ResponsiveSize(60),
+        flexDirection: ALINE.row,
+        justifyContent: ALINE.spaceBetween,
+        marginTop: ResponsiveSize(20)
+    }
+})

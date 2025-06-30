@@ -1,0 +1,201 @@
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useEffect, useRef } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Icon, { Icons } from '../components/TAB/Icons';
+import * as Animatable from 'react-native-animatable';
+import { ALINE, COLOR, FONTWEGHIT } from '../constants/style';
+import { ICON, NAVIGATION, NUMBER } from '../constants/constants';
+import Categories from '../screens/Categories/Categories';
+import Notification from '../screens/Notification/Notification';
+import Profile from '../screens/Profile/Profile';
+import { ResponsiveSize } from '../utils/utils';
+import Home from '../screens/Home/Home';
+import { useSelector } from 'react-redux';
+import { FONTS } from '../constants/fonts';
+
+
+const TabArr = [
+  {
+    route: NAVIGATION.HomeScreen,
+    label: 'Home',
+    type: Icons.Ionicons,
+    activeIcon: ICON.home,
+    inActiveIcon: ICON.home,
+    component: Home
+  },
+  {
+    route: NAVIGATION.CategoriesScreen,
+    label: 'Like',
+    type: Icons.MaterialIcons,
+    activeIcon: ICON.category,
+    inActiveIcon: ICON.category,
+    component: Categories
+  },
+  {
+    route: NAVIGATION.NotificationScreen,
+    label: 'Search',
+    type: Icons.Ionicons,
+    activeIcon: ICON.notification,
+    inActiveIcon: ICON.notification,
+    component: Notification
+  },
+  {
+    route: NAVIGATION.ProfileScreen,
+    label: 'Account',
+    type: Icons.FontAwesome,
+    activeIcon: ICON.profile,
+    inActiveIcon: ICON.profile,
+    component: Profile
+  },
+];
+
+
+const TabArr2 = [
+  {
+    route: NAVIGATION.ProfileScreen,
+    label: 'Account',
+    type: Icons.FontAwesome,
+    activeIcon: ICON.profile,
+    inActiveIcon: ICON.profile,
+    component: Profile
+  },
+  {
+    route: NAVIGATION.NotificationScreen,
+    label: 'Search',
+    type: Icons.Ionicons,
+    activeIcon: ICON.notification,
+    inActiveIcon: ICON.notification,
+    component: Notification
+  },
+  {
+    route: NAVIGATION.CategoriesScreen,
+    label: 'Like',
+    type: Icons.MaterialIcons,
+    activeIcon: ICON.category,
+    inActiveIcon: ICON.category,
+    component: Categories
+  },
+  {
+    route: NAVIGATION.HomeScreen,
+    label: 'Home',
+    type: Icons.Ionicons,
+    activeIcon: ICON.home,
+    inActiveIcon: ICON.home,
+    component: Home
+  },
+];
+
+const Tab = createBottomTabNavigator();
+const TabButton = (props) => {
+
+  const { item, onPress, accessibilityState } = props;
+  const focused = accessibilityState.selected;
+  const viewRef = useRef(null);
+  const lang = useSelector(state => state.lang.data)
+  const notificationsCount = useSelector(state => state?.NotificationCount?.data)
+  const countLength = notificationsCount?.toString().length;
+
+  useEffect(() => {
+    if (focused) {
+      viewRef.current.animate({ 0: { scale: .5, rotate: '0deg' }, 1: { scale: 1.2, rotate: '360deg' } });
+    } else {
+      viewRef.current.animate({ 0: { scale: 1.5, rotate: '360deg' }, 1: { scale: 1, rotate: '0deg' } });
+    }
+  }, [focused])
+
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={1}
+      style={[styles.container, { top: 0 }]}>
+      <Animatable.View
+        ref={viewRef}
+        duration={1000}
+      >
+        <Icon type={item.type}
+          name={focused ? item.activeIcon : item.inActiveIcon}
+          color={focused ? COLOR.primaray : COLOR.black} />
+      </Animatable.View>
+
+
+      {((props?.item?.route === "Notification Screen" && notificationsCount > 0)) &&
+        <View style={[styles.counterView, {
+          width: countLength > 2 ? ResponsiveSize(40) : ResponsiveSize(28)
+        },
+        lang == NUMBER.num0 && {
+          right: ResponsiveSize(0),
+          left: ResponsiveSize(45)
+        }]}>
+          <Text
+            style={styles.counterText}>
+            {notificationsCount || 0}
+          </Text>
+        </View>
+      }
+    </TouchableOpacity >
+  )
+}
+
+export default function AnimTab1() {
+
+  const lang = useSelector(state => state.lang.data)
+  const Data = lang == NUMBER.num1 ? TabArr : TabArr2
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Tab.Navigator
+        initialRouteName={NAVIGATION.HomeScreen}
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            height: ResponsiveSize(80),
+            justifyContent: ALINE.center,
+            alignItems: ALINE.center,
+            elevation: 10,
+          }
+        }}
+      >
+        {
+          Data.map((item, index) => {
+            return (
+              <Tab.Screen key={index} name={item.route} component={item.component}
+                options={{
+                  tabBarShowLabel: false,
+                  tabBarButton: (props) => <TabButton {...props} item={item} />
+                }}
+
+              />
+            )
+          })}
+
+      </Tab.Navigator>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: ALINE.center,
+    alignItems: ALINE.center,
+    height: ResponsiveSize(60),
+  },
+  counterView: {
+    backgroundColor: COLOR.primaray,
+    position: 'absolute',
+    borderRadius: ResponsiveSize(100),
+    top: ResponsiveSize(7),
+    right: ResponsiveSize(45),
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    padding: ResponsiveSize(2)
+  },
+  counterText: {
+    color: COLOR.white,
+    fontWeight: FONTWEGHIT.font600,
+    fontSize: ResponsiveSize(15),
+    fontFamily: FONTS.Regular
+  }
+})

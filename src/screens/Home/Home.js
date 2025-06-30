@@ -1,0 +1,244 @@
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+import { styles } from './home.style';
+import CustomeHeader from '../../components/CustomeHeader';
+import StoryView from '../../components/StoryView';
+import useHomeHook from './home.hook';
+import Slider from '../../components/Slider';
+import { whatsapp } from '../../assets';
+import { ResponsiveSize } from '../../utils/utils';
+import CetegoriesBox from '../../components/CetegoriesBox';
+import ProductBox from '../../components/ProductBox';
+import CusLoader from '../../components/CustomLoader';
+import Icon from 'react-native-vector-icons/dist/AntDesign';
+import { COLOR, RESIZEMODE } from '../../constants/style';
+import FastImage from 'react-native-fast-image';
+import CusModal from '../../components/CusModal';
+import { NAVIGATION } from '../../constants/constants';
+import TermsPopup from '../../components/TermsPopup';
+import Maintenance from '../Maintenance/Maintenance';
+import messaging from '@react-native-firebase/messaging';
+const Home = (props) => {
+  const {
+    data,
+    HomeScreeData,
+    lang,
+    Sliderdata,
+    navigation,
+    CetegoriesData,
+    isLoadding,
+    giftCart,
+    showPop,
+    termsData,
+    mes,
+    isMaintenance,
+    setShowPop,
+    CetegouriesList,
+    ProductDetails,
+    onRefresh,
+    handleScroll,
+    openPlayStore,
+    refreshing,
+    scrollViewRef,
+    showScrollToTop,
+    bannerUrl,
+    maintenanceData,
+    scrollToTop,
+    openWhatsApp,
+    showTerms, setShowTerms
+  } = useHomeHook(props)
+
+
+
+  // PUSH Notification 
+  useEffect(() => {
+    const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+      }
+
+    });
+
+    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+        navigation?.navigate(NAVIGATION.NotificationScreen)
+      }
+    });
+
+    messaging().getInitialNotification().then(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+        navigation?.navigate(NAVIGATION.NotificationScreen)
+      }
+    });
+
+    return () => {
+      unsubscribeOnMessage();
+      unsubscribeOnNotificationOpenedApp();
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
+
+  return (
+    <View style={styles.mainView}>
+      <View style={styles.CustomeHeaderView}>
+        <CustomeHeader search={true} like={true} shoppingcart={true} />
+        <ScrollView
+          ref={scrollViewRef}
+          onScroll={handleScroll}
+          refreshControl={
+            <RefreshControl
+              onRefresh={onRefresh}
+              refreshing={refreshing} />
+          }
+
+          onRefresh={() => { CetegouriesList(), ProductDetails() }}
+          style={styles.containerView}>
+
+          <View style={styles.storyView}>
+
+            <StoryView
+              CetegoriesData={CetegoriesData}
+              data={data} lang={lang}
+              navigation={navigation}
+            />
+
+          </View>
+
+          <View style={styles.bannerView2}>
+            <FastImage
+              resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{
+                uri: bannerUrl
+              }} />
+          </View>
+
+          <View style={styles.siderView}>
+            <Slider data={Sliderdata} lang={lang} home={true} />
+          </View>
+
+
+          {
+            giftCart &&
+            <View style={styles.giftcart}>
+              <TouchableOpacity
+                onPress={() => { navigation.navigate(NAVIGATION.giftcard, { giftCartID: giftCart?.id }) }}
+                style={styles.giftcartView}>
+                <FastImage
+                  resizeMode='cover'
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    borderRadius: ResponsiveSize(20)
+                  }}
+                  source={{
+                    uri: giftCart?.image
+                  }} />
+
+              </TouchableOpacity>
+            </View>
+          }
+
+          <View style={styles.categories}>
+            {
+              CetegoriesData?.map((items, index) => {
+                return (
+                  <View key={index} style={styles.cetegoriesBox}>
+                    {items?.children.length > 0 &&
+                      <CetegoriesBox navigation={navigation} lang={lang} items={items} index={index} />
+                    }
+                  </View>
+                )
+              })
+            }
+          </View>
+
+
+          {
+            HomeScreeData?.map((items, index) => {
+              return (
+                <View key={index} style={styles.productView}>
+                  <ProductBox navigation={navigation} lang={lang} items={items} sindex={index} />
+                </View>
+              )
+            })
+          }
+
+          <View style={{ height: ResponsiveSize(200) }} />
+        </ScrollView>
+      </View>
+      {showScrollToTop && (
+        <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
+          <Icon name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
+        </TouchableOpacity>
+      )}
+
+      {
+        (!CetegoriesData || isLoadding || !Sliderdata) &&
+        <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
+          <CusLoader />
+        </View>
+      }
+
+      <Modal
+        transparent={true}
+        visible={showTerms}
+        animationType='slide'
+      >
+        <TermsPopup onPress={setShowTerms} termsData={termsData} />
+
+      </Modal>
+
+      <Modal
+        transparent={true}
+        visible={showPop}
+        animationType='slide'
+      >
+        <CusModal text={mes} setModalShow={setShowPop} notification={false} GETNotificationAPI={openPlayStore} />
+      </Modal>
+
+      {/* Maintances popup  */}
+      <Modal
+        transparent={true}
+        visible={isMaintenance}
+        animationType='slide'
+
+      >
+        <Maintenance maintenanceData={maintenanceData} />
+      </Modal>
+
+      <TouchableOpacity
+        onPress={() => { openWhatsApp() }}
+        style={{
+          height: ResponsiveSize(80),
+          width: ResponsiveSize(80),
+          borderRadius: ResponsiveSize(100),
+          position: 'absolute',
+          bottom: ResponsiveSize(80),
+          right: ResponsiveSize(40)
+        }}
+      >
+        <Image style={{
+          height: "100%",
+          width: "100%",
+          resizeMode: RESIZEMODE.contain
+        }} source={whatsapp} />
+
+      </TouchableOpacity>
+
+
+
+
+    </View>
+  );
+};
+
+export default Home;

@@ -1,0 +1,313 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
+import { Ar, En } from '../../constants/localization';
+import { useDispatch, useSelector } from 'react-redux';
+import { ExpireToken, ProductlistCount, useSingUp, userLogIn, userLogInWithNumber } from '../../api/axios.api';
+import { SHOWTOTS, emaileRegxp } from '../../utils/utils';
+import { addUserData } from '../../redux/Slices/UserData.slice';
+import { EmailToLocalStorage, PasswordToLocalStorage, setUserData } from '../../utils/asyncStorage';
+import { signInWithGoogle } from '../../firebase/firebaseConfig';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { addProduct } from '../../redux/Slices/AddToCartSlice';
+import { updateLangCode } from '../../redux/Slices/LangSlices';
+
+const useLoginHook = (props) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorText, setErrorText] = useState('')
+  const [loader, setLoader] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [whiteEmail, setWithEmail] = useState(true);
+  const [langues, setLangues] = useState();
+  const [checkBox, setCheckBox] = useState(false)
+  const [moNumber, setMobailNumber] = useState();
+  const [rememberMe, setRembemberMe] = useState();
+  const navigation = useNavigation();
+  const lang = useSelector(state => state?.lang);
+  const dispatch = useDispatch()
+  const [chnageLang, setChangeLang] = useState(false)
+  const [lanMode, setLangMode] = useState(lang.data == NUMBER?.num0 ? "AR" : "EN")
+
+  const naviGtaionType = props?.route?.params?.type
+
+  useEffect(() => {
+    getLang();
+  }, [lang]);
+
+  useEffect(() => {
+    Rembemberme()
+  }, [])
+
+  const getLang = async () => {
+    const lable = lang.data == NUMBER?.num0 ? Ar : En
+    setLangues(lable)
+  };
+
+  const emailLogin = async () => {
+    setLoader(true)
+    const userEmail = email.toLowerCase()
+    const formData = new FormData();
+    formData.append('username', userEmail);
+    formData.append('password', password);
+    formData.append('store_id', lang?.data);
+    const response = await userLogIn(formData)
+
+    if (response?.data?.status == NUMBER?.num1) {
+      const loginStatus = response?.data?.data?.quote_id?.data?.login_status
+      if (loginStatus == "0") {
+        const fromdata = new FormData
+        try {
+          const result = await ExpireToken(fromdata)
+          console.log("EXPIRE TOKEN ::::::::::::::: ", result)
+          setLoader(false)
+        } catch (error) {
+          setLoader(false)
+          console.log("Errorrr=====> ", error)
+        }
+      }
+      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
+      await setUserData(response?.data?.data)
+      dispatch(addUserData(response?.data?.data))
+      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+      RemoveRembember()
+      setLoader(false)
+    } else {
+      setLoader(false)
+      setShowModal(true)
+      setErrorText(response?.data?.message)
+      console.log("Response error =====> ", response?.data)
+    }
+  }
+  const useLoginWithEmail = () => {
+    if (!email) {
+      setErrorText(langues?.Enteremailaddress)
+      setShowModal(true)
+    }
+    else if (!emaileRegxp.test(email)) {
+      setErrorText(langues?.Invalidemailaddress)
+      setShowModal(true)
+    }
+    else if (!password) {
+      setErrorText(langues?.Enterpassword)
+      setShowModal(true)
+    }
+    else {
+      emailLogin()
+    }
+  }
+  const mobailLogin = async () => {
+    setLoader(true)
+    const formData = new FormData();
+    formData.append('mobile', '+966' + moNumber);
+    formData.append('otptype', "login");
+    formData.append('store_id', lang?.data);
+
+    const response = await userLogInWithNumber(formData)
+
+    if (response?.data?.status == NUMBER.num1) {
+      setLoader(false)
+      console.log("OTP ====> ", response?.data?.otp)
+      navigation.replace(NAVIGATION.OTPScreen, { lable: langues, mobileNo: moNumber, otpr: response?.data?.otp, types: "login", naviGtaionType: naviGtaionType })
+    } else {
+      setLoader(false)
+      setShowModal(true)
+      setErrorText(response?.data?.message)
+      console.log("Response error =====> ", response?.data)
+    }
+  }
+
+  const useLoginWithNumber = () => {
+    if (moNumber) {
+      if (moNumber?.length != 9) {
+        setShowModal(true)
+        setErrorText(langues?.Invalidnumber)
+      } else {
+        mobailLogin()
+      }
+
+    } else {
+      SHOWTOTS(langues?.Entermobilenumber)
+    }
+
+
+  }
+
+  const onPress = async () => {
+    whiteEmail ? useLoginWithEmail() : useLoginWithNumber();
+  };
+
+  const SingUpScreen = () => {
+    navigation.replace(NAVIGATION.SinupSceen, { langues: langues, naviGtaionType: naviGtaionType });
+  };
+
+  const ForgetPassword = () => {
+    navigation.navigate(NAVIGATION.ForgetPasswor, { langues: langues, naviGtaionType: naviGtaionType });
+  }
+
+  const Rembemberme = async () => {
+    const getEmail = await AsyncStorage.getItem(ASYNCSTORAGE.Email)
+    const getPassword = await AsyncStorage.getItem(ASYNCSTORAGE.Password)
+    getEmail && setEmail(getEmail)
+    getPassword && setPassword(getPassword)
+    setRembemberMe({ EMAIL: getEmail, PASSWORD: getPassword })
+  }
+
+  const RemoveRembember = () => {
+    if (checkBox) {
+      EmailToLocalStorage(email)
+      PasswordToLocalStorage(password)
+    } else {
+      EmailToLocalStorage("")
+      PasswordToLocalStorage("")
+    }
+
+  }
+
+  const handleGoogleSignIn = async () => {
+
+    try {
+
+      const userCredential = await signInWithGoogle();
+
+      const regex = /^[A-Za-z0-9 ]*$/
+      const fullName = userCredential?.user?.displayName
+      const mail = userCredential?.user?.email
+      const uid = userCredential?.user?.uid
+      const nameParts = fullName?.split(' ');
+      const firstName = nameParts[0];
+      const lastnameText = nameParts?.slice(1)?.join(' ');
+      const testLastName = lastnameText;
+      const lastName = testLastName ? lastnameText : " "
+
+      SINUP(mail, firstName, lastName, uid, type = "google")
+
+    } catch (error) {
+
+    }
+  }
+
+
+  const SINUP = async (mail, firstName, lastName, uid, type) => {
+    const fromdata = new FormData()
+    setLoader(true)
+
+    const formData = new FormData();
+    formData.append('firstname', firstName ? firstName : " ");
+    formData.append('lastname', lastName ? lastName : " ");
+    formData.append('email', mail ? mail : "");
+    formData.append('otptype', type);
+    formData.append('store_id', lang?.data);
+    formData.append('auth', uid ? uid : " ");
+
+    const response = await useSingUp(formData)
+    if (response?.data?.status == NUMBER.num1) {
+      const result = await ExpireToken(fromdata)
+      await setUserData(response?.data?.data)
+      dispatch(addUserData(response?.data?.data))
+      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
+      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+      setLoader(false)
+    } else {
+      console.log("Singup Respones error ::::::; ==========> ", response)
+      setShowModal(true)
+      setErrorText(response?.data?.message)
+      setLoader(false)
+    }
+  }
+  async function onAppleButtonPress() {
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+
+    const mail = appleAuthRequestResponse?.email
+    const uid = appleAuthRequestResponse?.authorizationCode
+    const firstName = appleAuthRequestResponse?.fullName?.givenName
+    const lastName = appleAuthRequestResponse?.fullName?.familyName
+    const user = appleAuthRequestResponse?.user
+
+    if (mail) {
+      SINUP(mail, firstName, lastName, user, type = "apple")
+    } else {
+      SINUP(mail, firstName, lastName, user, type = "apple")
+    }
+  }
+
+  const PoductCount = async (token) => {
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
+      }
+  }
+  `
+      try {
+
+        const result = await ProductlistCount(countData, lang?.data, token)
+        dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+        // const arrOFItems = result?.data?.data?.customerCart?.items
+        // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+        dispatch(addProduct(0))
+      }
+    }
+
+  }
+
+  const changeLungues = async () => {
+    setLoader(true)
+    const num = lang?.data == NUMBER.num0 ? NUMBER.num1 : lang?.data == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
+    try {
+      await AsyncStorage.setItem('Lang', num);
+      dispatch(updateLangCode(num));
+      setTimeout(() => {
+        setLoader(false)
+      }, 2000)
+
+
+    } catch (error) {
+      console.log('UPDATE LANGUES ERROR :: ', error);
+      setLoader(true)
+
+    }
+  };
+
+
+
+  return {
+    whiteEmail,
+    langues,
+    lang,
+    loader,
+    showModal,
+    errorText,
+    checkBox,
+    rememberMe,
+    setRembemberMe,
+    setEmail,
+    setPassword,
+    setWithEmail,
+    onPress,
+    SingUpScreen,
+    setShowModal,
+    ForgetPassword,
+    setMobailNumber,
+    setCheckBox,
+    handleGoogleSignIn,
+    onAppleButtonPress,
+    setChangeLang, chnageLang,
+    setLangMode, lanMode,
+    changeLungues
+
+
+  };
+};
+
+export default useLoginHook;
