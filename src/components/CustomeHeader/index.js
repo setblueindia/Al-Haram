@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Platform, StatusBar } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/dist/Entypo';
 import HertIcon from 'react-native-vector-icons/dist/AntDesign'
@@ -6,13 +6,12 @@ import { ResponsiveSize } from '../../utils/utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './header.style';
-
 import { logo } from '../../assests';
 import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 import StatusBarCus from '../CustomStatusBar';
 import { useSelector } from 'react-redux';
 import { ALINE } from '../../constants/style';
-import LottieView from 'lottie-react-native';
+
 
 const CustomeHeader = ({ search, like, shoppingcart }) => {
   const userData = useSelector(state => state?.userData)
@@ -39,9 +38,7 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
 
         <View style={[styles.lastView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
           <TouchableOpacity onPress={() => {
-            // userData?.data ?
             navigation.navigate(NAVIGATION.SerchScreen)
-            //  : navigation.navigate(NAVIGATION.Login)
           }
           }>
             {search && <HertIcon name={ICON.search1} size={25} style={styles.menuIcon} />}
@@ -61,10 +58,10 @@ const CustomeHeader = ({ search, like, shoppingcart }) => {
               navigation.navigate(NAVIGATION.Login)
           }}>
             {shoppingcart &&
-          
+
               <HertIcon name={ICON.shoppingcart} size={25} style={styles.menuIcon} />
             }
-            {shoppingcart &&(productCount > 0 && shoppingcart) &&
+            {shoppingcart && (productCount > 0 && shoppingcart) &&
               <View style={styles.productCountView}>
                 <Text style={styles.productText}>{productCount}</Text>
               </View>

@@ -6,6 +6,7 @@ import AddToCartSlice from './Slices/AddToCartSlice';
 import CetegoriesList from './Slices/CetegoriesList';
 import HomeScreenData from './Slices/HomeScreenData';
 import NotificationCount from './Slices/AddNotificationCount';
+import addCounter from './Slices/Counter';
 
 
 
@@ -18,7 +19,8 @@ const store = configureStore({
         AddToCart: AddToCartSlice,
         CetegoriesList: CetegoriesList,
         HomeScreen: HomeScreenData,
-        NotificationCount: NotificationCount
+        NotificationCount: NotificationCount,
+        Number: addCounter
     }
 })
 

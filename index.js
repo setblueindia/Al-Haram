@@ -13,6 +13,12 @@ import RNRestart from 'react-native-restart';
 
 const AppRoot = () => {
 
+    // Text.defaultProps = Text.defaultProps || {};
+    // Text.defaultProps.allowFontScaling = false;
+    // TextInput.defaultProps = TextInput.defaultProps || {};
+    // TextInput.defaultProps.allowFontScaling = false;
+
+
     useEffect(() => {
         if (I18nManager.isRTL) {
             I18nManager.allowRTL(false);

@@ -8,14 +8,19 @@ import { ResponsiveSize } from '../../utils/utils'
 import Counter from '../../components/Counter'
 import Icon from 'react-native-vector-icons/AntDesign';
 import Block from 'react-native-vector-icons/FontAwesome6';
-import { EXTRASTR, ICON, NAVIGATION, NUMBER } from '../../constants/constants'
+import BlockIcon from 'react-native-vector-icons/MaterialIcons';
+import {
+    EXTRASTR,
+    ICON,
+    NAVIGATION,
+    NUMBER
+} from '../../constants/constants'
 import { ALINE, COLOR } from '../../constants/style'
 import LottieView from 'lottie-react-native'
 import ReviewSlider from '../../components/ReviewSlider'
 import CusLoader from '../../components/CustomLoader'
 import FastImage from 'react-native-fast-image'
 import RenderHTML from 'react-native-render-html';
-import ProductBox from '../../components/ProductBox'
 import WebView from 'react-native-webview'
 import BIcon from 'react-native-vector-icons/AntDesign';
 import SAR from '../../components/SAR/Index'
@@ -59,10 +64,14 @@ const ProductDetails = (props) => {
         qnt,
         label,
         userData,
-        setQnts
+        colorSectionRef,
+        sizeSectionRef, scrollRef,
+        setQnts,
+        colorError, sizeError,
+        masurementError
     } = useProductDetails({ props })
 
-    const addToCatdOn = props?.route?.params?.addToCatdOn
+
     const [webViewHeight, setWebViewHeight] = useState(0);
     const [shoeBigSilder, setShowBingSider] = useState(false)
 
@@ -77,21 +86,7 @@ const ProductDetails = (props) => {
         })();
       `;
 
-    //     const injectedJavaScript = `
-    //     (function() {
-    //       // Change font size
-    //       var style = document.createElement('style');
-    //       style.innerHTML = "body { font-size: 50px !important; }";
-    //       document.head.appendChild(style);
 
-    //       // Adjust WebView height after content loads
-    //       setTimeout(function() {
-    //         const contentHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-    //         window.ReactNativeWebView.postMessage(contentHeight);
-    //       }, 500);  // Wait for the content to load completely
-    //     })();
-    //     true;
-    // `;
     const handleMessage = (event) => {
         const height = Number(event.nativeEvent.data, 10);
         setWebViewHeight(height);
@@ -105,7 +100,9 @@ const ProductDetails = (props) => {
             <View style={{ zIndex: 100 }}>
                 <CommanHeader navigation={navigation} lang={lang?.data} />
             </View>
-            <ScrollView style={{ flex: 1 }} >
+            <ScrollView
+                ref={scrollRef}
+                style={{ flex: 1 }} >
                 <View style={styles.silderBox}>
                     <Slider data={sliderData} height={ResponsiveSize(450)} lang={lang} setShowBingSider={setShowBingSider} />
                 </View>
@@ -216,109 +213,232 @@ const ProductDetails = (props) => {
                     </View>
                 }
 
+                <View style={
+                    masurementError == 0 && styles.greenLine}>
 
-                {defaultColor &&
-                    <View style={[styles.colorView, lang?.data == NUMBER.num0 && {}]}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(30), textAlign: 'right' }]}>{Str.color}</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(100), paddingHorizontal: ResponsiveSize(5) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    {defaultColor &&
 
-                            {defaultColor?.values?.map((items, index) => {
+                        <View
+                            ref={colorSectionRef}
+                            style={masurementError == 1 && styles.greenLine}
+                        >
+                            <View
+                                // ref={colorSectionRef}
+                                // onLayout={(event) => setColorLayoutY(event.nativeEvent.layout.y)}
+                                style={[styles.colorView, lang?.data == NUMBER.num0 && {}]}>
 
-                                const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
-                                var fileImage = ''
-                                return (
-                                    <View style={{ justifyContent: ALINE.center }}>
-                                        <TouchableOpacity
-                                            onPress={(() => { setIndex(index), colorOnPress(items?.value_index), setColorTex(items?.label) })}
-                                            key={index}
-                                            style={[styles.colorConatiner,
-                                            index == sindex && { borderColor: COLOR.primaray, borderWidth: ResponsiveSize(2) }]}>
+                                <Text style={[
+                                    styles.text,
+                                    lang?.data == NUMBER.num0 && {
+                                        marginLeft: ResponsiveSize(30),
+                                        textAlign: EXTRASTR.right
+                                    }]}>{Str.color}
+                                </Text>
 
-                                            {imageObject?.map((item) => {
-                                                if (item?.colorIndex == items?.value_index) {
-                                                    fileImage = item?.imgURL
-                                                }
-                                            })}
+                                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ height: ResponsiveSize(130), paddingHorizontal: ResponsiveSize(5), marginTop: ResponsiveSize(15) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
 
-                                            {fileImage ?
-                                                <FastImage source={{ uri: fileImage }} style={{ height: "100%", width: "100%", resizeMode: 'contain', borderRadius: ResponsiveSize(10) }} /> :
-                                                <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
-                                            }
+                                    {defaultColor?.values?.map((items, index) => {
 
+                                        const block = avalabeColor ? avalabeColor?.includes(items?.value_index) : true
+                                        var fileImage = ''
+                                        return (
+                                            <View style={{ justifyContent: ALINE.center }}>
+                                                <TouchableOpacity
+                                                    onPress={(() => { setIndex(index), colorOnPress(items?.value_index), setColorTex(items?.label) })}
+                                                    key={index}
+                                                    style={[styles.colorConatiner,
+                                                    index == sindex && {
+                                                        borderColor: COLOR.primaray,
+                                                        borderWidth: ResponsiveSize(2),
+                                                        transform: [{ scale: 1.15 }],
+                                                    }]}>
 
-                                            {(!block && !shoeColor) &&
-                                                <View style={{
-                                                    alignSelf: ALINE.center,
-                                                    position: 'absolute',
-                                                    height: ResponsiveSize(70),
-                                                    width: ResponsiveSize(70),
-                                                    backgroundColor: "#00000050",
-                                                    borderRadius: ResponsiveSize(20)
-                                                }}>
-                                                    <Block style={{ alignSelf: 'center', top: ResponsiveSize(5) }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
-                                                </View>
-                                            }
-                                        </TouchableOpacity>
-                                    </View>
-                                )
-                            })}
+                                                    {imageObject?.map((item) => {
+                                                        if (item?.colorIndex == items?.value_index) {
+                                                            fileImage = item?.imgURL
+                                                        }
+                                                    })}
 
-                        </ScrollView>
-                    </View>
-
-                }
-
-                {
-                    (defaultColor || defaultSize) &&
-                    <View style={{ padding: ResponsiveSize(20) }}>
-                        <View style={styles.devider} />
-                    </View>
-                }
-
-                {defaultSize &&
-                    <View style={[styles.sizeView, lang?.data == NUMBER.num0 && {}]}>
-                        <Text style={[styles.text, lang?.data == NUMBER.num0 && { marginLeft: ResponsiveSize(10), textAlign: ALINE.right, alignSelf: 'flex-end' }]}>{Str?.Size}</Text>
-
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={[{ marginTop: ResponsiveSize(20) }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-
-                            {defaultSize?.values?.map((items, index) => {
-                                var blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
-                                return (
-                                    <View>
-
-                                        <TouchableOpacity
-                                            onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index) }}
-                                            key={index}
-                                            style={[styles.sizeContainer,
-                                            index == sizeIndex && sizeShow && { backgroundColor: COLOR.primaray },
-                                            !blcok || !sizeShow && { backgroundColor: COLOR.white }
-                                            ]}
-                                        >
-                                            <Text style={[styles.sizeText, (index == sizeIndex && sizeShow) && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
-                                        </TouchableOpacity>
+                                                    {fileImage ?
+                                                        <FastImage
+                                                            source={{ uri: fileImage }}
+                                                            style={{ height: "100%", width: "100%", resizeMode: 'contain', borderRadius: ResponsiveSize(10) }} />
+                                                        :
+                                                        <View style={[styles.innerColorView, { backgroundColor: items?.swatch_data?.value }]} />
+                                                    }
 
 
-                                        {(!blcok && !sizeShow) &&
-                                            <TouchableOpacity
-                                                onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index), setSizeShow(true), blcok = true }}
-                                                style={{
-                                                    position: 'absolute',
-                                                    flex: 1,
-                                                    height: "100%",
-                                                    width: "100%",
-                                                    left: ResponsiveSize(10)
-                                                }}>
+                                                    {(!block && !shoeColor) &&
+                                                        <View style={{
+                                                            alignSelf: ALINE.center,
+                                                            position: 'absolute',
+                                                            height: ResponsiveSize(100),
+                                                            width: ResponsiveSize(80),
+                                                            backgroundColor: "#00000050",
+                                                            borderRadius: ResponsiveSize(10),
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center'
+                                                        }}>
+                                                            {/* <View style={{
+                                                        // position: 'absolute',
+                                                        width: "140%",
+                                                        // width: ResponsiveSize(70),
+                                                        height: ResponsiveSize(5),
+                                                        backgroundColor: COLOR.primaray,
+                                                        transform: [{ rotate: "50deg" }]
+                                                    }} /> */}
 
-                                                <Block style={{ alignSelf: 'center' }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
-                                            </TouchableOpacity>
+                                                            <BlockIcon name={"block"} size={ResponsiveSize(60)} color={"#FFFFFF90"} />
+                                                            {/* <Block style={{ alignSelf: 'center', top: ResponsiveSize(5) }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} /> */}
+                                                        </View>
+                                                    }
+                                                </TouchableOpacity>
+                                            </View>
+                                        )
+                                    })}
+
+                                </ScrollView>
+
+
+                                {
+                                    colorError &&
+                                    <Text style={[
+                                        styles.text, { color: COLOR.primaray, fontSize: ResponsiveSize(20) },
+                                        lang?.data == NUMBER.num0 && {
+                                            marginLeft: ResponsiveSize(30),
+                                            textAlign: EXTRASTR.right
+                                        }]}>{colorError}
+                                    </Text>
+                                }
+
+
+
+                            </View>
+                        </View>
+
+                    }
+
+                    {
+                        (defaultColor || defaultSize) &&
+                        <View style={{ padding: ResponsiveSize(20) }}>
+                            <View style={styles.devider} />
+                        </View>
+                    }
+
+                    {defaultSize &&
+                        <View
+
+                            style={masurementError == 2 && styles.greenLine}
+                            ref={sizeSectionRef}
+                        >
+                            <View
+                                // ref={sizeSectionRef}
+                                // onLayout={(event) => setSizeLayoutY(event.nativeEvent.layout.y)}
+                                style={[styles.sizeView, lang?.data == NUMBER.num0 && {}]}>
+
+                                <Text
+                                    style={[
+                                        styles.text,
+                                        lang?.data == NUMBER.num0 && {
+                                            marginLeft: ResponsiveSize(10),
+                                            textAlign: ALINE.right,
+                                            alignSelf: 'flex-end'
                                         }
-                                        <View style={{ width: ResponsiveSize(20) }} />
-                                    </View>
-                                )
-                            })}
-                        </ScrollView>
-                    </View>
-                }
+                                    ]}>
+                                    {Str?.Size}
+                                </Text>
+
+                                {/* {(!sizeError) ?
+                            <Text
+                                style={[
+                                    styles.text,
+                                    lang?.data == NUMBER.num0 && {
+                                        marginLeft: ResponsiveSize(10),
+                                        textAlign: ALINE.right,
+                                        alignSelf: 'flex-end'
+                                    }
+                                ]}>
+                                {Str?.Size}
+                            </Text> :
+                            <Text
+                                style={[
+                                    styles.text, { color: COLOR.primaray, fontSize: ResponsiveSize(20) },
+                                    lang?.data == NUMBER.num0 && {
+                                        marginLeft: ResponsiveSize(10),
+                                        textAlign: ALINE.right,
+                                        alignSelf: 'flex-end'
+                                    }
+                                ]}>
+                                {sizeError}
+                            </Text>
+
+                        } */}
+
+                                <ScrollView
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    style={[{
+                                        marginTop: ResponsiveSize(20)
+                                    }, lang?.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+
+                                    {defaultSize?.values?.map((items, index) => {
+                                        var blcok = avalabeSize ? avalabeSize?.includes(items?.swatch_data?.value) : true
+                                        return (
+                                            <View>
+
+                                                <TouchableOpacity
+                                                    onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index) }}
+                                                    key={index}
+                                                    style={[styles.sizeContainer,
+                                                    index == sizeIndex && sizeShow && { backgroundColor: COLOR.primaray },
+                                                    !blcok || !sizeShow && { backgroundColor: COLOR.white }
+                                                    ]}
+                                                >
+                                                    <Text style={[styles.sizeText, (index == sizeIndex && sizeShow) && { color: COLOR.white }]} >{items?.swatch_data?.value}</Text>
+                                                </TouchableOpacity>
+
+
+                                                {(!blcok && !sizeShow) &&
+                                                    <TouchableOpacity
+                                                        onPress={() => { sizeOnPress(items?.value_index), setSizeIndex(index), setSizeShow(true), blcok = true }}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            flex: 1,
+                                                            height: "100%",
+                                                            width: "100%",
+                                                            left: ResponsiveSize(10)
+                                                        }}>
+
+                                                        <Block style={{ alignSelf: 'center' }} color={COLOR.primaray} name={"slash"} size={ResponsiveSize(70)} />
+                                                    </TouchableOpacity>
+                                                }
+                                                <View style={{ width: ResponsiveSize(20) }} />
+                                            </View>
+                                        )
+                                    })}
+                                </ScrollView>
+
+                                {sizeError &&
+                                    <Text
+                                        style={[
+                                            styles.text, { color: COLOR.primaray, fontSize: ResponsiveSize(20), marginTop: ResponsiveSize(10) },
+                                            lang?.data == NUMBER.num0 && {
+                                                marginLeft: ResponsiveSize(10),
+                                                textAlign: ALINE.right,
+                                                alignSelf: 'flex-end'
+                                            }
+                                        ]}>
+                                        {sizeError}
+                                    </Text>
+                                }
+
+
+
+                            </View>
+                        </View>
+                    }
+
+                </View>
 
                 {(defaultColor || defaultSize) &&
                     <View style={styles.deviderView}>

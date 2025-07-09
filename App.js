@@ -36,34 +36,7 @@ const App = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
-  //     Alert.alert('Notification arrived!', remoteMessage.notification?.body);
-  //   });
 
-  //   const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
-  //     Alert.alert('Notification arrived!', remoteMessage.notification);
-  //     // Navigation?.navigate(NAVIGATION.notification)
-
-  //   });
-
-  //   messaging().getInitialNotification().then(remoteMessage => {
-  //     if (remoteMessage) {
-  //       Alert.alert('Notification arrived!', remoteMessage.notification);
-  //       // Navigation?.navigate(NAVIGATION.notification)
-  //     }
-  //   });
-
-  //   return () => {
-  //     unsubscribeOnMessage();
-  //     unsubscribeOnNotificationOpenedApp();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
-  //   });
-  // }, []);
 
   return (
     <>

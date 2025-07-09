@@ -1,10 +1,17 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from "../../constants/constants"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { addProduct } from "../../redux/Slices/AddToCartSlice"
-import { AddRemoveToWhishLisst, AddToCartAPI, ExpireToken, ProductDetalsBySKU, ProductlistCount, oldAddressDeleted } from "../../api/axios.api"
-import { imageURL } from "../../constants/axios.url"
+import {
+  AddRemoveToWhishLisst,
+  AddToCartAPI,
+  ExpireToken,
+  ProductDetalsBySKU,
+  ProductlistCount,
+  oldAddressDeleted
+} from "../../api/axios.api"
+import { BASE_URL, imageURL } from "../../constants/axios.url"
 import { SHOWTOTS } from "../../utils/utils"
 import { Ar, En } from "../../constants/localization"
 import Share from 'react-native-share';
@@ -26,7 +33,6 @@ const useProductDetails = (props) => {
   const [details, setDetails] = useState()
   const [showAnimation, setShowAnimation] = useState(false)
   const [isLoading, setIsLoading] = useState()
-  const dispatch = useDispatch()
   const [defaultColor, setDefultColor] = useState()
   const [defaultSize, setDefultSize] = useState()
   const [avalabeSize, setAvalableSize] = useState()
@@ -47,8 +53,50 @@ const useProductDetails = (props) => {
   const [quteID, setQuteID] = useState(0)
   const [colorLable, setColorLable] = useState(null)
   const [sizeLable, setSizeLable] = useState(null)
+  const [colorError, setColorError] = useState("")
+  const [sizeError, setSizeError] = useState("")
+  const [masurementError, setMasurementError] = useState()
 
   const selectionColor = colorTex ? colorTex : " "
+
+  const dispatch = useDispatch()
+
+  const scrollRef = useRef();
+  const colorSectionRef = useRef();
+  const sizeSectionRef = useRef();
+
+  const scrollToColor = () => {
+    setTimeout(() => {
+      if (colorSectionRef.current && scrollRef.current) {
+        colorSectionRef.current.measureLayout(
+          scrollRef.current,
+          (x, y) => {
+            scrollRef.current.scrollTo({ y, animated: true });
+          },
+          (error) => {
+            console.log('measureLayout error:', error);
+          }
+        );
+      }
+    }, 200);
+  };
+
+
+  const scrollToSize = () => {
+    setTimeout(() => {
+      if (sizeSectionRef.current && scrollRef.current) {
+        sizeSectionRef.current.measureLayout(
+          scrollRef.current,
+          (x, y) => {
+            scrollRef.current.scrollTo({ y, animated: true });
+          },
+          (error) => {
+            console.log('measureLayout error:', error);
+          }
+        );
+      }
+    }, 200);
+  };
 
 
   const Str = lang?.data == NUMBER.num1 ?
@@ -86,17 +134,20 @@ const useProductDetails = (props) => {
     setQnts(1)
   }, [navigation])
 
+
   useEffect(() => {
     TokenExpire()
   }, [])
 
 
 
+
+
   const onShare = async () => {
     const shareOptions = {
-      title: 'Share via',
-      message: 'Check out this content!',
-      url: 'https://beta.alharamstores.com/',
+      title: details?.name ? details?.name : 'AL-Haram Stores',
+      message: details?.name ? details?.name : 'AL-Haram Stores',
+      url: `${BASE_URL}/${details?.canonical_url}`,
     };
 
     try {
@@ -142,14 +193,35 @@ const useProductDetails = (props) => {
         setIsLoading(false)
         addTocartAnimation()
       } else {
+        if (defaultColor && defaultSize && !color && !size) {
+          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color and size is a required field" : " هذا الحقل مطلوب.")
+          setColorError(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
+          setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
+          scrollToSize();
+          setMasurementError(0)
+          setIsLoading(false)
+          return
+        }
         if (defaultColor && !color) {
           SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
+          setSizeError("")
+          setColorError(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
+          scrollToColor();
+          setMasurementError(1)
           setIsLoading(false)
+          return
         } else if (defaultSize && !size) {
           SHOWTOTS(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
+          setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
+          setColorError("")
+          scrollToSize();
+          setMasurementError(2)
           setIsLoading(false)
+          return
         } else {
           SHOWTOTS(response?.data?.message)
+          setColorError("")
+          setSizeError("")
           setIsLoading(false)
           if (response?.data?.data?.login_status == "0") {
 
@@ -169,7 +241,6 @@ const useProductDetails = (props) => {
               console.log("SINGOUTE ERROR ::::::", error)
             }
 
-            // navigation?.navigate(NAVIGATION.Login, { type: true })
             console.log("ADD TO CARD BITTON API RESPONSE :::::::::::::::::::::::: ", response?.data?.data?.login_status)
           }
 
@@ -204,6 +275,7 @@ const useProductDetails = (props) => {
                         html
                       }
                       special_price
+                      canonical_url
                       price_tiers {
                         quantity
                         discount {
@@ -358,6 +430,9 @@ const useProductDetails = (props) => {
 
   {/* Color Press Logic */ }
   const colorOnPress = (id) => {
+    setColorError("")
+    sizeError ? setMasurementError(2) : setMasurementError()
+    setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
     let valueIndexOfSize2 = 0;
     setShowColor(true)
     setSizeShow(false)
@@ -389,11 +464,10 @@ const useProductDetails = (props) => {
   }
 
 
-
-
-
   {/* Size Press Logic */ }
   const sizeOnPress = (id) => {
+    colorError ? setMasurementError(1) : setMasurementError()
+    setSizeError("")
     setShowColor(false)
     setSizeShow(true)
     setSize(id)
@@ -406,6 +480,7 @@ const useProductDetails = (props) => {
     })
     setAvalableColor(temp)
     valueIndexOfSize?.includes(id)
+
     // && setIndex()
   }
 
@@ -547,7 +622,11 @@ const useProductDetails = (props) => {
     colorLable,
     sizeLable,
     getData,
-    setImageArry
+    setImageArry,
+    colorSectionRef,
+    sizeSectionRef, scrollRef,
+    colorError, sizeError,
+    masurementError,
   }
 }
 

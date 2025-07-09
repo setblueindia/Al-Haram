@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
-import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
+import {
+    ALINE,
+    COLOR,
+    FONTWEGHIT,
+    RESIZEMODE
+} from "../../constants/style";
 
 export const styles = StyleSheet.create({
     silderBox: {
@@ -58,16 +63,13 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(20),
     },
     colorConatiner: {
-        height: ResponsiveSize(60),
-        width: ResponsiveSize(60),
+        height: ResponsiveSize(100),
+        width: ResponsiveSize(80),
         marginLeft: ResponsiveSize(10),
-        borderRadius: ResponsiveSize(20),
+        borderRadius: ResponsiveSize(10),
         backgroundColor: COLOR.white,
-        elevation: 10,
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowColor: COLOR.black,
+        borderWidth: ResponsiveSize(0.5),
+        borderColor: COLOR.liteGray,
         padding: ResponsiveSize(5)
     },
     innerColorView: {
@@ -266,5 +268,12 @@ export const styles = StyleSheet.create({
     },
     totalReviewText: {
         fontSize: ResponsiveSize(18),
+    },
+    greenLine: {
+        paddingVertical: ResponsiveSize(20),
+        borderWidth: ResponsiveSize(2),
+        marginHorizontal: ResponsiveSize(20),
+        borderColor: COLOR.liteGreen,
+        borderRadius: ResponsiveSize(10)
     }
 })

@@ -137,13 +137,15 @@ export const styles = StyleSheet.create({
     addTonewRecipintView: {
         height: ResponsiveSize(70),
         width: "100%",
-        backgroundColor: COLOR.primaray,
+        backgroundColor: COLOR.liteGreen,
         borderRadius: ResponsiveSize(10),
         justifyContent: ALINE.center,
         alignItems: ALINE.center,
+
     },
     addnewRecipintText: {
-        color: COLOR.white
+        color: COLOR.white,
+        fontWeight: FONTWEGHIT.font600
     },
     btnConatainer: {
         width: "100%",

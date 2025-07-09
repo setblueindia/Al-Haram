@@ -1,5 +1,6 @@
 export const config = {
 
+  // Test Config
   // currency: 'SAR',
   // timeout: '15',
   // terminalId: 'haramcent',
@@ -27,5 +28,6 @@ export const config = {
 
 // Test card number
 // 5123 4500 0000 0008
-// 05 / 32 100
+// Expiry Date 05 / 32
+// CVV 100
 // Failure

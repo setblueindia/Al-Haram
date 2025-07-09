@@ -168,6 +168,19 @@ const Product = (props) => {
                                                                     }
                                                                 } />
                                                         </View>}
+
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            if (userData) {
+                                                                likePress(item?.id)
+                                                                likeDislike(item?.id, item?.wishlist)
+                                                            } else {
+                                                                navigation.navigate(NAVIGATION.Login)
+                                                            }
+                                                        }}
+                                                        style={styles.likeView}>
+                                                        <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(20)} color={COLOR.primaray} />
+                                                    </TouchableOpacity>
                                                 </View>
 
 
@@ -187,7 +200,7 @@ const Product = (props) => {
 
 
 
-                                                <TouchableOpacity
+                                                {/* <TouchableOpacity
                                                     onPress={() => {
                                                         if (userData) {
                                                             likePress(item?.id)
@@ -198,7 +211,7 @@ const Product = (props) => {
                                                     }}
                                                     style={styles.likeView}>
                                                     <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(20)} color={COLOR.primaray} />
-                                                </TouchableOpacity>
+                                                </TouchableOpacity> */}
                                             </TouchableOpacity>
                                         )
                                     }}
@@ -246,7 +259,6 @@ const Product = (props) => {
 
                 {showScrollToTop && (
                     <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
-                        {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
                         <Icon name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
                     </TouchableOpacity>
                 )}

@@ -5,21 +5,21 @@ import { COLOR } from '../../constants/style'
 import { NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 
-const DeleteBox = ({lang , noPress , yesPress , type}) => {
+const DeleteBox = ({ lang, noPress, yesPress, type }) => {
     const lable = lang == NUMBER.num0 ? Ar : En
     return (
         <View style={styles.mainView}>
             <View style={styles.containerView}>
-                <Text style={styles.text}>{type == 'L' ?  lable?.AreYousureyouwantsingout : lable?.AreYousureyouwantdelete}</Text>
-                <View style={[styles.btnContainer ,  lang == NUMBER.num0 &&  {flexDirection:'row-reverse'}]}>
+                <Text style={styles.text}>{type == 'L' ? lable?.AreYousureyouwantsingout : lable?.AreYousureyouwantdelete}</Text>
+                <View style={[styles.btnContainer, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                     <TouchableOpacity
-                    onPress={noPress}
-                    style={styles.btnView}>
+                        onPress={noPress}
+                        style={styles.btnView}>
                         <Text style={styles.btnText}>{lable?.NO}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                    onPress={yesPress}
-                    style={styles.btnView}>
+                        onPress={yesPress}
+                        style={styles.btnView}>
                         <Text style={styles.btnText}>{lable?.Yes}</Text>
                     </TouchableOpacity>
                 </View>
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        fontSize:ResponsiveSize(22),
-        color:COLOR.black
+        fontSize: ResponsiveSize(22),
+        color: COLOR.black
     },
     btnContainer: {
         flexDirection: 'row',
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    btnText:{
-        color:COLOR.white,
-        width:"100%",
-        textAlign:'center'
+    btnText: {
+        color: COLOR.white,
+        width: "100%",
+        textAlign: 'center'
     }
 })

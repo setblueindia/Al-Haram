@@ -1,16 +1,21 @@
 
 import { useEffect, useState } from 'react'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { CartList, ExpireToken, ProductlistCount, getGiftCartdInfo, giftAddToCart } from '../../api/axios.api'
+import {
+  ExpireToken,
+  ProductlistCount,
+  getGiftCartdInfo,
+  giftAddToCart
+} from '../../api/axios.api'
 import { imageURL } from '../../constants/axios.url'
 import { SHOWTOTS, emaileRegxp } from '../../utils/utils'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import { Ar, En } from '../../constants/localization'
 import { NUMBER } from '../../constants/constants'
 
-const useGiftHook = (props) => {
 
+const useGiftHook = (props) => {
 
   const giftCardID = props?.route?.params?.giftCartID
   const navigation = useNavigation()
@@ -34,19 +39,25 @@ const useGiftHook = (props) => {
   const [qty, setQty] = useState(1)
   const [info, setInfo] = useState(false)
   const [coustomAmount, setCoutomerAmount] = useState()
+  const [date, setDate] = useState(new Date())
+
+
 
 
   const dispatch = useDispatch()
-  const focus = useIsFocused()
+
+
   const langues = lang == NUMBER?.num0 ? Ar : En
+
+
   const recipiantObject = {
+    date: date,
     am_giftcard_sender_name: name?.replace(/[\n\r\t]/g, ''),
     am_giftcard_recipient_name: recipientName?.replace(/[\n\r\t]/g, ''),
     am_giftcard_recipient_email: recipientEmail?.replace(/[\n\r\t]/g, ''),
     mobilenumber: recipientNumber?.replace(/[\n\r\t]/g, ''),
     am_giftcard_message: message?.replace(/[\n\r\t]/g, '')
   }
-
 
 
   const tempName = userData?.firstname + " " + userData?.lastname
@@ -75,60 +86,97 @@ const useGiftHook = (props) => {
   }, [])
 
   useEffect(() => {
-
     getData()
   }, [])
 
 
 
-
-
   const onRecipientPress = () => {
+    const {
+      am_giftcard_sender_name,
+      am_giftcard_recipient_name,
+      am_giftcard_recipient_email,
+      mobilenumber,
+    } = recipiantObject || {};
+
+    const allFieldsEmpty =
+      !am_giftcard_sender_name &&
+      !am_giftcard_recipient_name &&
+      !am_giftcard_recipient_email &&
+      !mobilenumber;
+
+    if (allFieldsEmpty) {
+      const thentemprecipiantObject = {
+        date: new Date(),
+        am_giftcard_sender_name: name?.replace(/[\n\r\t]/g, ''),
+        am_giftcard_recipient_name: recipientName?.replace(/[\n\r\t]/g, ''),
+        am_giftcard_recipient_email: recipientEmail?.replace(/[\n\r\t]/g, ''),
+        mobilenumber: recipientNumber?.replace(/[\n\r\t]/g, ''),
+        am_giftcard_message: message?.replace(/[\n\r\t]/g, '')
+      }
+
+      setIsLoadding(true);
+      setError(false);
+      setDate(new Date());
+
+      setTimeout(() => {
+        setRecipientDetails([thentemprecipiantObject, ...recipientDetails]);
+        setRecipient(recipient + 1);
+        setMessage();
+        setRecipientName();
+        setRecipientEmail();
+        setName();
+        setRecipientNumber();
+        setIsLoadding(false);
+      }, 1000);
+    } else {
+
+      if (!am_giftcard_sender_name) {
+        setError(true);
+      } else if (!am_giftcard_recipient_name) {
+        setError(true);
+      } else if (am_giftcard_recipient_email && !emaileRegxp.test(recipientEmail)) {
+        SHOWTOTS(langues?.Invalidemailaddress);
+      } else if (!mobilenumber) {
+        setError(true);
+      } else if (!recipientNumber || recipientNumber.length < 9 || recipientNumber.length > 10) {
+        SHOWTOTS(langues?.Numbercontainsmustbe9digits);
+      } else {
+
+        const temprecipiantObject = {
+          date: new Date(),
+          am_giftcard_sender_name: name?.replace(/[\n\r\t]/g, ''),
+          am_giftcard_recipient_name: recipientName?.replace(/[\n\r\t]/g, ''),
+          am_giftcard_recipient_email: recipientEmail?.replace(/[\n\r\t]/g, ''),
+          mobilenumber: recipientNumber?.replace(/[\n\r\t]/g, ''),
+          am_giftcard_message: message?.replace(/[\n\r\t]/g, '')
+        }
 
 
-    if (!recipiantObject?.am_giftcard_sender_name) {
-      setError(true)
+        setIsLoadding(true);
+        setError(false);
+        setDate(new Date());
+        setTimeout(() => {
+          setRecipientDetails([temprecipiantObject, ...recipientDetails]);
+          setRecipient(recipient + 1);
+          setMessage();
+          setRecipientName();
+          setRecipientEmail();
+          setName();
+          setRecipientNumber();
+          setIsLoadding(false);
+        }, 1000);
+      }
     }
-    else if (!recipiantObject?.am_giftcard_recipient_name) {
-      setError(true)
-    }
-    // else if (!recipiantObject?.am_giftcard_recipient_email) {
-    //   setError(true)
-    // }
-    else if (recipiantObject?.am_giftcard_recipient_email && !emaileRegxp.test(recipientEmail)) {
-      SHOWTOTS(langues?.Invalidemailaddress)
-    }
-    else if (!recipiantObject?.mobilenumber) {
-      setError(true)
-    } else if (!recipientNumber || recipientNumber?.length < 9 || recipientNumber?.length > 10) {
-      SHOWTOTS(langues?.Numbercontainsmustbe9digits)
-    }
-    // else if (!recipiantObject?.am_giftcard_message) {
-    //   setError(true)
-    // } 
-    else {
 
-      setError(false)
-      setRecipientDetails([recipiantObject, ...recipientDetails])
-      setRecipient(recipient + 1)
-
-      setMessage()
-      setRecipientName()
-      setRecipientEmail()
-      setName()
-      setRecipientNumber()
-    }
   }
 
-  // console.log("recipint data ::::::", recipientDetails)
-  const removeData = () => {
-    const filteredData = recipientDetails.filter(obj =>
-      !Object.values(obj).every(value => value === undefined)
-    );
+  const removeData = (id) => {
 
-    setRecipientDetails(filteredData)
-    // setRecipient(recipient - 1)
-    // console.log("filteredData ::::", filteredData)
+    const temData = recipientDetails.filter((item) => item.date !== id);
+    setRecipient(recipient - 1)
+    setRecipientDetails(temData)
+
   }
 
   const getData = async () => {
@@ -318,30 +366,13 @@ const useGiftHook = (props) => {
 
     }
 
-    // recipientDetails1.forEach(item => {
-    //   Object.values(item).forEach(value => {
-    //     if (!price) {
-    //       SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
-    //     } else if (value === undefined) {
-    //       setError(true)
-    //       hasUndefinedValue = true;
-    //     }
-    //     else if (item?.mobilenumber?.length < 9 || item?.mobilenumber?.length < 9) {
-    //       SHOWTOTS(langues?.Numbercontainsmustbe9digits)
-    //       hasUndefinedValue = true;
-    //     } else {
-    //       hasUndefinedValue = false
-    //     }
-    //   });
-    // });
-
 
     recipientDetails1.forEach(item => {
+
       Object.values(item).forEach(value => {
 
         if (!price && !coustomAmount) {
           SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
-          // setError(true)
           hasUndefinedValue = true
         } else if (!item?.am_giftcard_recipient_name) {
           setError(true)
@@ -351,13 +382,10 @@ const useGiftHook = (props) => {
           setError(true)
           hasUndefinedValue = true
         }
-        // else if (!item?.am_giftcard_recipient_email) {
-        //   setError(true)
-        //   hasUndefinedValue = true;
-        // }
         else if (item?.am_giftcard_recipient_email && !emaileRegxp.test(item?.am_giftcard_recipient_email)) {
           SHOWTOTS(langues?.Invalidemailaddress)
           hasUndefinedValue = true;
+          setError(true)
         }
         else if (!item?.mobilenumber) {
           setError(true)
@@ -415,79 +443,45 @@ const useGiftHook = (props) => {
     }
   }
 
-  // const getCartItems = async () => {
 
-  //   const formData = new FormData
-  //   formData.append("store_id", lang)
-  //   formData.append("token", userData?.token)
-  //   try {
-  //     const response = await CartList(formData)
-  //     if (response?.data?.status) {
-  //       response?.data?.data?.items.forEach(item => {
-  //         if (item.isInStock) {
-  //           console.log("item :::::::::", item?.type)
-  //         } else {
-
-  //         }
-  //       });
-
-  //     } else {
-  //       console.log("INNER ERROR ::::::: ", response?.data)
-  //     }
-  //   } catch (error) {
-
-  //     console.log("CART LIST ERROR ::::::::::::::::::::::: ", error)
-  //   }
-  // }
-
-  // useEffect(() => { getCartItems() }, [])
 
 
   return {
     navigation,
     lang,
+    recipientDetails,
+    slider,
+    data,
+    isLoadding,
+    price,
+    inputPrice,
+    userData,
+    name,
+    recipientName,
+    recipientNumber,
+    message,
+    recipientEmail,
+    ondata,
+    giftCardID,
+    qty,
+    coustomAmount,
+    info, setInfo,
     setName,
     setRecipientName,
     setRecipientEmail,
     setMessage,
     setRecipientNumber,
     onRecipientPress,
-    setRecipient,
     onAddTocart,
+    pricvePress,
     setInputPrice,
     addWallte,
     setOnData,
-    checkValidation,
     setQty,
-    setRecipientDetails,
-    ondata,
-    info, setInfo,
-    recipient,
-    recipientDetails,
-    data,
-    slider,
-    isLoadding,
-    setPrice,
-    pricvePress,
-    selectIndex,
-    price,
-    inputPrice,
-    userData,
-    error,
-    qty,
-    name,
-    recipientName,
-    recipientNumber,
-    message,
-    recipientEmail,
-    giftCardID,
-    userData,
-    coustomAmount,
     removeData,
-    setCoutomerAmount,
-    setRecipientDetails
-
-
+    setPrice,
+    selectIndex,
+    error
   }
 }
 

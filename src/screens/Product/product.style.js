@@ -115,21 +115,21 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(100),
         position: 'absolute',
         // top: ResponsiveSize(20),
-        bottom: ResponsiveSize(75),
-        right: ResponsiveSize(15),
+        bottom: ResponsiveSize(10),
+        right: ResponsiveSize(10),
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.gray,
         justifyContent: ALINE.center,
         alignItems: ALINE.center,
         backgroundColor: COLOR.white,
-        shadowColor: "#000000",
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0.5,
-            width: 0.5
-        },
-        elevation: ResponsiveSize(10)
+        // shadowColor: "#000000",
+        // shadowOpacity: 0.5,
+        // shadowRadius: 0.5,
+        // shadowOffset: {
+        //     height: 0.5,
+        //     width: 0.5
+        // },
+        // elevation: ResponsiveSize(10)
 
     },
     item: {
