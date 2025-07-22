@@ -174,11 +174,38 @@ export const Ar = {
   Scheduledelivery: "جدولة التسليم",
   Sendnow: "أرسل الآن",
   Addtocart: "إضافة إلى عربة التسوق",
-  InvoiceNo: "رقم الفاتورة"
+  InvoiceNo: "رقم الفاتورة",
+  Addnewaddress: "+ إضافة عنوان جديد",
+  PaymentProcess: "عملية الدفع",
+  SubTotal: "الإجمالي",
+  ConfirmOrder: "تأكيد الطلب",
+  Checkout: "متابعة",
+  TrackOrder: "متابعة الطلب",
+  PaymentByGiftcard: "الدفع ببطاقة الهدية",
+  Remove: "إزالة",
+  EnterGiftcardnumber: "ادخل رقم بطاقة الهدية",
+  CheckStatus: "تحقق",
+  APPLY: "تطبيق",
+  Paymentbycard: "الدفع عن طريق البطاقة",
+  Giftcard: "بطاقات الهدايا"
+
 
 }
 
 export const En = {
+  Paymentbycard: "Payment by card",
+  Giftcard: "Giftcard",
+  APPLY: "APPLY",
+  CheckStatus: "Check Status",
+  PaymentByGiftcard: "Payment By Giftcard",
+  EnterGiftcardnumber: "Enter Giftcard number",
+  Remove: "Remove",
+  Checkout: "Checkout",
+  TrackOrder: "Track Order",
+  ConfirmOrder: "Confirm Order",
+  SubTotal: "Sub Total",
+  PaymentProcess: "Payment Process",
+  Addnewaddress: "+Add new address",
   YourName: "Your Name",
   InvoiceNo: "Invoice No",
   Sendnow: "Send now",

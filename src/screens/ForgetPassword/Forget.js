@@ -1,9 +1,8 @@
-import { Modal, StyleSheet, Text, View } from 'react-native'
+import { Modal, Text, View } from 'react-native'
 import React from 'react'
 import Onbordingheader from '../../components/OnbordingHeader'
 import { styles } from './forget.style'
 import TextFildCus from '../../components/TextFildCus'
-import { En } from '../../constants/localization'
 import { ICON } from '../../constants/constants'
 import Button from '../../components/Button'
 import useForgetPassword from './Forget.hook'
@@ -13,20 +12,39 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 
 const Forget = () => {
-    const { lang, lable, setEmail, isLoading, forgetPassword, showModal, setShowModal, msg , oppsHide} = useForgetPassword()
+    const {
+        lable,
+        setEmail,
+        isLoading,
+        forgetPassword,
+        showModal,
+        setShowModal,
+        msg,
+        oppsHide
+    } = useForgetPassword()
     return (
         <>
             <KeyboardAwareScrollView style={styles.mainView}>
                 <Onbordingheader />
                 <View style={styles.container}>
-                    <Text style={styles.Textheader}>{lable?.ForgotPassword}</Text>
+                    <Text
+                        style={styles.Textheader}>
+                        {lable?.ForgotPassword}
+                    </Text>
                     <Text style={styles.desText}>{lable?.forgetDes}</Text>
                     <View style={styles.lineView} />
                     <View style={styles.textInput}>
-                        <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={lable?.Enteremailaddress} />
+                        <TextFildCus
+                            onChange={setEmail}
+                            icon={ICON.emailIcon}
+                            text={lable?.Enteremailaddress}
+                        />
                     </View>
                     <View style={styles.btn}>
-                        <Button onPress={forgetPassword} text={lable?.Send} />
+                        <Button
+                            onPress={forgetPassword}
+                            text={lable?.Send}
+                        />
                     </View>
                 </View>
 
@@ -38,7 +56,7 @@ const Forget = () => {
                 visible={showModal}
 
             >
-                <CusModal setModalShow={setShowModal} text={msg}  notification={oppsHide}/>
+                <CusModal setModalShow={setShowModal} text={msg} notification={oppsHide} />
             </Modal>
             {
                 isLoading &&

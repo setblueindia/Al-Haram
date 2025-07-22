@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { COLOR, FONTWEGHIT } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
+import { FONTS } from "../../constants/fonts";
 
 export const styles = StyleSheet.create({
     mainView: {
@@ -14,14 +15,17 @@ export const styles = StyleSheet.create({
     Textheader: {
         fontSize: ResponsiveSize(35),
         color: COLOR.black,
-        fontWeight: FONTWEGHIT.font600,
+        // fontWeight: FONTWEGHIT.font600,
         marginTop: ResponsiveSize(30),
+        fontFamily: FONTS.Bold
     },
     desText: {
         textAlign: 'center',
         marginTop: ResponsiveSize(20),
         color: "#00000070",
-        lineHeight: ResponsiveSize(30)
+        lineHeight: ResponsiveSize(30),
+        fontFamily: FONTS.Regular,
+        fontSize: ResponsiveSize(22)
     },
     lineView: {
         width: "90%",
@@ -33,9 +37,9 @@ export const styles = StyleSheet.create({
     textInput: {
         padding: ResponsiveSize(30)
     },
-    btn:{
+    btn: {
         padding: ResponsiveSize(5),
-        width:"100%",
-        marginTop:ResponsiveSize(10)
+        width: "100%",
+        marginTop: ResponsiveSize(10)
     }
 })

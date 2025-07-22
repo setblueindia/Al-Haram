@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from "react-native";
 import { ALINE, COLOR } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
+import { FONTS } from "../../constants/fonts";
 
 export const styles = StyleSheet.create({
 
@@ -16,12 +17,13 @@ export const styles = StyleSheet.create({
     },
     socialIcon: {
         height: ResponsiveSize(45),
-        width: ResponsiveSize(45),    
+        width: ResponsiveSize(45),
     },
     text: {
         fontSize: ResponsiveSize(25),
         marginLeft: ResponsiveSize(10),
-        flex:Platform.OS == 'android' && 0.2,
-        color:COLOR.darkGray
+        flex: Platform.OS == 'android' && 0.2,
+        color: COLOR.darkGray,
+        fontFamily: FONTS.Regular
     },
 })

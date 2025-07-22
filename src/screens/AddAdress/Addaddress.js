@@ -1,13 +1,19 @@
-import { Platform, ScrollView, Text, TextInput, View } from 'react-native'
+import {
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  View
+} from 'react-native'
 import React from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import TextFildCus from '../../components/TextFildCus'
 import { styles } from './address.style'
-import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
+import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { ResponsiveSize } from '../../utils/utils'
 import CheackButton from '../../components/CheackButton'
 import Button from '../../components/Button'
-import { COLOR } from '../../constants/style'
+import { ALINE, COLOR } from '../../constants/style'
 import useAddressHook from './address.hook'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import CusLoader from '../../components/CustomLoader'
@@ -64,32 +70,78 @@ const Addaddress = (props) => {
         navigation={navigation}
         lang={lang}
         customNavg={props?.route?.params?.setLoadding ? false : true}
-        name={esiteData ? data?.EditAddress : data.AddAddress} />
+        name={esiteData ? data?.EditAddress : data.AddAddress}
+      />
 
       <KeyboardAwareScrollView style={styles.conatainer}>
-        <TextFildCus onChange={setFirstName} value={firstName} text={data?.FirstName} add={true} />
+
+        <TextFildCus
+          onChange={setFirstName}
+          value={firstName}
+          text={data?.FirstName}
+          add={true}
+        />
+
         <View style={styles.devider} />
-        <TextFildCus onChange={setlastname} value={lastName} text={data?.LastName} add={true} />
+
+        <TextFildCus
+          onChange={setlastname}
+          value={lastName}
+          text={data?.LastName}
+          add={true}
+        />
+
         <View style={styles.devider} />
+
         <TextFildCus
           onChange={setMNumber}
           countryText={"+966"}
           value={mNumaber}
           number={true}
           text={data?.PhoneNumber}
-          // text={"05XXXXXXXX"}
-          add={true} />
+          add={true}
+        />
+
         <View style={styles.devider} />
-        <TextFildCus onChange={serAddress1} value={address1} text={data?.Streetaddress} add={true} />
+
+        <TextFildCus
+          onChange={serAddress1}
+          value={address1}
+          text={data?.Streetaddress}
+          add={true}
+        />
+
         <View style={styles.devider} />
-        <TextFildCus onChange={setAddress2} value={address2} text={data?.Addressline1} add={true} />
+
+        <TextFildCus
+          onChange={setAddress2}
+          value={address2}
+          text={data?.Addressline1}
+          add={true}
+        />
+
         <View style={styles.devider} />
-        <TextFildCus onChange={setAddress3} value={address3} text={data?.Addressline2} add={true} />
-        {/* <View style={styles.devider} />
-        <TextFildCus onChange={setPinCode} value={pinCode} number={true} text={data?.Pincode} add={true} />
-        <View style={styles.devider} /> */}
+
+        <TextFildCus
+          onChange={setAddress3}
+          value={address3}
+          text={data?.Addressline2}
+          add={true}
+        />
+
         <View style={styles.secondView}>
-          <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }]}>{data?.SaudiArabia}</Text>
+
+          <Text
+            style={[
+              styles.contiresText,
+              lang == NUMBER.num0 && {
+                textAlign: EXTRASTR.right,
+                marginRight: ResponsiveSize(20)
+              }
+            ]}>
+            {data?.SaudiArabia}
+          </Text>
+
           <TouchableOpacity
             style={styles.stateTextView}
             onPress={() => {
@@ -99,7 +151,16 @@ const Addaddress = (props) => {
               setCity("")
             }}
           >
-            <Text style={[styles.stateTextStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{state ? state : data?.StateProvince}</Text>
+            <Text
+              style={[
+                styles.stateTextStyle,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right
+                }
+              ]}>
+              {state ? state : data?.StateProvince}
+            </Text>
+
           </TouchableOpacity>
           <View style={styles.devider} />
           <TouchableOpacity
@@ -109,19 +170,67 @@ const Addaddress = (props) => {
             }}
             style={styles.stateTextView}
           >
-            <Text style={[styles.stateTextStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{city ? city : data?.City}</Text>
+            <Text
+              style={[
+                styles.stateTextStyle,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right
+                }]}>
+              {city ? city : data?.City}
+            </Text>
+
           </TouchableOpacity>
-          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-            <CheackButton preVriable={shopping} onPress={setShopping} />
-            <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.Useasmydefaultbillingaddress}</Text>
+
+
+          <View
+            style={[
+              styles.CheackView,
+              lang == NUMBER.num0 && {
+                flexDirection: ALINE.rowreverse
+              }]}
+          >
+            <CheackButton
+              preVriable={shopping}
+              onPress={setShopping}
+            />
+
+            <Text
+              style={[
+                styles.cheackText,
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(20)
+                }
+              ]}>
+              {data?.Useasmydefaultbillingaddress}
+            </Text>
+
           </View>
-          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-            <CheackButton preVriable={billing} onPress={setBilling} />
-            <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.UseasmydefaultShippingaddress}</Text>
+          <View style={[
+            styles.CheackView,
+            lang == NUMBER.num0 && {
+              flexDirection: ALINE.rowreverse
+            }]}>
+            <CheackButton
+              preVriable={billing}
+              onPress={setBilling}
+            />
+
+            <Text
+              style={[
+                styles.cheackText,
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(20)
+                }]}>
+              {data?.UseasmydefaultShippingaddress}
+            </Text>
           </View>
         </View>
-        <View style={styles.btnView}>
-          <Button onPress={addAddress} text={esiteData ? data?.EditAddress : lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
+
+        <View
+          style={styles.btnView}>
+          <Button
+            onPress={addAddress}
+            text={esiteData ? data?.EditAddress : data?.AddAddress} />
         </View>
         <View style={{ height: ResponsiveSize(40) }}>
         </View>
@@ -129,37 +238,58 @@ const Addaddress = (props) => {
 
       {on &&
         <View style={[styles.popView]}>
-          <View style={[styles.listView, Platform.OS == 'ios' && { marginTop: insets.top }]}>
-            <Text style={styles.popTex}>{popTex}</Text>
+          <View
+            style={[
+              styles.listView,
+              Platform.OS == 'ios' && {
+                marginTop: insets.top
+              }]
+            }>
+
+            <Text
+              style={styles.popTex}>
+              {popTex}
+            </Text>
+
             <TextInput
               style={styles.serchView}
               placeholder={lang == NUMBER.num1 ? 'Search......' : "بحث"}
-              textAlign={lang == NUMBER.num0 ? "right" : 'left'}
+              textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
               value={serchText}
               placeholderTextColor={COLOR.liteGray}
               onChangeText={(text) => { setSerchText(text) }}
             />
-            <ScrollView style={styles.ScrollView}>
 
+            <ScrollView style={styles.ScrollView}>
               {
                 citydata?.map((items, index) => {
                   return (
-                    <TouchableOpacity onPress={() => {
-                      setSerchText("")
-                      setOn(false),
-                        items?.default_name ? setStae(items?.default_name) :
-                          setCity(items?.value),
-                        // setCity(items?.city),
-                        setStaeCode(items?.region_id)
-                      items?.default_name && getCityData(items?.region_id)
-                    }}
-                      key={index} style={styles.itemsName}>
-                      <Text style={[styles.customerName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{items?.default_name ? items?.default_name : items?.city}</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSerchText("")
+                        setOn(false),
+                          items?.default_name ? setStae(items?.default_name) :
+                            setCity(items?.value),
+                          setStaeCode(items?.region_id)
+                        items?.default_name && getCityData(items?.region_id)
+                      }}
+                      key={index}
+                      style={styles.itemsName}
+                    >
+                      <Text
+                        style={[
+                          styles.customerName,
+                          lang == NUMBER.num0 &&
+                          {
+                            textAlign: EXTRASTR.right
+                          }]}
+                      >
+                        {items?.default_name ? items?.default_name : items?.city}
+                      </Text>
                     </TouchableOpacity>
                   )
                 })
               }
-
             </ScrollView>
 
           </View>
@@ -167,14 +297,27 @@ const Addaddress = (props) => {
             <TouchableOpacity
               onPress={() => { setOn(false) }}
               style={styles.poppBtn}>
-              <Text style={styles.cancalText}>{lang == NUMBER.num1 ? "Cancel" : "الغاء"}</Text>
+              <Text
+                style={styles.cancalText}>
+                {lang == NUMBER.num1 ? "Cancel" : "الغاء"}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => { setSerchText("") }}
-              style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
-              <Text style={[styles.cancalText, { color: COLOR.black }]}>{lang == NUMBER.num1 ? "clear" : "حذف"}</Text>
+              style={[styles.poppBtn,
+              {
+                backgroundColor: COLOR.white,
+                borderWidth: ResponsiveSize(1),
+                borderColor: COLOR.darkGray
+              }
+              ]}>
+              <Text style={[
+                styles.cancalText,
+                { color: COLOR.black }
+              ]}>
+                {lang == NUMBER.num1 ? "clear" : "حذف"}
+              </Text>
             </TouchableOpacity>
-
           </View>
         </View>
 
@@ -187,7 +330,6 @@ const Addaddress = (props) => {
           position: 'absolute'
         }}>
           <CusLoader />
-
         </View>
       }
     </View>

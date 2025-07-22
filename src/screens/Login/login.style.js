@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style';
 import { ResponsiveSize } from '../../utils/utils';
+import { FONTS } from '../../constants/fonts';
 
 const windowWidth = Dimensions.get('window').height;
 
@@ -45,16 +46,19 @@ export const styles = StyleSheet.create({
   rememerView: {
     flexDirection: ALINE.row,
     alignItems: ALINE.center,
+
   },
   rememverText: {
     marginLeft: ResponsiveSize(20),
-    color: COLOR.darkGray
+    color: COLOR.darkGray,
+    fontFamily: FONTS.Regular,
+    fontSize: ResponsiveSize(21)
   },
   forgetText: {
     color: COLOR.primaray,
     fontSize: ResponsiveSize(25),
-    fontWeight: 'bold',
-    textAlign: 'right'
+    textAlign: 'right',
+    fontFamily: FONTS.SemiBold
 
   },
   socialButton: {
@@ -75,7 +79,8 @@ export const styles = StyleSheet.create({
     fontSize: ResponsiveSize(25),
     flex: 1,
     textAlign: ALINE.center,
-    color: COLOR.liteGray
+    color: COLOR.liteGray,
+    fontFamily: FONTS.Regular
   },
   checkReam: {
     flexDirection: ALINE.row
@@ -104,8 +109,10 @@ export const styles = StyleSheet.create({
   },
   enText: {
     color: COLOR.white,
-    fontSize: ResponsiveSize(20),
-    fontWeight: FONTWEGHIT.font600
+    fontSize: ResponsiveSize(22),
+    // fontWeight: FONTWEGHIT.font600
+    fontFamily: FONTS.SemiBold,
+    letterSpacing: ResponsiveSize(1)
   },
   listLangView: {
     height: ResponsiveSize(60),
@@ -128,6 +135,7 @@ export const styles = StyleSheet.create({
     borderRadius: ResponsiveSize(20)
   },
   enText2: {
-    color: COLOR.black
+    color: COLOR.black,
+    fontFamily: FONTS.Regular
   }
 });

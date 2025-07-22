@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
-import { Ar, En } from '../../constants/localization'
-import SAR from '../../components/SAR/Index'
+import { FONTS } from '../../constants/fonts'
 
 const ShipingMethod = ({
     lang,
@@ -14,63 +13,107 @@ const ShipingMethod = ({
     setShippingdata,
     setStorePickUpData
 }) => {
+
     const [selected, setSelected] = useState()
     const [on, setOn] = useState()
-    const [sIndex, setSindex] = useState()
-    const labale = lang == NUMBER.num0 ? Ar : En
+
 
     return (
-        <ScrollView style={{ height: "100%", width: "100%" }}>
-            {/* <Text style={styles.headerText}>{labale?.ShippingMethods}</Text> */}
+        <ScrollView style={{
+            height: "100%",
+            width: "100%"
+        }}>
+
             <View style={styles.mainView}>
                 {
                     data?.length > 0 && data?.map((item, index) => {
                         return (
                             <View>
                                 <TouchableOpacity
-                                    onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" && selectShipping() }}
-                                    key={index} style={[styles.litsView, selected == index && { backgroundColor: "#FFEEEE" }]} >
-                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    onPress={() => {
+                                        setShippingdata(item),
+                                            setSelected(index),
+                                            setOn(item?.carrier_code),
+                                            item?.carrier_code == "fmestorepickup" && selectShipping()
+                                    }}
+                                    key={index}
+                                    style={[styles.litsView,
+                                    selected == index && {
+                                        backgroundColor: "#FFEEEE"
+                                    }]} >
+
+                                    <View
+                                        style={[
+                                            styles.firstView,
+                                            lang == NUMBER.num0 && {
+                                                flexDirection: ALINE.rowreverse
+                                            }
+                                        ]}>
+
                                         <View >
                                             <View style={styles.circalView} >
                                                 <View style={selected == index ? styles.fillCircalView2 : null} />
                                             </View>
                                         </View>
-                                        <View style={[styles.textView, { width: "100%" }]}>
-                                            <View style={[styles.hederTextView, lang == NUMBER.num0 && { marginLeft: ResponsiveSize(20) }]}>
-                                                <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.carrier_title}</Text>
+
+                                        <View
+                                            style={[styles.textView, { width: "100%" }]}>
+                                            <View
+                                                style={[
+                                                    styles.hederTextView,
+                                                    lang == NUMBER.num0 && {
+                                                        marginLeft: ResponsiveSize(20)
+                                                    }]}>
+
+                                                <Text
+                                                    style={[
+                                                        styles.txet,
+                                                        lang == NUMBER.num0 && {
+                                                            textAlign: EXTRASTR.right
+                                                        }
+                                                    ]}>
+                                                    {item?.carrier_title}
+                                                </Text>
+
                                             </View>
-                                            <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
+
+                                            <Text
+                                                style={[
+                                                    styles.desText,
+                                                    lang == NUMBER.num0 && {
+                                                        textAlign: EXTRASTR.right
+                                                    }]}>
                                                 {item?.method_title}
                                             </Text>
 
-
-
-                                            {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " " + item?.amount}</Text> */}
-
-                                            {/* ADD IMG */}
                                             <View style={{
-                                                flexDirection: 'row',
-                                                alignItems: 'center',
-                                                justifyContent: lang == NUMBER.num0 ? 'flex-end' : 'flex-start'
+                                                flexDirection: ALINE.row,
+                                                alignItems: ALINE.center,
+                                                justifyContent: lang == NUMBER.num0 ? ALINE.flexend : 'flex-start'
                                             }}>
                                                 <Image
-                                                    style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.primaray }}
+                                                    style={{
+                                                        height: ResponsiveSize(20),
+                                                        width: ResponsiveSize(20),
+                                                        tintColor: COLOR.primaray
+                                                    }}
                                                     source={
                                                         require('../../assets/images/Common/SAR.png')} />
                                                 <View style={{ width: ResponsiveSize(5) }} />
-                                                <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.amount}</Text>
+                                                <Text
+                                                    style={[
+                                                        styles.price,
+                                                        lang == NUMBER.num0 && {
+                                                            textAlign: EXTRASTR.right
+                                                        }]}>
+                                                    {item?.amount}
+                                                </Text>
                                             </View>
-
-                                            {/* <SAR price={item?.amount} normal={true} /> */}
-
-
-
-
 
                                         </View>
                                     </View>
                                 </TouchableOpacity>
+
                                 <View style={{ height: ResponsiveSize(20) }} />
                             </View>
                         )
@@ -150,6 +193,8 @@ const styles = StyleSheet.create({
     txet: {
         color: COLOR.primaray,
         fontSize: ResponsiveSize(25),
+        fontFamily: FONTS.Regular,
+
     },
     textView: {
         marginLeft: ResponsiveSize(20),
@@ -157,12 +202,14 @@ const styles = StyleSheet.create({
     desText: {
         color: COLOR.darkGray,
         lineHeight: ResponsiveSize(40),
-        marginTop: ResponsiveSize(10)
+        marginTop: ResponsiveSize(5),
+        fontFamily: FONTS.Regular
     },
     price: {
         color: COLOR.primaray,
         fontWeight: FONTWEGHIT.font600,
-        fontSize: ResponsiveSize(22)
+        fontSize: ResponsiveSize(22),
+        fontFamily: FONTS.SemiBold
     },
     hederTextView: {
         width: "90%",

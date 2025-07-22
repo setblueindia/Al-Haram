@@ -70,7 +70,9 @@ const WhishList = () => {
                   <SAR
                     price={item?.price}
                     normal={true}
-                    textAlign={{ justifyContent: lang == NUMBER.num0 ? ALINE.flexend : 'flex-start' }} />
+                    textAlign={{
+                      justifyContent: lang == NUMBER.num0 ? ALINE.flexend : 'flex-start'
+                    }} />
 
 
                 </View>

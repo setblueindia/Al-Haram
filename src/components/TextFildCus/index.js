@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/dist/Fontisto';
 import Password from 'react-native-vector-icons/dist/Entypo';
 import { ResponsiveSize } from '../../utils/utils';
 import { useSelector } from 'react-redux';
-import { NUMBER } from '../../constants/constants';
+import { EXTRASTR, NUMBER } from '../../constants/constants';
 import { ALINE, COLOR } from '../../constants/style';
 
 const TextFildCus = ({ value, text, icon, onChange, number, add, password, countryText, disable }) => {
@@ -29,32 +29,49 @@ const TextFildCus = ({ value, text, icon, onChange, number, add, password, count
         }
 
       ]}>
-      <View style={[{ flexDirection: 'row', alignItems: 'center' }, lang?.data == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-        <View style={[{ flexDirection: 'row', alignItems: 'center', flex: 1 }, lang?.data == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-          <Icon style={styles.icon} name={icon} size={ResponsiveSize(35)} />
-          {countryText && <Text style={styles.countryCodeText}>{countryText}</Text>}
+      <View style={[
+        {
+          flexDirection: ALINE.row,
+          alignItems: ALINE.center
+        }, lang?.data == NUMBER.num0 && {
+          flexDirection: ALINE.rowreverse
+        }
+      ]}>
+        <View style={[
+          {
+            flexDirection: ALINE.row,
+            alignItems: ALINE.center,
+            flex: 1
+          },
+          lang?.data == NUMBER.num0 && {
+            flexDirection: ALINE.rowreverse
+          }
+        ]}>
+
+          <Icon
+            style={styles.icon}
+            name={icon}
+            size={ResponsiveSize(35)}
+          />
+          {countryText &&
+            <Text
+              style={styles.countryCodeText}>
+              {countryText}
+            </Text>}
           <TextInput
             editable={disable ? false : true}
             value={value && value}
             placeholderTextColor={COLOR.darkGray}
             keyboardType={number && 'number-pad'}
-            textAlign={lang.data == NUMBER.num0 ? 'right' : 'left'}
-            style={[styles.textInput, lang.data == NUMBER.num0 && { marginRight: ResponsiveSize(10) }]}
+            textAlign={lang.data == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
+            style={[
+              styles.textInput,
+              lang.data == NUMBER.num0 && {
+                marginRight: ResponsiveSize(10)
+              }]}
             placeholder={text}
             blurOnSubmit={true}
-            // onChangeText={(text) => {
-            //   if (onChange) {
-            //     if (number) {
-            //       if (/^[0-9]*$/.test(text)) { // Allow only numbers or empty input
-            //         onChange(text); // Call onChange only if input is valid
-            //       }
-            //     }
-            //     // onChange(text)
-            //   }
-
-            // }}
             onChangeText={(text) => {
-
               if (onChange) {
                 if (number) {
                   const filteredText = text.replace(/[^0-9]/g, '');

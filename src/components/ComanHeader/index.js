@@ -6,8 +6,8 @@ import { ResponsiveSize } from '../../utils/utils';
 import StatusBarCus from '../CustomStatusBar';
 import { logo } from '../../assets';
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style';
-import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
+import { FONTS } from '../../constants/fonts';
 
 const CommanHeader = ({ navigation, lang, name, customNavg }) => {
     const productCount = useSelector(state => state?.AddToCart)
@@ -16,32 +16,67 @@ const CommanHeader = ({ navigation, lang, name, customNavg }) => {
     return (
         <View style={styles.mainView}>
             <StatusBarCus />
-            <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+            <View style={[
+                styles.container,
+                lang == NUMBER.num0 && {
+                    flexDirection: ALINE.rowreverse
+                }
+            ]}>
                 <TouchableOpacity
-                    onPress={() => { customNavg ? navigation?.navigate(NAVIGATION.AddressBookScreen, { Xyz: true }) : navigation.goBack() }}
+                    onPress={() => {
+                        customNavg ? navigation?.navigate(NAVIGATION.AddressBookScreen, { Xyz: true }) : navigation.goBack()
+                    }}
                 >
-                    <Icon style={styles.icon}
+                    <Icon
+                        style={styles.icon}
                         name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft}
-                        size={ResponsiveSize(40)} coloe={COLOR.black} />
+                        size={ResponsiveSize(40)}
+                        coloe={COLOR.black}
+                    />
+
                 </TouchableOpacity>
 
-                <View style={[styles.logoImage, { justifyContent: 'center', alignItems: 'center', width: name ? ResponsiveSize(300) : ResponsiveSize(200) }]}>
-                    {name && <Text style={styles.text}>{name}</Text>}
-                    {!name && <Image style={styles.image} source={logo} />}
+                <View
+                    style={[
+                        styles.logoImage,
+                        {
+                            justifyContent: ALINE.center,
+                            alignItems: ALINE.center,
+                            width: name ? ResponsiveSize(300) : ResponsiveSize(200)
+                        }]}>
+                    {name &&
+                        <Text
+                            style={styles.text}>
+                            {name}
+                        </Text>
+                    }
+                    {!name &&
+                        <Image
+                            style={styles.image}
+                            source={logo}
+                        />}
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => { userData ? navigation.navigate(NAVIGATION.Shoppingcart) : navigation.navigate(NAVIGATION.Login) }}
+                    onPress={() => {
+                        userData ?
+                            navigation.navigate(NAVIGATION.Shoppingcart) :
+                            navigation.navigate(NAVIGATION.Login)
+                    }}
                     style={{ width: ResponsiveSize(40) }}>
                     {!name &&
-                        <Icon style={styles.icon}
+                        <Icon
+                            style={styles.icon}
                             name={ICON.shoppingcart}
                             size={ResponsiveSize(40)}
                             coloe={COLOR.black} />}
                     {
                         (productCount?.data > 0 && !name) &&
                         <View style={styles.productCountView}>
-                            <Text style={styles.productText}>{productCount?.data}</Text>
+                            <Text
+                                style={styles.productText}>
+                                {productCount?.data}
+                            </Text>
                         </View>
                     }
                 </TouchableOpacity>
@@ -56,8 +91,6 @@ export default CommanHeader
 const styles = StyleSheet.create({
     logoImage: {
         height: ResponsiveSize(100),
-        // width: ResponsiveSize(200),
-
     },
     image: {
         height: "100%",
@@ -73,7 +106,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 2,
         elevation: 2,
-        shadowColor: '#000',
+        shadowColor: COLOR.black,
     },
     container: {
         alignItems: ALINE.center,
@@ -88,15 +121,16 @@ const styles = StyleSheet.create({
         color: COLOR.black,
         fontSize: ResponsiveSize(30),
         width: ResponsiveSize(300),
-        textAlign: 'center'
+        textAlign: ALINE.center,
+        fontFamily: FONTS.Regular
     },
     productCountView: {
         height: ResponsiveSize(30),
         width: ResponsiveSize(30),
         backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(100),
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center,
         position: 'absolute',
         bottom: ResponsiveSize(-10),
         right: ResponsiveSize(-10),

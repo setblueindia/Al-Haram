@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './sitch.stye';
-import { LOGINStr, NUMBER } from '../../constants/constants';
+import { NUMBER } from '../../constants/constants';
 import { ResponsiveSize } from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
 import { useSelector } from 'react-redux';
@@ -28,14 +28,20 @@ const SwitchButton = ({ setWithEmail, langues, profile }) => {
             borderColor: COLOR.primaray,
           },
         ]}>
-        <Text style={[styles.text, selected ? { color: COLOR.primaray } : { color: "#00000080" }]}>
+
+        <Text style={[
+          styles.text,
+          selected ? { color: COLOR.primaray } : { color: "#00000080" }
+        ]}>
           {profile ? langues?.EditProfile : langues?.SignInWithEmail}
         </Text>
+
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => {
-          setSelected(false), setWithEmail(false);
+          setSelected(false)
+          setWithEmail(false);
         }}
         style={[
           styles.emailView,
@@ -44,7 +50,11 @@ const SwitchButton = ({ setWithEmail, langues, profile }) => {
             borderColor: COLOR.primaray,
           },
         ]}>
-        <Text style={[styles.text, !selected ? { color: COLOR.primaray } : { color: "#00000080" }]}>
+        <Text style={[
+          styles.text,
+          !selected ? {
+            color: COLOR.primaray
+          } : { color: "#00000080" }]}>
           {profile ? langues?.ChangePassword : langues?.UseMobileNo}
         </Text>
       </TouchableOpacity>

@@ -105,6 +105,7 @@ export const ICON = {
   filter: "filter",
   circlewithcross: "circle-with-cross",
   sharealt: "sharealt",
+  locationpin: "location-pin"
 };
 
 export const ASYNCSTORAGE = {

@@ -45,8 +45,8 @@ const useHomeHook = (props) => {
   const [mes, setMes] = useState()
   const [appState, setAppState] = useState(AppState.currentState);
   const useFoucus = useIsFocused()
-  const version = DeviceInfo.getVersion()
-  // const version = "0.9"
+  // const version = DeviceInfo.getVersion()
+  const version = "1.1.4"
 
   const [isMaintenance, setMaintenance] = useState(false)
   const [maintenanceData, setMaintenancedata] = useState('')

@@ -68,7 +68,6 @@ const useAddressHook = (props) => {
       SaudiArabia: "Saudi Arabia",
       Useasmydefaultbillingaddress: "Use as my default billing address",
       UseasmydefaultShippingaddress: "Use as my default Shipping address",
-
     }
 
   useEffect(() => {
@@ -78,8 +77,8 @@ const useAddressHook = (props) => {
 
   const searchState = (query) => {
     const filterData = mixCity ? sates : cities
-    return filterData.filter(region => {
-      const nameLower = mixCity ? region?.default_name?.toLowerCase().includes(query.toLowerCase()) : region?.city?.toLowerCase().includes(query.toLowerCase());
+    return filterData?.filter(region => {
+      const nameLower = mixCity ? region?.default_name?.toLowerCase().includes(query?.toLowerCase()) : region?.city?.toLowerCase().includes(query?.toLowerCase());
       return nameLower
     }
     );
@@ -147,7 +146,6 @@ const useAddressHook = (props) => {
           setIsLoading(false)
           SHOWTOTS(ep?.data?.message)
         }
-
       } catch (error) {
         console.log("GET CITY DATA ERROR :::::::::::::::: ", error)
         setIsLoading(false)

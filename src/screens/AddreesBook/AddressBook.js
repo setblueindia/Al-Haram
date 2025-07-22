@@ -15,7 +15,8 @@ const AddressBook = (props) => {
     const { Shooping, setAddressCode, setLoadding, setBillingAddress } = props;
     const secondCall = props?.route?.params?.Xyz
 
-    const { data,
+    const {
+        data,
         navigation,
         lang,
         addAddress,
@@ -44,48 +45,115 @@ const AddressBook = (props) => {
                                 <TouchableOpacity
                                     onPress={() => {
                                         setIndex(index)
-                                        setAddressCode && setAddressCode(items)
+                                        setAddressCode &&
+                                            setAddressCode(items)
                                     }}
-                                    style={[styles.addressView, (aindex == index && setLoadding) && { backgroundColor: "#FFF3F4", borderColor: COLOR.primaray }]}>
-                                    <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    style={[
+                                        styles.addressView,
+                                        (aindex == index && setLoadding) &&
+                                        {
+                                            backgroundColor: "#FFF3F4",
+                                            borderColor: COLOR.primaray
+                                        }]
+                                    }>
 
+                                    <View style={[
+                                        styles.firstView,
+                                        lang == NUMBER.num0 && {
+                                            flexDirection: ALINE.rowreverse
+                                        }]}>
 
-                                        <View style={[styles.nameView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            {(items?.default_billing || items?.default_shipping) && <Icon name="location-pin" size={ResponsiveSize(40)} color={COLOR.primaray} style={{}} />}
-                                            <Text style={[styles.firstNameText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{name}</Text>
+                                        <View style={[
+                                            styles.nameView,
+                                            lang == NUMBER.num0 && {
+                                                flexDirection: ALINE.rowreverse
+                                            }]
+                                        }>
+                                            {
+                                                (items?.default_billing || items?.default_shipping) &&
+                                                <Icon
+                                                    name={"location-pin"}
+                                                    size={ResponsiveSize(40)}
+                                                    color={COLOR.primaray}
+                                                    style={{}}
+                                                />
+                                            }
+                                            <Text
+                                                style={[
+                                                    styles.firstNameText,
+                                                    lang == NUMBER.num0 &&
+                                                    { textAlign: EXTRASTR.right }
+                                                ]}>
+                                                {name}
+                                            </Text>
                                         </View>
-                                        <View style={[styles.iconView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                            {!setLoadding && <TouchableOpacity
-                                                onPress={() => { navigation.navigate(NAVIGATION.addaddress, { editeData: items, getData: getData }) }}
-                                            >
-                                                <ICON name={"square-edit-outline"} size={ResponsiveSize(35)} color={COLOR.primaray} />
-                                            </TouchableOpacity>}
+                                        <View
+                                            style={[
+                                                styles.iconView,
+                                                lang == NUMBER.num0 && {
+                                                    flexDirection: ALINE.rowreverse
+                                                }]}>
+
+                                            {!setLoadding &&
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        navigation.navigate(NAVIGATION.addaddress, { editeData: items, getData: getData })
+                                                    }}
+                                                >
+                                                    <ICON
+                                                        name={"square-edit-outline"}
+                                                        size={ResponsiveSize(35)}
+                                                        color={COLOR.primaray}
+                                                    />
+                                                </TouchableOpacity>
+                                            }
+
                                             <View style={{ width: ResponsiveSize(15) }}></View>
-                                            {!setLoadding && <TouchableOpacity onPress={(() => {
-                                                // deleteAdress(items?.id),
-                                                setdeteteId(items?.id)
-                                                setDetetePopp(true)
-                                            })}>
-                                                <ICON name={"delete"} size={ResponsiveSize(35)} color={COLOR.primaray} />
-                                            </TouchableOpacity>}
+
+                                            {
+                                                !setLoadding &&
+                                                <TouchableOpacity
+                                                    onPress={(() => {
+                                                        setdeteteId(items?.id)
+                                                        setDetetePopp(true)
+                                                    })}>
+                                                    <ICON
+                                                        name={"delete"}
+                                                        size={ResponsiveSize(35)}
+                                                        color={COLOR.primaray}
+                                                    />
+                                                </TouchableOpacity>
+                                            }
                                         </View>
                                     </View>
 
-                                    <View style={[styles.secondView, lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(80) } : { marginRight: ResponsiveSize(80) }]}>
+                                    <View
+                                        style={
+                                            [styles.secondView,
+                                            lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(80) } : { marginRight: ResponsiveSize(80) }]}>
                                         <Text
-                                            style={[styles.innerAddres, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}
-                                        >{address}</Text>
+                                            style={[
+                                                styles.innerAddres,
+                                                lang == NUMBER.num0 && { textAlign: EXTRASTR.right }
+                                            ]}
+                                        >
+                                            {address}
+                                        </Text>
                                     </View>
 
                                     <View style={styles.thirdView}>
                                         <Text
-                                            style={[styles.mobailText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}
+
+                                            style={[
+                                                styles.mobailText,
+                                                lang == NUMBER.num0 && {
+                                                    textAlign: EXTRASTR.right
+                                                }]}
                                         >{items?.telephone}</Text>
                                     </View>
 
                                 </TouchableOpacity>
                                 <View style={{ height: ResponsiveSize(20) }} />
-                                {/* <AddressBookComp getData={getData} index = {index} navigation={navigation} setAddressCode={setAddressCode} deleteAdress={deleteAdress} data={items} lang={lang} /> */}
                             </View>
                         )
                     })
@@ -100,7 +168,9 @@ const AddressBook = (props) => {
                         addAddress()
                     }}
                     style={styles.btn}>
-                    <Text style={styles.btnText}>{lang == NUMBER.num0 ? "+ إضافة عنوان جديد" : "+Add new address"}</Text>
+                    <Text style={styles.btnText}>
+                        {Str?.Addnewaddress}
+                    </Text>
                 </TouchableOpacity>
             </View>
 
@@ -122,7 +192,16 @@ const AddressBook = (props) => {
                     animationType='slide'
                     transparent
                 >
-                    <DeleteBox noPress={() => { setDetetePopp(false) }} yesPress={() => { setDetetePopp(false), deleteAdress() }} lang={lang} />
+                    <DeleteBox
+                        noPress={() => {
+                            setDetetePopp(false)
+                        }}
+                        yesPress={() => {
+                            setDetetePopp(false)
+                            deleteAdress()
+                        }}
+                        lang={lang}
+                    />
                 </Modal>
             }
         </View>

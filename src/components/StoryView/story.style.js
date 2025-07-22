@@ -28,14 +28,13 @@ export const styles = StyleSheet.create({
     listView: {
         marginHorizontal: ResponsiveSize(15),
     },
-
     text: {
         marginTop: ResponsiveSize(5),
         width: ResponsiveSize(100),
         textAlign: ALINE.center,
         color: COLOR.darkGray,
-        fontFamily: FONTS.Regular,
-        fontSize: ResponsiveSize(20)
+        fontFamily: FONTS.Medium,
+        fontSize: ResponsiveSize(23)
     },
     ImageLoadderView: {
         height: "100%",

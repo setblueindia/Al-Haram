@@ -1,4 +1,4 @@
-import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Text, View } from 'react-native';
 import React from 'react';
 import { styles } from './singup.style';
 import Onbordingheader from '../../components/OnbordingHeader';
@@ -31,20 +31,48 @@ const SingUp = props => {
   } = useSingUpHook({ lable, navigationType });
 
   return (
-    <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={styles.mainView}>
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
+      style={styles.mainView}
+    >
       <View style={styles.headerView}>
         <Onbordingheader />
       </View>
+
       <View style={styles.container}>
-        <Text style={styles.createYouraccont}>{lable?.CreateyourAccount}</Text>
+
+        <Text
+          style={styles.createYouraccont}>
+          {lable?.CreateyourAccount}
+        </Text>
+
         <View style={styles.line} />
+
         <View style={styles.containerView}>
-          <TextFildCus onChange={setFirstName} icon={ICON.usersecret} text={lable?.Enterfirstname} />
+          <TextFildCus
+            onChange={setFirstName}
+            icon={ICON.usersecret}
+            text={lable?.Enterfirstname}
+          />
+
           <View style={styles.devider} />
-          <TextFildCus onChange={setLastName} icon={ICON.usersecret} text={lable?.Enteryourlastname} />
+
+          <TextFildCus
+            onChange={setLastName}
+            icon={ICON.usersecret}
+            text={lable?.Enteryourlastname}
+          />
+
           <View style={styles.devider} />
-          <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={lable?.Enteryouremail} />
+
+          <TextFildCus
+            onChange={setEmail}
+            icon={ICON.emailIcon}
+            text={lable?.Enteryouremail}
+          />
+
           <View style={styles.devider} />
+
           <TextFildCus
             number={true}
             onChange={setNumber}
@@ -54,15 +82,34 @@ const SingUp = props => {
             text={lable?.Entermobilenumber}
           // text={"05XXXXXXXX"}
           />
+
           <View style={styles.devider} />
-          <TextFildCus onChange={setPassword} password={true} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
+
+          <TextFildCus
+            onChange={setPassword}
+            password={true}
+            icon={ICON.lockIcon}
+            text={lable?.Enteryourpassword}
+          />
+
           <View style={styles.devider} />
-          <TextFildCus onChange={setConPassword} password={true} icon={ICON.lockIcon} text={lable?.confirmpassword} />
+
+          <TextFildCus
+            onChange={setConPassword}
+            password={true}
+            icon={ICON.lockIcon}
+            text={lable?.confirmpassword}
+          />
+
         </View>
 
         <View style={styles.devider} />
+
         <View style={styles.buttonView}>
-          <Button onPress={onPress} text={lable?.Submit} />
+          <Button
+            onPress={onPress}
+            text={lable?.Submit}
+          />
         </View>
       </View>
       {loader &&
@@ -75,7 +122,11 @@ const SingUp = props => {
         transparent={true}
         visible={modalShow}
       >
-        <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
+        <CusModal
+          examapleText={exampal}
+          setModalShow={setModalShow}
+          text={errorText}
+        />
       </Modal>
       <View style={{ height: ResponsiveSize(60) }} />
     </KeyboardAwareScrollView>

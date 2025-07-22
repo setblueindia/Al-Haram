@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+;
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { useSingUp } from '../../api/axios.api';
 import { useSelector } from 'react-redux';
-import { types } from '@babel/core';
+
 
 const useSingUpHook = ({ lable, navigationType }) => {
 
@@ -75,7 +75,6 @@ const useSingUpHook = ({ lable, navigationType }) => {
     else if (!number || number?.length < 9 || number?.length > 9) {
       setModalShow(true)
       setErrorText(lable?.Numbercontainsmustbe9digits)
-      // setExample(lable?.Numbercontainsmustbe9digits)
     }
     else if (!password) {
       setErrorText(lable?.Enterpassword)

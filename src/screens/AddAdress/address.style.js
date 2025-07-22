@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
+import { FONTS } from "../../constants/fonts";
 
 export const styles = StyleSheet.create({
     mainView: {
@@ -19,7 +20,8 @@ export const styles = StyleSheet.create({
         color: COLOR.black,
         fontSize: ResponsiveSize(30),
         marginLeft: ResponsiveSize(20),
-        marginTop: ResponsiveSize(20)
+        marginTop: ResponsiveSize(20),
+        fontFamily: FONTS.Regular
     },
     secondView: {
         marginTop: ResponsiveSize(20),
@@ -27,12 +29,15 @@ export const styles = StyleSheet.create({
     },
     CheackView: {
         flexDirection: ALINE.row,
-        padding: ResponsiveSize(20)
+        padding: ResponsiveSize(20),
+        alignItems: ALINE.center,
     },
     cheackText: {
         color: COLOR.primaray,
-        fontSize: ResponsiveSize(23),
-        marginLeft: ResponsiveSize(20)
+        fontSize: ResponsiveSize(24),
+        marginLeft: ResponsiveSize(20),
+        fontFamily: FONTS.Regular,
+        textAlign: ALINE.center,
     },
     btnView: {
         width: "100%",
@@ -47,7 +52,8 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(20)
     },
     stateTextStyle: {
-        color: "#00000050"
+        color: "#00000050",
+        fontFamily: FONTS.Regular
     },
     listView: {
         width: "100%",
@@ -63,7 +69,7 @@ export const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         position: 'absolute',
-        justifyContent: 'flex-end',
+        justifyContent: ALINE.flexend,
         alignItems: ALINE.center,
         backgroundColor: "#00000030",
     },
@@ -80,13 +86,14 @@ export const styles = StyleSheet.create({
         width: "100%",
         borderBottomWidth: ResponsiveSize(1),
         borderColor: COLOR.gray,
-        justifyContent: 'center',
+        justifyContent: ALINE.center,
         paddingHorizontal: ResponsiveSize(20)
     },
 
     customerName: {
         fontSize: ResponsiveSize(25),
-        color: COLOR.darkGray
+        color: COLOR.darkGray,
+        fontFamily: FONTS.Regular
     },
     serchView: {
         height: ResponsiveSize(80),
@@ -97,13 +104,15 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(20),
         borderWidth: ResponsiveSize(1),
         borderColor: COLOR.liteGray,
-        color: COLOR.black
+        color: COLOR.black,
+        fontFamily: FONTS.Regular,
+        fontSize: ResponsiveSize(22)
     },
     PopBtnView: {
-        flexDirection: 'row',
+        flexDirection: ALINE.row,
         width: "100%",
         padding: ResponsiveSize(20),
-        justifyContent: 'space-between',
+        justifyContent: ALINE.spaceBetween,
         backgroundColor: "#FFE9E9",
 
     },
@@ -111,20 +120,21 @@ export const styles = StyleSheet.create({
         height: ResponsiveSize(80),
         width: ResponsiveSize(230),
         backgroundColor: COLOR.primaray,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
 
     },
     cancalText: {
         color: COLOR.white,
-        fontSize: ResponsiveSize(25),
-        fontWeight: FONTWEGHIT.font600
+        fontSize: ResponsiveSize(26),
+        fontWeight: FONTWEGHIT.font600,
+        fontFamily: FONTS.SemiBold
     },
     popTex: {
         color: COLOR.primaray,
         fontSize: ResponsiveSize(30),
         padding: ResponsiveSize(20),
         width: "100%",
-        textAlign: 'center'
+        textAlign: ALINE.center
     }
 })

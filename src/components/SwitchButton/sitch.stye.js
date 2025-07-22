@@ -1,30 +1,32 @@
 import { StyleSheet } from "react-native";
 import { ALINE, COLOR } from "../../constants/style";
 import { ResponsiveSize } from "../../utils/utils";
+import { FONTS } from "../../constants/fonts";
 
 export const styles = StyleSheet.create({
-    mainView:{
-        flexDirection:ALINE.row
+    mainView: {
+        flexDirection: ALINE.row
     },
-    emailView:{
-        width:"50%",
-        height:ResponsiveSize(80),
-        borderBottomColor:COLOR.gray,
-        borderBottomWidth:ResponsiveSize(1),
-        justifyContent:ALINE.center,
-        alignItems:ALINE.center
-        
+    emailView: {
+        width: "50%",
+        height: ResponsiveSize(80),
+        borderBottomColor: COLOR.gray,
+        borderBottomWidth: ResponsiveSize(1),
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
+
     },
-    mobaileView:{
-        width:"50%",
-        height:ResponsiveSize(80),
-        borderBottomColor:COLOR.black,
-        borderBottomWidth:ResponsiveSize(1),
+    mobaileView: {
+        width: "50%",
+        height: ResponsiveSize(80),
+        borderBottomColor: COLOR.black,
+        borderBottomWidth: ResponsiveSize(1),
     },
-    text:{
-        fontSize:ResponsiveSize(25),
-        fontWeight:'bold',
-        width:"100%",
-        textAlign:'center'
+    text: {
+        fontSize: ResponsiveSize(25),
+        width: "100%",
+        textAlign: ALINE.center,
+        fontFamily: FONTS.Bold,
+        textAlign: 'center'
     }
 })

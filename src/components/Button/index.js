@@ -1,14 +1,14 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {styles} from './button.style';
-import {COLOR, FONTWEGHIT} from '../../constants/style';
-import {ResponsiveSize} from '../../utils/utils';
+import { styles } from './button.style';
+import { COLOR, FONTWEGHIT } from '../../constants/style';
+import { ResponsiveSize } from '../../utils/utils';
 
-const Button = ({text, color, onPress , ShoopingCart}) => {
+const Button = ({ text, color, onPress, ShoopingCart }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        onPress &&  onPress();
+        onPress && onPress();
       }}
       style={[
         styles.mainView,
@@ -18,7 +18,12 @@ const Button = ({text, color, onPress , ShoopingCart}) => {
           borderWidth: ResponsiveSize(1),
         },
       ]}>
-      <Text style={[styles.text, color && {color: COLOR.black}, ShoopingCart && {color: COLOR.white , fontWeight:FONTWEGHIT.font400}]}>{text}</Text>
+      <Text style={[
+        styles.text,
+        color && { color: COLOR.black },
+        ShoopingCart && { color: COLOR.white, fontWeight: FONTWEGHIT.font400 }]}>
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };

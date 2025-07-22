@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     countryCodeText: {
         color: COLOR.black,
         marginLeft: ResponsiveSize(20),
-        width: ResponsiveSize(60)
+        width: ResponsiveSize(60),
+        fontFamily: FONTS.Regular
     }
 })

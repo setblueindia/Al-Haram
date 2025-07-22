@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants'
+import { NAVIGATION, NUMBER } from '../../constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SHOWTOTS } from '../../utils/utils'
 import { config } from '../YourWay/config'
 import { Platform } from 'react-native'
@@ -30,7 +29,6 @@ import {
 
 const useShoppingcart = () => {
   const lang = useSelector(state => state?.lang?.data)
-  const productNo = useSelector(state => state?.AddToCart?.data)
   const productCount = useSelector(state => state?.AddToCart?.data)
   const userData = useSelector(state => state?.userData)
   const Token = useSelector(state => state?.userData?.data?.token)
@@ -53,7 +51,6 @@ const useShoppingcart = () => {
   const [ShhippingData, SetShippingdata] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [messages, setMessages] = useState()
-  // const [showWallet, setShowWallet] = useState(false)
   const [shippingData, setShippingdata] = useState()
   const [paymentCode, setPaymentCode] = useState()
   const [storePickData, setStorePickUpData] = useState('')
@@ -917,9 +914,6 @@ const useShoppingcart = () => {
         if (userData?.data?.token) {
           const result = await ProductlistCount(countData, result)
           dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
-          // const arrOFItems = result?.data?.data?.customerCart?.items
-          // const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
-          // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
         } else {
           dispatch(addProduct(0))
         }
@@ -1085,7 +1079,6 @@ const useShoppingcart = () => {
     isLoadding,
     showModal,
     messages,
-    // showWallet,
     paymentScreenData,
     noties,
     wallateAmount,

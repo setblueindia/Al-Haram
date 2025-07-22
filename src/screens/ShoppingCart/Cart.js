@@ -1,4 +1,4 @@
-import { Image, Modal, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
@@ -8,6 +8,7 @@ import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import DeleteBox from '../../components/DeleteBox'
 import SAR from '../../components/SAR/Index'
+import { FONTS } from '../../constants/fonts'
 
 
 const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, onPress, disabled }) => {
@@ -22,31 +23,67 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, o
 
     <View style={{ flex: 1 }}>
       {!outOfStock ?
-        <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+        <View style={[
+          styles.container,
+          lang == NUMBER.num0 && {
+            flexDirection: ALINE.rowreverse
+          }
+        ]}>
           <TouchableOpacity
             disabled={disabled}
             onPress={onPress}
             style={styles.ImageView}>
+
             <Image
               style={styles.Img}
-              source={{ uri: data?.image }} />
+              source={{ uri: data?.image }}
+            />
           </TouchableOpacity>
-          <View style={[styles.containerView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
-            <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
-            {/* <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR + " " + data?.price}</Text> */}
-            {/* ADD IMG */}
-            <View style={{ width: ResponsiveSize(100), alignSelf: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }}>
-              <SAR price={data?.price} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
+
+          <View
+            style={[
+              styles.containerView,
+              lang == NUMBER.num0 && {
+                marginRight: ResponsiveSize(20)
+              }
+            ]}>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.titleText,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right
+                }
+              ]}>
+              {data?.name?.length > 20 ? name + "..." : data?.name}
+            </Text>
+
+            <View
+              style={{ width: ResponsiveSize(100), alignSelf: lang == NUMBER.num0 ? ALINE.flexend : 'flex-start' }}>
+              <SAR
+                price={data?.price}
+                normal={true}
+                textAlign={{ justifyContent: lang == NUMBER.num0 ? ALINE.flexend : 'flex-start' }} />
             </View>
 
 
             {data?.type !== "amgiftcard" &&
               <>
-                <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                <Text style={[
+                  styles.colorText,
+                  lang == NUMBER.num0 && {
+                    textAlign: EXTRASTR.right
+                  }
+                ]}>
                   {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
                 </Text>
 
-                <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                <Text style={[
+                  styles.colorText,
+                  lang == NUMBER.num0 && {
+                    textAlign: EXTRASTR.right
+                  }
+                ]}>
                   {data?.options[1] && data?.options[1]?.label + " : " + data?.options[1]?.value}
                 </Text>
               </>
@@ -57,14 +94,36 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, o
               data?.options?.map((item) => {
 
                 return (
-                  <View style={[{ flexDirection: 'row', width: ResponsiveSize(195) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse', alignSelf: 'flex-end' }]}>
-                    {item?.value && <Text style={[styles.colorText, { fontSiz: ResponsiveSize(18), color: COLOR.black }, lang == NUMBER.num0 && { textAlign: 'right', fontSize: ResponsiveSize(18) }]}>
-                      {item?.label + " : "}
-                    </Text>}
+                  <View style={[
+                    styles.GiftCardView,
+                    lang == NUMBER.num0 && {
+                      flexDirection: ALINE.rowreverse,
+                      alignSelf: ALINE.flexend
+                    }]}>
+                    {
+                      item?.value &&
+                      <Text
+                        style={[
+                          styles.colorText, {
+                            fontSiz: ResponsiveSize(18),
+                            color: COLOR.black
+                          },
+                          lang == NUMBER.num0 && { textAlign: EXTRASTR.right, fontSize: ResponsiveSize(18) }]}>
+                        {item?.label + " : "}
+                      </Text>
+                    }
 
-                    {item?.value && <Text style={[styles.colorText, { fontSize: ResponsiveSize(18) }, lang == NUMBER.num0 && { textAlign: 'right', fontSize: ResponsiveSize(18) }]}>
-                      {item.value}
-                    </Text>
+                    {item?.value &&
+                      <Text
+                        style={[
+                          styles.colorText,
+                          { fontSize: ResponsiveSize(18) },
+                          lang == NUMBER.num0 && {
+                            textAlign: EXTRASTR.right,
+                            fontSize: ResponsiveSize(18)
+                          }]}>
+                        {item.value}
+                      </Text>
                     }
                   </View>
                 )
@@ -77,8 +136,18 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, o
 
             <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                {data?.type !== "amgiftcard" && <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{lable?.Qty}</Text>}
-                {data?.type !== "amgiftcard" && <Counter updateQnty={updateQnty} id={data?.item_id} qty={data?.qty} setQnt={setQnt} />}
+                {data?.type !== "amgiftcard" &&
+                  <Text
+                    style={[{ fontFamily: FONTS.Regular }, lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }]}>
+                    {lable?.Qty}
+                  </Text>}
+                {data?.type !== "amgiftcard" &&
+                  <Counter
+                    updateQnty={updateQnty}
+                    id={data?.item_id}
+                    qty={data?.qty}
+                    setQnt={setQnt}
+                  />}
               </View>
 
             </View>
@@ -98,7 +167,8 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, o
               <Text style={
                 {
                   color: COLOR.white,
-                  fontWeight: FONTWEGHIT.font700
+                  fontWeight: FONTWEGHIT.font700,
+                  fontFamily: FONTS.Regular
                 }}>{"SALE"}</Text>
             </View>
           </View>
@@ -121,7 +191,12 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, o
           animationType='slide'
           transparent
         >
-          <DeleteBox noPress={() => { setDeletePopp(false) }} yesPress={() => { setDeletePopp(false), deleteProduct(data?.item_id) }} lang={lang} />
+          <DeleteBox noPress={() => {
+            setDeletePopp(false)
+          }}
+            yesPress={() => { setDeletePopp(false), deleteProduct(data?.item_id) }}
+            lang={lang}
+          />
         </Modal>
       }
     </View>
@@ -132,6 +207,10 @@ const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, o
 export default Cart
 
 const styles = StyleSheet.create({
+  GiftCardView: {
+    flexDirection: ALINE.row,
+    width: ResponsiveSize(195)
+  },
   container: {
     width: "100%",
     // height: ResponsiveSize(280),
@@ -163,6 +242,7 @@ const styles = StyleSheet.create({
     color: "#202020",
     marginTop: ResponsiveSize(10),
     fontSize: ResponsiveSize(22),
+    fontFamily: FONTS.Regular
   },
   priceText: {
     color: COLOR.primaray,
@@ -173,7 +253,7 @@ const styles = StyleSheet.create({
   colorText: {
     color: "#00000060",
     marginTop: ResponsiveSize(5),
-    // fontSize: ResponsiveSize(20)
+    fontFamily: FONTS.Regular
   },
   lastView: {
     flexDirection: ALINE.row,
@@ -196,7 +276,6 @@ const styles = StyleSheet.create({
     alignItems: ALINE.center,
     flexDirection: ALINE.row,
     padding: ResponsiveSize(20),
-    // justifyContent:'center'
   },
   outImgeView: {
     height: ResponsiveSize(150),
