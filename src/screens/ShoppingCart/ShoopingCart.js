@@ -199,7 +199,11 @@ const ShoopingCart = (props) => {
                             </ScrollView>
                             : (!isLoadding && index == 0) ?
                                 <View style={{ height: "100%", width: "100%", alignSelf: 'center' }}>
-                                    <DataIsNotFound color={false} />
+                                    <Image
+                                        source={require('../../assests/images/Common/CartEmpty.jpg')}
+                                        style={styles.CartNotFoundImage}
+                                    />
+                                    {/* <DataIsNotFound color={false} /> */}
                                 </View>
 
                                 : null}
@@ -462,5 +466,11 @@ const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(5),
         bottom: ResponsiveSize(5),
         // position: 'absolute'
+    },
+    CartNotFoundImage: {
+        height: "100%",
+        width: "100%",
+        resizeMode: 'contain'
     }
+
 })

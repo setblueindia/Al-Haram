@@ -21,6 +21,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import DeviceInfo from 'react-native-device-info'
 import { addNotificationCount } from '../../redux/Slices/AddNotificationCount'
+import { GetAppleAuthToken, SingOut } from '../../Hooks/UpdateEmail'
+import { addUserData } from '../../redux/Slices/UserData.slice'
+
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
@@ -88,8 +91,25 @@ const useHomeHook = (props) => {
     getUnReadeNotifications()
     tramsandconditions2()
     tramsandconditions()
+    getTokenAuth()
   }, [userData])
 
+
+  const getTokenAuth = async () => {
+    if (Platform.OS == "ios") {
+      if (userData?.id) {
+        const response = await GetAppleAuthToken(userData?.id)
+        if (response?.data?.data?.customerAuthTokenById?.success) {
+          const userEmailId = userData?.email
+          const authToken = response?.data?.data?.customerAuthTokenById?.auth_token
+          if (userEmailId.includes(authToken)) {
+            AsyncStorage.removeItem(ASYNCSTORAGE.Userdata)
+            dispatch(addUserData(undefined))
+          }
+        }
+      }
+    }
+  }
 
 
   const showMaintenance = async () => {

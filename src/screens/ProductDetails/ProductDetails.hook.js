@@ -180,9 +180,7 @@ const useProductDetails = (props) => {
     formData.append("size", size ? size : "")
     formData.append("custom_option", "")
 
-
     const response = await AddToCartAPI(formData)
-
 
     try {
       if (response?.data?.status == NUMBER.num1) {
@@ -194,25 +192,25 @@ const useProductDetails = (props) => {
         addTocartAnimation()
       } else {
         if (defaultColor && defaultSize && !color && !size) {
-          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color and size is a required field" : " هذا الحقل مطلوب.")
-          setColorError(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
-          setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
+          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color and size is a required field" : "اختيار اللون والمقاس مطلوبين.")
+          setColorError(lang?.data == NUMBER.num1 ? "Select color is a required field" : "اختيار اللون المطلوب")
+          setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : "اختيار المقاس المطلوب")
           scrollToSize();
           setMasurementError(0)
           setIsLoading(false)
           return
         }
         if (defaultColor && !color) {
-          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
+          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select color is a required field" : "اختيار اللون المطلوب")
           setSizeError("")
-          setColorError(lang?.data == NUMBER.num1 ? "Select color is a required field" : " هذا الحقل مطلوب.")
+          setColorError(lang?.data == NUMBER.num1 ? "Select color is a required field" : "اختيار اللون المطلوب")
           scrollToColor();
           setMasurementError(1)
           setIsLoading(false)
           return
         } else if (defaultSize && !size) {
-          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
-          setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : " هذا الحقل مطلوب.")
+          SHOWTOTS(lang?.data == NUMBER.num1 ? "Select size is a required field" : "اختيار المقاس المطلوب ")
+          setSizeError(lang?.data == NUMBER.num1 ? "Select size is a required field" : "اختيار المقاس المطلوب ")
           setColorError("")
           scrollToSize();
           setMasurementError(2)
@@ -224,7 +222,6 @@ const useProductDetails = (props) => {
           setSizeError("")
           setIsLoading(false)
           if (response?.data?.data?.login_status == "0") {
-
             const langNum = '2'
             setTimeout(async () => {
               const tempTerms = "true"

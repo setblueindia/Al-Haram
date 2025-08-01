@@ -12,6 +12,8 @@ import { signInWithGoogle } from '../../firebase/firebaseConfig';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import { updateLangCode } from '../../redux/Slices/LangSlices';
+import { jwtDecode } from 'jwt-decode';
+import { UpdateEmailID } from '../../Hooks/UpdateEmail';
 
 const useLoginHook = (props) => {
   const [email, setEmail] = useState('')
@@ -189,7 +191,7 @@ const useLoginHook = (props) => {
   }
 
 
-  const SINUP = async (mail, firstName, lastName, uid, type) => {
+  const SINUP = async (mail, firstName, lastName, uid, type, identityToken) => {
     const fromdata = new FormData()
     setLoader(true)
 
@@ -203,14 +205,45 @@ const useLoginHook = (props) => {
 
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
-      const result = await ExpireToken(fromdata)
-      await setUserData(response?.data?.data)
-      dispatch(addUserData(response?.data?.data))
-      response?.data?.data?.token && PoductCount(response?.data?.data?.token)
-      naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
-      setLoader(false)
+
+      const responseData = response?.data?.data
+      const userEaildID = responseData?.email
+      const decoded = jwtDecode(identityToken)
+      const decodedEmail = decoded?.email
+
+
+      if (userEaildID !== decodedEmail && type == "apple") {
+        if (decodedEmail && responseData) {
+          const emailupdate = await UpdateEmailID(decodedEmail, responseData)
+          if (emailupdate?.data?.id) {
+            const updateUserData = { ...responseData, email: decodedEmail }
+            await setUserData(updateUserData)
+            dispatch(addUserData(updateUserData))
+            updateUserData?.token && PoductCount(updateUserData?.token)
+            naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+            const result = await ExpireToken(fromdata)
+            setLoader(false)
+          } else {
+            await setUserData(responseData)
+            dispatch(addUserData(responseData))
+            responseData?.token && PoductCount(responseData?.token)
+            naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+            const result = await ExpireToken(fromdata)
+            setLoader(false)
+          }
+          setLoader(false)
+        }
+
+      } else {
+        await setUserData(responseData)
+        dispatch(addUserData(responseData))
+        responseData?.token && PoductCount(responseData?.token)
+        naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+        const result = await ExpireToken(fromdata)
+        setLoader(false)
+      }
+
     } else {
-      console.log("Singup Respones error ::::::; ==========> ", response)
       setShowModal(true)
       setErrorText(response?.data?.message)
       setLoader(false)
@@ -227,11 +260,12 @@ const useLoginHook = (props) => {
     const firstName = appleAuthRequestResponse?.fullName?.givenName
     const lastName = appleAuthRequestResponse?.fullName?.familyName
     const user = appleAuthRequestResponse?.user
+    const identityToken = appleAuthRequestResponse?.identityToken
 
     if (mail) {
-      SINUP(mail, firstName, lastName, user, type = "apple")
+      SINUP(mail, firstName, lastName, user, type = "apple", identityToken)
     } else {
-      SINUP(mail, firstName, lastName, user, type = "apple")
+      SINUP(mail, firstName, lastName, user, type = "apple", identityToken)
     }
   }
 

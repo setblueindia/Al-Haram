@@ -5,6 +5,7 @@ import NetworkConnection from './src/components/NetworkConnection';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
 import { FCMTokenStor } from './src/utils/asyncStorage';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(true);
@@ -38,10 +39,15 @@ const App = () => {
 
 
 
+
   return (
     <>
+
       <StatusBar backgroundColor="#000000" />
-      {isConnected ? <AppNavigation /> : <NetworkConnection />}
+      <SafeAreaProvider>
+        {isConnected ? <AppNavigation /> : <NetworkConnection />}
+      </SafeAreaProvider>
+
     </>
   );
 };

@@ -1690,6 +1690,27 @@ PODS:
     - React-logger (= 0.75.3)
     - React-perflogger (= 0.75.3)
     - React-utils (= 0.75.3)
+  - ReactNativeCameraKit (15.1.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RecaptchaInterop (100.0.0)
   - RNAppleAuthentication (2.4.0):
     - React-Core
@@ -1742,6 +1763,8 @@ PODS:
     - Yoga
   - RNGoogleSignin (12.2.1):
     - GoogleSignIn (~> 7.1)
+    - React-Core
+  - RNPermissions (5.4.1):
     - React-Core
   - RNReanimated (3.16.7):
     - DoubleConversion
@@ -1960,6 +1983,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativeCameraKit (from `../node_modules/react-native-camera-kit`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -1971,6 +1995,7 @@ DEPENDENCIES:
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
@@ -2151,6 +2176,8 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeCameraKit:
+    :path: "../node_modules/react-native-camera-kit"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
@@ -2173,6 +2200,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -2277,6 +2306,7 @@ SPEC CHECKSUMS:
   React-utils: e6886d6eb62746bc75f68ab67bc7cc2b0b35e228
   ReactCodegen: 7462563b1a924d148e5170238e541050e3967408
   ReactCommon: 56b76c97fd1b01f815ec747ca9055f02328a053d
+  ReactNativeCameraKit: ecb91258a8006b8ddcb37090525ac3c2b67e6f23
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNAppleAuthentication: 8d313d93fe2238d6b7ff0a39c67ebcf298d96653
   RNCAsyncStorage: b6410dead2732b5c72a7fdb1ecb5651bbcf4674b
@@ -2289,6 +2319,7 @@ SPEC CHECKSUMS:
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGestureHandler: 8f37baa62b4623bc9f66b511b17b29e70831586e
   RNGoogleSignin: 629df9e1ea81e2a17c4db5aae0e8a98309e4723a
+  RNPermissions: 6ead05819bf93e267530b9a0ea5f9898e4a25a56
   RNReanimated: 6a154e630ecc4c87c287f6eeda201f06b01428ba
   RNScreens: 4a5446dc4d922b2375df14c3a3f30bfc7719f6b1
   RNShare: 694e19d7f74ac4c04de3a8af0649e9ccc03bd8b1
@@ -2299,6 +2330,6 @@ SPEC CHECKSUMS:
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: 33604ac44957ebe3f30f15b4cd0a3f96634e624a
 
-PODFILE CHECKSUM: e30249c73493eeb9153a2a9790b12974eaae96de
+PODFILE CHECKSUM: 234e4b0bca72e83a4f8069e40e29077c833d5f37
 
 COCOAPODS: 1.16.2

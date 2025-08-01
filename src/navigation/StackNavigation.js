@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import Splash from '../screens/Splash/Splash';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -40,14 +40,21 @@ import GiftcardHistory from '../screens/Giftcart/GiftcardHistory';
 import WriteReview from '../screens/WriteReview/Writereview';
 import ProductZoom from '../screens/ProductDetails/ProductZoom';
 import Notification from '../screens/Notification/Notification';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
-  // const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   return (
-    <Stack.Navigator>
+
+    <Stack.Navigator screenOptions={{
+      contentStyle: {
+        paddingBottom: Platform.OS === 'android' && insets.bottom
+      }
+    }}>
       <Stack.Screen
         name={NAVIGATION.Splash}
         component={Splash}
@@ -239,9 +246,15 @@ const StackNavigation = () => {
 
 
     </Stack.Navigator>
+
   );
 };
 
 export default StackNavigation;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff', // Optional: Set a background color
+  },
+});

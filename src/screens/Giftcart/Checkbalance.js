@@ -17,13 +17,14 @@ import { useSelector } from 'react-redux'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import { ResponsiveSize, SHOWTOTS } from '../../utils/utils'
-import { GiftCartICON } from '../../assests'
+import { GiftCartICON, Scanner } from '../../assests'
 import { GIFATCARTSATUS, giftCardHistory } from '../../api/axios.api'
 import CusLoader from '../../components/CustomLoader'
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
 import ShareWP from '../../components/ShareWP/ShareWP'
+import BarcodeScanner from '../../components/BarcodeScanner'
 
 
 const Checkbalance = () => {
@@ -40,8 +41,7 @@ const Checkbalance = () => {
     const [listTitel, setListTille] = useState()
     const [shareon, setShareOn] = useState(false)
     const [whatsappNumber, sewhatsappNumbert] = useState()
-    const [imges, setImages] = useState()
-    const [giftmes, setGiftmes] = useState()
+    const [openScanner, setOpenScanner] = useState(false)
 
     useEffect(() => {
         getGiftCardHistory()
@@ -120,7 +120,6 @@ const Checkbalance = () => {
         try {
             if (userData?.email && extra) {
                 const result = await giftCardHistory(qurry, lang)
-                // console.log("GiftCard History :::::::: ", result?.data?.data?.getGiftcardBySenderEmail)
                 setListTille(result?.data?.data?.getGiftcardBySenderEmail?.title ? result?.data?.data?.getGiftcardBySenderEmail?.title : undefined)
                 if (result?.data?.data?.getGiftcardBySenderEmail?.success) {
                     if (result?.data?.data?.getGiftcardBySenderEmail?.data?.length > 0) {
@@ -133,7 +132,6 @@ const Checkbalance = () => {
                     setPage(page + 1)
                 } else {
                     setLoadding(false)
-                    // SHOWTOTS(result?.data?.message)
                     console.log("INNER ERROR :::::::", result?.data)
                 }
             } else {
@@ -254,12 +252,25 @@ const Checkbalance = () => {
 
                     <View style={[styles.boxView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                         <TextInput
+                            value={giftCardNumber}
                             style={styles.textInput}
                             placeholder={lang == NUMBER.num1 ? 'Enter Your Code' : "رمز البطاقة :"}
                             placeholderTextColor={COLOR.darkGray}
                             textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
                             onChangeText={(text) => { setGiftCardNumber(text) }}
                         />
+
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                setOpenScanner(true)
+                            }}
+                        >
+                            <Image
+                                style={styles.GiftCardImg}
+                                source={Scanner}
+                            />
+                        </TouchableOpacity>
 
 
                     </View>
@@ -480,6 +491,22 @@ const Checkbalance = () => {
             >
                 <ShareWP setShareOn={setShareOn} whatsappNumber={whatsappNumber} sewhatsappNumbert={sewhatsappNumbert} share2={share2} />
             </Modal>
+
+
+            {
+                openScanner &&
+                <Modal
+                    transparent={true}
+                    visible={openScanner}
+                    animationType='slide'
+                >
+                    <BarcodeScanner
+                        setOpenScanner={setOpenScanner}
+                        openScanner={openScanner}
+                        setGiftCardCode={setGiftCardNumber}
+                    />
+                </Modal>
+            }
         </View >
     )
 }
@@ -553,9 +580,8 @@ const styles = StyleSheet.create({
 
     },
     textInput: {
-        width: ResponsiveSize(300),
+        flex: 1,
         height: "100%",
-        // backgroundColor: COLOR.black
         color: COLOR.black,
         paddingHorizontal: ResponsiveSize(10)
     },
@@ -601,5 +627,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: ALINE.spaceBetween,
         marginTop: ResponsiveSize(20)
-    }
+    },
+    GiftCardImg: {
+        height: ResponsiveSize(40),
+        width: ResponsiveSize(40),
+        resizeMode: RESIZEMODE.contain,
+    },
 })

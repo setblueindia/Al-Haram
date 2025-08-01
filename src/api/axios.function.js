@@ -132,4 +132,37 @@ export const POSTFORMGRAPH = async (url, params, lang, sToken) => {
 }
 
 
+export const PUTFORM = async (url, params, AuthToke) => {
+    console.log("==============================")
+    console.log({
+        URL: url,
+        params: params || {}
+    })
+    console.log("==============================")
+
+    try {
+        const response = await axios({
+            method: 'put',
+            url: url,
+            data: params,
+            headers: {
+                'Authorization': 'Bearer ' + AuthToke,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response;
+    } catch (error) {
+        if (error.response) {
+            console.log('Response Error:', error.response.data);
+        } else if (error.request) {
+            console.log('Request Error:', error.request);
+        } else {
+            console.log('Other Error:', error.message);
+        }
+    }
+}
+
+
+
 

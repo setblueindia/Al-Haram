@@ -12,7 +12,7 @@ import { imageURL } from '../../constants/axios.url'
 import { SHOWTOTS, emaileRegxp } from '../../utils/utils'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import { Ar, En } from '../../constants/localization'
-import { NUMBER } from '../../constants/constants'
+import { NAVIGATION, NUMBER } from '../../constants/constants'
 
 
 const useGiftHook = (props) => {
@@ -70,7 +70,7 @@ const useGiftHook = (props) => {
       setRecipientEmail(userData?.email)
       setName(tempName)
       setRecipientName(tempName)
-      setRecipientNumber(updatedNumber)
+      setRecipientNumber(updatedNumber == "0" ? "" : updatedNumber)
     } else {
       setRecipientEmail()
       setName()
@@ -251,21 +251,6 @@ const useGiftHook = (props) => {
 
   }
 
-  const checkValidation = async () => {
-
-    if (!emaileRegxp.test(recipientEmail)) {
-      SHOWTOTS(langues?.Invalidemailaddress)
-    }
-    else if (!recipientNumber || recipientNumber?.length < 9 || recipientNumber?.length > 9) {
-      SHOWTOTS(langues?.Numbercontainsmustbe9digits)
-
-    } else {
-
-
-    }
-
-  }
-
   const onAddTocart = async () => {
 
     let hasUndefinedValue = true;
@@ -326,6 +311,7 @@ const useGiftHook = (props) => {
               qty: ${qty}
           }) {
               success
+              is_login
               message
           }
       }
@@ -352,6 +338,9 @@ const useGiftHook = (props) => {
           } else {
 
             SHOWTOTS(response?.data?.data?.addGiftCartToShoppingCart?.message)
+            if (!response?.data?.data?.addGiftCartToShoppingCart?.is_login) {
+              navigation.navigate(NAVIGATION.Login, { type: true, shoeMes: response?.data?.data?.addGiftCartToShoppingCart?.message })
+            }
             setIsLoadding(false)
           }
         } else {
@@ -366,40 +355,47 @@ const useGiftHook = (props) => {
 
     }
 
+    if (!price && !coustomAmount) {
+      SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
+      hasUndefinedValue = true
+      return
+    } else {
+      recipientDetails1.forEach(item => {
 
-    recipientDetails1.forEach(item => {
+        Object.values(item).forEach(value => {
 
-      Object.values(item).forEach(value => {
-
-        if (!price && !coustomAmount) {
-          SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
-          hasUndefinedValue = true
-        } else if (!item?.am_giftcard_recipient_name) {
-          setError(true)
-          hasUndefinedValue = true
-        }
-        else if (!item?.am_giftcard_sender_name) {
-          setError(true)
-          hasUndefinedValue = true
-        }
-        else if (item?.am_giftcard_recipient_email && !emaileRegxp.test(item?.am_giftcard_recipient_email)) {
-          SHOWTOTS(langues?.Invalidemailaddress)
-          hasUndefinedValue = true;
-          setError(true)
-        }
-        else if (!item?.mobilenumber) {
-          setError(true)
-          hasUndefinedValue = true
-        }
-        else if (item?.mobilenumber?.length < 9 || item?.mobilenumber?.length > 10) {
-          SHOWTOTS(langues?.Numbercontainsmustbe9digits)
-          hasUndefinedValue = true;
-        }
-        else {
-          hasUndefinedValue = false
-        }
+          // if (!price && !coustomAmount) {
+          //   SHOWTOTS(lang == NUMBER.num1 ? "Enter amount" : "أدخل المبلغ")
+          //   hasUndefinedValue = true
+          // }
+          if (!item?.am_giftcard_recipient_name) {
+            setError(true)
+            hasUndefinedValue = true
+          }
+          else if (!item?.am_giftcard_sender_name) {
+            setError(true)
+            hasUndefinedValue = true
+          }
+          else if (item?.am_giftcard_recipient_email && !emaileRegxp.test(item?.am_giftcard_recipient_email)) {
+            SHOWTOTS(langues?.Invalidemailaddress)
+            hasUndefinedValue = true;
+            setError(true)
+          }
+          else if (!item?.mobilenumber) {
+            setError(true)
+            hasUndefinedValue = true
+          }
+          else if (item?.mobilenumber?.length < 9 || item?.mobilenumber?.length > 10) {
+            SHOWTOTS(langues?.Numbercontainsmustbe9digits)
+            hasUndefinedValue = true;
+          }
+          else {
+            hasUndefinedValue = false
+          }
+        });
       });
-    });
+    }
+
 
 
     if (!hasUndefinedValue) {

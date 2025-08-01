@@ -17,3 +17,12 @@ export const SHOWTOTS = (msg) => {
 
 export const emaileRegxp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const passwordRegxp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+
+
+export const CheckLength = (text) => {
+  if (text?.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};

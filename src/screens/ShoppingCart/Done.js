@@ -1,9 +1,9 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect } from 'react'
 import LottieView from 'lottie-react-native';
-import { ResponsiveSize, SHOWTOTS } from '../../utils/utils';
+import { ResponsiveSize } from '../../utils/utils';
 import { ALINE, COLOR } from '../../constants/style';
-import { ErrorIcon, ErrorImg, doneIcon } from '../../assests';
+import { ErrorIcon, doneIcon } from '../../assests';
 import Button from '../../components/Button';
 import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,7 @@ import { ExpireToken, SendNotifiction, StatusUpadate, sendMessageAPI } from '../
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 
+
 const Done = (props) => {
     const navigation = useNavigation()
     const userData = useSelector(state => state.userData.data)
@@ -20,11 +21,9 @@ const Done = (props) => {
     const result = props?.route?.params?.response
     const OrderID = props?.route?.params?.orderId
     const responseID = props?.route?.params?.responseID
+    const offline = props?.route?.params?.offline
     const disPatch = useDispatch()
 
-
-
-    // console.log("Response ID ::::::: ", result)
 
     const Order_Success = lang == NUMBER.num1 ? `Your order number: ${OrderID} \n Thank you for shopping at Al Haram Online Store.` : `رقم طلبك: ${OrderID}. \n شكراً لتسوقكم من متجر الهرم الإلكتروني.`
     const SOMETHING_WRONG = lang == NUMBER.num1 ? "Something Went wrong, Please try again" : "يوجد خطأ ما، الرجاء المحاولة مرة أخرى"
@@ -49,7 +48,6 @@ const Done = (props) => {
   `
         try {
             const rep = await SendNotifiction(data, lang)
-            // updateOrderStatus()
         } catch (error) {
             console.log("SEND NOTIFICATION ERROR :::::::::::: ", error)
         }
@@ -75,7 +73,6 @@ const Done = (props) => {
         try {
             const result = await ExpireToken(fromdata)
             console.log("Token ::::::: ", result?.data)
-
         } catch (error) {
             console.log("Token Error :::::::::: ", error)
         }
@@ -96,10 +93,8 @@ const Done = (props) => {
         try {
             if (!result?.data) {
                 const res = await sendMessageAPI(qurry, lang)
-                console.log("Response :::::::: ", res?.data)
             } else if (result?.data?.status == "Successful") {
                 const res = await sendMessageAPI(qurry, lang)
-                console.log("Response :::::::: ", res?.data)
             } else {
                 // SHOWTOTS("Something went wrong")
             }
@@ -127,7 +122,7 @@ const Done = (props) => {
 
 
             {
-                result?.data &&
+                result &&
                 <View style={styles.lottiView}>
                     {result?.data?.status == "Successful" &&
                         <LottieView
@@ -142,25 +137,27 @@ const Done = (props) => {
                 </View>
             }
 
-            {!result?.data && <View style={styles.lottiView}>
-                <LottieView
-                    source={require('../../assests/Lottianimation/Done.json')}
-                    autoPlay loop
-                    resizeMode='cover'
-                    style={{ height: "100%", width: "100%" }}
-                />
-                <View style={styles.thumIcon}>
-                    <Image style={styles.icon} source={doneIcon} />
+            {offline &&
+                <View style={styles.lottiView}>
+                    <LottieView
+                        source={require('../../assests/Lottianimation/Done.json')}
+                        autoPlay loop
+                        resizeMode='cover'
+                        style={{ height: "100%", width: "100%" }}
+                    />
+                    <View style={styles.thumIcon}>
+                        <Image style={styles.icon} source={doneIcon} />
+                    </View>
                 </View>
-            </View>}
+            }
 
             <View style={styles.textView}>
 
-                {result?.data && <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>}
-                {!result?.data && <Text style={styles.congrationText}>{Congratulation}</Text>}
+                {result && <Text style={styles.congrationText}>{result?.data?.status == "Successful" ? Congratulation : oppss}</Text>}
+                {offline && <Text style={styles.congrationText}>{Congratulation}</Text>}
 
-                {result?.data && <Text style={styles.lastText}>{result?.data?.status == "Successful" ? Order_Success : SOMETHING_WRONG}</Text>}
-                {!result?.data && <Text style={styles.lastText}>{Order_Success}</Text>}
+                {result && <Text style={styles.lastText}>{result?.data?.status == "Successful" ? Order_Success : SOMETHING_WRONG}</Text>}
+                {offline && <Text style={styles.lastText}>{Order_Success}</Text>}
 
             </View>
             <View style={styles.btnView}>

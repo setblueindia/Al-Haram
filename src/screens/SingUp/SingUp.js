@@ -6,7 +6,7 @@ import { ICON } from '../../constants/constants';
 import TextFildCus from '../../components/TextFildCus';
 import Button from '../../components/Button';
 import useSingUpHook from './singhup.hook';
-import { ResponsiveSize } from '../../utils/utils';
+import { CheckLength, emaileRegxp, passwordRegxp, ResponsiveSize } from '../../utils/utils';
 import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -27,7 +27,13 @@ const SingUp = props => {
     modalShow,
     errorText,
     exampal,
-    number
+    number,
+    email,
+    password,
+    firstName,
+    lastName,
+    conPassword,
+    ErrorMwssage
   } = useSingUpHook({ lable, navigationType });
 
   return (
@@ -39,11 +45,45 @@ const SingUp = props => {
         <Text style={styles.createYouraccont}>{lable?.CreateyourAccount}</Text>
         <View style={styles.line} />
         <View style={styles.containerView}>
-          <TextFildCus onChange={setFirstName} icon={ICON.usersecret} text={lable?.Enterfirstname} />
+          <TextFildCus
+            onChange={setFirstName}
+            icon={ICON.usersecret}
+            text={lable?.Enterfirstname}
+            modalShow={modalShow}
+            errorText={
+              !CheckLength(firstName) &&
+              ErrorMwssage?.Enterfirstname
+            }
+          />
           <View style={styles.devider} />
-          <TextFildCus onChange={setLastName} icon={ICON.usersecret} text={lable?.Enteryourlastname} />
+          <TextFildCus
+            onChange={setLastName}
+            icon={ICON.usersecret}
+            text={lable?.Enteryourlastname}
+            errorText={
+              !CheckLength(lastName) &&
+              ErrorMwssage?.Enterlastname
+            }
+            modalShow={modalShow}
+          />
+
           <View style={styles.devider} />
-          <TextFildCus onChange={setEmail} icon={ICON.emailIcon} text={lable?.Enteryouremail} />
+
+          <TextFildCus
+            onChange={setEmail}
+            icon={ICON.emailIcon}
+            text={lable?.Enteryouremail}
+            errorText={
+              !CheckLength(email) ?
+                ErrorMwssage?.Enteremailaddress :
+                !emaileRegxp.test(email) &&
+                ErrorMwssage?.Invalidemailaddress
+            }
+            modalShow={modalShow}
+
+
+          />
+
           <View style={styles.devider} />
           <TextFildCus
             number={true}
@@ -52,12 +92,41 @@ const SingUp = props => {
             icon={ICON.phoneIcon}
             value={number}
             text={lable?.Entermobilenumber}
-          // text={"05XXXXXXXX"}
+            errorText={
+              number?.length !== 9 &&
+              ErrorMwssage?.Numbercontainsmustbe9digits
+            }
+            modalShow={modalShow}
           />
           <View style={styles.devider} />
-          <TextFildCus onChange={setPassword} password={true} icon={ICON.lockIcon} text={lable?.Enteryourpassword} />
+          <TextFildCus
+            onChange={setPassword}
+            password={true}
+            icon={ICON.lockIcon}
+            text={lable?.Enteryourpassword}
+            errorText={
+              !CheckLength(password) ?
+                ErrorMwssage?.Enterpassword :
+                !passwordRegxp.test(password) &&
+                ErrorMwssage?.Invalidpassword
+            }
+            modalShow={modalShow}
+          />
+
           <View style={styles.devider} />
-          <TextFildCus onChange={setConPassword} password={true} icon={ICON.lockIcon} text={lable?.confirmpassword} />
+          <TextFildCus
+            onChange={setConPassword}
+            password={true}
+            icon={ICON.lockIcon}
+            text={lable?.confirmpassword}
+            errorText={
+              password !== conPassword &&
+              ErrorMwssage?.Passwordandconfirmpasswordmismatch
+            }
+            modalShow={modalShow}
+
+
+          />
         </View>
 
         <View style={styles.devider} />
@@ -70,13 +139,13 @@ const SingUp = props => {
           <CusLoader />
         </View>}
 
-      <Modal
+      {/* <Modal
         animationType='slide'
         transparent={true}
         visible={modalShow}
       >
         <CusModal examapleText={exampal} setModalShow={setModalShow} text={errorText} />
-      </Modal>
+      </Modal> */}
       <View style={{ height: ResponsiveSize(60) }} />
     </KeyboardAwareScrollView>
   );

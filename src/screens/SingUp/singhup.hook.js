@@ -23,6 +23,18 @@ const useSingUpHook = ({ lable, navigationType }) => {
   const langNumber = useSelector(stast => stast.lang)
 
 
+  const ErrorMwssage = {
+    Enterfirstname: lable?.Enterfirstname,
+    Enterlastname: lable?.Enterlastname,
+    Enteremailaddress: lable?.Enteremailaddress,
+    Invalidemailaddress: lable?.Invalidemailaddress,
+    Numbercontainsmustbe9digits: lable?.Numbercontainsmustbe9digits,
+    Enterpassword: lable?.Enterpassword,
+    Invalidpassword: lable?.Invalidpassword + " " + lable?.EXPassword,
+    Passwordandconfirmpasswordmismatch: lable?.Passwordandconfirmpasswordmismatch
+  }
+
+
 
   const SINUP = async () => {
     setLoader(true)
@@ -54,50 +66,63 @@ const useSingUpHook = ({ lable, navigationType }) => {
     }
   }
 
+  // const onPress = () => {
+  //   setModalShow(true)
+  //   if (!firstName) {
+  //     setErrorText(ErrorMwssage?.Enterfirstname)
+  //   }
+  //   if (!lastName) {
+  //     setErrorText(ErrorMwssage?.Enterlastname)
+  //   }
+  //   if (!email) {
+  //     setErrorText(ErrorMwssage?.Enteremailaddress)
+  //   }
+  //   if (!emaileRegxp.test(email)) {
+  //     setErrorText(ErrorMwssage?.Invalidemailaddress)
+  //   }
+  //   if (!number || number?.length < 9 || number?.length > 9) {
+  //     setErrorText(ErrorMwssage?.Numbercontainsmustbe9digits)
+  //   }
+  //   if (!password) {
+  //     setErrorText(ErrorMwssage?.Enterpassword)
+  //   }
+  //   if (!passwordRegxp.test(password)) {
+  //     setErrorText(ErrorMwssage?.Invalidpassword)
+  //     setExample(lable?.EXPassword)
+
+  //   }
+  //   if (password !== conPassword) {
+  //     setErrorText(lable?.Passwordandconfirmpasswordmismatch)
+  //     setExample("")
+  //   }
+  //   else {
+  //     SINUP()
+  //     setExample("")
+  //   }
+
+  // };
+
+
   const onPress = () => {
+    setModalShow(true);
 
-    if (!firstName) {
-      setModalShow(true)
-      setErrorText(lable?.Enterfirstname)
-    }
-    else if (!lastName) {
-      setModalShow(true)
-      setErrorText(lable?.Enterlastname)
-    }
-    else if (!email) {
-      setErrorText(lable?.Enteremailaddress)
-      setModalShow(true)
-    }
-    else if (!emaileRegxp.test(email)) {
-      setModalShow(true)
-      setErrorText(lable?.Invalidemailaddress)
-    }
-    else if (!number || number?.length < 9 || number?.length > 9) {
-      setModalShow(true)
-      setErrorText(lable?.Numbercontainsmustbe9digits)
-      // setExample(lable?.Numbercontainsmustbe9digits)
-    }
-    else if (!password) {
-      setErrorText(lable?.Enterpassword)
-      setModalShow(true)
-    }
-    else if (!passwordRegxp.test(password)) {
-      setModalShow(true)
-      setErrorText(lable?.Invalidpassword)
-      setExample(lable?.EXPassword)
+    const isValid =
+      firstName &&
+      lastName &&
+      email &&
+      emaileRegxp.test(email) &&
+      number &&
+      number.length === 9 &&
+      password &&
+      passwordRegxp.test(password) &&
+      password === conPassword;
 
+    if (isValid) {
+      SINUP();
+      setExample("");
     }
-    else if (password !== conPassword) {
-      setModalShow(true)
-      setErrorText(lable?.Passwordandconfirmpasswordmismatch)
-      setExample("")
-    }
-    else {
-      SINUP()
-      setExample("")
-    }
-
   };
+
 
   return {
     onPress,
@@ -112,7 +137,13 @@ const useSingUpHook = ({ lable, navigationType }) => {
     loader,
     modalShow,
     exampal,
-    number
+    ErrorMwssage,
+    email,
+    password,
+    firstName,
+    lastName,
+    conPassword,
+    number,
   };
 };
 

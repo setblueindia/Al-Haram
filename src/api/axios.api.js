@@ -36,7 +36,7 @@ import {
     selectedShippingListMethodURl,
     updateCartitems
 } from "../constants/axios.url"
-import { POSTFORM, POSTFORM2, POSTFORMGRAPH, POSTJSON } from "./axios.function"
+import { POSTFORM, POSTFORM2, POSTFORMGRAPH, POSTJSON, PUTFORM } from "./axios.function"
 import { NUMBER } from "../constants/constants"
 
 export const useSingUp = async (params) => {
@@ -379,4 +379,13 @@ export const giftCardHistory = async (params, lang) => {
     return res
 }
 
+export const updateEmailId = async (params, AuthToke) => {
+    const URL = BASE_URL + "/rest/V1/customers/me"
+    const res = await PUTFORM(URL, params, AuthToke)
+    return res
+}
 
+export const getAppleAuthToken = async (params, lang) => {
+    const res = await POSTFORMGRAPH(GRAFORL, params, lang)
+    return res
+}

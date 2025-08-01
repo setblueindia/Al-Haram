@@ -92,7 +92,7 @@ const useShoppingcart = () => {
 
 
   const [formData, setFormData] = useState({
-    country: 'IN',
+    country: 'SA',
     first_name: 'John',
     last_name: 'Doe',
     address: '101 ABC Street',
@@ -845,7 +845,7 @@ const useShoppingcart = () => {
               address: online_payment?.addresses,
               city: addressCod?.city,
               zip: online_payment?.postcode,
-              phone_number: userData?.data?.mobile,
+              phone_number: (userData?.data?.mobile == "0" || !userData?.data?.mobile) ? "+966" + billingAddressData?.telephone : userData?.data?.mobile,
               customerEmail: online_payment?.email,
               udf2: formData.udf2,
               udf3: formData.udf3,
@@ -859,6 +859,7 @@ const useShoppingcart = () => {
               maskCardNum: formData?.maskCardNum,
               tokenizationType: online_payment?.tokenizationType,
               done: true,
+              offline: false,
               responseId: res?.data?.data?.respon_id
             },
             callBack: onProcessPayment,
@@ -874,7 +875,8 @@ const useShoppingcart = () => {
           navigation.navigate(NAVIGATION.Done, {
             lang: lang,
             responseID: res?.data?.data?.respon_id,
-            orderId: online_payment?.order_id
+            orderId: online_payment?.order_id,
+            offline: true
           })
           setPaymentCode()
           setIndex(0)
