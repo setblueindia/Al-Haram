@@ -13,7 +13,6 @@ import { ExpireToken, SendNotifiction, StatusUpadate, sendMessageAPI } from '../
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 
 
-
 const Done = (props) => {
     const navigation = useNavigation()
     const userData = useSelector(state => state.userData.data)
@@ -31,9 +30,10 @@ const Done = (props) => {
     const Congratulation = lang == NUMBER.num1 ? "The order has been successfully processed." : "تمت عملية الطلب بنجاح"
 
     const senNotiFication = async () => {
-        const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
-        const data =
-            `mutation{
+        if (result?.data?.status == "Successful") {
+            const FCMToken = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
+            const data =
+                `mutation{
             orderPushNotificationSentToCustomer(input:{
             customer_id: ${userData?.id}
             notification_type: "order"
@@ -46,11 +46,15 @@ const Done = (props) => {
         }
      }
   `
-        try {
-            const rep = await SendNotifiction(data, lang)
-        } catch (error) {
-            console.log("SEND NOTIFICATION ERROR :::::::::::: ", error)
+            try {
+                const rep = await SendNotifiction(data, lang)
+            } catch (error) {
+                console.log("SEND NOTIFICATION ERROR :::::::::::: ", error)
+            }
+        } else {
+            console.log("NOTIFICATION NOT SENT")
         }
+
     }
 
     const updateOrderStatus = async () => {
@@ -62,6 +66,7 @@ const Done = (props) => {
         fromdata.append("urway_trans_id", result?.data?.tranid)
         try {
             const response = await StatusUpadate(fromdata)
+            senNotiFication()
             const result = await ExpireToken(sfromdata)
         } catch (error) {
             console.log("UPDATE STATUS ERROR :::::::::::::", error)
@@ -111,10 +116,9 @@ const Done = (props) => {
 
     useEffect(() => {
         tokenExpire()
-        senNotiFication()
         disPatch(addProduct(0))
         result?.data?.tranid && updateOrderStatus()
-    }, [result?.data?.tranid])
+    }, [result])
 
 
     return (
