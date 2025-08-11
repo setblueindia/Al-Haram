@@ -203,51 +203,59 @@ const useLoginHook = (props) => {
     formData.append('store_id', lang?.data);
     formData.append('auth', uid ? uid : " ");
 
-    const response = await useSingUp(formData)
-    if (response?.data?.status == NUMBER.num1) {
 
-      const responseData = response?.data?.data
-      const userEaildID = responseData?.email
-      const decoded = jwtDecode(identityToken)
-      const decodedEmail = decoded?.email
+    try {
+      const response = await useSingUp(formData)
+      if (response?.data?.status == NUMBER.num1) {
 
+        const responseData = response?.data?.data
+        const userEaildID = responseData?.email
 
-      if (userEaildID !== decodedEmail && type == "apple") {
-        if (decodedEmail && responseData) {
-          const emailupdate = await UpdateEmailID(decodedEmail, responseData)
-          if (emailupdate?.data?.id) {
-            const updateUserData = { ...responseData, email: decodedEmail }
-            await setUserData(updateUserData)
-            dispatch(addUserData(updateUserData))
-            updateUserData?.token && PoductCount(updateUserData?.token)
-            naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
-            const result = await ExpireToken(fromdata)
-            setLoader(false)
-          } else {
-            await setUserData(responseData)
-            dispatch(addUserData(responseData))
-            responseData?.token && PoductCount(responseData?.token)
-            naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
-            const result = await ExpireToken(fromdata)
+        const decoded = identityToken && jwtDecode(identityToken)
+        const decodedEmail = decoded && decoded?.email
+
+        if (userEaildID !== decodedEmail && type == "apple") {
+          if (decodedEmail && responseData) {
+            const emailupdate = await UpdateEmailID(decodedEmail, responseData)
+            if (emailupdate?.data?.id) {
+              const updateUserData = { ...responseData, email: decodedEmail }
+              await setUserData(updateUserData)
+              dispatch(addUserData(updateUserData))
+              updateUserData?.token && PoductCount(updateUserData?.token)
+              naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+              const result = await ExpireToken(fromdata)
+              setLoader(false)
+            } else {
+              await setUserData(responseData)
+              dispatch(addUserData(responseData))
+              responseData?.token && PoductCount(responseData?.token)
+              naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+              const result = await ExpireToken(fromdata)
+              setLoader(false)
+            }
             setLoader(false)
           }
+
+        } else {
+          await setUserData(responseData)
+          dispatch(addUserData(responseData))
+          responseData?.token && PoductCount(responseData?.token)
+          naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
+          const result = await ExpireToken(fromdata)
           setLoader(false)
         }
 
       } else {
-        await setUserData(responseData)
-        dispatch(addUserData(responseData))
-        responseData?.token && PoductCount(responseData?.token)
-        naviGtaionType ? navigation.goBack() : navigation.navigate(NAVIGATION.DrawerNavigation)
-        const result = await ExpireToken(fromdata)
+        setShowModal(true)
+        setErrorText(response?.data?.message)
         setLoader(false)
       }
-
-    } else {
-      setShowModal(true)
-      setErrorText(response?.data?.message)
+    } catch (error) {
+      console.log("SOCIAL LOGIN ERROR ::::::", error)
       setLoader(false)
     }
+
+
   }
   async function onAppleButtonPress() {
     const appleAuthRequestResponse = await appleAuth.performRequest({
