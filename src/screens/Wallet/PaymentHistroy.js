@@ -133,7 +133,7 @@ const PaymentHistroy = (props) => {
 
                                         <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                             <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(40) }]}>{lable.Amount + ":"}</Text>
-                                            <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{item?.curr_amount}</Text>
+                                            <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{Math.ceil(item?.curr_amount)}</Text>
                                         </View>
 
                                         <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>

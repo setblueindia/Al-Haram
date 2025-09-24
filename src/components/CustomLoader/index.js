@@ -8,7 +8,7 @@ const windowWidth = Dimensions.get('window').height;
 const CusLoader = () => {
     return (
         <View style={styles.mainView}>
-            <ActivityIndicator style={styles.indicator} size='large' color={COLOR.primaray} />
+            <ActivityIndicator style={styles.indicator} size='small' color={COLOR.primaray} />
         </View>
     )
 }
@@ -26,9 +26,8 @@ const styles = StyleSheet.create({
     },
     indicator: {
         backgroundColor: COLOR.white,
-        height: ResponsiveSize(130),
-        width: ResponsiveSize(130),
-        borderRadius: ResponsiveSize(20),
+        padding: ResponsiveSize(20),
+        borderRadius: ResponsiveSize(10),
         alignSelf: ALINE.center,
         elevation: ResponsiveSize(30),
         shadowColor: '#000',

@@ -174,11 +174,12 @@ const UseWalletHook = (setloader, route) => {
     }
   };
 
+
   const afterUrWay = async (adata) => {
+    setIsLoading(true)
     const walletData = await AsyncStorage.getItem("walletData")
     const wallateJasonData = JSON.parse(walletData)
 
-    setIsLoading(true)
     const data =
       `
       mutation{
@@ -198,10 +199,13 @@ const UseWalletHook = (setloader, route) => {
       const res = await postAfterUrWay(data, lang)
       const message = res?.data?.data?.onlinePaymentAfterOrderUpdate?.message
       const messTost = message?.toString()
-      getWallteAmount()
+      const dataa = `{ getWalletRemainingTotal(id : ${userData?.id}) }`
+      const rep = await GetWallateAmount(dataa, lang)
+      setAmount(rep?.data?.data?.getWalletRemainingTotal ? rep?.data?.data?.getWalletRemainingTotal : 0)
       SHOWTOTS(messTost ? messTost : " ")
-      setIsLoading(false)
       setAddAmount("")
+      setIsLoading(false)
+
     } catch (error) {
       console.log("AFTER URWAY PAYMENT ERROR ::::::: ", error)
       setIsLoading(false)

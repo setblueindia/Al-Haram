@@ -28,7 +28,7 @@ const ShipingMethod = ({
                         return (
                             <View>
                                 <TouchableOpacity
-                                    onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" && selectShipping() }}
+                                    onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" ? selectShipping() : setStorePickUpData("") }}
                                     key={index} style={[styles.litsView, selected == index && { backgroundColor: "#FFEEEE" }]} >
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                         <View >

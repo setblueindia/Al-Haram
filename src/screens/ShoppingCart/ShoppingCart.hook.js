@@ -284,10 +284,10 @@ const useShoppingcart = () => {
               setGiftCardList([])
             } else {
               if (!validationn) {
-                console.log("main log ::::::", { validationn })
                 setShowModal(true)
                 setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
               } else {
+                console.log("second else::::::::")
                 PlaceHolder()
                 setOutOfStock([])
                 setData([])
@@ -298,7 +298,6 @@ const useShoppingcart = () => {
         })
       } else {
         if (!validationn) {
-          console.log("main2 log ::::::", { validationn })
           setShowModal(true)
           setMessages(lang == NUMBER.num1 ? "Please select payment method!!!" : "الرجاء تحديد طريقة الدفع !!!")
         } else {
@@ -868,6 +867,10 @@ const useShoppingcart = () => {
           setData([])
           disPatch(addProduct(0))
           setPaymentCode()
+          setAddressCode()
+          setShippingdata()
+          setSelectPayment()
+          setValidation(false)
           const result = await ExpireToken(fromdata)
           setLoadding(false)
         } else {
@@ -878,15 +881,29 @@ const useShoppingcart = () => {
             orderId: online_payment?.order_id,
             offline: true
           })
-          setPaymentCode()
           setIndex(0)
+          setData([])
+          disPatch(addProduct(0))
+          setPaymentCode()
+          setAddressCode()
+          setShippingdata()
+          setSelectPayment()
+          setValidation(false)
         }
       } else {
         setLoadding(false)
         console.log("PlaceOrder Inner error ::::::::: ", res?.data)
         SHOWTOTS(res?.data?.message)
         // navigation.replace(NAVIGATION.AddressBookScreen)
-        setIndex(0)
+          setIndex(0)
+          setData([])
+          disPatch(addProduct(0))
+          setPaymentCode()
+          setAddressCode()
+          setSelectPayment()
+          setShippingdata()
+          setValidation(false)
+
       }
     } catch (error) {
       console.log("Place Holder API ERROR ======> ", error)
@@ -919,9 +936,6 @@ const useShoppingcart = () => {
         if (userData?.data?.token) {
           const result = await ProductlistCount(countData, result)
           dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
-          // const arrOFItems = result?.data?.data?.customerCart?.items
-          // const totalQuantity = arrOFItems.reduce((sum, item) => sum + item.quantity, 0);
-          // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
         } else {
           dispatch(addProduct(0))
         }
@@ -931,10 +945,6 @@ const useShoppingcart = () => {
       }
 
     }
-
-
-
-
 
 
     // const result = await AsyncStorage.getItem(ASYNCSTORAGE.Langues);

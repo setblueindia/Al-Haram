@@ -91,7 +91,7 @@ const PaymentDetails = (props) => {
 
             <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(40) }]}>{lable.Amount + " :"}</Text>
-              <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{props?.route?.params?.amount}</Text>
+              <Text style={[styles.rightScreen, lang == NUMBER.num0 && { marginRight: ResponsiveSize(0) }]}>{Math.ceil(props?.route?.params?.amount)}</Text>
             </View>
 
             <View style={[styles.innerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -108,7 +108,7 @@ const PaymentDetails = (props) => {
 
             {data?.curr_amount && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>
               <Text style={[styles.leftTex, lang == NUMBER.num0 && { textAlign: EXTRASTR?.right, width: ResponsiveSize(200) }]}>{lable?.Amount}</Text>
-              <Text style={styles.rightText}>{data?.curr_amount}</Text>
+              <Text style={styles.rightText}>{Math.ceil(data?.curr_amount)}</Text>
             </View>}
 
             {data?.action && <View style={[styles.itemsDetaisCommon, lang == NUMBER.num0 && { flexDirection: ALINE?.rowreverse }]}>

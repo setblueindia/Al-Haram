@@ -1,140 +1,371 @@
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import CommanHeader from '../../components/ComanHeader'
-import useCancelOrderHook from './cancelOrder.hook'
-import { styles } from './cancelOrder.style'
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import CommanHeader from '../../components/ComanHeader';
+import useCancelOrderHook from './cancelOrder.hook';
+import {styles} from './cancelOrder.style';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
-import { ResponsiveSize } from '../../utils/utils'
-import { TextInput } from 'react-native-gesture-handler'
-import Button from '../../components/Button'
-import { ALINE, COLOR } from '../../constants/style'
-import CusLoader from '../../components/CustomLoader'
+import {EXTRASTR, ICON, NUMBER} from '../../constants/constants';
+import {ResponsiveSize} from '../../utils/utils';
+import {TextInput} from 'react-native-gesture-handler';
+import Button from '../../components/Button';
+import {ALINE, COLOR} from '../../constants/style';
+import CusLoader from '../../components/CustomLoader';
+import {SARICON} from '../../assests';
+import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
+const CancelOrder = props => {
+  const {
+    navigation,
+    showBox,
+    data,
+    yes,
+    no,
+    Product,
+    sIndex,
+    lang,
+    lable,
+    resoneList,
+    selectList,
+    isLoadding,
+    setNo,
+    setYes,
+    setSindex,
+    setShowBox,
+    setOpenProduct,
+    setSelectLis,
+    setCustomResone,
+    refundOrderFunction,
+    setIsAllSelect,
+    isAllSelect,
+  } = useCancelOrderHook(props);
 
-const CancelOrder = (props) => {
-    const {
-        navigation,
-        showBox,
-        data,
-        yes,
-        no,
-        Product,
-        sIndex,
-        lang,
-        lable,
-        resoneList,
-        selectList,
-        isLoadding,
-        setNo,
-        setYes,
-        setSindex,
-        setShowBox,
-        setOpenProduct,
-        setSelectLis,
-        setCustomResone,
-        refundOrderFunction,
+  return (
+    <View style={styles.mainView}>
+      <CommanHeader
+        name={lable?.CancelOrder}
+        navigation={navigation}
+        lang={lang}
+      />
+      <ScrollView style={styles.containerView}>
+        <View style={styles.firstView}>
+          <Text style={styles.headerText}>{lable?.CancelReturnsRequest}</Text>
+          <Text style={styles.desText}>{lable?.CancelOrderdes}</Text>
+          <View style={styles.barView} />
 
-    } = useCancelOrderHook(props)
+          <View style={styles.resonView}>
+            <Text
+              style={[
+                styles.resoneText,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right,
+                  marginRight: ResponsiveSize(20),
+                },
+              ]}>
+              {lable?.ReasonForCancelReturn}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                showBox ? setShowBox(false) : setShowBox(true);
+              }}
+              style={[
+                styles.selectResoneBtn,
+                lang == NUMBER.num0 && {flexDirection: ALINE.rowreverse},
+              ]}>
+              <Text style={styles.btnText}>{selectList}</Text>
+              <Icon
+                style={styles.icon}
+                size={ResponsiveSize(30)}
+                name={showBox ? null : ICON.down}
+              />
+            </TouchableOpacity>
+          </View>
 
-    return (
-        <View style={styles.mainView}>
-            <CommanHeader name={lable?.CancelOrder} navigation={navigation} lang={lang} />
-            <ScrollView style={styles.containerView} >
-                <View style={styles.firstView}>
-                    <Text style={styles.headerText}>{lable?.CancelReturnsRequest}</Text>
-                    <Text style={styles.desText}>{lable?.CancelOrderdes}</Text>
-                    <View style={styles.barView} />
+          {showBox && (
+            <View style={styles.resoneBox}>
+              <ScrollView>
+                {resoneList?.data?.map((items, index) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowBox(false);
+                        setSelectLis(items);
+                      }}
+                      key={index}
+                      style={[
+                        styles.innerBox,
+                        index == 2 && {
+                          borderBottomWidth: ResponsiveSize(0),
+                        },
+                      ]}>
+                      <Text
+                        style={[
+                          styles.boxText,
+                          lang == NUMBER.num0 && {
+                            textAlign: EXTRASTR.right,
+                          },
+                        ]}>
+                        {items}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+          )}
 
-                    <View style={styles.resonView}>
-                        <Text style={[styles.resoneText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }]}>{lable?.ReasonForCancelReturn}</Text>
-                        <TouchableOpacity
-                            onPress={(() => { showBox ? setShowBox(false) : setShowBox(true) })}
-                            style={[styles.selectResoneBtn, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                            <Text style={styles.btnText}>{selectList}</Text>
-                            <Icon style={styles.icon} size={ResponsiveSize(30)} name={showBox ? null : ICON.down} />
-                        </TouchableOpacity>
+          <Text
+            style={[
+              styles.resoneText,
+              lang == NUMBER.num0 && {
+                textAlign: EXTRASTR.right,
+                marginRight: ResponsiveSize(20),
+              },
+              {marginTop: ResponsiveSize(20)},
+            ]}>
+            {lable?.Productisopened}
+          </Text>
+
+          <View
+            style={[
+              styles.cheackBox,
+              lang == NUMBER.num0 && {
+                flexDirection: ALINE.rowreverse,
+              },
+            ]}>
+            <TouchableOpacity
+              onPress={() => {
+                setYes(true);
+                setNo(false);
+                setOpenProduct(1);
+              }}
+              style={[
+                styles.innerCheackBox,
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(20),
+                },
+              ]}>
+              <View style={styles.cheackBoxButton}>
+                {yes && <View style={styles.dott} />}
+              </View>
+
+              <Text style={styles.cheackText}>{lable?.Yes}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setYes(false);
+                setNo(true);
+                setOpenProduct(0);
+              }}
+              style={[
+                styles.innerCheackBox,
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(50),
+                },
+                {marginLeft: ResponsiveSize(50)},
+              ]}>
+              <View style={styles.cheackBoxButton}>
+                {no && <View style={styles.dott} />}
+              </View>
+
+              <Text style={styles.cheackText}>{lable?.NO}</Text>
+            </TouchableOpacity>
+          </View>
+          <Text
+            style={[
+              styles.resoneText,
+              lang == NUMBER.num0 && {
+                textAlign: EXTRASTR.right,
+                marginRight: ResponsiveSize(20),
+              },
+              {marginTop: ResponsiveSize(20)},
+            ]}>
+            {lang == NUMBER?.num1 ? 'Other Reasone' : 'أسباب أخرى'}
+          </Text>
+
+          <TextInput
+            textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
+            placeholder={lang == NUMBER?.num1 ? 'Other Reasone' : 'أسباب أخرى'}
+            numberOfLines={10}
+            style={styles.selectResoneBtn}
+            onChangeText={text => {
+              setCustomResone(text);
+            }}
+            placeholderTextColor={COLOR.darkGray}
+          />
+        </View>
+
+        {/* <View style={styles.secondView}>
+                    <View style={[styles.ListHeaderView,
+                    lang == NUMBER.num0 && {
+                        flexDirection: ALINE.rowreverse
+                    }
+                    ]}>
+                        <Text
+                            style={styles.ListHeaderText}>
+                            {"Order Items"}
+                        </Text>
+
+                        <View style={[
+                            styles.SelectAllView,
+                            lang == NUMBER.num0 && {
+                                flexDirection: ALINE.rowreverse
+                            }
+                        ]}>
+                            <Text
+                                style={[
+                                    styles.SelectAllText,
+                                    lang == NUMBER.num0 && {
+                                        marginLeft: ResponsiveSize(10)
+                                    }
+                                ]}>
+                                {"Select All"}
+                            </Text>
+
+                            <TouchableOpacity
+                                style={[
+                                    styles.SelectAllInnerView,
+                                    isAllSelect && { backgroundColor: COLOR.primaray }
+                                ]}
+                                onPress={() => {
+                                    setIsAllSelect(!isAllSelect)
+                                }}
+                            >
+                                <MaterialIcons
+                                    name="check"
+                                    size={ResponsiveSize(18)}
+                                    color={COLOR.white}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-
-                    {showBox &&
-                        <View style={styles.resoneBox}>
-                            <ScrollView>
-                                {
-                                    resoneList?.data?.map((items, index) => {
-                                        return (
-                                            <TouchableOpacity
-                                                onPress={() => { setShowBox(false), setSelectLis(items) }}
-                                                key={index} style={[styles.innerBox, index == 2 && { borderBottomWidth: ResponsiveSize(0) }]}>
-                                                <Text style={[styles.boxText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{items}</Text>
-                                            </TouchableOpacity>
-                                        )
-                                    })
-                                }
-                            </ScrollView>
-                        </View>}
-                    <Text style={[styles.resoneText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }, { marginTop: ResponsiveSize(20) }]}>{lable?.Productisopened}</Text>
-
-                    <View style={[styles.cheackBox, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                        <TouchableOpacity
-                            onPress={() => { setYes(true), setNo(false), setOpenProduct(1) }}
-                            style={[styles.innerCheackBox, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
-                            <View style={styles.cheackBoxButton}>
-                                {yes && <View style={styles.dott} />}
-                            </View>
-                            <Text style={styles.cheackText}>{lable?.Yes}</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => { setYes(false), setNo(true), setOpenProduct(0) }}
-                            style={[styles.innerCheackBox, lang == NUMBER.num0 && { marginRight: ResponsiveSize(50) }, { marginLeft: ResponsiveSize(50) }]}>
-                            <View style={styles.cheackBoxButton}>
-                                {no && <View style={styles.dott} />}
-                            </View>
-                            <Text style={styles.cheackText}>{lable?.NO}</Text>
-                        </TouchableOpacity>
-
-                    </View>
-                    <Text style={[styles.resoneText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }, { marginTop: ResponsiveSize(20) }]}>{lang == NUMBER?.num1 ? 'Other Reasone' : "أسباب أخرى"}</Text>
-                    <TextInput
-                        textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
-                        placeholder={lang == NUMBER?.num1 ? 'Other Reasone' : "أسباب أخرى"}
-                        numberOfLines={10}
-                        style={styles.selectResoneBtn}
-                        onChangeText={(text) => { setCustomResone(text) }}
-                        placeholderTextColor={COLOR.darkGray}
-
-                    />
-                </View>
-
-                {/* <View style={styles.secondView}>
                     {
                         Product.map((items, index) => {
                             return (
+
                                 <TouchableOpacity
-                                    onPress={() => { setSindex(index) }}
-                                    key={index} style={[styles.orderView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                    <Image style={styles.image} source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }} />
-                                    <Text>{"#000000680"}</Text>
-                                    <Text>{"1"}</Text>
-                                    <Text style={styles.priceText}>{"SAR 223"}</Text>
-                                    <View style={[styles.orderCheack, sIndex == index && { backgroundColor: COLOR.primaray, borderColor: COLOR.primaray, }]} />
+                                    key={index}
+                                    style={[
+                                        styles.orderView,
+                                        lang == NUMBER.num0 && {
+                                            flexDirection: ALINE.rowreverse
+                                        }
+                                    ]}>
+                                    <View style={[
+                                        styles.orderInnerView,
+                                        lang == NUMBER.num0 && {
+                                            flexDirection: ALINE.rowreverse
+                                        }
+                                    ]}>
+                                        <Image
+                                            style={styles.image}
+                                            source={{ uri: "https://alharamstores.com/media/catalog/product/cache/388c1de4d18ba71b63dd28a680d47d98/9/9/99151-b-a.jpg" }} />
+                                        <View
+                                            style={[
+                                                { marginLeft: ResponsiveSize(20) },
+                                                lang == NUMBER.num0 && {
+                                                    marginRight: ResponsiveSize(20)
+                                                }
+                                            ]}>
+                                            <Text
+                                                numberOfLines={1}
+                                                style={[
+                                                    styles.productName,
+                                                    lang == NUMBER.num0 && {
+                                                        textAlign: EXTRASTR.right
+                                                    }
+                                                ]}>
+                                                {"women's casual shirt with striped sleeves"}
+                                            </Text>
+
+                                            <Text style={[
+                                                styles.SKUText,
+                                                lang == NUMBER.num0 && {
+                                                    textAlign: EXTRASTR.right
+                                                }
+                                            ]}>
+                                                {"SKU : "}
+                                                <Text>{"1234ERT"}</Text>
+                                            </Text>
+
+                                            <Text style={[
+                                                styles.SKUText,
+                                                lang == NUMBER.num0 && { textAlign: EXTRASTR.right },
+                                                { color: COLOR.primaray }
+                                            ]}>{"Oty : "}
+                                                <Text style={styles.QTYText}>
+                                                    {"2"}
+                                                </Text>
+                                            </Text>
+
+
+                                            <View style={[
+                                                styles.PriveView,
+                                                lang == NUMBER.num0 && {
+                                                    flexDirection: ALINE.rowreverse
+                                                }
+                                            ]}>
+                                                <Image
+                                                    style={styles.SARIcon}
+                                                    source={SARICON}
+                                                    resizeMode='contain'
+                                                />
+                                                <Text
+                                                    style={[
+                                                        styles.SARText,
+                                                        lang == NUMBER.num0 && {
+                                                            textAlign: EXTRASTR.right,
+                                                            marginRight: ResponsiveSize(10)
+                                                        }
+                                                    ]}>
+                                                    {150}
+                                                </Text>
+                                            </View>
+
+                                        </View>
+                                    </View>
+
+
+                                    <View style={[styles.SelectAllInnerView,
+                                    isAllSelect && {
+                                        backgroundColor: COLOR.primaray
+                                    }
+                                    ]}>
+                                        <MaterialIcons
+                                            name="check"
+                                            size={ResponsiveSize(18)}
+                                            color={COLOR.white}
+                                        />
+                                    </View>
+
                                 </TouchableOpacity>
+
                             )
                         })
                     }
                 </View> */}
-            </ScrollView>
-            <View style={styles.btnView}>
-                <Button onPress={() => { refundOrderFunction() }} text={lable?.SendRequest} />
-            </View>
+      </ScrollView>
+      <View style={styles.btnView}>
+        <Button
+          onPress={() => {
+            refundOrderFunction();
+          }}
+          text={lable?.SendRequest}
+        />
+      </View>
 
-            {isLoadding && <View style={{ height: "100%", width: "100%", position: 'absolute' }}>
-                <CusLoader />
-
-            </View>}
-
+      {isLoadding && (
+        <View
+          style={{
+            height: '100%',
+            width: '100%',
+            position: 'absolute',
+          }}>
+          <CusLoader />
         </View>
-    )
-}
+      )}
+    </View>
+  );
+};
 
-export default CancelOrder
+export default CancelOrder;
