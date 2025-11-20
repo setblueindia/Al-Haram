@@ -1,21 +1,20 @@
-import { Platform, ScrollView, Text, TextInput, View } from 'react-native'
-import React from 'react'
-import CommanHeader from '../../components/ComanHeader'
-import TextFildCus from '../../components/TextFildCus'
-import { styles } from './address.style'
-import { EXTRASTR, NAVIGATION, NUMBER } from '../../constants/constants'
-import { ResponsiveSize } from '../../utils/utils'
-import CheackButton from '../../components/CheackButton'
-import Button from '../../components/Button'
-import { COLOR } from '../../constants/style'
-import useAddressHook from './address.hook'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import CusLoader from '../../components/CustomLoader'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {Platform, ScrollView, Text, TextInput, View} from 'react-native';
+import React from 'react';
+import CommanHeader from '../../components/ComanHeader';
+import TextFildCus from '../../components/TextFildCus';
+import {styles} from './address.style';
+import {EXTRASTR, NUMBER} from '../../constants/constants';
+import {ResponsiveSize} from '../../utils/utils';
+import CheackButton from '../../components/CheackButton';
+import Button from '../../components/Button';
+import {COLOR} from '../../constants/style';
+import useAddressHook from './address.hook';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import CusLoader from '../../components/CustomLoader';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const Addaddress = (props) => {
-
+const Addaddress = props => {
   const {
     navigation,
     lang,
@@ -47,16 +46,17 @@ const Addaddress = (props) => {
     serAddress1,
     setAddress2,
     setAddress3,
-    setPinCode,
     setBilling,
     addAddress,
     setSerchText,
     setMixCity,
     state,
-    isLoading
-  } = useAddressHook(props)
+    isLoading,
+    shortAddress,
+    setShortAddressCode,
+    shortAddressCode,
+  } = useAddressHook(props);
   const insets = useSafeAreaInsets();
-
 
   return (
     <View style={styles.mainView}>
@@ -64,135 +64,256 @@ const Addaddress = (props) => {
         navigation={navigation}
         lang={lang}
         customNavg={props?.route?.params?.setLoadding ? false : true}
-        name={esiteData ? data?.EditAddress : data.AddAddress} />
+        name={esiteData ? data?.EditAddress : data.AddAddress}
+      />
 
       <KeyboardAwareScrollView style={styles.conatainer}>
-        <TextFildCus onChange={setFirstName} value={firstName} text={data?.FirstName} add={true} />
+        <TextFildCus
+          onChange={setFirstName}
+          value={firstName}
+          text={data?.FirstName}
+          add={true}
+        />
         <View style={styles.devider} />
-        <TextFildCus onChange={setlastname} value={lastName} text={data?.LastName} add={true} />
+        <TextFildCus
+          onChange={setlastname}
+          value={lastName}
+          text={data?.LastName}
+          add={true}
+        />
         <View style={styles.devider} />
         <TextFildCus
           onChange={setMNumber}
-          countryText={"+966"}
+          countryText={'+966'}
           value={mNumaber}
           number={true}
           text={data?.PhoneNumber}
           // text={"05XXXXXXXX"}
-          add={true} />
+          add={true}
+        />
         <View style={styles.devider} />
-        <TextFildCus onChange={serAddress1} value={address1} text={data?.Streetaddress} add={true} />
+
+        <TextFildCus
+          onChange={setShortAddressCode}
+          value={shortAddressCode}
+          text={data?.ShortsAddress}
+          add={true}
+          maxLength={8}
+        />
+
         <View style={styles.devider} />
-        <TextFildCus onChange={setAddress2} value={address2} text={data?.Addressline1} add={true} />
+
+        {shortAddressCode?.length > 8 && (
+          <Text style={styles.errorText}>
+            {'Enter maximum & minimum 8 characters'}
+          </Text>
+        )}
+
+        {shortAddress && shortAddress?.status_description !== 'SUCCESS' && (
+          <Text style={styles.errorText}>
+            {shortAddress?.status_description}
+          </Text>
+        )}
+        <TextFildCus
+          onChange={serAddress1}
+          value={address1}
+          text={data?.Streetaddress}
+          add={true}
+          disable={shortAddressCode?.length > 0 ? true : false}
+        />
         <View style={styles.devider} />
-        <TextFildCus onChange={setAddress3} value={address3} text={data?.Addressline2} add={true} />
+        <TextFildCus
+          onChange={setAddress2}
+          value={address2}
+          text={data?.Addressline1}
+          add={true}
+          disable={shortAddressCode?.length > 0 ? true : false}
+        />
+        <View style={styles.devider} />
+        <TextFildCus
+          onChange={setAddress3}
+          value={address3}
+          text={data?.Addressline2}
+          add={true}
+          disable={shortAddressCode?.length > 0 ? true : false}
+        />
         {/* <View style={styles.devider} />
         <TextFildCus onChange={setPinCode} value={pinCode} number={true} text={data?.Pincode} add={true} />
         <View style={styles.devider} /> */}
         <View style={styles.secondView}>
-          <Text style={[styles.contiresText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right, marginRight: ResponsiveSize(20) }]}>{data?.SaudiArabia}</Text>
+          <Text
+            style={[
+              styles.contiresText,
+              lang == NUMBER.num0 && {
+                textAlign: EXTRASTR.right,
+                marginRight: ResponsiveSize(20),
+              },
+            ]}>
+            {data?.SaudiArabia}
+          </Text>
           <TouchableOpacity
             style={styles.stateTextView}
             onPress={() => {
-              const button = true
-              gwtStateData(button)
-              setMixCity(true)
-              setCity("")
-            }}
-          >
-            <Text style={[styles.stateTextStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{state ? state : data?.StateProvince}</Text>
+              const button = true;
+              gwtStateData(button);
+              setMixCity(true);
+              setCity('');
+            }}>
+            <Text
+              style={[
+                styles.stateTextStyle,
+                lang == NUMBER.num0 && {textAlign: 'right'},
+              ]}>
+              {state ? state : data?.StateProvince}
+            </Text>
           </TouchableOpacity>
           <View style={styles.devider} />
           <TouchableOpacity
             onPress={() => {
-              getCityData()
-              setMixCity(false)
+              getCityData();
+              setMixCity(false);
             }}
-            style={styles.stateTextView}
-          >
-            <Text style={[styles.stateTextStyle, lang == NUMBER.num0 && { textAlign: 'right' }]}>{city ? city : data?.City}</Text>
+            style={styles.stateTextView}>
+            <Text
+              style={[
+                styles.stateTextStyle,
+                lang == NUMBER.num0 && {textAlign: 'right'},
+              ]}>
+              {city ? city : data?.City}
+            </Text>
           </TouchableOpacity>
-          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+          <View
+            style={[
+              styles.CheackView,
+              lang == NUMBER.num0 && {flexDirection: 'row-reverse'},
+            ]}>
             <CheackButton preVriable={shopping} onPress={setShopping} />
-            <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.Useasmydefaultbillingaddress}</Text>
+            <Text
+              style={[
+                styles.cheackText,
+                lang == NUMBER.num0 && {marginRight: ResponsiveSize(20)},
+              ]}>
+              {data?.Useasmydefaultbillingaddress}
+            </Text>
           </View>
-          <View style={[styles.CheackView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
+          <View
+            style={[
+              styles.CheackView,
+              lang == NUMBER.num0 && {flexDirection: 'row-reverse'},
+            ]}>
             <CheackButton preVriable={billing} onPress={setBilling} />
-            <Text style={[styles.cheackText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{data?.UseasmydefaultShippingaddress}</Text>
+            <Text
+              style={[
+                styles.cheackText,
+                lang == NUMBER.num0 && {marginRight: ResponsiveSize(20)},
+              ]}>
+              {data?.UseasmydefaultShippingaddress}
+            </Text>
           </View>
         </View>
         <View style={styles.btnView}>
-          <Button onPress={addAddress} text={esiteData ? data?.EditAddress : lang == NUMBER.num0 ? "اضف عنوان" : "Add address"} />
+          <Button
+            onPress={addAddress}
+            text={
+              esiteData
+                ? data?.EditAddress
+                : lang == NUMBER.num0
+                ? 'اضف عنوان'
+                : 'Add address'
+            }
+          />
         </View>
-        <View style={{ height: ResponsiveSize(40) }}>
-        </View>
+        <View style={{height: ResponsiveSize(40)}}></View>
       </KeyboardAwareScrollView>
 
-      {on &&
+      {on && (
         <View style={[styles.popView]}>
-          <View style={[styles.listView, Platform.OS == 'ios' && { marginTop: insets.top }]}>
+          <View
+            style={[
+              styles.listView,
+              Platform.OS == 'ios' && {marginTop: insets.top},
+            ]}>
             <Text style={styles.popTex}>{popTex}</Text>
             <TextInput
               style={styles.serchView}
-              placeholder={lang == NUMBER.num1 ? 'Search......' : "بحث"}
-              textAlign={lang == NUMBER.num0 ? "right" : 'left'}
+              placeholder={lang == NUMBER.num1 ? 'Search......' : 'بحث'}
+              textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
               value={serchText}
               placeholderTextColor={COLOR.liteGray}
-              onChangeText={(text) => { setSerchText(text) }}
+              onChangeText={text => {
+                setSerchText(text);
+              }}
             />
             <ScrollView style={styles.ScrollView}>
-
-              {
-                citydata?.map((items, index) => {
-                  return (
-                    <TouchableOpacity onPress={() => {
-                      setSerchText("")
+              {citydata?.map((items, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSerchText('');
                       setOn(false),
-                        items?.default_name ? setStae(items?.default_name) :
-                          setCity(items?.value),
+                        items?.default_name
+                          ? setStae(items?.default_name)
+                          : setCity(items?.value),
                         // setCity(items?.city),
-                        setStaeCode(items?.region_id)
-                      items?.default_name && getCityData(items?.region_id)
+                        setStaeCode(items?.region_id);
+                      items?.default_name && getCityData(items?.region_id);
                     }}
-                      key={index} style={styles.itemsName}>
-                      <Text style={[styles.customerName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{items?.default_name ? items?.default_name : items?.city}</Text>
-                    </TouchableOpacity>
-                  )
-                })
-              }
-
+                    key={index}
+                    style={styles.itemsName}>
+                    <Text
+                      style={[
+                        styles.customerName,
+                        lang == NUMBER.num0 && {textAlign: 'right'},
+                      ]}>
+                      {items?.default_name ? items?.default_name : items?.city}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </ScrollView>
-
           </View>
           <View style={styles.PopBtnView}>
             <TouchableOpacity
-              onPress={() => { setOn(false) }}
+              onPress={() => {
+                setOn(false);
+              }}
               style={styles.poppBtn}>
-              <Text style={styles.cancalText}>{lang == NUMBER.num1 ? "Cancel" : "الغاء"}</Text>
+              <Text style={styles.cancalText}>
+                {lang == NUMBER.num1 ? 'Cancel' : 'الغاء'}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => { setSerchText("") }}
-              style={[styles.poppBtn, { backgroundColor: COLOR.white, borderWidth: ResponsiveSize(1), borderColor: COLOR.darkGray }]}>
-              <Text style={[styles.cancalText, { color: COLOR.black }]}>{lang == NUMBER.num1 ? "clear" : "حذف"}</Text>
+              onPress={() => {
+                setSerchText('');
+              }}
+              style={[
+                styles.poppBtn,
+                {
+                  backgroundColor: COLOR.white,
+                  borderWidth: ResponsiveSize(1),
+                  borderColor: COLOR.darkGray,
+                },
+              ]}>
+              <Text style={[styles.cancalText, {color: COLOR.black}]}>
+                {lang == NUMBER.num1 ? 'clear' : 'حذف'}
+              </Text>
             </TouchableOpacity>
-
           </View>
         </View>
+      )}
 
-      }
-
-      {isLoading &&
-        <View style={{
-          height: "100%",
-          width: "100%",
-          position: 'absolute'
-        }}>
+      {isLoading && (
+        <View
+          style={{
+            height: '100%',
+            width: '100%',
+            position: 'absolute',
+          }}>
           <CusLoader />
-
         </View>
-      }
+      )}
     </View>
-  )
-}
+  );
+};
 
-export default Addaddress
-
+export default Addaddress;
