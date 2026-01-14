@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 const AppNavigation = () => {
   return (
     <NavigationContainer>
-      <StackNavigation/>
+      <StackNavigation />
     </NavigationContainer>
   )
 }

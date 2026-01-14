@@ -1,9 +1,9 @@
-import { Image, Text, View, TouchableOpacity, ScrollView, Modal, SafeAreaView, Platform } from 'react-native';
-import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, Modal, Platform, TextComponent } from 'react-native';
+import React from 'react';
 import { styles } from './login.style';
 import Onbordingheader from '../../components/OnbordingHeader';
 import SwitchButton from '../../components/SwitchButton';
-import { Apple, google, logo } from '../../assests';
+import { Apple, google, } from '../../assests';
 import TextFildCus from '../../components/TextFildCus';
 import { ICON, LOGINStr, NUMBER } from '../../constants/constants';
 import CheackButton from '../../components/CheackButton';
@@ -15,6 +15,7 @@ import { ResponsiveSize } from '../../utils/utils';
 import CusLoader from '../../components/CustomLoader';
 import CusModal from '../../components/CusModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Icon from 'react-native-vector-icons/dist/AntDesign';
 
 const Login = (props) => {
   const {
@@ -37,16 +38,58 @@ const Login = (props) => {
     onAppleButtonPress,
     loader,
     langues,
-    lang
+    lang,
+    setChangeLang, chnageLang,
+    setLangMode, lanMode,
+    changeLungues
   } =
     useLoginHook(props);
+
+
+  // console.log("props :::::: ", props?.route?.params?.shoeMes)
+
+
   return (
-    <View style={{flex:1, backgroundColor:COLOR.white}}>
-      <KeyboardAwareScrollView style={[styles.mainView]}>
+    <View style={{ flex: 1, backgroundColor: COLOR.white }}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={[styles.mainView]}>
         <View style={styles.headerView}>
-          <Onbordingheader type ={props?.route?.params ? true : false} />
+          <Onbordingheader type={props?.route?.params ? true : false} />
         </View>
+        <TouchableOpacity
+          onPress={() => { chnageLang ? setChangeLang(false) : setChangeLang(true) }}
+          style={[styles.LangView, lang?.data == NUMBER.num0 && { left: ResponsiveSize(20) }]}>
+          <Text style={styles.enText}>{lanMode}</Text>
+          <Icon name={!chnageLang ? "downcircle" : "upcircle"} size={ResponsiveSize(30)} color={COLOR.white} />
+        </TouchableOpacity>
+
+        {chnageLang &&
+          <View style={[styles.listLangView, lang?.data == NUMBER.num0 && { left: ResponsiveSize(20) }]}>
+            <TouchableOpacity
+              onPress={() => {
+                changeLungues()
+                setLangMode("EN")
+                setChangeLang(false)
+              }}
+              style={[styles.enBTN, lanMode == "EN" && { backgroundColor: COLOR.primaray }]}>
+              <Text style={[styles.enText2, lanMode == "EN" && { color: COLOR.white }]}>{"EN"}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                changeLungues()
+                setLangMode("AR")
+                setChangeLang(false)
+              }}
+              style={[styles.enBTN, lanMode == "AR" && { backgroundColor: COLOR.primaray }]}>
+              <Text style={[styles.enText2, lanMode == "AR" && { color: COLOR.white }]}>{"AR"}</Text>
+            </TouchableOpacity>
+
+          </View>
+        }
+
+
         <View style={styles.container}>
+
           <View style={styles.uthView}>
             <View>
               <SwitchButton setWithEmail={setWithEmail} langues={langues} />
@@ -56,7 +99,7 @@ const Login = (props) => {
               {whiteEmail && (
                 <>
                   <TextFildCus
-                     password={false}
+                    password={false}
                     value={rememberMe?.EMAIL}
                     onChange={setEmail}
                     icon={ICON.emailIcon}
@@ -70,8 +113,8 @@ const Login = (props) => {
                     onChange={setPassword}
                     icon={ICON.lockIcon}
                     text={langues?.Enteryourpassword}
-                  
                   />
+
                 </>
               )}
 
@@ -80,7 +123,7 @@ const Login = (props) => {
                   icon={ICON.phoneIcon}
                   text={langues?.Entermobilenumber}
                   onChange={setMobailNumber}
-                  countryText={"+966"} 
+                  countryText={"+966"}
                   number={true}
                 />
               )}
@@ -115,8 +158,8 @@ const Login = (props) => {
                     </View>
                   )}
                 </View>
-                <TouchableOpacity style={{ flex:1}} onPress={() => { ForgetPassword() }}>
-                  <Text  style={[styles.forgetText , lang?.data == NUMBER.num0 && {textAlign:'left'}]}>{langues?.ForgotPassword}</Text>
+                <TouchableOpacity style={{ flex: 1 }} onPress={() => { ForgetPassword() }}>
+                  <Text style={[styles.forgetText, lang?.data == NUMBER.num0 && { textAlign: 'left' }]}>{langues?.ForgotPassword}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -128,17 +171,36 @@ const Login = (props) => {
                   text={whiteEmail ? langues?.SignIn : langues?.SendOTP}
                 />
               </View>
+
+              {props?.route?.params?.shoeMes &&
+                <View style={{
+                  padding: ResponsiveSize(10),
+                  backgroundColor: COLOR.white,
+                  marginTop: ResponsiveSize(10),
+                  borderRadius: ResponsiveSize(20),
+                  borderWidth: ResponsiveSize(1),
+                  borderColor: COLOR.primaray
+                }}>
+                  <Text style={{
+                    color: COLOR.primaray,
+                    fontSize: ResponsiveSize(22),
+                    textAlign: 'center',
+                    fontWeight: 'bold'
+                  }}>{props?.route?.params?.shoeMes}</Text>
+                </View>
+              }
+
               <View style={styles.devider} />
               <View style={styles.socialButton}>
-                <SocialButton onPress={()=>{handleGoogleSignIn()}} icon={google} text={LOGINStr.Google} />
-             { Platform.OS == 'ios' && 
-               <SocialButton   onPress={()=>{onAppleButtonPress()}} icon={Apple}  text={LOGINStr.Apple} />}
+                <SocialButton onPress={() => { handleGoogleSignIn() }} icon={google} text={LOGINStr.Google} />
+                {Platform.OS == 'ios' &&
+                  <SocialButton onPress={() => { onAppleButtonPress() }} icon={Apple} text={LOGINStr.Apple} />}
               </View>
 
               <View style={styles.devider} />
 
               <View style={styles.newCustomer}>
-                 <View style={styles.row}></View>
+                <View style={styles.row}></View>
                 <Text style={styles.text}>{langues?.NewCustomer}</Text>
                 <View style={styles.row}></View>
               </View>
@@ -148,6 +210,7 @@ const Login = (props) => {
                 text={langues?.SignUp}
                 color={COLOR.white}
               />
+
             </View>
           </View>
         </View>

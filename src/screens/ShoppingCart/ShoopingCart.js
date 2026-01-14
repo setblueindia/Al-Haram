@@ -1,9 +1,9 @@
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import CommanHeader from '../../components/ComanHeader'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ICON, NUMBER } from '../../constants/constants';
+import { ICON, NAVIGATION, NUMBER } from '../../constants/constants';
 import { ResponsiveSize } from '../../utils/utils';
 import Button from '../../components/Button';
 import useShoppingcart from './ShoppingCart.hook';
@@ -15,6 +15,7 @@ import CusLoader from '../../components/CustomLoader';
 import ShipingMethod from './ShipingMethod';
 import CusModal from '../../components/CusModal';
 import DataIsNotFound from '../../components/DataNotFound2';
+import SAR from '../../components/SAR/Index';
 
 
 const ShoopingCart = (props) => {
@@ -42,25 +43,35 @@ const ShoopingCart = (props) => {
         remove,
         validationn,
         noties,
+        giftCardList,
+        type,
+        cartTotal,
+        setGiftSatus, giftSatus,
+        setGiftCardCode, giftCardCode,
         updateQnty,
         setActionCode,
         setCoupanCode,
+        getGiftCartdSatus,
         // setShowWallet,
         selectShipping,
         deleteProduct,
         setAddressCode,
         setLoadding,
+        setGiftCardList,
         setShowModal,
         setShippingdata,
         setBillingAddress,
         setSelectPayment,
         setWalletAmount,
-        getCoupanList,
+        RemoveCart,
         PlaceHolder,
         applyCoupan,
         validation,
         setEtrx,
         setSelectPayemrntMethod,
+        setTempWalletcheck,
+        applyGiftCart,
+        setGiftCartDis,
         selectPayment,
         selectPaymentMethod,
         setStorePickUpData,
@@ -69,10 +80,19 @@ const ShoopingCart = (props) => {
 
 
 
+    const [isAtTop, setIsAtTop] = useState(true);
+    const handleScroll = (event) => {
+        const scrollY = event.nativeEvent.contentOffset.y;
+        setIsAtTop(scrollY <= 0);
+    };
+
+
+
+
+
 
     return (
         <View style={styles.mainView}>
-            {/* <CommanHeader name={shopinfCratData?.ShoppingCart} navigation={navigation} lang={lang} /> */}
             <CommanHeader
                 name={
                     index == 3
@@ -89,6 +109,7 @@ const ShoopingCart = (props) => {
                         <Text style={[styles.text, { color: COLOR.primaray }, lang == NUMBER.num1 && { width: ResponsiveSize(80) }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.cart}</Text>
                         <View style={[styles.lineView, { backgroundColor: COLOR.primaray }]} />
                     </View>
+
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, paddingHorizontal: ResponsiveSize(10) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <Icon name={ICON.checkcircle} size={ResponsiveSize(30)} color={(index == 1 || index == 2 || index == 3) ? COLOR.primaray : COLOR.gray} />
                         <Text style={[styles.text, (index == 1 || index == 2 || index == 3) && { color: COLOR.primaray }, lang == NUMBER.num0 && { textAlign: 'right', marginRight: ResponsiveSize(5) }]}>{shopinfCratData?.Shipping}</Text>
@@ -108,72 +129,128 @@ const ShoopingCart = (props) => {
                 </View>
 
                 {index == 0 &&
+                    <View style={{ flex: 1 }}>
+                        {data.length > 0 ?
+                            <ScrollView
+                                style={{ flex: 1 }}
+                                onScroll={handleScroll}
 
-
-                    data.length > 0 ?
-                    <View style={styles.cartView}>
-
-                        {noties &&
-                            <View style={{ padding: ResponsiveSize(10), borderRadius: ResponsiveSize(20), backgroundColor: COLOR.primaray , marginBottom:ResponsiveSize(20)}}>
-                                <Text style={{ textAlign: 'center', color: COLOR.white }}>{noties}</Text>
-                            </View>
-
-                        }
-
-                        <View style={{
-                            height: outOfStock?.length > 0 ? "60%" : "100%"
-                        }} >
-                            <FlatList
-                                showsVerticalScrollIndicator={false}
-                                data={data}
-                                renderItem={({ item, index }) => {
-                                    return (
-                                        <View key={index}>
-                                            <Cart
-                                                updateQnty={updateQnty}
-                                                outOfStock={false}
-                                                data={item} lang={lang}
-                                                deleteProduct={deleteProduct}
-                                            />
-                                            <View style={{ height: ResponsiveSize(20) }} />
+                            >
+                                <View style={styles.cartView}>
+                                    {noties &&
+                                        <View style={{ padding: ResponsiveSize(10), borderRadius: ResponsiveSize(20), backgroundColor: COLOR.primaray, marginBottom: ResponsiveSize(20) }}>
+                                            <Text style={{ textAlign: 'center', color: COLOR.white }}>{noties}</Text>
                                         </View>
-                                    )
-                                }}
-                            />
-                        </View>
-                        {
-                            outOfStock?.length > 0 &&
-                            <View style={{
-                                height: "40%",
-                                backgroundColor: "#FFE9E9",
-                                padding: ResponsiveSize(20),
-                            }}>
-                                <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                                    <Text style={styles.outOfStockText}>{"Out of stock"}</Text>
-                                    <TouchableOpacity>
-                                        <Text style={styles.removeAllText}>{"Remove all"}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <FlatList
-                                    showsVerticalScrollIndicator={false}
-                                    data={data}
-                                    renderItem={({ item, index }) => {
-                                        return (
-                                            <View key={index}>
-                                                <Cart outOfStock={true} data={item} lang={lang} deleteProduct={deleteProduct} />
-                                                <View style={{ height: ResponsiveSize(20) }} />
-                                            </View>
-                                        )
-                                    }}
-                                />
-                            </View>}
+                                    }
+                                    <View style={{
+                                    }} >
+                                        <FlatList
+                                            showsVerticalScrollIndicator={false}
+                                            data={data}
+                                            renderItem={({ item, index }) => {
 
+
+                                                return (
+                                                    <View
+                                                        // onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
+                                                        key={index}>
+                                                        <Cart
+                                                            updateQnty={updateQnty}
+                                                            outOfStock={false}
+                                                            data={item} lang={lang}
+                                                            deleteProduct={deleteProduct}
+                                                            onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: item?.sku, addToCatdOn: true }) }}
+                                                            disabled={item?.type == "amgiftcard" ? true : false}
+                                                        />
+                                                        <View style={{ height: ResponsiveSize(20) }} />
+                                                    </View>
+                                                )
+                                            }}
+                                        />
+                                    </View>
+                                    {
+                                        outOfStock?.length > 0 &&
+                                        <View style={{
+                                            height: "40%",
+                                            backgroundColor: "#FFE9E9",
+                                            padding: ResponsiveSize(20),
+                                        }}>
+                                            <View style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                                <Text style={styles.outOfStockText}>{"Out of stock"}</Text>
+                                                <TouchableOpacity onPress={() => { RemoveCart() }}>
+                                                    <Text style={styles.removeAllText}>{"Remove all"}</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <FlatList
+                                                showsVerticalScrollIndicator={false}
+                                                data={outOfStock}
+                                                renderItem={({ item, index }) => {
+                                                    return (
+                                                        <View key={index}>
+                                                            <Cart outOfStock={true} data={item} lang={lang} deleteProduct={deleteProduct} />
+                                                            <View style={{ height: ResponsiveSize(20) }} />
+                                                        </View>
+                                                    )
+                                                }}
+                                            />
+                                        </View>}
+
+                                </View>
+                            </ScrollView>
+                            : (!isLoadding && index == 0) ?
+                                <View style={{ height: "100%", width: "100%", alignSelf: 'center' }}>
+                                    <Image
+                                        source={require('../../assests/images/Common/CartEmpty.jpg')}
+                                        style={styles.CartNotFoundImage}
+                                    />
+                                    {/* <DataIsNotFound color={false} /> */}
+                                </View>
+
+                                : null}
+
+                        {(data?.length > 0) &&
+                            <View style={{
+
+                            }}>
+                                <View style={[styles.subTotalView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                                    <Text
+                                        style={{
+                                            color: COLOR.white,
+                                            fontSize: ResponsiveSize(22),
+                                            fontWeight: FONTWEGHIT.bold
+                                        }}>{lang == NUMBER.num1 ? "Sub Total" : "الإجمالي"}</Text>
+
+                                    {/* 
+                                       <Text
+                                            style={{
+                                                color: COLOR.white,
+                                                fontSize: ResponsiveSize(22),
+                                                fontWeight: FONTWEGHIT.bold
+                                            }}>{lang == NUMBER.num1 ? "SAR  " + cartTotal : "سار " + cartTotal}</Text> */}
+
+                                    {/* ADD IMG */}
+
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Image
+                                            style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.white }}
+                                            source={require('../../assests/images/Common/SAR.png')} />
+
+                                        <View style={{ width: ResponsiveSize(5) }} />
+
+                                        <Text
+                                            style={{
+                                                color: COLOR.white,
+                                                fontSize: ResponsiveSize(22),
+                                                fontWeight: FONTWEGHIT.bold
+                                            }}>{cartTotal}</Text>
+
+                                    </View>
+
+                                </View>
+                            </View>
+                        }
                     </View>
-                    : (!isLoadding && index == 0) ?
-                        <View style={{ height: "100%", width: "100%" }}>
-                            <DataIsNotFound color={false} />
-                        </View>
-                        : null
+
                 }
 
                 {
@@ -203,6 +280,7 @@ const ShoopingCart = (props) => {
                     index == 3 &&
                     <View style={{ flex: 1 }}>
                         <Payment
+                            setTempWalletcheck={setTempWalletcheck}
                             coupanCode={coupanCode}
                             setCoupanCode={setCoupanCode}
                             coupanListData={coupanListData}
@@ -211,8 +289,6 @@ const ShoopingCart = (props) => {
                             selectPayment={selectPayment}
                             wallateAmount={wallateAmount}
                             paymentScreenData={paymentScreenData}
-                            // showWallet={showWallet}
-                            // setShowWallet={setShowWallet}
                             setActionCode={setActionCode}
                             applyCoupan={applyCoupan}
                             data={shopinfCratData}
@@ -224,6 +300,16 @@ const ShoopingCart = (props) => {
                             setEtrx={setEtrx}
                             setSelectPayemrntMethod={setSelectPayemrntMethod}
                             setWalletAmount={setWalletAmount}
+                            setGiftCardCode={setGiftCardCode}
+                            applyGiftCart={applyGiftCart}
+                            giftCardCode={giftCardCode}
+                            giftCardList={giftCardList}
+                            setGiftCardList={setGiftCardList}
+                            setGiftCartDis={setGiftCartDis}
+                            getGiftCartdSatus={getGiftCartdSatus}
+                            setGiftSatus={setGiftSatus}
+                            giftSatus={giftSatus}
+                            type={type}
                         />
                     </View>
                 }
@@ -243,13 +329,14 @@ const ShoopingCart = (props) => {
                                     : index == 2
                                         ? (lang == NUMBER.num0 ? 'متابعة الطلب' : 'Track Order')
                                         : index == 0
-                                            ? (lang == NUMBER.num0 ? 'متابعة' : 'Tracking')
+                                            ? (lang == NUMBER.num0 ? 'متابعة' : 'Checkout')
                                             : shopinfCratData?.ProceedtoCheckout
                             }
                             color="#009834"
                             ShoopingCart={true}
                         />
-                    </View>}
+                    </View>
+                }
 
                 {(index == 1 || index == 2 || index == 3) &&
                     (!isLoadding && data.length > 0) &&
@@ -305,10 +392,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "#202020",
-        // flex: 1, 
         marginLeft: ResponsiveSize(5),
         fontSize: ResponsiveSize(18)
-        //  width:"100%"
 
     },
     lineView: {
@@ -348,7 +433,6 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     container: {
-        // flex: 1,
         height: "77%",
         width: "100%"
     },
@@ -367,5 +451,26 @@ const styles = StyleSheet.create({
         borderBottomWidth: ResponsiveSize(1),
         borderColor: COLOR.darkGray,
         marginBottom: ResponsiveSize(10)
+    },
+    subTotalView: {
+        width: "93%",
+        height: ResponsiveSize(60),
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        paddingHorizontal: ResponsiveSize(20),
+        alignSelf: 'center',
+        backgroundColor: COLOR.primaray,
+        borderWidth: ResponsiveSize(0.5),
+        borderColor: "#00000050",
+        borderRadius: ResponsiveSize(5),
+        bottom: ResponsiveSize(5),
+        // position: 'absolute'
+    },
+    CartNotFoundImage: {
+        height: "100%",
+        width: "100%",
+        resizeMode: 'contain'
     }
+
 })

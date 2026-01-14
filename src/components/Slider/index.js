@@ -1,156 +1,48 @@
-// import { View, Image, FlatList, Dimensions } from 'react-native'
-// import React, { useEffect, useRef, useState } from 'react'
-// import { styles } from './silder.style'
-// import { NUMBER } from '../../constants/constants'
-// import { COLOR, RESIZEMODE } from '../../constants/style'
-// import FastImage from 'react-native-fast-image'
-// import { A } from '../../assests'
-
-// const Slider = ({lang , height , data , home}) => {
-
-//     const [activeIndex, setActiveIndex] = useState(0)
-//     const flatListRef = useRef()
-//     const windowWidth = Dimensions.get('window').width;
-//     const [loade , setLoade] = useState(false)
-
-
-//     const handaleScroll = (event) => {
-
-//         const scrollPosition = event?.nativeEvent?.contentOffset.x;
-//         const index = scrollPosition / windowWidth
-//         const  floatValue = Math?.ceil(index) 
-//         setActiveIndex(floatValue)
-
-//     }
-
-//     // useEffect(() => {
-//     //     let intervel = setInterval(() => {
-//     //         if (activeIndex === data?.length - 1) {
-//     //             flatListRef?.current?.scrollToIndex({
-//     //                 index: 0,
-//     //                 animation: true
-//     //             });
-//     //         } else {
-//     //             flatListRef?.current?.scrollToIndex({
-//     //                 index: activeIndex + 1,
-//     //                 animation: true
-//     //             });
-//     //         }
-//     //     }, 3000);
-
-//     //     return () => clearInterval(intervel)
-//     // });
-
-//     useEffect(() => {
-//         const interval = setInterval(() => {
-//             if (flatListRef.current) {
-//                 let nextIndex = activeIndex + 1;
-
-//                 // If reaching the end of the list, jump to the start
-//                 if (nextIndex === data?.length) {
-//                     nextIndex = 0;
-//                     flatListRef.current.scrollToOffset({ offset: 0, animated: false });
-//                 } else {
-//                     flatListRef.current.scrollToIndex({
-//                         index: nextIndex,
-//                         animated: true,
-//                     });
-//                 }
-
-//                 setActiveIndex(nextIndex);
-//             }
-//         }, 3000);
-
-//         return () => clearInterval(interval);
-//     }, [activeIndex]);
-
-//     const getIntemLayout = (data, index) => ({
-//         length: windowWidth,
-//         offset: windowWidth * index,
-//         index: index
-
-//     })
-
-//     return (
-//         <View style={[styles.mainView , height && {height:height}]}>
-//           { data?.length > 0 ?
-//            <FlatList
-//                 inverted ={lang?.data == NUMBER?.num0 ? true : false}
-//                 horizontal={true}
-//                 ref={flatListRef}
-//                 data={data}
-//                 keyboardDismissMode={(data , index)=> Math.random() * index}
-//                 showsHorizontalScrollIndicator={false}
-//                 getItemLayout={getIntemLayout}
-//                 pagingEnabled={true}
-//                 onScroll={handaleScroll}
-//                 renderItem={({ item , index}) => {
-//                     return (
-//                      <View key={index * 2} style={styles.listView}>
-//                              <FastImage
-//                                 // resizeMode='contain'
-//                                 // onLoadStart={()=>{setLoade(true)}}
-//                                 // onLoadEnd={()=>{setLoade(false)}}
-//                                 style={[styles?.image , home && {resizeMode:RESIZEMODE.stretch}]}
-//                                 source={(item?.image || item )? { uri: item?.image ? item?.image : item} : A}
-//                             />
-//                         </View> 
-//                     )
-//                 }}
-//             /> :
-//             home ? <View style={[styles.mainView , {backgroundColor:COLOR.gray}]}/>  :
-//              <View style={[styles.mainView ]}>
-//                 <Image style={{height:"100%" , width:"100%" , resizeMode:'cover'}} source={A}/>
-//             </View>
-//             }
-
-//         </View>
-
-//     )
-// }
-// export default Slider
-
-import { View, Image, FlatList, Dimensions } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import {
+    View,
+    FlatList,
+    Dimensions,
+    Image,
+    TouchableOpacity,
+} from 'react-native';
+import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 import { styles } from './silder.style';
-import { NUMBER } from '../../constants/constants';
 import { COLOR, RESIZEMODE } from '../../constants/style';
-import FastImage from 'react-native-fast-image';
 import { A } from '../../assests';
+import { NAVIGATION, NUMBER } from '../../constants/constants';
+import LottieView from 'lottie-react-native';
+import { ResponsiveSize } from '../../utils/utils';
+import ZOOMICON from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
-const Slider = ({ lang, height, data, home }) => {
+
+const Slider = ({ height, data, home, lang, lottie, setShowBingSider }) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [isZooming, setIsZooming] = useState(false);
     const flatListRef = useRef();
+    const [lottiOn, setLottiOn] = useState(true)
     const windowWidth = Dimensions.get('window').width;
+    const flatListRef2 = useRef();
+    const [targetIndex, setTargetIndex] = useState(0)
+    const navigation = useNavigation()
+    const isManualScroll = useRef(false)
+
+
 
     useEffect(() => {
-        if (data?.length === 0) return; // No data to scroll through
-
-        const interval = setInterval(() => {
-            if (flatListRef.current) {
-                let nextIndex = (activeIndex + 1) % data.length; // Wrap around to first item
-
-                if (nextIndex === 0) {
-                    // Scroll to the first item without animation
-                    flatListRef.current.scrollToOffset({ offset: 0, animated: false });
-                } else {
-                    flatListRef.current.scrollToIndex({
-                        index: nextIndex,
-                        animated: true,
-                    });
-                }
-
-                setActiveIndex(nextIndex);
-            }
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [activeIndex, data]);
+        if (flatListRef2.current && data.length > targetIndex) {
+            flatListRef2.current.scrollToIndex({ index: targetIndex, animated: true });
+        }
+    }, [targetIndex]);
 
     const handleScroll = (event) => {
+        if (isManualScroll.current) return;
+
         const scrollPosition = event?.nativeEvent?.contentOffset.x || 0;
-        const index = Math.floor(scrollPosition / windowWidth);
+        const index = Math.round(scrollPosition / windowWidth);
         setActiveIndex(index);
+
     };
 
     const getItemLayout = (data, index) => ({
@@ -159,42 +51,199 @@ const Slider = ({ lang, height, data, home }) => {
         index,
     });
 
-    const renderItem = ({ item }) => {
+
+    useEffect(() => {
+        if (data?.length === 0) return;
+        if (!isZooming) {
+            !isZooming && setActiveIndex(activeIndex)
+            const interval = setInterval(() => {
+                if (flatListRef.current) {
+                    let nextIndex = (activeIndex + 1) % data.length;
+
+                    if (nextIndex === 0) {
+                        flatListRef.current.scrollToOffset({ offset: 0, animated: false });
+                    } else {
+                        flatListRef.current.scrollToIndex({
+                            index: nextIndex,
+                            animated: true,
+                        });
+                    }
+                    setActiveIndex(nextIndex);
+                }
+            }, 3000);
+            return () => clearInterval(interval);
+        }
+    }, [activeIndex, data, isZooming]);
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLottiOn(false)
+        }, 6000);
+    }, [])
+
+
+    const renderItem = ({ item, index }) => {
         const imgURL = item?.image ? item?.image : item;
+
         return (
             <View style={styles.listView}>
-                <FastImage
-                resizeMode = {home ? RESIZEMODE.stretch  : RESIZEMODE.contain}
-                    style={[styles.image, home ? { resizeMode: RESIZEMODE.stretch } : { resizeMode: RESIZEMODE.contain }]}
+                <ImageZoom
+                    resizeMode={home ? RESIZEMODE.stretch : RESIZEMODE.contain}
+                    style={[
+                        styles.image,
+                        home
+                            ? { resizeMode: RESIZEMODE.stretch }
+                            : { resizeMode: RESIZEMODE.contain },
+                    ]}
                     source={imgURL ? { uri: imgURL } : A}
+                    enableResetZoom={false}
+                    minScale={1}
+                    maxScale={4}
+                    panEnabled={isZooming}
+                    onInteractionStart={() => setIsZooming(true)}
+                    onInteractionEnd={() => setIsZooming(false)}
+                    onResetAnimationEnd={() => setIsZooming(false)}
+                    onDoubleTap={() => setIsZooming(true)}
+                    isDoubleTapEnabled
                 />
+
+                {
+                    (!home && lottiOn && lottie) &&
+                    <LottieView
+                        source={require('../../assests/Lottianimation/doubaletap.json')}
+                        autoPlay loop
+                        resizeMode={RESIZEMODE.contain}
+                        style={{ height: ResponsiveSize(400), width: ResponsiveSize(300), left: ResponsiveSize(-90), position: 'absolute' }}
+                    />
+
+                }
+
             </View>
         );
     };
 
     return (
-        <View style={[styles.mainView, height && { height: height }]}>
-            {data?.length > 0 ? (
-                <FlatList
-                    inverted={lang?.data === NUMBER?.num0}
-                    horizontal={true}
-                    ref={flatListRef}
-                    data={data}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsHorizontalScrollIndicator={false}
-                    getItemLayout={getItemLayout}
-                    pagingEnabled={true}
-                    onScroll={handleScroll}
-                    renderItem={renderItem}
-                />
-            ) : home ? (
-                <View style={[styles.mainView, { backgroundColor: COLOR.gray }]} />
-            ) : (
-                <View style={[styles.mainView]}>
-                    <Image  style={{ height: '100%', width: '100%', resizeMode: 'cover' }} source={A} />
+        <>
+            <View style={[styles.mainView, height && { height }]}>
+                {data?.length > 0 ? (
+                    <FlatList
+                        inverted={lang?.data === NUMBER?.num0}
+                        horizontal={true}
+                        ref={home ? flatListRef : flatListRef2}
+                        // ref={flatListRef}
+                        data={data}
+                        keyExtractor={(item, index) => index.toString()}
+                        showsHorizontalScrollIndicator={false}
+                        getItemLayout={getItemLayout}
+                        pagingEnabled={true}
+                        onScroll={handleScroll}
+                        renderItem={renderItem}
+                    />
+                ) : home ? (
+                    <View
+                        style={[
+                            styles.mainView,
+                            { height: height || '100%', backgroundColor: COLOR.gray },
+                        ]}
+                    />
+                ) : (
+                    <View style={[styles.mainView]}>
+                        <Image
+                            style={{
+                                height: '100%',
+                                width: '100%',
+                                resizeMode: RESIZEMODE.cover,
+                            }}
+                            source={A}
+                        />
+                    </View>
+                )}
+                <View>
+                    {!home &&
+                        <View style={{
+                            height: ResponsiveSize(80),
+                            bottom: 0,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: lang?.data == NUMBER.num0 ? 'row-reverse' : 'row',
+                        }}>
+
+                            {(data?.length > 0 && !home) && data?.map((items, dindex) => {
+                                return (
+                                    <View style={{
+                                        height: ResponsiveSize(10),
+                                        width: ResponsiveSize(10),
+                                        backgroundColor: dindex == activeIndex ? COLOR.primaray : COLOR.darkGray,
+                                        borderRadius: ResponsiveSize(100),
+                                        marginHorizontal: ResponsiveSize(5)
+                                    }} />
+                                )
+                            })}
+
+                        </View>}
                 </View>
-            )}
-        </View>
+
+                {(!home && lottie) &&
+                    <View style={{ flexDirection: lang?.data == NUMBER.num0 ? 'row-reverse' : 'row' }}>
+                        {data?.length > 0 &&
+
+                            data?.map((items, pindex) => {
+                                return (
+                                    <TouchableOpacity style={{
+                                        height: ResponsiveSize(70),
+                                        width: ResponsiveSize(70),
+                                        borderRadius: ResponsiveSize(20),
+                                        borderWidth: 1,
+                                        borderColor: pindex == activeIndex ? COLOR.primaray : COLOR.darkGray,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginHorizontal: ResponsiveSize(5)
+                                    }}
+                                        onPress={() => {
+                                            setActiveIndex(pindex)
+                                            setTargetIndex(pindex)
+
+                                            isManualScroll.current = true
+                                            setTimeout(() => {
+                                                isManualScroll.current = false
+                                            }, 600);
+                                        }}
+                                    >
+                                        <Image style={{ height: "100%", width: "100%", resizeMode: 'cover', borderRadius: ResponsiveSize(20) }} source={{ uri: items }} />
+
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+
+                    </View>
+                }
+
+
+                {(!home && !lottie) &&
+                    <TouchableOpacity style={[{
+                        padding: ResponsiveSize(5),
+                        backgroundColor: COLOR.primaray,
+                        borderRadius: ResponsiveSize(20),
+                        position: 'absolute', bottom: ResponsiveSize(15), right: ResponsiveSize(15),
+
+                    }, lang?.data == NUMBER.num0 && {
+                        left: ResponsiveSize(15),
+                        height: ResponsiveSize(50),
+                        width: ResponsiveSize(50),
+                        alignItems: 'center',
+                        justifyContent: "center"
+                    }]}
+
+                        onPress={() => { navigation?.navigate(NAVIGATION.ProductZoom, { data: data }) }}
+                    >
+                        <ZOOMICON style={{}} name="zoom-out-map" size={ResponsiveSize(40)} color={COLOR.white} />
+                    </TouchableOpacity>}
+            </View>
+
+
+        </>
     );
 };
 

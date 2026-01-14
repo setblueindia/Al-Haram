@@ -1,11 +1,11 @@
-import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal } from 'react-native';
-import React from 'react';
+import { View, ScrollView, Image, RefreshControl, TouchableOpacity, Modal, Alert } from 'react-native';
+import React, { useEffect } from 'react';
 import { styles } from './home.style';
 import CustomeHeader from '../../components/CustomeHeader';
 import StoryView from '../../components/StoryView';
 import useHomeHook from './home.hook';
 import Slider from '../../components/Slider';
-import { Giftcard, banner2, whatsapp } from '../../assests';
+import { whatsapp } from '../../assests';
 import { ResponsiveSize } from '../../utils/utils';
 import CetegoriesBox from '../../components/CetegoriesBox';
 import ProductBox from '../../components/ProductBox';
@@ -14,10 +14,10 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { COLOR, RESIZEMODE } from '../../constants/style';
 import FastImage from 'react-native-fast-image';
 import CusModal from '../../components/CusModal';
-import GiftCart from '../Giftcart/GiftCart';
 import { NAVIGATION } from '../../constants/constants';
-
-
+import TermsPopup from '../../components/TermsPopup';
+import Maintenance from '../Maintenance/Maintenance';
+import messaging from '@react-native-firebase/messaging';
 const Home = (props) => {
   const {
     data,
@@ -26,24 +26,67 @@ const Home = (props) => {
     Sliderdata,
     navigation,
     CetegoriesData,
-    loder,
     isLoadding,
+    giftCart,
     showPop,
+    termsData,
     mes,
+    isMaintenance,
     setShowPop,
     CetegouriesList,
     ProductDetails,
     onRefresh,
     handleScroll,
-    setRefreshing,
     openPlayStore,
     refreshing,
     scrollViewRef,
     showScrollToTop,
     bannerUrl,
+    maintenanceData,
     scrollToTop,
-    openWhatsApp
+    openWhatsApp,
+    showTerms, setShowTerms
   } = useHomeHook(props)
+
+
+
+  // PUSH Notification 
+  useEffect(() => {
+    const unsubscribeOnMessage = messaging().onMessage(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+      }
+
+    });
+
+    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+        navigation?.navigate(NAVIGATION.NotificationScreen)
+      }
+    });
+
+    messaging().getInitialNotification().then(remoteMessage => {
+      if (remoteMessage) {
+        Alert.alert("Notification", remoteMessage.notification?.body);
+        navigation?.navigate(NAVIGATION.NotificationScreen)
+      }
+    });
+
+    return () => {
+      unsubscribeOnMessage();
+      unsubscribeOnNotificationOpenedApp();
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
 
   return (
     <View style={styles.mainView}>
@@ -57,32 +100,39 @@ const Home = (props) => {
               onRefresh={onRefresh}
               refreshing={refreshing} />
           }
+
           onRefresh={() => { CetegouriesList(), ProductDetails() }}
           style={styles.containerView}>
+
           <View style={styles.storyView}>
             <StoryView CetegoriesData={CetegoriesData} data={data} lang={lang} navigation={navigation} />
           </View>
 
-
           <View style={styles.bannerView2}>
-            <View style={styles.bannerImage}>
-              <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{uri : bannerUrl}} />
-            </View>
+            <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{
+              uri: bannerUrl
+            }} />
           </View>
 
           <View style={styles.siderView}>
             <Slider data={Sliderdata} lang={lang} home={true} />
           </View>
 
-          <View style={styles.giftcart}>
-            <TouchableOpacity
-            onPress={()=>{navigation.navigate(NAVIGATION.giftcard)}}
-            style={styles.giftcartView}>
-              <Image style={{height:"100%" , width:"100%" , resizeMode:'cover' ,  borderRadius:ResponsiveSize(20)}} source={Giftcard}/>
 
-            </TouchableOpacity>
+          {
+            giftCart &&
+            <View style={styles.giftcart}>
+              <TouchableOpacity
+                onPress={() => { navigation.navigate(NAVIGATION.giftcard, { giftCartID: giftCart?.id }) }}
+                style={styles.giftcartView}>
+                <FastImage resizeMode='cover' style={{ height: "100%", width: "100%", borderRadius: ResponsiveSize(20) }}
+                  source={{
+                    uri: giftCart?.image
+                  }} />
 
-          </View>
+              </TouchableOpacity>
+            </View>
+          }
 
           <View style={styles.categories}>
             {
@@ -98,7 +148,6 @@ const Home = (props) => {
             }
           </View>
 
-       
 
           {
             HomeScreeData?.map((items, index) => {
@@ -128,29 +177,47 @@ const Home = (props) => {
 
       <Modal
         transparent={true}
+        visible={showTerms}
+        animationType='slide'
+      >
+        <TermsPopup onPress={setShowTerms} termsData={termsData} />
+
+      </Modal>
+
+      <Modal
+        transparent={true}
         visible={showPop}
         animationType='slide'
       >
         <CusModal text={mes} setModalShow={setShowPop} notification={false} GETNotificationAPI={openPlayStore} />
       </Modal>
 
+      {/* Maintances popup  */}
+      <Modal
+        transparent={true}
+        visible={isMaintenance}
+        animationType='slide'
+
+      >
+        <Maintenance maintenanceData={maintenanceData} />
+      </Modal>
+
       <TouchableOpacity
-      onPress={()=>{openWhatsApp()}}
+        onPress={() => { openWhatsApp() }}
         style={{
           height: ResponsiveSize(80),
           width: ResponsiveSize(80),
           borderRadius: ResponsiveSize(100),
-          // backgroundColor: COLOR.black,
           position: 'absolute',
           bottom: ResponsiveSize(80),
           right: ResponsiveSize(40)
         }}
       >
         <Image style={{
-          height:"100%",
-          width:"100%",
-          resizeMode:'contain'
-        }} source={whatsapp}/>
+          height: "100%",
+          width: "100%",
+          resizeMode: RESIZEMODE.contain
+        }} source={whatsapp} />
 
       </TouchableOpacity>
 

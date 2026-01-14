@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { NAVIGATION, NUMBER } from '../../constants/constants'
@@ -23,6 +23,7 @@ const useCancelOrderHook = (props) => {
     const [selectList, setSelectLis] = useState(lang == NUMBER.num1 ? "Product Damaged" : "المنتج تالف")
     const [customResone, setCustomResone] = useState()
     const [isLoadding, setIsLoadding] = useState(false)
+    const [isAllSelect, setIsAllSelect] = useState(false)
 
 
     const resoneList = {
@@ -46,8 +47,8 @@ const useCancelOrderHook = (props) => {
         fromData.append("bss-radio", openProduct)
         fromData.append("bss-refund-reason", customResone)
         fromData.append("bss-refund-order-id", orderID)
-        fromData.append("store_id" , lang)
-        fromData.append("token" , token)
+        fromData.append("store_id", lang)
+        fromData.append("token", token)
         try {
             const rep = await postRefundOrder(fromData)
             SHOWTOTS(rep?.data?.message)
@@ -81,7 +82,8 @@ const useCancelOrderHook = (props) => {
         refundOrderFunction,
         setOpenProduct,
         setSelectLis,
-        setCustomResone
+        setCustomResone,
+        setIsAllSelect, isAllSelect
 
     }
 }

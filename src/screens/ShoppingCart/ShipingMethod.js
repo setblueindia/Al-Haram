@@ -1,9 +1,10 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
 import { EXTRASTR, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
+import SAR from '../../components/SAR/Index'
 
 const ShipingMethod = ({
     lang,
@@ -15,7 +16,7 @@ const ShipingMethod = ({
 }) => {
     const [selected, setSelected] = useState()
     const [on, setOn] = useState()
-    const [sIndex , setSindex] = useState()
+    const [sIndex, setSindex] = useState()
     const labale = lang == NUMBER.num0 ? Ar : En
 
     return (
@@ -23,11 +24,11 @@ const ShipingMethod = ({
             {/* <Text style={styles.headerText}>{labale?.ShippingMethods}</Text> */}
             <View style={styles.mainView}>
                 {
-                data?.length > 0 &&  data?.map((item, index) => {
+                    data?.length > 0 && data?.map((item, index) => {
                         return (
                             <View>
                                 <TouchableOpacity
-                                    onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" && selectShipping() }}
+                                    onPress={() => { setShippingdata(item), setSelected(index), setOn(item?.carrier_code), item?.carrier_code == "fmestorepickup" ? selectShipping() : setStorePickUpData("") }}
                                     key={index} style={[styles.litsView, selected == index && { backgroundColor: "#FFEEEE" }]} >
                                     <View style={[styles.firstView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                                         <View >
@@ -35,14 +36,38 @@ const ShipingMethod = ({
                                                 <View style={selected == index ? styles.fillCircalView2 : null} />
                                             </View>
                                         </View>
-                                        <View style={[styles.textView , {width:"100%"}]}>
-                                            <View style={[styles.hederTextView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
+                                        <View style={[styles.textView, { width: "100%" }]}>
+                                            <View style={[styles.hederTextView, lang == NUMBER.num0 && { marginLeft: ResponsiveSize(20) }]}>
                                                 <Text style={[styles.txet, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.carrier_title}</Text>
                                             </View>
                                             <Text style={[styles.desText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
                                                 {item?.method_title}
                                             </Text>
-                                            <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " " + item?.amount}</Text>
+
+
+
+                                            {/* <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{labale.SAR + " " + item?.amount}</Text> */}
+
+                                            {/* ADD IMG */}
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                justifyContent: lang == NUMBER.num0 ? 'flex-end' : 'flex-start'
+                                            }}>
+                                                <Image
+                                                    style={{ height: ResponsiveSize(20), width: ResponsiveSize(20), tintColor: COLOR.primaray }}
+                                                    source={
+                                                        require('../../assests/images/Common/SAR.png')} />
+                                                <View style={{ width: ResponsiveSize(5) }} />
+                                                <Text style={[styles.price, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.amount}</Text>
+                                            </View>
+
+                                            {/* <SAR price={item?.amount} normal={true} /> */}
+
+
+
+
+
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -150,7 +175,7 @@ const styles = StyleSheet.create({
         width: "100%",
         borderRadius: ResponsiveSize(100)
     },
-    fillCircalView2:{
+    fillCircalView2: {
         height: "100%",
         width: "100%",
         backgroundColor: COLOR.primaray,

@@ -1,28 +1,28 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
-import {ResponsiveSize} from '../../utils/utils';
-import {ALINE, COLOR, RESIZEMODE} from '../../constants/style';
+import { ResponsiveSize } from '../../utils/utils';
+import { ALINE, COLOR, RESIZEMODE } from '../../constants/style';
 import LottieView from 'lottie-react-native';
 import CustomeHeader from '../CustomeHeader';
 import CommanHeader from '../ComanHeader';
 import { useSelector } from 'react-redux';
 import { NUMBER } from '../../constants/constants';
 
-const DataIsNotFound = ({userData, text, navigation, header , color}) => {
+const DataIsNotFound = ({ userData, text, navigation, header, color }) => {
   const lang = useSelector(state => state.lang.data)
   return (
     <View style={styles.lottiMainView}>
-   { color &&  <View>
-      {header ? (
-        <CommanHeader navigation={navigation} />
-      ) : (
-        <CustomeHeader
-          search={true}
-          like={true}
-          shoppingcart={true}
-          userData={userData}
-        /> 
-      )}
+      {color && <View>
+        {header ? (
+          <CommanHeader navigation={navigation} />
+        ) : (
+          <CustomeHeader
+            search={true}
+            like={true}
+            shoppingcart={true}
+            userData={userData}
+          />
+        )}
       </View>}
       <View style={styles.lottiView}>
         <Image
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    backgroundColor:COLOR.white,
+    backgroundColor: COLOR.white,
   },
   lottiView: {
     flex: 1,
@@ -66,20 +66,20 @@ const styles = StyleSheet.create({
     alignItems: ALINE.center,
     // marginTop: ResponsiveSize(6),
     // backgroundColor:'red',
-    padding:ResponsiveSize(10)
+    padding: ResponsiveSize(10)
   },
   errorText: {
     color: '#6E6969',
     fontWeight: 'regular',
     textAlign: ALINE.center,
-    width:"100%"
+    width: "100%"
   },
   dataError: {
     color: '#990107',
     fontSize: ResponsiveSize(40),
     fontWeight: 'bold',
-    width:ResponsiveSize(400),
-    textAlign:ALINE.center
+    width: ResponsiveSize(400),
+    textAlign: ALINE.center
   },
   centeredText: {
     textAlign: ALINE.center,

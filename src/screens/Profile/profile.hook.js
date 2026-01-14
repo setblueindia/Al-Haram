@@ -1,53 +1,82 @@
-import { Linking, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { NAVIGATION, NUMBER, PROFILEStr } from '../../constants/constants';
-import { useNavigation } from '@react-navigation/native';
+import { Linking } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ASYNCSTORAGE, NAVIGATION, NUMBER } from '../../constants/constants';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ar, En } from '../../constants/localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addLangCode, updateLangCode } from '../../redux/Slices/LangSlices';
-import { ProductlistCount, getCetergourisList, getProductDetails } from '../../api/axios.api';
-import { addCetegoriesData } from '../../redux/Slices/CetegoriesList';
+import { DeleteAccountAPI, ExpireToken, ProductlistCount, getCount, oldAddressDeleted } from '../../api/axios.api';
 import { addProduct } from '../../redux/Slices/AddToCartSlice';
 import DeviceInfo from 'react-native-device-info';
 import { addUserData } from '../../redux/Slices/UserData.slice';
+import { SHOWTOTS } from '../../utils/utils';
+import { addNotificationCount } from '../../redux/Slices/AddNotificationCount';
 
 const useProfileHook = () => {
 
   const lang = useSelector(state => state.lang.data)
   const userData = useSelector(state => state?.userData)
+  const HomeScreen = useSelector(state => state?.HomeScreen)
   const loder = useSelector(state => state?.Categories?.loader)
-  const [isLoadding, setIsLoadding] = useState(false)
   const navigation = useNavigation();
-  const [selectedItems, setSelectedItems] = useState()
-  const [arabic, setArabic] = useState(lang == NUMBER.num0 ? true : false)
+  const isFoucs = useIsFocused()
   const dispatch = useDispatch();
   const version = DeviceInfo.getVersion()
-  const [modal , setModal] = useState(false)
-
-
+  const [modal, setModal] = useState(false)
+  const [shoeDelete, setShoewDelete] = useState(false)
   const PROFILEStr = lang == NUMBER.num0 ? Ar : En
-
   const email = userData?.data?.email
   const firstName = userData?.data?.firstname
   const lastName = userData?.data?.lastname
   const name = (firstName && lastName) ? firstName + " " + lastName : NUMBER.num0 == lang ? "حسابي" : "User"
-
   const valiTemp = userData?.data
+  const [isSponsor, setIsSponsor] = useState()
+
+
+  const getIsSponsor = () => {
+
+    userData?.data?.custom_attributes?.map((item) => {
+      if (item?.attribute_code == "is_sponsor") {
+        setIsSponsor(item?.value)
+      }
+    })
+
+  }
+
+
+
 
   const menuItems = [
-
-    { icon: 'hearto', text: PROFILEStr?.Wishlist },
-    { icon: 'wallet', text: PROFILEStr?.MyWallet },
-    { icon: 'shoppingcart', text: PROFILEStr?.MyOrder },
-    { icon: 'shoppingcart', text: PROFILEStr?.Sponser },
-    { icon: 'book', text: PROFILEStr?.AddressBook },
-    { icon: 'phone', text: PROFILEStr?.CustomerService },
-   { icon: valiTemp ?'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN },
-
+    { icon: 'hearto', text: PROFILEStr?.Wishlist, display: 1 },
+    { icon: 'wallet', text: PROFILEStr?.MyWallet, display: 1 },
+    { icon: 'gift', text: PROFILEStr?.giftCardBalcnce, display: 1 },
+    { icon: 'shoppingcart', text: PROFILEStr?.MyOrder, display: 1 },
+    isSponsor == "1" && { icon: 'shoppingcart', text: PROFILEStr?.Sponser, display: 1 },
+    { icon: 'book', text: PROFILEStr?.AddressBook, display: 1 },
+    { icon: 'phone', text: PROFILEStr?.CustomerService, display: 1 },
+    { icon: valiTemp ? 'logout' : "login", text: valiTemp ? PROFILEStr?.Notifications : PROFILEStr?.LOGIN, display: 1 },
+    valiTemp &&
+    { icon: "delete", text: PROFILEStr?.DeleteAccount, display: HomeScreen?.data?.gdpr }
   ];
+
+
+
+  useEffect(() => {
+    PoductCount();
+  }, [isFoucs]);
+
+  useEffect(() => {
+    getUnReadeNotifications()
+    oldAddressDetele()
+    getIsSponsor()
+  }, [userData?.data?.id])
+
+
+
+
+  {/* OnPress Logic*/ }
   const onPress = (item) => {
-    // console.log("item " , item)
     if (userData?.data) {
       if (item == PROFILEStr.Wishlist) {
         navigation.navigate(NAVIGATION.WhishListScreen)
@@ -61,6 +90,9 @@ const useProfileHook = () => {
       if (item == PROFILEStr.MyWallet) {
         navigation.navigate(NAVIGATION.Wallet)
       }
+      if (item == PROFILEStr.giftCardBalcnce) {
+        navigation.navigate(NAVIGATION.giftBalanceCheck)
+      }
       if (item == PROFILEStr.MyOrder) {
         navigation.navigate(NAVIGATION.MyOrderSscreen)
       }
@@ -68,177 +100,183 @@ const useProfileHook = () => {
         navigation.navigate(NAVIGATION.SponserScreen)
       }
       if (item == PROFILEStr.Notifications) {
-        if(item == PROFILEStr.LOGIN) {
+        if (item == PROFILEStr.LOGIN) {
           navigation.navigate(NAVIGATION.Login)
-        }else{
+        } else {
           setModal(true)
         }
-
       }
-
+      if (item == PROFILEStr.DeleteAccount) {
+        setShoewDelete(true)
+      }
     } else {
-      if(item !== PROFILEStr.Notifications){
-        navigation.navigate(NAVIGATION.Login)
+
+      if (item !== PROFILEStr.Notifications) {
+        if (item == PROFILEStr.giftCardBalcnce) {
+          navigation.navigate(NAVIGATION.giftBalanceCheck)
+        } else {
+          navigation.navigate(NAVIGATION.Login)
+        }
       }
-      // navigation.navigate(NAVIGATION.Login)
     }
   }
 
+  {/* Chnage Langues Logic*/ }
   const changeLungues = async () => {
     const num = lang == NUMBER.num0 ? NUMBER.num1 : lang == NUMBER.num1 ? NUMBER.num0 : NUMBER.num0;
 
     try {
       await AsyncStorage.setItem('Lang', num);
       dispatch(updateLangCode(num));
-      CetegouriesList(num)
-
+      // CetegouriesList(num)
     } catch (error) {
       console.log('UPDATE LANGUES ERROR :: ', error);
     }
   };
 
 
-  const CetegouriesList = async (num) => {
-    setIsLoadding(true)
-    const params = `
-    {
-      categoryList(filters: {ids: {in: ["2"]}}) {
-        children_count
-        children {
-          id
-          level
-          name
-          path
-          url_path
-          url_key
-          image
-          description
-          mobile_thumbnail
-          mobile_image
-          display_mode
-          children {
-            id
-            level
-            name
-            path
-            url_path
-            url_key
-            image
-            description
-            mobile_thumbnail
-            mobile_circle_thumbnail
-            mobile_image
-            children {
-                id
-                level
-                name
-                path
-                url_path
-                url_key
-                image
-                description
-                mobile_thumbnail
-                mobile_image
-            }
-          }
-        }
-      }
-    }
-    `
-    try {
-      const res = await getCetergourisList(params, num)
-      if (res?.status == '200') {
-        dispatch(addCetegoriesData(res?.data?.data?.categoryList[0]))
-        setIsLoadding(false)
-
-      }
-
-    } catch (error) {
-      console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
-      setIsLoadding(false)
-
-
-    }
-  }
-
+  {/* Product Count API*/ }
   const PoductCount = async () => {
-    const countData = `
-    query {
-      customerCart {
-        items {
-          quantity
-        }
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
       }
-    }
-    `
-    try {
-      if (userData?.data?.token) {
-        const result = await ProductlistCount(countData , lang)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ?  dispatch(addProduct(totalQuantity))  : dispatch(addProduct(0)) 
-      }else{
-        dispatch(addProduct(0)) 
+      `
+      try {
+
+        const result = await ProductlistCount(countData, lang)
+        dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+        // const arrOFItems = result?.data?.data?.customerCart?.items
+        // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
+        dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0)) 
+    } else {
+      console.log("::::::: QUOTE ID NOT FOUND :::::::")
     }
   }
 
-  const socialPress = (social) =>{
-    if(social == '1'){
+  {/* Social Media Press Logic */ }
+  const socialPress = (social) => {
+    if (social == '1') {
       const instagramURL = 'https://www.instagram.com/alharamksa/';
       Linking.openURL(instagramURL);
     }
-    if(social == '2'){
+    if (social == '2') {
       const instagramURL = 'https://www.facebook.com/alharamksa/';
       Linking.openURL(instagramURL);
     }
-    if(social == '3'){
+    if (social == '3') {
       const instagramURL = 'https://maroof.sa/businesses/';
       Linking.openURL(instagramURL);
     }
-    if(social == '4'){
+    if (social == '4') {
       const instagramURL = 'https://alharamstores.com/vat-document';
       Linking.openURL(instagramURL);
     }
-    if(social == '5'){
+    if (social == '5') {
       const instagramURL = 'https://alharamstores.com/e-commerce-authentication-certificate';
       Linking.openURL(instagramURL);
     }
   }
 
-  const singOut = async () =>{
-   const langNum = '2'
+
+  {/* Sing Out API */ }
+  const singOut = async () => {
+    const langNum = '2'
+    setTimeout(async () => {
+      console.log("Done::::::")
+      const tempTerms = "true"
+      await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
+    }, 3000);
     try {
-    await AsyncStorage.clear()
-    //  console.log("result :::" ,result )
-    dispatch(addUserData(undefined))
-    dispatch(addLangCode(langNum))
-    //  navigation.navigate(NAVIGATION.Login , {type : true})
-     navigation.navigate(NAVIGATION.Login)
+      await AsyncStorage.clear()
+      dispatch(addUserData(undefined))
+      dispatch(addLangCode(langNum))
+      dispatch(addNotificationCount(0))
+      dispatch(addProduct(0))
+      navigation.navigate(NAVIGATION.Login)
+
     } catch (error) {
-      console.log("SINGOUTE ERROR ::::::" , error)
+      console.log("SINGOUTE ERROR ::::::", error)
     }
   }
 
-  const handleInstagramPress = () => {
-    const instagramURL = 'https://www.instagram.com/alharamksa/';
-    Linking.openURL(instagramURL);
-  };
-  const handleFacebookPress = () => {
-    const facebookURL = 'https://www.facebook.com/alharamksa/';
-    Linking.openURL(facebookURL);
-  };
-  const handlechatPress = () => {
-    const businessesURL = 'https://maroof.sa/businesses/';
-    Linking.openURL(businessesURL);
-  };
 
-useEffect(()=>{
-  PoductCount()
-}, [])
+
+  {/* Delete Account API */ }
+  const deleteAccount = async () => {
+    const fromData = new FormData()
+    fromData.append("email", email)
+    fromData.append("customer_id", userData?.data?.id)
+    fromData.append("store_id", lang)
+    try {
+      const result = await DeleteAccountAPI(fromData, lang)
+      SHOWTOTS(result?.data?.message)
+      singOut()
+    } catch (error) {
+      console.log("Delete account error ::::: ", error)
+    }
+  }
+
+
+  {/* Unread Notification Count API */ }
+  const getUnReadeNotifications = async () => {
+    const qrry = `{
+      getUnReadNotificationCountByCustomerId(customer_id : ${userData?.data?.id}){
+          status 
+          count
+          message
+      }
+  } `
+    if (userData?.data?.id) {
+      try {
+        const result = await getCount(qrry, lang?.data)
+        if (result?.data?.data?.getUnReadNotificationCountByCustomerId?.status) {
+          dispatch(addNotificationCount(result?.data?.data?.getUnReadNotificationCountByCustomerId?.count))
+        }
+      } catch (error) {
+        console.log("GET NOTIFICATIONS COUNT :::::: ", error)
+      }
+    } else {
+      console.log("USER ID NOT FOUND ::::::: ")
+    }
+  }
+
+
+  {/* Address Remove API */ }
+  const oldAddressDetele = async () => {
+    const tempAddress = await AsyncStorage.getItem(ASYNCSTORAGE.oldAddress)
+    if (userData?.data?.id && tempAddress !== "true") {
+      const params = `
+      {
+        deleteOldAddress(customer_id : ${userData?.data?.id}){
+            status
+            message        
+        }
+    }
+      `
+      try {
+        const res = await oldAddressDeleted(params, lang?.data)
+        const tempAddress = "true"
+        await AsyncStorage.setItem(ASYNCSTORAGE.oldAddress, tempAddress)
+        console.log("message :", res?.data?.data?.deleteOldAddress?.message)
+      } catch (error) {
+        console.log(":::::::::: ADDRESS DELETE EROOR ::::::::::::::", error)
+      }
+    }
+  }
+
+
+
+
 
   return {
     menuItems,
@@ -247,23 +285,20 @@ useEffect(()=>{
     firstName,
     lastName,
     version,
-    setSelectedItems,
     changeLungues,
-    setArabic,
     navigation,
     onPress,
     navigation,
     name,
     userData,
     PROFILEStr,
-    arabic,
     loder,
-    isLoadding,
     socialPress,
     setModal,
     singOut,
-    modal
-
+    modal,
+    deleteAccount,
+    setShoewDelete, shoeDelete
   };
 };
 

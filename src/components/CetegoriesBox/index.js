@@ -1,4 +1,4 @@
-import {  ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
@@ -11,19 +11,25 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
 
     const lable = lang?.data == NUMBER.num1 ? En : Ar
     const data = items?.children
-    
+
     return (
         <View style={[styles.mainView, index % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }]}>
-            <View style={styles.bannerView}>
+            <TouchableOpacity
+                onPress={(() => {
+                    items?.display_mode == "PAGE" && navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id, titleName: items?.name })
+                })}
+                style={styles.bannerView}
+                activeOpacity={items?.display_mode !== "PAGE" ? 1 : 0.8}
+            >
                 <FastImage resizeMode={RESIZEMODE.contain} style={styles.bannerImg} source={{ uri: BASE_URL + items?.mobile_image }} />
-            </View>
+            </TouchableOpacity>
             <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={[styles.categoriesName , lang.data == NUMBER.num0 &&  {textAlign:'right'}]}>{items?.name}</Text>
+                <Text style={[styles.categoriesName, lang.data == NUMBER.num0 && { textAlign: 'right' }]}>{items?.name}</Text>
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate(NAVIGATION.bannerScreen, { cetegouriesId: items?.id })
                     }}>
-                   { items?.display_mode == "PAGE" &&<Text style={[styles.viewText , lang.data == NUMBER.num0 &&  { textAlign:'left'}]}>{lable.ViewAll}</Text>}
+                    {items?.display_mode == "PAGE" && <Text style={[styles.viewText, lang.data == NUMBER.num0 && { textAlign: 'left' }]}>{lable.ViewAll}</Text>}
                 </TouchableOpacity>
             </View>
 
@@ -35,26 +41,24 @@ const CetegoriesBox = ({ items, index, lang, navigation }) => {
                 lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
             >
                 {
-                 data?.map((sitems, index) => {
-                        const name = sitems?.name 
+                    data?.map((sitems, index) => {
+                        const name = sitems?.name
                         const finalName = name.substring(0, 10);
-                        const RoundImage = BASE_URL + sitems?.mobile_circle_thumbnail 
-
-                        // console.log(":::::" , sitems?.include_in_menu)
-                        
+                        const RoundImage = BASE_URL + sitems?.mobile_circle_thumbnail
                         return (
                             <>
-                             {  sitems?.include_in_menu == 1 && <TouchableOpacity
-                                    onPress={() => {
-                                        navigation.navigate(NAVIGATION.ProductScreen,
-                                            { cetegoriesId: sitems?.id})
-                                    }}
-                                    style={{ justifyContent: 'center', alignItems: 'center' }} >
-                                   {RoundImage && <View style={styles.innerCategoriesView}>
-                                        <FastImage style={styles.storyView} source={{ uri: RoundImage}} />
-                                    </View>}
-                                    <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{sitems?.name}</Text>
-                                </TouchableOpacity>}
+                                {sitems?.include_in_menu == 1 &&
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            navigation.navigate(NAVIGATION.ProductScreen,
+                                                { cetegoriesId: sitems?.id })
+                                        }}
+                                        style={{ justifyContent: 'center', alignItems: 'center' }} >
+                                        {RoundImage && <View style={styles.innerCategoriesView}>
+                                            <FastImage style={styles.storyView} source={{ uri: RoundImage }} />
+                                        </View>}
+                                        <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{sitems?.name}</Text>
+                                    </TouchableOpacity>}
 
                                 <View style={{ width: ResponsiveSize(30) }} />
                             </>
@@ -77,17 +81,17 @@ const styles = StyleSheet.create({
     },
     bannerView: {
         // height: ResponsiveSize(250),
-        marginTop:ResponsiveSize(30),
-        marginBottom:ResponsiveSize(20)
+        marginTop: ResponsiveSize(30),
+        marginBottom: ResponsiveSize(20)
         // backgroundColor:'red'
     },
     bannerImg: {
         height: ResponsiveSize(195),
         width: "100%",
         resizeMode: RESIZEMODE.contain,
-        borderRadius:ResponsiveSize(20),
+        borderRadius: ResponsiveSize(20),
         // backgroundColor:'red'
-        
+
     },
     textView: {
         flexDirection: ALINE.row,
@@ -99,12 +103,13 @@ const styles = StyleSheet.create({
         color: COLOR.black,
         fontSize: ResponsiveSize(25),
         fontWeight: FONTWEGHIT.font600,
-        width:ResponsiveSize(400)
+        width: ResponsiveSize(350),
     },
     viewText: {
         color: COLOR.primaray,
-       width:ResponsiveSize(100),
-       textAlign:'right'
+        width: ResponsiveSize(150),
+        textAlign: 'right',
+
     },
     subCategories: {
         flexDirection: ALINE.row,

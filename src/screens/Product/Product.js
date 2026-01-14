@@ -14,6 +14,7 @@ import CusLoader from '../../components/CustomLoader'
 import DataIsNotFound from '../../components/DataNotFound2'
 import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/dist/AntDesign';
+import SAR from '../../components/SAR/Index'
 
 
 const Product = (props) => {
@@ -37,6 +38,8 @@ const Product = (props) => {
         showScrollToTop,
         flatListRef,
         color,
+        totalpage,
+        currePage,
         likeDislike,
         likePress,
         setColor,
@@ -83,12 +86,14 @@ const Product = (props) => {
                             </View>
                         </View>
                         <View style={{ flex: 1, height: "100%", width: "100%" }}>
+
+                            {/* {console.log(data?)} */}
                             {data?.length > 0 ?
                                 <FlatList
                                     ref={flatListRef}
                                     data={data}
                                     showsVerticalScrollIndicator={false}
-                                    onEndReached={() => { data?.length > 0 && setProductData() }}
+                                    onEndReached={() => { totalpage > currePage && setProductData() }}
                                     numColumns={2}
                                     bounces={true}
                                     onScroll={handleScroll}
@@ -113,6 +118,9 @@ const Product = (props) => {
                                     }}
                                     renderItem={({ item, index }) => {
                                         const name = item?.name?.substring(0, 16)
+                                        const tempURL = item?.small_image?.url
+                                        const cleanedUrl = tempURL.replace(/\/cache\/[^\/]+\//, '/');
+
                                         return (
                                             <TouchableOpacity
                                                 onPress={() => {
@@ -120,12 +128,16 @@ const Product = (props) => {
                                                 }}
                                                 style={[styles.conntainer, data?.length == 1 && { width: ResponsiveSize(300) }]}>
                                                 <View style={styles.imageView}>
+
+
+
                                                     <FastImage
                                                         style={styles.image}
-                                                        source={{ uri: item?.small_image?.url }}
+                                                        source={{ uri: cleanedUrl }}
                                                         onLoadStart={() => { setImageLoader(true) }}
                                                         onLoadEnd={() => { setImageLoader(false) }}
                                                     />
+
                                                     {(imageLoader && !item?.small_image?.url) &&
                                                         <View style={{
                                                             height: "100%",
@@ -137,14 +149,58 @@ const Product = (props) => {
                                                         }}>
                                                             <ActivityIndicator size='small' color={COLOR.primaray} />
                                                         </View>}
+
+                                                    {(item?.display_sale_label == 1 || item?.display_new_label == 1) &&
+                                                        <View style={[styles.textImgView,
+                                                        { position: 'absolute' },
+                                                        item?.display_sale_label == 1 ? { right: ResponsiveSize(0) } : { left: ResponsiveSize(0) }]}>
+                                                            <FastImage style={{ height: "100%", width: "100%" }}
+                                                                source={lang == NUMBER.num1 ? {
+                                                                    uri: item?.display_sale_label == 1 ?
+                                                                        "https://alharamstores.com/media/magiccart/lookbook/s/p/special_offer_2.png" :
+                                                                        "https://alharamstores.com/media/magiccart/lookbook/n/e/new_en_offer.png"
+                                                                }
+                                                                    :
+                                                                    {
+                                                                        uri: item?.display_sale_label == 1 ?
+                                                                            "https://alharamstores.com/media/magiccart/lookbook/s/p/special_offer01.png" :
+                                                                            "https://alharamstores.com/media/magiccart/lookbook/n/e/new_ar_offer.png"
+                                                                    }
+                                                                } />
+                                                        </View>}
+
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            if (userData) {
+                                                                likePress(item?.id)
+                                                                likeDislike(item?.id, item?.wishlist)
+                                                            } else {
+                                                                navigation.navigate(NAVIGATION.Login)
+                                                            }
+                                                        }}
+                                                        style={styles.likeView}>
+                                                        <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(20)} color={COLOR.primaray} />
+                                                    </TouchableOpacity>
                                                 </View>
+
 
                                                 <View style={styles.textView}>
                                                     <Text style={[styles.productName, lang == NUMBER.num0 && { textAlign: 'right' }]}>{item?.name?.length > 16 ? name + "..." : item.name}</Text>
-                                                    <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price?.regularPrice?.amount?.value}</Text>
+                                                    {/* ADD IMG */}
+                                                    <SAR
+                                                        price={item?.price?.regularPrice?.amount?.value}
+                                                        normal={true}
+                                                        textAlign={{ justifyContent: lang == NUMBER.num1 ? 'flex-start' : 'flex-end' }}
+                                                    />
+
+                                                    {/* <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable?.SAR + " " + item?.price?.regularPrice?.amount?.value}</Text>  */}
                                                 </View>
 
-                                                <TouchableOpacity
+
+
+
+
+                                                {/* <TouchableOpacity
                                                     onPress={() => {
                                                         if (userData) {
                                                             likePress(item?.id)
@@ -154,8 +210,8 @@ const Product = (props) => {
                                                         }
                                                     }}
                                                     style={styles.likeView}>
-                                                    <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(25)} color={COLOR.primaray} />
-                                                </TouchableOpacity>
+                                                    <Filter name={item?.wishlist ? ICON.heart : ICON.hearto} size={ResponsiveSize(20)} color={COLOR.primaray} />
+                                                </TouchableOpacity> */}
                                             </TouchableOpacity>
                                         )
                                     }}
@@ -203,7 +259,6 @@ const Product = (props) => {
 
                 {showScrollToTop && (
                     <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
-                        {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
                         <Icon name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
                     </TouchableOpacity>
                 )}

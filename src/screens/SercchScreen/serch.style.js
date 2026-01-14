@@ -5,24 +5,24 @@ import { ALINE, COLOR, FONTWEGHIT } from "../../constants/style";
 export const styles = StyleSheet.create({
     mainView: {
         flex: 1,
-        backgroundColor:COLOR.white
+        backgroundColor: COLOR.white
     },
-    textInput:{
-       height:ResponsiveSize(80),
-       width:"100%",
-       backgroundColor:COLOR.white,
-       borderRadius:ResponsiveSize(100),
-       shadowColor: '#000',
-       shadowOffset: { width: 0, height: 1 },
-       shadowOpacity: 0.5,
-       shadowRadius: 2,
-       elevation: 10,
-       paddingHorizontal:ResponsiveSize(20),
-       color:COLOR.black
+    textInput: {
+        height: ResponsiveSize(80),
+        width: "100%",
+        backgroundColor: COLOR.white,
+        borderRadius: ResponsiveSize(100),
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 10,
+        paddingHorizontal: ResponsiveSize(20),
+        color: COLOR.black
     },
-    textInputView:{
-        paddingHorizontal:ResponsiveSize(20),
-        marginTop:ResponsiveSize(20)
+    textInputView: {
+        paddingHorizontal: ResponsiveSize(20),
+        marginTop: ResponsiveSize(20)
     },
     imageView: {
         height: ResponsiveSize(350),
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         resizeMode: 'contain',
-        borderRadius:ResponsiveSize(10)
+        borderRadius: ResponsiveSize(10)
     },
     textView: {
         margin: ResponsiveSize(10),
@@ -47,26 +47,27 @@ export const styles = StyleSheet.create({
     productName: {
         fontSize: ResponsiveSize(23),
         fontWeight: FONTWEGHIT.font400,
+        color: COLOR.black
 
     },
     priceText: {
         color: COLOR.primaray,
         fontWeight: FONTWEGHIT.font600
     },
-    likeView:{
-        height:ResponsiveSize(60),
-        width:ResponsiveSize(60),
-        borderRadius:ResponsiveSize(100),
-        position:'absolute',
-        top:ResponsiveSize(20),
-        right:ResponsiveSize(20),
-        borderWidth:ResponsiveSize(1),
-        borderColor:COLOR.gray,
+    likeView: {
+        height: ResponsiveSize(60),
+        width: ResponsiveSize(60),
+        borderRadius: ResponsiveSize(100),
+        position: 'absolute',
+        top: ResponsiveSize(20),
+        right: ResponsiveSize(20),
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.gray,
         // backgroundColor:COLOR.black,
-        justifyContent:ALINE.center,
-        alignItems:ALINE.center
+        justifyContent: ALINE.center,
+        alignItems: ALINE.center
     },
-    priveView:{
-        flexDirection:'row'
+    priveView: {
+        flexDirection: 'row'
     }
 })

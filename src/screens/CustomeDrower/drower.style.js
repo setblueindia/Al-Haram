@@ -9,24 +9,28 @@ export const styles = StyleSheet.create({
   containerView: {
     height: "100%",
     width: "100%",
-    backgroundColor: "#FFE9E9",
-    padding: ResponsiveSize(20),
+    backgroundColor: "#FAF6EE",
+    padding: ResponsiveSize(10),
   },
   row: {
     flexDirection: ALINE.row,
     flexWrap: 'wrap',
-    justifyContent: ALINE.spaceBetween,
     marginBottom: ResponsiveSize(10),
   },
   firstCeteImageView: {
     height: ResponsiveSize(250),
-    width: '33%',
+    width: '31%',
     borderRadius: ResponsiveSize(20),
+    backgroundColor: COLOR.white,
+    padding: ResponsiveSize(20),
+    marginRight: ResponsiveSize(1),
+    marginHorizontal: ResponsiveSize(10)
   },
   topImage: {
     height: "100%",
     width: "100%",
-    resizeMode: RESIZEMODE.contain
+    resizeMode: RESIZEMODE.contain,
+    marginTop: ResponsiveSize(20)
   },
   fullWidthView: {
     width: '100%',
@@ -65,15 +69,15 @@ export const styles = StyleSheet.create({
     color: COLOR.black
   },
   ceteGouriesText: {
-    color:COLOR.black,
-    position:'absolute',
-    fontSize:ResponsiveSize(16),
-    textAlign:ALINE.center,
-    alignSelf:ALINE.center,
-    color:COLOR.black,
-    marginTop:ResponsiveSize(10),
-    width:"80%",
-    fontWeight:'500'
-    
+    color: COLOR.black,
+    position: 'absolute',
+    fontSize: ResponsiveSize(15),
+    textAlign: ALINE.center,
+    alignSelf: ALINE.center,
+    color: COLOR.black,
+    width: "80%",
+    fontWeight: '500',
+    marginTop: ResponsiveSize(10)
+
   }
 });

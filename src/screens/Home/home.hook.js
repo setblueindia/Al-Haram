@@ -1,15 +1,29 @@
-import { Platform, Linking } from 'react-native'
+import { Platform, Linking, AppState } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ASYNCSTORAGE } from '../../constants/constants'
-import { useNavigation } from '@react-navigation/native'
-import { AppUpadateAPI, ExpireToken, ProductlistCount, Storetoken, getCetergourisList, getProductDetails } from '../../api/axios.api'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import {
+  AppUpadateAPI,
+  ExpireToken,
+  MaintencseAPI,
+  ProductlistCount,
+  Storetoken,
+  getCetergourisList,
+  getCount,
+  getProductDetails,
+  getTeramsAndConditionSatus,
+  oldAddressDeleted
+} from '../../api/axios.api'
 import { addCetegoriesData } from '../../redux/Slices/CetegoriesList'
 import { addHomeScreenData } from '../../redux/Slices/HomeScreenData'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addProduct } from '../../redux/Slices/AddToCartSlice'
 import DeviceInfo from 'react-native-device-info'
-import { SHOWTOTS } from '../../utils/utils'
+import { addNotificationCount } from '../../redux/Slices/AddNotificationCount'
+import { GetAppleAuthToken, SingOut } from '../../Hooks/UpdateEmail'
+import { addUserData } from '../../redux/Slices/UserData.slice'
+
 
 const useHomeHook = (props) => {
   const CetegoriesData = useSelector(state => state?.CetegoriesList?.data?.children)
@@ -26,47 +40,139 @@ const useHomeHook = (props) => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollViewRef = useRef(null);
   const [bannerUrl, setBannerUrl] = useState()
-
-  const version = DeviceInfo.getVersion()
+  const [giftCart, setGiftCart] = useState()
+  const [wpNumber, setWPNumber] = useState()
+  const [showTerms, setShowTerms] = useState(false)
+  const [termsData, setTermsdata] = useState()
   const [showPop, setShowPop] = useState(false)
   const [mes, setMes] = useState()
+  const [appState, setAppState] = useState(AppState.currentState);
+  const useFoucus = useIsFocused()
+  const version = DeviceInfo.getVersion()
+  // const version = "0.9"
+
+  const [isMaintenance, setMaintenance] = useState(false)
+  const [maintenanceData, setMaintenancedata] = useState('')
+
+
+  useEffect(() => {
+    // showMaintenance()
+    UpdateVersion();
+    const handleAppStateChange = (nextAppState) => {
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+        console.log('App has come to the foreground!');
+        UpdateVersion();
+        // showMaintenance()
+      }
+      setAppState(nextAppState);
+    };
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+      subscription.remove();
+    };
+  }, [appState]);
+
+  useEffect(() => {
+    SaveToken()
+    PoductCount()
+  }, [])
+
+  useEffect(() => {
+    TokenExpired()
+  }, [navigation])
+
+  useEffect(() => {
+    CetegouriesList()
+    ProductDetails()
+  }, [lang])
+
+  useEffect(() => {
+    getUnReadeNotifications()
+    tramsandconditions2()
+    tramsandconditions()
+    getTokenAuth()
+  }, [userData])
+
+
+  const getTokenAuth = async () => {
+    if (Platform.OS == "ios") {
+      if (userData?.id) {
+        const response = await GetAppleAuthToken(userData?.id)
+        if (response?.data?.data?.customerAuthTokenById?.success) {
+          const userEmailId = userData?.email
+          const authToken = response?.data?.data?.customerAuthTokenById?.auth_token
+          if (userEmailId.includes(authToken)) {
+            AsyncStorage.removeItem(ASYNCSTORAGE.Userdata)
+            dispatch(addUserData(undefined))
+          }
+        }
+      }
+    }
+  }
+
+
+  const showMaintenance = async () => {
+    const platfromType = Platform.OS == "ios" ? "ios" : "android"
+    const qurry = `
+    {
+      maintenanceApplication(device_version : "${version}", device_type : ${platfromType}){
+          status
+          title
+          message
+          visible_update_button
+      }
+  }
+    `
+    try {
+      const result = await MaintencseAPI(qurry, 1)
+      if (result?.data?.data?.maintenanceApplication?.status) {
+        setMaintenance(result?.data?.data?.maintenanceApplication?.status)
+        setMaintenancedata(result?.data?.data?.maintenanceApplication)
+      }
+    } catch (error) {
+      console.log("MAINTENANCE ERROR :::::: ", error)
+    }
+  }
+
+
 
   const UpdateVersion = async () => {
-
+    const type = Platform.OS == "ios" ? "ios" : "android"
     const data = `
-{
-  deviceVersionCheck(device_version : "${version}"){
-      status
-      message
-  }
-}
-`
+    {
+      deviceVersionCheck(device_version : "${version}" device_type : ${type}){
+        status
+        message
+    }
+   }
+     `
     try {
       const result = await AppUpadateAPI(data, lang?.data)
-      if (result?.data?.data?.deviceVersionCheck?.status) {
-        SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
-      } else {
+
+      if (result?.data?.data?.deviceVersionCheck?.status == false) {
         setShowPop(true)
-        setMes(result?.data?.data?.deviceVersionCheck?.message)
+        result?.data?.data?.deviceVersionCheck?.message && setMes(result?.data?.data?.deviceVersionCheck?.message)
       }
+
+      // if (result?.data?.data?.deviceVersionCheck?.status) {
+      //   // SHOWTOTS(result?.data?.data?.deviceVersionCheck?.message)
+      // } else {
+      //   setShowPop(true)
+      //   result?.data?.data?.deviceVersionCheck?.message && setMes(result?.data?.data?.deviceVersionCheck?.message)
+
+      // }
     } catch (error) {
       console.log("UpdateVersion ERROR :::::: ", error)
     }
   }
 
-
   const openPlayStore = () => {
-    const url = 'https://play.google.com/store/apps/details?id=com.example.app';
+    const url = Platform.OS ==
+      'ios' ? "https://apps.apple.com/in/app/alharamstores-%D8%A7%D9%84%D9%87%D8%B1%D9%85/id1562821620" :
+      'https://play.google.com/store/apps/details?id=com.v2ideas.alharam';
     Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
   };
-
-  useEffect(() => {
-    // UpdateVersion()
-  }, [])
-
-
-
-
 
   const CetegouriesList = async () => {
     // dispatch(updateLoader(true))
@@ -138,7 +244,7 @@ const useHomeHook = (props) => {
   }
 
   const ProductDetails = async () => {
-    // dispatch(updateLoader(true))
+    const tempAdress2 = await AsyncStorage.getItem(ASYNCSTORAGE.oldAddress)
     setIsLoadding(true)
     const params = `
     {
@@ -150,11 +256,16 @@ const useHomeHook = (props) => {
           whatapps_chat
           category_list_page_size
           wallet_checkout_enable
+          old_address_delete_enable
           top_banner
           banner_slider{
               image
               category_id
           }
+          gift_card{
+            image
+            id
+        }
           product_slider{
               title
               key
@@ -178,50 +289,71 @@ const useHomeHook = (props) => {
     try {
       const res = await getProductDetails(params, lang?.data)
       if (res?.status == '200') {
+        setWPNumber(res?.data?.data?.getHomePageData?.whatapps_chat)
         setBannerUrl(res?.data?.data?.getHomePageData?.top_banner)
+        setGiftCart(res?.data?.data?.getHomePageData?.gift_card)
         dispatch(addHomeScreenData(res?.data?.data?.getHomePageData))
+        if (res?.data?.data?.getHomePageData?.old_address_delete_enable == 1 && userData) {
+          if (tempAdress2 !== "true") {
+            oldAddressDetele()
+          }
+        }
         setIsLoadding(false)
       }
 
     } catch (error) {
       console.log("CETEGORIERS LIST ERROR ::::::::::::::: ", error)
       setIsLoadding(false)
-      // dispatch(updateLoader(false))
     }
   }
-  useEffect(() => {
-    SaveToken()
-  }, [])
+
+  const oldAddressDetele = async () => {
+    const params = `
+    {
+      deleteOldAddress(customer_id : ${userData?.id}){
+          status
+          message        
+      }
+  }
+    `
+    try {
+      const res = await oldAddressDeleted(params, lang?.data)
+      const tempAddress = "true"
+      await AsyncStorage.setItem(ASYNCSTORAGE.oldAddress, tempAddress)
+      console.log("message :", res?.data?.data?.deleteOldAddress?.message)
+    } catch (error) {
+      console.log(":::::::::: ADDRESS DELETE EROOR ::::::::::::::")
+    }
+  }
 
   const SaveToken = async () => {
     const token = await AsyncStorage.getItem(ASYNCSTORAGE.FCMToken)
-    if (token) {
-      const storyViewdata = `
-      mutation{
-        pushNotificationDeviceTokenSave(input:{
-           device_id: "${token}"
-           customer_id: ${userData?.id}
-           email: "${userData?.email}"
-           device_type: ${Platform.OS == "ios" ? "ios" : "android"}
-       }){
-           status
-           message
-       }
+    if (userData?.id) {
+      if (token) {
+        const storyViewdata = `
+        mutation{
+          pushNotificationDeviceTokenSave(input:{
+             device_id: "${token}"
+             customer_id: ${userData?.id}
+             email: "${userData?.email}"
+             device_type: ${Platform.OS == "ios" ? "ios" : "android"}
+         }){
+             status
+             message
+         }
+        }
+            `
+        try {
+          const resp = userData && await Storetoken(storyViewdata, lang?.data)
+        } catch (error) {
+          console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
+        }
       }
-          `
-      try {
-        const resp = userData && await Storetoken(storyViewdata, lang?.data)
-      } catch (error) {
-        console.log("SAVE TOKE ERROR :::::::::::::::: ", error)
-      }
+
+
     }
+
   }
-
-
-  useEffect(() => {
-    CetegouriesList()
-    ProductDetails()
-  }, [lang])
 
 
   const TokenExpired = async () => {
@@ -231,9 +363,6 @@ const useHomeHook = (props) => {
     }
   }
 
-  useEffect(() => {
-    TokenExpired()
-  }, [navigation])
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -261,37 +390,36 @@ const useHomeHook = (props) => {
   };
 
   const PoductCount = async () => {
-    const countData = `
-    query {
-      customerCart {
-        items {
-          quantity
-        }
+    const fromdata = new FormData()
+    const resultt = await ExpireToken(fromdata, lang)
+    if (resultt?.data) {
+      const countData = `
+      query {
+        getQuoteItemCount(quote_id: ${resultt?.data})
       }
-    }
-    `
-    try {
-      if (userData?.token) {
+      `
+      try {
+        // if (userData?.token) {
         const result = await ProductlistCount(countData, lang?.data)
-        const arrOFItems = result?.data?.data?.customerCart?.items
-        const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
-        totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
-      } else {
+        dispatch(addProduct(result?.data?.data?.getQuoteItemCount))
+        // const arrOFItems = result?.data?.data?.customerCart?.items
+        // const totalQuantity = arrOFItems?.length > 0 && arrOFItems?.reduce((sum, item) => sum + item.quantity, 0);
+        // totalQuantity > 0 ? dispatch(addProduct(totalQuantity)) : dispatch(addProduct(0))
+        // }
+        //  else {
+        //   dispatch(addProduct(0))
+        // }
+      } catch (error) {
+        console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
         dispatch(addProduct(0))
       }
-    } catch (error) {
-      console.log("GET PRODUCT LIST ERROR ::::::::::::: ", error)
-      dispatch(addProduct(0))
+
     }
+
   }
 
-  useEffect(() => {
-    PoductCount()
-  }, [])
-
   const openWhatsApp = () => {
-    // const phoneNumber = '8238155248';
-    const phoneNumber = '966920033093';
+    const phoneNumber = wpNumber;
     const url = "whatsapp://send?phone=" + phoneNumber + "&text=hi"
     Linking.openURL(url).catch((err) => openWhatsApp2());
   };
@@ -302,6 +430,102 @@ const useHomeHook = (props) => {
     const url = "https://wa.me//966920033093";
     Linking.openURL(url).catch((err) => console.error("Couldn't open WhatsApp", err));
   };
+
+
+  const getUnReadeNotifications = async () => {
+    const qrry = `{
+      getUnReadNotificationCountByCustomerId(customer_id : ${userData?.id}){
+          status 
+          count
+          message
+      }
+  } `
+    if (userData?.id) {
+      try {
+        const result = await getCount(qrry, lang?.data)
+        if (result?.data?.data?.getUnReadNotificationCountByCustomerId?.status) {
+          dispatch(addNotificationCount(result?.data?.data?.getUnReadNotificationCountByCustomerId?.count))
+
+        }
+      } catch (error) {
+        console.log("GET NOTIFICATIONS COUNT :::::: ", error)
+      }
+    } else {
+      console.log("USER ID NOT FOUND ::::::: ")
+    }
+  }
+
+
+  const tramsandconditions = async () => {
+    const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
+    if (termsSatus !== "true") {
+      const query = `
+        {
+            updatePrivacyAgree(customer_id : ${userData?.id ? userData?.id : 0}){
+              status
+              message
+              title_text
+              button_text
+              popup_message
+              redirect_url
+            }
+        }
+        `
+      try {
+        const result = await getTeramsAndConditionSatus(query, lang?.data)
+
+        if (result?.data?.data?.updatePrivacyAgree?.status) {
+          const tempTerms = "true"
+          await AsyncStorage.setItem(ASYNCSTORAGE.Terms, tempTerms)
+          setTermsdata(result?.data?.data?.updatePrivacyAgree)
+          setShowTerms(true)
+        }
+      } catch (error) {
+        console.log("TERMS AND CONDITIONS ERROR ::::::: ", error)
+      }
+
+    }
+
+  }
+
+  const tramsandconditions2 = async () => {
+    const termsSatus = await AsyncStorage.getItem(ASYNCSTORAGE.Terms)
+    const conditions = await AsyncStorage.getItem(ASYNCSTORAGE.conditions)
+
+    if (termsSatus == "true" && userData && conditions !== "true") {
+      const query = `
+      {
+          updatePrivacyAgree(customer_id : ${userData?.id ? userData?.id : 0}){
+            status
+            message
+            title_text
+            button_text
+            popup_message
+            redirect_url
+          }
+      }
+      `
+      try {
+        const result = await getTeramsAndConditionSatus(query, lang?.data)
+        if (result?.data?.data?.updatePrivacyAgree?.status) {
+          const cond = "true"
+          await AsyncStorage.setItem(ASYNCSTORAGE.conditions, cond)
+        } else {
+          const cond = "true"
+          await AsyncStorage.setItem(ASYNCSTORAGE.conditions, cond)
+        }
+
+      } catch (error) {
+        console.log("TERMS AND CONDITIONS ERROR ::::::: ", error)
+      }
+
+    }
+
+
+  }
+
+
+
 
 
   return {
@@ -323,10 +547,16 @@ const useHomeHook = (props) => {
     showPop,
     mes,
     bannerUrl,
+    giftCart,
     setShowPop,
     scrollToTop,
     openPlayStore,
-    openWhatsApp
+    openWhatsApp,
+    showTerms, setShowTerms,
+    termsData,
+    isMaintenance,
+    maintenanceData
+
   }
 }
 

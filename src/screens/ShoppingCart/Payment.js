@@ -1,20 +1,36 @@
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native'
+import React,
+{
+  useEffect,
+  useState
+} from 'react'
 import { ResponsiveSize } from '../../utils/utils'
-import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style'
+import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
-import Icon from 'react-native-vector-icons/FontAwesome';
 import CheackButton from '../../components/CheackButton'
 import MinusIcon from 'react-native-vector-icons/AntDesign';
 import { Ar, En } from '../../constants/localization'
-import { setPaymentMethod } from '../../api/axios.api'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import SAR from '../../components/SAR/Index'
+import { SARICON, Scanner } from '../../assests'
+import BarcodeScanner from '../../components/BarcodeScanner'
 
 const Payment = ({
   data,
   lang,
-  // showWallet,
-  // setShowWallet,
+  type,
+  applyGiftCart,
+  giftCardList,
+  setGiftCardCode,
+  giftCardCode,
   paymentScreenData,
   wallateAmount,
   selectPayment,
@@ -28,12 +44,24 @@ const Payment = ({
   remove,
   setSelectPayemrntMethod,
   coupanCode,
-  setWalletAmount
+  setWalletAmount,
+  setGiftCardList,
+  setGiftCartDis,
+  getGiftCartdSatus,
+  setGiftSatus,
+  giftSatus,
+  setTempWalletcheck
 }) => {
+
   const [showWallet, setShowWallet] = useState(false)
   const [COD, setCOD] = useState(false)
   const [credit, setCredit] = useState(false)
   const [totalAmount, setTotalAmount] = useState([])
+  const [shoeGiftCard, setShowGitfCard] = useState(false)
+  const [openScanner, setOpenScanner] = useState(false)
+
+
+
   let txtData = selectPayment?.total_segments ? selectPayment?.total_segments : paymentScreenData?.total_segments
   const dueAmount = totalAmount?.length > 0 && wallateAmount > totalAmount[0] ? 0 : totalAmount[0] - wallateAmount
   const RemingAmount = wallateAmount > totalAmount[0] ? wallateAmount - totalAmount[0] : 0
@@ -47,12 +75,24 @@ const Payment = ({
         const aa = parseInt(items?.value)
         temp.push(aa)
       }
+
+      if (items?.code == "amgiftcard") {
+        const aa = items?.title?.split(",").map(item => item.trim());
+        const tempVAL = items?.value
+        const val = parseInt(tempVAL)
+        setGiftCartDis(val ? val : 0)
+        setGiftCardList(aa)
+      } else {
+        setGiftCardList([])
+        setGiftCartDis(0)
+      }
     })
     setTotalAmount(temp)
     setEtrx(temp)
   }
 
   const walletPress = async () => {
+    setGiftSatus()
     selectPaymentMethod("walletsystem")
     setSelectPayemrntMethod("walletsystem")
     setCOD(false)
@@ -62,26 +102,362 @@ const Payment = ({
     finalAmount()
   }, [txtData])
 
+  const demo = () => {
+    // SHOWTOTS("First Remove gift giftcard")
+  }
+
+
+  const tempSetPrevalue = (val) => {
+    setTempWalletcheck(val)
+  }
+
+
   return (
     <KeyboardAwareScrollView style={{ flex: 1 }}>
       <View style={styles.mainView}>
-        <View style={styles.delevryView}>
-          <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.label}</Text>
-          <Text numberOfLines={2} style={[styles.delevrydateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{paymentScreenData?.dispatch_note?.date}</Text>
-        </View>
+
+        {paymentScreenData?.dispatch_note &&
+          <View style={styles.delevryView}>
+            <Text
+              numberOfLines={2}
+              style={[
+                styles.delevrydateText,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right
+                }
+              ]}>
+              {paymentScreenData?.dispatch_note?.label}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={[
+                styles.delevrydateText,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right
+                }
+              ]}>
+              {paymentScreenData?.dispatch_note?.date}
+            </Text>
+          </View>
+        }
+
+        {/* Payment by giftcard */}
+        {
+          type !== "amgiftcard" &&
+          <TouchableOpacity
+            disabled
+            style={[
+              styles.walletView,
+              lang == NUMBER.num0 && {
+                flexDirection: ALINE.rowreverse
+              }
+            ]}>
+
+            <CheackButton
+              preVriable={giftCardList?.length > 0 ? true : shoeGiftCard}
+              onPress={giftCardList?.length > 0 ? demo : setShowGitfCard}
+            />
+            <Text
+              style={[
+                styles.walletText,
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(20)
+                }
+              ]}>
+              {lable?.Paymentbygiftcardorvoucher}
+            </Text>
+          </TouchableOpacity>
+        }
+
+
+        {(type !== "amgiftcard" && shoeGiftCard || giftCardList.length > 0) &&
+
+          <View style={styles?.giftCartdMainView}>
+            <View
+              style={{
+                width: "100%"
+              }}>
+
+              {giftCardList.length > 0 &&
+                giftCardList?.map((item, index) => {
+                  return (
+                    <View key={index}
+                      style={[
+                        styles.coupnView,
+                        lang == NUMBER.num0 && {
+                          flexDirection: ALINE.rowreverse
+                        }
+                      ]}>
+
+                      {
+                        lang == NUMBER.num0 ?
+                          <Text
+                            style={{
+                              color: COLOR.black,
+                              fontSize: ResponsiveSize(18)
+                            }}>
+                            {item + " (بطاقات الهدايا)"}
+                          </Text>
+                          :
+                          <Text style={{
+                            color: COLOR.black,
+                            fontSize: ResponsiveSize(18)
+                          }}>
+                            {item + " (Gift Card)"}
+                          </Text>
+                      }
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          applyGiftCart(0, item)
+                          setCOD(false)
+                          setCredit(false)
+                          setShowWallet(false)
+                          setTempWalletcheck(false)
+                          setSelectPayemrntMethod()
+                          setGiftSatus()
+                        }}
+                        style={styles.CLRemoveBTN}>
+                        <Text
+                          style={{
+                            fontSize: ResponsiveSize(20),
+                            color: COLOR.primaray
+                          }}
+                        >
+                          {lable?.Remove}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                })}
+            </View>
+
+
+
+
+            <View>
+              <View
+                style={[
+                  styles.GiftCardScanner,
+                  lang == NUMBER.num0 && {
+                    flexDirection: ALINE.rowreverse
+                  }
+                ]}>
+
+                <TextInput
+                  placeholder={
+                    lable?.Enterthegiftcardnumberorscanthevouchercode
+                  }
+                  style={{
+                    width: "90%",
+                    fontSize: giftCardCode?.length > 0 ? ResponsiveSize(20) : ResponsiveSize(16),
+                  }}
+                  placeholderTextColor={COLOR.darkGray}
+                  textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
+                  onChangeText={text => {
+                    setGiftCardCode(text)
+                  }}
+                  value={giftCardCode ? giftCardCode : ""}
+                />
+
+                <TouchableOpacity
+                  style={{
+                    width: "10%",
+                    // backgroundColor: "red",
+                    alignItems: 'center'
+                  }}
+                  onPress={() => {
+                    setOpenScanner(true)
+                  }}
+                >
+                  <Image
+                    style={styles.GiftCardImg}
+                    source={Scanner}
+                  />
+                </TouchableOpacity>
+
+              </View>
+
+
+
+              <View style={[
+                styles.GIFTBtn,
+                lang == NUMBER.num0 && {
+                  flexDirection: ALINE.rowreverse
+                }
+              ]}>
+                <TouchableOpacity
+                  onPress={() => {
+                    getGiftCartdSatus()
+                  }}
+                  style={styles.ChwckStausBTN}>
+
+                  <Text
+                    style={styles.btnText}>
+                    {lable?.CheckStatus}
+                  </Text>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    applyGiftCart(1)
+                    setCOD(false)
+                    setCredit(false)
+                    setShowWallet(false)
+                    setTempWalletcheck(false)
+                    setSelectPayemrntMethod()
+                    setGiftSatus()
+                    validation(false, "Cradite", WAmount)
+                  }}
+                  style={styles.GIFTApplyBTN}>
+                  <Text style={styles.btnText}>{lable?.APPLY}</Text>
+                </TouchableOpacity>
+
+              </View>
+
+
+
+            </View>
+
+            {giftSatus?.data &&
+              <View style={{
+                height: "100%",
+                marginBottom: ResponsiveSize(10)
+              }}>
+                {giftSatus?.data?.balance &&
+                  <View
+                    style={[
+                      styles.giftCardSatusView,
+                      lang == NUMBER.num0 && {
+                        flexDirection: ALINE.rowreverse
+                      }
+                    ]}>
+                    <Text
+                      style={{
+                        color: COLOR.black,
+                        fontSize: ResponsiveSize(18)
+                      }}>
+                      {lang == NUMBER.num1 ? "Current Balance : " : "الرصيد الحالي : "}
+                    </Text>
+                    <Text
+                      style={styles.giftSatusANS}>
+                      {giftSatus?.data?.balance}
+                    </Text>
+                  </View>}
+
+                {
+                  giftSatus?.data?.code &&
+                  <View style={[
+                    styles.giftCardSatusView,
+                    lang == NUMBER.num0 && {
+                      flexDirection: ALINE.rowreverse
+                    }
+                  ]}>
+                    <Text style={{
+                      color: COLOR.black,
+                      fontSize: ResponsiveSize(18)
+                    }}>
+                      {lang == NUMBER.num1 ? "Code : " : "رمز البطاقة : "}
+                    </Text>
+
+                    <Text
+                      style={styles.giftSatusANS}>
+                      {giftSatus?.data?.code}
+                    </Text>
+
+                  </View>
+                }
+
+                {
+                  giftSatus?.data?.expiredDate &&
+                  <View
+                    style={[
+                      styles.giftCardSatusView,
+                      lang == NUMBER.num0 && {
+                        flexDirection: ALINE.rowreverse
+                      }]}>
+
+                    <Text
+                      style={{
+                        color: COLOR.black,
+                        fontSize: ResponsiveSize(18)
+                      }}>
+                      {lang == NUMBER.num1 ? "Valid Till : " : "صالحة حتى : "}
+                    </Text>
+
+                    <Text
+                      style={styles.giftSatusANS}>
+                      {giftSatus?.data?.expiredDate}
+                    </Text>
+                  </View>
+                }
+
+                {
+                  giftSatus?.data?.status &&
+                  <View
+                    style={[
+                      styles.giftCardSatusView,
+                      lang == NUMBER.num0 && {
+                        flexDirection: ALINE.rowreverse
+                      }
+                    ]}>
+
+                    <Text style={{
+                      color: COLOR.black,
+                      fontSize: ResponsiveSize(18)
+                    }}>
+                      {lang == NUMBER.num1 ? "Status : " : "الحالة : "}
+                    </Text>
+
+                    <Text
+                      style={styles.giftSatusANS}>
+                      {giftSatus?.data?.status}
+                    </Text>
+                  </View>
+                }
+
+              </View>
+            }
+
+          </View>
+        }
+
+
+
+
+
 
         <View style={styles.paymentView}>
-          <Text style={[styles.palymentopationText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.PaymentOptions}</Text>
+          {
+            (giftCardList.length < 0 || totalAmount[0] > 0) &&
+            <Text style={[
+              styles.palymentopationText,
+              lang == NUMBER.num0 && {
+                textAlign: EXTRASTR.right
+              }
+            ]}>
+              {data?.PaymentOptions}
+            </Text>
+          }
 
-          {wallateAmount > 0 &&
+          {((wallateAmount > 0 && type !== "amgiftcard") && (giftCardList.length < 0 || totalAmount[0] > 0)) &&
             <TouchableOpacity
               onPress={() => {
+                showWallet ? setTempWalletcheck(false) : setTempWalletcheck(true)
                 showWallet ? setShowWallet(false) : setShowWallet(true)
-                showWallet ? validation(false , "walletsystem" , WAmount) : validation(true , "walletsystem" , WAmount)
+                showWallet ? validation(false, "walletsystem", WAmount) : validation(true, "walletsystem", WAmount)
                 walletPress()
               }}
-              style={[styles.walletView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+              style={[
+                styles.walletView,
+                lang == NUMBER.num0 && {
+                  flexDirection: ALINE.rowreverse
+                }
+              ]}
+            >
               <CheackButton
+                setTempWalletcheck={tempSetPrevalue}
                 WAmount={WAmount}
                 setWalletAmount={setWalletAmount}
                 validation={validation}
@@ -90,176 +466,570 @@ const Payment = ({
                 onPress2={selectPaymentMethod}
                 onPress3={setSelectPayemrntMethod}
                 setCOD={setCOD}
-                setCredit={setCredit} />
-              <Text style={[styles.walletText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>{lable?.PaymentByYourWallet}</Text>
-            </TouchableOpacity>}
+                setCredit={setCredit}
+              />
+
+              <Text style={[
+                styles.walletText,
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(20)
+                }
+              ]}>
+                {lable?.PaymentByYourWallet}
+              </Text>
+            </TouchableOpacity>
+          }
+
           {
             showWallet &&
             <View style={styles.wallateDeatails}>
-              <View style={[styles.containerView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+              <View style={[
+                styles.containerView,
+                lang == NUMBER.num0 && {
+                  flexDirection: ALINE.rowreverse
+                }
+              ]}>
 
                 <View style={styles.container}>
-                  <Text style={styles.containerText}>{lable?.PaymentToBeMade}</Text>
+                  <Text
+                    style={styles.containerText}>
+                    {lable?.PaymentToBeMade}
+                  </Text>
+
                   <View style={styles.priceView}>
-                    <Text style={styles.priceText}>{lable.SAR + " " + totalAmount}</Text>
+                    <SAR
+                      price={totalAmount}
+                      imgSize={ResponsiveSize(18)}
+                      normal={true}
+                      tintColor={COLOR.white}
+                      texSize={ResponsiveSize(20)}
+                    />
+
                   </View>
                 </View>
                 <View style={styles.barView}>
                   <View style={styles.walletLineView}>
                     <View style={styles.roundView}>
-                      <MinusIcon name={ICON.minus} size={ResponsiveSize(20)} color={COLOR.black} />
+                      <MinusIcon
+                        name={ICON.minus}
+                        size={ResponsiveSize(20)}
+                        color={COLOR.black} />
                     </View>
                   </View>
                 </View>
 
                 <View style={styles.container}>
-                  <Text style={styles.containerText}>{lable?.AmountinYourWallet}</Text>
+                  <Text
+                    style={styles.containerText}>
+                    {lable?.AmountinYourWallet}
+                  </Text>
+
                   <View style={styles.priceView}>
-                    <Text style={styles.priceText}>{lable.SAR + " " + wallateAmount}</Text>
+                    <SAR
+                      price={wallateAmount}
+                      imgSize={ResponsiveSize(18)}
+                      normal={true}
+                      tintColor={COLOR.white}
+                      texSize={ResponsiveSize(20)}
+                    />
+
                   </View>
+
                 </View>
                 <View style={styles.barView}>
                   <View style={styles.walletLineView}>
                     <View style={styles.roundView}>
-                      <MinusIcon name={ICON.plus} size={ResponsiveSize(20)} color={COLOR.black} />
+                      <MinusIcon
+                        name={ICON.plus}
+                        size={ResponsiveSize(20)}
+                        color={COLOR.black}
+                      />
                     </View>
                   </View>
                 </View>
 
                 <View style={styles.container}>
-                  <Text style={styles.containerText}>{lable?.Leftamounttobepaid}</Text>
+                  <Text
+                    style={styles.containerText}>
+                    {lable?.Leftamounttobepaid}
+                  </Text>
+
                   <View style={styles.priceView}>
-                    <Text style={styles.priceText}>{lable.SAR + " " + dueAmount && dueAmount}</Text>
+
+                    <View style={{
+                      alignItems: ALINE.center,
+                      flexDirection: ALINE.row
+                    }}>
+                      <Image
+                        style={{
+                          height: ResponsiveSize(18),
+                          width: ResponsiveSize(18),
+                          tintColor: COLOR.white
+                        }}
+                        source={SARICON}
+                      />
+                      <View style={{ width: ResponsiveSize(10) }} />
+
+                      <Text
+                        style={styles.priceText}>
+                        {dueAmount && dueAmount}
+                      </Text>
+
+                    </View>
+
                   </View>
                 </View>
               </View>
-              <Text style={styles.lastTexrt}>{lable.RemainingWalletAmount + " :" + lable?.SAR + " " + RemingAmount}</Text>
 
+
+              <View style={[
+                {
+                  flexDirection: ALINE.row,
+                  alignItems: ALINE.center,
+                  justifyContent: ALINE.center
+                },
+                lang == NUMBER.num0 && {
+                  flexDirection: ALINE.rowreverse
+                }
+              ]}>
+                <Text
+                  style={styles.lastTexrt}>
+                  {lable.RemainingWalletAmount + " :"}
+                </Text>
+
+                <View style={{ width: ResponsiveSize(5) }} />
+
+                <View style={{
+                  alignItems: ALINE.center,
+                  flexDirection: ALINE.row,
+                  marginBottom: ResponsiveSize(20)
+                }}>
+                  <Image
+                    style={{
+                      height: ResponsiveSize(20),
+                      width: ResponsiveSize(20),
+                      tintColor: COLOR.primaray
+                    }}
+                    source={SARICON}
+                  />
+
+                  <View style={{ width: ResponsiveSize(5) }} />
+
+                  <Text style={[
+                    styles.priceText,
+                    { color: COLOR.primaray }]}>
+                    {RemingAmount && RemingAmount}
+                  </Text>
+
+                </View>
+              </View>
             </View>
           }
 
-          {/* {console.log("::::::::" , {showWallet : wallateAmount , wallateAmount : wallateAmount , totalAmount : totalAmount[0]} )} */}
-
           {
-            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet)) &&
+            ((showWallet && wallateAmount < totalAmount[0]) || (!showWallet) && (type !== "amgiftcard") && (giftCardList.length < 0 || totalAmount[0] > 0)) &&
             <View>
               <TouchableOpacity
                 onPress={() => {
                   setCOD(true)
                   setCredit(false)
-                  validation(true , "COD" ,  WAmount)
+                  validation(true, "COD", WAmount)
                   setSelectPayemrntMethod("COD")
                   selectPaymentMethod(paymentScreenData?.payment_methods[0]?.code)
+                  setGiftSatus()
+
                 }}
-                style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <View style={[styles.fillView, COD &&
-                {
-                  backgroundColor: COLOR.primaray,
-                  borderColor: COLOR.primaray,
-                }]}>
+                style={[
+                  styles.CODView,
+                  lang == NUMBER.num0 && {
+                    flexDirection: ALINE.rowreverse
+                  }
+                ]}
+              >
+
+                <View
+                  style={[styles.fillView,
+                  COD &&
+                  {
+                    backgroundColor: COLOR.primaray,
+                    borderColor: COLOR.primaray,
+                  }
+                  ]}>
 
                 </View>
-                <Text style={[styles.text, COD && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[0]?.title}</Text>
+                {paymentScreenData?.payment_methods &&
+                  <Text
+                    style={[styles.text,
+                    COD && { color: COLOR.primaray },
+                    lang == NUMBER.num0 && {
+                      marginRight: ResponsiveSize(10),
+                      textAlign: EXTRASTR.right
+                    }
+                    ]}>
+                    {paymentScreenData?.payment_methods[0]?.title}
+                  </Text>
+                }
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => {
                   setCOD(false)
                   setCredit(true)
-                  validation(true , "Cradite" , WAmount)
+                  validation(true, "Cradite", WAmount)
                   selectPaymentMethod(paymentScreenData?.payment_methods[1]?.code)
                   setSelectPayemrntMethod("Cradite")
+                  setGiftSatus()
+
                 }}
-                style={[styles.CODView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                style={[
+                  styles.CODView,
+                  lang == NUMBER.num0 && {
+                    flexDirection: ALINE.rowreverse
+                  }
+                ]}>
                 <View style={[styles.fillView, credit &&
                 {
                   backgroundColor: COLOR.primaray,
                   borderColor: COLOR.primaray,
-                }]}></View>
-                <Text style={[styles.text, credit && { color: COLOR.primaray }, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{paymentScreenData?.payment_methods[1]?.title}</Text>
-              </TouchableOpacity>
-            </View>}
+                }]}>
 
-          <View style={styles.lineView} />
+                </View>
+                {paymentScreenData?.payment_methods &&
+                  <Text style={[
+                    styles.text,
+                    credit && { color: COLOR.primaray },
+                    lang == NUMBER.num0 && {
+                      marginRight: ResponsiveSize(10),
+                      textAlign: EXTRASTR.right
+                    }
+                  ]}>
+                    {paymentScreenData?.payment_methods[1]?.title}
+                  </Text>
+                }
+              </TouchableOpacity>
+            </View>
+          }
+          {type == "amgiftcard" &&
+            <TouchableOpacity
+              onPress={() => {
+                validation(true, "Cradite", WAmount)
+                setCredit(true)
+                selectPaymentMethod("magveg")
+                setSelectPayemrntMethod("Cradite")
+
+              }}
+              style={[
+                styles.CODView,
+                lang == NUMBER.num0 && {
+                  flexDirection: ALINE.rowreverse
+                }
+              ]}>
+              <View style={[styles.fillView, credit &&
+              {
+                backgroundColor: COLOR.primaray,
+                borderColor: COLOR.primaray,
+              }]}>
+
+              </View>
+              <Text style={[
+                styles.text,
+                COD && { color: COLOR.primaray },
+                lang == NUMBER.num0 && {
+                  marginRight: ResponsiveSize(10),
+                  textAlign: EXTRASTR.right
+                }
+              ]}>
+                {lang == NUMBER.num1 ? "Payment by card" : "الدفع عن طريق البطاقة"}
+              </Text>
+            </TouchableOpacity>
+          }
+
+
+
+          {(giftCardList.length < 0 || totalAmount[0] > 0) && <View style={styles.lineView} />}
+
           {txtData?.map((items, index) => {
             return (
-              <View key={index} style={[styles.textView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: 'right' }, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }]}>{items?.title}</Text>
-                <Text style={[styles.price, items?.code == "grand_total" && { fontWeight: '600', color: COLOR?.primaray }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + items?.value}</Text>
+              <View key={index} >
+                {items?.code == "amgiftcard" &&
+                  <Text style={[{
+                    marginBottom: ResponsiveSize(-10),
+                    marginTop: ResponsiveSize(10),
+                    color: COLOR.black,
+                    fontWeight: FONTWEGHIT.font400
+                  },
+                  lang == NUMBER.num0 && { textAlign: EXTRASTR.right }
+                  ]}>
+                    {lang == NUMBER.num1 ? "Giftcard" : "بطاقات الهدايا"}
+                  </Text>
+                }
+
+                <View style={[
+                  styles.textView,
+                  lang == NUMBER.num0 && {
+                    flexDirection: ALINE.rowreverse
+                  }
+                ]}>
+
+                  <Text
+                    style={[
+                      styles.leftText,
+                      lang == NUMBER.num0 && {
+                        textAlign: EXTRASTR.right
+                      },
+                      items?.code == "grand_total" && {
+                        fontWeight: FONTWEGHIT.font600,
+                        color: COLOR?.primaray
+                      }]}>
+                    {items?.title}
+                  </Text>
+
+
+
+                  <View style={[styles.CurancyView, {
+                    alignSelf: lang == NUMBER.num0 ? 'flex-end' : 'flex-start',
+                    justifyContent: lang == NUMBER.num0 ? 'flex-start' : 'flex-end',
+                  }
+                  ]}>
+                    <Image
+                      style={[{
+                        height: ResponsiveSize(20),
+                        width: ResponsiveSize(20),
+                        tintColor: COLOR.black
+                      },
+                      items?.code == "grand_total" && {
+                        tintColor: COLOR.primaray
+                      }]}
+                      source={SARICON}
+                    />
+                    <View
+                      style={{
+                        width: ResponsiveSize(5)
+                      }}
+                    />
+                    <Text style={[
+                      styles.price,
+                      items?.code == "grand_total" &&
+                      {
+                        fontWeight: FONTWEGHIT.font600,
+                        color: COLOR?.primaray
+                      },
+                      lang == NUMBER.num0 && {
+                        textAlign: EXTRASTR.right
+                      }
+                    ]}>
+                      {" " + items?.value}
+                    </Text>
+                  </View>
+                </View>
               </View>
             )
           })}
 
           {showWallet &&
             <View style={styles.FinaltextView}>
-              <View style={[styles.commonView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }]}>{lable?.WalletAmount}</Text>
-                <Text style={[styles.price, { color: COLOR.primaray, fontWeight: FONTWEGHIT.font600, fontSize: ResponsiveSize(25) }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + WAmount && WAmount}</Text>
+              <View style={[
+                styles.commonView,
+                lang == NUMBER.num0 && {
+                  flexDirection: ALINE.rowreverse
+                }
+              ]}>
+                <Text
+                  style={[
+                    styles.leftText,
+                    lang == NUMBER.num0 && {
+                      textAlign: EXTRASTR.right
+                    },
+                    {
+                      color: COLOR.primaray,
+                      fontWeight: FONTWEGHIT.font600,
+                      fontSize: ResponsiveSize(25)
+                    }
+                  ]}>
+                  {lable?.WalletAmount}
+                </Text>
+
+                <Text style={[
+                  styles.price,
+                  {
+                    color: COLOR.primaray,
+                    fontWeight: FONTWEGHIT.font600,
+                    fontSize: ResponsiveSize(25)
+                  },
+                  lang == NUMBER.num0 && {
+                    textAlign: EXTRASTR.left
+                  }
+                ]}>
+                  {lable?.SAR + " " + WAmount && WAmount}
+                </Text>
+
               </View>
 
-              <View style={[styles.commonView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }, { marginTop: ResponsiveSize(10) }]}>
-                <Text style={[styles.leftText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }]}>{lable?.TotaldueAmount}</Text>
-                <Text style={[styles.price, { color: COLOR.black, fontSize: ResponsiveSize(25), fontWeight: '600' }, lang == NUMBER.num0 && { textAlign: 'left' }]}>{lable?.SAR + " " + dueAmount && dueAmount}</Text>
+              <View
+                style={[
+                  styles.commonView,
+                  lang == NUMBER.num0 && {
+                    flexDirection: ALINE.rowreverse
+                  },
+                  {
+                    marginTop: ResponsiveSize(10)
+                  }
+                ]}>
+                <Text
+                  style={[
+                    styles.leftText,
+                    lang == NUMBER.num0 && {
+                      textAlign: EXTRASTR.right
+                    },
+                    {
+                      color: COLOR.black,
+                      fontSize: ResponsiveSize(25),
+                      fontWeight: FONTWEGHIT.font600
+                    }
+                  ]}>
+                  {lable?.TotaldueAmount}
+                </Text>
+
+                <Text style={[
+                  styles.price,
+                  {
+                    color: COLOR.black,
+                    fontSize: ResponsiveSize(25),
+                    fontWeight: FONTWEGHIT.font600
+                  },
+                  lang == NUMBER.num0 && {
+                    textAlign: EXTRASTR.left
+                  }
+                ]}>
+                  {lable?.SAR + " " + dueAmount && dueAmount}
+                </Text>
               </View>
-
-
-            </View>}
-        </View>
-
-        <View style={[styles.manulCoupanView, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
-
-          {!remove && 
-          <TextInput
-            style={styles.coupnTextInput}
-            placeholder={lable?.EnterCoupanCode}
-            placeholderTextColor={COLOR.darkGray}
-            textAlign={lang == NUMBER.num0 ? 'right' : 'left'}
-            onChangeText={text => setCoupanCode(text)}
-            value={coupanCode ? coupanCode : ""}
-            
-          />}
-
-          {remove && <View style={[styles.coupnTextInput, { justifyContent: 'center' }]}>
-            <Text>{coupanCode ? coupanCode : ""}</Text>
-          </View>
+            </View>
           }
-          {!remove &&
-            <TouchableOpacity
-              onPress={() => {
-                setActionCode(1)
-                coupanCode && applyCoupan(coupanCode, 1)
-              }}
-              style={styles.applyView}>
-              <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
-            </TouchableOpacity>}
-
-          {remove && <TouchableOpacity
-            onPress={() => {
-              setActionCode(0)
-              applyCoupan(coupanCode, 0)
-
-            }}
-            style={styles.applyView}>
-            <Text style={[styles.btnText, { fontSize: ResponsiveSize(21) }]}>{lang == NUMBER.num0 ? "إزالة" : "Remove"}</Text>
-          </TouchableOpacity>}
-
         </View>
+
+
+        {type !== "amgiftcard" &&
+          <View
+            style={[
+              styles.manulCoupanView,
+              lang == NUMBER.num0 && {
+                flexDirection: ALINE.rowreverse
+              }
+            ]}>
+
+            {
+              !remove &&
+              <TextInput
+                style={styles.coupnTextInput}
+                placeholder={lable?.EnterCoupanCode}
+                placeholderTextColor={COLOR.darkGray}
+                textAlign={lang == NUMBER.num0 ? EXTRASTR.right : EXTRASTR.left}
+                onChangeText={text => setCoupanCode(text)}
+                value={coupanCode ? coupanCode : ""}
+              />
+            }
+
+            {remove &&
+              <View
+                style={[
+                  styles.coupnTextInput, {
+                    justifyContent: ALINE.center
+                  }
+                ]}>
+                <Text style={{ color: COLOR.black }}>
+                  {coupanCode ? coupanCode : ""}
+                </Text>
+              </View>
+            }
+
+            {!remove &&
+              <TouchableOpacity
+                onPress={() => {
+                  setActionCode(1)
+                  coupanCode && applyCoupan(coupanCode, 1)
+                }}
+                style={styles.applyView}>
+                <Text
+                  style={styles.btnText}>
+                  {lang == NUMBER.num0 ? "تطبيق" : "APPLY"}
+                </Text>
+              </TouchableOpacity>
+            }
+
+            {
+              remove &&
+              <TouchableOpacity
+                onPress={() => {
+                  setActionCode(0)
+                  applyCoupan(coupanCode, 0)
+
+                }}
+                style={styles.applyView}>
+                <Text
+                  style={[
+                    styles.btnText,
+                    {
+                      fontSize: ResponsiveSize(21)
+                    }
+                  ]}>
+                  {lang == NUMBER.num0 ? "إزالة" : "Remove"}
+                </Text>
+              </TouchableOpacity>
+            }
+
+          </View>
+        }
+
+
         {!remove &&
           <View>
 
-            {coupanListData?.length > 0 &&
-              <Text style={[styles.coupansText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{lang == NUMBER.num0 ? "القسائم" : "All coupons"}</Text>}
+            {
+              coupanListData?.length > 0 &&
+              <Text style={[
+                styles.coupansText,
+                lang == NUMBER.num0 && {
+                  textAlign: EXTRASTR.right
+                }
+              ]}>
+                {lang == NUMBER.num0 ? "القسائم" : "All coupons"}
+              </Text>
+            }
+
             {
               coupanListData?.length > 0 &&
               coupanListData?.map((item, index) => {
-
                 return (
                   <View
                     key={index}
-                    style={[styles.coupanView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
+                    style={[
+                      styles.coupanView,
+                      lang == NUMBER.num0 && {
+                        flexDirection: ALINE.rowreverse
+                      }
+                    ]}>
                     <View>
-                      <Text style={[styles.coupanName, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.coupon}</Text>
-                      <Text style={[styles.coupndes, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{item?.name}</Text>
+                      <Text
+                        style={[
+                          styles.coupanName,
+                          lang == NUMBER.num0 && {
+                            textAlign: EXTRASTR.right
+                          }
+                        ]}>
+                        {item?.coupon}
+                      </Text>
+
+                      <Text
+                        style={[
+                          styles.coupndes,
+                          lang == NUMBER.num0 && {
+                            textAlign: EXTRASTR.right
+                          }
+                        ]}>
+                        {item?.name}
+                      </Text>
+
                     </View>
 
                     <TouchableOpacity
@@ -269,13 +1039,42 @@ const Payment = ({
                         applyCoupan(item?.coupon, 1)
                       }}
                       style={styles.btnView}>
-                      <Text style={styles.btnText}>{lang == NUMBER.num0 ? "تطبيق" : "APPLY"}</Text>
+                      <Text
+                        style={styles.btnText}>
+                        {lang == NUMBER.num0 ? "تطبيق" : "APPLY"}
+                      </Text>
                     </TouchableOpacity>
+
                   </View>
                 )
-              })}
-          </View>}
-      </View><View style={{ height: ResponsiveSize(200) }} />
+              }
+              )}
+          </View>
+        }
+      </View>
+
+      <View style={{
+        height: ResponsiveSize(100)
+      }}
+      />
+
+      {
+        openScanner &&
+        <Modal
+          transparent={true}
+          visible={openScanner}
+          animationType='slide'
+        >
+          <BarcodeScanner
+            setOpenScanner={setOpenScanner}
+            openScanner={openScanner}
+            setGiftCardCode={setGiftCardCode}
+          />
+        </Modal>
+
+
+      }
+
 
     </KeyboardAwareScrollView>
   )
@@ -284,6 +1083,105 @@ const Payment = ({
 export default Payment
 
 const styles = StyleSheet.create({
+
+  GIFTBtn: {
+    width: "100%",
+    justifyContent: ALINE.spaceBetween,
+    flexDirection: ALINE.row,
+    marginBottom: ResponsiveSize(20),
+    paddingHorizontal: ResponsiveSize(5)
+  },
+
+  GIFTApplyBTN: {
+    marginTop: ResponsiveSize(20),
+    backgroundColor: COLOR.primaray,
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    padding: ResponsiveSize(10),
+    width: ResponsiveSize(230),
+    height: ResponsiveSize(60),
+    borderRadius: ResponsiveSize(10)
+  },
+  ChwckStausBTN: {
+    marginTop: ResponsiveSize(20),
+    backgroundColor: "green",
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    padding: ResponsiveSize(10),
+    width: ResponsiveSize(230),
+    height: ResponsiveSize(60),
+    borderRadius: ResponsiveSize(10)
+  },
+  CLRemoveBTN: {
+    height: ResponsiveSize(50),
+    width: ResponsiveSize(100),
+    backgroundColor: COLOR.white,
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    elevation: ResponsiveSize(5),
+    borderRadius: ResponsiveSize(10),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.primaray,
+
+  },
+  giftCartdMainView: {
+    width: "100%",
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: ResponsiveSize(20),
+    // marginTop: ResponsiveSize(10),
+    borderRadius: ResponsiveSize(20),
+    borderTopRightRadius: ResponsiveSize(0),
+    borderTopLeftRadius: ResponsiveSize(0),
+    borderWidth: ResponsiveSize(1),
+    borderTopWidth: ResponsiveSize(0),
+    borderColor: COLOR.darkGray,
+
+  },
+
+  giftSatusANS: {
+    color: "green",
+    fontWeight: FONTWEGHIT.font600,
+    fontSize: ResponsiveSize(18)
+  },
+
+  giftCardSatusView: {
+
+    width: "100%",
+    height: ResponsiveSize(45),
+    borderBottomWidth: ResponsiveSize(1),
+    marginBottom: ResponsiveSize(10),
+    alignItems: ALINE.center,
+    justifyContent: ALINE.spaceBetween,
+    flexDirection: ALINE.row,
+    paddingHorizontal: ResponsiveSize(5),
+    borderColor: COLOR.darkGray
+
+  },
+
+  coupnView: {
+    width: "100%",
+    height: ResponsiveSize(80),
+    marginTop: ResponsiveSize(20),
+    borderRadius: ResponsiveSize(10),
+    justifyContent: ALINE.spaceBetween,
+    alignItems: ALINE.center,
+    paddingHorizontal: ResponsiveSize(10),
+    flexDirection: ALINE.row,
+    elevation: ResponsiveSize(5),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.darkGray,
+    backgroundColor: COLOR.white,
+    shadowColor: COLOR.darkGray,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
+
+  },
+
   delevryView: {
     height: ResponsiveSize(100),
     width: "100%",
@@ -308,7 +1206,8 @@ const styles = StyleSheet.create({
     borderColor: "#00000080",
     marginTop: ResponsiveSize(20),
     backgroundColor: "#00000009",
-    padding: ResponsiveSize(20)
+    padding: ResponsiveSize(20),
+    borderRadius: ResponsiveSize(20)
   },
   palymentopationText: {
     color: COLOR.black,
@@ -355,7 +1254,6 @@ const styles = StyleSheet.create({
   },
   price: {
     color: COLOR.black,
-    flex: 1,
     textAlign: 'right'
   },
   FinaltextView: {
@@ -364,17 +1262,14 @@ const styles = StyleSheet.create({
     width: "100%",
     height: ResponsiveSize(120),
     alignItems: ALINE.center,
-    // flexDirection: ALINE.row,
     padding: ResponsiveSize(20),
-    // justifyContent: ALINE.spaceBetween,
-    // paddingHorizontal: ResponsiveSize(20),
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 10,
     shadowColor: COLOR.black,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center
   },
   coupanView: {
     width: "100%",
@@ -415,7 +1310,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: COLOR.white,
-    fontSize: ResponsiveSize(25),
+    fontSize: ResponsiveSize(20),
     fontWeight: FONTWEGHIT.font600,
     width: "100%",
     textAlign: ALINE.center
@@ -459,7 +1354,7 @@ const styles = StyleSheet.create({
   containerText: {
     color: "#202020",
     lineHeight: ResponsiveSize(30),
-    textAlign: 'center',
+    textAlign: ALINE.center,
     height: ResponsiveSize(100)
   },
   priceView: {
@@ -467,14 +1362,14 @@ const styles = StyleSheet.create({
     width: ResponsiveSize(120),
     backgroundColor: COLOR.primaray,
     borderRadius: ResponsiveSize(5),
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
     marginTop: ResponsiveSize(10)
   },
   priceText: {
     color: COLOR.white,
-    width: "100%",
-    textAlign: 'center'
+    // width: "100%",
+    textAlign: ALINE.center
   },
   walletLineView: {
     height: ResponsiveSize(110),
@@ -492,51 +1387,72 @@ const styles = StyleSheet.create({
     borderColor: COLOR.primaray,
     backgroundColor: "#FFEEEE",
     position: 'absolute',
-    alignSelf: 'center',
+    alignSelf: ALINE.center,
     top: ResponsiveSize(10),
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center
   },
   mainusText: {
     fontSize: ResponsiveSize(30),
-    textAlign: 'center',
+    textAlign: ALINE.center,
 
   },
   lastTexrt: {
-    textAlign: 'center',
+    textAlign: ALINE.center,
     color: COLOR.primaray,
     marginBottom: ResponsiveSize(20)
   },
   commonView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.spaceBetween,
     width: "100%"
   },
   manulCoupanView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: ALINE.row,
+    alignItems: ALINE.center,
+    justifyContent: ALINE.spaceBetween,
     marginTop: ResponsiveSize(20),
   },
   coupnTextInput: {
-    height: ResponsiveSize(80),
+    height: ResponsiveSize(70),
     width: ResponsiveSize(400),
-    borderRadius: ResponsiveSize(100),
+    borderRadius: ResponsiveSize(20),
     borderWidth: ResponsiveSize(1),
     borderColor: COLOR.darkGray,
-    // marginTop: ResponsiveSize(20),
     paddingHorizontal: ResponsiveSize(20),
     color: COLOR.black
   },
+  GiftCardScanner: {
+    height: ResponsiveSize(80),
+    borderRadius: ResponsiveSize(20),
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.darkGray,
+    paddingHorizontal: ResponsiveSize(10),
+    color: COLOR.black,
+    width: "100%",
+    alignItems: ALINE.center,
+    marginTop: ResponsiveSize(20),
+    flexDirection: ALINE.row,
+    justifyContent: ALINE.spaceBetween
+  },
   applyView: {
-    height: ResponsiveSize(50),
+    height: ResponsiveSize(60),
     width: ResponsiveSize(120),
-    borderRadius: ResponsiveSize(100),
+    borderRadius: ResponsiveSize(20),
     backgroundColor: COLOR.primaray,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center'
+    alignItems: ALINE.center,
+    justifyContent: ALINE.center,
+    alignSelf: ALINE.center
+  },
+  GiftCardImg: {
+    height: ResponsiveSize(40),
+    width: ResponsiveSize(40),
+    resizeMode: RESIZEMODE.contain,
+  },
+  CurancyView: {
+    width: ResponsiveSize(200),
+    alignItems: ALINE.center,
+    flexDirection: ALINE.row,
   }
-
 
 })

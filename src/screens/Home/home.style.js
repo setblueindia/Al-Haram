@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ResponsiveSize } from "../../utils/utils";
-import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from "../../constants/style";
-
+import { ALINE, COLOR, FONTWEGHIT, MEASUREMENT } from "../../constants/style";
 
 
 
@@ -11,18 +10,23 @@ export const styles = StyleSheet.create({
         backgroundColor: COLOR.white,
     },
     CustomeHeaderView: {
-        width: "100%",
+        width: MEASUREMENT.masure100,
     },
     containerView: {
-       height:"100%",
-        width: "100%",
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100,
 
     },
     siderView: {
-        flex:1
+        flex: 1
     },
     storyView: {
-        padding: ResponsiveSize(20)
+        paddingHorizontal: ResponsiveSize(20),
+        flex: 1,
+        width: MEASUREMENT.masure100,
+        height: MEASUREMENT.masure100,
+        zIndex: 10,
+        marginTop: ResponsiveSize(20)
     },
     listView: {
 
@@ -40,7 +44,7 @@ export const styles = StyleSheet.create({
 
     },
     bannerView: {
-        width: "100%",
+        width: MEASUREMENT.masure100,
         height: ResponsiveSize(40),
         paddingHorizontal: ResponsiveSize(10),
         borderRadius: ResponsiveSize(10),
@@ -52,73 +56,70 @@ export const styles = StyleSheet.create({
         paddingHorizontal: ResponsiveSize(10),
         borderRadius: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
-        backgroundColor: "#FFEBEB",
         padding: ResponsiveSize(10),
         alignSelf: ALINE.center,
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
-    bannerImage :{
-     height:"100%",
-     width:"100%" ,
-     borderWidth:ResponsiveSize(1),
-     borderColor:"#00000050",
-     padding:ResponsiveSize(5),
-     borderRadius:ResponsiveSize(10),
-     alignItems:'center',
-     justifyContent:'center'
+    bannerImage: {
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100,
+        borderColor: "#00000050",
+        padding: ResponsiveSize(5),
+        borderRadius: ResponsiveSize(10),
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
 
     },
     bannerView3: {
-        width: "100%",
-        height: ResponsiveSize(200),
+        width: MEASUREMENT.masure100,
+        height: MEASUREMENT.masure100,
         paddingHorizontal: ResponsiveSize(10),
         marginVertical: ResponsiveSize(20),
+        backgroundColor: COLOR.white
     },
 
     bannerImg: {
-        height: "100%",
-        width: "100%",
-        resizeMode: RESIZEMODE.contain,
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100,
         borderRadius: ResponsiveSize(10),
     },
     cetegoriesBox: {
-  
+
     },
     categories: {
         marginTop: ResponsiveSize(40),
     },
     productView: {
         flex: 1,
-        height:"100%",
-        width:"100%"
+        height: MEASUREMENT.masure100,
+        width: MEASUREMENT.masure100
     },
-    scrollToTopButton : {
+    scrollToTopButton: {
         position: 'absolute',
         bottom: ResponsiveSize(20),
         right: ResponsiveSize(20),
         backgroundColor: COLOR.primaray,
         padding: ResponsiveSize(10),
         borderRadius: ResponsiveSize(25),
-        height:ResponsiveSize(50),
-        width:ResponsiveSize(50),
-        alignItems:'center',
-        justifyContent:'center'
+        height: ResponsiveSize(50),
+        width: ResponsiveSize(50),
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
     },
     scrollToTopButtonText: {
-        color: 'white',
+        color: COLOR.white,
         fontWeight: 'bold',
-      },
-      giftcart:{
-        paddingHorizontal:ResponsiveSize(20),
-        marginTop:ResponsiveSize(20)
-        // borderRadius:ResponsiveSize(20)
-      },
-      giftcartView:{
-        height:ResponsiveSize(400),
-        width:"100%",
-        borderRadius:ResponsiveSize(20)
+    },
+    giftcart: {
+        paddingHorizontal: ResponsiveSize(20),
+        marginTop: ResponsiveSize(20)
+    },
+    giftcartView: {
+        height: ResponsiveSize(400),
+        width: MEASUREMENT.masure100,
+        borderRadius: ResponsiveSize(20)
 
-      }
+    }
 
 })

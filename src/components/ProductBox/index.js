@@ -9,9 +9,9 @@ import { Ar, En } from '../../constants/localization'
 import { NavigationRouteContext } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 import { BASE_URL } from '../../constants/axios.url'
+import SAR from '../SAR/Index'
 
 const ProductBox = ({ navigation, lang, sindex, items }) => {
-
 
   const data = items?.items
   const labale = lang?.data == NUMBER.num0 ? Ar : En
@@ -20,9 +20,12 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
   return (
     <View style={[
       styles.mainView,
-      sindex % 2 !== 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
+      sindex % 2 == 0 && { borderColor: COLOR.white, backgroundColor: COLOR.white }
     ]}>
-      <View style={styles.bannerView}>
+      <TouchableOpacity
+        activeOpacity={items?.is_viewAll == 1 ? 0.8 : 1}
+        onPress={() => { items?.is_viewAll == 1 && navigation.navigate(NAVIGATION.ProductScreen, { cetegoriesId: items?.view_all_category_id }) }}
+        style={styles.bannerView}>
         <FastImage
           resizeMode='contain'
           style={styles.bannerImg}
@@ -41,7 +44,7 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
           }}>
             <ActivityIndicator size='small' color={COLOR.primaray} />
           </View>}
-      </View>
+      </TouchableOpacity>
 
       <View style={[styles.textView, lang.data == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
         <Text style={[styles.categoriesName, lang.data == NUMBER.num0 && { textAlign: 'right' }]}>{items?.title}</Text>
@@ -63,20 +66,35 @@ const ProductBox = ({ navigation, lang, sindex, items }) => {
           data?.map((items, index) => {
             const name = items?.name
             const finalName = name.substring(0, 15);
-           const productImage = items?.image 
+            const productImage = items?.image
 
-          //  console.log("SKu :::" , items?.sku )
             return (
               <View key={index} style={{ flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => { navigation.navigate(NAVIGATION.ProducDetails, { SKU: items?.sku }) }}>
                   <View style={styles.innerCategoriesView}>
-                    <FastImage style={styles.storyView} source={{ uri: productImage }} />
+                    <FastImage style={[styles.storyView, lang?.data == NUMBER.num0 && {}]} source={{ uri: productImage }} />
                   </View>
-            {   (items?.special_offer || items?.is_new_badge)  &&  <View style={[styles.textImgView , items?.special_offer ? {right:ResponsiveSize(0)} :  {left:ResponsiveSize(0)}  ]}>
-                    <FastImage style={{height:"100%" , width:"100%"}} source={{ uri: items?.special_offer ? items?.special_offer :  items?.is_new_badge }} />
-                  </View>}
+                  {(items?.special_offer || items?.is_new_badge) &&
+                    <View style={
+                      [styles.textImgView,
+                      (items?.special_offer && lang?.data == NUMBER.num0) && { left: ResponsiveSize(0) },
+                      (items?.is_new_badge && lang?.data == NUMBER.num0) && { right: ResponsiveSize(0) },
+
+                      (items?.special_offer && lang?.data == NUMBER.num1) && { right: ResponsiveSize(0) },
+                      (items?.is_new_badge && lang?.data == NUMBER.num1) && { left: ResponsiveSize(0) },
+                      lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}
+                    >
+                      <FastImage style={[{ height: "100%", width: "100%" }]} source={{ uri: items?.special_offer ? items?.special_offer : items?.is_new_badge }} />
+                    </View>
+                  }
                   <Text style={[styles.cetegoriesText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{items?.name?.length > 10 ? finalName + "..." : items?.name}</Text>
-                  <Text style={[styles.priceText, lang?.data == NUMBER.num0 && { transform: [{ rotateY: '180deg' }] }]}>{labale.SAR + " " + items?.price}</Text>
+
+                  {/* ADD IMG */}
+                  <SAR price={items?.price} textAlign={{ justifyContent: 'center', width: ResponsiveSize(150), flexDirection: 'row-reverse' }} />
+
+
+
+
                 </TouchableOpacity>
                 <View style={{ width: ResponsiveSize(30) }} />
               </View>
@@ -93,14 +111,14 @@ export default ProductBox
 const styles = StyleSheet.create({
   mainView: {
     paddingHorizontal: ResponsiveSize(20),
-    backgroundColor: "#FFF0DC",
+    // backgroundColor: "#FFF0DC",
+    backgroundColor: "#FFFBEB",
     borderWidth: ResponsiveSize(1),
     borderColor: "#CEB282"
   },
   textImgView: {
     height: ResponsiveSize(90),
     width: ResponsiveSize(90),
-    // backgroundColor: COLOR.black,
     position: 'absolute'
   },
   bannerView: {
@@ -125,7 +143,7 @@ const styles = StyleSheet.create({
   viewText: {
     color: COLOR.primaray,
     width: ResponsiveSize(100),
-    textAlign: 'right'
+    textAlign: 'right',
   },
   subCategories: {
     flexDirection: 'row',
@@ -149,7 +167,10 @@ const styles = StyleSheet.create({
   cetegoriesText: {
     textAlign: "center",
     color: COLOR.black,
-    marginTop: ResponsiveSize(20)
+    marginTop: ResponsiveSize(20),
+    fontSize: ResponsiveSize(18),
+    width: ResponsiveSize(200),
+    // fontFamily: "Raleway-Regular"
   },
   priceText: {
     fontWeight: FONTWEGHIT.font600,

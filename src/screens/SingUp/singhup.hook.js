@@ -5,8 +5,9 @@ import { NAVIGATION, NUMBER } from '../../constants/constants';
 import { emaileRegxp, passwordRegxp } from '../../utils/utils';
 import { useSingUp } from '../../api/axios.api';
 import { useSelector } from 'react-redux';
+import { types } from '@babel/core';
 
-const useSingUpHook = ({ lable }) => {
+const useSingUpHook = ({ lable, navigationType }) => {
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -20,6 +21,20 @@ const useSingUpHook = ({ lable }) => {
   const [loader, setLoader] = useState(false)
   const navigation = useNavigation();
   const langNumber = useSelector(stast => stast.lang)
+
+
+  const ErrorMwssage = {
+    Enterfirstname: lable?.Enterfirstname,
+    Enterlastname: lable?.Enterlastname,
+    Enteremailaddress: lable?.Enteremailaddress,
+    Invalidemailaddress: lable?.Invalidemailaddress,
+    Numbercontainsmustbe9digits: lable?.Numbercontainsmustbe9digits,
+    Enterpassword: lable?.Enterpassword,
+    Invalidpassword: lable?.Invalidpassword + " " + lable?.EXPassword,
+    Passwordandconfirmpasswordmismatch: lable?.Passwordandconfirmpasswordmismatch
+  }
+
+
 
   const SINUP = async () => {
     setLoader(true)
@@ -35,10 +50,12 @@ const useSingUpHook = ({ lable }) => {
     formData.append('store_id', langNumber?.data);
 
 
+
+
     const response = await useSingUp(formData)
     if (response?.data?.status == NUMBER.num1) {
-      console.log("Singup Respones ==========> ", response?.data)
-      navigation.navigate(NAVIGATION.Login, { lable: lable });
+      // navigation.navigate(NAVIGATION.Login, { lable: lable });
+      navigation.replace(NAVIGATION.OTPScreen, { lable: lable, mobileNo: number, otpr: response?.data?.otp, types: "register", navigationType: navigationType })
       setLoader(false)
     } else {
       console.log("Singup Respones error ==========> ", response?.data)
@@ -49,50 +66,63 @@ const useSingUpHook = ({ lable }) => {
     }
   }
 
+  // const onPress = () => {
+  //   setModalShow(true)
+  //   if (!firstName) {
+  //     setErrorText(ErrorMwssage?.Enterfirstname)
+  //   }
+  //   if (!lastName) {
+  //     setErrorText(ErrorMwssage?.Enterlastname)
+  //   }
+  //   if (!email) {
+  //     setErrorText(ErrorMwssage?.Enteremailaddress)
+  //   }
+  //   if (!emaileRegxp.test(email)) {
+  //     setErrorText(ErrorMwssage?.Invalidemailaddress)
+  //   }
+  //   if (!number || number?.length < 9 || number?.length > 9) {
+  //     setErrorText(ErrorMwssage?.Numbercontainsmustbe9digits)
+  //   }
+  //   if (!password) {
+  //     setErrorText(ErrorMwssage?.Enterpassword)
+  //   }
+  //   if (!passwordRegxp.test(password)) {
+  //     setErrorText(ErrorMwssage?.Invalidpassword)
+  //     setExample(lable?.EXPassword)
+
+  //   }
+  //   if (password !== conPassword) {
+  //     setErrorText(lable?.Passwordandconfirmpasswordmismatch)
+  //     setExample("")
+  //   }
+  //   else {
+  //     SINUP()
+  //     setExample("")
+  //   }
+
+  // };
+
+
   const onPress = () => {
+    setModalShow(true);
 
-    if (!firstName) {
-      setModalShow(true)
-      setErrorText(lable?.Enterfirstname)
-    }
-    else if (!lastName) {
-      setModalShow(true)
-      setErrorText(lable?.Enterlastname)
-    }
-   else if(!email) {
-      setErrorText(lable?.Enteremailaddress)
-      setModalShow(true)
-    }
-    else if (!emaileRegxp.test(email)) {
-      setModalShow(true)
-      setErrorText(lable?.Invalidemailaddress)
-    }
-    else if (!number || number?.length < 9 || number?.length > 9) {
-      setModalShow(true)
-      setErrorText(lable?.Numbercontainsmustbe9digits)
-      // setExample(lable?.Numbercontainsmustbe9digits)
-    }
-    else if(!password) {
-      setErrorText(lable?.Enterpassword)
-      setModalShow(true)
-    }
-    else if (!passwordRegxp.test(password)) {
-      setModalShow(true)
-      setErrorText(lable?.Invalidpassword)
-      setExample(lable?.EXPassword)
+    const isValid =
+      firstName &&
+      lastName &&
+      email &&
+      emaileRegxp.test(email) &&
+      number &&
+      number.length === 9 &&
+      password &&
+      passwordRegxp.test(password) &&
+      password === conPassword;
 
+    if (isValid) {
+      SINUP();
+      setExample("");
     }
-    else if (password !== conPassword) {
-      setModalShow(true)
-      setErrorText(lable?.Passwordandconfirmpasswordmismatch)
-      setExample("")
-    }
-    else {
-      SINUP()
-      setExample("")
-    }
-
   };
+
 
   return {
     onPress,
@@ -106,45 +136,18 @@ const useSingUpHook = ({ lable }) => {
     errorText,
     loader,
     modalShow,
-    exampal
+    exampal,
+    ErrorMwssage,
+    email,
+    password,
+    firstName,
+    lastName,
+    conPassword,
+    number,
   };
 };
 
 export default useSingUpHook;
 
 
-// const slider = [
-//   slider_loop = {
 
-//     title_en: "Latest Products",
-//     title_ar: "أحدث المنتجات",
-//     key: "latest_products",
-//     is_viewAll: 0,
-//     view_all_category_id: "",
-
-//     data: [
-//       {
-//         "id": "75941",
-//         "sku": "K05",
-//         "name": "Enamel Coated Kettle",
-//         "price": 39,
-//         "special_price": 0,
-//         "image": "https://beta.alharamstores.com/media/catalog/product",
-//         "special_offer": "",
-//         "is_new_badge": "https://beta.alharamstores.com/media/magiccart/lookbook/n/e/new_en_offer.png"
-//       },
-//       {
-//         "id": "75941",
-//         "sku": "K05",
-//         "name": "Enamel Coated Kettle",
-//         "price": 39,
-//         "special_price": 0,
-//         "image": "https://beta.alharamstores.com/media/catalog/product",
-//         "special_offer": "",
-//         "is_new_badge": "https://beta.alharamstores.com/media/magiccart/lookbook/n/e/new_en_offer.png"
-//       },
-
-//     ]
-//   }
-
-// ]

@@ -9,18 +9,16 @@ import { ALINE, COLOR, FONTWEGHIT } from '../../constants/style';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 
-const CommanHeader = ({ navigation, lang, name }) => {
+const CommanHeader = ({ navigation, lang, name, customNavg }) => {
     const productCount = useSelector(state => state?.AddToCart)
     const userData = useSelector(state => state?.userData?.data)
 
-    console.log("lang ::" , lang)
- 
     return (
         <View style={styles.mainView}>
             <StatusBarCus />
             <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
                 <TouchableOpacity
-                    onPress={() => { navigation.goBack()}}
+                    onPress={() => { customNavg ? navigation?.navigate(NAVIGATION.AddressBookScreen, { Xyz: true }) : navigation.goBack() }}
                 >
                     <Icon style={styles.icon}
                         name={lang == NUMBER.num0 ? ICON.arrowright : ICON.arrowleft}
@@ -89,8 +87,8 @@ const styles = StyleSheet.create({
     text: {
         color: COLOR.black,
         fontSize: ResponsiveSize(30),
-        width:ResponsiveSize(300),
-        textAlign:'center'
+        width: ResponsiveSize(300),
+        textAlign: 'center'
     },
     productCountView: {
         height: ResponsiveSize(30),

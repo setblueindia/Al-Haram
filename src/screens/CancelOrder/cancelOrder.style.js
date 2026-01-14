@@ -57,8 +57,10 @@ export const styles = StyleSheet.create({
         borderRadius: ResponsiveSize(20),
         padding: ResponsiveSize(10),
         alignItems: ALINE.center,
-        justifyContent:ALINE.spaceBetween,
-        flexDirection: ALINE.row
+        justifyContent: ALINE.spaceBetween,
+        flexDirection: ALINE.row,
+        color: COLOR.black,
+
     },
     icon: {
         size: ResponsiveSize(40),
@@ -119,36 +121,102 @@ export const styles = StyleSheet.create({
         backgroundColor: COLOR.primaray,
         borderRadius: ResponsiveSize(100),
     },
-    secondView:{
+    secondView: {
     },
-    image:{
-        height:ResponsiveSize(60),
-        width:ResponsiveSize(60)
+    image: {
+        height: ResponsiveSize(100),
+        width: ResponsiveSize(80),
+        resizeMode: "contain"
     },
-    orderView:{
-        width:"100%",
-        height:ResponsiveSize(100),
-        flexDirection:ALINE.row,
-        alignItems:ALINE.center,
-        justifyContent:ALINE.spaceBetween,
-        backgroundColor: "#00000010",
-        padding:ResponsiveSize(20),
-        borderRadius:ResponsiveSize(20),
-        marginTop:ResponsiveSize(20)
+    orderView: {
+        width: "100%",
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.spaceBetween,
+        backgroundColor: COLOR.white,
+        padding: ResponsiveSize(10),
+        borderRadius: ResponsiveSize(10),
+        marginTop: ResponsiveSize(10),
+        borderWidth: ResponsiveSize(1),
+        borderColor: COLOR.primaray
     },
-    orderCheack:{
-        height:ResponsiveSize(30),
-        width:ResponsiveSize(30),
-        backgroundColor:COLOR.white,
-        borderWidth:ResponsiveSize(1),
-        borderColor:"#00000070",
-        borderRadius:ResponsiveSize(5)
+    orderInnerView: {
+        flexDirection: ALINE.row
     },
-    btnView:{
-        padding:ResponsiveSize(20),
+    ListHeaderText: {
+        color: COLOR.primaray,
+        fontSize: ResponsiveSize(20)
     },
-    priceText:{
-        color:COLOR.primaray,
-        fontWeight:FONTWEGHIT.font600
+    ListHeaderView: {
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.spaceBetween,
+        marginTop: ResponsiveSize(20),
+        paddingHorizontal: ResponsiveSize(10)
+    },
+    SelectAllView: {
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center
+    },
+    SelectAllInnerView: {
+        height: ResponsiveSize(25),
+        width: ResponsiveSize(25),
+        backgroundColor: COLOR.white,
+        borderWidth: ResponsiveSize(1),
+        borderColor: "#00000070",
+        borderRadius: ResponsiveSize(5),
+        marginLeft: ResponsiveSize(10),
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center
+    },
+    productName: {
+        fontSize: ResponsiveSize(18),
+        color: COLOR.black
+    },
+    SKUText: {
+        color: COLOR.darkGray,
+        fontSize: ResponsiveSize(15),
+        marginTop: ResponsiveSize(8)
+    },
+    QTYText: { color: COLOR.black, fontWeight: FONTWEGHIT.font600 },
+    PriveView: {
+        flexDirection: ALINE.row,
+        alignItems: ALINE.center,
+        marginTop: ResponsiveSize(8)
+    },
+    PriceText: {
+        color: COLOR.black,
+        fontSize: ResponsiveSize(15)
+    },
+    SelectAllText: {
+        color: COLOR.black,
+        fontSize: ResponsiveSize(18)
+    },
+    SARIcon: {
+        height: ResponsiveSize(18),
+        width: ResponsiveSize(18),
+        resizeMode: 'contain',
+        tintColor: COLOR.primaray
+    },
+    SARText: {
+        color: COLOR.black,
+        fontWeight: FONTWEGHIT.font600,
+        marginLeft: ResponsiveSize(10),
+        fontSize: ResponsiveSize(15)
+    },
+    orderCheack: {
+        height: ResponsiveSize(30),
+        width: ResponsiveSize(30),
+        backgroundColor: COLOR.white,
+        borderWidth: ResponsiveSize(1),
+        borderColor: "#00000070",
+        borderRadius: ResponsiveSize(5)
+    },
+    btnView: {
+        padding: ResponsiveSize(20),
+    },
+    priceText: {
+        color: COLOR.primaray,
+        fontWeight: FONTWEGHIT.font600
     }
 })

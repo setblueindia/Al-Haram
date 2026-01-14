@@ -8,23 +8,24 @@ export const styles = StyleSheet.create({
     mainView: {
         height: ResponsiveSize(450),
         width: windowWidth,
-        alignItems:ALINE.center,
+        alignItems: ALINE.center,
+
     },
     image: {
         height: "100%",
-        width:"100%",
+        width: "100%",
         // resizeMode:RESIZEMODE.contain,
-        borderRadius:ResponsiveSize(20)
+        borderRadius: ResponsiveSize(20)
     },
     listView: {
         height: "100%",
-        width: windowWidth ,
-        alignItems:ALINE.center,
-        justifyContent:ALINE.center,
-        paddingHorizontal:ResponsiveSize(20),
-        borderRadius:ResponsiveSize(20)
+        width: windowWidth,
+        alignItems: ALINE.center,
+        justifyContent: ALINE.center,
+        paddingHorizontal: ResponsiveSize(20),
+        borderRadius: ResponsiveSize(20)
     },
-    abc :{ 
+    abc: {
 
     }
 })

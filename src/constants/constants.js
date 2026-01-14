@@ -1,3 +1,4 @@
+
 export const NAVIGATION = {
   Splash: 'Splash SCreen',
   Login: 'Login SCreen',
@@ -19,18 +20,24 @@ export const NAVIGATION = {
   Shoppingcart: "ShoppingCrat Screen",
   Done: "Done Screen",
   addaddress: "Addaddress Screen",
-  SerchScreen : "Serch Screen",
-  SponserScreen : "Sponser Screen",
-  ForgetPasswor : "Forget Password",
-  EditeProfileScreen : "Edite Profilrs",
-  OrderDeatsiScreen : "Order Details Screen",
-  CancelOrder : "CancelOrder Screen",
-  PaymentHistroy : "Payments histrory",
-  paymentDetails : "Payment Details",
-  bannerScreen : "Banner Screen",
-  PaymentScreen : "PaymentScreen",
-  ResponseScreen : "ResponseScreen",
-  giftcard : "GiftCartScreen"
+  SerchScreen: "Serch Screen",
+  SponserScreen: "Sponser Screen",
+  ForgetPasswor: "Forget Password",
+  EditeProfileScreen: "Edite Profilrs",
+  OrderDeatsiScreen: "Order Details Screen",
+  CancelOrder: "CancelOrder Screen",
+  PaymentHistroy: "Payments histrory",
+  paymentDetails: "Payment Details",
+  bannerScreen: "Banner Screen",
+  PaymentScreen: "PaymentScreen",
+  ResponseScreen: "ResponseScreen",
+  giftcard: "GiftCartScreen",
+  Maintenance: "MaintenanceScreen",
+  giftBalanceCheck: "Cheackbalancescreen",
+  reviewScrenn: "reviewScreen",
+  giftcardHostory: "GiftCardHistory",
+  WriteReview: "WriteReview",
+  ProductZoom: "ProductZoom"
 
 };
 export const LOGINStr = {
@@ -92,10 +99,13 @@ export const ASYNCSTORAGE = {
   Langues: 'Lang',
   Token: "Token",
   Userdata: "UserData",
-  Email : "Email",
-  Password : "Password",
-  walletAmount : "WalletAmount",
-  FCMToken : "FCMToken"
+  Email: "Email",
+  Password: "Password",
+  walletAmount: "WalletAmount",
+  FCMToken: "FCMToken",
+  Terms: "Terms",
+  conditions: "Conditions",
+  oldAddress: "oldAddress"
 };
 
 export const NUMBER = {

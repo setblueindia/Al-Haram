@@ -1,10 +1,10 @@
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
-import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon, { Icons } from '../components/TAB/Icons';
 import * as Animatable from 'react-native-animatable';
-import { ALINE, COLOR } from '../constants/style';
+import { ALINE, COLOR, FONTWEGHIT } from '../constants/style';
 import { NAVIGATION, NUMBER } from '../constants/constants';
 import Categories from '../screens/Categories/Categories';
 import Notification from '../screens/Notification/Notification';
@@ -87,9 +87,14 @@ const TabArr2 = [
 
 const Tab = createBottomTabNavigator();
 const TabButton = (props) => {
+
   const { item, onPress, accessibilityState } = props;
   const focused = accessibilityState.selected;
   const viewRef = useRef(null);
+  const lang = useSelector(state => state.lang.data)
+  const notificationsCount = useSelector(state => state?.NotificationCount?.data)
+  const countLength = notificationsCount?.toString().length;
+  // const countLength = 3
   useEffect(() => {
     if (focused) {
       viewRef.current.animate({ 0: { scale: .5, rotate: '0deg' }, 1: { scale: 1.2, rotate: '360deg' } });
@@ -111,7 +116,30 @@ const TabButton = (props) => {
           name={focused ? item.activeIcon : item.inActiveIcon}
           color={focused ? COLOR.primaray : COLOR.black} />
       </Animatable.View>
-    </TouchableOpacity>
+
+
+
+      {((props?.item?.route === "Notification Screen" && notificationsCount > 0)) &&
+        <View style={[{
+          // height: ResponsiveSize(28),
+          width: countLength > 2 ? ResponsiveSize(40) : ResponsiveSize(28),
+          backgroundColor: COLOR.primaray,
+          position: 'absolute',
+          borderRadius: ResponsiveSize(100),
+          top: ResponsiveSize(7),
+          right: ResponsiveSize(45),
+          alignItems: ALINE.center,
+          justifyContent: ALINE.center,
+          padding: ResponsiveSize(2)
+        }, lang == NUMBER.num0 && { right: ResponsiveSize(0), left: ResponsiveSize(45) }]}>
+          <Text style={{
+            color: COLOR.white,
+            fontWeight: FONTWEGHIT.font600,
+            fontSize: ResponsiveSize(15)
+          }}>{notificationsCount ? notificationsCount : 0}</Text>
+
+        </View>}
+    </TouchableOpacity >
   )
 }
 
@@ -164,14 +192,17 @@ export default function AnimTab1() {
         {
           Data.map((item, index) => {
             return (
+
               <Tab.Screen key={index} name={item.route} component={item.component}
                 options={{
                   tabBarShowLabel: false,
                   tabBarButton: (props) => <TabButton {...props} item={item} />
                 }}
+
               />
             )
           })}
+
       </Tab.Navigator>
     </View>
   )

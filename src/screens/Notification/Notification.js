@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Modal, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Modal, RefreshControl, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './notification.style'
 import CustomeHeader from '../../components/CustomeHeader'
@@ -29,8 +29,12 @@ const Notification = () => {
     userData,
     lotti,
     messText,
-    showScrollToTop
+    showScrollToTop,
+    refreshing,
+    onRefresh,
+    nID
   } = useNotificationHook()
+
 
   return (
     <View style={styles.mainView}>
@@ -38,12 +42,17 @@ const Notification = () => {
         <CustomeHeader search={true} like={true} shoppingcart={true} userData={userData} />
         <View style={styles.container}>
           <FlatList
-          ref={flatListRef}
-          onScroll={handleScroll}
+            ref={flatListRef}
+            onScroll={handleScroll}
             data={data}
             onEndReached={() => { data?.length > 0 && GETNotificationAPI() }}
             onEndReachedThreshold={0.1}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                onRefresh={onRefresh}
+                refreshing={refreshing} />
+            }
             ListFooterComponent={() => {
               return (
                 <View style={{
@@ -68,48 +77,55 @@ const Notification = () => {
               const timePart = parts[1];
               const mes = item?.message?.substr(0, 100)
 
+
               return (
                 <View key={Math.random() * index}>
                   <TouchableOpacity
                     key={Math.random() * index}
                     onPress={() => {
-                      item.notification_view == "0" && onPress(item?.id),
+                      item.notification_view == "0" && onPress(item?.id, index),
                         setMesageText(item?.message),
                         item.notification_view == "1" && setShowModal(true)
+
                     }}
-                    style={[styles.notificationView, lang == NUMBER.num0 &&
-                      { },
-                  ]}
+                    style={[styles.notificationView,
+                    item?.notification_view === 0 && nID.includes(index)
+                      ? { backgroundColor: COLOR.white }
+                      : item?.notification_view === 0
+                        ? { backgroundColor: "#FFF3F4" }
+                        : {}
+
+                    ]}
                   >
                     <View style={[styles.imgView, lang == NUMBER.num0 &&
                     {
-                      flexDirection:'row-reverse'
+                      flexDirection: 'row-reverse'
                     }]}
                     >
-                      <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center } , lang == NUMBER.num0 && {flexDirection:'row-reverse'}]}>
+                      <View style={[{ flexDirection: ALINE.row, alignItems: ALINE.center }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <Icon name={"notifications-circle-sharp"} size={ResponsiveSize(50)} color={COLOR.primaray} />
-                        <Text style={[styles.shippmentText, lang == NUMBER.num0 && { marginRight:ResponsiveSize(10) , textAlign:'right'}]}>{
-                          item?.type 
+                        <Text style={[styles.shippmentText, lang == NUMBER.num0 && { marginRight: ResponsiveSize(10), textAlign: 'right' }]}>{
+                          item?.type
                         }
                         </Text>
                       </View>
 
-                      <View style={[{ flexDirection: ALINE.row } , lang == NUMBER.num0 && {flexDirection:'row-reverse'}]}>
+                      <View style={[{ flexDirection: ALINE.row }, lang == NUMBER.num0 && { flexDirection: 'row-reverse' }]}>
                         <View style={[styles.barView, lang == NUMBER.num0 && { marginLeft: ResponsiveSize(10) }]} />
                         <View style={styles.dataView}>
                           <Text style={[styles.dateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                            {  datePart  }
+                            {datePart}
                           </Text>
                           <Text style={[styles.dateText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>
-                            { timePart}
+                            {timePart}
                           </Text>
                         </View>
                       </View>
                     </View>
 
                     <View style={[styles.textView, lang == NUMBER.num0 && {}]}>
-                      <Text numberOfLines={2} style={[styles.desShippment, lang == NUMBER.num0 && {textAlign:'right'}]}>{
-                      
+                      <Text numberOfLines={2} style={[styles.desShippment, lang == NUMBER.num0 && { textAlign: 'right' }]}>{
+
                         item?.message?.length > 100 ? mes + " ..." : mes
                       }</Text>
                     </View>
@@ -121,28 +137,32 @@ const Notification = () => {
           />
         </View>
       </View>
+
       {lotti &&
-      <DataIsNotFound/>
-        // <DataNotFound userData={userData} text={"Data Not Found"} />
+        <DataIsNotFound />
       }
       {loadding &&
         <View style={{ flex: 1, position: 'absolute', width: "100%" }}>
           <CusLoader />
         </View>
       }
-       {showScrollToTop && (
-                    <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
-                        {/* <Text style={styles.scrollToTopButtonText}>Go to Top</Text> */}
-                        <Icons name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
-                    </TouchableOpacity>
-                )}
-      <Modal
-        animationType='slide'
-        transparent={true}
-        visible={showModal}
-      >
-        <CusModal setModalShow={setShowModal} GETNotificationAPI ={GETNotificationAPI}text={messText} notification={true} />
-      </Modal>
+
+
+      {showScrollToTop && (
+        <TouchableOpacity style={styles.scrollToTopButton} onPress={scrollToTop}>
+          <Icons name="totop" size={ResponsiveSize(30)} color={COLOR.white} />
+        </TouchableOpacity>
+      )}
+
+
+      {showModal &&
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={showModal}
+        >
+          <CusModal setModalShow={setShowModal} GETNotificationAPI={GETNotificationAPI} text={messText} notification={true} />
+        </Modal>}
     </View>
   )
 }

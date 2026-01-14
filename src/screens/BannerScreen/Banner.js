@@ -16,9 +16,9 @@ const Banner = (props) => {
     const lang = useSelector(state => state?.lang?.data)
     const [data, setData] = useState([])
     const [dataLength, setDataLength] = useState()
-    const [isloadding, setIsLoadding] = useState(false)
+    const [isloadding, setIsLoadding] = useState(true)
     const [imageLoader, setImageLoader] = useState(false)
-   const name = props?.route?.params?.titleName
+    const name = props?.route?.params?.titleName
 
     useEffect(() => {
         getData()
@@ -33,7 +33,6 @@ const Banner = (props) => {
             const response = await getBanner(formData)
             if (response?.data?.status == 1) {
                 setData(response?.data?.data)
-
                 const lengthOfData = response?.data?.data?.length
                 setDataLength(lengthOfData)
                 setIsLoadding(false)
@@ -49,7 +48,7 @@ const Banner = (props) => {
 
     return (
         <View style={styles.mainView}>
-            <CommanHeader navigation={navigation} lang={lang}/>
+            <CommanHeader navigation={navigation} lang={lang} />
 
             <Text style={styles.headingText}>{name}</Text>
             <ScrollView>
@@ -71,12 +70,12 @@ const Banner = (props) => {
                                     alignSelf: ALINE.center,
                                     marginLeft: ResponsiveSize(0),
                                     marginRight: ResponsiveSize(0)
-                                
+
                                 }
                                 ]}>
                                 <FastImage
-                                    resizeMode= { !temp && result == index ?   'cover'  :'contain'}
-                                    style={[styles.img ] } source={{ uri: items?.image }}
+                                    resizeMode={!temp && result == index ? 'cover' : 'contain'}
+                                    style={[styles.img]} source={{ uri: items?.image }}
                                     onLoadStart={() => { setImageLoader(true) }}
                                     onLoadEnd={() => { setImageLoader(false) }}
                                 />
@@ -106,7 +105,7 @@ const Banner = (props) => {
 
             {
                 (!isloadding && data.length == 0) &&
-                <View style={{ height: "100%", width: "100%" , position:'absolute', alignSelf:'center' , backgroundColor:"#000"}}>
+                <View style={{ height: "100%", width: "100%", position: 'absolute', alignSelf: 'center', backgroundColor: "#000" }}>
                     <DataIsNotFound header={true} color={true} navigation={navigation} />
                 </View>
 
@@ -144,10 +143,10 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         borderRadius: ResponsiveSize(20)
     },
-    headingText:{
-        textAlign:'center',
-        fontSize:ResponsiveSize(35),
-        marginTop:ResponsiveSize(20),
-        color:COLOR.primaray
+    headingText: {
+        textAlign: 'center',
+        fontSize: ResponsiveSize(35),
+        marginTop: ResponsiveSize(20),
+        color: COLOR.primaray
     }
 })

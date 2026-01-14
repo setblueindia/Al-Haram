@@ -1,4 +1,4 @@
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ResponsiveSize } from '../../utils/utils'
 import { ALINE, COLOR, FONTWEGHIT, RESIZEMODE } from '../../constants/style'
@@ -7,42 +7,88 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { EXTRASTR, ICON, NUMBER } from '../../constants/constants'
 import { Ar, En } from '../../constants/localization'
 import DeleteBox from '../../components/DeleteBox'
+import SAR from '../../components/SAR/Index'
 
-  const Cart = ({ data, lang, deleteProduct, outOfStock , updateQnty }) => {
+
+const Cart = ({ data, lang, deleteProduct, outOfStock, updateQnty, RemoveCart, onPress, disabled }) => {
   const [qty, setQnt] = useState(parseInt(data?.qty))
-  const [deletePopp , setDeletePopp] = useState(false)
-  const name = data?.name?.substring(0, 20) 
+  const [deletePopp, setDeletePopp] = useState(false)
+  const name = data?.name?.substring(0, 20)
   const lable = lang == NUMBER.num1 ? En : Ar
 
+
+
   return (
-    <View>
+
+    <View style={{ flex: 1 }}>
       {!outOfStock ?
         <View style={[styles.container, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-          <View style={styles.ImageView}>
+          <TouchableOpacity
+            disabled={disabled}
+            onPress={onPress}
+            style={styles.ImageView}>
             <Image
               style={styles.Img}
               source={{ uri: data?.image }} />
-          </View>
-          <View style={[styles.containerView , lang == NUMBER.num0 &&  {marginRight:ResponsiveSize(20)}]}>
-            <Text style={[styles.titleText , lang == NUMBER.num0 &&  {textAlign:EXTRASTR.right}]}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
-            <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR +  ": " + data?.price}</Text>
-            <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
-              {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
-            </Text>  
-            <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
-              {data?.options[1] && data?.options[1]?.label + " : " + data?.options[1]?.value}
-            </Text>
+          </TouchableOpacity>
+          <View style={[styles.containerView, lang == NUMBER.num0 && { marginRight: ResponsiveSize(20) }]}>
+            <Text style={[styles.titleText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{data?.name?.length > 20 ? name + "..." : data?.name}</Text>
+            {/* <Text style={[styles.priceText, lang == NUMBER.num0 && { textAlign: 'right' }]}>{lable.SAR + " " + data?.price}</Text> */}
+            {/* ADD IMG */}
+            <View style={{ width: ResponsiveSize(100), alignSelf: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }}>
+              <SAR price={data?.price} normal={true} textAlign={{ justifyContent: lang == NUMBER.num0 ? "flex-end" : 'flex-start' }} />
+            </View>
+
+
+            {data?.type !== "amgiftcard" &&
+              <>
+                <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                  {data?.options[0] && data?.options[0]?.label + " : " + data?.options[0]?.value}
+                </Text>
+
+                <Text style={[styles.colorText, lang == NUMBER.num0 && { textAlign: 'right' }]}>
+                  {data?.options[1] && data?.options[1]?.label + " : " + data?.options[1]?.value}
+                </Text>
+              </>
+            }
+
+
+            {(data?.options?.length > 0 && data?.type == "amgiftcard") &&
+              data?.options?.map((item) => {
+
+                return (
+                  <View style={[{ flexDirection: 'row', width: ResponsiveSize(195) }, lang == NUMBER.num0 && { flexDirection: 'row-reverse', alignSelf: 'flex-end' }]}>
+                    {item?.value && <Text style={[styles.colorText, { fontSiz: ResponsiveSize(18), color: COLOR.black }, lang == NUMBER.num0 && { textAlign: 'right', fontSize: ResponsiveSize(18) }]}>
+                      {item?.label + " : "}
+                    </Text>}
+
+                    {item?.value && <Text style={[styles.colorText, { fontSize: ResponsiveSize(18) }, lang == NUMBER.num0 && { textAlign: 'right', fontSize: ResponsiveSize(18) }]}>
+                      {item.value}
+                    </Text>
+                    }
+                  </View>
+                )
+
+              })
+
+            }
+
+
+
             <View style={[styles.lastView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
               <View style={[styles.qntView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
-                <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{lable?.Qty}</Text>
-                <Counter updateQnty={updateQnty} id={data?.item_id} qty={data?.qty} setQnt={setQnt} />  
+                {data?.type !== "amgiftcard" && <Text style={lang == NUMBER.num0 ? { marginLeft: ResponsiveSize(10) } : { marginRight: ResponsiveSize(10) }}>{lable?.Qty}</Text>}
+                {data?.type !== "amgiftcard" && <Counter updateQnty={updateQnty} id={data?.item_id} qty={data?.qty} setQnt={setQnt} />}
               </View>
-              <TouchableOpacity
-                onPress={() => {setDeletePopp(true)}}>
-                <Icon name={ICON.delete} color={COLOR.black} size={ResponsiveSize(35)} />
-              </TouchableOpacity>
+
             </View>
           </View>
+
+          <TouchableOpacity
+            style={[{ position: 'absolute', right: 15, bottom: 15 }, lang == NUMBER.num0 && { left: 15, bottom: 15 }]}
+            onPress={() => { setDeletePopp(true) }}>
+            <Icon name={ICON.delete} color={COLOR.black} size={ResponsiveSize(35)} />
+          </TouchableOpacity>
         </View>
         :
         <View style={[styles.outView, lang == NUMBER.num0 && { flexDirection: ALINE.rowreverse }]}>
@@ -50,7 +96,8 @@ import DeleteBox from '../../components/DeleteBox'
             <Image style={styles.imgOut} source={{ uri: data?.image }} />
             <View style={styles.saleView}>
               <Text style={
-                { color: COLOR.white,
+                {
+                  color: COLOR.white,
                   fontWeight: FONTWEGHIT.font700
                 }}>{"SALE"}</Text>
             </View>
@@ -61,22 +108,22 @@ import DeleteBox from '../../components/DeleteBox'
             <Text style={[styles.darkText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>{"SAR 48"}</Text>
 
             <View style={styles.barView} />
-            
+
             <Text style={[styles.darkText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>This product for stock testing</Text>
             <Text style={[styles.normalText, lang == NUMBER.num0 && { textAlign: EXTRASTR.right }]}>Other color or sizes are available</Text>
           </View>
         </View>
       }
-        {
-                deletePopp &&
-                <Modal
-                    visible={deletePopp}
-                    animationType='slide'
-                    transparent
-                >
-                    <DeleteBox noPress={()=>{setDeletePopp(false)}}  yesPress={()=>{setDeletePopp(false) , deleteProduct(data?.item_id) }} lang={lang}/>
-                </Modal>
-            }
+      {
+        deletePopp &&
+        <Modal
+          visible={deletePopp}
+          animationType='slide'
+          transparent
+        >
+          <DeleteBox noPress={() => { setDeletePopp(false) }} yesPress={() => { setDeletePopp(false), deleteProduct(data?.item_id) }} lang={lang} />
+        </Modal>
+      }
     </View>
 
   )
@@ -87,7 +134,7 @@ export default Cart
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: ResponsiveSize(280),
+    // height: ResponsiveSize(280),
     backgroundColor: "#00000007",
     borderWidth: ResponsiveSize(1),
     borderColor: COLOR.gray,
@@ -125,7 +172,8 @@ const styles = StyleSheet.create({
   },
   colorText: {
     color: "#00000060",
-    marginTop: ResponsiveSize(5)
+    marginTop: ResponsiveSize(5),
+    // fontSize: ResponsiveSize(20)
   },
   lastView: {
     flexDirection: ALINE.row,

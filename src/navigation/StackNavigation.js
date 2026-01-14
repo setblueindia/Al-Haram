@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import Splash from '../screens/Splash/Splash';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -33,14 +33,28 @@ import PaymentScreen from '../screens/YourWay/payment';
 import ResponseScreen from '../screens/YourWay/response';
 import Home from '../screens/Home/Home';
 import GiftCart from '../screens/Giftcart/GiftCart';
+import Maintenance from '../screens/Maintenance/Maintenance';
+import Checkbalance from '../screens/Giftcart/Checkbalance';
+import Review from '../screens/Review/Review';
+import GiftcardHistory from '../screens/Giftcart/GiftcardHistory';
+import WriteReview from '../screens/WriteReview/Writereview';
+import ProductZoom from '../screens/ProductDetails/ProductZoom';
+import Notification from '../screens/Notification/Notification';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
-  // const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   return (
-    <Stack.Navigator>
+
+    <Stack.Navigator screenOptions={{
+      contentStyle: {
+        paddingBottom: Platform.OS === 'android' && insets.bottom
+      }
+    }}>
       <Stack.Screen
         name={NAVIGATION.Splash}
         component={Splash}
@@ -61,7 +75,7 @@ const StackNavigation = () => {
         component={SingUp}
         options={{ headerShown: false }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.TabScreen}
         component={AnimTab1}
         options={{ headerShown: false }}
@@ -161,38 +175,86 @@ const StackNavigation = () => {
         component={PaymentDetails}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.bannerScreen}
         component={Banner}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.PaymentScreen}
         component={PaymentScreen}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.ResponseScreen}
         component={ResponseScreen}
         options={{ headerShown: false }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.HomeScreen}
         component={Home}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name={NAVIGATION?.giftcard}
         component={GiftCart}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name={NAVIGATION?.Maintenance}
+        component={Maintenance}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={NAVIGATION?.giftBalanceCheck}
+        component={Checkbalance}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={NAVIGATION?.reviewScrenn}
+        component={Review}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={NAVIGATION?.giftcardHostory}
+        component={GiftcardHistory}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={NAVIGATION?.WriteReview}
+        component={WriteReview}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={NAVIGATION?.ProductZoom}
+        component={ProductZoom}
+        options={{ headerShown: false }}
+      />
 
 
-    
+      <Stack.Screen
+        name={NAVIGATION?.NotificationScreen}
+        component={Notification}
+        options={{ headerShown: false }}
+      />
+
+
+
+
+
     </Stack.Navigator>
+
   );
 };
 
 export default StackNavigation;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff', // Optional: Set a background color
+  },
+});

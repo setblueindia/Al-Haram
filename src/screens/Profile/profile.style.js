@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     borderColor: 'green',
     borderWidth: ResponsiveSize(2),
     backgroundColor: COLOR.white,
-    marginBottom:ResponsiveSize(30),
+    marginBottom: ResponsiveSize(30),
     marginTop: ResponsiveSize(10)
   },
   btntext: {
@@ -123,33 +123,33 @@ export const styles = StyleSheet.create({
   scoialLinkTex: {
     color: COLOR.black,
     fontSize: ResponsiveSize(25),
-    width:"100%" , 
-    textAlign:'left',
-    marginLeft:ResponsiveSize(60)
+    width: "100%",
+    textAlign: 'left',
+    marginLeft: ResponsiveSize(60)
   },
   scoialIconView: {
     flexDirection: 'row',
-    justifyContent:'space-evenly',
-    width:"50%",
-    marginTop:ResponsiveSize(20)
+    justifyContent: 'space-evenly',
+    width: "50%",
+    marginTop: ResponsiveSize(20)
   },
   roundIcon: {
-    height:ResponsiveSize(60),
-    width:ResponsiveSize(60),
-    borderRadius:ResponsiveSize(100),
-    backgroundColor:COLOR.white,
+    height: ResponsiveSize(60),
+    width: ResponsiveSize(60),
+    borderRadius: ResponsiveSize(100),
+    backgroundColor: COLOR.white,
     shadowColor: COLOR.black,
     shadowOffset: { width: 3, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 2,
-    borderWidth:ResponsiveSize(1),
-    borderColor:COLOR.liteGray
+    borderWidth: ResponsiveSize(1),
+    borderColor: COLOR.liteGray
   },
-  cocialIcon:{
-    height:"100%",
-    width:"100%",
-    resizeMode:'cover',
-    borderRadius:ResponsiveSize(100)
+  cocialIcon: {
+    height: "100%",
+    width: "100%",
+    resizeMode: 'cover',
+    borderRadius: ResponsiveSize(100)
   }
 });

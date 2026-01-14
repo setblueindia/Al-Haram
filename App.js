@@ -1,10 +1,11 @@
-import { View, Text, StatusBar, Alert } from 'react-native';
+import { StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AppNavigation from './src/navigation/AppNavigation';
 import NetworkConnection from './src/components/NetworkConnection';
 import NetInfo from '@react-native-community/netinfo';
 import messaging from '@react-native-firebase/messaging';
 import { FCMTokenStor } from './src/utils/asyncStorage';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(true);
@@ -17,12 +18,10 @@ const App = () => {
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
       if (enabled) {
-        console.log('Authorization status:', authStatus);
         const token = await messaging().getToken();
         FCMTokenStor(token)
-        console.log('FCM Token:', token);
       } else {
-        Alert.alert('Permission Denied', 'You need to grant notification permissions to receive notifications.');
+        // Alert.alert('Permission Denied', 'You need to grant notification permissions to receive notifications.');
       }
     };
     checkPermission();
@@ -38,40 +37,20 @@ const App = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const unsubscribeOnMessage = messaging().onMessage( remoteMessage => {
-      console.log('Notification caused app to open from background state:', remoteMessage.notification?.body);
-      Alert.alert('Notification arrived!', remoteMessage.notification?.body);
-    });
 
-    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log('Notification caused app to open from background state:', remoteMessage.notification);
-    });
 
-    messaging().getInitialNotification().then(remoteMessage => {
-      if (remoteMessage) {
-        console.log('Notification caused app to open from quit state:', remoteMessage.notification);
-      }
-    });
-
-    return () => {
-      unsubscribeOnMessage();
-      unsubscribeOnNotificationOpenedApp();
-    };
-  }, []);
-
-  useEffect(() => {
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
-    });
-  }, []);
 
   return (
     <>
+
       <StatusBar backgroundColor="#000000" />
-      {isConnected ? <AppNavigation /> : <NetworkConnection />}
+      <SafeAreaProvider>
+        {isConnected ? <AppNavigation /> : <NetworkConnection />}
+      </SafeAreaProvider>
+
     </>
   );
 };
 
 export default App;
+

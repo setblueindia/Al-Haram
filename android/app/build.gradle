@@ -11,14 +11,14 @@ apply plugin: 'com.google.gms.google-services'
  */
 react {
     /* Folders */
-    //   The root of your project, i.e. where "package.json" lives. Default is '..'
-    // root = file("../")
-    //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
-    // reactNativeDir = file("../node_modules/react-native")
-    //   The folder where the react-native Codegen package is. Default is ../node_modules/@react-native/codegen
-    // codegenDir = file("../node_modules/@react-native/codegen")
-    //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
-    // cliFile = file("../node_modules/react-native/cli.js")
+  //   The root of your project, i.e. where "package.json" lives. Default is '../..'
+    // root = file("../../")
+    //   The folder where the react-native NPM package is. Default is ../../node_modules/react-native
+    // reactNativeDir = file("../../node_modules/react-native")
+    //   The folder where the react-native Codegen package is. Default is ../../node_modules/@react-native/codegen
+    // codegenDir = file("../../node_modules/@react-native/codegen")
+    //   The cli.js file which is the React Native CLI entrypoint. Default is ../../node_modules/react-native/cli.js
+    // cliFile = file("../../node_modules/react-native/cli.js")
 
     /* Variants */
     //   The list of variants to that are debuggable. For those we're going to
@@ -52,6 +52,9 @@ react {
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
+
+     /* Autolinking */
+    autolinkLibrariesWithApp()
 }
 
 /**
@@ -82,11 +85,10 @@ android {
         applicationId "com.v2ideas.alharam"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0.64"
+        versionCode 74
+        versionName "1.1.7"
     }
     signingConfigs {
-
            release {
             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
                 storeFile file(MYAPP_UPLOAD_STORE_FILE)
@@ -94,7 +96,6 @@ android {
                 keyAlias MYAPP_UPLOAD_KEY_ALIAS
                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
             }
-            
            }
         debug {
             storeFile file('debug.keystore')
@@ -108,8 +109,6 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
@@ -121,11 +120,13 @@ dependencies {
       implementation platform('com.google.firebase:firebase-bom:31.1.0')
       implementation 'com.google.firebase:firebase-auth'
       implementation 'com.google.firebase:firebase-messaging'
-      implementation 'com.google.android.gms:play-services-auth:20.8.0'
-      implementation 'com.google.firebase:firebase-analytics'// The version of react-native is set by the React Native Gradle 
+      implementation 'com.google.android.gms:play-services-auth:20.7.0'
+      implementation 'com.google.firebase:firebase-analytics' 
       implementation 'com.facebook.fresco:animated-gif:2.5.0'
       implementation("com.facebook.react:react-android")
       implementation project(':react-native-vector-icons')
+      implementation project(':react-native-reanimated') 
+      implementation project(':react-native-gesture-handler')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -140,6 +141,5 @@ project.ext.vectoricons = [
     //  iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf' ] // Specify font files
 ]
 
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-// apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+
 
